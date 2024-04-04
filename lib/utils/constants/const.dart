@@ -174,3 +174,4 @@ List genders = ['Male', 'Female', 'Others'];
 const String kPost = "POST";
 const String kGet = "GET";
 const String kDelete = "DELETE";
+const String kPut = "PUT";

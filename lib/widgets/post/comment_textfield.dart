@@ -38,11 +38,11 @@ class CommentTextField extends StatelessWidget {
                 kW4sizedBox,
                 Obx(() => InkWell(
                       onTap: onPressedCamera,
-                      child: postReactionController.isCommentImageChanged.value != false
+                      child: postReactionController.commentImage.value != ""
                           ? Stack(
                               children: [
-                                Image.file(
-                                  postReactionController.commentImageFile.value,
+                                Image.network(
+                                  postReactionController.commentImage.value,
                                   width: h40,
                                   height: h40,
                                 ),
@@ -53,9 +53,7 @@ class CommentTextField extends StatelessWidget {
                                     alignment: Alignment.topRight,
                                     child: CustomIconButton(
                                       onPress: () {
-                                        postReactionController.isCommentImageChanged.value = false;
-                                        postReactionController.commentImageLink.value = "";
-                                        postReactionController.commentImageFile.value = File("");
+                                        postReactionController.commentImage.value = "";
                                         postReactionController.commentSendEnabled();
                                       },
                                       icon: BipHip.circleCrossNew,
@@ -66,10 +64,38 @@ class CommentTextField extends StatelessWidget {
                                 ),
                               ],
                             )
-                          : const Icon(
-                              BipHip.cameraOutline,
-                              color: cIconColor,
-                            ),
+                          : postReactionController.isCommentImageChanged.value != false
+                              ? Stack(
+                                  children: [
+                                    Image.file(
+                                      postReactionController.commentImageFile.value,
+                                      width: h40,
+                                      height: h40,
+                                    ),
+                                    Positioned(
+                                      left: 10,
+                                      bottom: 14,
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: CustomIconButton(
+                                          onPress: () {
+                                            postReactionController.isCommentImageChanged.value = false;
+                                            postReactionController.commentImageLink.value = "";
+                                            postReactionController.commentImageFile.value = File("");
+                                            postReactionController.commentSendEnabled();
+                                          },
+                                          icon: BipHip.circleCrossNew,
+                                          size: kIconSize12,
+                                          iconColor: cIconColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : const Icon(
+                                  BipHip.cameraOutline,
+                                  color: cIconColor,
+                                ),
                     )),
                 kW16sizedBox,
                 InkWell(

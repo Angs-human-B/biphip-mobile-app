@@ -217,7 +217,9 @@ const String kuSetReaction = "/mobile/user/set-reaction";
 //*  Comment
 const String kuSetComment = "/mobile/user/set-comment";
 const String kuGetComment = "/mobile/user/get-comments";
-const String kuDeleteComment = "/user/delete-comment";
+const String kuDeleteComment = "/mobile/user/delete-comment";
+const String kuHideComment = "/mobile/user/hide-comment";
+const String kuUpdateComment = "/mobile/user/update-comment";
 
 
 /*

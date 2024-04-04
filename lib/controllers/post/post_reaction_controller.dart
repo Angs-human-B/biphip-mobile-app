@@ -274,26 +274,23 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         'ref_id': refId.toString(),
         'comment': commentTextEditingController.text.toString().trim(),
       };
-      // var response = await apiController.commonApiCall(
-      //   requestMethod: kPost,
-      //   url: kuSetComment,
-      //   body: body,
-      //   token: token,
-      // ) as CommonDM;
-      // var response = await apiController.mediaUpload(
-      //   url: kuSetComment,
-      //   token: token,
-      //   body: body,
-      //   key: "image",
-      //   value: commentImageFile.path,
-      // ) as CommonDM;
-      var response = await apiController.mediaUpload(
-        url: kuSetComment,
-        token: token,
-        body: body,
-        key: 'image',
-        value: commentImageFile.value.path,
-      ) as CommonDM;
+      var response;
+      if (isCommentImageChanged.value != true) {
+        response = await apiController.commonApiCall(
+          requestMethod: kPost,
+          url: kuSetComment,
+          body: body,
+          token: token,
+        ) as CommonDM;
+      } else {
+        response = await apiController.mediaUpload(
+          url: kuSetComment,
+          token: token,
+          body: body,
+          key: 'image',
+          value: commentImageFile.value.path,
+        ) as CommonDM;
+      }
 
       if (response.success == true) {
         commentTextEditingController.clear();
@@ -376,12 +373,24 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     resetPurchaseCustomStar();
     giftAgreeCheckBox.value = false;
   }
-   final RxList commentActionList = RxList([
-    {'icon': BipHip.edit, 'action': 'Update Comment',},
-    {'icon': BipHip.circleCrossNew, 'action': 'Hide Comment',},
-    {'icon': BipHip.deleteNew, 'action': 'Delete',},
+
+  final RxList commentActionList = RxList([
+    {
+      'icon': BipHip.edit,
+      'action': 'Update Comment',
+    },
+    {
+      'icon': BipHip.circleCrossNew,
+      'action': 'Hide Comment',
+    },
+    {
+      'icon': BipHip.deleteNew,
+      'action': 'Delete',
+    },
   ]);
   final RxInt commentId = RxInt(-1);
+  final RxInt selectedCommentIndex = RxInt(-1);
+  final RxString commentImage = RxString("");
 
   //*Delete Comment Api Call
   final RxBool isCommentDeleteLoading = RxBool(false);
@@ -420,5 +429,104 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  //*Hide Comment Api Call
+  final RxBool isCommentHideLoading = RxBool(false);
+  Future<void> hideComment() async {
+    try {
+      isCommentHideLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuHideComment/${commentId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        // for (int index = 0; index <= commentList.length; index++) {
+        //   if (commentId.value == commentList[index].id) {
+        //     commentList.removeAt(index);
+        //   }
+        // }
+        // await getCommentList(1, refId.value);
+        isCommentHideLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCommentHideLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCommentHideLoading.value = false;
+      ll('hideComment error: $e');
+    }
+  }
 
+  //*Update Comment Api Call
+  final RxBool isUpdateComment = RxBool(false);
+  final RxBool isUpdateCommentLoading = RxBool(false);
+  Future<void> updateComment() async {
+    try {
+      isUpdateCommentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        // 'ref_type': refType.toString(),
+        // 'ref_id': refId.toString(),
+        'comment': commentTextEditingController.text.toString().trim(),
+      };
+      var response;
+      if (isCommentImageChanged.value != true) {
+        response = await apiController.commonApiCall(
+          requestMethod: kPut,
+          url: '$kuUpdateComment/${commentId.value.toString()}?_method=PUT',
+          body: body,
+          token: token,
+        ) as CommonDM;
+      } else {
+        response = await apiController.mediaUpload(
+          url: '$kuUpdateComment/${commentId.value.toString()}?_method=PUT',
+          token: token,
+          body: body,
+          key: 'image',
+          value: commentImageFile.value.path,
+        ) as CommonDM;
+      }
+
+      // Map<String, dynamic> body = {
+
+      // };
+      // var response = await apiController.commonApiCall(
+      //   requestMethod: kPut,
+      //   url: '$kuUpdateComment/${commentId.value.toString()}?_method=PUT',
+      //   body: body,
+      //   token: token,
+      // ) as CommonDM;
+      if (response.success == true) {
+        await getCommentList(1, refId.value);
+        isUpdateComment.value = false;
+        commentTextEditingController.clear();
+        isCommentImageChanged.value = false;
+        commentImageLink.value = "";
+        commentImageFile.value = File("");
+        isCommentSendEnable.value = false;
+        isUpdateCommentLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isUpdateCommentLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUpdateCommentLoading.value = false;
+      ll('updateComment error: $e');
+    }
+  }
 }

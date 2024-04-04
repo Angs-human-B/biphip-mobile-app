@@ -116,11 +116,11 @@ class HomePostDetails extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (Get.find<PostReactionController>().isCommentDeleteLoading.value)
+                  if (Get.find<PostReactionController>().isCommentDeleteLoading.value || Get.find<PostReactionController>().isCommentHideLoading.value)
                     Positioned(
                       child: CommonLoadingAnimation(
                         onWillPop: () async {
-                          if (Get.find<PostReactionController>().isCommentDeleteLoading.value) {
+                          if (Get.find<PostReactionController>().isCommentDeleteLoading.value || Get.find<PostReactionController>().isCommentHideLoading.value) {
                             return false;
                           }
                           return true;
@@ -330,6 +330,7 @@ class PostDetailsBottomSection extends StatelessWidget {
           InkWell(
             onTap: () {
               postReactionController.commentId.value = postReactionController.commentList[i].id!;
+              postReactionController.selectedCommentIndex.value = i;
               Get.find<GlobalController>().commonBottomSheet(
                   context: context,
                   bottomSheetHeight: height * 0.4,
@@ -382,7 +383,12 @@ class PostDetailsBottomSection extends StatelessWidget {
                 postReactionController.commentSendEnabled();
               },
               onPressedSend: () async {
+                if(postReactionController.isUpdateComment.value){
+                  await Get.find<PostReactionController>().updateComment();
+                }
+                else{
                 await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                }
               },
             )),
       ],
@@ -427,6 +433,17 @@ class CommentBottomSheetContent extends StatelessWidget {
                     Get.back();
                     if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                       await postReactionController.deleteComment();
+                    }
+                    if(postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()){
+                       await postReactionController.hideComment();
+                    }
+                    if(postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()){
+                      postReactionController.isUpdateComment.value = true;
+                      postReactionController.commentTextEditingController.text = postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment??"";
+                      if(postReactionController.commentList[postReactionController.selectedCommentIndex.value].image!=null){
+                        postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
+                      }
+                      //  await postReactionController.update();
                     }
                   },
                 ),
