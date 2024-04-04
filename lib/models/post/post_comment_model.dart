@@ -1,47 +1,47 @@
 class PostCommentModel {
-    Comments? comments;
+  Comments? comments;
 
-    PostCommentModel({
-        required this.comments,
-    });
+  PostCommentModel({
+    required this.comments,
+  });
 
-    factory PostCommentModel.fromJson(Map<String, dynamic> json) => PostCommentModel(
-        comments: Comments.fromJson(json["comments"]),
-    );
+  factory PostCommentModel.fromJson(Map<String, dynamic> json) => PostCommentModel(
+        comments: json["comments"] == null ? null : Comments.fromJson(json["comments"]),
+      );
 }
 
 class Comments {
-    int? currentPage;
-    List<CommentData> data;
-    String? firstPageUrl;
-    int? from;
-    int? lastPage;
-    String? lastPageUrl;
-    List<Link> links;
-    String? nextPageUrl;
-    String? path;
-    int? perPage;
-    dynamic prevPageUrl;
-    int? to;
-    int? total;
+  int? currentPage;
+  List<CommentData> data;
+  String? firstPageUrl;
+  int? from;
+  int? lastPage;
+  String? lastPageUrl;
+  List<Link> links;
+  String? nextPageUrl;
+  String? path;
+  int? perPage;
+  dynamic prevPageUrl;
+  int? to;
+  int? total;
 
-    Comments({
-        required this.currentPage,
-        required this.data,
-        required this.firstPageUrl,
-        required this.from,
-        required this.lastPage,
-        required this.lastPageUrl,
-        required this.links,
-        required this.nextPageUrl,
-        required this.path,
-        required this.perPage,
-        required this.prevPageUrl,
-        required this.to,
-        required this.total,
-    });
+  Comments({
+    required this.currentPage,
+    required this.data,
+    required this.firstPageUrl,
+    required this.from,
+    required this.lastPage,
+    required this.lastPageUrl,
+    required this.links,
+    required this.nextPageUrl,
+    required this.path,
+    required this.perPage,
+    required this.prevPageUrl,
+    required this.to,
+    required this.total,
+  });
 
-    factory Comments.fromJson(Map<String, dynamic> json) => Comments(
+  factory Comments.fromJson(Map<String, dynamic> json) => Comments(
         currentPage: json["current_page"],
         data: List<CommentData>.from(json["data"].map((x) => CommentData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
@@ -55,60 +55,60 @@ class Comments {
         prevPageUrl: json["prev_page_url"],
         to: json["to"],
         total: json["total"],
-    );
+      );
 }
 
 class CommentData {
-    int? id;
-    int? userId;
-    dynamic countReactions;
-    String? comment;
-    dynamic mentionUserIds;
-    int ?isEdit;
-    dynamic image;
-    // DateTime createdAt;
-    // DateTime updatedAt;
-    int? refType;
-    int? refId;
-    dynamic deletedAt;
-    List<dynamic> mentionUsers;
-    RefRelation? refRelation;
-    dynamic myReaction;
-    int? countReply;
-    bool? hasReport;
-    bool? myReport;
-    int? countStar;
-    // List<dynamic> commentReplies;
-     List<CommentReply> commentReplies;
-    User? user;
-    dynamic postStar;
+  int? id;
+  int? userId;
+  dynamic countReactions;
+  String? comment;
+  dynamic mentionUserIds;
+  int? isEdit;
+  dynamic image;
+  // DateTime createdAt;
+  // DateTime updatedAt;
+  int? refType;
+  int? refId;
+  dynamic deletedAt;
+  List<dynamic> mentionUsers;
+  RefRelation? refRelation;
+  dynamic myReaction;
+  int? countReply;
+  bool? hasReport;
+  bool? myReport;
+  int? countStar;
+  // List<dynamic> commentReplies;
+  List<CommentReply> commentReplies;
+  User? user;
+  dynamic postStar;
 
-    CommentData({
-        required this.id,
-        required this.userId,
-        required this.countReactions,
-        required this.comment,
-        required this.mentionUserIds,
-        required this.isEdit,
-        required this.image,
-        // required this.createdAt,
-        // required this.updatedAt,
-        required this.refType,
-        required this.refId,
-        required this.deletedAt,
-        required this.mentionUsers,
-        required this.refRelation,
-        required this.myReaction,
-        required this.countReply,
-        required this.hasReport,
-        required this.myReport,
-        required this.countStar,
-        required this.commentReplies,
-        required this.user,
-        required this.postStar,
-    });
+  CommentData({
+    required this.id,
+    required this.userId,
+    required this.countReactions,
+    required this.comment,
+    required this.mentionUserIds,
+    required this.isEdit,
+    required this.image,
+    // required this.createdAt,
+    // required this.updatedAt,
+    required this.refType,
+    required this.refId,
+    required this.deletedAt,
+    required this.mentionUsers,
+    required this.refRelation,
+    required this.myReaction,
+    required this.countReply,
+    required this.hasReport,
+    required this.myReport,
+    required this.countStar,
+    required this.commentReplies,
+    required this.user,
+    required this.postStar,
+  });
 
-    factory CommentData.fromJson(Map<String, dynamic> json) => CommentData(
+  factory CommentData.fromJson(Map<String, dynamic> json) => CommentData(
         id: json["id"],
         userId: json["user_id"],
         countReactions: json["count_reactions"],
@@ -122,7 +122,7 @@ class CommentData {
         refId: json["ref_id"],
         deletedAt: json["deleted_at"],
         mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
-        refRelation: RefRelation.fromJson(json["ref_relation"]),
+        refRelation: json["ref_relation"] == null ? null : RefRelation.fromJson(json["ref_relation"]),
         myReaction: json["my_reaction"],
         countReply: json["count_reply"],
         hasReport: json["has_report"],
@@ -130,41 +130,41 @@ class CommentData {
         countStar: json["count_star"],
         // commentReplies: List<dynamic>.from(json["comment_replies"].map((x) => x)),
         commentReplies: List<CommentReply>.from(json["comment_replies"].map((x) => CommentReply.fromJson(x))),
-        user: json["user"]==null ? null : User.fromJson(json["user"]),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
         postStar: json["post_star"],
-    );
+      );
 }
 
 class CommentReply {
-    int? id;
-    int? commentId;
-    int? userId;
-    dynamic countReactions;
-    String? reply;
-    dynamic mentionUserIds;
-    int? isEdit;
-    dynamic image;
-    dynamic deletedAt;
-    List<dynamic> mentionUsers;
-    dynamic myReaction;
-    User? user;
+  int? id;
+  int? commentId;
+  int? userId;
+  dynamic countReactions;
+  String? reply;
+  dynamic mentionUserIds;
+  int? isEdit;
+  dynamic image;
+  dynamic deletedAt;
+  List<dynamic> mentionUsers;
+  dynamic myReaction;
+  User? user;
 
-    CommentReply({
-        required this.id,
-        required this.commentId,
-        required this.userId,
-        required this.countReactions,
-        required this.reply,
-        required this.mentionUserIds,
-        required this.isEdit,
-        required this.image,
-        required this.deletedAt,
-        required this.mentionUsers,
-        required this.myReaction,
-        required this.user,
-    });
+  CommentReply({
+    required this.id,
+    required this.commentId,
+    required this.userId,
+    required this.countReactions,
+    required this.reply,
+    required this.mentionUserIds,
+    required this.isEdit,
+    required this.image,
+    required this.deletedAt,
+    required this.mentionUsers,
+    required this.myReaction,
+    required this.user,
+  });
 
-    factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
+  factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
         id: json["id"],
         commentId: json["comment_id"],
         userId: json["user_id"],
@@ -176,131 +176,130 @@ class CommentReply {
         deletedAt: json["deleted_at"],
         mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
         myReaction: json["my_reaction"],
-        user: json["user"]==null ? null : User.fromJson(json["user"]),
-    );
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+      );
 }
 
-
 class RefRelation {
-    Post? post;
+  Post? post;
 
-    RefRelation({
-        required this.post,
-    });
+  RefRelation({
+    required this.post,
+  });
 
-    factory RefRelation.fromJson(Map<String, dynamic> json) => RefRelation(
-        post: Post.fromJson(json["post"]),
-    );
+  factory RefRelation.fromJson(Map<String, dynamic> json) => RefRelation(
+        post: json["post"]==null ? null : Post.fromJson(json["post"]),
+      );
 }
 
 class Post {
-    int? id;
-    int? userId;
-    int? isSharePost;
-    dynamic sharePostId;
-    String? content;
-    dynamic location;
-    dynamic sellPostType;
-    dynamic sellPostCategoryId;
-    dynamic sellPostConditionId;
-    dynamic price;
-    dynamic discount;
-    dynamic description;
-    dynamic sellPostAvailabilty;
-    dynamic productTags;
-    dynamic sku;
-    dynamic isHideFnf;
-    dynamic platform;
-    dynamic action;
-    int? isBidding;
-    dynamic biddingPostType;
-    dynamic desireAmount;
-    dynamic minBiddingAmount;
-    dynamic biddingDuration;
-    dynamic title;
-    // DateTime dateTime;
-    // DateTime createdAt;
-    // DateTime updatedAt;
-    int? postCategoryId;
-    int? isPublic;
-    int? countView;
-    int? countShare;
-    int? countComment;
-    int? countStar;
-    CountReactions? countReactions;
-    dynamic postSubCategoryId;
-    dynamic timelineId;
-    dynamic type;
-    int? kidId;
-    dynamic storeId;
-    dynamic reviewRating;
-    dynamic imageAlbumId;
-    List<dynamic> taggedFriends;
-    int? countBids;
-    String? myReaction;
-    List<ReactionUser> reactionUsers;
-    List<String> viewers;
-    bool? hasReport;
-    bool? myReport;
-    bool? isNotifaction;
-    bool? isVisibleToMe;
-    int? countReaction;
+  int? id;
+  int? userId;
+  int? isSharePost;
+  dynamic sharePostId;
+  String? content;
+  dynamic location;
+  dynamic sellPostType;
+  dynamic sellPostCategoryId;
+  dynamic sellPostConditionId;
+  dynamic price;
+  dynamic discount;
+  dynamic description;
+  dynamic sellPostAvailabilty;
+  dynamic productTags;
+  dynamic sku;
+  dynamic isHideFnf;
+  dynamic platform;
+  dynamic action;
+  int? isBidding;
+  dynamic biddingPostType;
+  dynamic desireAmount;
+  dynamic minBiddingAmount;
+  dynamic biddingDuration;
+  dynamic title;
+  // DateTime dateTime;
+  // DateTime createdAt;
+  // DateTime updatedAt;
+  int? postCategoryId;
+  int? isPublic;
+  int? countView;
+  int? countShare;
+  int? countComment;
+  int? countStar;
+  CountReactions? countReactions;
+  dynamic postSubCategoryId;
+  dynamic timelineId;
+  dynamic type;
+  int? kidId;
+  dynamic storeId;
+  dynamic reviewRating;
+  dynamic imageAlbumId;
+  List<dynamic> taggedFriends;
+  int? countBids;
+  String? myReaction;
+  List<ReactionUser> reactionUsers;
+  List<String> viewers;
+  bool? hasReport;
+  bool? myReport;
+  bool? isNotifaction;
+  bool? isVisibleToMe;
+  int? countReaction;
 
-    Post({
-        required this.id,
-        required this.userId,
-        required this.isSharePost,
-        required this.sharePostId,
-        required this.content,
-        required this.location,
-        required this.sellPostType,
-        required this.sellPostCategoryId,
-        required this.sellPostConditionId,
-        required this.price,
-        required this.discount,
-        required this.description,
-        required this.sellPostAvailabilty,
-        required this.productTags,
-        required this.sku,
-        required this.isHideFnf,
-        required this.platform,
-        required this.action,
-        required this.isBidding,
-        required this.biddingPostType,
-        required this.desireAmount,
-        required this.minBiddingAmount,
-        required this.biddingDuration,
-        required this.title,
-        // required this.dateTime,
-        // required this.createdAt,
-        // required this.updatedAt,
-        required this.postCategoryId,
-        required this.isPublic,
-        required this.countView,
-        required this.countShare,
-        required this.countComment,
-        required this.countStar,
-        required this.countReactions,
-        required this.postSubCategoryId,
-        required this.timelineId,
-        required this.type,
-        required this.kidId,
-        required this.storeId,
-        required this.reviewRating,
-        required this.imageAlbumId,
-        required this.taggedFriends,
-        required this.countBids,
-        required this.myReaction,
-        required this.reactionUsers,
-        required this.viewers,
-        required this.hasReport,
-        required this.myReport,
-        required this.isNotifaction,
-        required this.isVisibleToMe,
-        required this.countReaction,
-    });
+  Post({
+    required this.id,
+    required this.userId,
+    required this.isSharePost,
+    required this.sharePostId,
+    required this.content,
+    required this.location,
+    required this.sellPostType,
+    required this.sellPostCategoryId,
+    required this.sellPostConditionId,
+    required this.price,
+    required this.discount,
+    required this.description,
+    required this.sellPostAvailabilty,
+    required this.productTags,
+    required this.sku,
+    required this.isHideFnf,
+    required this.platform,
+    required this.action,
+    required this.isBidding,
+    required this.biddingPostType,
+    required this.desireAmount,
+    required this.minBiddingAmount,
+    required this.biddingDuration,
+    required this.title,
+    // required this.dateTime,
+    // required this.createdAt,
+    // required this.updatedAt,
+    required this.postCategoryId,
+    required this.isPublic,
+    required this.countView,
+    required this.countShare,
+    required this.countComment,
+    required this.countStar,
+    required this.countReactions,
+    required this.postSubCategoryId,
+    required this.timelineId,
+    required this.type,
+    required this.kidId,
+    required this.storeId,
+    required this.reviewRating,
+    required this.imageAlbumId,
+    required this.taggedFriends,
+    required this.countBids,
+    required this.myReaction,
+    required this.reactionUsers,
+    required this.viewers,
+    required this.hasReport,
+    required this.myReport,
+    required this.isNotifaction,
+    required this.isVisibleToMe,
+    required this.countReaction,
+  });
 
-    factory Post.fromJson(Map<String, dynamic> json) => Post(
+  factory Post.fromJson(Map<String, dynamic> json) => Post(
         id: json["id"],
         userId: json["user_id"],
         isSharePost: json["is_share_post"],
@@ -334,7 +333,7 @@ class Post {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: CountReactions.fromJson(json["count_reactions"]),
+        countReactions: json["count_reactions"]==null ? null : CountReactions.fromJson(json["count_reactions"]),
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -352,126 +351,126 @@ class Post {
         isNotifaction: json["is_notifaction"],
         isVisibleToMe: json["is_visible_to_me"],
         countReaction: json["count_reaction"],
-    );
+      );
 }
 
 class CountReactions {
-    int? all;
-    int? haha;
+  int? all;
+  int? haha;
 
-    CountReactions({
-        required this.all,
-        required this.haha,
-    });
+  CountReactions({
+    required this.all,
+    required this.haha,
+  });
 
-    factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
+  factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
         all: json["All"],
         haha: json["haha"],
-    );
+      );
 }
 
 class ReactionUser {
-    int? id;
-    String? fullName;
-    String? profilePicture;
+  int? id;
+  String? fullName;
+  String? profilePicture;
 
-    ReactionUser({
-        required this.id,
-        required this.fullName,
-        required this.profilePicture,
-    });
+  ReactionUser({
+    required this.id,
+    required this.fullName,
+    required this.profilePicture,
+  });
 
-    factory ReactionUser.fromJson(Map<String, dynamic> json) => ReactionUser(
+  factory ReactionUser.fromJson(Map<String, dynamic> json) => ReactionUser(
         id: json["id"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],
-    );
+      );
 }
 
 class User {
-    int? id;
-    String? image;
-    String? userName;
-    String? referralCode;
-    String? firstName;
-    String? lastName;
-    String? email;
-    dynamic phone;
-    String? gender;
-    DateTime? dob;
-    List<String> profession;
-    List<String> interest;
-    String? bio;
-    List<String> languages;
-    String? status;
-    dynamic blockTill;
-    String? otp;
-    // DateTime createdAt;
-    // DateTime updatedAt;
-    int? refId;
-    String? relation;
-    dynamic relationWithName;
-    dynamic relationWithId;
-    dynamic relationSince;
-    String? cover;
-    dynamic badge;
-    int? starBalance;
-    dynamic socialProvider;
-    String? referralUrl;
-    String? fullName;
-    String? profilePicture;
-    String? coverPhoto;
-    String? currentBadge;
-    int? friendStatus;
-    int? followStatus;
-    String? familyRelationStatus;
-    int? mutualFriend;
-    int? yearsOld;
-    dynamic pendent;
-    dynamic chatRoomId;
+  int? id;
+  String? image;
+  String? userName;
+  String? referralCode;
+  String? firstName;
+  String? lastName;
+  String? email;
+  dynamic phone;
+  String? gender;
+  DateTime? dob;
+  List<String> profession;
+  List<String> interest;
+  String? bio;
+  List<String> languages;
+  String? status;
+  dynamic blockTill;
+  String? otp;
+  // DateTime createdAt;
+  // DateTime updatedAt;
+  int? refId;
+  String? relation;
+  dynamic relationWithName;
+  dynamic relationWithId;
+  dynamic relationSince;
+  String? cover;
+  dynamic badge;
+  int? starBalance;
+  dynamic socialProvider;
+  String? referralUrl;
+  String? fullName;
+  String? profilePicture;
+  String? coverPhoto;
+  String? currentBadge;
+  int? friendStatus;
+  int? followStatus;
+  String? familyRelationStatus;
+  int? mutualFriend;
+  int? yearsOld;
+  dynamic pendent;
+  dynamic chatRoomId;
 
-    User({
-        required this.id,
-        required this.image,
-        required this.userName,
-        required this.referralCode,
-        required this.firstName,
-        required this.lastName,
-        required this.email,
-        required this.phone,
-        required this.gender,
-        required this.dob,
-        required this.profession,
-        required this.interest,
-        required this.bio,
-        required this.languages,
-        required this.status,
-        required this.blockTill,
-        required this.otp,
-        required this.refId,
-        required this.relation,
-        required this.relationWithName,
-        required this.relationWithId,
-        required this.relationSince,
-        required this.cover,
-        required this.badge,
-        required this.starBalance,
-        required this.socialProvider,
-        required this.referralUrl,
-        required this.fullName,
-        required this.profilePicture,
-        required this.coverPhoto,
-        required this.currentBadge,
-        required this.friendStatus,
-        required this.followStatus,
-        required this.familyRelationStatus,
-        required this.mutualFriend,
-        required this.yearsOld,
-        required this.pendent,
-        required this.chatRoomId,
-    });
+  User({
+    required this.id,
+    required this.image,
+    required this.userName,
+    required this.referralCode,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.phone,
+    required this.gender,
+    required this.dob,
+    required this.profession,
+    required this.interest,
+    required this.bio,
+    required this.languages,
+    required this.status,
+    required this.blockTill,
+    required this.otp,
+    required this.refId,
+    required this.relation,
+    required this.relationWithName,
+    required this.relationWithId,
+    required this.relationSince,
+    required this.cover,
+    required this.badge,
+    required this.starBalance,
+    required this.socialProvider,
+    required this.referralUrl,
+    required this.fullName,
+    required this.profilePicture,
+    required this.coverPhoto,
+    required this.currentBadge,
+    required this.friendStatus,
+    required this.followStatus,
+    required this.familyRelationStatus,
+    required this.mutualFriend,
+    required this.yearsOld,
+    required this.pendent,
+    required this.chatRoomId,
+  });
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         image: json["image"],
         userName: json["user_name"],
@@ -510,23 +509,23 @@ class User {
         yearsOld: json["years_old"],
         pendent: json["pendent"],
         chatRoomId: json["chat_room_id"],
-    );
+      );
 }
 
 class Link {
-    String? url;
-    String? label;
-    bool? active;
+  String? url;
+  String? label;
+  bool? active;
 
-    Link({
-        required this.url,
-        required this.label,
-        required this.active,
-    });
+  Link({
+    required this.url,
+    required this.label,
+    required this.active,
+  });
 
-    factory Link.fromJson(Map<String, dynamic> json) => Link(
+  factory Link.fromJson(Map<String, dynamic> json) => Link(
         url: json["url"],
         label: json["label"],
         active: json["active"],
-    );
+      );
 }

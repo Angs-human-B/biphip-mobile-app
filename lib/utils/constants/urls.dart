@@ -221,6 +221,9 @@ const String kuDeleteComment = "/mobile/user/delete-comment";
 const String kuHideComment = "/mobile/user/hide-comment";
 const String kuUpdateComment = "/mobile/user/update-comment";
 
+const String kuDeleteReply = "/mobile/user/delete-comment-reply";
+const String kuHideReply = "/mobile/user/hide-comment-reply";
+
 
 /*
 |--------------------------------------------------------------------------

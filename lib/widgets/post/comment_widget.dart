@@ -1,6 +1,7 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class CommentWidget extends StatelessWidget {
@@ -194,7 +195,7 @@ class CommentWidget extends StatelessWidget {
                 ),
               ),
             kH4sizedBox,
-            if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
+            // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
             if (replyList != [])
               SizedBox(
                 width: width - 80,
@@ -202,19 +203,41 @@ class CommentWidget extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: replyList.length,
                     itemBuilder: (context, index) {
-                      var item = Get.find<PostReactionController>().commentList[index].commentReplies;
-                      return ReplyCommentWidget(
-                        profileImage: item[index].user?.profilePicture ?? "",
-                        timePassed: "30 m",
-                        isLikeButtonShown: true,
-                        isReplyButtonShown: true,
-                        isReactButtonShown: true,
-                        isLink: false,
-                        reactCount: 2,
-                        userName: item[index].user?.fullName ?? ksNA.tr,
-                        isImageComment: Get.find<PostReactionController>().commentList[index].image == null ? false : true,
-                        comment: Get.find<PostReactionController>().commentList[index].commentReplies[index].reply,
-                        commentLink: "",
+                      var item = replyList;
+                      return InkWell(
+                        onTap: () {
+                          ll(replyList.length);
+                          Get.find<PostReactionController>().replyId.value = Get.find<PostReactionController>().commentList[index].commentReplies[index].id!;
+                          Get.find<PostReactionController>().selectedReplyIndex.value = index;
+                          // ll(Get.find<PostReactionController>().replyId.value.toString());
+                          // ll(Get.find<PostReactionController>().selectedReplyIndex.value.toString());
+                          ll(replyList);
+                          Get.find<GlobalController>().commonBottomSheet(
+                              context: context,
+                              bottomSheetHeight: height * 0.4,
+                              content: ReplyBottomSheetContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {},
+                              rightText: "",
+                              rightTextStyle: regular10TextStyle(cWhiteColor),
+                              title: "",
+                              isRightButtonShow: false);
+                        },
+                        child: ReplyCommentWidget(
+                          profileImage: item[index].user?.profilePicture ?? "",
+                          timePassed: "30",
+                          isLikeButtonShown: true,
+                          isReplyButtonShown: true,
+                          isReactButtonShown: true,
+                          isLink: false,
+                          reactCount: 2,
+                          userName: item[index].user?.fullName ?? ksNA.tr,
+                          isImageComment: Get.find<PostReactionController>().commentList[index].image == null ? false : true,
+                          comment: Get.find<PostReactionController>().commentList[index].commentReplies[index].reply,
+                          commentLink: "",
+                        ),
                       );
                     }),
               ),

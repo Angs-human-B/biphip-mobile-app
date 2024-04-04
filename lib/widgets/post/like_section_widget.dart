@@ -297,10 +297,25 @@ class LikeSectionWidget extends StatelessWidget {
                           splashFactory: InkRipple.splashFactory,
                           child: ReactionButton<String>(
                             itemSize: const Size.square(48),
-                            onReactionChanged: (Reaction<String>? reaction) {
-                              Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
-                              Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
-                              Get.back();
+                            onReactionChanged: (Reaction<String>? reaction) async {
+                              //   postReactionController.postIndex.value = postIndex;
+                              // Get.back();
+                              // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Angry".toLowerCase() ||
+                              //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
+                              //   postReactionController.selectedReactionText.value = "Angry";
+                              //   await postReactionController.postReaction(refType, refId);
+                              //   postReactionController.reactions[postIndex]['state'].value = false;
+                              //   postReactionController.selectedReactionText.value = "";
+                              //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                              // } else {
+                              //   postReactionController.reactions[postIndex]['reaction'].value = 'Angry';
+                              //   postReactionController.reactions[postIndex]['state'].value = true;
+                              //   postReactionController.selectedReactionText.value = "Angry";
+                              //   await postReactionController.postReaction(refType, refId);
+                              // }
+                              // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
+                              // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                              // Get.back();
                             },
                             reactions: <Reaction<String>>[
                               Reaction<String>(

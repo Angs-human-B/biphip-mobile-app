@@ -392,8 +392,30 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'action': 'Reply',
     },
   ]);
+
+  final RxList replyActionList = RxList([
+    {
+      'icon': BipHip.edit,
+      'action': 'Update Reply',
+    },
+    {
+      'icon': BipHip.circleCrossNew,
+      'action': 'Hide Reply',
+    },
+    {
+      'icon': BipHip.deleteNew,
+      'action': 'Delete',
+    },
+    // {
+    //   'icon': BipHip.menuFill,
+    //   'action': 'Reply',
+    // },
+  ]);
+
   final RxInt commentId = RxInt(-1);
+  final RxInt replyId = RxInt(-1);
   final RxInt selectedCommentIndex = RxInt(-1);
+  final RxInt selectedReplyIndex = RxInt(-1);
   final RxString commentImage = RxString("");
 
   //*Delete Comment Api Call
@@ -478,8 +500,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       isUpdateCommentLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        // 'ref_type': refType.toString(),
-        // 'ref_id': refId.toString(),
         'comment': commentTextEditingController.text.toString().trim(),
       };
       var response;
@@ -499,16 +519,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
           value: commentImageFile.value.path,
         ) as CommonDM;
       }
-
-      // Map<String, dynamic> body = {
-
-      // };
-      // var response = await apiController.commonApiCall(
-      //   requestMethod: kPut,
-      //   url: '$kuUpdateComment/${commentId.value.toString()}?_method=PUT',
-      //   body: body,
-      //   token: token,
-      // ) as CommonDM;
       if (response.success == true) {
         await getCommentList(1, refId.value);
         isUpdateComment.value = false;
@@ -533,4 +543,68 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('updateComment error: $e');
     }
   }
+
+  //*Delete Reply Api Call
+  final RxBool isReplyDeleteLoading = RxBool(false);
+  Future<void> deleteReply() async {
+    try {
+      isReplyDeleteLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteReply/${replyId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        // await getCommentList(1, refId.value);
+        isReplyDeleteLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isReplyDeleteLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isReplyDeleteLoading.value = false;
+      ll('deleteReply error: $e');
+    }
+  }
+
+  //*Hide Reply Api Call
+  final RxBool isReplyHideLoading = RxBool(false);
+  Future<void> hideReply() async {
+    try {
+      isReplyHideLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuHideReply/${replyId.value.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isReplyHideLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isReplyHideLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isReplyHideLoading.value = false;
+      ll('hideReply error: $e');
+    }
+  }
+
 }

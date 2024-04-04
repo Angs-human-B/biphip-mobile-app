@@ -332,6 +332,7 @@ class PostDetailsBottomSection extends StatelessWidget {
             onTap: () {
               postReactionController.commentId.value = postReactionController.commentList[i].id!;
               postReactionController.selectedCommentIndex.value = i;
+              ll(postReactionController.commentList[i].commentReplies.length);
               Get.find<GlobalController>().commonBottomSheet(
                   context: context,
                   bottomSheetHeight: height * 0.4,
@@ -359,7 +360,6 @@ class PostDetailsBottomSection extends StatelessWidget {
                 image: postReactionController.commentList[i].image,
                 isLink: false,
                 reactCount: 1234,
-                // userName: postReactionController.commentList[1].user?.fullName ?? ksNA,
                 userName: postReactionController.commentList[i].user?.fullName ?? ksNA.tr,
                 isSendMessageShown: false,
                 isHideButtonShown: true,
@@ -444,6 +444,67 @@ class CommentBottomSheetContent extends StatelessWidget {
                       if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
                         postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
                       }
+                      //  await postReactionController.update();
+                    }
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ReplyBottomSheetContent extends StatelessWidget {
+  ReplyBottomSheetContent({super.key});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: postReactionController.replyActionList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Obx(
+              () => Padding(
+                padding: const EdgeInsets.only(bottom: k8Padding),
+                child: CustomListTile(
+                  leading: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cNeutralColor,
+                    ),
+                    height: h28,
+                    width: h28,
+                    child: Icon(
+                      postReactionController.replyActionList[index]['icon'],
+                      color: cBlackColor,
+                      size: isDeviceScreenLarge() ? h18 : h14,
+                    ),
+                  ),
+                  title: postReactionController.replyActionList[index]['action'].toString().tr,
+                  titleTextStyle: semiBold16TextStyle(cBlackColor),
+                  subTitleTextStyle: regular14TextStyle(cBlackColor),
+                  onPressed: () async {
+                    Get.back();
+                    if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                      await postReactionController.deleteReply();
+                    }
+                    if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
+                      await postReactionController.hideReply();
+                    }
+                    if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
+                      // postReactionController.isUpdateComment.value = true;
+                      // postReactionController.commentTextEditingController.text =
+                      //     postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
+                      // if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
+                      //   postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
+                      // }
                       //  await postReactionController.update();
                     }
                   },
