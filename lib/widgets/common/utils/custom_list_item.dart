@@ -12,7 +12,9 @@ class CustomListTile extends StatelessWidget {
     this.borderColor,
     this.padding,
     this.spacing = 5,
-    this.alignLeadingWithTitle = false, this.titleTextStyle, this.subTitleTextStyle,
+    this.alignLeadingWithTitle = false,
+    this.titleTextStyle,
+    this.subTitleTextStyle,
   }) : super(key: key);
 
   final dynamic title, subtitle;
@@ -23,8 +25,8 @@ class CustomListTile extends StatelessWidget {
   final bool alignLeadingWithTitle;
   final EdgeInsetsGeometry? padding;
   final double spacing;
-  final TextStyle ? titleTextStyle;
-  final TextStyle ? subTitleTextStyle;
+  final TextStyle? titleTextStyle;
+  final TextStyle? subTitleTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,7 @@ class CustomListTile extends StatelessWidget {
             padding: padding ?? const EdgeInsets.symmetric(horizontal: k10Padding, vertical: k4Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: alignLeadingWithTitle ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              crossAxisAlignment: alignLeadingWithTitle || subtitle != null ? CrossAxisAlignment.start : CrossAxisAlignment.center,
               children: [
                 if (leading != null)
                   Padding(

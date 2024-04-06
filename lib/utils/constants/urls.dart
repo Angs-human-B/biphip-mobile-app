@@ -211,6 +211,13 @@ const String kuStoreStoreLink = '/mobile/user/store-store-link';
 const String kuUpdateStoreLink = '/mobile/user/update-store-link';
 const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
 
+//* Search
+const String kuSearchHistory = '/mobile/user/search-history';
+const String kuDeleteSearchHistory = '/mobile/user/delete-search-history';
+const String kuDeleteAllSearchHistory = '/mobile/user/delete-all-search-history';
+const String kuSearchFilterData = '/mobile/user/search-filter-data';
+const String kuSearch = '/mobile/user/search';
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

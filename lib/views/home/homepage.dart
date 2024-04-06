@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
@@ -14,7 +15,6 @@ import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePage extends StatelessWidget {
@@ -51,17 +51,10 @@ class HomePage extends StatelessWidget {
                       child: TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          final spController = SpController();
-                          Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-                          Get.find<GlobalController>().searchController.clear();
-                          Get.to(
-                            () => Search(
-                              searchController: Get.find<GlobalController>().searchController,
-                              recentSearchList: Get.find<GlobalController>().recentSearch,
-                              onSubmit: () {},
-                            ),
-                            transition: Transition.noTransition,
-                          );
+                          Get.find<AllSearchController>().resetSearchData();
+                          Get.toNamed(krSearchPage);
+                          Get.find<AllSearchController>().getSearchHistory();
+                          Get.find<AllSearchController>().getSearchFilterData();
                         },
                         child: Icon(
                           BipHip.search,
@@ -290,7 +283,7 @@ class HomePage extends StatelessWidget {
                                               ],
                                             ),
                                           ),
-                                         
+
                                           const Spacer(),
                                           // CustomIconButton(
                                           //   icon: BipHip.system,

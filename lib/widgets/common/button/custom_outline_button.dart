@@ -16,10 +16,12 @@ class OutLinedButton extends StatelessWidget {
     this.radius,
     this.backgroundImage,
     this.suffixWidget,
+    this.subTitleText,
   });
 
   final Function()? onPress;
   final String buttonText;
+  final String? subTitleText;
   final Widget? widget, suffixWidget;
   final Color? buttonColor;
   final Color borderColor;
@@ -48,7 +50,7 @@ class OutLinedButton extends StatelessWidget {
           mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 0),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -58,10 +60,21 @@ class OutLinedButton extends StatelessWidget {
                       backgroundImage: backgroundImage ?? const AssetImage(kiProfileDefaultImageUrl),
                     ),
                   if (suffixWidget != null) suffixWidget ?? kEmptySizedBox,
-                  if (backgroundImage != null) kW8sizedBox,
-                  Text(
-                    buttonText,
-                    style: buttonTextStyle ?? medium16TextStyle(borderColor),
+                  if (backgroundImage != null || suffixWidget != null) kW8sizedBox,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        buttonText,
+                        style: buttonTextStyle ?? medium16TextStyle(borderColor),
+                      ),
+                      if (subTitleText != null)
+                        Text(
+                          subTitleText ?? "",
+                          style: regular12TextStyle(cSmallBodyTextColor),
+                        ),
+                    ],
                   ),
                 ],
               ),
