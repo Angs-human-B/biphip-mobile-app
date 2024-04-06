@@ -213,8 +213,6 @@ class CommentWidget extends StatelessWidget {
                             Get.find<PostReactionController>().replyId.value = item[index].id!;
                             Get.find<PostReactionController>().selectedReplyIndex.value = index;
                             Get.find<PostReactionController>().commentId.value = commentId!;
-                            // ll(Get.find<PostReactionController>().replyId.value.toString());
-                            // ll(Get.find<PostReactionController>().selectedReplyIndex.value.toString());
                             Get.find<GlobalController>().commonBottomSheet(
                                 context: context,
                                 bottomSheetHeight: height * 0.4,

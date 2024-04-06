@@ -17,10 +17,11 @@ class HomePostDetails extends StatelessWidget {
   final int postIndex;
 
   final HomeController homeController = Get.find<HomeController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => homeController.isPostDetailsPageLoading.value || Get.find<PostReactionController>().isCommentLoading.value
+      () => homeController.isPostDetailsPageLoading.value
           ? const HomePostDetailsShimmer()
           : Container(
               color: cWhiteColor,
@@ -116,12 +117,17 @@ class HomePostDetails extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (Get.find<PostReactionController>().isCommentDeleteLoading.value || Get.find<PostReactionController>().isCommentHideLoading.value)
+                  if (postReactionController.isCommentDeleteLoading.value ||
+                      postReactionController.isCommentHideLoading.value ||
+                      postReactionController.isPostCommentLoading.value ||
+                      postReactionController.isUpdateCommentLoading.value)
                     Positioned(
                       child: CommonLoadingAnimation(
                         onWillPop: () async {
-                          if (Get.find<PostReactionController>().isCommentDeleteLoading.value ||
-                              Get.find<PostReactionController>().isCommentHideLoading.value) {
+                          if (postReactionController.isCommentDeleteLoading.value ||
+                              postReactionController.isCommentHideLoading.value ||
+                              postReactionController.isPostCommentLoading.value ||
+                              postReactionController.isUpdateCommentLoading.value) {
                             return false;
                           }
                           return true;
@@ -322,11 +328,6 @@ class PostDetailsBottomSection extends StatelessWidget {
           child: CustomDivider(),
         ),
         kH12sizedBox,
-        // if (isCommentShown && showComment.value)
-        // ListView.separated(
-        //     shrinkWrap: true,
-        //     itemBuilder: (context, index) {
-        //       return
         for (int i = 0; i < postReactionController.commentList.length; i++)
           InkWell(
             onTap: () {
