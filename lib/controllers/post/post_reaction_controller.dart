@@ -181,12 +181,20 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   final RxBool isCommentSendEnable = RxBool(false);
+  final RxBool isReplySendEnable = RxBool(false);
 
   void commentSendEnabled() {
     if (commentTextEditingController.text.toString().trim() != "" || isCommentImageChanged.value) {
       isCommentSendEnable.value = true;
     } else {
       isCommentSendEnable.value = false;
+    }
+  }
+  void replySendEnabled() {
+    if (replyTextEditingController.text.toString().trim() != "" || isReplyImageChanged.value) {
+      isReplySendEnable.value = true;
+    } else {
+      isReplySendEnable.value = false;
     }
   }
 
@@ -226,6 +234,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxString commentImageLink = RxString('');
   final Rx<File> commentImageFile = File('').obs;
   final RxBool isCommentImageChanged = RxBool(false);
+  final RxString replyImageLink = RxString('');
+  final Rx<File> replyImageFile = File('').obs;
+  final RxBool isReplyImageChanged = RxBool(false);
 
   //* post Reaction API Implementation
   final RxBool isPostReactionLoading = RxBool(false);
@@ -417,6 +428,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt selectedCommentIndex = RxInt(-1);
   final RxInt selectedReplyIndex = RxInt(-1);
   final RxString commentImage = RxString("");
+  final RxString replyImage = RxString("");
 
   //*Delete Comment Api Call
   final RxBool isCommentDeleteLoading = RxBool(false);
@@ -544,17 +556,19 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+   final TextEditingController replyTextEditingController = TextEditingController();
+
   //*Delete Reply Api Call
   final RxBool isReplyDeleteLoading = RxBool(false);
   Future<void> deleteReply() async {
     try {
       isReplyDeleteLoading.value = true;
       String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {};
+      // Map<String, dynamic> body = {};
       var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteReply/${replyId.value.toString()}',
-        body: body,
+        // body: body,
         token: token,
       ) as CommonDM;
       if (response.success == true) {

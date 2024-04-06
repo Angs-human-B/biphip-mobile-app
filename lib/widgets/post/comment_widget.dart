@@ -207,7 +207,7 @@ class CommentWidget extends StatelessWidget {
                       return InkWell(
                         onTap: () {
                           ll(replyList.length);
-                          Get.find<PostReactionController>().replyId.value = Get.find<PostReactionController>().commentList[index].commentReplies[index].id!;
+                          Get.find<PostReactionController>().replyId.value = item[index].id!;
                           Get.find<PostReactionController>().selectedReplyIndex.value = index;
                           // ll(Get.find<PostReactionController>().replyId.value.toString());
                           // ll(Get.find<PostReactionController>().selectedReplyIndex.value.toString());
@@ -234,8 +234,8 @@ class CommentWidget extends StatelessWidget {
                           isLink: false,
                           reactCount: 2,
                           userName: item[index].user?.fullName ?? ksNA.tr,
-                          isImageComment: Get.find<PostReactionController>().commentList[index].image == null ? false : true,
-                          comment: Get.find<PostReactionController>().commentList[index].commentReplies[index].reply,
+                          isImageComment: item[index].image == null ? false : true,
+                          comment: item[index].reply,
                           commentLink: "",
                         ),
                       );
