@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
+import 'package:bip_hip/widgets/post/reply_textfield.dart';
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget(
@@ -28,7 +29,8 @@ class CommentWidget extends StatelessWidget {
       this.image,
       required this.isImageComment,
       this.refType = 0,
-      this.refId = 0});
+      this.refId = 0,
+      this.commentId});
   final String profileImage, userName;
   final String? commentLink, comment, image, timePassed;
 
@@ -37,6 +39,7 @@ class CommentWidget extends StatelessWidget {
   final int refType;
   final int refId;
   final List replyList;
+  final int? commentId;
   final VoidCallback? likeButtonOnPressed, replyButtonOnPressed, sendMessageOnPressed, hideButtonOnPressed, profileOnPressed;
 
   @override
@@ -66,183 +69,205 @@ class CommentWidget extends StatelessWidget {
           ),
         ),
         kW8sizedBox,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: width - 80,
-              decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
-              child: Padding(
-                padding: const EdgeInsets.all(k10Padding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: profileOnPressed,
-                      child: Text(
-                        userName,
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-                    ),
-                    kH8sizedBox,
-                    if (comment != null)
-                      Text(
-                        comment ?? '',
-                        overflow: TextOverflow.clip,
-                        style: regular14TextStyle(cBlackColor),
-                      ),
-                    if (isLink)
-                      Text(
-                        commentLink ?? '',
-                        overflow: TextOverflow.clip,
-                        style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
-                      )
-                  ],
-                ),
-              ),
-            ),
-            if (isLink || isImageComment) kH4sizedBox,
-            if (isLink && !isImageComment)
+        Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Container(
                 width: width - 80,
-                decoration: BoxDecoration(color: cWhiteColor, border: Border.all(color: cLineColor), borderRadius: k8CircularBorderRadius),
+                decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: AnyLinkPreview(
-                    link: commentLink ?? '',
-                    removeElevation: true,
-                    backgroundColor: cWhiteColor,
-                    displayDirection: UIDirection.uiDirectionHorizontal,
-                    showMultimedia: true,
-                    bodyMaxLines: 2,
-                    previewHeight: 84,
-                    bodyTextOverflow: TextOverflow.ellipsis,
-                    titleStyle: semiBold14TextStyle(cBlackColor),
-                    bodyStyle: regular12TextStyle(cSmallBodyTextColor),
-                  ),
-                ),
-              ),
-            if (!isLink && image != null)
-              SizedBox(
-                width: isDeviceScreenLarge() ? 150 : 120,
-                height: isDeviceScreenLarge() ? 150 : 120,
-                child: ClipRRect(
-                  borderRadius: k8CircularBorderRadius,
-                  child: Image.network(
-                    image!,
-                    fit: BoxFit.cover,
-                    // errorBuilder: (context, error, stackTrace) => const Icon(
-                    //   BipHip.user,
-                    //   size: kIconSize16,
-                    //   color: cIconColor,
-                    // ),
-                    // loadingBuilder: imageLoadingBuilder,
-                  ),
-                ),
-              ),
-            if (timePassed != null)
-              SizedBox(
-                width: width - 80,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  padding: const EdgeInsets.all(k10Padding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        '${timePassed}m',
-                        style: regular10TextStyle(cSmallBodyTextColor),
+                      InkWell(
+                        onTap: profileOnPressed,
+                        child: Text(
+                          userName,
+                          style: semiBold14TextStyle(cBlackColor),
+                        ),
                       ),
-                      kW16sizedBox,
-                      if (isLikeButtonShown)
-                        InkWell(
-                          onTap: likeButtonOnPressed,
-                          child: Text(
-                            ksLike.tr,
-                            style: regular10TextStyle(cSmallBodyTextColor),
-                          ),
+                      kH8sizedBox,
+                      if (comment != null)
+                        Text(
+                          comment ?? '',
+                          overflow: TextOverflow.clip,
+                          style: regular14TextStyle(cBlackColor),
                         ),
-                      kW16sizedBox,
-                      if (isReplyButtonShown)
-                        InkWell(
-                          onTap: replyButtonOnPressed,
-                          child: Text(
-                            ksReply.tr,
-                            style: regular10TextStyle(cSmallBodyTextColor),
-                          ),
-                        ),
-                      if (isSendMessageShown)
-                        InkWell(
-                          onTap: sendMessageOnPressed,
-                          child: Text(
-                            ksSendMessage.tr,
-                            style: regular10TextStyle(cSmallBodyTextColor),
-                          ),
-                        ),
-                      kW16sizedBox,
-                      if (isHideButtonShown)
-                        InkWell(
-                          onTap: hideButtonOnPressed,
-                          child: Text(
-                            ksHide.tr,
-                            style: regular10TextStyle(cSmallBodyTextColor),
-                          ),
-                        ),
-                      const Spacer(),
-                      if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
+                      if (isLink)
+                        Text(
+                          commentLink ?? '',
+                          overflow: TextOverflow.clip,
+                          style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+                        )
                     ],
                   ),
                 ),
               ),
-            kH4sizedBox,
-            // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
-            if (replyList != [])
-              SizedBox(
-                width: width - 80,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: replyList.length,
-                    itemBuilder: (context, index) {
-                      var item = replyList;
-                      return InkWell(
-                        onTap: () {
-                          ll(replyList.length);
-                          Get.find<PostReactionController>().replyId.value = item[index].id!;
-                          Get.find<PostReactionController>().selectedReplyIndex.value = index;
-                          // ll(Get.find<PostReactionController>().replyId.value.toString());
-                          // ll(Get.find<PostReactionController>().selectedReplyIndex.value.toString());
-                          ll(replyList);
-                          Get.find<GlobalController>().commonBottomSheet(
-                              context: context,
-                              bottomSheetHeight: height * 0.4,
-                              content: ReplyBottomSheetContent(),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: () {},
-                              rightText: "",
-                              rightTextStyle: regular10TextStyle(cWhiteColor),
-                              title: "",
-                              isRightButtonShow: false);
-                        },
-                        child: ReplyCommentWidget(
-                          profileImage: item[index].user?.profilePicture ?? "",
-                          timePassed: "30",
-                          isLikeButtonShown: true,
-                          isReplyButtonShown: true,
-                          isReactButtonShown: true,
-                          isLink: false,
-                          reactCount: 2,
-                          userName: item[index].user?.fullName ?? ksNA.tr,
-                          isImageComment: item[index].image == null ? false : true,
-                          comment: item[index].reply,
-                          commentLink: "",
+              if (isLink || isImageComment) kH4sizedBox,
+              if (isLink && !isImageComment)
+                Container(
+                  width: width - 80,
+                  decoration: BoxDecoration(color: cWhiteColor, border: Border.all(color: cLineColor), borderRadius: k8CircularBorderRadius),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: AnyLinkPreview(
+                      link: commentLink ?? '',
+                      removeElevation: true,
+                      backgroundColor: cWhiteColor,
+                      displayDirection: UIDirection.uiDirectionHorizontal,
+                      showMultimedia: true,
+                      bodyMaxLines: 2,
+                      previewHeight: 84,
+                      bodyTextOverflow: TextOverflow.ellipsis,
+                      titleStyle: semiBold14TextStyle(cBlackColor),
+                      bodyStyle: regular12TextStyle(cSmallBodyTextColor),
+                    ),
+                  ),
+                ),
+              if (!isLink && image != null)
+                SizedBox(
+                  width: isDeviceScreenLarge() ? 150 : 120,
+                  height: isDeviceScreenLarge() ? 150 : 120,
+                  child: ClipRRect(
+                    borderRadius: k8CircularBorderRadius,
+                    child: Image.network(
+                      image!,
+                      fit: BoxFit.cover,
+                      // errorBuilder: (context, error, stackTrace) => const Icon(
+                      //   BipHip.user,
+                      //   size: kIconSize16,
+                      //   color: cIconColor,
+                      // ),
+                      // loadingBuilder: imageLoadingBuilder,
+                    ),
+                  ),
+                ),
+              if (timePassed != null)
+                SizedBox(
+                  width: width - 80,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${timePassed}m',
+                          style: regular10TextStyle(cSmallBodyTextColor),
                         ),
-                      );
-                    }),
-              ),
-            kH8sizedBox,
-          ],
+                        kW16sizedBox,
+                        if (isLikeButtonShown)
+                          InkWell(
+                            onTap: likeButtonOnPressed,
+                            child: Text(
+                              ksLike.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        kW16sizedBox,
+                        if (isReplyButtonShown)
+                          InkWell(
+                            onTap: replyButtonOnPressed,
+                            child: Text(
+                              ksReply.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        if (isSendMessageShown)
+                          InkWell(
+                            onTap: sendMessageOnPressed,
+                            child: Text(
+                              ksSendMessage.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        kW16sizedBox,
+                        if (isHideButtonShown)
+                          InkWell(
+                            onTap: hideButtonOnPressed,
+                            child: Text(
+                              ksHide.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        const Spacer(),
+                        if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
+                      ],
+                    ),
+                  ),
+                ),
+              kH4sizedBox,
+              // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
+              if (replyList != [])
+                SizedBox(
+                  width: width - 80,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: replyList.length,
+                      itemBuilder: (context, index) {
+                        var item = replyList;
+                        return InkWell(
+                          onTap: () {
+                            Get.find<PostReactionController>().replyId.value = item[index].id!;
+                            Get.find<PostReactionController>().selectedReplyIndex.value = index;
+                            Get.find<PostReactionController>().commentId.value = commentId!;
+                            // ll(Get.find<PostReactionController>().replyId.value.toString());
+                            // ll(Get.find<PostReactionController>().selectedReplyIndex.value.toString());
+                            Get.find<GlobalController>().commonBottomSheet(
+                                context: context,
+                                bottomSheetHeight: height * 0.4,
+                                content: ReplyBottomSheetContent(),
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: "",
+                                rightTextStyle: regular10TextStyle(cWhiteColor),
+                                title: "",
+                                isRightButtonShow: false);
+                          },
+                          child: ReplyCommentWidget(
+                            profileImage: item[index].user?.profilePicture ?? "",
+                            timePassed: "30",
+                            isLikeButtonShown: true,
+                            isReplyButtonShown: true,
+                            isReactButtonShown: true,
+                            isLink: false,
+                            reactCount: 2,
+                            userName: item[index].user?.fullName ?? ksNA.tr,
+                            isImageComment: item[index].image != null ? true : false,
+                            comment: item[index].reply,
+                            commentLink: "",
+                            image: item[index].image,
+                          ),
+                        );
+                      }),
+                ),
+              kH8sizedBox,
+              // for (int i = 0; i < Get.find<PostReactionController>().commentList.length; i++)
+              if (Get.find<PostReactionController>().commentId.value == commentId)
+                SizedBox(
+                    width: width - 80,
+                    height: 116,
+                    child: ReplyTextField(
+                      onPressedCamera: () async {
+                        await Get.find<GlobalController>().selectImageSource(Get.find<PostReactionController>().isReplyImageChanged,
+                            Get.find<PostReactionController>().replyImageLink, Get.find<PostReactionController>().replyImageFile, 'gallery', false);
+                        Get.find<PostReactionController>().replySendEnabled();
+                      },
+                      onPressedSend: () async {
+                        if (Get.find<PostReactionController>().isUpdateReply.value) {
+                          await Get.find<PostReactionController>().updateReply();
+                        } else {
+                          await Get.find<PostReactionController>().postReply();
+                        }
+                      },
+                    )),
+              if (Get.find<PostReactionController>().commentId.value == commentId) kH8sizedBox,
+            ],
+          ),
         ),
       ],
     );
@@ -412,6 +437,7 @@ class ReplyCommentWidget extends StatelessWidget {
                 ),
               ),
             ),
+
             // kH4sizedBox,
             // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
             // if (replyList != [])

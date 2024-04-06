@@ -23,7 +23,7 @@ class ReplyTextField extends StatelessWidget {
               hint: hintText ?? ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,
-              maxLines: 4,
+              maxLines: 2,
               onChanged: (value) {
                 postReactionController.replySendEnabled();
               },

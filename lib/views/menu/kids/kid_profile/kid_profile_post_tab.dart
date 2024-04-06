@@ -243,7 +243,7 @@ class KidProfilePostSection extends StatelessWidget {
                     userImage: item.user!.profilePicture ?? '',
                     taggedFriends: const [],
                     //  taggedFriends: item.taggedFriends,
-                    reactCount: item.countReactions,
+                    // reactCount: item.countReactions,//!Change it
                   ),
                 );
               }),

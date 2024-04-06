@@ -332,7 +332,7 @@ class PostDetailsBottomSection extends StatelessWidget {
             onTap: () {
               postReactionController.commentId.value = postReactionController.commentList[i].id!;
               postReactionController.selectedCommentIndex.value = i;
-              ll(postReactionController.commentList[i].commentReplies.length);
+              postReactionController.isUpdateReply.value = false;
               Get.find<GlobalController>().commonBottomSheet(
                   context: context,
                   bottomSheetHeight: height * 0.4,
@@ -353,6 +353,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                 comment: postReactionController.commentList[i].comment ?? "",
                 timePassed: '30',
                 isLikeButtonShown: true,
+                commentId: postReactionController.commentList[i].id,
                 commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
                 isReplyButtonShown: true,
                 isReactButtonShown: true,
@@ -444,8 +445,8 @@ class CommentBottomSheetContent extends StatelessWidget {
                       if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
                         postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
                       }
-                      //  await postReactionController.update();
                     }
+                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {}
                   },
                 ),
               ),
@@ -499,13 +500,21 @@ class ReplyBottomSheetContent extends StatelessWidget {
                       await postReactionController.hideReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
-                      // postReactionController.isUpdateComment.value = true;
-                      // postReactionController.commentTextEditingController.text =
-                      //     postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
-                      // if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
-                      //   postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
-                      // }
-                      //  await postReactionController.update();
+                      postReactionController.isUpdateReply.value = true;
+                      ll(postReactionController.commentId.value);
+                      for (int i = 0; i < postReactionController.commentList.length; i++) {
+                        for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
+                          if (postReactionController.replyId.value == postReactionController.commentList[i].commentReplies[j].id) {
+                            ll("1234");
+                            postReactionController.replyTextEditingController.text = postReactionController.commentList[i].commentReplies[j].reply ?? "";
+                            // ll(postReactionController.commentList[postReactionController.selectedCommentIndex.value].commentReplies[j].image);
+                            if (postReactionController.commentList[i].commentReplies[j].image != null) {
+                              ll("12345");
+                              postReactionController.replyImage.value = postReactionController.commentList[i].commentReplies[j].image;
+                            }
+                          }
+                        }
+                      }
                     }
                   },
                 ),

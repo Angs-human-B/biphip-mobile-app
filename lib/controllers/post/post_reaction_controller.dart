@@ -190,6 +190,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       isCommentSendEnable.value = false;
     }
   }
+
   void replySendEnabled() {
     if (replyTextEditingController.text.toString().trim() != "" || isReplyImageChanged.value) {
       isReplySendEnable.value = true;
@@ -556,7 +557,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-   final TextEditingController replyTextEditingController = TextEditingController();
+  final TextEditingController replyTextEditingController = TextEditingController();
 
   //*Delete Reply Api Call
   final RxBool isReplyDeleteLoading = RxBool(false);
@@ -572,7 +573,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        // await getCommentList(1, refId.value);
+        await getCommentList(1, refId.value);
         isReplyDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -604,6 +605,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        await getCommentList(1, refId.value);
         isReplyHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -618,6 +620,112 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     } catch (e) {
       isReplyHideLoading.value = false;
       ll('hideReply error: $e');
+    }
+  }
+
+  //* post Reaction API Implementation
+  final RxBool isPostReplyLoading = RxBool(false);
+  Future<void> postReply() async {
+    try {
+      isPostReplyLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'comment_id': commentId.toString(),
+        'reply': replyTextEditingController.text.toString().trim(),
+      };
+      var response;
+      if (isReplyImageChanged.value != true) {
+        response = await apiController.commonApiCall(
+          requestMethod: kPost,
+          url: kuSetReply,
+          body: body,
+          token: token,
+        ) as CommonDM;
+      } else {
+        response = await apiController.mediaUpload(
+          url: kuSetReply,
+          token: token,
+          body: body,
+          key: 'image',
+          value: replyImageFile.value.path,
+        ) as CommonDM;
+      }
+
+      if (response.success == true) {
+        replyTextEditingController.clear();
+        isReplyImageChanged.value = false;
+        replyImageLink.value = "";
+        replyImageFile.value = File("");
+        isReplySendEnable.value = false;
+        commentId.value = -1;
+        await getCommentList(1, refId.value);
+        isPostReplyLoading.value = false;
+        // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isPostReplyLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostReplyLoading.value = false;
+      ll('postReply error: $e');
+    }
+  }
+
+
+  //*Update Comment Api Call
+  final RxBool isUpdateReply = RxBool(false);
+  final RxBool isUpdateReplyLoading = RxBool(false);
+  Future<void> updateReply() async {
+    try {
+      isUpdateReplyLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'reply': replyTextEditingController.text.toString().trim(),
+      };
+      var response;
+      if (isReplyImageChanged.value != true) {
+        response = await apiController.commonApiCall(
+          requestMethod: kPut,
+          url: '$kuUpdateReply/${replyId.value.toString()}?_method=PUT',
+          body: body,
+          token: token,
+        ) as CommonDM;
+      } else {
+        response = await apiController.mediaUpload(
+          url: '$kuUpdateReply/${replyId.value.toString()}?_method=PUT',
+          token: token,
+          body: body,
+          key: 'image',
+          value: replyImageFile.value.path,
+        ) as CommonDM;
+      }
+      if (response.success == true) {
+        await getCommentList(1, refId.value);
+        isUpdateReply.value = false;
+        replyTextEditingController.clear();
+        isReplyImageChanged.value = false;
+        replyImageLink.value = "";
+        replyImageFile.value = File("");
+        isReplySendEnable.value = false;
+        isUpdateReplyLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isUpdateReplyLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUpdateReplyLoading.value = false;
+      ll('updateReply error: $e');
     }
   }
 
