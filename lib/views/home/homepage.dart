@@ -53,6 +53,8 @@ class HomePage extends StatelessWidget {
                         onPressed: () async {
                           Get.find<AllSearchController>().resetSearchData();
                           Get.toNamed(krSearchPage);
+                          Get.find<AllSearchController>().getSearchHistory();
+                          Get.find<AllSearchController>().getSearchFilterData();
                         },
                         child: Icon(
                           BipHip.search,
@@ -281,7 +283,7 @@ class HomePage extends StatelessWidget {
                                               ],
                                             ),
                                           ),
-                                         
+
                                           const Spacer(),
                                           // CustomIconButton(
                                           //   icon: BipHip.system,

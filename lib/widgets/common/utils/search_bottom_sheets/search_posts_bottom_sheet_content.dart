@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -85,7 +84,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
               onPressed: () {
                 allSearchController.temporarySelectedDatePosted.value = allSearchController.selectedDatePosted.value;
                 // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
-                if (allSearchController.temporarySelectedDatePosted.value == '') {
+                if (allSearchController.temporarySelectedDatePosted.value == "") {
                   allSearchController.isDatePostedBottomSheetState.value = false;
                 } else {
                   allSearchController.isDatePostedBottomSheetState.value = true;
@@ -117,6 +116,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedCategory.value = "";
+                        allSearchController.selectedCategoryId.value = -1;
                         allSearchController.postsBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
@@ -124,6 +124,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedCategory.value = allSearchController.selectedCategory.value;
+                allSearchController.temporarySelectedCategoryId.value = allSearchController.selectedCategoryId.value;
                 if (allSearchController.temporarySelectedCategory.value == '') {
                   allSearchController.isCategoryBottomSheetState.value = false;
                 } else {
@@ -137,6 +138,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedCategory.value = allSearchController.temporarySelectedCategory.value;
+                      allSearchController.selectedCategoryId.value = allSearchController.temporarySelectedCategoryId.value;
                       allSearchController.postsBottomSheetState();
                       Get.back();
                     },
@@ -152,7 +154,12 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: allSearchController.isPostsBottomSheetResetOrShowResult.value ? () {} : null,
+              onPressed: allSearchController.isPostsBottomSheetResetOrShowResult.value
+                  ? () async {
+                      Get.back();
+                      await allSearchController.getSearch();
+                    }
+                  : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
@@ -160,4 +167,3 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
         ));
   }
 }
-

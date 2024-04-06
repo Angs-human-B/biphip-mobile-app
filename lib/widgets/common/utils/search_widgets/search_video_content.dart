@@ -51,7 +51,7 @@ class SearchVideosContent extends StatelessWidget {
                   right: h10,
                   bottom: h10,
                   child: Text(
-                    time ?? "",
+                    time ?? ksNA.tr,
                     style: semiBold12TextStyle(cWhiteColor),
                   ),
                 ),
@@ -71,7 +71,7 @@ class SearchVideosContent extends StatelessWidget {
                 ),
                 kH8sizedBox,
                 Text(
-                  name ?? "",
+                  name ?? ksNA.tr,
                   style: regular16TextStyle(cSmallBodyTextColor),
                   textAlign: TextAlign.left,
                 ),
@@ -79,12 +79,12 @@ class SearchVideosContent extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      date ?? "",
+                      date ?? ksNA.tr,
                       style: regular12TextStyle(cSmallBodyTextColor),
                     ),
                     kW4sizedBox,
                     Text(
-                      totalView ?? "",
+                      totalView ?? ksNA.tr,
                       style: regular12TextStyle(cSmallBodyTextColor),
                     ),
                   ],

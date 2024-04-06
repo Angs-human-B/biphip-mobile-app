@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/search.dart';
@@ -44,6 +43,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostType.value = allSearchController.temporarySelectedSellPostType.value;
+                      allSearchController.selectedSellPostTypeIndex.value = allSearchController.temporarySelectedSellPostTypeIndex.value;
                       allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
@@ -63,6 +63,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedSellPostCondition.value = "";
+                        allSearchController.selectedSellPostConditionId.value = -1;
                         allSearchController.sellPostBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
@@ -70,6 +71,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedSellPostCondition.value = allSearchController.selectedSellPostCondition.value;
+                allSearchController.temporarySelectedSellPostConditionId.value = allSearchController.selectedSellPostConditionId.value;
                 if (allSearchController.temporarySelectedSellPostCondition.value == '') {
                   allSearchController.isSellPostConditionBottomSheetState.value = false;
                 } else {
@@ -83,6 +85,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostCondition.value = allSearchController.temporarySelectedSellPostCondition.value;
+                      allSearchController.selectedSellPostConditionId.value = allSearchController.temporarySelectedSellPostConditionId.value;
                       allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
@@ -149,6 +152,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedSellPostProductCategory.value = allSearchController.selectedSellPostProductCategory.value;
+                allSearchController.temporarySelectedSellPostProductCategoryId.value = allSearchController.selectedSellPostProductCategoryId.value;
                 if (allSearchController.temporarySelectedSellPostProductCategory.value == '') {
                   allSearchController.isSellPostProductConditionBottomSheetState.value = false;
                 } else {
@@ -162,6 +166,7 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedSellPostProductCategory.value = allSearchController.temporarySelectedSellPostProductCategory.value;
+                      allSearchController.selectedSellPostProductCategoryId.value = allSearchController.temporarySelectedSellPostProductCategoryId.value;
                       allSearchController.sellPostBottomSheetState();
                       Get.back();
                     },
@@ -177,7 +182,12 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: allSearchController.isSellPostBottomSheetResetOrShowResult.value ? () {} : null,
+              onPressed: allSearchController.isSellPostBottomSheetResetOrShowResult.value
+                  ? () async {
+                      Get.back();
+                      await allSearchController.getSearch();
+                    }
+                  : null,
               buttonColor: cPrimaryColor,
               textStyle: semiBold14TextStyle(cWhiteColor),
             ),
@@ -185,4 +195,3 @@ class SearchSellPostsBottomSheetContent extends StatelessWidget {
         ));
   }
 }
-

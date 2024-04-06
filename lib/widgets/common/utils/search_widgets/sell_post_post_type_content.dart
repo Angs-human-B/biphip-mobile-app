@@ -15,6 +15,7 @@ class SellPostPostTypeContent extends StatelessWidget {
           () => OutLinedButton(
             onPress: () {
               allSearchController.temporarySelectedSellPostType.value = ksRegularPost.tr;
+              allSearchController.temporarySelectedSellPostTypeIndex.value = 0;
               allSearchController.isSellPostTypeBottomSheetState.value = true;
             },
             suffixWidget: Padding(
@@ -61,6 +62,7 @@ class SellPostPostTypeContent extends StatelessWidget {
           () => OutLinedButton(
             onPress: () {
               allSearchController.temporarySelectedSellPostType.value = ksBiddingPost.tr;
+              allSearchController.temporarySelectedSellPostTypeIndex.value = 1;
               allSearchController.isSellPostTypeBottomSheetState.value = true;
             },
             suffixWidget: Padding(
