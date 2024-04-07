@@ -246,7 +246,7 @@ class CommentWidget extends StatelessWidget {
                 ),
               kH8sizedBox,
               // for (int i = 0; i < Get.find<PostReactionController>().commentList.length; i++)
-              if (Get.find<PostReactionController>().commentId.value == commentId &&  Get.find<PostReactionController>().isReplyTextFieldShow.value)
+              if (Get.find<PostReactionController>().commentId.value == commentId && Get.find<PostReactionController>().isReplyTextFieldShow.value)
                 SizedBox(
                     width: width - 80,
                     height: 116,

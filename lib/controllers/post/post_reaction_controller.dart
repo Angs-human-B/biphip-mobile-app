@@ -405,7 +405,24 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'action': 'Reply',
     },
   ]);
-
+  final RxList othersCommentActionList = RxList([
+    {
+      'icon': BipHip.report, //!Icon should change
+      'action': 'Report Comment',
+    },
+    {
+      'icon': BipHip.circleCrossNew,
+      'action': 'Hide Comment',
+    },
+    {
+      'icon': BipHip.deleteNew,
+      'action': 'Delete',
+    },
+    {
+      'icon': BipHip.menuFill,
+      'action': 'Reply',
+    },
+  ]);
   final RxList replyActionList = RxList([
     {
       'icon': BipHip.edit,
@@ -734,6 +751,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final RxBool isReplyTextFieldShow = RxBool(false);
   final RxInt userId = RxInt(-1);
+  final RxInt commentedUserId = RxInt(-1);
 
   void resetCommentAndReplyData() {
     commentTextEditingController.clear();

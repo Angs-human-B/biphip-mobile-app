@@ -517,6 +517,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                     onTap: () {
                       postReactionController.commentId.value = postReactionController.commentList[i].id!;
                       postReactionController.selectedCommentIndex.value = i;
+                      postReactionController.commentedUserId.value = postReactionController.commentList[i].user!.id!;
                       postReactionController.isUpdateReply.value = false;
                       Get.find<GlobalController>().commonBottomSheet(
                           context: context,
@@ -597,63 +598,82 @@ class CommentBottomSheetContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        kH16sizedBox,
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: postReactionController.commentActionList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  leading: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cNeutralColor,
-                    ),
-                    height: h28,
-                    width: h28,
-                    child: Icon(
-                      postReactionController.commentActionList[index]['icon'],
-                      color: cBlackColor,
-                      size: isDeviceScreenLarge() ? h18 : h14,
+    return Obx(() => Column(
+          children: [
+            kH16sizedBox,
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: postReactionController.userId.value == postReactionController.commentedUserId.value
+                  ? postReactionController.commentActionList.length
+                  : postReactionController.othersCommentActionList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      leading: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cNeutralColor,
+                        ),
+                        height: h28,
+                        width: h28,
+                        child: Icon(
+                          postReactionController.userId.value == postReactionController.commentedUserId.value
+                              ? postReactionController.commentActionList[index]['icon']
+                              : postReactionController.othersCommentActionList[index]['icon'],
+                          color: cBlackColor,
+                          size: isDeviceScreenLarge() ? h18 : h14,
+                        ),
+                      ),
+                      title: postReactionController.userId.value == postReactionController.commentedUserId.value
+                          ? postReactionController.commentActionList[index]['action'].toString().tr
+                          : postReactionController.othersCommentActionList[index]['action'].toString().tr,
+                      titleTextStyle: semiBold16TextStyle(cBlackColor),
+                      subTitleTextStyle: regular14TextStyle(cBlackColor),
+                      onPressed: () async {
+                        Get.back();
+                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                          await postReactionController.deleteComment();
+                        }
+                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
+                          await postReactionController.hideComment();
+                        }
+                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
+                          postReactionController.isReplyTextFieldShow.value = false;
+                          postReactionController.isUpdateComment.value = true;
+                          postReactionController.commentTextEditingController.text =
+                              postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
+                          if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
+                            postReactionController.commentImage.value =
+                                postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
+                          }
+                        }
+                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
+                          postReactionController.isReplyTextFieldShow.value = true;
+                          postReactionController.commentTextEditingController.text = "";
+                        }
+                        //*Others user post action
+                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
+                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
+                          postReactionController.isReplyTextFieldShow.value = true;
+                          postReactionController.commentTextEditingController.text = "";
+                        }
+                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                          await postReactionController.deleteComment();
+                        }
+                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
+                          await postReactionController.hideComment();
+                        }
+                      },
                     ),
                   ),
-                  title: postReactionController.commentActionList[index]['action'].toString().tr,
-                  titleTextStyle: semiBold16TextStyle(cBlackColor),
-                  subTitleTextStyle: regular14TextStyle(cBlackColor),
-                  onPressed: () async {
-                    Get.back();
-                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      await postReactionController.deleteComment();
-                    }
-                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
-                      await postReactionController.hideComment();
-                    }
-                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
-                      postReactionController.isReplyTextFieldShow.value = false;
-                      postReactionController.isUpdateComment.value = true;
-                      postReactionController.commentTextEditingController.text =
-                          postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
-                      if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
-                        postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
-                      }
-                    }
-                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                      postReactionController.isReplyTextFieldShow.value = true;
-                      postReactionController.commentTextEditingController.text = "";
-                    }
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
-    );
+                );
+              },
+            ),
+          ],
+        ));
   }
 }
 
@@ -701,7 +721,7 @@ class ReplyBottomSheetContent extends StatelessWidget {
                       await postReactionController.hideReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
-                       postReactionController.isReplyTextFieldShow.value = false;
+                      postReactionController.isReplyTextFieldShow.value = false;
                       postReactionController.isUpdateReply.value = true;
                       for (int i = 0; i < postReactionController.commentList.length; i++) {
                         for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
