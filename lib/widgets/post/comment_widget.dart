@@ -1,4 +1,5 @@
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
@@ -154,7 +155,7 @@ class CommentWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          '${timePassed}m',
+                          '$timePassed',
                           style: regular10TextStyle(cSmallBodyTextColor),
                         ),
                         kW16sizedBox,
@@ -168,31 +169,31 @@ class CommentWidget extends StatelessWidget {
                           ),
                         kW16sizedBox,
                         if (isReplyButtonShown)
-                          InkWell(
-                            onTap: replyButtonOnPressed,
-                            child: Text(
-                              ksReply.tr,
-                              style: regular10TextStyle(cSmallBodyTextColor),
-                            ),
-                          ),
-                        if (isSendMessageShown)
-                          InkWell(
-                            onTap: sendMessageOnPressed,
-                            child: Text(
-                              ksSendMessage.tr,
-                              style: regular10TextStyle(cSmallBodyTextColor),
-                            ),
-                          ),
-                        kW16sizedBox,
+                          // InkWell(
+                          //   onTap: replyButtonOnPressed,
+                          //   child: Text(
+                          //     ksReply.tr,
+                          //     style: regular10TextStyle(cSmallBodyTextColor),
+                          //   ),
+                          // ),
+                          if (isSendMessageShown)
+                            // InkWell(
+                            //   onTap: sendMessageOnPressed,
+                            //   child: Text(
+                            //     ksSendMessage.tr,
+                            //     style: regular10TextStyle(cSmallBodyTextColor),
+                            //   ),
+                            // ),
+                            kW16sizedBox,
                         if (isHideButtonShown)
-                          InkWell(
-                            onTap: hideButtonOnPressed,
-                            child: Text(
-                              ksHide.tr,
-                              style: regular10TextStyle(cSmallBodyTextColor),
-                            ),
-                          ),
-                        const Spacer(),
+                          // InkWell(
+                          //   onTap: hideButtonOnPressed,
+                          //   child: Text(
+                          //     ksHide.tr,
+                          //     style: regular10TextStyle(cSmallBodyTextColor),
+                          //   ),
+                          // ),
+                          const Spacer(),
                         if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
                       ],
                     ),
@@ -228,7 +229,7 @@ class CommentWidget extends StatelessWidget {
                           },
                           child: ReplyCommentWidget(
                             profileImage: item[index].user?.profilePicture ?? "",
-                            timePassed: "30",
+                            timePassed: Get.find<HomeController>().postTimeDifference(item[index].createdAt),
                             isLikeButtonShown: true,
                             isReplyButtonShown: true,
                             isReactButtonShown: true,
@@ -408,7 +409,7 @@ class ReplyCommentWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      '${timePassed}m',
+                      timePassed,
                       style: regular10TextStyle(cSmallBodyTextColor),
                     ),
                     kW16sizedBox,
@@ -422,14 +423,14 @@ class ReplyCommentWidget extends StatelessWidget {
                       ),
                     kW16sizedBox,
                     if (isReplyButtonShown)
-                      InkWell(
-                        onTap: replyButtonOnPressed,
-                        child: Text(
-                          ksReply.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
-                        ),
-                      ),
-                    const Spacer(),
+                      // InkWell(
+                      //   onTap: replyButtonOnPressed,
+                      //   child: Text(
+                      //     ksReply.tr,
+                      //     style: regular10TextStyle(cSmallBodyTextColor),
+                      //   ),
+                      // ),
+                      const Spacer(),
                     if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
                   ],
                 ),

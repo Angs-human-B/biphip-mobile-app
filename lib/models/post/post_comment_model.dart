@@ -66,8 +66,8 @@ class CommentData {
   dynamic mentionUserIds;
   int? isEdit;
   dynamic image;
-  // DateTime createdAt;
-  // DateTime updatedAt;
+  DateTime createdAt;
+  DateTime updatedAt;
   int? refType;
   int? refId;
   dynamic deletedAt;
@@ -91,8 +91,8 @@ class CommentData {
     required this.mentionUserIds,
     required this.isEdit,
     required this.image,
-    // required this.createdAt,
-    // required this.updatedAt,
+    required this.createdAt,
+    required this.updatedAt,
     required this.refType,
     required this.refId,
     required this.deletedAt,
@@ -116,8 +116,8 @@ class CommentData {
         mentionUserIds: json["mention_user_ids"],
         isEdit: json["is_edit"],
         image: json["image"],
-        // createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         refType: json["ref_type"],
         refId: json["ref_id"],
         deletedAt: json["deleted_at"],
@@ -148,6 +148,8 @@ class CommentReply {
   List<dynamic> mentionUsers;
   dynamic myReaction;
   User? user;
+    DateTime createdAt;
+  DateTime updatedAt;
 
   CommentReply({
     required this.id,
@@ -162,6 +164,8 @@ class CommentReply {
     required this.mentionUsers,
     required this.myReaction,
     required this.user,
+      required this.createdAt,
+    required this.updatedAt,
   });
 
   factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
@@ -177,6 +181,8 @@ class CommentReply {
         mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
         myReaction: json["my_reaction"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
+             createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
       );
 }
 

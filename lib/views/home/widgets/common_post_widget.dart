@@ -816,13 +816,33 @@ class PostBottomSection extends StatelessWidget {
             },
             commentOnPressed: () async {
               showComment.value = !showComment.value;
+              for (int i = 0; i < Get.find<HomeController>().allPostList.length; i++) {
+                if (postIndex == i) {
+                  var item = Get.find<HomeController>().allPostList[i];
+                  Get.to(() => HomePostDetails(
+                        postIndex: postIndex,
+                        images: item.images,
+                        userName: item.user?.fullName,
+                        userImage: item.user?.profilePicture,
+                        postTime: item.createdAt,
+                        // category: item.postCategory?.name ?? null,
+                        category: item.postCategory == null ? null : item.postCategory?.name ?? "",
+                        categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id),
+                        categoryIconColor: item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id),
+                        kidName: item.kid?.name,
+                        kidAge: item.kid?.age.toString(),
+                        brandName: item.store == null ? null : item.store!.name,
+                        secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                        title: item.title,
+                        postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '',
+                      ));
+                }
+              }
               // if (showComment.value) {
               // }
-              Get.to(() => HomePostDetails(
-                    postIndex: postIndex,
-                  ));
+
               postReactionController.refId.value = refId;
-              await Get.find<HomeController>().getPostData(refId);
+              // await Get.find<HomeController>().getPostData(refId);
               await postReactionController.getCommentList(1, refId);
               ll(showComment);
             },

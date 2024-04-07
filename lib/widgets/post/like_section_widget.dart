@@ -252,16 +252,16 @@ class LikeSectionWidget extends StatelessWidget {
                             onReactionChanged: (Reaction<String>? reaction) async {
                               postReactionController.postIndex.value = postIndex;
                               Get.back();
-                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
+                               if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
                                   postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
                                 postReactionController.selectedReactionText.value = "Sad";
                                 await postReactionController.postReaction(refType, refId);
-                                postReactionController.reactions[postIndex]['state'].value = false;
-                                postReactionController.selectedReactionText.value = "";
+                                postReactionController.reactions[postIndex]['reaction'].value = "";
+                                Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
                                 Get.find<HomeController>().allPostList[postIndex].myReaction = null;
                               } else {
-                                postReactionController.reactions[postIndex]['reaction'].value = 'Sad';
-                                postReactionController.reactions[postIndex]['state'].value = true;
+                                Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                                Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                                 postReactionController.selectedReactionText.value = "Sad";
                                 await postReactionController.postReaction(refType, refId);
                               }
