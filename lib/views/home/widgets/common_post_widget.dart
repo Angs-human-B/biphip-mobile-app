@@ -643,7 +643,7 @@ class PostBottomSection extends StatelessWidget {
       this.reactCount,
       this.postIndex = 0,
       this.refType = 0,
-      this.refId=0});
+      this.refId = 0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -816,9 +816,11 @@ class PostBottomSection extends StatelessWidget {
             },
             commentOnPressed: () async {
               showComment.value = !showComment.value;
+              postReactionController.resetCommentAndReplyData();
               for (int i = 0; i < Get.find<HomeController>().allPostList.length; i++) {
                 if (postIndex == i) {
                   var item = Get.find<HomeController>().allPostList[i];
+                  postReactionController.userId.value = item.user!.id!;
                   Get.to(() => HomePostDetails(
                         postIndex: postIndex,
                         images: item.images,

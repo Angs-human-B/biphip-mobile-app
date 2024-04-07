@@ -277,7 +277,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //* post Reaction API Implementation
   final RxBool isPostCommentLoading = RxBool(false);
-  Future<void> postComment(int refType, int refId) async {
+  Future<void> postComment(int refType, int refId, context) async {
     try {
       isPostCommentLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -305,6 +305,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
 
       if (response.success == true) {
+        unfocus(context);
         commentTextEditingController.clear();
         isCommentImageChanged.value = false;
         commentImageLink.value = "";
@@ -508,7 +509,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //*Update Comment Api Call
   final RxBool isUpdateComment = RxBool(false);
   final RxBool isUpdateCommentLoading = RxBool(false);
-  Future<void> updateComment() async {
+  Future<void> updateComment(context) async {
     try {
       isUpdateCommentLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -533,6 +534,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         ) as CommonDM;
       }
       if (response.success == true) {
+        unFocus(context);
         await getCommentList(1, refId.value);
         isUpdateComment.value = false;
         commentTextEditingController.clear();
@@ -625,7 +627,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //* post Reaction API Implementation
   final RxBool isPostReplyLoading = RxBool(false);
-  Future<void> postReply() async {
+  Future<void> postReply(context) async {
     try {
       isPostReplyLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -652,6 +654,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
 
       if (response.success == true) {
+        unFocus(context);
         replyTextEditingController.clear();
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
@@ -676,11 +679,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-
   //*Update Comment Api Call
   final RxBool isUpdateReply = RxBool(false);
   final RxBool isUpdateReplyLoading = RxBool(false);
-  Future<void> updateReply() async {
+  Future<void> updateReply(context) async {
     try {
       isUpdateReplyLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -705,6 +707,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         ) as CommonDM;
       }
       if (response.success == true) {
+        unFocus(context);
         await getCommentList(1, refId.value);
         isUpdateReply.value = false;
         replyTextEditingController.clear();
@@ -729,4 +732,24 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  final RxBool isReplyTextFieldShow = RxBool(false);
+  final RxInt userId = RxInt(-1);
+
+  void resetCommentAndReplyData() {
+    commentTextEditingController.clear();
+    isCommentImageChanged.value = false;
+    commentImageLink.value = "";
+    commentImageFile.value = File("");
+    isCommentSendEnable.value = false;
+    replyTextEditingController.clear();
+    isReplyImageChanged.value = false;
+    replyImageLink.value = "";
+    replyImageFile.value = File("");
+    isReplySendEnable.value = false;
+    isUpdateComment.value = false;
+    isUpdateReply.value = false;
+    commentId.value = -1;
+    replyId.value = -1;
+    isReplyTextFieldShow.value = false;
+  }
 }

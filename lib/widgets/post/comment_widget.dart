@@ -169,31 +169,31 @@ class CommentWidget extends StatelessWidget {
                           ),
                         kW16sizedBox,
                         if (isReplyButtonShown)
-                          // InkWell(
-                          //   onTap: replyButtonOnPressed,
-                          //   child: Text(
-                          //     ksReply.tr,
-                          //     style: regular10TextStyle(cSmallBodyTextColor),
-                          //   ),
-                          // ),
-                          if (isSendMessageShown)
-                            // InkWell(
-                            //   onTap: sendMessageOnPressed,
-                            //   child: Text(
-                            //     ksSendMessage.tr,
-                            //     style: regular10TextStyle(cSmallBodyTextColor),
-                            //   ),
-                            // ),
-                            kW16sizedBox,
+                          InkWell(
+                            onTap: replyButtonOnPressed,
+                            child: Text(
+                              ksReply.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        // if (isSendMessageShown)
+                        // InkWell(
+                        //   onTap: sendMessageOnPressed,
+                        //   child: Text(
+                        //     ksSendMessage.tr,
+                        //     style: regular10TextStyle(cSmallBodyTextColor),
+                        //   ),
+                        // ),
+                        kW16sizedBox,
                         if (isHideButtonShown)
-                          // InkWell(
-                          //   onTap: hideButtonOnPressed,
-                          //   child: Text(
-                          //     ksHide.tr,
-                          //     style: regular10TextStyle(cSmallBodyTextColor),
-                          //   ),
-                          // ),
-                          const Spacer(),
+                          InkWell(
+                            onTap: hideButtonOnPressed,
+                            child: Text(
+                              ksHide.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        const Spacer(),
                         if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
                       ],
                     ),
@@ -246,7 +246,7 @@ class CommentWidget extends StatelessWidget {
                 ),
               kH8sizedBox,
               // for (int i = 0; i < Get.find<PostReactionController>().commentList.length; i++)
-              if (Get.find<PostReactionController>().commentId.value == commentId)
+              if (Get.find<PostReactionController>().commentId.value == commentId &&  Get.find<PostReactionController>().isReplyTextFieldShow.value)
                 SizedBox(
                     width: width - 80,
                     height: 116,
@@ -258,9 +258,9 @@ class CommentWidget extends StatelessWidget {
                       },
                       onPressedSend: () async {
                         if (Get.find<PostReactionController>().isUpdateReply.value) {
-                          await Get.find<PostReactionController>().updateReply();
+                          await Get.find<PostReactionController>().updateReply(context);
                         } else {
-                          await Get.find<PostReactionController>().postReply();
+                          await Get.find<PostReactionController>().postReply(context);
                         }
                       },
                     )),

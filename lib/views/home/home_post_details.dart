@@ -503,9 +503,9 @@ class PostDetailsBottomSection extends StatelessWidget {
                 },
                 onPressedSend: () async {
                   if (postReactionController.isUpdateComment.value) {
-                    await Get.find<PostReactionController>().updateComment();
+                    await Get.find<PostReactionController>().updateComment(context);
                   } else {
-                    await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                    await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
                   }
                 },
               )),
@@ -552,6 +552,14 @@ class PostDetailsBottomSection extends StatelessWidget {
                         replyList: postReactionController.commentList[i].commentReplies,
                         refType: refType,
                         refId: refId,
+                        hideButtonOnPressed: () async {
+                          postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                          await postReactionController.hideComment();
+                        },
+                        replyButtonOnPressed: () async {
+                          postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                          postReactionController.isReplyTextFieldShow.value = true;
+                        },
                       ),
                     ),
                   ),
@@ -626,6 +634,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                       await postReactionController.hideComment();
                     }
                     if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
+                      postReactionController.isReplyTextFieldShow.value = false;
                       postReactionController.isUpdateComment.value = true;
                       postReactionController.commentTextEditingController.text =
                           postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
@@ -633,7 +642,10 @@ class CommentBottomSheetContent extends StatelessWidget {
                         postReactionController.commentImage.value = postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
                       }
                     }
-                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {}
+                    if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
+                      postReactionController.isReplyTextFieldShow.value = true;
+                      postReactionController.commentTextEditingController.text = "";
+                    }
                   },
                 ),
               ),
@@ -681,14 +693,16 @@ class ReplyBottomSheetContent extends StatelessWidget {
                   onPressed: () async {
                     Get.back();
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                      postReactionController.isReplyTextFieldShow.value = false;
                       await postReactionController.deleteReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
+                      postReactionController.isReplyTextFieldShow.value = false;
                       await postReactionController.hideReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
+                       postReactionController.isReplyTextFieldShow.value = false;
                       postReactionController.isUpdateReply.value = true;
-                      ll(postReactionController.commentId.value);
                       for (int i = 0; i < postReactionController.commentList.length; i++) {
                         for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
                           if (postReactionController.replyId.value == postReactionController.commentList[i].commentReplies[j].id) {
