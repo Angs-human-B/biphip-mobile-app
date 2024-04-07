@@ -28,8 +28,10 @@ class HomePostDetails extends StatelessWidget {
       this.secondaryImage,
       this.images,
       this.postText,
-      this.title});
+      this.title,
+      this.refId = 0});
   final int postIndex;
+  final int refId;
   final String? userName;
   final String? userImage;
   final DateTime? postTime;
@@ -141,6 +143,8 @@ class HomePostDetails extends StatelessWidget {
                                     postIndex: postIndex,
                                     postText: postText ?? '', //API
                                     title: title, //API
+                                    refType: 1,
+                                    refId: refId,
                                   ),
                                   // CommonPostDetailsWidget(//!Not used now
                                   //   mediaList: homeController.postData.value!.post.images,
@@ -433,7 +437,7 @@ class PostDetailsBottomSection extends StatelessWidget {
             ),
           postReactionController.isCommentLoading.value
               ? Padding(
-                  padding: const EdgeInsets.only(bottom: k8Padding),
+                  padding: const EdgeInsets.only(bottom: k8Padding, top: k8Padding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -455,7 +459,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                   ),
                   child: LikeSectionWidget(
                     postIndex: postIndex,
-                    refType: refType,
+                    refType: 1,
                     refId: refId,
                     isGiftShown: true,
                     likeOnTap: () {},

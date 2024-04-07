@@ -13,11 +13,15 @@ class CommonPostDetailsWidget extends StatelessWidget {
     required this.mediaList,
     required this.isCommentShown,
     required this.showBottomSection,
+    required this.refType,
+    required this.refId,
   });
   final bool isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
   final int postIndex;
+  final int refType;
+  final int refId;
   final HomeController homeController = Get.find<HomeController>();
 
   @override
@@ -304,15 +308,15 @@ class CommonPostDetailsWidget extends StatelessWidget {
           ),
 
         // if (showBottomSection)
-          PostDetailsBottomSection(
-            postIndex: postIndex,
-            isCommentShown: true,
-            isSelfPost: true,
-            commentCount: 0,
-            shareCount: 0,
-            giftCount: 0,
-            // reactCount: 67,
-          ),
+        PostDetailsBottomSection(
+          postIndex: postIndex,
+          isCommentShown: true,
+          isSelfPost: true,
+          commentCount: 0,
+          shareCount: 0,
+          giftCount: 0,
+          // reactCount: 67,
+        ),
       ],
     );
   }

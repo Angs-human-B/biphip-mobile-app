@@ -643,7 +643,7 @@ class PostBottomSection extends StatelessWidget {
       this.reactCount,
       this.postIndex = 0,
       this.refType = 0,
-      this.refId = 0});
+      this.refId=0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -825,6 +825,7 @@ class PostBottomSection extends StatelessWidget {
                         userName: item.user?.fullName,
                         userImage: item.user?.profilePicture,
                         postTime: item.createdAt,
+                        refId: item.id!,
                         // category: item.postCategory?.name ?? null,
                         category: item.postCategory == null ? null : item.postCategory?.name ?? "",
                         categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id),
