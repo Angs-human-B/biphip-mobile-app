@@ -92,6 +92,7 @@ import 'package:bip_hip/views/menu/videos/gallery_videos.dart';
 import 'package:bip_hip/views/menu/videos/video_details.dart';
 import 'package:bip_hip/views/menu/videos/videos.dart';
 import 'package:bip_hip/views/intro/splash_screen.dart';
+import 'package:bip_hip/widgets/common/utils/search.dart';
 import 'package:get/get.dart';
 
 const String krSplashScreen = '/splash-screen';
@@ -194,6 +195,8 @@ const String krKidAddLanguage = '/kid-add-language';
 //*Awards
 const String krAwardsPage = '/awards-page';
 const String krAwardDetailsPage = '/award-details-page';
+//* Search
+const String krSearchPage = "/search-page";
 
 
 //*Store profile
@@ -317,6 +320,8 @@ List<GetPage<dynamic>>? routes = [
    //* Awards
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
+  //* Search
+  GetPage(name: krSearchPage, page: () => SearchPage(), transition: Transition.noTransition),
 
  //*Store profile
   GetPage(name: krStoreProfile, page: () => StoreProfile(), transition: Transition.noTransition),

@@ -225,6 +225,12 @@ const String kuDeleteReply = "/mobile/user/delete-comment-reply";
 const String kuHideReply = "/mobile/user/hide-comment-reply";
 const String kuSetReply = "/mobile/user/set-comment-reply";
 const String kuUpdateReply = "/mobile/user/update-comment-reply";
+//* Search
+const String kuSearchHistory = '/mobile/user/search-history';
+const String kuDeleteSearchHistory = '/mobile/user/delete-search-history';
+const String kuDeleteAllSearchHistory = '/mobile/user/delete-all-search-history';
+const String kuSearchFilterData = '/mobile/user/search-filter-data';
+const String kuSearch = '/mobile/user/search';
 
 /*
 |--------------------------------------------------------------------------
