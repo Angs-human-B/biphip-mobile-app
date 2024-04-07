@@ -249,20 +249,22 @@ class CommentWidget extends StatelessWidget {
               if (Get.find<PostReactionController>().commentId.value == commentId && Get.find<PostReactionController>().isReplyTextFieldShow.value)
                 SizedBox(
                     width: width - 80,
-                    height: 116,
+                    height: 132,
                     child: ReplyTextField(
                       onPressedCamera: () async {
                         await Get.find<GlobalController>().selectImageSource(Get.find<PostReactionController>().isReplyImageChanged,
                             Get.find<PostReactionController>().replyImageLink, Get.find<PostReactionController>().replyImageFile, 'gallery', false);
                         Get.find<PostReactionController>().replySendEnabled();
                       },
-                      onPressedSend: () async {
-                        if (Get.find<PostReactionController>().isUpdateReply.value) {
-                          await Get.find<PostReactionController>().updateReply(context);
-                        } else {
-                          await Get.find<PostReactionController>().postReply(context);
-                        }
-                      },
+                      onPressedSend: Get.find<PostReactionController>().isReplySendEnable.value
+                          ? () async {
+                              if (Get.find<PostReactionController>().isUpdateReply.value) {
+                                await Get.find<PostReactionController>().updateReply(context);
+                              } else {
+                                await Get.find<PostReactionController>().postReply(context);
+                              }
+                            }
+                          : null,
                     )),
               if (Get.find<PostReactionController>().commentId.value == commentId) kH8sizedBox,
             ],

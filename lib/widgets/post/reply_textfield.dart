@@ -20,6 +20,7 @@ class ReplyTextField extends StatelessWidget {
           children: [
             CustomModifiedTextField(
               controller: postReactionController.replyTextEditingController,
+              focusNode: postReactionController.replyFocusNode,
               hint: hintText ?? ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,
@@ -53,6 +54,10 @@ class ReplyTextField extends StatelessWidget {
                                     child: CustomIconButton(
                                       onPress: () {
                                         postReactionController.replyImage.value = "";
+                                        postReactionController.isReplyImageChanged.value = false;
+                                        postReactionController.replyImageLink.value = "";
+                                        postReactionController.replyImageFile.value = File("");
+                                        ll(postReactionController.isReplyImageChanged.value);
                                         postReactionController.replySendEnabled();
                                       },
                                       icon: BipHip.circleCrossNew,
@@ -84,8 +89,8 @@ class ReplyTextField extends StatelessWidget {
                                             postReactionController.replySendEnabled();
                                           },
                                           icon: BipHip.circleCrossNew,
-                                          size: kIconSize12,
-                                          iconColor: cIconColor,
+                                          size: kIconSize14,
+                                          iconColor: cRedColor,
                                         ),
                                       ),
                                     ),
@@ -97,13 +102,13 @@ class ReplyTextField extends StatelessWidget {
                                 ),
                     )),
                 kW16sizedBox,
-                InkWell(
-                  onTap: onPressEmoji,
-                  child: const Icon(
-                    BipHip.emojiOutline,
-                    color: cIconColor,
-                  ),
-                ),
+                // InkWell(
+                //   onTap: onPressEmoji,
+                //   child: const Icon(
+                //     BipHip.emojiOutline,
+                //     color: cIconColor,
+                //   ),
+                // ),
                 const Spacer(),
                 Obx(() => InkWell(
                       onTap: onPressedSend,

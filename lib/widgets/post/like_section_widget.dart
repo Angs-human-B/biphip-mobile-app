@@ -252,7 +252,7 @@ class LikeSectionWidget extends StatelessWidget {
                             onReactionChanged: (Reaction<String>? reaction) async {
                               postReactionController.postIndex.value = postIndex;
                               Get.back();
-                               if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
+                              if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
                                   postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
                                 postReactionController.selectedReactionText.value = "Sad";
                                 await postReactionController.postReaction(refType, refId);
@@ -264,7 +264,9 @@ class LikeSectionWidget extends StatelessWidget {
                                 Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                                 postReactionController.selectedReactionText.value = "Sad";
                                 await postReactionController.postReaction(refType, refId);
+                                // postReactionController.reactEmojiList.add(kiSadSvgImageUrl);
                               }
+
                               // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
                               // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                               // postReactionController.postIndex.value = postIndex + 1;
@@ -298,21 +300,21 @@ class LikeSectionWidget extends StatelessWidget {
                           child: ReactionButton<String>(
                             itemSize: const Size.square(48),
                             onReactionChanged: (Reaction<String>? reaction) async {
-                              //   postReactionController.postIndex.value = postIndex;
-                              // Get.back();
-                              // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Angry".toLowerCase() ||
-                              //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
-                              //   postReactionController.selectedReactionText.value = "Angry";
-                              //   await postReactionController.postReaction(refType, refId);
-                              //   postReactionController.reactions[postIndex]['state'].value = false;
-                              //   postReactionController.selectedReactionText.value = "";
-                              //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                              // } else {
-                              //   postReactionController.reactions[postIndex]['reaction'].value = 'Angry';
-                              //   postReactionController.reactions[postIndex]['state'].value = true;
-                              //   postReactionController.selectedReactionText.value = "Angry";
-                              //   await postReactionController.postReaction(refType, refId);
-                              // }
+                              postReactionController.postIndex.value = postIndex;
+                              Get.back();
+                               if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Angry".toLowerCase() ||
+                                  postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
+                                postReactionController.selectedReactionText.value = "Angry";
+                                await postReactionController.postReaction(refType, refId);
+                                postReactionController.reactions[postIndex]['reaction'].value = "";
+                                Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                              } else {
+                                Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
+                                Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                postReactionController.selectedReactionText.value = "Angry";
+                                await postReactionController.postReaction(refType, refId);
+                              }
                               // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
                               // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
                               // Get.back();

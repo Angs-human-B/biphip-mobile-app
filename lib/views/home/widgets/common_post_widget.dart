@@ -821,6 +821,7 @@ class PostBottomSection extends StatelessWidget {
                 if (postIndex == i) {
                   var item = Get.find<HomeController>().allPostList[i];
                   postReactionController.userId.value = item.user!.id!;
+                  postReactionController.postId.value = item.id!;
                   Get.to(() => HomePostDetails(
                         postIndex: postIndex,
                         images: item.images,

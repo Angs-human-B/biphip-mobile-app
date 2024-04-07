@@ -460,7 +460,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                   child: LikeSectionWidget(
                     postIndex: postIndex,
                     refType: 1,
-                    refId: refId,
+                    refId: postReactionController.postId.value,
                     isGiftShown: true,
                     likeOnTap: () {},
                     giftOnPressed: () {
@@ -493,7 +493,7 @@ class PostDetailsBottomSection extends StatelessWidget {
           kH12sizedBox,
           SizedBox(
               width: width - 40,
-              height: 108,
+              height: 132,
               child: CommentTextField(
                 hintText: "${ksWriteAComment.tr} ...",
                 onPressedCamera: () async {
@@ -501,13 +501,15 @@ class PostDetailsBottomSection extends StatelessWidget {
                       postReactionController.commentImageFile, 'gallery', false);
                   postReactionController.commentSendEnabled();
                 },
-                onPressedSend: () async {
-                  if (postReactionController.isUpdateComment.value) {
-                    await Get.find<PostReactionController>().updateComment(context);
-                  } else {
-                    await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
-                  }
-                },
+                onPressedSend: postReactionController.isCommentSendEnable.value
+                    ? () async {
+                        if (postReactionController.isUpdateComment.value) {
+                          await Get.find<PostReactionController>().updateComment(context);
+                        } else {
+                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
+                        }
+                      }
+                    : null,
               )),
           kH12sizedBox,
           for (int i = 0; i < postReactionController.commentList.length; i++)
@@ -519,6 +521,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                       postReactionController.selectedCommentIndex.value = i;
                       postReactionController.commentedUserId.value = postReactionController.commentList[i].user!.id!;
                       postReactionController.isUpdateReply.value = false;
+                      postReactionController.isReplyTextFieldShow.value = false;
                       Get.find<GlobalController>().commonBottomSheet(
                           context: context,
                           bottomSheetHeight: height * 0.4,
@@ -640,6 +643,16 @@ class CommentBottomSheetContent extends StatelessWidget {
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           await postReactionController.hideComment();
                         }
+                        // if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
+                        //   postReactionController.isReplyTextFieldShow.value = false;
+                        //   postReactionController.isUpdateComment.value = true;
+                        //   postReactionController.commentTextEditingController.text =
+                        //       postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
+                        //   if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
+                        //     postReactionController.commentImage.value =
+                        //         postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
+                        //   }
+                        // }
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
                           postReactionController.isReplyTextFieldShow.value = false;
                           postReactionController.isUpdateComment.value = true;
@@ -649,7 +662,9 @@ class CommentBottomSheetContent extends StatelessWidget {
                             postReactionController.commentImage.value =
                                 postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
                           }
+                          postReactionController.commentFocusNode.requestFocus();
                         }
+
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.isReplyTextFieldShow.value = true;
                           postReactionController.commentTextEditingController.text = "";
@@ -721,7 +736,7 @@ class ReplyBottomSheetContent extends StatelessWidget {
                       await postReactionController.hideReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
-                      postReactionController.isReplyTextFieldShow.value = false;
+                      postReactionController.isReplyTextFieldShow.value = true;
                       postReactionController.isUpdateReply.value = true;
                       for (int i = 0; i < postReactionController.commentList.length; i++) {
                         for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
@@ -731,6 +746,7 @@ class ReplyBottomSheetContent extends StatelessWidget {
                             if (postReactionController.commentList[i].commentReplies[j].image != null) {
                               postReactionController.replyImage.value = postReactionController.commentList[i].commentReplies[j].image;
                             }
+                            postReactionController.replyFocusNode.requestFocus();
                           }
                         }
                       }

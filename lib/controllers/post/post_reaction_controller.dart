@@ -172,7 +172,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         kiSadSvgImageUrl,
         width: 20,
       );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction == 'angry' || selectedReactionText.value == "Angry") {
+    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'angry'.toLowerCase() ||
+        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
       return SvgPicture.asset(
         kiAngrySvgImageUrl,
         width: 20,
@@ -182,6 +183,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final RxBool isCommentSendEnable = RxBool(false);
   final RxBool isReplySendEnable = RxBool(false);
+  final RxInt postId = RxInt(-1);
 
   void commentSendEnabled() {
     if (commentTextEditingController.text.toString().trim() != "" || isCommentImageChanged.value) {
@@ -696,7 +698,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  //*Update Comment Api Call
+  //*Update Reply Api Call
   final RxBool isUpdateReply = RxBool(false);
   final RxBool isUpdateReplyLoading = RxBool(false);
   Future<void> updateReply(context) async {
@@ -706,6 +708,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       Map<String, String> body = {
         'reply': replyTextEditingController.text.toString().trim(),
       };
+      ll(replyImageFile.value);
       var response;
       if (isReplyImageChanged.value != true) {
         response = await apiController.commonApiCall(
@@ -727,6 +730,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         unFocus(context);
         await getCommentList(1, refId.value);
         isUpdateReply.value = false;
+        isReplyTextFieldShow.value = false;
         replyTextEditingController.clear();
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
@@ -753,6 +757,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt userId = RxInt(-1);
   final RxInt commentedUserId = RxInt(-1);
 
+  final FocusNode commentFocusNode = FocusNode();
+  final FocusNode replyFocusNode = FocusNode();
+
   void resetCommentAndReplyData() {
     commentTextEditingController.clear();
     isCommentImageChanged.value = false;
@@ -768,6 +775,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     isUpdateReply.value = false;
     commentId.value = -1;
     replyId.value = -1;
+    isReplyTextFieldShow.value = false;
+    userId.value = -1;
+    commentedUserId.value = -1;
     isReplyTextFieldShow.value = false;
   }
 }

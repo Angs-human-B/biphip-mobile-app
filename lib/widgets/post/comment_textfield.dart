@@ -21,10 +21,11 @@ class CommentTextField extends StatelessWidget {
           children: [
             CustomModifiedTextField(
               controller: postReactionController.commentTextEditingController,
+              focusNode: postReactionController.commentFocusNode,
               hint: hintText ?? ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,
-              maxLines: 4,
+              maxLines: 2,
               onChanged: (value) {
                 postReactionController.commentSendEnabled();
               },
@@ -86,7 +87,7 @@ class CommentTextField extends StatelessWidget {
                                           },
                                           icon: BipHip.circleCrossNew,
                                           size: kIconSize12,
-                                          iconColor: cIconColor,
+                                          iconColor: cRedColor,
                                         ),
                                       ),
                                     ),
@@ -98,13 +99,13 @@ class CommentTextField extends StatelessWidget {
                                 ),
                     )),
                 kW16sizedBox,
-                InkWell(
-                  onTap: onPressEmoji,
-                  child: const Icon(
-                    BipHip.emojiOutline,
-                    color: cIconColor,
-                  ),
-                ),
+                // InkWell(
+                //   onTap: onPressEmoji,
+                //   child: const Icon(
+                //     BipHip.emojiOutline,
+                //     color: cIconColor,
+                //   ),
+                // ),
                 const Spacer(),
                 Obx(() => InkWell(
                       onTap: onPressedSend,
