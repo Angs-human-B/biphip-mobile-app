@@ -117,7 +117,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         reactEmojiList.add(kiWowSvgImageUrl);
       } else if (topThree[index].key == 'haha') {
         reactEmojiList.add(kiHahaSvgImageUrl);
-      } else {
+      } else if (topThree[index].key == 'angry') {
         reactEmojiList.add(kiAngrySvgImageUrl);
       }
     }
@@ -779,5 +779,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     userId.value = -1;
     commentedUserId.value = -1;
     isReplyTextFieldShow.value = false;
+    commentImage.value = "";
+    replyImage.value = "";
   }
 }

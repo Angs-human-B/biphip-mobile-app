@@ -563,6 +563,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                         replyButtonOnPressed: () async {
                           postReactionController.commentId.value = postReactionController.commentList[i].id!;
                           postReactionController.isReplyTextFieldShow.value = true;
+                          postReactionController.replyFocusNode.requestFocus();
                         },
                       ),
                     ),
@@ -668,12 +669,14 @@ class CommentBottomSheetContent extends StatelessWidget {
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.isReplyTextFieldShow.value = true;
                           postReactionController.commentTextEditingController.text = "";
+                          postReactionController.replyFocusNode.requestFocus();
                         }
                         //*Others user post action
                         if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
                         if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.isReplyTextFieldShow.value = true;
                           postReactionController.commentTextEditingController.text = "";
+                          postReactionController.replyFocusNode.requestFocus();
                         }
                         if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                           await postReactionController.deleteComment();

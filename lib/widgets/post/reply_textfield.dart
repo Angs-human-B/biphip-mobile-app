@@ -21,6 +21,7 @@ class ReplyTextField extends StatelessWidget {
             CustomModifiedTextField(
               controller: postReactionController.replyTextEditingController,
               focusNode: postReactionController.replyFocusNode,
+              autoFocus: true,
               hint: hintText ?? ksWriteAReply.tr,
               inputType: TextInputType.multiline,
               minLines: 1,
