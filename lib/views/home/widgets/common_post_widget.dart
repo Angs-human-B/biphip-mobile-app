@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -848,6 +849,7 @@ class PostBottomSection extends StatelessWidget {
               postReactionController.refId.value = refId;
               // await Get.find<HomeController>().getPostData(refId);
               await postReactionController.getCommentList(1, refId);
+              await Get.find<FriendController>().getFriendList();
               ll(showComment);
             },
           ),

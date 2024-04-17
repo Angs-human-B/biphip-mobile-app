@@ -493,7 +493,7 @@ class PostDetailsBottomSection extends StatelessWidget {
           kH12sizedBox,
           SizedBox(
               width: width - 40,
-              height: 150,
+              height: 130,
               child: CommentTextField(
                 hintText: "${ksWriteAComment.tr} ...",
                 onPressedCamera: () async {
@@ -556,6 +556,362 @@ class PostDetailsBottomSection extends StatelessWidget {
                         replyList: postReactionController.commentList[i].commentReplies,
                         refType: refType,
                         refId: refId,
+                        likeButtonOnPressed: () {
+                          ll("like");
+                          // PopupMenuButton(
+                          //   padding: EdgeInsets.zero,
+                          //   offset: const Offset(0, -60),
+                          //   elevation: 1,
+                          //   onCanceled: () {},
+                          //   position: PopupMenuPosition.over,
+                          //   tooltip: '',
+                          //   itemBuilder: (context) => [
+                          //     PopupMenuItem<int>(
+                          //       height: 25,
+                          //       onTap: null,
+                          //       value: 1,
+                          //       padding: EdgeInsets.zero,
+                          //       child: Padding(
+                          //         padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          //         child: Row(
+                          //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //           children: [
+                          //             InkWell(
+                          //               splashFactory: InkRipple.splashFactory,
+                          //               child: ReactionButton<String>(
+                          //                 itemSize: const Size.square(48),
+                          //                 onReactionChanged: (Reaction<String>? reaction) async {
+                          //                   postReactionController.postIndex.value = postIndex;
+                          //                   Get.back();
+                          //                   if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Love".toLowerCase() ||
+                          //                       postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() ==
+                          //                           "Love".toLowerCase()) {
+                          //                     postReactionController.selectedReactionText.value = "Love";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = "";
+                          //                     postReactionController.reactions[postIndex]['state'].value = false;
+                          //                     Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                          //                   } else {
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = 'Love';
+                          //                     postReactionController.reactions[postIndex]['state'].value = true;
+                          //                     postReactionController.selectedReactionText.value = "Love";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                   }
+                          //                 },
+                          //                 reactions: <Reaction<String>>[
+                          //                   Reaction<String>(
+                          //                     value: 'love',
+                          //                     icon: SvgPicture.asset(
+                          //                       kiLoveSvgImageUrl,
+                          //                       width: 38,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //                 selectedReaction: Reaction<String>(
+                          //                   value: 'love',
+                          //                   icon: SvgPicture.asset(
+                          //                     kiLoveSvgImageUrl,
+                          //                     width: 38,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 4),
+                          //             ),
+                          //             InkWell(
+                          //               splashFactory: InkRipple.splashFactory,
+                          //               child: ReactionButton<String>(
+                          //                 animateBox: true,
+                          //                 boxAnimationDuration: const Duration(milliseconds: 500),
+                          //                 itemAnimationDuration: const Duration(milliseconds: 500),
+                          //                 itemSize: const Size.square(48),
+                          //                 onReactionChanged: (Reaction<String>? reaction) async {
+                          //                   postReactionController.postIndex.value = postIndex;
+                          //                   Get.back();
+                          //                   if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Like".toLowerCase() ||
+                          //                       postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() ==
+                          //                           "Like".toLowerCase()) {
+                          //                     postReactionController.selectedReactionText.value = "Like";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = "";
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                          //                     Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                          //                   } else {
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                     postReactionController.selectedReactionText.value = "Like";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     ll("2");
+                          //                   }
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                   // postReactionController.postIndex.value = postIndex + 1;
+                          //                   // postReactionController.selectedReactionText.value = "Like";
+                          //                   // Get.back();
+                          //                   // await Get.find<PostReactionController>().postReaction(1);
+                          //                 },
+                          //                 reactions: <Reaction<String>>[
+                          //                   Reaction<String>(
+                          //                     value: 'like',
+                          //                     icon: SvgPicture.asset(
+                          //                       kiLikeSvgImageUrl,
+                          //                       width: 38,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //                 selectedReaction: Reaction<String>(
+                          //                   value: 'like',
+                          //                   icon: SvgPicture.asset(
+                          //                     kiLikeSvgImageUrl,
+                          //                     width: 38,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 4),
+                          //             ),
+                          //             InkWell(
+                          //               splashFactory: InkRipple.splashFactory,
+                          //               child: ReactionButton<String>(
+                          //                 itemSize: const Size.square(48),
+                          //                 onReactionChanged: (Reaction<String>? reaction) async {
+                          //                   postReactionController.postIndex.value = postIndex;
+                          //                   Get.back();
+                          //                   if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Haha".toLowerCase() ||
+                          //                       postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() ==
+                          //                           "Haha".toLowerCase()) {
+                          //                     postReactionController.selectedReactionText.value = "Haha";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = "";
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                          //                     Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                          //                   } else {
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                     postReactionController.selectedReactionText.value = "Haha";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                   }
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                   // postReactionController.postIndex.value = postIndex + 1;
+                          //                   // postReactionController.selectedReactionText.value = "Haha";
+                          //                   // Get.back();
+                          //                   // await Get.find<PostReactionController>().postReaction(1);
+                          //                 },
+                          //                 reactions: <Reaction<String>>[
+                          //                   Reaction<String>(
+                          //                     value: 'haha',
+                          //                     icon: SvgPicture.asset(
+                          //                       kiHahaSvgImageUrl,
+                          //                       width: 38,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //                 selectedReaction: Reaction<String>(
+                          //                   value: 'haha',
+                          //                   icon: SvgPicture.asset(
+                          //                     kiHahaSvgImageUrl,
+                          //                     width: 38,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 4),
+                          //             ),
+                          //             InkWell(
+                          //               splashFactory: InkRipple.splashFactory,
+                          //               child: ReactionButton<String>(
+                          //                 itemSize: const Size.square(48),
+                          //                 onReactionChanged: (Reaction<String>? reaction) async {
+                          //                   postReactionController.postIndex.value = postIndex;
+                          //                   Get.back();
+                          //                   if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Wow".toLowerCase() ||
+                          //                       postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Wow".toLowerCase()) {
+                          //                     postReactionController.selectedReactionText.value = "Wow";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = "";
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                          //                     Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                          //                   } else {
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                     postReactionController.selectedReactionText.value = "Wow";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                   }
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                   // postReactionController.postIndex.value = postIndex + 1;
+                          //                   // postReactionController.selectedReactionText.value = "Wow";
+                          //                   // Get.back();
+                          //                   // await Get.find<PostReactionController>().postReaction(1);
+                          //                 },
+                          //                 reactions: <Reaction<String>>[
+                          //                   Reaction<String>(
+                          //                     value: 'wow',
+                          //                     icon: SvgPicture.asset(
+                          //                       kiWowSvgImageUrl,
+                          //                       width: 38,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //                 selectedReaction: Reaction<String>(
+                          //                   value: 'wow',
+                          //                   icon: SvgPicture.asset(
+                          //                     kiWowSvgImageUrl,
+                          //                     width: 38,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 4),
+                          //             ),
+                          //             InkWell(
+                          //               splashFactory: InkRipple.splashFactory,
+                          //               child: ReactionButton<String>(
+                          //                 itemSize: const Size.square(48),
+                          //                 onReactionChanged: (Reaction<String>? reaction) async {
+                          //                   postReactionController.postIndex.value = postIndex;
+                          //                   Get.back();
+                          //                   if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
+                          //                       postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
+                          //                     postReactionController.selectedReactionText.value = "Sad";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = "";
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                          //                     Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                          //                   } else {
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                     postReactionController.selectedReactionText.value = "Sad";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     // postReactionController.reactEmojiList.add(kiSadSvgImageUrl);
+                          //                   }
+
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                   // postReactionController.postIndex.value = postIndex + 1;
+                          //                   // postReactionController.selectedReactionText.value = "Sad";
+                          //                   // Get.back();
+                          //                   // await Get.find<PostReactionController>().postReaction(1);
+                          //                 },
+                          //                 reactions: <Reaction<String>>[
+                          //                   Reaction<String>(
+                          //                     value: 'sad',
+                          //                     icon: SvgPicture.asset(
+                          //                       kiSadSvgImageUrl,
+                          //                       width: 38,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //                 selectedReaction: Reaction<String>(
+                          //                   value: 'sad',
+                          //                   icon: SvgPicture.asset(
+                          //                     kiSadSvgImageUrl,
+                          //                     width: 38,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //             const Padding(
+                          //               padding: EdgeInsets.symmetric(horizontal: 4),
+                          //             ),
+                          //             InkWell(
+                          //               splashFactory: InkRipple.splashFactory,
+                          //               child: ReactionButton<String>(
+                          //                 itemSize: const Size.square(48),
+                          //                 onReactionChanged: (Reaction<String>? reaction) async {
+                          //                   postReactionController.postIndex.value = postIndex;
+                          //                   Get.back();
+                          //                   if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() ==
+                          //                           "Angry".toLowerCase() ||
+                          //                       postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() ==
+                          //                           "Angry".toLowerCase()) {
+                          //                     postReactionController.selectedReactionText.value = "Angry";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                     postReactionController.reactions[postIndex]['reaction'].value = "";
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                          //                     Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                          //                   } else {
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
+                          //                     Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                     postReactionController.selectedReactionText.value = "Angry";
+                          //                     await postReactionController.postReaction(refType, refId);
+                          //                   }
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
+                          //                   // Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                          //                   // Get.back();
+                          //                 },
+                          //                 reactions: <Reaction<String>>[
+                          //                   Reaction<String>(
+                          //                     value: 'angry',
+                          //                     icon: SvgPicture.asset(
+                          //                       kiAngrySvgImageUrl,
+                          //                       width: 38,
+                          //                     ),
+                          //                   ),
+                          //                 ],
+                          //                 selectedReaction: Reaction<String>(
+                          //                   value: 'angry',
+                          //                   icon: SvgPicture.asset(
+                          //                     kiAngrySvgImageUrl,
+                          //                     width: 38,
+                          //                   ),
+                          //                 ),
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          //   // shape: RoundedRectangleBorder(
+                          //   //   borderRadius: BorderRadius.circular(180),
+                          //   // ),
+                          //   // child: SizedBox(
+                          //   //   // width:  (width - 40) / 4 : (width - 40) / 3,
+                          //   //   height: 44,
+                          //   //   child: Row(
+                          //   //     mainAxisAlignment: MainAxisAlignment.center,
+                          //   //     children: [
+                          //   //       Text(
+                          //   //         Get.find<HomeController>().allPostList[postIndex].myReaction == null &&
+                          //   //                 postReactionController.reactions[postIndex]['reaction'].value == ""
+                          //   //             ? ksLove.tr
+                          //   //             : postReactionController.reactions[postIndex]['reaction'].value != ""
+                          //   //                 ? postReactionController.reactions[postIndex]['reaction'].value
+                          //   //                 : Get.find<HomeController>().allPostList[postIndex].myReaction!,
+                          //   //         style: semiBold12TextStyle(cIconColor),
+                          //   //       ),
+                          //   //       // Text(
+                          //   //       //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == ''
+                          //   //       //       ? ksLove.tr
+                          //   //       //       : Get.find<PostReactionController>().reactions[postIndex]['reaction'].value,
+                          //   //       //   style: semiBold12TextStyle(sectionColor ?? cIconColor),
+                          //   //       // ),
+                          //   //       kW4sizedBox,
+                          //   //       // Get.find<HomeController>().allPostList[postIndex].myReaction == null
+                          //   //       //     ? const Icon(
+                          //   //       //         BipHip.love,
+                          //   //       //         color: cIconColor,
+                          //   //       //         size: kIconSize20,
+                          //   //       //       )
+                          //   //       //     : postReactionController.selectedReaction(postIndex),
+                          //   //       Get.find<HomeController>().allPostList[postIndex].myReaction != null || postReactionController.reactions[postIndex]['reaction'].value != ""
+                          //   //           ? postReactionController.selectedReaction(postIndex)
+                          //   //           : const Icon(
+                          //   //               BipHip.love,
+                          //   //               color: cIconColor,
+                          //   //               size: kIconSize20,
+                          //   //             ),
+                          //   //     ],
+                          //   //   ),
+                          //   // ),
+                          // );
+                        },
                         hideButtonOnPressed: () async {
                           postReactionController.commentId.value = postReactionController.commentList[i].id!;
                           await postReactionController.hideComment();

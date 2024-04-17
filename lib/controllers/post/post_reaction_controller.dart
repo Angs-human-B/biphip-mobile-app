@@ -117,7 +117,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         reactEmojiList.add(kiWowSvgImageUrl);
       } else if (topThree[index].key == 'haha') {
         reactEmojiList.add(kiHahaSvgImageUrl);
-      } else if (topThree[index].key == 'angry') {
+      } else {
         reactEmojiList.add(kiAngrySvgImageUrl);
       }
     }
@@ -143,31 +143,32 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt postIndex = RxInt(-1);
 
   selectedReaction(postIndex) {
-    if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'love' || reactions[postIndex]['reaction'].value == "Love") {
+    if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'love' ||
+        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Love".toLowerCase()) {
       return SvgPicture.asset(
         kiLoveSvgImageUrl,
         width: 20,
       );
     } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' ||
-        reactions[postIndex]['reaction'].value == "Like") {
+        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Like".toLowerCase()) {
       return SvgPicture.asset(
         kiLikeSvgImageUrl,
         width: 20,
       );
     } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' ||
-        reactions[postIndex]['reaction'].value == "Haha") {
+        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Haha".toLowerCase()) {
       return SvgPicture.asset(
         kiHahaSvgImageUrl,
         width: 20,
       );
     } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' ||
-        reactions[postIndex]['reaction'].value == "Wow") {
+        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Wow".toLowerCase()) {
       return SvgPicture.asset(
         kiWowSvgImageUrl,
         width: 20,
       );
     } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' ||
-        reactions[postIndex]['reaction'].value == "Sad") {
+        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
       return SvgPicture.asset(
         kiSadSvgImageUrl,
         width: 20,
@@ -184,6 +185,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxBool isCommentSendEnable = RxBool(false);
   final RxBool isReplySendEnable = RxBool(false);
   final RxInt postId = RxInt(-1);
+
+  void function() {
+    commentFocusNode.requestFocus();
+  }
 
   void commentSendEnabled() {
     if (commentTextEditingController.text.toString().trim() != "" || isCommentImageChanged.value) {
@@ -762,7 +767,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //!This mention user list is a temporary list. remove it asap
 
-  final List<Map<String,dynamic>> mentionUserList = [
+  final List<Map<String, dynamic>> mentionUserList = [
     {
       'id': '1',
       'display': 'fayeedP',

@@ -14,6 +14,7 @@ class FriendController extends GetxController {
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
   final RxList<FriendFamilyUserData> friendList = RxList<FriendFamilyUserData>([]);
+  List<Map<String, dynamic>> mentionsList = ([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
@@ -29,10 +30,28 @@ class FriendController extends GetxController {
         url: kuGetFriendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
+        // mentionsList.add(response.data);
+        // ll("mention List $mentionsList");
         friendList.clear();
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
+        // mentionsList.add(friendListData.value?.friends!.data as Map<String, dynamic>);
         friendList.addAll(friendListData.value!.friends!.data);
+//         for (var friend in friendList) {
+//  // Assuming FriendFamilyUserData has a method toMap() that returns a Map<String, dynamic>
+//  mentionsList.add(friend.toMap());
+// }
+        mentionsList.clear();
+        for (var friend in friendList) {
+          Map<String, dynamic> friendMap = {
+            'id': friend.id.toString(),
+            'display': friend.firstName,
+            'full_name': friend.fullName,
+            'photo': friend.profilePicture,
+          };
+          mentionsList.add(friendMap);
+        }
+
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -776,7 +795,7 @@ class FriendController extends GetxController {
     }
   }
 
-  //*Get More Friend Search List for pagination
+  // //*Get More Friend Search List for pagination
   Future<void> getMoreFriendSearchList(take) async {
     try {
       String? token = await spController.getBearerToken();
@@ -822,6 +841,109 @@ class FriendController extends GetxController {
     } catch (e) {
       isFriendListLoading.value = true;
       ll('getMoreFriendSearchList error: $e');
+    }
+  }
+
+  final Rx<CommonFriendModel?> mentionFriendData = Rx<CommonFriendModel?>(null);
+  final List<Map<String, dynamic>> mentionFriendList = ([]);
+  final RxBool isMentionFriendListLoading = RxBool(false);
+  Future<void> getMentionFriendList() async {
+    try {
+      isFriendListLoading.value = true;
+      String suffixUrl = '?take=15';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendList + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        mentionFriendList.clear();
+        // mentionFriendData.value = CommonFriendModel.fromJson(response.data);
+        // mentionFriendList.add(mentionFriendData.value!.friends!.data);
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendListLoading.value = true;
+      ll('getMentionFriendList error: $e');
+    }
+  }
+
+//   Future<void> getMentionFriendList() async {
+//  try {
+//     isMentionFriendListLoading.value = true; // Use isMentionFriendListLoading instead of isFriendListLoading
+//     String suffixUrl = '?take=15';
+//     String? token = await spController.getBearerToken();
+//     var response = await apiController.commonApiCall(
+//       requestMethod: kGet,
+//       token: token,
+//       url: kuGetFriendList + suffixUrl,
+//     ) as CommonDM;
+
+//     if (response.success == true) {
+//       mentionFriendList.clear();
+//       isMentionFriendListLoading.value = false;
+//     } else {
+//       isMentionFriendListLoading.value = true;
+//       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+//       if (errorModel.errors.isEmpty) {
+//         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+//       } else {
+//         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+//       }
+//     }
+//  } catch (e) {
+//     isMentionFriendListLoading.value = true;
+//     ll('getMentionFriendList error: $e');
+//  }
+// }
+
+  Future<List<Map<String, dynamic>>> getMentionFriendList2() async {
+    try {
+      isFriendListLoading.value = true;
+      String suffixUrl = '?take=100';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendList + suffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        List<dynamic> users = response.data;
+        ll(users);
+        List<Map<String, dynamic>> userList = users.map((user) {
+          return {
+            'fullName': user,
+            'profilePicture': user['profilePicture'],
+            'userId': user['userId'],
+          };
+        }).toList();
+
+        isFriendListLoading.value = false;
+        return userList; // Return the list of maps
+      } else {
+        isFriendListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+        return []; // Return an empty list in case of error
+      }
+    } catch (e) {
+      isFriendListLoading.value = true;
+      ll('getFriendList error: $e');
+      return []; // Return an empty list in case of exception
     }
   }
 
