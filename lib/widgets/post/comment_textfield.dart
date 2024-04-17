@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 
 class CommentTextField extends StatelessWidget {
   CommentTextField({super.key, this.onPressEmoji, this.onPressedCamera, this.onPressedSend, this.hintText});
 
   final VoidCallback? onPressEmoji, onPressedCamera, onPressedSend;
   final String? hintText;
+  final GlobalKey<FlutterMentionsState> mentionKey = GlobalKey<FlutterMentionsState>();
 
   final PostReactionController postReactionController = Get.find<PostReactionController>();
 
@@ -19,6 +21,45 @@ class CommentTextField extends StatelessWidget {
         padding: const EdgeInsets.all(k8Padding),
         child: Column(
           children: [
+            FlutterMentions(
+              key: mentionKey,
+              // decoration: InputDecoration(
+
+              // ),
+              mentions: [
+                Mention(
+                    trigger: "@",
+                    data: postReactionController.mentionUserList,
+                    style: semiBold14TextStyle(cPrimaryColor),
+                    suggestionBuilder: (data) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: k4Padding),
+                        child: Container(
+                          color: cWhiteColor,
+                          child: Row(
+                            children: [
+                              // ClipOval(
+                              //   child: Container(
+                              //     width: 30,
+                              //     height: 30,
+                              //     decoration: const BoxDecoration(
+                              //       shape: BoxShape.circle,
+                              //     ),
+                              //     child: Image.network(data["photo"]),
+                              //   ),
+                              // ),
+                              kW12sizedBox,
+                              Text(
+                                data["display"],
+                                style: semiBold14TextStyle(cBlackColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ],
+            ),
             CustomModifiedTextField(
               controller: postReactionController.commentTextEditingController,
               focusNode: postReactionController.commentFocusNode,

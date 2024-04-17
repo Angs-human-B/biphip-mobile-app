@@ -493,7 +493,7 @@ class PostDetailsBottomSection extends StatelessWidget {
           kH12sizedBox,
           SizedBox(
               width: width - 40,
-              height: 132,
+              height: 150,
               child: CommentTextField(
                 hintText: "${ksWriteAComment.tr} ...",
                 onPressedCamera: () async {

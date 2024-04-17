@@ -760,6 +760,35 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final FocusNode commentFocusNode = FocusNode();
   final FocusNode replyFocusNode = FocusNode();
 
+  //!This mention user list is a temporary list. remove it asap
+
+  final List<Map<String,dynamic>> mentionUserList = [
+    {
+      'id': '1',
+      'display': 'fayeedP',
+      'full_name': 'Fayeed Pawaskar',
+      'photo': 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    },
+    {
+      'id': '2',
+      'display': 'khaled',
+      'full_name': 'DJ Khaled',
+      'photo': 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    },
+    {
+      'id': '3',
+      'display': 'markT',
+      'full_name': 'Mark Twain',
+      'photo': 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    },
+    {
+      'id': '4',
+      'display': 'JhonL',
+      'full_name': 'Jhon Legend',
+      'photo': 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    },
+  ];
+
   void resetCommentAndReplyData() {
     commentTextEditingController.clear();
     isCommentImageChanged.value = false;
