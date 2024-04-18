@@ -25,18 +25,14 @@ class CommentTextField extends StatelessWidget {
             children: [
               FlutterMentions(
                 onMentionAdd: (p0) {
-                  // ll(p0["id"]);
                   postReactionController.commentMentionList.add(p0["id"]);
                 },
                 onChanged: (value) {
                   postReactionController.commentTextEditingController.text = postReactionController.commentMentionKey.currentState!.controller!.markupText;
-                  ll(postReactionController.commentTextEditingController.text);
                   postReactionController.commentSendEnabled();
                 },
                 key: postReactionController.commentMentionKey,
-                //  controller: postReactionController.commentTextEditingController,
                 focusNode: postReactionController.commentFocusNode,
-                // autofocus: true,
                 maxLines: 2,
                 decoration: InputDecoration(
                   errorStyle: regular12TextStyle(cRedColor),
@@ -47,11 +43,7 @@ class CommentTextField extends StatelessWidget {
 
                   fillColor: cGreyBoxColor,
                   alignLabelWithHint: true,
-                  // labelText: ,
                   hintText: ksWriteAComment.tr,
-                  // labelStyle: hintStyle,
-                  // hintStyle: textHintStyle ?? hintStyle,
-                  // counter: (counter == null) ? const SizedBox.shrink() : counter,
                   contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   border: OutlineInputBorder(

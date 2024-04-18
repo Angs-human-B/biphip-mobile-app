@@ -21,17 +21,11 @@ class ReplyTextField extends StatelessWidget {
         child: Column(
           children: [
             FlutterMentions(
-              // onMarkupChanged: (value) {
-              //   ll(value);
-              // },
-
               onMentionAdd: (p0) {
-                // ll(p0["id"]);
                 postReactionController.replyMentionList.add(p0["id"]);
               },
               onChanged: (value) {
                 postReactionController.replyTextEditingController.text = postReactionController.replyMentionKey.currentState!.controller!.markupText;
-                ll(postReactionController.replyTextEditingController.text);
                 postReactionController.replySendEnabled();
               },
               key: postReactionController.replyMentionKey,
@@ -39,18 +33,11 @@ class ReplyTextField extends StatelessWidget {
               maxLines: 2,
               decoration: InputDecoration(
                 errorStyle: regular12TextStyle(cRedColor),
-                // isDense: true,
-                // filled: true,
                 prefixIconConstraints: const BoxConstraints(),
                 suffixIconConstraints: const BoxConstraints(),
-
                 fillColor: cGreyBoxColor,
                 alignLabelWithHint: true,
-                // labelText: ,
                 hintText: ksWriteAReply.tr,
-                // labelStyle: hintStyle,
-                // hintStyle: textHintStyle ?? hintStyle,
-                // counter: (counter == null) ? const SizedBox.shrink() : counter,
                 contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k16Padding),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
@@ -89,7 +76,7 @@ class ReplyTextField extends StatelessWidget {
                   style: semiBold14TextStyle(cPrimaryColor),
                   suggestionBuilder: (data) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: k4Padding, horizontal: kHorizontalPadding),
+                      padding: const EdgeInsets.symmetric(vertical: k4Padding, horizontal: kHorizontalPadding + k20Padding),
                       child: Container(
                         color: cWhiteColor,
                         child: Row(
