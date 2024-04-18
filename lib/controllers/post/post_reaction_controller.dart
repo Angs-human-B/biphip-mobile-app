@@ -542,6 +542,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'comment': commentTextEditingController.text.toString().trim(),
+        'mention_user_ids': commentMentionList.join(','),
       };
       var response;
       if (isCommentImageChanged.value != true) {
@@ -565,6 +566,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         await getCommentList(1, refId.value);
         isUpdateComment.value = false;
         commentTextEditingController.clear();
+        commentMentionList.clear();
         isCommentImageChanged.value = false;
         commentImageLink.value = "";
         commentImageFile.value = File("");
@@ -661,6 +663,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       Map<String, String> body = {
         'comment_id': commentId.toString(),
         'reply': replyTextEditingController.text.toString().trim(),
+        'mention_user_ids': replyMentionList.join(','),
       };
       var response;
       if (isReplyImageChanged.value != true) {
@@ -683,6 +686,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       if (response.success == true) {
         unFocus(context);
         replyTextEditingController.clear();
+        replyMentionList.clear();
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
         replyImageFile.value = File("");
@@ -715,6 +719,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'reply': replyTextEditingController.text.toString().trim(),
+        'mention_user_ids': replyMentionList.join(','),
       };
       ll(replyImageFile.value);
       var response;
@@ -740,6 +745,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         isUpdateReply.value = false;
         isReplyTextFieldShow.value = false;
         replyTextEditingController.clear();
+        replyMentionList.clear();
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
         replyImageFile.value = File("");
@@ -769,8 +775,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final FocusNode replyFocusNode = FocusNode();
   final GlobalKey<FlutterMentionsState> commentMentionKey = GlobalKey<FlutterMentionsState>();
   final RxList commentMentionList = RxList([]);
+  final GlobalKey<FlutterMentionsState> replyMentionKey = GlobalKey<FlutterMentionsState>();
+  final RxList replyMentionList = RxList([]);
 
-  
   Widget formatMentions(String text, BuildContext context) {
     // Define a regex pattern to match mentions
     final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
@@ -840,5 +847,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     commentImage.value = "";
     replyImage.value = "";
     commentMentionList.clear();
+    replyMentionList.clear();
   }
 }

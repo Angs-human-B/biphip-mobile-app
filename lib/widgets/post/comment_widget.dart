@@ -93,13 +93,14 @@ class CommentWidget extends StatelessWidget {
                       ),
                       kH8sizedBox,
                       // if (comment != null)
-                      comment is String ? 
-                        Text(
-                          comment ?? '',
-                          overflow: TextOverflow.clip,
-                          style: regular14TextStyle(cBlackColor),
-                        ):comment,
-                      
+                      comment is String
+                          ? Text(
+                              comment ?? '',
+                              overflow: TextOverflow.clip,
+                              style: regular14TextStyle(cBlackColor),
+                            )
+                          : comment,
+
                       if (isLink)
                         Text(
                           commentLink ?? '',
@@ -240,7 +241,7 @@ class CommentWidget extends StatelessWidget {
                             reactCount: 2,
                             userName: item[index].user?.fullName ?? ksNA.tr,
                             isImageComment: item[index].image != null ? true : false,
-                            comment: item[index].reply,
+                            comment: Get.find<PostReactionController>().formatMentions(item[index].reply ?? "", context),
                             commentLink: "",
                             image: item[index].image,
                           ),
@@ -265,6 +266,7 @@ class CommentWidget extends StatelessWidget {
                                 await Get.find<PostReactionController>().updateReply(context);
                               } else {
                                 await Get.find<PostReactionController>().postReply(context);
+                                Get.find<PostReactionController>().replyMentionKey.currentState!.controller!.text = "";
                               }
                             }
                           : null,
@@ -297,7 +299,8 @@ class ReplyCommentWidget extends StatelessWidget {
       this.image,
       required this.isImageComment});
   final String profileImage, timePassed, userName;
-  final String? commentLink, comment, image;
+  final String? commentLink, image;
+  final dynamic comment;
 
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink;
   final int reactCount;
@@ -350,12 +353,19 @@ class ReplyCommentWidget extends StatelessWidget {
                       ),
                     ),
                     kH8sizedBox,
-                    if (comment != null)
-                      Text(
-                        comment ?? '',
-                        overflow: TextOverflow.clip,
-                        style: regular14TextStyle(cBlackColor),
-                      ),
+                    // if (comment != null)
+                    // Text(
+                    //   comment ?? '',
+                    //   overflow: TextOverflow.clip,
+                    //   style: regular14TextStyle(cBlackColor),
+                    // ),
+                    comment is String
+                        ? Text(
+                            comment ?? '',
+                            overflow: TextOverflow.clip,
+                            style: regular14TextStyle(cBlackColor),
+                          )
+                        : comment,
                     if (isLink)
                       Text(
                         commentLink ?? '',

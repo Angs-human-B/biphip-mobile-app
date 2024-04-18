@@ -27,17 +27,15 @@ class ReplyTextField extends StatelessWidget {
 
               onMentionAdd: (p0) {
                 // ll(p0["id"]);
-                postReactionController.commentMentionList.add(p0["id"]);
+                postReactionController.replyMentionList.add(p0["id"]);
               },
               onChanged: (value) {
-                postReactionController.commentTextEditingController.text = postReactionController.commentMentionKey.currentState!.controller!.markupText;
-                ll(postReactionController.commentTextEditingController.text);
-                postReactionController.commentSendEnabled();
+                postReactionController.replyTextEditingController.text = postReactionController.replyMentionKey.currentState!.controller!.markupText;
+                ll(postReactionController.replyTextEditingController.text);
+                postReactionController.replySendEnabled();
               },
-              key: postReactionController.commentMentionKey,
-              //  controller: postReactionController.commentTextEditingController,
+              key: postReactionController.replyMentionKey,
               focusNode: postReactionController.replyFocusNode,
-              // autofocus: true,
               maxLines: 2,
               decoration: InputDecoration(
                 errorStyle: regular12TextStyle(cRedColor),
