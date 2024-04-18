@@ -33,7 +33,8 @@ class CommentWidget extends StatelessWidget {
       this.refId = 0,
       this.commentId});
   final String profileImage, userName;
-  final String? commentLink, comment, image, timePassed;
+  final String? commentLink, image, timePassed;
+  final dynamic comment;
 
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink, isSendMessageShown, isHideButtonShown;
   final int reactCount;
@@ -91,12 +92,13 @@ class CommentWidget extends StatelessWidget {
                         ),
                       ),
                       kH8sizedBox,
-                      if (comment != null)
+                      // if (comment != null)
+                      comment is String ? 
                         Text(
                           comment ?? '',
                           overflow: TextOverflow.clip,
                           style: regular14TextStyle(cBlackColor),
-                        ),
+                        ):comment,
                       
                       if (isLink)
                         Text(

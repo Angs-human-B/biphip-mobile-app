@@ -507,7 +507,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                           await Get.find<PostReactionController>().updateComment(context);
                         } else {
                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
-                          Get.find<PostReactionController>().mentionKey.currentState!.controller!.text = "";
+                          Get.find<PostReactionController>().commentMentionKey.currentState!.controller!.text = "";
                         }
                       }
                     : null,
@@ -541,7 +541,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                       child: CommentWidget(
                         profileImage: postReactionController.commentList[i].user?.profilePicture ?? "",
                         // comment: postReactionController.commentList[i].comment ?? "",
-                        comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? ""),
+                        comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? "", context),
                         // comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? "",context),
                         timePassed: Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].createdAt),
                         isLikeButtonShown: true,
@@ -924,7 +924,6 @@ class PostDetailsBottomSection extends StatelessWidget {
                           postReactionController.replyFocusNode.requestFocus();
                         },
                       ),
-                   
                     ),
                   ),
           //   ));

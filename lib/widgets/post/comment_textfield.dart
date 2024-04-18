@@ -24,22 +24,16 @@ class CommentTextField extends StatelessWidget {
           child: Column(
             children: [
               FlutterMentions(
-                // onMarkupChanged: (value) {
-                //   ll(value);
-                // },
-
                 onMentionAdd: (p0) {
                   // ll(p0["id"]);
-                  postReactionController.mentionList.add(p0["id"]);
-                  postReactionController.mentionUserName.value = p0["display"];
-                  postReactionController.mentionUserId.value = p0["id"];
+                  postReactionController.commentMentionList.add(p0["id"]);
                 },
                 onChanged: (value) {
-                  postReactionController.commentTextEditingController.text = postReactionController.mentionKey.currentState!.controller!.markupText;
+                  postReactionController.commentTextEditingController.text = postReactionController.commentMentionKey.currentState!.controller!.markupText;
                   ll(postReactionController.commentTextEditingController.text);
                   postReactionController.commentSendEnabled();
                 },
-                key: postReactionController.mentionKey,
+                key: postReactionController.commentMentionKey,
                 //  controller: postReactionController.commentTextEditingController,
                 focusNode: postReactionController.commentFocusNode,
                 // autofocus: true,
@@ -96,7 +90,7 @@ class CommentTextField extends StatelessWidget {
                     style: semiBold14TextStyle(cPrimaryColor),
                     suggestionBuilder: (data) {
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: k4Padding),
+                        padding: const EdgeInsets.symmetric(vertical: k4Padding, horizontal: kHorizontalPadding),
                         child: Container(
                           color: cWhiteColor,
                           child: Row(
@@ -124,6 +118,7 @@ class CommentTextField extends StatelessWidget {
                   ),
                 ],
               ),
+
               // CustomModifiedTextField(
               //   controller: postReactionController.commentTextEditingController,
               //   focusNode: postReactionController.commentFocusNode,
