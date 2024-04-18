@@ -507,6 +507,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                           await Get.find<PostReactionController>().updateComment(context);
                         } else {
                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
+                          Get.find<PostReactionController>().mentionKey.currentState!.controller!.text = "";
                         }
                       }
                     : null,
@@ -539,7 +540,9 @@ class PostDetailsBottomSection extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: CommentWidget(
                         profileImage: postReactionController.commentList[i].user?.profilePicture ?? "",
-                        comment: postReactionController.commentList[i].comment ?? "",
+                        // comment: postReactionController.commentList[i].comment ?? "",
+                        comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? ""),
+                        // comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? "",context),
                         timePassed: Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].createdAt),
                         isLikeButtonShown: true,
                         commentId: postReactionController.commentList[i].id,
@@ -557,7 +560,6 @@ class PostDetailsBottomSection extends StatelessWidget {
                         refType: refType,
                         refId: refId,
                         likeButtonOnPressed: () {
-                          ll("like");
                           // PopupMenuButton(
                           //   padding: EdgeInsets.zero,
                           //   offset: const Offset(0, -60),
@@ -922,6 +924,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                           postReactionController.replyFocusNode.requestFocus();
                         },
                       ),
+                   
                     ),
                   ),
           //   ));

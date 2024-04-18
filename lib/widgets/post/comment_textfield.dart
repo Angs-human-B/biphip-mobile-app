@@ -11,17 +11,11 @@ class CommentTextField extends StatelessWidget {
 
   final VoidCallback? onPressEmoji, onPressedCamera, onPressedSend;
   final String? hintText;
-  final GlobalKey<FlutterMentionsState> mentionKey = GlobalKey<FlutterMentionsState>();
-  final FocusNode commentFocusNode = FocusNode();
 
   final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
-    ll('12345');
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   FocusScope.of(context).requestFocus(postReactionController.commentFocusNode);
-    // });
     return Obx(
       () => Container(
         decoration: BoxDecoration(color: cGreyBoxColor, borderRadius: k8CircularBorderRadius),
@@ -30,19 +24,24 @@ class CommentTextField extends StatelessWidget {
           child: Column(
             children: [
               FlutterMentions(
-                onChanged: (value) {
-                  postReactionController.commentTextEditingController.text = value;
-                  postReactionController.commentSendEnabled();
-                  // if (value != "") {
-                  //   postReactionController.isCommentSendEnable.value = true;
-                  // } else {
-                  //   postReactionController.isCommentSendEnable.value = false;
-                  // }
-                  // ll(value);
+                // onMarkupChanged: (value) {
+                //   ll(value);
+                // },
+
+                onMentionAdd: (p0) {
+                  // ll(p0["id"]);
+                  postReactionController.mentionList.add(p0["id"]);
+                  postReactionController.mentionUserName.value = p0["display"];
+                  postReactionController.mentionUserId.value = p0["id"];
                 },
-                // key: mentionKey,
+                onChanged: (value) {
+                  postReactionController.commentTextEditingController.text = postReactionController.mentionKey.currentState!.controller!.markupText;
+                  ll(postReactionController.commentTextEditingController.text);
+                  postReactionController.commentSendEnabled();
+                },
+                key: postReactionController.mentionKey,
                 //  controller: postReactionController.commentTextEditingController,
-                focusNode: commentFocusNode,
+                focusNode: postReactionController.commentFocusNode,
                 // autofocus: true,
                 maxLines: 2,
                 decoration: InputDecoration(
@@ -88,41 +87,43 @@ class CommentTextField extends StatelessWidget {
                 ),
                 mentions: [
                   Mention(
-                      trigger: "@",
-                      data: Get.find<FriendController>().mentionsList,
-                      // data: postReactionController.mentionUserList,
-                      style: semiBold14TextStyle(cPrimaryColor),
-                      suggestionBuilder: (data) {
-                        ll(data);
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: k4Padding),
-                          child: Container(
-                            color: cWhiteColor,
-                            child: Row(
-                              children: [
-                                // ClipOval(
-                                //   child: Container(
-                                //     width: 30,
-                                //     height: 30,
-                                //     decoration: const BoxDecoration(
-                                //       shape: BoxShape.circle,
-                                //     ),
-                                //     child: Image.network(data["photo"]),
-                                //   ),
-                                // ),
-                                kW12sizedBox,
-                                Text(
-                                  data["full_name"],
-                                  style: semiBold14TextStyle(cBlackColor),
-                                ),
-                              ],
-                            ),
+                    disableMarkup: false,
+                    trigger: "@",
+                    data: Get.find<FriendController>().mentionsList,
+                    markupBuilder: (trigger, mention, value) {
+                      return '@[$value]($mention)';
+                    },
+                    style: semiBold14TextStyle(cPrimaryColor),
+                    suggestionBuilder: (data) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: k4Padding),
+                        child: Container(
+                          color: cWhiteColor,
+                          child: Row(
+                            children: [
+                              // ClipOval(
+                              //   child: Container(
+                              //     width: 30,
+                              //     height: 30,
+                              //     decoration: const BoxDecoration(
+                              //       shape: BoxShape.circle,
+                              //     ),
+                              //     child: Image.network(data["photo"]),
+                              //   ),
+                              // ),
+                              kW12sizedBox,
+                              Text(
+                                data["full_name"],
+                                style: semiBold14TextStyle(cBlackColor),
+                              ),
+                            ],
                           ),
-                        );
-                      }),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
-
               // CustomModifiedTextField(
               //   controller: postReactionController.commentTextEditingController,
               //   focusNode: postReactionController.commentFocusNode,
@@ -204,13 +205,6 @@ class CommentTextField extends StatelessWidget {
                               ),
                   ),
                   kW16sizedBox,
-                  // InkWell(
-                  //   onTap: onPressEmoji,
-                  //   child: const Icon(
-                  //     BipHip.emojiOutline,
-                  //     color: cIconColor,
-                  //   ),
-                  // ),
                   const Spacer(),
                   InkWell(
                     onTap: onPressedSend,

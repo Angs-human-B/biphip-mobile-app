@@ -97,6 +97,7 @@ class CommentWidget extends StatelessWidget {
                           overflow: TextOverflow.clip,
                           style: regular14TextStyle(cBlackColor),
                         ),
+                      
                       if (isLink)
                         Text(
                           commentLink ?? '',

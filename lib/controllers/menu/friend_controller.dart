@@ -45,7 +45,7 @@ class FriendController extends GetxController {
         for (var friend in friendList) {
           Map<String, dynamic> friendMap = {
             'id': friend.id.toString(),
-            'display': friend.firstName,
+            'display': friend.fullName,
             'full_name': friend.fullName,
             'photo': friend.profilePicture,
           };

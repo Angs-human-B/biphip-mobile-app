@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/models/post/post_comment_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PostReactionController extends GetxController with GetSingleTickerProviderStateMixin {
@@ -292,6 +293,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         'ref_type': refType.toString(),
         'ref_id': refId.toString(),
         'comment': commentTextEditingController.text.toString().trim(),
+        'mention_user_ids': mentionList.join(','),
       };
       var response;
       if (isCommentImageChanged.value != true) {
@@ -314,6 +316,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       if (response.success == true) {
         unfocus(context);
         commentTextEditingController.clear();
+        mentionList.clear();
         isCommentImageChanged.value = false;
         commentImageLink.value = "";
         commentImageFile.value = File("");
@@ -764,6 +767,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final FocusNode commentFocusNode = FocusNode();
   final FocusNode replyFocusNode = FocusNode();
+  final GlobalKey<FlutterMentionsState> mentionKey = GlobalKey<FlutterMentionsState>();
+  final RxList mentionList = RxList([]);
+  final RxString mentionUserName = RxString("");
+  final RxString mentionUserId = RxString("");
 
   //!This mention user list is a temporary list. remove it asap
 
@@ -794,6 +801,109 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     },
   ];
 
+// Widget formatMentions(String text,BuildContext context) {
+//  // Define a regex pattern to match mentions
+//  final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
+
+//  // Split the text into parts based on the mention pattern
+//  final parts = text.split(mentionPattern);
+
+//  // Create a list to hold the TextSpans
+//  List<TextSpan> spans = [];
+
+//  // Iterate over the parts and create TextSpans
+//  for (var i = 0; i < parts.length; i++) {
+//     // If the part is a mention, style it differently
+//     if (mentionPattern.hasMatch(parts[i])) {
+//       // Extract the username from the mention
+//       final match = mentionPattern.firstMatch(parts[i])!;
+//       final username = match.group(1)!;
+
+//       // Create a TextSpan for the mention with blue color
+//       spans.add(TextSpan(
+//         text: username,
+//         style: TextStyle(color: Colors.blue),
+//       ));
+//     } else {
+//       // If the part is not a mention, add it as is
+//       spans.add(TextSpan(text: parts[i]));
+//     }
+//  }
+
+//  // Return a RichText widget with the styled text
+//  return RichText(
+//     text: TextSpan(
+//       style: DefaultTextStyle.of(context).style,
+//       children: spans,
+//     ),
+//  );
+// }
+
+  String formatMentions(String text) {
+    // Define a regex pattern to match mentions
+    final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
+
+    // Use replaceAllMapped to replace mentions with just the username
+    String formattedText = text.replaceAllMapped(mentionPattern, (match) {
+      // Extract the username from the match
+      String username = match.group(1)!;
+      return username;
+    });
+    return formattedText;
+  }
+  // String formattedText = "";
+  // String formatMentionsForDisplay(String text) {
+  //   // Define a regex pattern to match mentions
+  //   final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
+
+  //   // Use replaceAllMapped to replace mentions with a placeholder that can be styled later
+  //   formattedText = text.replaceAllMapped(mentionPattern, (match) {
+  //     // Extract the username from the match
+  //     String username = match.group(1)!;
+  //     // Return a placeholder that can be styled later
+  //     return username;
+  //   });
+  //   return formattedText;
+  // }
+
+// Widget formatMentions(String text,context) {
+//  // Define a regex pattern to match mentions
+//  final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
+
+//  // Split the text into parts based on the mention pattern
+//  final parts = text.split(mentionPattern);
+
+//  // Create a list to hold the TextSpans
+//  List<TextSpan> spans = [];
+
+//  // Iterate over the parts and create TextSpans
+//  for (var i = 0; i < parts.length; i++) {
+//     // If the part is a mention, style it differently
+//     if (mentionPattern.hasMatch(parts[i])) {
+//       // Extract the username from the mention
+//       final match = mentionPattern.firstMatch(parts[i])!;
+//       final username = match.group(1)!;
+
+//       // Create a TextSpan for the mention with blue color
+//       spans.add(TextSpan(
+//         text: username,
+//         style: TextStyle(color: Colors.blue),
+//       ));
+//     } else {
+//       // If the part is not a mention, add it as is
+//       spans.add(TextSpan(text: parts[i]));
+//     }
+//  }
+
+//  // Return a RichText widget with the styled text
+//  return RichText(
+//     text: TextSpan(
+//       style: DefaultTextStyle.of(context).style,
+//       children: spans,
+//     ),
+//  );
+// }
+
   void resetCommentAndReplyData() {
     commentTextEditingController.clear();
     isCommentImageChanged.value = false;
@@ -815,5 +925,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     isReplyTextFieldShow.value = false;
     commentImage.value = "";
     replyImage.value = "";
+    mentionList.clear();
   }
 }
