@@ -53,13 +53,13 @@ class CommentWidget extends StatelessWidget {
         InkWell(
           onTap: profileOnPressed,
           child: Container(
-            height: 32,
-            width: 32,
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
               child: Image.network(
                 profileImage,
                 fit: BoxFit.cover,
+                width: h32,
+                height: h32,
                 errorBuilder: (context, error, stackTrace) => const Icon(
                   BipHip.user,
                   size: kIconSize16,
@@ -315,13 +315,13 @@ class ReplyCommentWidget extends StatelessWidget {
         InkWell(
           onTap: profileOnPressed,
           child: Container(
-            height: 32,
-            width: 32,
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
               child: Image.network(
                 profileImage,
                 fit: BoxFit.cover,
+                width: h32,
+                height: h32,
                 errorBuilder: (context, error, stackTrace) => const Icon(
                   BipHip.user,
                   size: kIconSize30,
