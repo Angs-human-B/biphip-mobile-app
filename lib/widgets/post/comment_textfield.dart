@@ -36,11 +36,8 @@ class CommentTextField extends StatelessWidget {
                 maxLines: 2,
                 decoration: InputDecoration(
                   errorStyle: regular12TextStyle(cRedColor),
-                  // isDense: true,
-                  // filled: true,
                   prefixIconConstraints: const BoxConstraints(),
                   suffixIconConstraints: const BoxConstraints(),
-
                   fillColor: cGreyBoxColor,
                   alignLabelWithHint: true,
                   hintText: ksWriteAComment.tr,

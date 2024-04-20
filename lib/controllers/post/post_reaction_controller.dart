@@ -779,10 +779,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxList replyMentionList = RxList([]);
 
   Widget formatMentions(String text, BuildContext context) {
-    // Define a regex pattern to match mentions
     final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
 
-    // Find all matches of the mention pattern in the text
     final Iterable<RegExpMatch> matches = mentionPattern.allMatches(text);
 
     // Create a list to hold the TextSpans
@@ -804,19 +802,14 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       // Add the mention as a TextSpan with blue color
       spans.add(TextSpan(
         text: username,
-        style: TextStyle(color: Colors.blue),
+        style: semiBold14TextStyle(cPrimaryColor),
       ));
-
-      // Update the start index for the next text span
       startIndex = match.end;
     }
-
-    // Add the remaining text after the last mention
     if (startIndex < text.length) {
       spans.add(TextSpan(text: text.substring(startIndex)));
     }
 
-    // Return a RichText widget with the styled text
     return RichText(
       text: TextSpan(
         style: DefaultTextStyle.of(context).style,

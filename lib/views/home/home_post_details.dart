@@ -1015,8 +1015,11 @@ class CommentBottomSheetContent extends StatelessWidget {
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
                           postReactionController.isReplyTextFieldShow.value = false;
                           postReactionController.isUpdateComment.value = true;
+
                           postReactionController.commentTextEditingController.text =
                               postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
+                          postReactionController.commentMentionKey.currentState!.controller!.text =
+                              postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment!;
                           if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
                             postReactionController.commentImage.value =
                                 postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
@@ -1036,9 +1039,9 @@ class CommentBottomSheetContent extends StatelessWidget {
                           postReactionController.commentTextEditingController.text = "";
                           postReactionController.replyFocusNode.requestFocus();
                         }
-                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                          await postReactionController.deleteComment();
-                        }
+                        // if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                        //   await postReactionController.deleteComment();
+                        // }
                         if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           await postReactionController.hideComment();
                         }

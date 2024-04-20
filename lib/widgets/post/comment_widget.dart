@@ -206,48 +206,49 @@ class CommentWidget extends StatelessWidget {
               kH4sizedBox,
               // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
               if (replyList != [])
-                SizedBox(
-                  width: width - 80,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: replyList.length,
-                      itemBuilder: (context, index) {
-                        var item = replyList;
-                        return InkWell(
-                          onTap: () {
-                            Get.find<PostReactionController>().replyId.value = item[index].id!;
-                            Get.find<PostReactionController>().selectedReplyIndex.value = index;
-                            Get.find<PostReactionController>().commentId.value = commentId!;
-                            Get.find<GlobalController>().commonBottomSheet(
-                                context: context,
-                                bottomSheetHeight: height * 0.4,
-                                content: ReplyBottomSheetContent(),
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {},
-                                rightText: "",
-                                rightTextStyle: regular10TextStyle(cWhiteColor),
-                                title: "",
-                                isRightButtonShow: false);
+                // SizedBox(
+                // width: width - 80,
+                // child: ListView.builder(
+                // shrinkWrap: true,
+                // itemCount: replyList.length,
+                // itemBuilder: (context, index) {
+                for (int index = 0; index < replyList.length; index++)
+                  // var item = replyList;
+                  InkWell(
+                    onTap: () {
+                      Get.find<PostReactionController>().replyId.value = replyList[index].id!;
+                      Get.find<PostReactionController>().selectedReplyIndex.value = index;
+                      Get.find<PostReactionController>().commentId.value = commentId!;
+                      Get.find<GlobalController>().commonBottomSheet(
+                          context: context,
+                          bottomSheetHeight: height * 0.4,
+                          content: ReplyBottomSheetContent(),
+                          onPressCloseButton: () {
+                            Get.back();
                           },
-                          child: ReplyCommentWidget(
-                            profileImage: item[index].user?.profilePicture ?? "",
-                            timePassed: Get.find<HomeController>().postTimeDifference(item[index].createdAt),
-                            isLikeButtonShown: true,
-                            isReplyButtonShown: true,
-                            isReactButtonShown: true,
-                            isLink: false,
-                            reactCount: 2,
-                            userName: item[index].user?.fullName ?? ksNA.tr,
-                            isImageComment: item[index].image != null ? true : false,
-                            comment: Get.find<PostReactionController>().formatMentions(item[index].reply ?? "", context),
-                            commentLink: "",
-                            image: item[index].image,
-                          ),
-                        );
-                      }),
-                ),
+                          onPressRightButton: () {},
+                          rightText: "",
+                          rightTextStyle: regular10TextStyle(cWhiteColor),
+                          title: "",
+                          isRightButtonShow: false);
+                    },
+                    child: ReplyCommentWidget(
+                      profileImage: replyList[index].user?.profilePicture ?? "",
+                      timePassed: Get.find<HomeController>().postTimeDifference(replyList[index].createdAt),
+                      isLikeButtonShown: true,
+                      isReplyButtonShown: true,
+                      isReactButtonShown: true,
+                      isLink: false,
+                      reactCount: 2,
+                      userName: replyList[index].user?.fullName ?? ksNA.tr,
+                      isImageComment: replyList[index].image != null ? true : false,
+                      comment: Get.find<PostReactionController>().formatMentions(replyList[index].reply ?? "", context),
+                      commentLink: "",
+                      image: replyList[index].image,
+                    ),
+                    // );
+                    // }),
+                  ),
               kH8sizedBox,
               if (Get.find<PostReactionController>().commentId.value == commentId && Get.find<PostReactionController>().isReplyTextFieldShow.value)
                 SizedBox(
