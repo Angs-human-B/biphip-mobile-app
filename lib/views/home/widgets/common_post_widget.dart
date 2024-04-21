@@ -691,32 +691,26 @@ class CommonPostWidget extends StatelessWidget {
             commentOnPressed: () async {
               showComment.value = !showComment.value;
               postReactionController.resetCommentAndReplyData();
-              for (int i = 0; i < Get.find<HomeController>().allPostList.length; i++) {
-                if (postIndex == i) {
-                  var item = Get.find<HomeController>().allPostList[i];
-                  postReactionController.userId.value = item.user!.id!;
-                  postReactionController.postId.value = item.id!;
-                  Get.to(() => HomePostDetails(
-                        postIndex: postIndex,
-                        images: item.images,
-                        userName: item.user?.fullName,
-                        userImage: item.user?.profilePicture,
-                        postTime: item.createdAt,
-                        refId: item.id!,
-                        // category: item.postCategory?.name ?? null,
-                        category: item.postCategory == null ? null : item.postCategory?.name ?? "",
-                        categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id),
-                        categoryIconColor: item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id),
-                        kidName: item.kid?.name,
-                        kidAge: item.kid?.age.toString(),
-                        brandName: item.store == null ? null : item.store!.name,
-                        secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                        title: item.title,
-                        postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '',
-                      ));
-                }
-              }
-              postReactionController.refId.value = refId;
+              Get.to(() => HomePostDetails(
+                    postIndex: postIndex,
+                    images: mediaList,
+                    userName: userName,
+                    userImage: userImage,
+                    postTime: postTime,
+                    refId: refId,
+                    category: category == null ? null : category ?? "",
+                    categoryIcon: categoryIcon,
+                    categoryIconColor: categoryIconColor,
+                    kidName: kidName,
+                    kidAge: kidAge,
+                    brandName: brandName,
+                    secondaryImage: secondaryImage,
+                    title: title,
+                    postText: postText,
+                  ));
+              // }
+              // }
+              postReactionController.refId.value = postID;
               await postReactionController.getCommentList(1, refId);
               await Get.find<FriendController>().getFriendList();
             },

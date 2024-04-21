@@ -16,6 +16,7 @@ import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -64,6 +65,13 @@ class KidPostWidget extends StatelessWidget {
     this.postIndex = 0,
     this.refType = 0,
     this.refId = 0,
+    this.selfReaction,
+    this.onLikePressed,
+    this.onLovePressed,
+    this.onWowPressed,
+    this.onHahaPressed,
+    this.onSadPressed,
+    this.onAngryPressed,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -85,7 +93,8 @@ class KidPostWidget extends StatelessWidget {
       platformName,
       platformLink,
       actionName,
-      secondaryImage;
+      secondaryImage,
+      selfReaction;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -97,6 +106,7 @@ class KidPostWidget extends StatelessWidget {
   final int refType;
   final int refId;
   final VoidCallback? postUpperContainerOnPressed;
+  final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
 
   final HomeController homeController = Get.find<HomeController>();
 
@@ -378,7 +388,7 @@ class KidPostWidget extends StatelessWidget {
                             await Get.find<HomeController>().getPostData(postID);
                           } else {
                             Get.to(() => CommonPhotoView(
-                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  image: mediaList[0].fullPath.toString(),
                                   postIndex: postIndex,
                                 ));
                           }
@@ -390,7 +400,7 @@ class KidPostWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
-                              mediaList[0].toString(),
+                              mediaList[0].fullPath.toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -425,7 +435,7 @@ class KidPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].toString(),
+                                mediaList[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -464,7 +474,7 @@ class KidPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].toString(),
+                                mediaList[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -499,7 +509,7 @@ class KidPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[2].toString(),
+                                mediaList[2].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -532,7 +542,7 @@ class KidPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[3].toString(),
+                                mediaList[3].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -570,7 +580,7 @@ class KidPostWidget extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      mediaList[4].toString(),
+                                      mediaList[4].fullPath.toString(),
                                       fit: BoxFit.cover,
                                       color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
                                       colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
@@ -795,6 +805,13 @@ class KidPostBottomSection extends StatelessWidget {
             horizontal: kHorizontalPadding,
           ),
           child: LikeSectionWidget(
+            //   selfReaction: selfReaction,
+            // onAngryPressed: onAngryPressed,
+            // onHahaPressed: onHahaPressed,
+            // onLikePressed: onLikePressed,
+            // onLovePressed: onLovePressed,
+            // onSadPressed: onSadPressed,
+            // onWowPressed: onWowPressed,
             postIndex: postIndex,
             isGiftShown: true,
             likeOnTap: () {},
@@ -834,7 +851,7 @@ class KidPostBottomSection extends StatelessWidget {
                         images: item.images,
                         userName: item.user?.fullName,
                         userImage: item.user?.profilePicture,
-                        postTime: item.createdAt,
+                        postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                         refId: item.id!,
                         // category: item.postCategory?.name ?? null,
                         category: item.postCategory == null ? null : item.postCategory?.name ?? "",

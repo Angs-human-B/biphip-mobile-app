@@ -8,6 +8,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:intl/intl.dart';
 
 class PostTab extends StatelessWidget {
@@ -62,7 +63,6 @@ class PostTab extends StatelessWidget {
                 ),
               ),
             ),
-           
             kH12sizedBox,
             Container(
               color: cWhiteColor,
@@ -120,7 +120,6 @@ class PostTab extends StatelessWidget {
                 ],
               ),
             ),
-           
             kH12sizedBox,
             ListView.separated(
                 shrinkWrap: true,
@@ -158,10 +157,34 @@ class PostTab extends StatelessWidget {
                       isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
                       userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
                       reactCount: item.countReactions,
+                      onAngryPressed: (Reaction<String>? reaction) {
+                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
+                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
+                      },
+                      onHahaPressed: (Reaction<String>? reaction) {
+                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
+                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
+                      },
+                      onLikePressed: (Reaction<String>? reaction) {
+                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
+                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
+                      },
+                      onLovePressed: (Reaction<String>? reaction) {
+                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
+                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
+                      },
+                      onSadPressed: (Reaction<String>? reaction) {
+                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
+                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
+                      },
+                      onWowPressed: (Reaction<String>? reaction) {
+                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
+                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
+                      },
+                      selfReaction: item.myReaction,
                     ),
                   );
                 }),
-            
             if (homeController.allTimelinePostList.isNotEmpty &&
                 homeController.timelinePostListScrolled.value &&
                 homeController.timelinePostListSubLink.value != null)

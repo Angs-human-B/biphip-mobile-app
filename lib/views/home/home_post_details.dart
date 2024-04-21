@@ -33,9 +33,8 @@ class HomePostDetails extends StatelessWidget {
       this.refId = 0});
   final int postIndex;
   final int refId;
-  final String? userName;
+  final String? userName, postTime;
   final String? userImage;
-  final DateTime? postTime;
   final String? category;
   final IconData? categoryIcon;
   final Color? categoryIconColor;
@@ -125,7 +124,7 @@ class HomePostDetails extends StatelessWidget {
                                       userName: userName ?? ksNA.tr,
                                       isCategorized: false,
                                       privacy: BipHip.world,
-                                      postTime: homeController.postTimeDifference(postTime ?? DateTime.now()),
+                                      postTime: postTime!,
                                       userImage: userImage ?? "",
                                       category: category,
                                       categoryIcon: categoryIcon,
