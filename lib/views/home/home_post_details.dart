@@ -504,10 +504,11 @@ class PostDetailsBottomSection extends StatelessWidget {
                 onPressedSend: postReactionController.isCommentSendEnable.value
                     ? () async {
                         if (postReactionController.isUpdateComment.value) {
-                          await Get.find<PostReactionController>().updateComment(context);
+                          await postReactionController.updateComment(context);
+                          postReactionController.commentMentionKey.currentState!.controller!.text = "";
                         } else {
-                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
-                          Get.find<PostReactionController>().commentMentionKey.currentState!.controller!.text = "";
+                          await postReactionController.postComment(1, postReactionController.refId.value, context);
+                          postReactionController.commentMentionKey.currentState!.controller!.text = "";
                         }
                       }
                     : null,
@@ -926,7 +927,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                       ),
                     ),
                   ),
-         
+
          
           //   ));
           // },

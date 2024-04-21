@@ -344,6 +344,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final Rx<PostCommentModel?> commentListData = Rx<PostCommentModel?>(null);
   final RxList<CommentData> commentList = RxList<CommentData>([]);
   final RxBool isCommentLoading = RxBool(false);
+  final Rx<String?> getCommentSubLink = Rx<String?>(null);
+  final RxBool getCommentScrolled = RxBool(false);
   Future<void> getCommentList(int refType, int refId) async {
     try {
       isCommentLoading.value = true;
@@ -351,13 +353,20 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuGetComment?ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=20",
+        url: "$kuGetComment?ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=5",
       ) as CommonDM;
       if (response.success == true) {
         commentList.clear();
+        getCommentScrolled.value = false;
         commentListData.value = PostCommentModel.fromJson(response.data);
         commentList.addAll(commentListData.value!.comments!.data);
         // ll("123 ${commentList.length}");
+        getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
+        if (getCommentSubLink.value != null) {
+          getCommentScrolled.value = false;
+        } else {
+          getCommentScrolled.value = true;
+        }
         isCommentLoading.value = false;
       } else {
         isCommentLoading.value = true;
@@ -371,6 +380,52 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     } catch (e) {
       isCommentLoading.value = true;
       ll('getCommentList error: $e');
+    }
+  }
+
+  //*Get More Friend List for pagination
+  Future<void> getMoreCommentList(take, int refType, int refId) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic commentListSub;
+      if (commentListSub.value == null) {
+        return;
+      } else {
+        commentListSub = getCommentSubLink.value!.split('?');
+      }
+
+      String commentListSuffixUrl = '';
+
+      commentListSuffixUrl = '?${commentListSub[1]}&ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=5';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendList + commentListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        commentListData.value = PostCommentModel.fromJson(response.data);
+        commentList.addAll(commentListData.value!.comments!.data);
+        getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
+        if (getCommentSubLink.value != null) {
+          getCommentScrolled.value = false;
+        } else {
+          getCommentScrolled.value = true;
+        }
+        isCommentLoading.value = false;
+      } else {
+        isCommentLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCommentLoading.value = true;
+      ll('getMoreCommentList error: $e');
     }
   }
 
