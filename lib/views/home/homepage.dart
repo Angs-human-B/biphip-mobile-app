@@ -14,6 +14,7 @@ import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -394,6 +395,31 @@ class HomePage extends StatelessWidget {
                                           isInStock: false,
                                           productCondition: 'New',
                                           productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                          onAngryPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
+                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onHahaPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
+                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onLikePressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
+                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onLovePressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
+                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onSadPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
+                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onWowPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
+                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          selfReaction: item.myReaction,
                                         ),
                                       );
                                     }),

@@ -15,6 +15,7 @@ import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -63,6 +64,13 @@ class CommonPostWidget extends StatelessWidget {
     this.postIndex = 0,
     this.refType = 0,
     this.refId = 0,
+    this.onLikePressed,
+    this.onLovePressed,
+    this.onWowPressed,
+    this.onHahaPressed,
+    this.onSadPressed,
+    this.onAngryPressed,
+    this.selfReaction,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -84,7 +92,8 @@ class CommonPostWidget extends StatelessWidget {
       platformName,
       platformLink,
       actionName,
-      secondaryImage;
+      secondaryImage,
+      selfReaction;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
@@ -96,7 +105,11 @@ class CommonPostWidget extends StatelessWidget {
   final int refType;
   final int refId;
   final VoidCallback? postUpperContainerOnPressed;
+  final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
   final HomeController homeController = Get.find<HomeController>();
+  final RxBool showComment = RxBool(false);
+  final GlobalController globalController = Get.find<GlobalController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -622,6 +635,98 @@ class CommonPostWidget extends StatelessWidget {
             actionName: actionName,
             actionOnPressed: isSelfPost ? null : () {},
           ),
+        if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+            child: PostActivityStatusWidget(
+              reactCount: reactCount,
+              reactionOnPressed: () {
+                postReactionController.giftFilter(0);
+                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+              },
+              giftCount: giftCount,
+              commentCount: commentCount,
+              shareCount: shareCount,
+              isGiftShown: true,
+              giftOnPressed: () {
+                postReactionController.giftFilter(0);
+                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+              },
+            ),
+          ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: kHorizontalPadding,
+          ),
+          child: LikeSectionWidget(
+            selfReaction: selfReaction,
+            onAngryPressed: onAngryPressed,
+            onHahaPressed: onHahaPressed,
+            onLikePressed: onLikePressed,
+            onLovePressed: onLovePressed,
+            onSadPressed: onSadPressed,
+            onWowPressed: onWowPressed,
+            postIndex: postIndex,
+            refType: refType,
+            refId: refId,
+            isGiftShown: true,
+            likeOnTap: () {},
+            giftOnPressed: () {
+              postReactionController.resetGiftData();
+              globalController.commonBottomSheet(
+                context: context,
+                content: GiftContent(),
+                isScrollControlled: true,
+                bottomSheetHeight: height * .9,
+                onPressCloseButton: () {
+                  Get.back();
+                },
+                onPressRightButton: null,
+                rightText: '',
+                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                title: ksSendGift.tr,
+                isRightButtonShow: false,
+              );
+            },
+            commentOnPressed: () async {
+              showComment.value = !showComment.value;
+              postReactionController.resetCommentAndReplyData();
+              for (int i = 0; i < Get.find<HomeController>().allPostList.length; i++) {
+                if (postIndex == i) {
+                  var item = Get.find<HomeController>().allPostList[i];
+                  postReactionController.userId.value = item.user!.id!;
+                  postReactionController.postId.value = item.id!;
+                  Get.to(() => HomePostDetails(
+                        postIndex: postIndex,
+                        images: item.images,
+                        userName: item.user?.fullName,
+                        userImage: item.user?.profilePicture,
+                        postTime: item.createdAt,
+                        refId: item.id!,
+                        // category: item.postCategory?.name ?? null,
+                        category: item.postCategory == null ? null : item.postCategory?.name ?? "",
+                        categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id),
+                        categoryIconColor: item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id),
+                        kidName: item.kid?.name,
+                        kidAge: item.kid?.age.toString(),
+                        brandName: item.store == null ? null : item.store!.name,
+                        secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                        title: item.title,
+                        postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '',
+                      ));
+                }
+              }
+              postReactionController.refId.value = refId;
+              await postReactionController.getCommentList(1, refId);
+              await Get.find<FriendController>().getFriendList();
+            },
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomDivider(),
+        ),
+        kH12sizedBox,
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
     );
@@ -649,7 +754,6 @@ class PostBottomSection extends StatelessWidget {
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
-  final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
   final int postIndex;
   final int refType;
@@ -769,126 +873,6 @@ class PostBottomSection extends StatelessWidget {
               isPlaceBid: true,
             ),
           ),
-        if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
-          Padding(
-            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-            child: PostActivityStatusWidget(
-              reactCount: reactCount,
-              reactionOnPressed: () {
-                postReactionController.giftFilter(0);
-                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
-              giftCount: giftCount,
-              commentCount: commentCount,
-              shareCount: shareCount,
-              isGiftShown: true,
-              giftOnPressed: () {
-                postReactionController.giftFilter(0);
-                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
-            ),
-          ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizontalPadding,
-          ),
-          child: LikeSectionWidget(
-            postIndex: postIndex,
-            refType: refType,
-            refId: refId,
-            isGiftShown: true,
-            likeOnTap: () {},
-            giftOnPressed: () {
-              postReactionController.resetGiftData();
-              globalController.commonBottomSheet(
-                context: context,
-                content: GiftContent(),
-                isScrollControlled: true,
-                bottomSheetHeight: height * .9,
-                onPressCloseButton: () {
-                  Get.back();
-                },
-                onPressRightButton: null,
-                rightText: '',
-                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                title: ksSendGift.tr,
-                isRightButtonShow: false,
-              );
-            },
-            commentOnPressed: () async {
-              showComment.value = !showComment.value;
-              postReactionController.resetCommentAndReplyData();
-              for (int i = 0; i < Get.find<HomeController>().allPostList.length; i++) {
-                if (postIndex == i) {
-                  var item = Get.find<HomeController>().allPostList[i];
-                  postReactionController.userId.value = item.user!.id!;
-                  postReactionController.postId.value = item.id!;
-                  Get.to(() => HomePostDetails(
-                        postIndex: postIndex,
-                        images: item.images,
-                        userName: item.user?.fullName,
-                        userImage: item.user?.profilePicture,
-                        postTime: item.createdAt,
-                        refId: item.id!,
-                        // category: item.postCategory?.name ?? null,
-                        category: item.postCategory == null ? null : item.postCategory?.name ?? "",
-                        categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id),
-                        categoryIconColor: item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id),
-                        kidName: item.kid?.name,
-                        kidAge: item.kid?.age.toString(),
-                        brandName: item.store == null ? null : item.store!.name,
-                        secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                        title: item.title,
-                        postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '',
-                      ));
-                }
-              }
-              // if (showComment.value) {
-              // }
-
-              postReactionController.refId.value = refId;
-              // await Get.find<HomeController>().getPostData(refId);
-              await postReactionController.getCommentList(1, refId);
-              await Get.find<FriendController>().getFriendList();
-              ll(showComment);
-            },
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: CustomDivider(),
-        ),
-        kH12sizedBox,
-        // if (isCommentShown && showComment.value)
-        // ListView.separated(
-        //     shrinkWrap: true,
-        //     itemBuilder: (context, index) {
-        //       return Padding(
-        //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        //         child: CommentWidget(
-        //           profileImage: kiDummyImage3ImageUrl,
-        //           comment:ksNA.tr,
-        //           timePassed: '30',
-        //           isLikeButtonShown: true,
-        //           commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-        //           isReplyButtonShown: true,
-        //           isReactButtonShown: true,
-        //           isImageComment: true,
-        //           image: kiDummyImage3ImageUrl,
-        //           isLink: false,
-        //           reactCount: 1234,
-        //           userName: "Wahid Murad",
-        //           isSendMessageShown: false,
-        //           isHideButtonShown: true,
-        //           replyList: replyComment,
-        //           refType: refType,
-        //           refId: refId,
-        //         ),
-        //         // ),
-        //       );
-        //     },
-        //     separatorBuilder: (context, index) => kH4sizedBox,
-        //     itemCount: postReactionController.commentList.length),
       ],
     );
   }
