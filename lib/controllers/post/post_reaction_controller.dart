@@ -249,14 +249,14 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //* post Reaction API Implementation
   final RxBool isPostReactionLoading = RxBool(false);
-  Future<void> postReaction(int refType, int refId) async {
+  Future<void> postReaction(int refType, int refId, reaction) async {
     try {
       isPostReactionLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         'ref_type': refType.toString(),
         'ref_id': refId.toString(),
-        'reaction': selectedReactionText.value.toString().toLowerCase(),
+        'reaction': reaction.toString().toLowerCase(),
       };
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
@@ -343,6 +343,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //   //*get Comment Api Call
   final Rx<PostCommentModel?> commentListData = Rx<PostCommentModel?>(null);
   final RxList<CommentData> commentList = RxList<CommentData>([]);
+  final List<Map<String, dynamic>> commentReactions = [];
+  final RxInt commentIndex = RxInt(-1);
   final RxBool isCommentLoading = RxBool(false);
   Future<void> getCommentList(int refType, int refId) async {
     try {
