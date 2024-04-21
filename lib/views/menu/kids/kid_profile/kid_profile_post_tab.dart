@@ -3,8 +3,8 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/common_feature_post_widget.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/kid_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
@@ -213,9 +213,12 @@ class KidProfilePostSection extends StatelessWidget {
                 return Container(
                   color: cWhiteColor,
                   width: width,
-                  child: CommonPostWidget(
+                  child: KidPostWidget(
                     isCommented: index % 2 == 0,
                     isLiked: index % 2 != 0,
+                    postIndex: index,
+                    refType: 1,
+                    refId: item.id!,
                     isSharedPost: false,
                     showBottomSection: true,
                     userName: item.user!.fullName!,
@@ -233,8 +236,6 @@ class KidProfilePostSection extends StatelessWidget {
                     title: item.title, //API
                     postText: item.content ?? '', //API
                     price: null, //API
-
-                    // mediaList: item.imageUrls, //API
                     mediaList: item.images ?? [],
                     isSelfPost: true,
                     isInStock: true,
