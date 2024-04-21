@@ -151,7 +151,6 @@ class PostTab extends StatelessWidget {
                       title: item.title, //API
                       postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                       price: null, //API
-
                       // mediaList: item.imageUrls, //API
                       mediaList: item.images,
                       isSelfPost: true,

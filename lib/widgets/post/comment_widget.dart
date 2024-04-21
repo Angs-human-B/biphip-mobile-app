@@ -5,6 +5,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:bip_hip/widgets/post/reply_textfield.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CommentWidget extends StatelessWidget {
   const CommentWidget(
@@ -31,18 +33,24 @@ class CommentWidget extends StatelessWidget {
       required this.isImageComment,
       this.refType = 0,
       this.refId = 0,
-      this.commentId});
+      this.commentId,
+      this.selfReaction,
+      this.onLikePressed,
+      this.onLovePressed,
+      this.onWowPressed,
+      this.onHahaPressed,
+      this.onSadPressed,
+      this.onAngryPressed,
+      this.commentOnPressed});
   final String profileImage, userName;
-  final String? commentLink, image, timePassed;
+  final String? commentLink, image, timePassed, selfReaction;
   final dynamic comment;
-
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink, isSendMessageShown, isHideButtonShown;
-  final int reactCount;
-  final int refType;
-  final int refId;
+  final int reactCount, refId, refType;
   final List replyList;
   final int? commentId;
-  final VoidCallback? likeButtonOnPressed, replyButtonOnPressed, sendMessageOnPressed, hideButtonOnPressed, profileOnPressed;
+  final VoidCallback? likeButtonOnPressed, replyButtonOnPressed, sendMessageOnPressed, hideButtonOnPressed, profileOnPressed, commentOnPressed;
+  final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -71,42 +79,49 @@ class CommentWidget extends StatelessWidget {
           ),
         ),
         kW8sizedBox,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: width - 80,
-              decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
-              child: Padding(
-                padding: const EdgeInsets.all(k10Padding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: profileOnPressed,
-                      child: Text(
-                        userName,
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-                    ),
-                    kH8sizedBox,
-                    // if (comment != null)
-                    comment is String
-                        ? Text(
-                            comment ?? '',
-                            overflow: TextOverflow.clip,
-                            style: regular14TextStyle(cBlackColor),
-                          )
-                        : comment,
+        Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InkWell(
+                borderRadius: k8CircularBorderRadius,
+                onTap: commentOnPressed,
+                child: Container(
+                  width: width - 80,
+                  decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
+                  child: Padding(
+                    padding: const EdgeInsets.all(k10Padding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        InkWell(
+                          onTap: profileOnPressed,
+                          child: Text(
+                            userName,
+                            style: semiBold14TextStyle(cBlackColor),
+                          ),
+                        ),
+                        kH8sizedBox,
+                        // if (comment != null)
+                        comment is String
+                            ? Text(
+                                comment ?? '',
+                                overflow: TextOverflow.clip,
+                                style: regular14TextStyle(cBlackColor),
+                              )
+                            : comment,
 
-                    if (isLink)
-                      Text(
-                        commentLink ?? '',
-                        overflow: TextOverflow.clip,
-                        style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
-                      )
-                  ],
+                        if (isLink)
+                          Text(
+                            commentLink ?? '',
+                            overflow: TextOverflow.clip,
+                            style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+                          )
+                      ],
+                    ),
+                  ),
+
                 ),
               ),
             ),
@@ -148,26 +163,305 @@ class CommentWidget extends StatelessWidget {
                     // loadingBuilder: imageLoadingBuilder,
                   ),
                 ),
-              ),
-            if (timePassed != null)
-              SizedBox(
-                width: width - 80,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        '$timePassed',
-                        style: regular10TextStyle(cSmallBodyTextColor),
-                      ),
-                      kW16sizedBox,
-                      if (isLikeButtonShown)
-                        InkWell(
-                          onTap: likeButtonOnPressed,
-                          child: Text(
-                            ksLike.tr,
-                            style: regular10TextStyle(cSmallBodyTextColor),
+              if (timePassed != null)
+                SizedBox(
+                  width: width - 80,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          '$timePassed',
+                          style: regular10TextStyle(cSmallBodyTextColor),
+                        ),
+                        kW16sizedBox,
+                        if (isLikeButtonShown)
+                          Theme(
+                            data: ThemeData(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                            ),
+                            child: PopupMenuButton(
+                              padding: EdgeInsets.zero,
+                              offset: const Offset(0, -60),
+                              elevation: 1,
+                              onCanceled: () {},
+                              position: PopupMenuPosition.over,
+                              tooltip: '',
+                              itemBuilder: (context) => [
+                                PopupMenuItem<int>(
+                                  height: 25,
+                                  onTap: null,
+                                  value: 1,
+                                  padding: EdgeInsets.zero,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        InkWell(
+                                          splashFactory: InkRipple.splashFactory,
+                                          child: ReactionButton<String>(
+                                            itemSize: const Size.square(48),
+                                            onReactionChanged: onLovePressed!,
+                                            // postReactionController.commentIndex.value = commentIndex;
+                                            // Get.back();
+                                            // if (postReactionController.commentList[commentIndex].myReaction.toString().toLowerCase() == "Love".toLowerCase() ||
+                                            //     postReactionController.commentReactions[commentIndex]['reaction'].value.toString().toLowerCase() == "Love".toLowerCase()) {
+                                            //   postReactionController.selectedReactionText.value = "Love";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
+                                            //   postReactionController.reactions[postIndex]['state'].value = false;
+                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                                            // } else {
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = 'Love';
+                                            //   postReactionController.reactions[postIndex]['state'].value = true;
+                                            //   postReactionController.selectedReactionText.value = "Love";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            // }
+                                            // onLovePressed;
+                                            // },
+                                            reactions: <Reaction<String>>[
+                                              Reaction<String>(
+                                                value: 'love',
+                                                icon: SvgPicture.asset(
+                                                  kiLoveSvgImageUrl,
+                                                  width: 38,
+                                                ),
+                                              ),
+                                            ],
+                                            selectedReaction: Reaction<String>(
+                                              value: 'love',
+                                              icon: SvgPicture.asset(
+                                                kiLoveSvgImageUrl,
+                                                width: 38,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 4),
+                                        ),
+                                        InkWell(
+                                          splashFactory: InkRipple.splashFactory,
+                                          child: ReactionButton<String>(
+                                            animateBox: true,
+                                            boxAnimationDuration: const Duration(milliseconds: 500),
+                                            itemAnimationDuration: const Duration(milliseconds: 500),
+                                            itemSize: const Size.square(48),
+                                            onReactionChanged: onLikePressed!,
+                                            // onLikePressed;
+                                            // postReactionController.postIndex.value = postIndex;
+                                            // Get.back();
+                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Like".toLowerCase() ||
+                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Like".toLowerCase()) {
+                                            //   postReactionController.selectedReactionText.value = "Like";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                                            // } else {
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                            //   postReactionController.selectedReactionText.value = "Like";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            // }
+                                            // },
+                                            reactions: <Reaction<String>>[
+                                              Reaction<String>(
+                                                value: 'like',
+                                                icon: SvgPicture.asset(
+                                                  kiLikeSvgImageUrl,
+                                                  width: 38,
+                                                ),
+                                              ),
+                                            ],
+                                            selectedReaction: Reaction<String>(
+                                              value: 'like',
+                                              icon: SvgPicture.asset(
+                                                kiLikeSvgImageUrl,
+                                                width: 38,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 4),
+                                        ),
+                                        InkWell(
+                                          splashFactory: InkRipple.splashFactory,
+                                          child: ReactionButton<String>(
+                                            itemSize: const Size.square(48),
+                                            onReactionChanged: onHahaPressed!,
+                                            // postReactionController.postIndex.value = postIndex;
+                                            // Get.back();
+                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Haha".toLowerCase() ||
+                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Haha".toLowerCase()) {
+                                            //   postReactionController.selectedReactionText.value = "Haha";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                                            // } else {
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                            //   postReactionController.selectedReactionText.value = "Haha";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            // }
+                                            // },
+                                            reactions: <Reaction<String>>[
+                                              Reaction<String>(
+                                                value: 'haha',
+                                                icon: SvgPicture.asset(
+                                                  kiHahaSvgImageUrl,
+                                                  width: 38,
+                                                ),
+                                              ),
+                                            ],
+                                            selectedReaction: Reaction<String>(
+                                              value: 'haha',
+                                              icon: SvgPicture.asset(
+                                                kiHahaSvgImageUrl,
+                                                width: 38,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 4),
+                                        ),
+                                        InkWell(
+                                          splashFactory: InkRipple.splashFactory,
+                                          child: ReactionButton<String>(
+                                            itemSize: const Size.square(48),
+                                            onReactionChanged: onWowPressed!,
+                                            // postReactionController.postIndex.value = postIndex;
+                                            // Get.back();
+                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Wow".toLowerCase() ||
+                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Wow".toLowerCase()) {
+                                            //   postReactionController.selectedReactionText.value = "Wow";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                                            // } else {
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                            //   postReactionController.selectedReactionText.value = "Wow";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            // }
+                                            // },
+                                            reactions: <Reaction<String>>[
+                                              Reaction<String>(
+                                                value: 'wow',
+                                                icon: SvgPicture.asset(
+                                                  kiWowSvgImageUrl,
+                                                  width: 38,
+                                                ),
+                                              ),
+                                            ],
+                                            selectedReaction: Reaction<String>(
+                                              value: 'wow',
+                                              icon: SvgPicture.asset(
+                                                kiWowSvgImageUrl,
+                                                width: 38,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 4),
+                                        ),
+                                        InkWell(
+                                          splashFactory: InkRipple.splashFactory,
+                                          child: ReactionButton<String>(
+                                            itemSize: const Size.square(48),
+                                            onReactionChanged: onSadPressed!,
+                                            // postReactionController.postIndex.value = postIndex;
+                                            // Get.back();
+                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
+                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
+                                            //   postReactionController.selectedReactionText.value = "Sad";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                                            // } else {
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                            //   postReactionController.selectedReactionText.value = "Sad";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            // }
+                                            reactions: <Reaction<String>>[
+                                              Reaction<String>(
+                                                value: 'sad',
+                                                icon: SvgPicture.asset(
+                                                  kiSadSvgImageUrl,
+                                                  width: 38,
+                                                ),
+                                              ),
+                                            ],
+                                            selectedReaction: Reaction<String>(
+                                              value: 'sad',
+                                              icon: SvgPicture.asset(
+                                                kiSadSvgImageUrl,
+                                                width: 38,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 4),
+                                        ),
+                                        InkWell(
+                                          splashFactory: InkRipple.splashFactory,
+                                          child: ReactionButton<String>(
+                                            itemSize: const Size.square(48),
+                                            onReactionChanged: onAngryPressed!,
+                                            // postReactionController.postIndex.value = postIndex;
+                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Angry".toLowerCase() ||
+                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
+                                            //   postReactionController.selectedReactionText.value = "Angry";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
+                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
+                                            // } else {
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
+                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
+                                            //   postReactionController.selectedReactionText.value = "Angry";
+                                            //   await postReactionController.postReaction(refType, refId);
+                                            // }
+                                            reactions: <Reaction<String>>[
+                                              Reaction<String>(
+                                                value: 'angry',
+                                                icon: SvgPicture.asset(
+                                                  kiAngrySvgImageUrl,
+                                                  width: 38,
+                                                ),
+                                              ),
+                                            ],
+                                            selectedReaction: Reaction<String>(
+                                              value: 'angry',
+                                              icon: SvgPicture.asset(
+                                                kiAngrySvgImageUrl,
+                                                width: 38,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(180),
+                              ),
+                              child: Get.find<GlobalController>().getColoredCommentReaction(selfReaction),
+                            ),
+
                           ),
                         ),
                       kW16sizedBox,

@@ -310,6 +310,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
         // if (showBottomSection)
         PostDetailsBottomSection(
           postIndex: postIndex,
+          refType: 3,
           isCommentShown: true,
           isSelfPost: true,
           commentCount: 0,
