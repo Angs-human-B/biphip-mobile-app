@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/widgets/all_family_listview.dart';
 import 'package:bip_hip/views/menu/family/widgets/pending_family_listview.dart';
@@ -554,6 +555,70 @@ class GlobalController extends GetxController {
       return const SizedBox();
     }
   }
+
+  CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
+ void adjustReactionCount(String reaction, bool increment) {
+    if (countReaction == null) return; 
+
+    switch (reaction) {
+      case 'haha':
+        countReaction.haha = increment ? (countReaction.haha ?? 0) + 1 : (countReaction.haha ?? 0) - 1;
+        break;
+      case 'like':
+        countReaction.like = increment ? (countReaction.like ?? 0) + 1 : (countReaction.like ?? 0) - 1;
+        break;
+      case 'love':
+        countReaction.love = increment ? (countReaction.love ?? 0) + 1 : (countReaction.love ?? 0) - 1;
+        break;
+      case 'sad':
+        countReaction.sad = increment ? (countReaction.sad ?? 0) + 1 : (countReaction.sad ?? 0) - 1;
+        break;
+      case 'wow':
+        countReaction.wow = increment ? (countReaction.wow ?? 0) + 1 : (countReaction.wow ?? 0) - 1;
+        break;
+      case 'angry':
+        countReaction.angry = increment ? (countReaction.angry ?? 0) + 1 : (countReaction.angry ?? 0) - 1;
+        break;
+      default:
+        break;
+    }
+ }
+
+ if (countReaction == null) {
+    if (myReaction == null) {
+      return null;
+    } else {
+      adjustReactionCount(myReaction, true);
+      return countReaction; 
+    }
+ }
+
+ if (myReaction == null) {
+    adjustReactionCount(reaction, true);
+    countReaction.all = (countReaction.all ?? 0) + 1;
+ } else {
+    if (myReaction == reaction) {
+      adjustReactionCount(reaction, false);
+      countReaction.all = (countReaction.all ?? 0) - 1;
+      if (countReaction.all == 0) {
+        return null;
+      }
+    } else {
+
+      adjustReactionCount(myReaction, false);
+      adjustReactionCount(reaction, true);
+      countReaction.all = (countReaction.all ?? 0) - 1; 
+      countReaction.all = (countReaction.all ?? 0) + 1; 
+      if (countReaction.all == 0) {
+        return null; 
+      }
+    }
+ }
+
+ return countReaction;
+}
+
+
 
   //! end
 }

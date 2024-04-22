@@ -396,26 +396,32 @@ class HomePage extends StatelessWidget {
                                           productCondition: 'New',
                                           productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
                                           onAngryPressed: (Reaction<String>? reaction) {
+                                            item.countReactions = Get.find<GlobalController>().updateReaction("angry", item.myReaction, item.countReactions);
                                             item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
                                             homeController.allPostList.replaceRange(index, index + 1, [item]);
                                           },
                                           onHahaPressed: (Reaction<String>? reaction) {
+                                            item.countReactions = Get.find<GlobalController>().updateReaction("haha", item.myReaction, item.countReactions);
                                             item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
                                             homeController.allPostList.replaceRange(index, index + 1, [item]);
                                           },
                                           onLikePressed: (Reaction<String>? reaction) {
+                                            item.countReactions = Get.find<GlobalController>().updateReaction("like", item.myReaction, item.countReactions);
                                             item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
                                             homeController.allPostList.replaceRange(index, index + 1, [item]);
                                           },
                                           onLovePressed: (Reaction<String>? reaction) {
+                                            item.countReactions = Get.find<GlobalController>().updateReaction("love", item.myReaction, item.countReactions);
                                             item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
                                             homeController.allPostList.replaceRange(index, index + 1, [item]);
                                           },
                                           onSadPressed: (Reaction<String>? reaction) {
+                                            item.countReactions = Get.find<GlobalController>().updateReaction("sad", item.myReaction, item.countReactions);
                                             item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
                                             homeController.allPostList.replaceRange(index, index + 1, [item]);
                                           },
                                           onWowPressed: (Reaction<String>? reaction) {
+                                            item.countReactions = Get.find<GlobalController>().updateReaction("wow", item.myReaction, item.countReactions);
                                             item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
                                             homeController.allPostList.replaceRange(index, index + 1, [item]);
                                           },
