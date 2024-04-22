@@ -1357,7 +1357,7 @@ class StoreController extends GetxController {
 
       String postListSuffixUrl = '';
 
-      postListSuffixUrl = '?${postListSub[1]}&take=1&store_id=${selectedStoreId.value}';
+      postListSuffixUrl = '?${postListSub[1]}&take=15&store_id=${selectedStoreId.value}';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
