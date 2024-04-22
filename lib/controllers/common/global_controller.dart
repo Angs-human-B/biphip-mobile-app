@@ -512,7 +512,6 @@ class GlobalController extends GetxController {
   }
 
   Widget getColoredReactionIcon(String? myReaction) {
-    ll("REACT: $myReaction");
     if (myReaction == null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,

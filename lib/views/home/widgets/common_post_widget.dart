@@ -626,7 +626,6 @@ class CommonPostWidget extends StatelessWidget {
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
-            reactCount: reactCount,
             shareCount: shareCount,
             giftCount: giftCount,
             category: category,
@@ -746,7 +745,6 @@ class PostBottomSection extends StatelessWidget {
       this.platformLink,
       this.actionName,
       this.actionOnPressed,
-      this.reactCount,
       this.postIndex = 0,
       this.refType = 0,
       this.refId = 0});
@@ -758,7 +756,6 @@ class PostBottomSection extends StatelessWidget {
   final int postIndex;
   final int refType;
   final int refId;
-  final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
