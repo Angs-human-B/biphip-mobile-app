@@ -431,7 +431,7 @@ class StoreController extends GetxController {
     storeLegalPapersList.clear();
   }
   //!Store profile api call
-  
+
   //*store Overview Api call
   final Rx<StoreOverviewModel?> storeOverviewData = Rx<StoreOverviewModel?>(null);
   final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
@@ -1319,13 +1319,6 @@ class StoreController extends GetxController {
         postListScrolled.value = false;
         postListData.value = StorePostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts!.data);
-        //!Future should be changed
-        // for (int i = 0; i < postListData.value!.posts!.data.length; i++) {
-        //   Get.find<PostReactionController>().reactions.add({
-        //     'reaction': ''.obs,
-        //     'state': false.obs,
-        //   });
-        // }
         postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1377,13 +1370,6 @@ class StoreController extends GetxController {
       if (response.success == true) {
         postListData.value = StorePostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts!.data);
-        //!Future should be changed
-        // for (int i = 0; i < postListData.value!.posts.data.length; i++) {
-        //   Get.find<PostReactionController>().reactions.add({
-        //     'reaction': ''.obs,
-        //     'state': false.obs,
-        //   });
-        // }
         postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;

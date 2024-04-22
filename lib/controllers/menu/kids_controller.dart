@@ -861,7 +861,6 @@ class KidsController extends GetxController {
     }
   }
 
-  
   //* Get school list api implementation
   final List<String> schoolList = [];
   //* Get school list api implementation
@@ -1232,17 +1231,9 @@ class KidsController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
-        // Get.find<PostReactionController>().reactions.clear();
         postListScrolled.value = false;
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
-        // for (int i = 0; i < postListData.value!.posts!.data.length; i++) {
-        //   Get.find<PostReactionController>().reactions.add({
-        //     'reaction': ''.obs,
-        //     'state': false.obs,
-        //   });
-        // }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1294,13 +1285,6 @@ class KidsController extends GetxController {
       if (response.success == true) {
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
-        // for (int i = 0; i < postListData.value!.posts.data.length; i++) {
-        //   Get.find<PostReactionController>().reactions.add({
-        //     'reaction': ''.obs,
-        //     'state': false.obs,
-        //   });
-        // }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
