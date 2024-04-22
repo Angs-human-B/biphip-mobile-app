@@ -1221,7 +1221,7 @@ class KidsController extends GetxController {
   Future<void> getPostList() async {
     try {
       isKidPageLoading.value = true;
-      String suffixUrl = '?take=5&kid_id=${selectedKidId.value}';
+      String suffixUrl = '?take=15&kid_id=${selectedKidId.value}';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -1273,7 +1273,7 @@ class KidsController extends GetxController {
 
       String postListSuffixUrl = '';
 
-      postListSuffixUrl = '?${postListSub[1]}&take=5&kid_id=${selectedKidId.value}';
+      postListSuffixUrl = '?${postListSub[1]}&take=15&kid_id=${selectedKidId.value}';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
