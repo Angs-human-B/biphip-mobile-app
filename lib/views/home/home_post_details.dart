@@ -33,9 +33,8 @@ class HomePostDetails extends StatelessWidget {
       this.refId = 0});
   final int postIndex;
   final int refId;
-  final String? userName;
+  final String? userName, postTime;
   final String? userImage;
-  final DateTime? postTime;
   final String? category;
   final IconData? categoryIcon;
   final Color? categoryIconColor;
@@ -77,112 +76,109 @@ class HomePostDetails extends StatelessWidget {
                           ),
                         ),
 
-                        // floatingActionButton: Container(
-                        //   decoration: const BoxDecoration(color: cWhiteColor, border: Border(top: BorderSide(color: cLineColor))),
-                        //   padding: EdgeInsets.zero,
-                        //   // height: 120,
-                        //   // child: Padding(
-                        //   //   padding: const EdgeInsets.symmetric(
-                        //   //     vertical: k12Padding,
-                        //   //     horizontal: k20Padding,
-                        //   //   ),
-                        //   //   child: CommentTextField(
-                        //   //     hintText: '${ksWriteAComment.tr} ...',
-                        //   //   ),
-                        //   // ),
-                        //   child: SizedBox(
-                        //       width: width - 40,
-                        //       height: 108,
-                        //       child: CommentTextField(
-                        //         hintText: "${ksWriteAComment.tr} ...",
-                        //         onPressedCamera: () async {
-                        //           await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                        //               postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                        //           postReactionController.commentSendEnabled();
-                        //         },
-                        //         onPressedSend: () async {
-                        //           if (postReactionController.isUpdateComment.value) {
-                        //             await Get.find<PostReactionController>().updateComment();
-                        //           } else {
-                        //             await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-                        //           }
-                        //         },
-                        //       )),
-                        // ),
+                        // floatingActionButton:
                         // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-                        body: SizedBox(
-                          height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: k12Padding),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                    child: PostUpperContainer(
-                                      taggedFriend: const [],
-                                      userName: userName ?? ksNA.tr,
-                                      isCategorized: false,
-                                      privacy: BipHip.world,
-                                      postTime: homeController.postTimeDifference(postTime ?? DateTime.now()),
-                                      userImage: userImage ?? "",
-                                      category: category,
-                                      categoryIcon: categoryIcon,
-                                      categoryIconColor: categoryIconColor,
-                                      kidName: kidName, //API
-                                      kidAge: kidAge, //API
-                                      brandName: brandName, //API
-                                      secondaryImage: secondaryImage,
-                                    ),
+                        // resizeToAvoidBottomInset: true,
+                        body: Stack(
+                          children: [
+                            SizedBox(
+                              height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: k12Padding),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: PostUpperContainer(
+                                          taggedFriend: const [],
+                                          userName: userName ?? ksNA.tr,
+                                          isCategorized: false,
+                                          privacy: BipHip.world,
+                                          postTime: postTime!,
+                                          userImage: userImage ?? "",
+                                          category: category,
+                                          categoryIcon: categoryIcon,
+                                          categoryIconColor: categoryIconColor,
+                                          kidName: kidName, //API
+                                          kidAge: kidAge, //API
+                                          brandName: brandName, //API
+                                          secondaryImage: secondaryImage,
+                                        ),
+                                      ),
+                                      kH12sizedBox,
+                                      CommonPostDetailsWidget(
+                                        mediaList: images ?? [],
+                                        isCommentShown: true,
+                                        showBottomSection: true,
+                                        postIndex: postIndex,
+                                        postText: postText ?? '', //API
+                                        title: title, //API
+                                        refType: 1,
+                                        refId: refId,
+                                      ),
+                                      // CommonPostDetailsWidget(//!Not used now
+                                      //   mediaList: homeController.postData.value!.post.images,
+                                      //   isCommentShown: true,
+                                      //   showBottomSection: true,
+                                      //   postIndex: postIndex,
+                                      //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
+                                      //       ? homeController.postData.value!.post.description ?? ''
+                                      //       : homeController.postData.value!.post.content ?? '', //API
+                                      //   // title: homeController.postData.value!.post.title, //API
+                                      //   title: homeController.postData.value!.post.title, //API
+                                      // ),
+                                      // SizedBox(
+                                      //     width: width - 40,
+                                      //     height: 108,
+                                      //     child: CommentTextField(
+                                      //       hintText: "${ksWriteAComment.tr} ...",
+                                      //       onPressedCamera: () async {
+                                      //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                      //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                      //         postReactionController.commentSendEnabled();
+                                      //       },
+                                      //       onPressedSend: () async {
+                                      //         if (postReactionController.isUpdateComment.value) {
+                                      //           await Get.find<PostReactionController>().updateComment();
+                                      //         } else {
+                                      //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                                      //         }
+                                      //       },
+                                      //     )),
+                                      const SizedBox(
+                                        height: 110,
+                                      ),
+                                    ],
                                   ),
-                                  kH12sizedBox,
-                                  CommonPostDetailsWidget(
-                                    mediaList: images ?? [],
-                                    isCommentShown: true,
-                                    showBottomSection: true,
-                                    postIndex: postIndex,
-                                    postText: postText ?? '', //API
-                                    title: title, //API
-                                    refType: 1,
-                                    refId: refId,
-                                  ),
-                                  // CommonPostDetailsWidget(//!Not used now
-                                  //   mediaList: homeController.postData.value!.post.images,
-                                  //   isCommentShown: true,
-                                  //   showBottomSection: true,
-                                  //   postIndex: postIndex,
-                                  //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                                  //       ? homeController.postData.value!.post.description ?? ''
-                                  //       : homeController.postData.value!.post.content ?? '', //API
-                                  //   // title: homeController.postData.value!.post.title, //API
-                                  //   title: homeController.postData.value!.post.title, //API
-                                  // ),
-                                  // SizedBox(
-                                  //     width: width - 40,
-                                  //     height: 108,
-                                  //     child: CommentTextField(
-                                  //       hintText: "${ksWriteAComment.tr} ...",
-                                  //       onPressedCamera: () async {
-                                  //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                  //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                  //         postReactionController.commentSendEnabled();
-                                  //       },
-                                  //       onPressedSend: () async {
-                                  //         if (postReactionController.isUpdateComment.value) {
-                                  //           await Get.find<PostReactionController>().updateComment();
-                                  //         } else {
-                                  //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-                                  //         }
-                                  //       },
-                                  //     )),
-                                  const SizedBox(
-                                    height: 110,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: const BoxDecoration(color: cWhiteColor, border: Border(top: BorderSide(color: cLineColor))),
+                                padding: EdgeInsets.zero,
+                                child: SizedBox(
+                                    width: width,
+                                    child: CommentTextField(
+                                      hintText: "${ksWriteAComment.tr} ...",
+                                      onPressedCamera: () async {
+                                        await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                            postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                        postReactionController.commentSendEnabled();
+                                      },
+                                      onPressedSend: () async {
+                                        if (postReactionController.isUpdateComment.value) {
+                                          // await Get.find<PostReactionController>().updateComment();
+                                        } else {
+                                          // await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                                        }
+                                      },
+                                    )),
+                              ),
+                            ),
+                          ],
                         ),
 
                         // body: SizedBox(
@@ -492,27 +488,28 @@ class PostDetailsBottomSection extends StatelessWidget {
             child: CustomDivider(),
           ),
           kH12sizedBox,
-          SizedBox(
-              width: width - 40,
-              height: 130,
-              child: CommentTextField(
-                hintText: "${ksWriteAComment.tr} ...",
-                onPressedCamera: () async {
-                  await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged, postReactionController.commentImageLink,
-                      postReactionController.commentImageFile, 'gallery', false);
-                  postReactionController.commentSendEnabled();
-                },
-                onPressedSend: postReactionController.isCommentSendEnable.value
-                    ? () async {
-                        if (postReactionController.isUpdateComment.value) {
-                          await Get.find<PostReactionController>().updateComment(context);
-                        } else {
-                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context);
-                          Get.find<PostReactionController>().commentMentionKey.currentState!.controller!.text = "";
-                        }
-                      }
-                    : null,
-              )),
+          // SizedBox(
+          //     width: width - 40,
+          //     height: 130,
+          //     child: CommentTextField(
+          //       hintText: "${ksWriteAComment.tr} ...",
+          //       onPressedCamera: () async {
+          //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged, postReactionController.commentImageLink,
+          //             postReactionController.commentImageFile, 'gallery', false);
+          //         postReactionController.commentSendEnabled();
+          //       },
+          //       onPressedSend: postReactionController.isCommentSendEnable.value
+          //           ? () async {
+          //               if (postReactionController.isUpdateComment.value) {
+          //                 await postReactionController.updateComment(context);
+          //                 postReactionController.commentMentionKey.currentState!.controller!.text = "";
+          //               } else {
+          //                 await postReactionController.postComment(1, postReactionController.refId.value, context);
+          //                 postReactionController.commentMentionKey.currentState!.controller!.text = "";
+          //               }
+          //             }
+          //           : null,
+          //     )),
           kH12sizedBox,
           // for (int i = 0; i < postReactionController.commentList.length; i++)
           postReactionController.isCommentLoading.value
@@ -533,7 +530,6 @@ class PostDetailsBottomSection extends StatelessWidget {
                               postReactionController.selectedCommentIndex.value = i;
                               postReactionController.commentedUserId.value = postReactionController.commentList[i].user!.id!;
                               postReactionController.isUpdateReply.value = false;
-                              postReactionController.isReplyTextFieldShow.value = false;
                               Get.find<GlobalController>().commonBottomSheet(
                                   context: context,
                                   bottomSheetHeight: height * 0.4,
@@ -603,9 +599,13 @@ class PostDetailsBottomSection extends StatelessWidget {
                               await postReactionController.hideComment();
                             },
                             replyButtonOnPressed: () async {
+                              postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                              if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
+                                postReactionController.commentMentionKey.currentState?.controller?.text =
+                                    "@${postReactionController.commentList[i].user?.fullName} ";
+                              }
+                              postReactionController.commentFocusNode.requestFocus();
                               postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                              postReactionController.isReplyTextFieldShow.value = true;
-                              postReactionController.replyFocusNode.requestFocus();
                             },
                           ),
                         ),
@@ -642,6 +642,15 @@ class PostDetailsBottomSection extends StatelessWidget {
                                       Get.find<GlobalController>().getReaction(replyList[index].myReaction, "angry", 4, replyList[index].id);
                                   replyList.replaceRange(index, index + 1, [replyList[index]]);
                                 },
+                                replyButtonOnPressed: () async {
+                                  postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                                  if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
+                                    postReactionController.commentMentionKey.currentState?.controller?.text =
+                                        "@${postReactionController.commentList[i].user?.fullName} ";
+                                  }
+                                  postReactionController.commentFocusNode.requestFocus();
+                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                },
                                 commentOnPressed: () {
                                   Get.find<PostReactionController>().replyId.value = postReactionController.commentList[i].commentReplies[index].id!;
                                   Get.find<PostReactionController>().selectedReplyIndex.value = index;
@@ -676,30 +685,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                               ))
                       ],
                     );
-                  })
-
-          //   ));
-          // },
-          // separatorBuilder: (context, index) => kH4sizedBox,
-          // itemCount: postReactionController.commentList.length),
-          // SizedBox(
-          //     width: width - 40,
-          //     height: 108,
-          //     child: CommentTextField(
-          //       hintText: "${ksWriteAComment.tr} ...",
-          //       onPressedCamera: () async {
-          //         await globalController.selectImageSource(postReactionController.isCommentImageChanged, postReactionController.commentImageLink,
-          //             postReactionController.commentImageFile, 'gallery', false);
-          //         postReactionController.commentSendEnabled();
-          //       },
-          //       onPressedSend: () async {
-          //         if (postReactionController.isUpdateComment.value) {
-          //           await Get.find<PostReactionController>().updateComment();
-          //         } else {
-          //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-          //         }
-          //       },
-          //     )),
+                  }),
         ],
       ),
     );
@@ -754,20 +740,8 @@ class CommentBottomSheetContent extends StatelessWidget {
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           await postReactionController.hideComment();
                         }
-                        // if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
-                        //   postReactionController.isReplyTextFieldShow.value = false;
-                        //   postReactionController.isUpdateComment.value = true;
-                        //   postReactionController.commentTextEditingController.text =
-                        //       postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
-                        //   if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
-                        //     postReactionController.commentImage.value =
-                        //         postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
-                        //   }
-                        // }
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
-                          postReactionController.isReplyTextFieldShow.value = false;
                           postReactionController.isUpdateComment.value = true;
-
                           postReactionController.commentTextEditingController.text =
                               postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
                           postReactionController.commentMentionKey.currentState!.controller!.text =
@@ -780,16 +754,14 @@ class CommentBottomSheetContent extends StatelessWidget {
                         }
 
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                          postReactionController.isReplyTextFieldShow.value = true;
                           postReactionController.commentTextEditingController.text = "";
-                          postReactionController.replyFocusNode.requestFocus();
+                          // postReactionController.replyFocusNode.requestFocus();
                         }
                         //*Others user post action
                         if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
                         if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                          postReactionController.isReplyTextFieldShow.value = true;
                           postReactionController.commentTextEditingController.text = "";
-                          postReactionController.replyFocusNode.requestFocus();
+                          // postReactionController.replyFocusNode.requestFocus();
                         }
                         // if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                         //   await postReactionController.deleteComment();
@@ -844,25 +816,20 @@ class ReplyBottomSheetContent extends StatelessWidget {
                   onPressed: () async {
                     Get.back();
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      postReactionController.isReplyTextFieldShow.value = false;
                       await postReactionController.deleteReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      postReactionController.isReplyTextFieldShow.value = false;
                       await postReactionController.hideReply();
                     }
                     if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
-                      postReactionController.isReplyTextFieldShow.value = true;
                       postReactionController.isUpdateReply.value = true;
                       for (int i = 0; i < postReactionController.commentList.length; i++) {
                         for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
                           if (postReactionController.replyId.value == postReactionController.commentList[i].commentReplies[j].id) {
                             postReactionController.replyTextEditingController.text = postReactionController.commentList[i].commentReplies[j].reply ?? "";
-                            // ll(postReactionController.commentList[postReactionController.selectedCommentIndex.value].commentReplies[j].image);
                             if (postReactionController.commentList[i].commentReplies[j].image != null) {
                               postReactionController.replyImage.value = postReactionController.commentList[i].commentReplies[j].image;
                             }
-                            postReactionController.replyFocusNode.requestFocus();
                           }
                         }
                       }

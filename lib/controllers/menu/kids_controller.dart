@@ -861,7 +861,6 @@ class KidsController extends GetxController {
     }
   }
 
-  
   //* Get school list api implementation
   final List<String> schoolList = [];
   //* Get school list api implementation
@@ -1213,16 +1212,15 @@ class KidsController extends GetxController {
 
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
-  final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<GetKidPostModel?> postListData = Rx<GetKidPostModel?>(null);
   final RxList<KidPostData> allPostList = RxList<KidPostData>([]);
-  final RxBool isHomePageLoading = RxBool(false);
-  final RxBool isHomePagePaginationLoading = RxBool(false);
+  final RxBool isKidPageLoading = RxBool(false);
+  final RxBool isKidPagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
   final RxBool postListScrolled = RxBool(false);
   Future<void> getPostList() async {
     try {
-      isHomePageLoading.value = true;
+      isKidPageLoading.value = true;
       String suffixUrl = '?take=15&kid_id=${selectedKidId.value}';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
@@ -1232,17 +1230,9 @@ class KidsController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
-        // Get.find<PostReactionController>().reactions.clear();
         postListScrolled.value = false;
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
-        // for (int i = 0; i < postListData.value!.posts!.data.length; i++) {
-        //   Get.find<PostReactionController>().reactions.add({
-        //     'reaction': ''.obs,
-        //     'state': false.obs,
-        //   });
-        // }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1250,9 +1240,9 @@ class KidsController extends GetxController {
           postListScrolled.value = true;
         }
 
-        isHomePageLoading.value = false;
+        isKidPageLoading.value = false;
       } else {
-        isHomePageLoading.value = true;
+        isKidPageLoading.value = true;
 
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -1262,7 +1252,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-      isHomePageLoading.value = true;
+      isKidPageLoading.value = true;
 
       ll('getPostList error: $e');
     }
@@ -1271,7 +1261,7 @@ class KidsController extends GetxController {
   //*Get More Post List for pagination
   Future<void> getMorePostList() async {
     try {
-      isHomePagePaginationLoading.value = true;
+      isKidPagePaginationLoading.value = true;
       String? token = await spController.getBearerToken();
       dynamic postListSub;
 
@@ -1294,13 +1284,6 @@ class KidsController extends GetxController {
       if (response.success == true) {
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
-        // for (int i = 0; i < postListData.value!.posts.data.length; i++) {
-        //   Get.find<PostReactionController>().reactions.add({
-        //     'reaction': ''.obs,
-        //     'state': false.obs,
-        //   });
-        // }
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1308,9 +1291,9 @@ class KidsController extends GetxController {
           postListScrolled.value = true;
         }
 
-        isHomePagePaginationLoading.value = false;
+        isKidPagePaginationLoading.value = false;
       } else {
-        isHomePagePaginationLoading.value = true;
+        isKidPagePaginationLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1319,7 +1302,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-      isHomePagePaginationLoading.value = true;
+      isKidPagePaginationLoading.value = true;
       ll('getMorePostList error: $e');
     }
   }

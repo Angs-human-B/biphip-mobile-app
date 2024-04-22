@@ -97,8 +97,10 @@ class AuthenticationController extends GetxController {
         await spController.saveUserLastName(loginData.user.lastName.toString());
         await spController.saveUserImage(loginData.user.profilePicture.toString());
         await spController.saveUserEmail(loginData.user.email.toString());
+        await spController.saveUserId(loginData.user.id);
         if (isLoginRememberCheck.value) {
           await spController.saveUserList({
+            "id": loginData.user.id,
             "email": loginData.user.email.toString(),
             "name": loginData.user.fullName.toString(),
             "first_name": loginData.user.firstName.toString(),
@@ -380,7 +382,9 @@ class AuthenticationController extends GetxController {
         await spController.saveUserLastName(otpData.user.lastName.toString());
         await spController.saveUserImage(otpData.user.image.toString());
         await spController.saveUserEmail(otpData.user.email.toString());
+        await spController.saveUserId(otpData.user.id);
         await spController.saveUserList({
+           "id": otpData.user.id,
           "email": otpData.user.email.toString(),
           "name": otpData.user.fullName.toString(),
           "first_name": otpData.user.firstName.toString(),

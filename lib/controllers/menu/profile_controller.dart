@@ -1053,6 +1053,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         var rememberMe = await spController.getRememberMe();
         if (rememberMe == true) {
           await spController.saveUserList({
+            "id": userData.value!.id,
             "email": userData.value!.email.toString(),
             "name": userData.value!.fullName.toString(),
             "first_name": userData.value!.firstName.toString(),
@@ -1067,7 +1068,7 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
           Get.back();
           isImageUploadPageLoading.value = false;
         } else {
-          Get.find<HomeController>().homeTabIndex.value=0;
+          Get.find<HomeController>().homeTabIndex.value = 0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
         }
