@@ -8,6 +8,7 @@ import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dar
 import 'package:bip_hip/models/menu/store/store_common_update_model.dart';
 import 'package:bip_hip/models/menu/store/store_contact_model.dart';
 import 'package:bip_hip/models/menu/store/store_overview_model.dart';
+import 'package:bip_hip/models/menu/store/store_post_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:image_picker/image_picker.dart';
@@ -430,7 +431,7 @@ class StoreController extends GetxController {
     storeLegalPapersList.clear();
   }
   //!Store profile api call
-
+  
   //*store Overview Api call
   final Rx<StoreOverviewModel?> storeOverviewData = Rx<StoreOverviewModel?>(null);
   final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
@@ -488,7 +489,6 @@ class StoreController extends GetxController {
 
   //* update store bio API Implementation
   final Rx<StoreCommonUpdateModel?> storeCommonUpdateData = Rx<StoreCommonUpdateModel?>(null);
-  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
   RxBool isStoreBioLoading = RxBool(false);
   Future<void> updateStoreBio() async {
     try {
@@ -1291,6 +1291,119 @@ class StoreController extends GetxController {
     } catch (e) {
       isStoreLinkLoading.value = false;
       ll('deleteStoreLink error: $e');
+    }
+  }
+
+  //*Store all post data get Api implement
+  final ScrollController postListScrollController = ScrollController();
+  final ScrollController timelinePostListScrollController = ScrollController();
+  final Rx<StorePostModel?> postListData = Rx<StorePostModel?>(null);
+  final RxList<StorePostData> allPostList = RxList<StorePostData>([]);
+  final RxBool isStorePageLoading = RxBool(false);
+  final RxBool isStorePagePaginationLoading = RxBool(false);
+  final Rx<String?> postListSubLink = Rx<String?>(null);
+  final RxBool postListScrolled = RxBool(false);
+  Future<void> getPostList() async {
+    try {
+      isStorePageLoading.value = true;
+      String suffixUrl = '?take=15&store_id=${selectedStoreId.value}';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetStorePost + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        allPostList.clear();
+        // Get.find<PostReactionController>().reactions.clear();
+        postListScrolled.value = false;
+        postListData.value = StorePostModel.fromJson(response.data);
+        allPostList.addAll(postListData.value!.posts!.data);
+        //!Future should be changed
+        // for (int i = 0; i < postListData.value!.posts!.data.length; i++) {
+        //   Get.find<PostReactionController>().reactions.add({
+        //     'reaction': ''.obs,
+        //     'state': false.obs,
+        //   });
+        // }
+        postListSubLink.value = postListData.value!.posts!.nextPageUrl;
+        if (postListSubLink.value != null) {
+          postListScrolled.value = false;
+        } else {
+          postListScrolled.value = true;
+        }
+
+        isStorePageLoading.value = false;
+      } else {
+        isStorePageLoading.value = true;
+
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStorePageLoading.value = true;
+
+      ll('getPostList error: $e');
+    }
+  }
+
+  //*Get More Post List for pagination
+  Future<void> getMorePostList() async {
+    try {
+      isStorePagePaginationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      dynamic postListSub;
+
+      if (postListSubLink.value == null) {
+        return;
+      } else {
+        postListSub = postListSubLink.value!.split('?');
+      }
+
+      String postListSuffixUrl = '';
+
+      postListSuffixUrl = '?${postListSub[1]}&take=15&store_id=${selectedStoreId.value}';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetStorePost + postListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        postListData.value = StorePostModel.fromJson(response.data);
+        allPostList.addAll(postListData.value!.posts!.data);
+        //!Future should be changed
+        // for (int i = 0; i < postListData.value!.posts.data.length; i++) {
+        //   Get.find<PostReactionController>().reactions.add({
+        //     'reaction': ''.obs,
+        //     'state': false.obs,
+        //   });
+        // }
+        postListSubLink.value = postListData.value!.posts!.nextPageUrl;
+        if (postListSubLink.value != null) {
+          postListScrolled.value = false;
+        } else {
+          postListScrolled.value = true;
+        }
+
+        isStorePagePaginationLoading.value = false;
+      } else {
+        isStorePagePaginationLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStorePagePaginationLoading.value = true;
+      ll('getMorePostList error: $e');
     }
   }
 }

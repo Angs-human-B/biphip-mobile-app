@@ -210,6 +210,7 @@ const String kuGetAllLinks = '/mobile/user/get-store-links';
 const String kuStoreStoreLink = '/mobile/user/store-store-link';
 const String kuUpdateStoreLink = '/mobile/user/update-store-link';
 const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
+const String kuGetStorePost = '/mobile/user/get-store-posts';
 
 //* Post Reaction
 const String kuSetReaction = "/mobile/user/set-reaction";

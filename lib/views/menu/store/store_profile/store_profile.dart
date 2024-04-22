@@ -6,6 +6,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/common_feature_post_widget.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StoreProfile extends StatelessWidget {
@@ -430,7 +431,7 @@ class StoreProfile extends StatelessWidget {
                                                       showBottomSection: false,
                                                       // userName: item.user?.fullName??"",
                                                       userName: "",
-                                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt??DateTime.now()),
+                                                      postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                                                       isCategorized: true,
                                                       subCategory: null, //API
                                                       // category: item.postCategory == null ? null : item.postCategory?.name ?? "", //API
@@ -469,26 +470,27 @@ class StoreProfile extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                     
+
                                 kH8sizedBox,
-                                //! This section Must Chnage When the kid post is available
                                 ListView.separated(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
                                     separatorBuilder: (context, index) => kH8sizedBox,
-                                    itemCount: Get.find<HomeController>().allTimelinePostList.length,
+                                    itemCount: storeController.allPostList.length,
                                     itemBuilder: (context, index) {
-                                      var item = Get.find<HomeController>().allTimelinePostList[index];
+                                      var item = storeController.allPostList[index];
                                       return Container(
                                         color: cWhiteColor,
                                         width: width,
                                         child: CommonPostWidget(
                                           isCommented: false,
                                           isLiked: false,
+                                          refType: 1,
+                                          refId: item.id!,
                                           isSharedPost: false,
                                           showBottomSection: true,
                                           userName: item.user!.fullName!,
-                                          postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
+                                          postTime: Get.find<HomeController>().postTimeDifference(item.createdAt!),
                                           isCategorized: true,
                                           subCategory: null, //API
                                           category: item.postCategory == null ? null : item.postCategory!.name, //API
@@ -499,9 +501,9 @@ class StoreProfile extends StatelessWidget {
                                               ? null
                                               : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                                           privacy: BipHip.world,
-                                          brandName: item.store == null ? null : item.store!.name, //API
-                                          kidName: item.kid == null ? null : item.kid!.name, //API
-                                          kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                          brandName: item.stores?.name, //API
+                                          // kidName: , //API
+                                          // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                                           title: item.title, //API
                                           postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                                           price: null, //API
@@ -510,10 +512,38 @@ class StoreProfile extends StatelessWidget {
                                           mediaList: item.images,
                                           isSelfPost: true,
                                           isInStock: true,
-                                          isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!,
+                                          isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                          giftCount: item.countStar!,
                                           postID: item.id!,
-                                          userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                                          reactCount: item.countReactions,
+                                          userImage: item.user!.profilePicture ?? '',
+                                          // taggedFriends: item.taggedFriends,
+                                          taggedFriends: const [],
+                                          // reactCount: item.countReactions,
+                                          onAngryPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
+                                            storeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onHahaPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
+                                            storeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onLikePressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
+                                            storeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onLovePressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
+                                            storeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onSadPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
+                                            storeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          onWowPressed: (Reaction<String>? reaction) {
+                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
+                                            storeController.allPostList.replaceRange(index, index + 1, [item]);
+                                          },
+                                          selfReaction: item.myReaction,
                                         ),
                                       );
                                     }),
@@ -531,6 +561,7 @@ class StoreProfile extends StatelessWidget {
                 ),
               ),
       ),
+      // ),
     );
   }
 }

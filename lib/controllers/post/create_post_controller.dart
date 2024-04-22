@@ -458,7 +458,7 @@ class CreatePostController extends GetxController {
         for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
         for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
-        if (category.value == 'Selling') 'store_id': '55',
+        if (category.value == 'Selling') 'store_id': selectedBrandId.value.toString(),
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
         if (category.value == 'Selling') 'title': biddingTitleTextEditingController.text.trim(),
         if (category.value == 'Selling') 'price': biddingPriceTextEditingController.text.trim(),
@@ -493,7 +493,7 @@ class CreatePostController extends GetxController {
           await Get.find<HomeController>().getPostList();
         }
         isCreatePostLoading.value = false;
-        Get.find<HomeController>().homeTabIndex.value=0;
+        Get.find<HomeController>().homeTabIndex.value = 0;
         Get.offAllNamed(krHome);
         resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -512,7 +512,6 @@ class CreatePostController extends GetxController {
     }
   }
 
-  
   final RxString tempSubCategory = RxString('');
   final RxString subCategory = RxString('');
   final RxList subCategoryList = RxList([]);
