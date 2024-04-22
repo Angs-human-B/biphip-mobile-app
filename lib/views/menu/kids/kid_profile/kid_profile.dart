@@ -3,6 +3,7 @@ import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile_post_tab.dart';
+import 'package:flutter/rendering.dart';
 
 class KidProfile extends StatelessWidget {
   KidProfile({super.key});
@@ -14,7 +15,7 @@ class KidProfile extends StatelessWidget {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => kidsController.isKidOverviewLoading.value || kidsController.isHomePageLoading.value
+        () => kidsController.isKidOverviewLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,
@@ -39,20 +40,20 @@ class KidProfile extends StatelessWidget {
                     width: width,
                     // child: NotificationListener<ScrollNotification>(
                     //   onNotification: (scrollNotification) {
-                    //     // if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-                    //     //     scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                    //     //     !homeController.timelinePostListScrolled.value) {
-                    //     //       homeController.timelinePostListScrolled.value = true;
-                    //     //   if (homeController.allTimelinePostList.isNotEmpty) {
-                    //     //     homeController.getMoreTimelinePostList();
-                    //     //   }
+                    //     if (kidsController.postListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                    //         scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                    //         !kidsController.postListScrolled.value) {
+                    //       kidsController.postListScrolled.value = true;
+                    //       if (kidsController.allPostList.isNotEmpty) {
+                    //         kidsController.getMorePostList();
+                    //       }
                     //       return true;
                     //     }
-                    //     // homeController.timelinePostListScrolled.value = false;
+                    //     kidsController.postListScrolled.value = false;
                     //     return false;
                     //   },
                     child: SingleChildScrollView(
-                      // controller: homeController.timelinePostListScrollController,
+                      // controller: kidsController.postListScrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: Obx(
                         () => Column(
@@ -334,6 +335,7 @@ class KidProfile extends StatelessWidget {
                 ),
               ),
       ),
+      // ),
     );
   }
 }

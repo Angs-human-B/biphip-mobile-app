@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
 import 'package:bip_hip/models/menu/store/all_location_model.dart';
 import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dart';
@@ -1296,7 +1295,6 @@ class StoreController extends GetxController {
 
   //*Store all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
-  final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<StorePostModel?> postListData = Rx<StorePostModel?>(null);
   final RxList<StorePostData> allPostList = RxList<StorePostData>([]);
   final RxBool isStorePageLoading = RxBool(false);
@@ -1359,7 +1357,7 @@ class StoreController extends GetxController {
 
       String postListSuffixUrl = '';
 
-      postListSuffixUrl = '?${postListSub[1]}&take=15&store_id=${selectedStoreId.value}';
+      postListSuffixUrl = '?${postListSub[1]}&take=1&store_id=${selectedStoreId.value}';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,

@@ -1212,17 +1212,16 @@ class KidsController extends GetxController {
 
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
-  final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<GetKidPostModel?> postListData = Rx<GetKidPostModel?>(null);
   final RxList<KidPostData> allPostList = RxList<KidPostData>([]);
-  final RxBool isHomePageLoading = RxBool(false);
-  final RxBool isHomePagePaginationLoading = RxBool(false);
+  final RxBool isKidPageLoading = RxBool(false);
+  final RxBool isKidPagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
   final RxBool postListScrolled = RxBool(false);
   Future<void> getPostList() async {
     try {
-      isHomePageLoading.value = true;
-      String suffixUrl = '?take=15&kid_id=${selectedKidId.value}';
+      isKidPageLoading.value = true;
+      String suffixUrl = '?take=5&kid_id=${selectedKidId.value}';
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -1241,9 +1240,9 @@ class KidsController extends GetxController {
           postListScrolled.value = true;
         }
 
-        isHomePageLoading.value = false;
+        isKidPageLoading.value = false;
       } else {
-        isHomePageLoading.value = true;
+        isKidPageLoading.value = true;
 
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -1253,7 +1252,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-      isHomePageLoading.value = true;
+      isKidPageLoading.value = true;
 
       ll('getPostList error: $e');
     }
@@ -1262,7 +1261,7 @@ class KidsController extends GetxController {
   //*Get More Post List for pagination
   Future<void> getMorePostList() async {
     try {
-      isHomePagePaginationLoading.value = true;
+      isKidPagePaginationLoading.value = true;
       String? token = await spController.getBearerToken();
       dynamic postListSub;
 
@@ -1274,7 +1273,7 @@ class KidsController extends GetxController {
 
       String postListSuffixUrl = '';
 
-      postListSuffixUrl = '?${postListSub[1]}&take=15&kid_id=${selectedKidId.value}';
+      postListSuffixUrl = '?${postListSub[1]}&take=5&kid_id=${selectedKidId.value}';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -1292,9 +1291,9 @@ class KidsController extends GetxController {
           postListScrolled.value = true;
         }
 
-        isHomePagePaginationLoading.value = false;
+        isKidPagePaginationLoading.value = false;
       } else {
-        isHomePagePaginationLoading.value = true;
+        isKidPagePaginationLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -1303,7 +1302,7 @@ class KidsController extends GetxController {
         }
       }
     } catch (e) {
-      isHomePagePaginationLoading.value = true;
+      isKidPagePaginationLoading.value = true;
       ll('getMorePostList error: $e');
     }
   }
