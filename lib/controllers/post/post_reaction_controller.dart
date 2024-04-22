@@ -97,7 +97,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     map.remove('All');
     reactEmojiList.clear();
     List<MapEntry<String, dynamic>> entries = map.entries.toList();
-    ll(entries);
     if (entries.length > 1) {
       entries.sort((a, b) => b.value.compareTo(a.value));
     }
@@ -118,11 +117,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         reactEmojiList.add(kiWowSvgImageUrl);
       } else if (topThree[index].key == 'haha') {
         reactEmojiList.add(kiHahaSvgImageUrl);
-      } else {
+      } else if (topThree[index].key == 'angry') {
         reactEmojiList.add(kiAngrySvgImageUrl);
       }
     }
-    // ll(reactEmojiList);
     return reactEmojiList;
   }
 

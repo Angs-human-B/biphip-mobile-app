@@ -460,7 +460,7 @@ class PostData {
   List<dynamic> postTags;
   List<ImageElement> images;
   List<dynamic> comments;
-    String? myReaction;
+  String? myReaction;
 
   PostData({
     required this.id,
@@ -511,7 +511,7 @@ class PostData {
     required this.postTags,
     required this.images,
     required this.comments,
-      required this.myReaction,
+    required this.myReaction,
   });
 
   factory PostData.fromJson(Map<String, dynamic> json) => PostData(
@@ -563,7 +563,7 @@ class PostData {
         postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
         images: List<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
         comments: List<dynamic>.from(json["comments"].map((x) => x)),
-          myReaction: json["my_reaction"],
+        myReaction: json["my_reaction"],
       );
 }
 
@@ -852,6 +852,7 @@ class CountReactions {
   int? love;
   int? sad;
   int? wow;
+  int? angry;
 
   CountReactions({
     required this.all,
@@ -860,6 +861,7 @@ class CountReactions {
     required this.love,
     required this.sad,
     required this.wow,
+    required this.angry,
   });
 
   factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
@@ -869,6 +871,7 @@ class CountReactions {
         love: json["love"] ?? 0,
         sad: json["sad"] ?? 0,
         wow: json["wow"] ?? 0,
+        angry: json["angry"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -878,5 +881,6 @@ class CountReactions {
         "love": love,
         "sad": sad,
         "wow": wow,
+        "angry": angry,
       };
 }

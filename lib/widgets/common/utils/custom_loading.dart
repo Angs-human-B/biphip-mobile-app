@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 class CustomLoadingAnimation extends StatelessWidget {
   const CustomLoadingAnimation({
     this.isTextVisible = true,
-    Key? key,
+  
+    Key? key, this.radius,
   }) : super(key: key);
 
   final bool isTextVisible;
+  final double? radius;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class CustomLoadingAnimation extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CupertinoActivityIndicator(radius: 20),
+           CupertinoActivityIndicator(radius: radius??20),
           if (isTextVisible) Text('${ksLoading.tr}...'),
         ],
       ),

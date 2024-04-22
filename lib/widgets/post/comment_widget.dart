@@ -1,8 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
-import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:bip_hip/widgets/post/reply_textfield.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
@@ -61,6 +59,7 @@ class CommentWidget extends StatelessWidget {
         InkWell(
           onTap: profileOnPressed,
           child: Container(
+            width: h32,
             decoration: const BoxDecoration(shape: BoxShape.circle),
             child: ClipOval(
               child: Image.network(
@@ -73,7 +72,7 @@ class CommentWidget extends StatelessWidget {
                   size: kIconSize16,
                   color: cIconColor,
                 ),
-                loadingBuilder: imageLoadingBuilder,
+                loadingBuilder: smallImageLoadingBuilder,
               ),
             ),
           ),
@@ -205,23 +204,6 @@ class CommentWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: onLovePressed!,
-                                            // postReactionController.commentIndex.value = commentIndex;
-                                            // Get.back();
-                                            // if (postReactionController.commentList[commentIndex].myReaction.toString().toLowerCase() == "Love".toLowerCase() ||
-                                            //     postReactionController.commentReactions[commentIndex]['reaction'].value.toString().toLowerCase() == "Love".toLowerCase()) {
-                                            //   postReactionController.selectedReactionText.value = "Love";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
-                                            //   postReactionController.reactions[postIndex]['state'].value = false;
-                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                                            // } else {
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = 'Love';
-                                            //   postReactionController.reactions[postIndex]['state'].value = true;
-                                            //   postReactionController.selectedReactionText.value = "Love";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            // }
-                                            // onLovePressed;
-                                            // },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
                                                 value: 'love',
@@ -251,23 +233,6 @@ class CommentWidget extends StatelessWidget {
                                             itemAnimationDuration: const Duration(milliseconds: 500),
                                             itemSize: const Size.square(48),
                                             onReactionChanged: onLikePressed!,
-                                            // onLikePressed;
-                                            // postReactionController.postIndex.value = postIndex;
-                                            // Get.back();
-                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Like".toLowerCase() ||
-                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Like".toLowerCase()) {
-                                            //   postReactionController.selectedReactionText.value = "Like";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                                            // } else {
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Like';
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
-                                            //   postReactionController.selectedReactionText.value = "Like";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            // }
-                                            // },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
                                                 value: 'like',
@@ -294,22 +259,6 @@ class CommentWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: onHahaPressed!,
-                                            // postReactionController.postIndex.value = postIndex;
-                                            // Get.back();
-                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Haha".toLowerCase() ||
-                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Haha".toLowerCase()) {
-                                            //   postReactionController.selectedReactionText.value = "Haha";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                                            // } else {
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Haha';
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
-                                            //   postReactionController.selectedReactionText.value = "Haha";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            // }
-                                            // },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
                                                 value: 'haha',
@@ -336,22 +285,6 @@ class CommentWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: onWowPressed!,
-                                            // postReactionController.postIndex.value = postIndex;
-                                            // Get.back();
-                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Wow".toLowerCase() ||
-                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Wow".toLowerCase()) {
-                                            //   postReactionController.selectedReactionText.value = "Wow";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                                            // } else {
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Wow';
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
-                                            //   postReactionController.selectedReactionText.value = "Wow";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            // }
-                                            // },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
                                                 value: 'wow',
@@ -378,21 +311,6 @@ class CommentWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: onSadPressed!,
-                                            // postReactionController.postIndex.value = postIndex;
-                                            // Get.back();
-                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Sad".toLowerCase() ||
-                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
-                                            //   postReactionController.selectedReactionText.value = "Sad";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                                            // } else {
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Sad';
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
-                                            //   postReactionController.selectedReactionText.value = "Sad";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            // }
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
                                                 value: 'sad',
@@ -419,20 +337,6 @@ class CommentWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: onAngryPressed!,
-                                            // postReactionController.postIndex.value = postIndex;
-                                            // if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == "Angry".toLowerCase() ||
-                                            //     postReactionController.reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
-                                            //   postReactionController.selectedReactionText.value = "Angry";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            //   postReactionController.reactions[postIndex]['reaction'].value = "";
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = false;
-                                            //   Get.find<HomeController>().allPostList[postIndex].myReaction = null;
-                                            // } else {
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['reaction'].value = 'Angry';
-                                            //   Get.find<PostReactionController>().reactions[postIndex]['state'].value = true;
-                                            //   postReactionController.selectedReactionText.value = "Angry";
-                                            //   await postReactionController.postReaction(refType, refId);
-                                            // }
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
                                                 value: 'angry',
@@ -497,50 +401,82 @@ class CommentWidget extends StatelessWidget {
                 ),
               kH4sizedBox,
               // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
-              if (replyList != [])
-                // SizedBox(
-                // width: width - 80,
-                // child: ListView.builder(
-                // shrinkWrap: true,
-                // itemCount: replyList.length,
-                // itemBuilder: (context, index) {
-                for (int index = 0; index < replyList.length; index++)
-                  // var item = replyList;
-                  InkWell(
-                    onTap: () {
-                      Get.find<PostReactionController>().replyId.value = replyList[index].id!;
-                      Get.find<PostReactionController>().selectedReplyIndex.value = index;
-                      Get.find<PostReactionController>().commentId.value = commentId!;
-                      Get.find<GlobalController>().commonBottomSheet(
-                          context: context,
-                          bottomSheetHeight: height * 0.4,
-                          content: ReplyBottomSheetContent(),
-                          onPressCloseButton: () {
-                            Get.back();
-                          },
-                          onPressRightButton: () {},
-                          rightText: "",
-                          rightTextStyle: regular10TextStyle(cWhiteColor),
-                          title: "",
-                          isRightButtonShow: false);
-                    },
-                    child: ReplyCommentWidget(
-                      profileImage: replyList[index].user?.profilePicture ?? "",
-                      timePassed: Get.find<HomeController>().postTimeDifference(replyList[index].createdAt),
-                      isLikeButtonShown: true,
-                      isReplyButtonShown: true,
-                      isReactButtonShown: true,
-                      isLink: false,
-                      reactCount: 2,
-                      userName: replyList[index].user?.fullName ?? ksNA.tr,
-                      isImageComment: replyList[index].image != null ? true : false,
-                      comment: Get.find<PostReactionController>().formatMentions(replyList[index].reply ?? "", context),
-                      commentLink: "",
-                      image: replyList[index].image,
-                    ),
-                    // );
-                    // }),
-                  ),
+              // if (replyList != [])
+              // ListView.builder(
+              //   itemCount: replyList.length,
+              //   shrinkWrap: true,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   itemBuilder: (context, index) {
+              //     return ReplyCommentWidget(
+              //       selfReaction: replyList[index].myReaction,
+              //       onReplyLikePressed: (Reaction<String>? reaction) {
+              //         replyList[index].myReaction =
+              //             Get.find<GlobalController>().getReaction(replyList[index].myReaction, "like", refType, replyList[index].id);
+              //         replyList[index] = replyList[index];
+              //         // postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+              //       },
+              //       onReplyLovePressed: (Reaction<String>? reaction) {
+              //         replyList[index].myReaction =
+              //             Get.find<GlobalController>().getReaction(replyList[index].myReaction, "love", refType, replyList[index].id);
+              //         replyList[index] = replyList[index];
+              //         // postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+              //       },
+              //       onReplyHahaPressed: (Reaction<String>? reaction) {
+              //         replyList[index].myReaction =
+              //             Get.find<GlobalController>().getReaction(replyList[index].myReaction, "haha", refType, replyList[index].id);
+              //         replyList[index] = replyList[index];
+              //         // postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+              //       },
+              //       onReplyWowPressed: (Reaction<String>? reaction) {
+              //         replyList[index].myReaction =
+              //             Get.find<GlobalController>().getReaction(replyList[index].myReaction, "wow", refType, replyList[index].id);
+              //         replyList[index] = replyList[index];
+              //         // postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+              //       },
+              //       onReplySadPressed: (Reaction<String>? reaction) {
+              //         replyList[index].myReaction =
+              //             Get.find<GlobalController>().getReaction(replyList[index].myReaction, "sad", refType, replyList[index].id);
+              //         replyList[index] = replyList[index];
+              //         // postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+              //       },
+              //       onReplyAngryPressed: (Reaction<String>? reaction) {
+              //         replyList[index].myReaction =
+              //             Get.find<GlobalController>().getReaction(replyList[index].myReaction, "angry", refType, replyList[index].id);
+              //         replyList[index] = replyList[index];
+              //         // postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+              //       },
+              //       commentOnPressed: () {
+              //         Get.find<PostReactionController>().replyId.value = replyList[index].id!;
+              //         Get.find<PostReactionController>().selectedReplyIndex.value = index;
+              //         Get.find<PostReactionController>().commentId.value = commentId!;
+              //         Get.find<GlobalController>().commonBottomSheet(
+              //             context: context,
+              //             bottomSheetHeight: height * 0.4,
+              //             content: ReplyBottomSheetContent(),
+              //             onPressCloseButton: () {
+              //               Get.back();
+              //             },
+              //             onPressRightButton: () {},
+              //             rightText: "",
+              //             rightTextStyle: regular10TextStyle(cWhiteColor),
+              //             title: "",
+              //             isRightButtonShow: false);
+              //       },
+              //       profileImage: replyList[index].user?.profilePicture ?? "",
+              //       timePassed: Get.find<HomeController>().postTimeDifference(replyList[index].createdAt),
+              //       isLikeButtonShown: true,
+              //       isReplyButtonShown: true,
+              //       isReactButtonShown: true,
+              //       isLink: false,
+              //       reactCount: 2,
+              //       userName: replyList[index].user?.fullName ?? ksNA.tr,
+              //       isImageComment: replyList[index].image != null ? true : false,
+              //       comment: Get.find<PostReactionController>().formatMentions(replyList[index].reply ?? "", context),
+              //       commentLink: "",
+              //       image: replyList[index].image,
+              //     );
+              //   },
+              // ),
               kH8sizedBox,
               if (Get.find<PostReactionController>().commentId.value == commentId && Get.find<PostReactionController>().isReplyTextFieldShow.value)
                 SizedBox(
@@ -584,19 +520,32 @@ class ReplyCommentWidget extends StatelessWidget {
       required this.isLink,
       required this.reactCount,
       required this.userName,
-      this.likeButtonOnPressed,
       this.replyButtonOnPressed,
       this.profileOnPressed,
       this.commentLink,
       this.image,
-      required this.isImageComment});
+      required this.isImageComment,
+      this.commentOnPressed,
+      this.selfReaction,
+      this.onReplyLikePressed,
+      this.onReplyLovePressed,
+      this.onReplyWowPressed,
+      this.onReplyHahaPressed,
+      this.onReplySadPressed,
+      this.onReplyAngryPressed});
   final String profileImage, timePassed, userName;
-  final String? commentLink, image;
+  final String? commentLink, image, selfReaction;
   final dynamic comment;
 
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink;
   final int reactCount;
-  final VoidCallback? likeButtonOnPressed, replyButtonOnPressed, profileOnPressed;
+  final VoidCallback? replyButtonOnPressed, profileOnPressed, commentOnPressed;
+  final void Function(Reaction<String>? reaction)? onReplyLikePressed,
+      onReplyLovePressed,
+      onReplyWowPressed,
+      onReplyHahaPressed,
+      onReplySadPressed,
+      onReplyAngryPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -619,52 +568,57 @@ class ReplyCommentWidget extends StatelessWidget {
                   size: kIconSize30,
                   color: cIconColor,
                 ),
-                loadingBuilder: imageLoadingBuilder,
+                loadingBuilder: smallImageLoadingBuilder,
               ),
             ),
           ),
         ),
         kW8sizedBox,
         Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: width - 120,
-              decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
-              child: Padding(
-                padding: const EdgeInsets.all(k10Padding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: profileOnPressed,
-                      child: Text(
-                        userName,
-                        style: semiBold14TextStyle(cBlackColor),
+            InkWell(
+              borderRadius: k8CircularBorderRadius,
+              onTap: commentOnPressed,
+              child: Container(
+                width: width - 120,
+                decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
+                child: Padding(
+                  padding: const EdgeInsets.all(k10Padding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: profileOnPressed,
+                        child: Text(
+                          userName,
+                          style: semiBold14TextStyle(cBlackColor),
+                        ),
                       ),
-                    ),
-                    kH8sizedBox,
-                    // if (comment != null)
-                    // Text(
-                    //   comment ?? '',
-                    //   overflow: TextOverflow.clip,
-                    //   style: regular14TextStyle(cBlackColor),
-                    // ),
-                    comment is String
-                        ? Text(
-                            comment ?? '',
-                            overflow: TextOverflow.clip,
-                            style: regular14TextStyle(cBlackColor),
-                          )
-                        : comment,
-                    if (isLink)
-                      Text(
-                        commentLink ?? '',
-                        overflow: TextOverflow.clip,
-                        style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
-                      )
-                  ],
+                      kH8sizedBox,
+                      // if (comment != null)
+                      // Text(
+                      //   comment ?? '',
+                      //   overflow: TextOverflow.clip,
+                      //   style: regular14TextStyle(cBlackColor),
+                      // ),
+                      comment is String
+                          ? Text(
+                              comment ?? '',
+                              overflow: TextOverflow.clip,
+                              style: regular14TextStyle(cBlackColor),
+                            )
+                          : comment,
+                      if (isLink)
+                        Text(
+                          commentLink ?? '',
+                          overflow: TextOverflow.clip,
+                          style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
+                        )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -721,13 +675,200 @@ class ReplyCommentWidget extends StatelessWidget {
                     ),
                     kW16sizedBox,
                     if (isLikeButtonShown)
-                      InkWell(
-                        onTap: likeButtonOnPressed,
-                        child: Text(
-                          ksLike.tr,
-                          style: regular10TextStyle(cSmallBodyTextColor),
+                      Theme(
+                        data: ThemeData(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                        ),
+                        child: PopupMenuButton(
+                          padding: EdgeInsets.zero,
+                          offset: const Offset(0, -60),
+                          elevation: 1,
+                          onCanceled: () {},
+                          position: PopupMenuPosition.over,
+                          tooltip: '',
+                          itemBuilder: (context) => [
+                            PopupMenuItem<int>(
+                              height: 25,
+                              onTap: null,
+                              value: 1,
+                              padding: EdgeInsets.zero,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    InkWell(
+                                      splashFactory: InkRipple.splashFactory,
+                                      child: ReactionButton<String>(
+                                        itemSize: const Size.square(48),
+                                        onReactionChanged: onReplyLovePressed!,
+                                        reactions: <Reaction<String>>[
+                                          Reaction<String>(
+                                            value: 'love',
+                                            icon: SvgPicture.asset(
+                                              kiLoveSvgImageUrl,
+                                              width: 38,
+                                            ),
+                                          ),
+                                        ],
+                                        selectedReaction: Reaction<String>(
+                                          value: 'love',
+                                          icon: SvgPicture.asset(
+                                            kiLoveSvgImageUrl,
+                                            width: 38,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 4),
+                                    ),
+                                    InkWell(
+                                      splashFactory: InkRipple.splashFactory,
+                                      child: ReactionButton<String>(
+                                        animateBox: true,
+                                        boxAnimationDuration: const Duration(milliseconds: 500),
+                                        itemAnimationDuration: const Duration(milliseconds: 500),
+                                        itemSize: const Size.square(48),
+                                        onReactionChanged: onReplyLikePressed!,
+                                        reactions: <Reaction<String>>[
+                                          Reaction<String>(
+                                            value: 'like',
+                                            icon: SvgPicture.asset(
+                                              kiLikeSvgImageUrl,
+                                              width: 38,
+                                            ),
+                                          ),
+                                        ],
+                                        selectedReaction: Reaction<String>(
+                                          value: 'like',
+                                          icon: SvgPicture.asset(
+                                            kiLikeSvgImageUrl,
+                                            width: 38,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 4),
+                                    ),
+                                    InkWell(
+                                      splashFactory: InkRipple.splashFactory,
+                                      child: ReactionButton<String>(
+                                        itemSize: const Size.square(48),
+                                        onReactionChanged: onReplyHahaPressed!,
+                                        reactions: <Reaction<String>>[
+                                          Reaction<String>(
+                                            value: 'haha',
+                                            icon: SvgPicture.asset(
+                                              kiHahaSvgImageUrl,
+                                              width: 38,
+                                            ),
+                                          ),
+                                        ],
+                                        selectedReaction: Reaction<String>(
+                                          value: 'haha',
+                                          icon: SvgPicture.asset(
+                                            kiHahaSvgImageUrl,
+                                            width: 38,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 4),
+                                    ),
+                                    InkWell(
+                                      splashFactory: InkRipple.splashFactory,
+                                      child: ReactionButton<String>(
+                                        itemSize: const Size.square(48),
+                                        onReactionChanged: onReplyWowPressed!,
+                                        reactions: <Reaction<String>>[
+                                          Reaction<String>(
+                                            value: 'wow',
+                                            icon: SvgPicture.asset(
+                                              kiWowSvgImageUrl,
+                                              width: 38,
+                                            ),
+                                          ),
+                                        ],
+                                        selectedReaction: Reaction<String>(
+                                          value: 'wow',
+                                          icon: SvgPicture.asset(
+                                            kiWowSvgImageUrl,
+                                            width: 38,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 4),
+                                    ),
+                                    InkWell(
+                                      splashFactory: InkRipple.splashFactory,
+                                      child: ReactionButton<String>(
+                                        itemSize: const Size.square(48),
+                                        onReactionChanged: onReplySadPressed!,
+                                        reactions: <Reaction<String>>[
+                                          Reaction<String>(
+                                            value: 'sad',
+                                            icon: SvgPicture.asset(
+                                              kiSadSvgImageUrl,
+                                              width: 38,
+                                            ),
+                                          ),
+                                        ],
+                                        selectedReaction: Reaction<String>(
+                                          value: 'sad',
+                                          icon: SvgPicture.asset(
+                                            kiSadSvgImageUrl,
+                                            width: 38,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 4),
+                                    ),
+                                    InkWell(
+                                      splashFactory: InkRipple.splashFactory,
+                                      child: ReactionButton<String>(
+                                        itemSize: const Size.square(48),
+                                        onReactionChanged: onReplyAngryPressed!,
+                                        reactions: <Reaction<String>>[
+                                          Reaction<String>(
+                                            value: 'angry',
+                                            icon: SvgPicture.asset(
+                                              kiAngrySvgImageUrl,
+                                              width: 38,
+                                            ),
+                                          ),
+                                        ],
+                                        selectedReaction: Reaction<String>(
+                                          value: 'angry',
+                                          icon: SvgPicture.asset(
+                                            kiAngrySvgImageUrl,
+                                            width: 38,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(180),
+                          ),
+                          child: Get.find<GlobalController>().getColoredCommentReaction(selfReaction),
                         ),
                       ),
+                    // Text(
+                    //   ksLike.tr,
+                    //   style: regular10TextStyle(cSmallBodyTextColor),
+                    // ),
                     kW16sizedBox,
                     if (isReplyButtonShown)
                       // InkWell(
@@ -743,35 +884,6 @@ class ReplyCommentWidget extends StatelessWidget {
                 ),
               ),
             ),
-
-            // kH4sizedBox,
-            // if (replyList == []) Text('View 7 more replies', style: semiBold14TextStyle(cSmallBodyTextColor)),
-            // if (replyList != [])
-            //   SizedBox(
-            //     width: width - 140,
-            //     child: ListView.builder(
-            //         shrinkWrap: true,
-            //         itemCount: replyList.length,
-            //         itemBuilder: (context, index) {
-            //           var item = replyList[index];
-            //           return CommentWidget(
-            //             profileImage: item['profileImage'],
-            //             timePassed: item['timePassed'],
-            //             isLikeButtonShown: item['isLikeButtonShown'],
-            //             isReplyButtonShown: item['isReplyButtonShown'],
-            //             isReactButtonShown: item['isReactButtonShown'],
-            //             isLink: item['isLink'],
-            //             reactCount: item['reactCount'],
-            //             userName: item['userName'],
-            //             isSendMessageShown: item['isSendMessageShown'],
-            //             isHideButtonShown: item['isHideButtonShown'],
-            //             isImageComment: item['isImageComment'],
-            //             comment: item['comment'],
-            //             commentLink: item['commentLink'],
-            //             replyList: [],
-            //           );
-            //         }),
-            //   )
           ],
         ),
       ],
