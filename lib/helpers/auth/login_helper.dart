@@ -46,8 +46,9 @@ class LoginHelper {
     await spController.saveUserLastName(item['last_name'].toString());
     await spController.saveUserImage(item['image_url'].toString());
     await spController.saveUserEmail(item['email'].toString());
+    await spController.saveUserId(item['id']);
     await Get.find<GlobalController>().getUserInfo();
-    Get.find<HomeController>().homeTabIndex.value=0;
+    Get.find<HomeController>().homeTabIndex.value = 0;
     Get.offAllNamed(krHome);
     await Get.find<HomeController>().getPostList();
   }

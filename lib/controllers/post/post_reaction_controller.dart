@@ -718,7 +718,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       Map<String, String> body = {
         'comment_id': commentId.toString(),
         'reply': replyTextEditingController.text.toString().trim(),
-        'mention_user_ids': replyMentionList.join(','),
+        'mention_user_ids': commentMentionList.join(','),
       };
       var response;
       if (isReplyImageChanged.value != true) {
@@ -741,7 +741,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       if (response.success == true) {
         unFocus(context);
         replyTextEditingController.clear();
-        replyMentionList.clear();
+        // replyMentionList.clear();
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
         replyImageFile.value = File("");
@@ -774,7 +774,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'reply': replyTextEditingController.text.toString().trim(),
-        'mention_user_ids': replyMentionList.join(','),
+        'mention_user_ids': commentMentionList.join(','),
       };
       ll(replyImageFile.value);
       var response;
@@ -798,9 +798,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         unFocus(context);
         await getCommentList(1, refId.value);
         isUpdateReply.value = false;
-        isReplyTextFieldShow.value = false;
         replyTextEditingController.clear();
-        replyMentionList.clear();
+        // replyMentionList.clear();
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
         replyImageFile.value = File("");
@@ -822,16 +821,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  final RxBool isReplyTextFieldShow = RxBool(false);
   final RxInt userId = RxInt(-1);
   final RxInt commentedUserId = RxInt(-1);
 
   final FocusNode commentFocusNode = FocusNode();
-  final FocusNode replyFocusNode = FocusNode();
+  // final FocusNode replyFocusNode = FocusNode();
   final GlobalKey<FlutterMentionsState> commentMentionKey = GlobalKey<FlutterMentionsState>();
   final RxList commentMentionList = RxList([]);
-  final GlobalKey<FlutterMentionsState> replyMentionKey = GlobalKey<FlutterMentionsState>();
-  final RxList replyMentionList = RxList([]);
+  // final GlobalKey<FlutterMentionsState> replyMentionKey = GlobalKey<FlutterMentionsState>();
+  // final RxList replyMentionList = RxList([]);
 
   Widget formatMentions(String text, BuildContext context) {
     final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
@@ -846,15 +844,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
     // Iterate over the matches
     for (final match in matches) {
-      // Add the text before the mention as a TextSpan
       if (match.start > startIndex) {
         spans.add(TextSpan(text: text.substring(startIndex, match.start)));
       }
-
-      // Extract the username from the mention
       final username = match.group(1)!;
-
-      // Add the mention as a TextSpan with blue color
       spans.add(TextSpan(
         text: username,
         style: semiBold14TextStyle(cPrimaryColor),
@@ -888,13 +881,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     isUpdateReply.value = false;
     commentId.value = -1;
     replyId.value = -1;
-    isReplyTextFieldShow.value = false;
     userId.value = -1;
     commentedUserId.value = -1;
-    isReplyTextFieldShow.value = false;
     commentImage.value = "";
     replyImage.value = "";
     commentMentionList.clear();
-    replyMentionList.clear();
   }
 }

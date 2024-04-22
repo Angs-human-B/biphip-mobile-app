@@ -9,6 +9,7 @@ const kIsGmailLogin = 'kIsGmailLogin';
 const kUserName = "kUserName";
 const kUserImage = "kUserImage";
 const kUserEmail = "kUserEmail";
+const kUserId = "kUserId";
 const kUserFirstName = "kUserFirstName";
 const kUserLastName = "kUserLastName";
 const kRecentSearchList = "kRecentSearchList";
@@ -156,6 +157,17 @@ class SpController {
   Future<String?> getUserEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kUserEmail);
+  }
+
+    //* save user email
+  Future<void> saveUserId(id) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt(kUserId, id);
+  }
+
+  Future<int?> getUserId() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getInt(kUserId);
   }
 
   //* recent  search list
