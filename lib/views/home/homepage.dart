@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -23,435 +24,448 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          color: cWhiteColor,
-          child: SafeArea(
-            top: false,
-            child: Scaffold(
-              resizeToAvoidBottomInset: true,
-              backgroundColor: cBackgroundColor,
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(kAppBarSize),
-                //* info:: appBar
-                child: CustomAppBar(
-                  appBarColor: cWhiteColor,
-                  title: ksBipHip.tr,
-                  titleColor: cPrimaryColor,
-                  hasBackButton: false,
-                  isCenterTitle: false,
-                  onBack: () {
-                    Get.back();
-                  },
-                  action: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: h20),
-                      child: TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () async {
-                          Get.find<AllSearchController>().resetSearchData();
-                          Get.toNamed(krSearchPage);
-                          Get.find<AllSearchController>().getSearchHistory();
-                          Get.find<AllSearchController>().getSearchFilterData();
-                        },
-                        child: Icon(
-                          BipHip.search,
-                          color: cIconColor,
-                          size: isDeviceScreenLarge() ? 24 : 20,
+    return Obx(
+      () => Stack(
+        children: [
+          Container(
+            color: cWhiteColor,
+            child: SafeArea(
+              top: false,
+              child: Scaffold(
+                resizeToAvoidBottomInset: true,
+                backgroundColor: cBackgroundColor,
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    appBarColor: cWhiteColor,
+                    title: ksBipHip.tr,
+                    titleColor: cPrimaryColor,
+                    hasBackButton: false,
+                    isCenterTitle: false,
+                    onBack: () {
+                      Get.back();
+                    },
+                    action: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: h20),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () async {
+                            Get.find<AllSearchController>().resetSearchData();
+                            Get.toNamed(krSearchPage);
+                            Get.find<AllSearchController>().getSearchHistory();
+                            Get.find<AllSearchController>().getSearchFilterData();
+                          },
+                          child: Icon(
+                            BipHip.search,
+                            color: cIconColor,
+                            size: isDeviceScreenLarge() ? 24 : 20,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: h20),
-                      child: TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () {},
-                        child: Icon(
-                          BipHip.chatOutline,
-                          color: cIconColor,
-                          size: isDeviceScreenLarge() ? 24 : 20,
+                      Padding(
+                        padding: const EdgeInsets.only(right: h20),
+                        child: TextButton(
+                          style: kTextButtonStyle,
+                          onPressed: () {},
+                          child: Icon(
+                            BipHip.chatOutline,
+                            color: cIconColor,
+                            size: isDeviceScreenLarge() ? 24 : 20,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              bottomNavigationBar: CustomBottomNavBar(
-                width: width,
-                isFirstButtonClicked: true,
-                isSecondButtonClicked: false,
-                isThirdButtonClicked: false,
-                isFourthButtonClicked: false,
-                isFifthButtonClicked: false,
-              ),
-              body: Obx(
-                () => homeController.isHomePageLoading.value
-                    ? const HomePageShimmer()
-                    : NotificationListener<ScrollNotification>(
-                        onNotification: (scrollNotification) {
-                          if (homeController.postListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-                              scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                              !homeController.postListScrolled.value) {
-                            homeController.postListScrolled.value = true;
-                            if (homeController.allPostList.isNotEmpty) {
-                              homeController.getMorePostList();
+                bottomNavigationBar: CustomBottomNavBar(
+                  width: width,
+                  isFirstButtonClicked: true,
+                  isSecondButtonClicked: false,
+                  isThirdButtonClicked: false,
+                  isFourthButtonClicked: false,
+                  isFifthButtonClicked: false,
+                ),
+                body: Obx(
+                  () => homeController.isHomePageLoading.value
+                      ? const HomePageShimmer()
+                      : NotificationListener<ScrollNotification>(
+                          onNotification: (scrollNotification) {
+                            if (homeController.postListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                                scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                                !homeController.postListScrolled.value) {
+                              homeController.postListScrolled.value = true;
+                              if (homeController.allPostList.isNotEmpty) {
+                                homeController.getMorePostList();
+                              }
+                              return true;
                             }
-                            return true;
-                          }
-                          return false;
-                        },
-                        child: SingleChildScrollView(
-                          controller: homeController.postListScrollController,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Container(
-                                width: width,
-                                color: cWhiteColor,
-                                child: CustomPostButton(
-                                  name: checkNullOrStringNull(Get.find<GlobalController>().userLastName.value.toString().trim()) != null
-                                      ? Get.find<GlobalController>().userLastName.value.toString()
-                                      : Get.find<GlobalController>().userName.value.toString(),
-                                  profilePic: Get.find<GlobalController>().userImage.value.toString(),
-                                  onPressed: () async {
-                                    Get.find<CreatePostController>().isPostedFromProfile.value = false;
-                                    CreatePostHelper().resetCreatePostData();
-                                    Get.find<KidsController>().isRouteFromKid.value = false;
-                                    Get.toNamed(krCreatePost);
-                                    await Get.find<CreatePostController>().getCreatePost();
-                                  },
-                                  prefixWidget: const Icon(
-                                    BipHip.imageFile,
-                                    color: cIconColor,
+                            return false;
+                          },
+                          child: SingleChildScrollView(
+                            controller: homeController.postListScrollController,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(
+                                  height: 2,
+                                ),
+                                Container(
+                                  width: width,
+                                  color: cWhiteColor,
+                                  child: CustomPostButton(
+                                    name: checkNullOrStringNull(Get.find<GlobalController>().userLastName.value.toString().trim()) != null
+                                        ? Get.find<GlobalController>().userLastName.value.toString()
+                                        : Get.find<GlobalController>().userName.value.toString(),
+                                    profilePic: Get.find<GlobalController>().userImage.value.toString(),
+                                    onPressed: () async {
+                                      Get.find<CreatePostController>().isPostedFromProfile.value = false;
+                                      CreatePostHelper().resetCreatePostData();
+                                      Get.find<KidsController>().isRouteFromKid.value = false;
+                                      Get.toNamed(krCreatePost);
+                                      await Get.find<CreatePostController>().getCreatePost();
+                                    },
+                                    prefixWidget: const Icon(
+                                      BipHip.imageFile,
+                                      color: cIconColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              kH8sizedBox,
-                              Container(
-                                color: cWhiteColor,
-                                width: width,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: kHorizontalPadding,
-                                  ),
-                                  child: DefaultTabController(
-                                    length: 3,
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(color: cLineColor, width: 1),
+                                kH8sizedBox,
+                                Container(
+                                  color: cWhiteColor,
+                                  width: width,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: kHorizontalPadding,
+                                    ),
+                                    child: DefaultTabController(
+                                      length: 3,
+                                      child: DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(color: cLineColor, width: 1),
+                                          ),
                                         ),
-                                      ),
-                                      child: TabBar(
-                                        indicatorColor: cPrimaryColor,
-                                        indicatorWeight: 1,
-                                        onTap: (value) async {
-                                          homeController.homeTabIndex.value = value;
-                                          if (homeController.homeTabIndex.value == 1) {
-                                            await Get.find<QuizController>().getQuestionList();
-                                          }
-                                        },
-                                        unselectedLabelColor: cSmallBodyTextColor,
-                                        unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
-                                        labelStyle: medium14TextStyle(cPrimaryColor),
-                                        labelColor: cPrimaryColor,
-                                        tabs: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  ksSelfie.tr,
-                                                ),
-                                              ],
+                                        child: TabBar(
+                                          indicatorColor: cPrimaryColor,
+                                          indicatorWeight: 1,
+                                          onTap: (value) async {
+                                            homeController.homeTabIndex.value = value;
+                                            if (homeController.homeTabIndex.value == 1) {
+                                              await Get.find<QuizController>().getQuestionList();
+                                            }
+                                          },
+                                          unselectedLabelColor: cSmallBodyTextColor,
+                                          unselectedLabelStyle: medium14TextStyle(cSmallBodyTextColor),
+                                          labelStyle: medium14TextStyle(cPrimaryColor),
+                                          labelColor: cPrimaryColor,
+                                          tabs: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    ksSelfie.tr,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksDailyQuiz.tr,
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                              child: Text(
+                                                ksDailyQuiz.tr,
+                                              ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: k8Padding),
-                                            child: Text(
-                                              ksAwardWinner.tr,
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: k8Padding),
+                                              child: Text(
+                                                ksAwardWinner.tr,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              if (homeController.homeTabIndex.value == 0)
-                                Container(
-                                  color: cWhiteColor,
-                                  width: width,
-                                  child: const StoriesWidget(),
-                                ),
-                              if (homeController.homeTabIndex.value == 1)
-                                Container(
-                                  color: cWhiteColor,
-                                  width: width,
-                                  child: Get.find<QuizController>().isQuestionLoading.value ? const HomePageTopTapableQuizShimmer() : QuizTopWidget(),
-                                ),
-                              if (homeController.homeTabIndex.value == 2)
-                                Container(
-                                  color: cWhiteColor,
-                                  width: width,
-                                  child: AwardsWidget(),
-                                ),
-                              kH8sizedBox,
-                              //!This part must be changed, it for just birthday test post
-                              // Container(
-                              //   color: cWhiteColor,
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.only(left: kHorizontalPadding, top: k16Padding, right: kHorizontalPadding),
-                              //     child: Column(
-                              //       mainAxisAlignment: MainAxisAlignment.start,
-                              //       crossAxisAlignment: CrossAxisAlignment.start,
-                              //       children: [
-                              //         Row(
-                              //           crossAxisAlignment: CrossAxisAlignment.start,
-                              //           children: [
-                              //             ClipOval(
-                              //               child: Container(
-                              //                 height: h44,
-                              //                 width: h44,
-                              //                 decoration: const BoxDecoration(
-                              //                   color: cBlackColor,
-                              //                   shape: BoxShape.circle,
-                              //                 ),
-                              //                 child: Image.network(
-                              //                   "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-                              //                   fit: BoxFit.cover,
-                              //                   errorBuilder: (context, error, stackTrace) => const Icon(
-                              //                     BipHip.user,
-                              //                     size: kIconSize24,
-                              //                     color: cIconColor,
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //             kW12sizedBox,
-                              //             Padding(
-                              //               padding: const EdgeInsets.only(top: k4Padding),
-                              //               child: Column(
-                              //                 crossAxisAlignment: CrossAxisAlignment.start,
-                              //                 children: [
-                              //                   Row(
-                              //                     children: [
-                              //                       Text(
-                              //                         "Wahid Murad",
-                              //                         style: semiBold16TextStyle(cBlackColor),
-                              //                       ),
-                              //                       kW4sizedBox,
-                              //                       const Icon(
-                              //                         BipHip.rightArrowOutline,
-                              //                         size: kIconSize12,
-                              //                         color: cIconColor,
-                              //                       ),
-                              //                       kW4sizedBox,
-                              //                       Text(
-                              //                         "Wahid Murad",
-                              //                         style: semiBold16TextStyle(cBlackColor),
-                              //                       ),
-                              //                     ],
-                              //                   ),
-                              //                   kH4sizedBox,
-                              //                   Row(
-                              //                     children: [
-                              //                       const Icon(
-                              //                         BipHip.world,
-                              //                         size: kIconSize14,
-                              //                         color: cIconColor,
-                              //                       ),
-                              //                       kW4sizedBox,
-                              //                       Text(
-                              //                         '1 hour ago',
-                              //                         style: regular12TextStyle(cSmallBodyTextColor),
-                              //                       ),
-                              //                     ],
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             ),
-
-                              //             const Spacer(),
-                              //             // CustomIconButton(
-                              //             //   icon: BipHip.system,
-                              //             //   size: kIconSize14,
-                              //             //   iconColor: cIconColor,
-                              //             //   onPress: () {},
-                              //             // ),
-                              //             Padding(
-                              //               padding: const EdgeInsets.only(top: k4Padding),
-                              //               child: InkWell(
-                              //                 onTap: () {
-                              //                   homeController.birthdaySelectedAction.value = "";
-                              //                   Get.find<GlobalController>().commonBottomSheet(
-                              //                     context: context,
-                              //                     isScrollControlled: true,
-                              //                     content: BirthdayActionContent(),
-                              //                     onPressCloseButton: () {
-                              //                       Get.back();
-                              //                     },
-                              //                     onPressRightButton: null,
-                              //                     rightText: "",
-                              //                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                              //                     title: ksAction.tr,
-                              //                     isRightButtonShow: false,
-                              //                     bottomSheetHeight: 200,
-                              //                   );
-                              //                 },
-                              //                 child: const Icon(
-                              //                   BipHip.system,
-                              //                   size: kIconSize14,
-                              //                   color: cIconColor,
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //         kH8sizedBox,
-                              //         Text(
-                              //           "Happy Birthday",
-                              //           style: regular14TextStyle(cBlackColor),
-                              //         ),
-                              //         kH8sizedBox,
-                              //         LikeSectionWidget(
-                              //           isGiftShown: true,
-                              //           giftOnPressed: () {},
-                              //           commentOnPressed: () {},
-                              //         ),
-                              //         const CustomDivider(),
-                              //         kH8sizedBox,
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
-
-                              kH8sizedBox,
-                              if (homeController.allPostList.isEmpty)
-                                SizedBox(
-                                  height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
-                                  child: EmptyView(
-                                    title: ksNoDataAvailable.tr,
+                                if (homeController.homeTabIndex.value == 0)
+                                  Container(
+                                    color: cWhiteColor,
+                                    width: width,
+                                    child: const StoriesWidget(),
                                   ),
-                                ),
-                              if (homeController.allPostList.isNotEmpty)
-                                ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    separatorBuilder: (context, index) => kH8sizedBox,
-                                    itemCount: homeController.allPostList.length,
-                                    itemBuilder: (context, index) {
-                                      var item = homeController.allPostList[index];
-                                      return Container(
-                                        color: cWhiteColor,
-                                        width: width,
-                                        child: CommonPostWidget(
-                                          postIndex: index,
-                                          refType: 1,
-                                          refId: item.id!,
-                                          isCommented: index % 2 == 0,
-                                          isLiked: index % 2 != 0,
-                                          // isGiftShow:
-                                          isSharedPost: false,
-                                          showBottomSection: true,
-                                          userName: item.user!.fullName!,
-                                          postTime: homeController.postTimeDifference(item.createdAt),
-                                          isCategorized: true,
-                                          category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                          categoryIcon:
-                                              item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                                          categoryIconColor:
-                                              item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
-                                          privacy: BipHip.world,
-                                          brandName: item.store == null ? null : item.store!.name, //API
-                                          kidName: item.kid == null ? null : item.kid!.name, //API
-                                          kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                          postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                          mediaList: item.images, //API
-                                          isSelfPost: index % 2 != 0,
-                                          isCommentShown: true, commentCount: item.countComment ?? 1, shareCount: item.countShare ?? 1,
-                                          giftCount: item.countStar ?? 0,
-                                          reactCount: (item.countReactions == null || item.countReactions!.all == 0) ? null : item.countReactions,
-                                          postID: item.id!,
-                                          secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                                          subCategory: null,
-                                          platformName: 'Jane Clothing',
-                                          platformLink: 'www.facebook.com/Clothing/lorem',
-                                          actionName: null,
-                                          title: item.title, //API
-                                          price: item.price.toString(), //API
-                                          mainPrice: '400',
-                                          discount: item.discount.toString(),
-                                          isInStock: false,
-                                          productCondition: 'New',
-                                          productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                                          onAngryPressed: (Reaction<String>? reaction) {
-                                            item.countReactions = Get.find<GlobalController>().updateReaction("angry", item.myReaction, item.countReactions);
-                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
-                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                          },
-                                          onHahaPressed: (Reaction<String>? reaction) {
-                                            item.countReactions = Get.find<GlobalController>().updateReaction("haha", item.myReaction, item.countReactions);
-                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
-                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                          },
-                                          onLikePressed: (Reaction<String>? reaction) {
-                                            item.countReactions = Get.find<GlobalController>().updateReaction("like", item.myReaction, item.countReactions);
-                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
-                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                          },
-                                          onLovePressed: (Reaction<String>? reaction) {
-                                            item.countReactions = Get.find<GlobalController>().updateReaction("love", item.myReaction, item.countReactions);
-                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
-                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                          },
-                                          onSadPressed: (Reaction<String>? reaction) {
-                                            item.countReactions = Get.find<GlobalController>().updateReaction("sad", item.myReaction, item.countReactions);
-                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
-                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                          },
-                                          onWowPressed: (Reaction<String>? reaction) {
-                                            item.countReactions = Get.find<GlobalController>().updateReaction("wow", item.myReaction, item.countReactions);
-                                            item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
-                                            homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                          },
-                                          selfReaction: item.myReaction,
-                                        ),
-                                      );
-                                    }),
+                                if (homeController.homeTabIndex.value == 1)
+                                  Container(
+                                    color: cWhiteColor,
+                                    width: width,
+                                    child: Get.find<QuizController>().isQuestionLoading.value ? const HomePageTopTapableQuizShimmer() : QuizTopWidget(),
+                                  ),
+                                if (homeController.homeTabIndex.value == 2)
+                                  Container(
+                                    color: cWhiteColor,
+                                    width: width,
+                                    child: AwardsWidget(),
+                                  ),
+                                kH8sizedBox,
+                                //!This part must be changed, it for just birthday test post
+                                // Container(
+                                //   color: cWhiteColor,
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.only(left: kHorizontalPadding, top: k16Padding, right: kHorizontalPadding),
+                                //     child: Column(
+                                //       mainAxisAlignment: MainAxisAlignment.start,
+                                //       crossAxisAlignment: CrossAxisAlignment.start,
+                                //       children: [
+                                //         Row(
+                                //           crossAxisAlignment: CrossAxisAlignment.start,
+                                //           children: [
+                                //             ClipOval(
+                                //               child: Container(
+                                //                 height: h44,
+                                //                 width: h44,
+                                //                 decoration: const BoxDecoration(
+                                //                   color: cBlackColor,
+                                //                   shape: BoxShape.circle,
+                                //                 ),
+                                //                 child: Image.network(
+                                //                   "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
+                                //                   fit: BoxFit.cover,
+                                //                   errorBuilder: (context, error, stackTrace) => const Icon(
+                                //                     BipHip.user,
+                                //                     size: kIconSize24,
+                                //                     color: cIconColor,
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //             kW12sizedBox,
+                                //             Padding(
+                                //               padding: const EdgeInsets.only(top: k4Padding),
+                                //               child: Column(
+                                //                 crossAxisAlignment: CrossAxisAlignment.start,
+                                //                 children: [
+                                //                   Row(
+                                //                     children: [
+                                //                       Text(
+                                //                         "Wahid Murad",
+                                //                         style: semiBold16TextStyle(cBlackColor),
+                                //                       ),
+                                //                       kW4sizedBox,
+                                //                       const Icon(
+                                //                         BipHip.rightArrowOutline,
+                                //                         size: kIconSize12,
+                                //                         color: cIconColor,
+                                //                       ),
+                                //                       kW4sizedBox,
+                                //                       Text(
+                                //                         "Wahid Murad",
+                                //                         style: semiBold16TextStyle(cBlackColor),
+                                //                       ),
+                                //                     ],
+                                //                   ),
+                                //                   kH4sizedBox,
+                                //                   Row(
+                                //                     children: [
+                                //                       const Icon(
+                                //                         BipHip.world,
+                                //                         size: kIconSize14,
+                                //                         color: cIconColor,
+                                //                       ),
+                                //                       kW4sizedBox,
+                                //                       Text(
+                                //                         '1 hour ago',
+                                //                         style: regular12TextStyle(cSmallBodyTextColor),
+                                //                       ),
+                                //                     ],
+                                //                   ),
+                                //                 ],
+                                //               ),
+                                //             ),
 
-                              if (homeController.allPostList.isNotEmpty &&
-                                  homeController.postListScrolled.value &&
-                                  homeController.postListSubLink.value != null)
-                                const HomePagePaginationShimmer(),
-                              kH8sizedBox,
-                            ],
+                                //             const Spacer(),
+                                //             // CustomIconButton(
+                                //             //   icon: BipHip.system,
+                                //             //   size: kIconSize14,
+                                //             //   iconColor: cIconColor,
+                                //             //   onPress: () {},
+                                //             // ),
+                                //             Padding(
+                                //               padding: const EdgeInsets.only(top: k4Padding),
+                                //               child: InkWell(
+                                //                 onTap: () {
+                                //                   homeController.birthdaySelectedAction.value = "";
+                                //                   Get.find<GlobalController>().commonBottomSheet(
+                                //                     context: context,
+                                //                     isScrollControlled: true,
+                                //                     content: BirthdayActionContent(),
+                                //                     onPressCloseButton: () {
+                                //                       Get.back();
+                                //                     },
+                                //                     onPressRightButton: null,
+                                //                     rightText: "",
+                                //                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                //                     title: ksAction.tr,
+                                //                     isRightButtonShow: false,
+                                //                     bottomSheetHeight: 200,
+                                //                   );
+                                //                 },
+                                //                 child: const Icon(
+                                //                   BipHip.system,
+                                //                   size: kIconSize14,
+                                //                   color: cIconColor,
+                                //                 ),
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //         kH8sizedBox,
+                                //         Text(
+                                //           "Happy Birthday",
+                                //           style: regular14TextStyle(cBlackColor),
+                                //         ),
+                                //         kH8sizedBox,
+                                //         LikeSectionWidget(
+                                //           isGiftShown: true,
+                                //           giftOnPressed: () {},
+                                //           commentOnPressed: () {},
+                                //         ),
+                                //         const CustomDivider(),
+                                //         kH8sizedBox,
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+
+                                kH8sizedBox,
+                                if (homeController.allPostList.isEmpty)
+                                  SizedBox(
+                                    height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
+                                    child: EmptyView(
+                                      title: ksNoDataAvailable.tr,
+                                    ),
+                                  ),
+                                if (homeController.allPostList.isNotEmpty)
+                                  ListView.separated(
+                                      shrinkWrap: true,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      separatorBuilder: (context, index) => kH8sizedBox,
+                                      itemCount: homeController.allPostList.length,
+                                      itemBuilder: (context, index) {
+                                        var item = homeController.allPostList[index];
+                                        return Container(
+                                          color: cWhiteColor,
+                                          width: width,
+                                          child: CommonPostWidget(
+                                            postIndex: index,
+                                            refType: 1,
+                                            refId: item.id!,
+                                            isCommented: index % 2 == 0,
+                                            isLiked: index % 2 != 0,
+                                            // isGiftShow:
+                                            isSharedPost: false,
+                                            showBottomSection: true,
+                                            userName: item.user!.fullName!,
+                                            postTime: homeController.postTimeDifference(item.createdAt),
+                                            isCategorized: true,
+                                            category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                            categoryIcon:
+                                                item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
+                                            categoryIconColor:
+                                                item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
+                                            privacy: BipHip.world,
+                                            brandName: item.store == null ? null : item.store!.name, //API
+                                            kidName: item.kid == null ? null : item.kid!.name, //API
+                                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
+                                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
+                                            mediaList: item.images, //API
+                                            isSelfPost: index % 2 != 0,
+                                            isCommentShown: true, commentCount: item.countComment ?? 1, shareCount: item.countShare ?? 1,
+                                            giftCount: item.countStar ?? 0,
+                                            reactCount: (item.countReactions == null || item.countReactions!.all == 0) ? null : item.countReactions,
+                                            postID: item.id!,
+                                            secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
+                                            subCategory: null,
+                                            platformName: 'Jane Clothing',
+                                            platformLink: 'www.facebook.com/Clothing/lorem',
+                                            actionName: null,
+                                            title: item.title, //API
+                                            price: item.price.toString(), //API
+                                            mainPrice: '400',
+                                            discount: item.discount.toString(),
+                                            isInStock: false,
+                                            productCondition: 'New',
+                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
+                                            onAngryPressed: (Reaction<String>? reaction) {
+                                              item.countReactions = Get.find<GlobalController>().updateReaction("angry", item.myReaction, item.countReactions);
+                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
+                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                            },
+                                            onHahaPressed: (Reaction<String>? reaction) {
+                                              item.countReactions = Get.find<GlobalController>().updateReaction("haha", item.myReaction, item.countReactions);
+                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
+                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                            },
+                                            onLikePressed: (Reaction<String>? reaction) {
+                                              item.countReactions = Get.find<GlobalController>().updateReaction("like", item.myReaction, item.countReactions);
+                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
+                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                            },
+                                            onLovePressed: (Reaction<String>? reaction) {
+                                              item.countReactions = Get.find<GlobalController>().updateReaction("love", item.myReaction, item.countReactions);
+                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
+                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                            },
+                                            onSadPressed: (Reaction<String>? reaction) {
+                                              item.countReactions = Get.find<GlobalController>().updateReaction("sad", item.myReaction, item.countReactions);
+                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
+                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                            },
+                                            onWowPressed: (Reaction<String>? reaction) {
+                                              item.countReactions = Get.find<GlobalController>().updateReaction("wow", item.myReaction, item.countReactions);
+                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
+                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
+                                            },
+                                            selfReaction: item.myReaction,
+                                          ),
+                                        );
+                                      }),
+
+                                if (homeController.allPostList.isNotEmpty &&
+                                    homeController.postListScrolled.value &&
+                                    homeController.postListSubLink.value != null)
+                                  const HomePagePaginationShimmer(),
+                                kH8sizedBox,
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                ),
               ),
             ),
           ),
-        ),
-        // homeController.congratulationsAlertDialog(
-        //     context: context,
-        //     content: Column(
-        //       children: [
-        //         Image.asset(kiProfileDefaultImageUrl),
-        //       ],
-        //     )),
-      ],
+          // homeController.congratulationsAlertDialog(
+          //     context: context,
+          //     content: Column(
+          //       children: [
+          //         Image.asset(kiProfileDefaultImageUrl),
+          //       ],
+          //     )),
+          if (Get.find<PostReactionController>().isGiftStarLoading.value)
+            Positioned(
+              child: CommonLoadingAnimation(
+                onWillPop: () async {
+                  if (Get.find<PostReactionController>().isGiftStarLoading.value) {
+                    return false;
+                  }
+                  return true;
+                },
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

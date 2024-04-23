@@ -16,6 +16,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final TextEditingController bidingTextEditingController = TextEditingController();
   final TextEditingController giftAddCommentTextEditingController = TextEditingController();
   final TextEditingController commentTextEditingController = TextEditingController();
+  final RxBool isGiftAddCommentSuffixIconVisible = RxBool(false);
   final RxBool isPackageSelected = RxBool(false);
   final Rx<Map?> selectedPackage = Rx<Map?>(null);
   final RxBool giftCheckBox = RxBool(false);
@@ -828,24 +829,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt commentedUserId = RxInt(-1);
 
   final FocusNode commentFocusNode = FocusNode();
-  // final FocusNode replyFocusNode = FocusNode();
   final GlobalKey<FlutterMentionsState> commentMentionKey = GlobalKey<FlutterMentionsState>();
   final RxList commentMentionList = RxList([]);
-  // final GlobalKey<FlutterMentionsState> replyMentionKey = GlobalKey<FlutterMentionsState>();
-  // final RxList replyMentionList = RxList([]);
 
   Widget formatMentions(String text, BuildContext context) {
     final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
 
     final Iterable<RegExpMatch> matches = mentionPattern.allMatches(text);
-
-    // Create a list to hold the TextSpans
     List<TextSpan> spans = [];
-
-    // Initialize the start index for the next text span
     int startIndex = 0;
-
-    // Iterate over the matches
     for (final match in matches) {
       if (match.start > startIndex) {
         spans.add(TextSpan(text: text.substring(startIndex, match.start)));
@@ -867,6 +859,44 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         children: spans,
       ),
     );
+  }
+
+  //* post Reaction API Implementation
+  final RxBool isGiftStarLoading = RxBool(false);
+  Future<void> giftStar(String star) async {
+    try {
+      isGiftStarLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'post_id': postId.value.toString(),
+        'star': star.toString(),
+        'comment': giftAddCommentTextEditingController.text.toString().trim(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuGiftStar,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        // unFocus(context);
+        giftAddCommentTextEditingController.clear();
+        isGiftStarLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isGiftStarLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGiftStarLoading.value = false;
+      ll('postReply error: $e');
+    }
   }
 
   void resetCommentAndReplyData() {

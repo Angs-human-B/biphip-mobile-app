@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/shimmers/home/home_page_details_shimmer.dart';
@@ -173,8 +174,10 @@ class HomePostDetails extends StatelessWidget {
                                           // await Get.find<PostReactionController>().updateComment();
                                         } else if (postReactionController.commentId.value == -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "comment");
+                                          Get.find<FriendController>().mentionsList.removeLast();
                                         } else if (postReactionController.commentId.value != -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "reply");
+                                          Get.find<FriendController>().mentionsList.removeLast();
                                         }
                                       },
                                     )),
@@ -616,7 +619,17 @@ class PostDetailsBottomSection extends StatelessWidget {
                             },
                             replyButtonOnPressed: () async {
                               postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                              Get.find<FriendController>()
+                                  .mentionsList
+                                  .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
                               if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
+                                Map<String, dynamic> friendMap = {
+                                  'id': postReactionController.commentList[i].user!.id.toString(),
+                                  'display': postReactionController.commentList[i].user!.fullName,
+                                  'full_name': postReactionController.commentList[i].user!.fullName,
+                                  'photo': postReactionController.commentList[i].user!.profilePicture,
+                                };
+                                Get.find<FriendController>().mentionsList.add(friendMap);
                                 postReactionController.commentMentionKey.currentState?.controller?.text =
                                     "@${postReactionController.commentList[i].user?.fullName} ";
                               }
@@ -676,9 +689,21 @@ class PostDetailsBottomSection extends StatelessWidget {
                                   },
                                   replyButtonOnPressed: () async {
                                     postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                                    if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
+                                    Get.find<FriendController>()
+                                        .mentionsList
+                                        .removeWhere((map) => map['id'] == postReactionController.commentList[i].commentReplies[index].user!.id.toString());
+                                    Map<String, dynamic> friendMap = {
+                                      'id': postReactionController.commentList[i].commentReplies[index].user!.id.toString(),
+                                      'display': postReactionController.commentList[i].commentReplies[index].user!.fullName,
+                                      'full_name': postReactionController.commentList[i].commentReplies[index].user!.fullName,
+                                      'photo': postReactionController.commentList[i].commentReplies[index].user!.profilePicture,
+                                    };
+
+                                    if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].commentReplies[index].user!.id) {
+                                      Get.find<FriendController>().mentionsList.add(friendMap);
+                                      ll(Get.find<FriendController>().mentionsList);
                                       postReactionController.commentMentionKey.currentState?.controller?.text =
-                                          "@${postReactionController.commentList[i].user?.fullName} ";
+                                          "@${postReactionController.commentList[i].commentReplies[index].user!.fullName} ";
                                     }
                                     postReactionController.commentFocusNode.requestFocus();
                                     postReactionController.commentId.value = postReactionController.commentList[i].id!;

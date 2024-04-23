@@ -215,6 +215,9 @@ const String kuGetStorePost = '/mobile/user/get-store-posts';
 //* Post Reaction
 const String kuSetReaction = "/mobile/user/set-reaction";
 
+//* Star
+const String kuGiftStar = '/mobile/user/post-gift-star';
+
 //*  Comment
 const String kuSetComment = "/mobile/user/set-comment";
 const String kuGetComment = "/mobile/user/get-comments";

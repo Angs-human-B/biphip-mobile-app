@@ -674,8 +674,8 @@ class CommonPostWidget extends StatelessWidget {
             isGiftShown: true,
             likeOnTap: () {},
             giftOnPressed: () async {
-              postReactionController.resetGiftData();
-
+              Get.find<PendentBadgesController>().resetBadgesData();
+              postReactionController.postId.value = refId;
               globalController.commonBottomSheet(
                 context: context,
                 content: Obx(() =>
@@ -1524,6 +1524,7 @@ class PurchaseStarContent extends StatelessWidget {
   PurchaseStarContent({super.key});
 
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
+  final FocusNode giftCommentFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -1585,7 +1586,7 @@ class PurchaseStarContent extends StatelessWidget {
                 ],
               ),
             ),
-
+      
             kH24sizedBox,
             const CustomDivider(),
             kH16sizedBox,
@@ -1618,7 +1619,8 @@ class PurchaseStarContent extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        pendentBadgesController.totalStars.value != ''
+                        (pendentBadgesController.totalStars.value != '' &&
+                                (int.parse(pendentBadgesController.totalStars.value) > pendentBadgesController.userBadgesData.value!.starBalance!))
                             ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}'
                             : (int.parse(pendentBadgesController.selectedBadgeStar.value) > pendentBadgesController.userBadgesData.value!.starBalance!)
                                 ? '\$${pendentBadgesController.selectedBadgePrice.value}'
@@ -1664,7 +1666,7 @@ class PurchaseStarContent extends StatelessWidget {
             //       ],
             //     ),
             //   ),
-
+      
             kH16sizedBox,
             RichText(
               text: TextSpan(
@@ -1773,7 +1775,9 @@ class PurchaseStarContent extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  '\$${pendentBadgesController.popularBadgesList[index].price}',
+                                  (pendentBadgesController.popularBadgesList[index].star! > pendentBadgesController.userBadgesData.value!.starBalance!)
+                                      ? '\$${pendentBadgesController.popularBadgesList[index].price}'
+                                      : "",
                                   style: semiBold16TextStyle(cBlackColor),
                                 ),
                                 kW8sizedBox,
@@ -1843,9 +1847,61 @@ class PurchaseStarContent extends StatelessWidget {
                 ),
               ],
             ),
+            kH20sizedBox,
+      
+            Row(
+              children: [
+                ClipOval(
+                  child: Image.network(
+                    Get.find<GlobalController>().userImage.toString(),
+                    width: h32,
+                    height: h32,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(kiDummyImage1ImageUrl);
+                    },
+                    loadingBuilder: imageLoadingBuilder,
+                  ),
+                ),
+                kW8sizedBox,
+                Expanded(
+                  child: CustomModifiedTextField(
+                      borderRadius: h8,
+                      focusNode: giftCommentFocusNode,
+                      controller: Get.find<PostReactionController>().giftAddCommentTextEditingController,
+                      prefixIcon: BipHip.search,
+                      suffixIcon: Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                      hint: ksSearch.tr,
+                      contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
+                      textInputStyle: regular16TextStyle(cBlackColor),
+                      onSuffixPress: () {
+                        Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = false;
+                        Get.find<PostReactionController>().giftAddCommentTextEditingController.clear();
+                      },
+                      onSubmit: (v) {
+                        unfocus(context);
+                        Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = true;
+                      },
+                      onChanged: (v) {
+                        if (Get.find<PostReactionController>().giftAddCommentTextEditingController.text.toString().trim() != '') {
+                          Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = true;
+                        } else {
+                          Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = false;
+                        }
+                      }),
+                ),
+              ],
+            ),
+      
             kH24sizedBox,
             CustomElevatedButton(
-                label: ksNext.tr,
+                label: pendentBadgesController.totalStars.value == "" &&
+                        (int.parse(pendentBadgesController.selectedBadgeStar.value) < pendentBadgesController.userBadgesData.value!.starBalance!)
+                    ? "Send ${pendentBadgesController.selectedBadgeStar.value} stars"
+                    : pendentBadgesController.totalStars.value != "" &&
+                            ((int.parse(pendentBadgesController.totalStars.value) < pendentBadgesController.userBadgesData.value!.starBalance!))
+                        ? "Send ${pendentBadgesController.totalStars.value} stars"
+                        : ksNext.tr,
                 buttonWidth: width - 40,
                 onPressed: pendentBadgesController.badgesCheckBox.value
                     ? () async {
@@ -1854,19 +1910,30 @@ class PurchaseStarContent extends StatelessWidget {
                         pendentBadgesController.badgesCardNumberTextEditingController.clear();
                         pendentBadgesController.badgesMMYYTextEditingController.clear();
                         pendentBadgesController.badgesCvvTextEditingController.clear();
-                        Get.find<GlobalController>().commonBottomSheet(
-                            context: context,
-                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                            isScrollControlled: true,
-                            content: GiftPurchasePaymentContent(),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: () {},
-                            rightText: '',
-                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                            title: ksPayNow.tr,
-                            isRightButtonShow: false);
+                        if (pendentBadgesController.totalStars.value == "" &&
+                                (int.parse(pendentBadgesController.selectedBadgeStar.value) < pendentBadgesController.userBadgesData.value!.starBalance!) ||
+                            pendentBadgesController.totalStars.value != "" &&
+                                ((int.parse(pendentBadgesController.totalStars.value) < pendentBadgesController.userBadgesData.value!.starBalance!))) {
+                                  Get.back();
+                                  Get.back();
+                          Get.find<PostReactionController>().giftStar(pendentBadgesController.totalStars.value == ""
+                              ? pendentBadgesController.selectedBadgeStar.value
+                              : pendentBadgesController.totalStars.value);
+                        } else {
+                          Get.find<GlobalController>().commonBottomSheet(
+                              context: context,
+                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                              isScrollControlled: true,
+                              content: GiftPurchasePaymentContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {},
+                              rightText: '',
+                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                              title: ksPayNow.tr,
+                              isRightButtonShow: false);
+                        }
                       }
                     : null),
             kH20sizedBox,
@@ -1877,316 +1944,9 @@ class PurchaseStarContent extends StatelessWidget {
   }
 }
 
-// class PurchaseStarContent extends StatelessWidget {
-//   PurchaseStarContent({super.key});
-
-//   final PostReactionController postReactionController = Get.find<PostReactionController>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(
-//       () => Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Row(
-//             children: [
-//               Text(
-//                 ksYourCurrentStar.tr,
-//                 style: regular12TextStyle(cIconColor),
-//               ),
-//               Text(
-//                 " (${postReactionController.balance} of 200)",
-//                 style: regular12TextStyle(cIconColor),
-//               )
-//             ],
-//           ),
-//           kH4sizedBox,
-//           Container(
-//             height: 44,
-//             width: width,
-//             decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 const Icon(
-//                   BipHip.giftNew,
-//                   color: cSecondaryColor,
-//                   size: kIconSize16,
-//                 ),
-//                 kW4sizedBox,
-//                 ShaderMask(
-//                   shaderCallback: (Rect bounds) {
-//                     return const LinearGradient(
-//                       colors: [cBlueLinearColor1, cBlueLinearColor2],
-//                       begin: Alignment.topLeft,
-//                       end: Alignment.bottomRight,
-//                     ).createShader(bounds);
-//                   },
-//                   child: Text(
-//                     '${postReactionController.balance}',
-//                     style: semiBold20TextStyle(cWhiteColor),
-//                   ),
-//                 ),
-//                 Padding(
-//                   padding: const EdgeInsets.only(top: k8Padding, left: 1),
-//                   child: Align(
-//                     alignment: Alignment.topRight,
-//                     child: Text(
-//                       ksStars,
-//                       style: regular12TextStyle(cSmallBodyTextColor),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           kH24sizedBox,
-//           const CustomDivider(),
-//           kH16sizedBox,
-//           Text(
-//             ksYourSelectedPackage.tr,
-//             style: regular12TextStyle(cIconColor),
-//           ),
-//           kH8sizedBox,
-//           Obx(() => CustomListTile(
-//                 leading: SvgPicture.asset(
-//                   kiBadgeSvgImageUrl,
-//                   width: 20,
-//                   height: 20,
-//                 ),
-//                 title: postReactionController.totalStars.value != ''
-//                     ? '${postReactionController.totalStars.value} stars'
-//                     : '${postReactionController.selectedPackage.value!['amount']} stars',
-//                 borderColor: cPrimaryColor,
-//                 itemColor: cPrimaryTint2Color,
-//                 trailing: Row(
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-//                         (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
-//                       Text(
-//                         postReactionController.totalStars.value != ''
-//                             ? "\$${postReactionController.totalStarBuyAmount.value.toStringAsFixed(2)}"
-//                             : "\$${postReactionController.selectedPackage.value!['cost']}",
-//                         style: semiBold16TextStyle(cBlackColor),
-//                       ),
-//                   ],
-//                 ),
-//               )),
-//           kH16sizedBox,
-//           const CustomDivider(),
-//           kH16sizedBox,
-//           Text(
-//             ksAllStars.tr,
-//             style: regular12TextStyle(cIconColor),
-//           ),
-//           kH8sizedBox,
-//           RichText(
-//             text: TextSpan(
-//               children: [
-//                 TextSpan(
-//                   text: ksStarsThatYouPurchase.tr,
-//                   style: regular12TextStyle(cBlackColor),
-//                 ),
-//                 TextSpan(
-//                   text: ksLearnMoreAboutStars.tr,
-//                   style: regular12TextStyle(cPrimaryColor),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-//               (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
-//             InkWell(
-//               onTap: () {
-//                 postReactionController.temporarytotalStarBuyAmount.value = postReactionController.totalStarBuyAmount.value;
-//                 postReactionController.temporaryTotalStars.value = postReactionController.totalStars.value;
-//                 postReactionController.starAmountTextEditingController.text = postReactionController.totalStars.value;
-//                 if (postReactionController.starAmountTextEditingController.text.toString().trim() == '') {
-//                   postReactionController.isStarAmountConfirmButtonEnabled.value = false;
-//                 }
-//                 Get.find<GlobalController>().commonBottomSheet(
-//                     context: context,
-//                     isScrollControlled: true,
-//                     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
-//                     content: PurchaseCustomStarContent(),
-//                     onPressCloseButton: () {
-//                       Get.back();
-//                     },
-//                     onPressRightButton: null,
-//                     rightText: '',
-//                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-//                     title: ksBuyCustomStar.tr,
-//                     isRightButtonShow: false);
-//               },
-//               child: Padding(
-//                 padding: const EdgeInsets.only(top: k16Padding),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.start,
-//                   children: [
-//                     const Icon(
-//                       BipHip.plus,
-//                       color: cPrimaryColor,
-//                     ),
-//                     kW4sizedBox,
-//                     Text(
-//                       ksPurchaseCustomStar.tr,
-//                       style: semiBold14TextStyle(cPrimaryColor),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           kH16sizedBox,
-//           const CustomDivider(),
-//           kH16sizedBox,
-//           Text(
-//             ksPopularPackage.tr,
-//             style: regular10TextStyle(cIconColor),
-//           ),
-//           kH16sizedBox,
-//           SizedBox(
-//             child: ListView.builder(
-//                 physics: const NeverScrollableScrollPhysics(),
-//                 shrinkWrap: true,
-//                 itemCount: packages.length,
-//                 itemBuilder: (context, index) {
-//                   return Padding(
-//                     padding: const EdgeInsets.only(bottom: k8Padding),
-//                     child: CustomListTile(
-//                       onPressed: () {
-//                         postReactionController.selectedPackage.value = packages[index];
-//                         postReactionController.resetPurchaseCustomStar();
-//                       },
-//                       leading: SvgPicture.asset(kiBadgeSvgImageUrl, width: 20, height: 20),
-//                       title: '${packages[index]['amount']} stars',
-//                       borderColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
-//                       itemColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
-//                       trailing: Row(
-//                         mainAxisSize: MainAxisSize.min,
-//                         children: [
-//                           if (postReactionController.balance < int.parse(packages[index]['amount']))
-//                             Text(
-//                               '\$${packages[index]['cost']}',
-//                               style: semiBold16TextStyle(cBlackColor),
-//                             ),
-//                           kW8sizedBox,
-//                           Radio(
-//                             value: packages[index],
-//                             groupValue: postReactionController.selectedPackage.value,
-//                             onChanged: (v) {
-//                               postReactionController.selectedPackage.value = v;
-//                             },
-//                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//                             visualDensity: const VisualDensity(
-//                               horizontal: VisualDensity.minimumDensity,
-//                               vertical: VisualDensity.minimumDensity,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   );
-//                 }),
-//           ),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               Obx(() => Transform.translate(
-//                     offset: const Offset(-10.0, 0.0),
-//                     child: Checkbox(
-//                       value: postReactionController.giftCheckBox.value,
-//                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//                       onChanged: (v) {
-//                         postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
-//                       },
-//                     ),
-//                   )),
-//               kW12sizedBox,
-//               Transform.translate(
-//                 offset: const Offset(-20, 0.0),
-//                 child: RichText(
-//                   text: TextSpan(
-//                     children: [
-//                       WidgetSpan(
-//                           child: InkWell(
-//                               onTap: () {
-//                                 postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
-//                               },
-//                               child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
-//                       TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//           kH8sizedBox,
-//           Row(
-//             mainAxisSize: MainAxisSize.min,
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.only(top: 4.0),
-//                 child: Container(
-//                   height: 40,
-//                   width: 40,
-//                   decoration: const BoxDecoration(shape: BoxShape.circle),
-//                   child: Image.asset(kiProfilePicImageUrl),
-//                 ),
-//               ),
-//               kW8sizedBox,
-//               Expanded(
-//                 child: CustomModifiedTextField(
-//                     hint: ksAddAommentWithYourGift.tr,
-//                     textHintStyle: regular12TextStyle(cSmallBodyTextColor),
-//                     inputAction: TextInputAction.done,
-//                     contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
-//                     borderRadius: 8,
-//                     controller: postReactionController.giftAddCommentTextEditingController),
-//               ),
-//             ],
-//           ),
-//           kH12sizedBox,
-//           CustomElevatedButton(
-//               label: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount'])
-//                   ? ksNext.tr
-//                   : postReactionController.totalStars.value != ''
-//                       ? (postReactionController.balance < int.parse(postReactionController.totalStars.value))
-//                           ? ksNext.tr
-//                           : "${ksSend.tr} ${postReactionController.totalStars.value} ${ksStars.tr}"
-//                       : "${ksSend.tr} ${postReactionController.selectedPackage.value!['amount']} ${ksStars.tr}",
-//               buttonHeight: 42,
-//               buttonWidth: width - 40,
-//               onPressed: postReactionController.giftCheckBox.value
-//                   ? () {
-//                       Get.find<GlobalController>().commonBottomSheet(
-//                           context: context,
-//                           bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-//                           isScrollControlled: true,
-//                           content: GiftPurchasePaymentContent(),
-//                           onPressCloseButton: () {
-//                             Get.back();
-//                           },
-//                           onPressRightButton: () {},
-//                           rightText: '',
-//                           rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-//                           title: ksPayNow.tr,
-//                           isRightButtonShow: false);
-//                     }
-//                   : null),
-//         ],
-//       ),
-//     );
-
-//   }
-// }
-
 class PurchaseCustomStarContent extends StatelessWidget {
   PurchaseCustomStarContent({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -2207,14 +1967,14 @@ class PurchaseCustomStarContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '\$${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
+                      '\$${pendentBadgesController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kH4sizedBox,
                     Text(
-                      postReactionController.starAmountTextEditingController.text.toString().trim() == ''
+                      pendentBadgesController.starAmountTextEditingController.text.toString().trim() == ''
                           ? '0 ${ksStarNew.tr}'
-                          : '${postReactionController.starAmountTextEditingController.text} ${ksStars.tr}',
+                          : '${pendentBadgesController.starAmountTextEditingController.text} ${ksStars.tr}',
                       style: semiBold14TextStyle(cPlaceHolderColor),
                     ),
                   ],
@@ -2225,18 +1985,19 @@ class PurchaseCustomStarContent extends StatelessWidget {
             const CustomDivider(),
             kH16sizedBox,
             CustomModifiedTextField(
-              controller: postReactionController.starAmountTextEditingController,
+              controller: pendentBadgesController.starAmountTextEditingController,
               hint: ksAmountOfStar.tr,
               onChanged: (text) {
-                if (postReactionController.starAmountTextEditingController.text.toString().trim() != '' &&
-                    postReactionController.starAmountTextEditingController.text.toString().trim() != '0') {
-                  postReactionController.isStarAmountConfirmButtonEnabled.value = true;
-                  postReactionController.temporarytotalStarBuyAmount.value =
-                      (double.parse(postReactionController.starAmountTextEditingController.text.toString()) * postReactionController.perStarAmount.value);
-                  postReactionController.temporaryTotalStars.value = postReactionController.starAmountTextEditingController.text.toString().trim();
+                if (pendentBadgesController.starAmountTextEditingController.text.toString().trim() != '' &&
+                    pendentBadgesController.starAmountTextEditingController.text.toString().trim() != '0') {
+                  pendentBadgesController.isStarAmountConfirmButtonEnabled.value = true;
+                  pendentBadgesController.temporarytotalStarBuyAmount.value =
+                      (double.parse(pendentBadgesController.starAmountTextEditingController.text.toString()) *
+                          pendentBadgesController.starPriceData.value!.starPrice!.toDouble());
+                  pendentBadgesController.temporaryTotalStars.value = pendentBadgesController.starAmountTextEditingController.text.toString().trim();
                 } else {
-                  postReactionController.isStarAmountConfirmButtonEnabled.value = false;
-                  postReactionController.temporarytotalStarBuyAmount.value = 0;
+                  pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
+                  pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
                 }
               },
               onSubmit: (text) {},
@@ -2262,7 +2023,7 @@ class PurchaseCustomStarContent extends StatelessWidget {
                     style: regular10TextStyle(cIconColor),
                   ),
                   TextSpan(
-                    text: ' ${postReactionController.perStarAmount.value}\$ ',
+                    text: ' ${pendentBadgesController.starPriceData.value!.starPrice.toString()}\$ ',
                     style: regular10TextStyle(cGreenColor),
                   ),
                   TextSpan(
@@ -2278,14 +2039,35 @@ class PurchaseCustomStarContent extends StatelessWidget {
             Obx(() => CustomElevatedButton(
                   buttonWidth: width - 40,
                   label: ksConfirm.tr,
-                  onPressed: postReactionController.isStarAmountConfirmButtonEnabled.value
+                  onPressed: pendentBadgesController.isStarAmountConfirmButtonEnabled.value
                       ? () {
-                          postReactionController.totalStarBuyAmount.value = postReactionController.temporarytotalStarBuyAmount.value;
-                          postReactionController.totalStars.value = postReactionController.temporaryTotalStars.value;
-                          postReactionController.selectedPackage.value = giftPackages[0];
-                          postReactionController.selectedGiftIndex.value = -1;
-                          postReactionController.isPackageSelected.value = false;
+                          pendentBadgesController.totalStarBuyAmount.value = pendentBadgesController.temporarytotalStarBuyAmount.value;
+                          pendentBadgesController.totalStars.value = pendentBadgesController.temporaryTotalStars.value;
+                          pendentBadgesController.selectedBadgeIndex.value = -1;
+                          pendentBadgesController.isPackageSelected.value = false;
+                          pendentBadgesController.selectedBadgeDescription.value = "";
+                          pendentBadgesController.badgeId.value = -1;
+                          pendentBadgesController.badgeStar.value = pendentBadgesController.totalStars.value;
+                          pendentBadgesController.badgePrice.value = pendentBadgesController.totalStarBuyAmount.value.toString();
+                          pendentBadgesController.badgesCheckBox.value = false;
+                          pendentBadgesController.badgesPaymentCheckBox.value = false;
+                          pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                          pendentBadgesController.badgesMMYYTextEditingController.clear();
+                          pendentBadgesController.badgesCvvTextEditingController.clear();
                           Get.back();
+                          // Get.find<GlobalController>().commonBottomSheet(
+                          //     context: context,
+                          //     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                          //     isScrollControlled: true,
+                          //     content: GiftPurchasePaymentContent(),
+                          //     onPressCloseButton: () {
+                          //       Get.back();
+                          //     },
+                          //     onPressRightButton: () {},
+                          //     rightText: '',
+                          //     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                          //     title: ksPayNow.tr,
+                          //     isRightButtonShow: false);
                         }
                       : null,
                   textStyle: semiBold14TextStyle(cWhiteColor),
@@ -2294,6 +2076,117 @@ class PurchaseCustomStarContent extends StatelessWidget {
         ));
   }
 }
+
+// class PurchaseCustomStarContent extends StatelessWidget {
+//   PurchaseCustomStarContent({super.key});
+//   final PostReactionController postReactionController = Get.find<PostReactionController>();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() => Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               crossAxisAlignment: CrossAxisAlignment.center,
+//               children: [
+//                 const Icon(
+//                   BipHip.giftNew,
+//                   color: cSecondaryColor,
+//                   size: kIconSize50,
+//                 ),
+//                 kW12sizedBox,
+//                 kH8sizedBox,
+//                 Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       '\$${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
+//                       style: semiBold18TextStyle(cBlackColor),
+//                     ),
+//                     kH4sizedBox,
+//                     Text(
+//                       postReactionController.starAmountTextEditingController.text.toString().trim() == ''
+//                           ? '0 ${ksStarNew.tr}'
+//                           : '${postReactionController.starAmountTextEditingController.text} ${ksStars.tr}',
+//                       style: semiBold14TextStyle(cPlaceHolderColor),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//             kH16sizedBox,
+//             const CustomDivider(),
+//             kH16sizedBox,
+//             CustomModifiedTextField(
+//               controller: postReactionController.starAmountTextEditingController,
+//               hint: ksAmountOfStar.tr,
+//               onChanged: (text) {
+//                 if (postReactionController.starAmountTextEditingController.text.toString().trim() != '' &&
+//                     postReactionController.starAmountTextEditingController.text.toString().trim() != '0') {
+//                   postReactionController.isStarAmountConfirmButtonEnabled.value = true;
+//                   postReactionController.temporarytotalStarBuyAmount.value =
+//                       (double.parse(postReactionController.starAmountTextEditingController.text.toString()) * postReactionController.perStarAmount.value);
+//                   postReactionController.temporaryTotalStars.value = postReactionController.starAmountTextEditingController.text.toString().trim();
+//                 } else {
+//                   postReactionController.isStarAmountConfirmButtonEnabled.value = false;
+//                   postReactionController.temporarytotalStarBuyAmount.value = 0;
+//                 }
+//               },
+//               onSubmit: (text) {},
+//               inputAction: TextInputAction.done,
+//               inputType: TextInputType.number,
+//               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//               maxLength: 10,
+//               fillColor: cWhiteColor,
+//               border: const OutlineInputBorder(
+//                 borderSide: BorderSide(
+//                   color: cLineColor2,
+//                   width: 1.0,
+//                 ),
+//               ),
+//             ),
+//             RichText(
+//               textAlign: TextAlign.left,
+//               overflow: TextOverflow.clip,
+//               text: TextSpan(
+//                 children: [
+//                   TextSpan(
+//                     text: ksYouWillPay.tr,
+//                     style: regular10TextStyle(cIconColor),
+//                   ),
+//                   TextSpan(
+//                     text: ' ${postReactionController.perStarAmount.value}\$ ',
+//                     style: regular10TextStyle(cGreenColor),
+//                   ),
+//                   TextSpan(
+//                     text: ksForEveryStar.tr,
+//                     style: regular10TextStyle(cIconColor),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             kH16sizedBox,
+//             const CustomDivider(),
+//             kH16sizedBox,
+//             Obx(() => CustomElevatedButton(
+//                   buttonWidth: width - 40,
+//                   label: ksConfirm.tr,
+//                   onPressed: postReactionController.isStarAmountConfirmButtonEnabled.value
+//                       ? () {
+//                           postReactionController.totalStarBuyAmount.value = postReactionController.temporarytotalStarBuyAmount.value;
+//                           postReactionController.totalStars.value = postReactionController.temporaryTotalStars.value;
+//                           postReactionController.selectedPackage.value = giftPackages[0];
+//                           postReactionController.selectedGiftIndex.value = -1;
+//                           postReactionController.isPackageSelected.value = false;
+//                           Get.back();
+//                         }
+//                       : null,
+//                   textStyle: semiBold14TextStyle(cWhiteColor),
+//                 )),
+//           ],
+//         ));
+//   }
+// }
 
 class GiftPurchasePaymentContent extends StatelessWidget {
   GiftPurchasePaymentContent({super.key});

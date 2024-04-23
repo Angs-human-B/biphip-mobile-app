@@ -28,7 +28,7 @@ class CommentTextField extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                decoration: BoxDecoration(borderRadius: k16CircularBorderRadius, border: Border.all(color: cLineColor2)),
+                decoration: BoxDecoration(borderRadius: k100CircularBorderRadius, border: Border.all(color: cLineColor2)),
                 child: FlutterMentions(
                   onMentionAdd: (p0) {
                     postReactionController.commentMentionList.add(p0["id"]);
