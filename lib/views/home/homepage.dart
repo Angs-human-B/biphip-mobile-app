@@ -362,6 +362,7 @@ class HomePage extends StatelessWidget {
                                           refId: item.id!,
                                           isCommented: index % 2 == 0,
                                           isLiked: index % 2 != 0,
+                                          // isGiftShow:
                                           isSharedPost: false,
                                           showBottomSection: true,
                                           userName: item.user!.fullName!,
