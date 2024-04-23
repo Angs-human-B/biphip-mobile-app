@@ -556,67 +556,67 @@ class GlobalController extends GetxController {
     }
   }
 
-  CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
+
+CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
  void adjustReactionCount(String reaction, bool increment) {
-    if (countReaction == null) return; 
+    countReaction ??= CountReactions(
+        all: 0,
+        haha: 0,
+        like: 0,
+        love: 0,
+        sad: 0,
+        wow: 0,
+        angry: 0,
+      );
 
     switch (reaction) {
       case 'haha':
-        countReaction.haha = increment ? (countReaction.haha ?? 0) + 1 : (countReaction.haha ?? 0) - 1;
+        countReaction!.haha = increment ? (countReaction!.haha ?? 0) + 1 : (countReaction!.haha ?? 0) - 1;
         break;
       case 'like':
-        countReaction.like = increment ? (countReaction.like ?? 0) + 1 : (countReaction.like ?? 0) - 1;
+        countReaction!.like = increment ? (countReaction!.like ?? 0) + 1 : (countReaction!.like ?? 0) - 1;
         break;
       case 'love':
-        countReaction.love = increment ? (countReaction.love ?? 0) + 1 : (countReaction.love ?? 0) - 1;
+        countReaction!.love = increment ? (countReaction!.love ?? 0) + 1 : (countReaction!.love ?? 0) - 1;
         break;
       case 'sad':
-        countReaction.sad = increment ? (countReaction.sad ?? 0) + 1 : (countReaction.sad ?? 0) - 1;
+        countReaction!.sad = increment ? (countReaction!.sad ?? 0) + 1 : (countReaction!.sad ?? 0) - 1;
         break;
       case 'wow':
-        countReaction.wow = increment ? (countReaction.wow ?? 0) + 1 : (countReaction.wow ?? 0) - 1;
+        countReaction!.wow = increment ? (countReaction!.wow ?? 0) + 1 : (countReaction!.wow ?? 0) - 1;
         break;
       case 'angry':
-        countReaction.angry = increment ? (countReaction.angry ?? 0) + 1 : (countReaction.angry ?? 0) - 1;
+        countReaction!.angry = increment ? (countReaction!.angry ?? 0) + 1 : (countReaction!.angry ?? 0) - 1;
         break;
       default:
         break;
     }
  }
 
- if (countReaction == null) {
-    if (myReaction == null) {
-      return null;
-    } else {
-      adjustReactionCount(myReaction, true);
-      return countReaction; 
-    }
- }
-
  if (myReaction == null) {
     adjustReactionCount(reaction, true);
-    countReaction.all = (countReaction.all ?? 0) + 1;
+    countReaction!.all = (countReaction!.all ?? 0) + 1;
  } else {
     if (myReaction == reaction) {
       adjustReactionCount(reaction, false);
-      countReaction.all = (countReaction.all ?? 0) - 1;
-      if (countReaction.all == 0) {
-        return null;
+      countReaction!.all = (countReaction!.all ?? 0) - 1;
+      if (countReaction!.all == 0) {
+        return null; 
       }
     } else {
-
       adjustReactionCount(myReaction, false);
       adjustReactionCount(reaction, true);
-      countReaction.all = (countReaction.all ?? 0) - 1; 
-      countReaction.all = (countReaction.all ?? 0) + 1; 
-      if (countReaction.all == 0) {
-        return null; 
+      countReaction!.all = (countReaction!.all ?? 0) - 1; 
+      countReaction!.all = (countReaction!.all ?? 0) + 1;
+      if (countReaction!.all == 0) {
+        return null;
       }
     }
  }
 
  return countReaction;
 }
+
 
 
 

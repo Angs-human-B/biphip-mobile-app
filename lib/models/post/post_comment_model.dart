@@ -1,3 +1,5 @@
+import 'package:bip_hip/models/home/postListModel.dart';
+
 class PostCommentModel {
   Comments? comments;
 
@@ -61,7 +63,7 @@ class Comments {
 class CommentData {
   int? id;
   int? userId;
-  dynamic countReactions;
+  CountReactions? countReactions;
   String? comment;
   dynamic mentionUserIds;
   int? isEdit;
@@ -111,7 +113,7 @@ class CommentData {
   factory CommentData.fromJson(Map<String, dynamic> json) => CommentData(
         id: json["id"],
         userId: json["user_id"],
-        countReactions: json["count_reactions"],
+        countReactions: json["count_reactions"] == null ? null : CountReactions.fromJson(json["count_reactions"]),
         comment: json["comment"],
         mentionUserIds: json["mention_user_ids"],
         isEdit: json["is_edit"],
@@ -139,7 +141,7 @@ class CommentReply {
   int? id;
   int? commentId;
   int? userId;
-  dynamic countReactions;
+  CountReactions? countReactions;
   String? reply;
   dynamic mentionUserIds;
   int? isEdit;
@@ -148,7 +150,7 @@ class CommentReply {
   List<dynamic> mentionUsers;
   dynamic myReaction;
   User? user;
-    DateTime createdAt;
+  DateTime createdAt;
   DateTime updatedAt;
 
   CommentReply({
@@ -164,7 +166,7 @@ class CommentReply {
     required this.mentionUsers,
     required this.myReaction,
     required this.user,
-      required this.createdAt,
+    required this.createdAt,
     required this.updatedAt,
   });
 
@@ -172,7 +174,7 @@ class CommentReply {
         id: json["id"],
         commentId: json["comment_id"],
         userId: json["user_id"],
-        countReactions: json["count_reactions"],
+        countReactions: json["count_reactions"] == null ? null : CountReactions.fromJson(json["count_reactions"]),
         reply: json["reply"],
         mentionUserIds: json["mention_user_ids"],
         isEdit: json["is_edit"],
@@ -181,7 +183,7 @@ class CommentReply {
         mentionUsers: List<dynamic>.from(json["mention_users"].map((x) => x)),
         myReaction: json["my_reaction"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),
-             createdAt: DateTime.parse(json["created_at"]),
+        createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 }
@@ -194,7 +196,7 @@ class RefRelation {
   });
 
   factory RefRelation.fromJson(Map<String, dynamic> json) => RefRelation(
-        post: json["post"]==null ? null : Post.fromJson(json["post"]),
+        post: json["post"] == null ? null : Post.fromJson(json["post"]),
       );
 }
 
@@ -339,7 +341,7 @@ class Post {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: json["count_reactions"]==null ? null : CountReactions.fromJson(json["count_reactions"]),
+        countReactions: json["count_reactions"] == null ? null : CountReactions.fromJson(json["count_reactions"]),
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -357,21 +359,6 @@ class Post {
         isNotifaction: json["is_notifaction"],
         isVisibleToMe: json["is_visible_to_me"],
         countReaction: json["count_reaction"],
-      );
-}
-
-class CountReactions {
-  int? all;
-  int? haha;
-
-  CountReactions({
-    required this.all,
-    required this.haha,
-  });
-
-  factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
-        all: json["All"],
-        haha: json["haha"],
       );
 }
 

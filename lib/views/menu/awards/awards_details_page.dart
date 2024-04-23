@@ -217,7 +217,6 @@ class AwardDetailsPage extends StatelessWidget {
                         isImageComment: true,
                         image: kiDummyImage3ImageUrl,
                         isLink: false,
-                        reactCount: 1234,
                         userName: 'Monjurul Sharker Omi',
                         isSendMessageShown: false,
                         isHideButtonShown: true,

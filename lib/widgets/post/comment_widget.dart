@@ -1,4 +1,5 @@
 import 'package:any_link_preview/any_link_preview.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
@@ -14,7 +15,6 @@ class CommentWidget extends StatelessWidget {
       required this.isReplyButtonShown,
       required this.isReactButtonShown,
       required this.isLink,
-      required this.reactCount,
       required this.replyList,
       required this.userName,
       this.likeButtonOnPressed,
@@ -37,14 +37,16 @@ class CommentWidget extends StatelessWidget {
       this.onHahaPressed,
       this.onSadPressed,
       this.onAngryPressed,
-      this.commentOnPressed});
+      this.commentOnPressed,
+      this.reactCount});
   final String profileImage, userName;
   final String? commentLink, image, timePassed, selfReaction;
   final dynamic comment;
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink, isSendMessageShown, isHideButtonShown;
-  final int reactCount, refId, refType;
+  final int refId, refType;
   final List replyList;
   final int? commentId;
+  final CountReactions? reactCount;
   final VoidCallback? likeButtonOnPressed, replyButtonOnPressed, sendMessageOnPressed, hideButtonOnPressed, profileOnPressed, commentOnPressed;
   final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
 
@@ -141,28 +143,32 @@ class CommentWidget extends StatelessWidget {
                 ),
               ),
             if (!isLink && image != null)
-              SizedBox(
-                width: isDeviceScreenLarge() ? 150 : 120,
-                height: isDeviceScreenLarge() ? 150 : 120,
-                child: ClipRRect(
-                  borderRadius: k8CircularBorderRadius,
-                  child: Image.network(
-                    image!,
-                    fit: BoxFit.cover,
-                    // errorBuilder: (context, error, stackTrace) => const Icon(
-                    //   BipHip.user,
-                    //   size: kIconSize16,
-                    //   color: cIconColor,
-                    // ),
-                    // loadingBuilder: imageLoadingBuilder,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: SizedBox(
+                  width: isDeviceScreenLarge() ? 150 : 120,
+                  height: isDeviceScreenLarge() ? 150 : 120,
+                  child: ClipRRect(
+                    borderRadius: k8CircularBorderRadius,
+                    child: Image.network(
+                      image!,
+                      fit: BoxFit.cover,
+                      // errorBuilder: (context, error, stackTrace) => const Icon(
+                      //   BipHip.user,
+                      //   size: kIconSize16,
+                      //   color: cIconColor,
+                      // ),
+                      // loadingBuilder: imageLoadingBuilder,
+                    ),
                   ),
                 ),
               ),
             if (timePassed != null)
               SizedBox(
                 width: width - 80,
+                height: 15,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
+                  padding: const EdgeInsets.symmetric(horizontal: k8Padding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -390,7 +396,7 @@ class CommentWidget extends StatelessWidget {
                           ),
                         ),
                       const Spacer(),
-                      if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
+                      if (isReactButtonShown) ReactionView(isPost: false, reactCount: (reactCount == null || reactCount!.all == 0) ? null : reactCount)
                     ],
                   ),
                 ),
@@ -457,7 +463,7 @@ class ReplyCommentWidget extends StatelessWidget {
   final dynamic comment;
 
   final bool isImageComment, isLikeButtonShown, isReplyButtonShown, isReactButtonShown, isLink;
-  final int reactCount;
+  final CountReactions? reactCount;
   final VoidCallback? replyButtonOnPressed, profileOnPressed, commentOnPressed;
   final void Function(Reaction<String>? reaction)? onReplyLikePressed,
       onReplyLovePressed,
@@ -581,10 +587,13 @@ class ReplyCommentWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            SizedBox(
-              width: width - 120,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: k8Padding),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: k8Padding,
+              ),
+              child: SizedBox(
+                width: width - 120,
+                height: 15,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -798,7 +807,7 @@ class ReplyCommentWidget extends StatelessWidget {
                         ),
                       ),
                     const Spacer(),
-                    if (isReactButtonShown) const ReactionView(isPost: false, reactCount: null)
+                    if (isReactButtonShown) ReactionView(isPost: false, reactCount: (reactCount == null || reactCount!.all == 0) ? null : reactCount)
                   ],
                 ),
               ),
