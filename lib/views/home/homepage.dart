@@ -381,7 +381,7 @@ class HomePage extends StatelessWidget {
                                           isSelfPost: index % 2 != 0,
                                           isCommentShown: true, commentCount: item.countComment ?? 1, shareCount: item.countShare ?? 1,
                                           giftCount: item.countStar ?? 0,
-                                          reactCount: item.countReactions,
+                                          reactCount: (item.countReactions == null || item.countReactions!.all == 0) ? null : item.countReactions,
                                           postID: item.id!,
                                           secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
                                           subCategory: null,

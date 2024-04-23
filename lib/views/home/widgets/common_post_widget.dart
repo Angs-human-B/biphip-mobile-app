@@ -638,7 +638,7 @@ class CommonPostWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
             child: PostActivityStatusWidget(
-              reactCount: reactCount,
+              reactCount: (reactCount == null || reactCount!.all == 0) ? null : reactCount,
               reactionOnPressed: () {
                 postReactionController.giftFilter(0);
                 globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
@@ -903,7 +903,6 @@ class BiddingInsightsContent extends StatelessWidget {
                     isReactButtonShown: true,
                     comment: comment[index]['comment'],
                     isLink: false,
-                    reactCount: 440,
                     userName: comment[index]['userName'],
                     isImageComment: false,
                     isSendMessageShown: true,
@@ -1146,7 +1145,6 @@ class UpdateBidding extends StatelessWidget {
           isReactButtonShown: false,
           comment: '\$$yourBid',
           isLink: false,
-          reactCount: 0,
           userName: 'Omi',
           isImageComment: false,
           isSendMessageShown: false,
