@@ -283,27 +283,29 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //* post Reaction API Implementation
   final RxBool isPostCommentLoading = RxBool(false);
-  Future<void> postComment(int refType, int refId, context) async {
+  Future<void> postComment(int refType, int refId, context, String commentOrReply) async {
     try {
       isPostCommentLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        'ref_type': refType.toString(),
-        'ref_id': refId.toString(),
-        'comment': commentTextEditingController.text.toString().trim(),
+        if (commentOrReply == "comment") 'ref_type': refType.toString(),
+        if (commentOrReply == "comment") 'ref_id': refId.toString(),
+        if (commentOrReply == "comment") 'comment': commentTextEditingController.text.toString().trim(),
+        if (commentOrReply == "reply") 'reply': commentTextEditingController.text.toString().trim(),
+        if (commentOrReply == "reply") 'comment_id': commentId.toString(),
         'mention_user_ids': commentMentionList.join(','),
       };
       var response;
       if (isCommentImageChanged.value != true) {
         response = await apiController.commonApiCall(
           requestMethod: kPost,
-          url: kuSetComment,
+          url: commentOrReply == "comment" ? kuSetComment : kuSetReply,
           body: body,
           token: token,
         ) as CommonDM;
       } else {
         response = await apiController.mediaUpload(
-          url: kuSetComment,
+          url: commentOrReply == "comment" ? kuSetComment : kuSetReply,
           token: token,
           body: body,
           key: 'image',
@@ -316,6 +318,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         commentTextEditingController.clear();
         commentMentionList.clear();
         isCommentImageChanged.value = false;
+        commentMentionKey.currentState?.controller?.text = "";
         commentImageLink.value = "";
         commentImageFile.value = File("");
         isCommentSendEnable.value = false;

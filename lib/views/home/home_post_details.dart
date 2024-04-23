@@ -171,8 +171,10 @@ class HomePostDetails extends StatelessWidget {
                                       onPressedSend: () async {
                                         if (postReactionController.isUpdateComment.value) {
                                           // await Get.find<PostReactionController>().updateComment();
-                                        } else {
-                                          // await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                                        } else if (postReactionController.commentId.value == -1) {
+                                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "comment");
+                                        } else if (postReactionController.commentId.value != -1) {
+                                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "reply");
                                         }
                                       },
                                     )),
@@ -478,7 +480,8 @@ class PostDetailsBottomSection extends StatelessWidget {
                       );
                     },
                     commentOnPressed: () async {
-                      // ll("12");
+                      postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                      postReactionController.commentId.value = -1;
                       showComment.value = !showComment.value;
                     },
                   ),
