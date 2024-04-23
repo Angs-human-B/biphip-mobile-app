@@ -143,20 +143,23 @@ class CommentWidget extends StatelessWidget {
                 ),
               ),
             if (!isLink && image != null)
-              SizedBox(
-                width: isDeviceScreenLarge() ? 150 : 120,
-                height: isDeviceScreenLarge() ? 150 : 120,
-                child: ClipRRect(
-                  borderRadius: k8CircularBorderRadius,
-                  child: Image.network(
-                    image!,
-                    fit: BoxFit.cover,
-                    // errorBuilder: (context, error, stackTrace) => const Icon(
-                    //   BipHip.user,
-                    //   size: kIconSize16,
-                    //   color: cIconColor,
-                    // ),
-                    // loadingBuilder: imageLoadingBuilder,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: SizedBox(
+                  width: isDeviceScreenLarge() ? 150 : 120,
+                  height: isDeviceScreenLarge() ? 150 : 120,
+                  child: ClipRRect(
+                    borderRadius: k8CircularBorderRadius,
+                    child: Image.network(
+                      image!,
+                      fit: BoxFit.cover,
+                      // errorBuilder: (context, error, stackTrace) => const Icon(
+                      //   BipHip.user,
+                      //   size: kIconSize16,
+                      //   color: cIconColor,
+                      // ),
+                      // loadingBuilder: imageLoadingBuilder,
+                    ),
                   ),
                 ),
               ),
