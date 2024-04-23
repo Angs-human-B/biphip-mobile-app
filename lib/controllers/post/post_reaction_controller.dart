@@ -103,7 +103,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
 
     List<MapEntry<String, dynamic>> topThree = entries.take(3).toList();
-
+    
     for (int index = 0; index < topThree.length; index++) {
       if (topThree[index].value == 0) {
         continue;
@@ -898,6 +898,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('postReply error: $e');
     }
   }
+
 
   void resetCommentAndReplyData() {
     commentTextEditingController.clear();

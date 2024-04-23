@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/menu/birthday/birthday_model.dart';
 import 'package:bip_hip/models/menu/badges/user_badge_model.dart';
 import 'package:bip_hip/models/menu/pendent/user_pendent_model.dart';
@@ -69,6 +70,9 @@ class PendentBadgesController extends GetxController {
     totalStars.value = '';
     isStarAmountConfirmButtonEnabled.value = false;
     starAmountTextEditingController.clear();
+    isPackageSelected.value = false;
+    Get.find<PostReactionController>().giftAddCommentTextEditingController.clear();
+    Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = false;
   }
 
   //*User Pendent Api call

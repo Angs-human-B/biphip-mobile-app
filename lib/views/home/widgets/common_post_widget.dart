@@ -649,7 +649,7 @@ class CommonPostWidget extends StatelessWidget {
               giftCount: giftCount,
               commentCount: commentCount,
               shareCount: shareCount,
-              isGiftShown: true,
+              isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
               giftOnPressed: () {
                 postReactionController.giftFilter(0);
                 globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
@@ -671,7 +671,7 @@ class CommonPostWidget extends StatelessWidget {
             postIndex: postIndex,
             refType: refType,
             refId: refId,
-            isGiftShown: true,
+            isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
             likeOnTap: () {},
             giftOnPressed: () async {
               Get.find<PendentBadgesController>().resetBadgesData();
@@ -1436,6 +1436,7 @@ class GiftContent extends StatelessWidget {
               onPressed: pendentBadgesController.isPackageSelected.value
                   ? () {
                       pendentBadgesController.selectedBadgeIndex.value = -1;
+                      pendentBadgesController.isPackageSelected.value = false;
                       globalController.commonBottomSheet(
                           context: context,
                           content: PurchaseStarContent(),
@@ -1586,7 +1587,7 @@ class PurchaseStarContent extends StatelessWidget {
                 ],
               ),
             ),
-      
+
             kH24sizedBox,
             const CustomDivider(),
             kH16sizedBox,
@@ -1622,7 +1623,8 @@ class PurchaseStarContent extends StatelessWidget {
                         (pendentBadgesController.totalStars.value != '' &&
                                 (int.parse(pendentBadgesController.totalStars.value) > pendentBadgesController.userBadgesData.value!.starBalance!))
                             ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}'
-                            : (int.parse(pendentBadgesController.selectedBadgeStar.value) > pendentBadgesController.userBadgesData.value!.starBalance!)
+                            : pendentBadgesController.totalStars.value == '' &&
+                                    (int.parse(pendentBadgesController.selectedBadgeStar.value) > pendentBadgesController.userBadgesData.value!.starBalance!)
                                 ? '\$${pendentBadgesController.selectedBadgePrice.value}'
                                 : "",
                         style: semiBold16TextStyle(cBlackColor),
@@ -1666,7 +1668,7 @@ class PurchaseStarContent extends StatelessWidget {
             //       ],
             //     ),
             //   ),
-      
+
             kH16sizedBox,
             RichText(
               text: TextSpan(
@@ -1848,7 +1850,7 @@ class PurchaseStarContent extends StatelessWidget {
               ],
             ),
             kH20sizedBox,
-      
+
             Row(
               children: [
                 ClipOval(
@@ -1892,7 +1894,7 @@ class PurchaseStarContent extends StatelessWidget {
                 ),
               ],
             ),
-      
+
             kH24sizedBox,
             CustomElevatedButton(
                 label: pendentBadgesController.totalStars.value == "" &&
@@ -1914,8 +1916,8 @@ class PurchaseStarContent extends StatelessWidget {
                                 (int.parse(pendentBadgesController.selectedBadgeStar.value) < pendentBadgesController.userBadgesData.value!.starBalance!) ||
                             pendentBadgesController.totalStars.value != "" &&
                                 ((int.parse(pendentBadgesController.totalStars.value) < pendentBadgesController.userBadgesData.value!.starBalance!))) {
-                                  Get.back();
-                                  Get.back();
+                          Get.back();
+                          Get.back();
                           Get.find<PostReactionController>().giftStar(pendentBadgesController.totalStars.value == ""
                               ? pendentBadgesController.selectedBadgeStar.value
                               : pendentBadgesController.totalStars.value);

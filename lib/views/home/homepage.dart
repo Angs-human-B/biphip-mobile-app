@@ -381,7 +381,7 @@ class HomePage extends StatelessWidget {
                                             kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
                                             postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
                                             mediaList: item.images, //API
-                                            isSelfPost: index % 2 != 0,
+                                            isSelfPost: Get.find<GlobalController>().userId.value == item.user!.id ? true : false,
                                             isCommentShown: true, commentCount: item.countComment ?? 1, shareCount: item.countShare ?? 1,
                                             giftCount: item.countStar ?? 0,
                                             reactCount: (item.countReactions == null || item.countReactions!.all == 0) ? null : item.countReactions,
