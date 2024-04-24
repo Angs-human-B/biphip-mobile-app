@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
@@ -14,11 +15,12 @@ class CommonPostDetailsWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.showBottomSection,
     required this.refType,
-    required this.refId,
+    required this.refId, this.postList,
   });
   final bool isCommentShown, showBottomSection;
   final String? category, title, postText;
   final List mediaList;
+  final RxList<PostData>? postList;
   final int postIndex;
   final int refType;
   final int refId;
@@ -309,6 +311,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
 
         // if (showBottomSection)
         PostDetailsBottomSection(
+          postList: postList,
           postIndex: postIndex,
           refType: 3,
           isCommentShown: true,

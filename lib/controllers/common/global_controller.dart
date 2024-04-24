@@ -460,7 +460,6 @@ class GlobalController extends GetxController {
     var userData = await spController.getUserData(userToken.value);
     ll("--- : $userData");
     if (userData != null) {
-
       userName.value = userData['name'];
       userFirstName.value = userData['first_name'];
       userLastName.value = userData['last_name'];
@@ -556,10 +555,9 @@ class GlobalController extends GetxController {
     }
   }
 
-
-CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
- void adjustReactionCount(String reaction, bool increment) {
-    countReaction ??= CountReactions(
+  CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
+    void adjustReactionCount(String reaction, bool increment) {
+      countReaction ??= CountReactions(
         all: 0,
         haha: 0,
         like: 0,
@@ -569,56 +567,61 @@ CountReactions? updateReaction(String reaction, String? myReaction, CountReactio
         angry: 0,
       );
 
-    switch (reaction) {
-      case 'haha':
-        countReaction!.haha = increment ? (countReaction!.haha ?? 0) + 1 : (countReaction!.haha ?? 0) - 1;
-        break;
-      case 'like':
-        countReaction!.like = increment ? (countReaction!.like ?? 0) + 1 : (countReaction!.like ?? 0) - 1;
-        break;
-      case 'love':
-        countReaction!.love = increment ? (countReaction!.love ?? 0) + 1 : (countReaction!.love ?? 0) - 1;
-        break;
-      case 'sad':
-        countReaction!.sad = increment ? (countReaction!.sad ?? 0) + 1 : (countReaction!.sad ?? 0) - 1;
-        break;
-      case 'wow':
-        countReaction!.wow = increment ? (countReaction!.wow ?? 0) + 1 : (countReaction!.wow ?? 0) - 1;
-        break;
-      case 'angry':
-        countReaction!.angry = increment ? (countReaction!.angry ?? 0) + 1 : (countReaction!.angry ?? 0) - 1;
-        break;
-      default:
-        break;
-    }
- }
-
- if (myReaction == null) {
-    adjustReactionCount(reaction, true);
-    countReaction!.all = (countReaction!.all ?? 0) + 1;
- } else {
-    if (myReaction == reaction) {
-      adjustReactionCount(reaction, false);
-      countReaction!.all = (countReaction!.all ?? 0) - 1;
-      if (countReaction!.all == 0) {
-        return null; 
+      switch (reaction) {
+        case 'haha':
+          countReaction!.haha = increment ? (countReaction!.haha ?? 0) + 1 : (countReaction!.haha ?? 0) - 1;
+          break;
+        case 'like':
+          countReaction!.like = increment ? (countReaction!.like ?? 0) + 1 : (countReaction!.like ?? 0) - 1;
+          break;
+        case 'love':
+          countReaction!.love = increment ? (countReaction!.love ?? 0) + 1 : (countReaction!.love ?? 0) - 1;
+          break;
+        case 'sad':
+          countReaction!.sad = increment ? (countReaction!.sad ?? 0) + 1 : (countReaction!.sad ?? 0) - 1;
+          break;
+        case 'wow':
+          countReaction!.wow = increment ? (countReaction!.wow ?? 0) + 1 : (countReaction!.wow ?? 0) - 1;
+          break;
+        case 'angry':
+          countReaction!.angry = increment ? (countReaction!.angry ?? 0) + 1 : (countReaction!.angry ?? 0) - 1;
+          break;
+        default:
+          break;
       }
-    } else {
-      adjustReactionCount(myReaction, false);
+    }
+
+    if (myReaction == null) {
       adjustReactionCount(reaction, true);
-      countReaction!.all = (countReaction!.all ?? 0) - 1; 
       countReaction!.all = (countReaction!.all ?? 0) + 1;
-      if (countReaction!.all == 0) {
-        return null;
+    } else {
+      if (myReaction == reaction) {
+        adjustReactionCount(reaction, false);
+        countReaction!.all = (countReaction!.all ?? 0) - 1;
+        if (countReaction!.all == 0) {
+          return null;
+        }
+      } else {
+        adjustReactionCount(myReaction, false);
+        adjustReactionCount(reaction, true);
+        countReaction!.all = (countReaction!.all ?? 0) - 1;
+        countReaction!.all = (countReaction!.all ?? 0) + 1;
+        if (countReaction!.all == 0) {
+          return null;
+        }
       }
     }
- }
 
- return countReaction;
-}
+    return countReaction;
+  }
 
-
-
-
+  void updateCommentCount(RxList<PostData> postList, postIndex, isAddComment) {
+    if(isAddComment){
+    postList[postIndex].countComment = postList[postIndex].countComment! + 1;
+    }else{
+    postList[postIndex].countComment = postList[postIndex].countComment! - 1;
+    }
+    postList.replaceRange(postIndex, postIndex + 1, [postList[postIndex]]);
+  }
   //! end
 }
