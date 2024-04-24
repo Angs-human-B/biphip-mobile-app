@@ -2057,19 +2057,6 @@ class PurchaseCustomStarContent extends StatelessWidget {
                           pendentBadgesController.badgesMMYYTextEditingController.clear();
                           pendentBadgesController.badgesCvvTextEditingController.clear();
                           Get.back();
-                          // Get.find<GlobalController>().commonBottomSheet(
-                          //     context: context,
-                          //     bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                          //     isScrollControlled: true,
-                          //     content: GiftPurchasePaymentContent(),
-                          //     onPressCloseButton: () {
-                          //       Get.back();
-                          //     },
-                          //     onPressRightButton: () {},
-                          //     rightText: '',
-                          //     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                          //     title: ksPayNow.tr,
-                          //     isRightButtonShow: false);
                         }
                       : null,
                   textStyle: semiBold14TextStyle(cWhiteColor),
@@ -2079,120 +2066,9 @@ class PurchaseCustomStarContent extends StatelessWidget {
   }
 }
 
-// class PurchaseCustomStarContent extends StatelessWidget {
-//   PurchaseCustomStarContent({super.key});
-//   final PostReactionController postReactionController = Get.find<PostReactionController>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Obx(() => Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 const Icon(
-//                   BipHip.giftNew,
-//                   color: cSecondaryColor,
-//                   size: kIconSize50,
-//                 ),
-//                 kW12sizedBox,
-//                 kH8sizedBox,
-//                 Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       '\$${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
-//                       style: semiBold18TextStyle(cBlackColor),
-//                     ),
-//                     kH4sizedBox,
-//                     Text(
-//                       postReactionController.starAmountTextEditingController.text.toString().trim() == ''
-//                           ? '0 ${ksStarNew.tr}'
-//                           : '${postReactionController.starAmountTextEditingController.text} ${ksStars.tr}',
-//                       style: semiBold14TextStyle(cPlaceHolderColor),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//             kH16sizedBox,
-//             const CustomDivider(),
-//             kH16sizedBox,
-//             CustomModifiedTextField(
-//               controller: postReactionController.starAmountTextEditingController,
-//               hint: ksAmountOfStar.tr,
-//               onChanged: (text) {
-//                 if (postReactionController.starAmountTextEditingController.text.toString().trim() != '' &&
-//                     postReactionController.starAmountTextEditingController.text.toString().trim() != '0') {
-//                   postReactionController.isStarAmountConfirmButtonEnabled.value = true;
-//                   postReactionController.temporarytotalStarBuyAmount.value =
-//                       (double.parse(postReactionController.starAmountTextEditingController.text.toString()) * postReactionController.perStarAmount.value);
-//                   postReactionController.temporaryTotalStars.value = postReactionController.starAmountTextEditingController.text.toString().trim();
-//                 } else {
-//                   postReactionController.isStarAmountConfirmButtonEnabled.value = false;
-//                   postReactionController.temporarytotalStarBuyAmount.value = 0;
-//                 }
-//               },
-//               onSubmit: (text) {},
-//               inputAction: TextInputAction.done,
-//               inputType: TextInputType.number,
-//               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-//               maxLength: 10,
-//               fillColor: cWhiteColor,
-//               border: const OutlineInputBorder(
-//                 borderSide: BorderSide(
-//                   color: cLineColor2,
-//                   width: 1.0,
-//                 ),
-//               ),
-//             ),
-//             RichText(
-//               textAlign: TextAlign.left,
-//               overflow: TextOverflow.clip,
-//               text: TextSpan(
-//                 children: [
-//                   TextSpan(
-//                     text: ksYouWillPay.tr,
-//                     style: regular10TextStyle(cIconColor),
-//                   ),
-//                   TextSpan(
-//                     text: ' ${postReactionController.perStarAmount.value}\$ ',
-//                     style: regular10TextStyle(cGreenColor),
-//                   ),
-//                   TextSpan(
-//                     text: ksForEveryStar.tr,
-//                     style: regular10TextStyle(cIconColor),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             kH16sizedBox,
-//             const CustomDivider(),
-//             kH16sizedBox,
-//             Obx(() => CustomElevatedButton(
-//                   buttonWidth: width - 40,
-//                   label: ksConfirm.tr,
-//                   onPressed: postReactionController.isStarAmountConfirmButtonEnabled.value
-//                       ? () {
-//                           postReactionController.totalStarBuyAmount.value = postReactionController.temporarytotalStarBuyAmount.value;
-//                           postReactionController.totalStars.value = postReactionController.temporaryTotalStars.value;
-//                           postReactionController.selectedPackage.value = giftPackages[0];
-//                           postReactionController.selectedGiftIndex.value = -1;
-//                           postReactionController.isPackageSelected.value = false;
-//                           Get.back();
-//                         }
-//                       : null,
-//                   textStyle: semiBold14TextStyle(cWhiteColor),
-//                 )),
-//           ],
-//         ));
-//   }
-// }
-
 class GiftPurchasePaymentContent extends StatelessWidget {
   GiftPurchasePaymentContent({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -2213,14 +2089,17 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             kW12sizedBox,
             kH8sizedBox,
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$105.00',
+                  '\$${pendentBadgesController.totalStars.value != '' ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}' : pendentBadgesController.selectedBadgePrice.value}',
                   style: semiBold18TextStyle(cBlackColor),
                 ),
                 kH4sizedBox,
                 Text(
-                  '1000 stars',
+                  pendentBadgesController.totalStars.value != ''
+                      ? '${pendentBadgesController.totalStars.value} stars'
+                      : '${pendentBadgesController.selectedBadgeStar.value} stars',
                   style: semiBold14TextStyle(cPlaceHolderColor),
                 ),
               ],
@@ -2231,7 +2110,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
         const CustomDivider(),
         kH20sizedBox,
         CustomModifiedTextField(
-          controller: postReactionController.cardNumberController,
+          controller: pendentBadgesController.badgesCardNumberTextEditingController,
           hint: ksCardNumber.tr,
           inputType: TextInputType.number,
           inputAction: TextInputAction.next,
@@ -2252,7 +2131,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
           children: [
             Expanded(
               child: CustomModifiedTextField(
-                controller: postReactionController.mmyyStarController,
+                controller: pendentBadgesController.badgesMMYYTextEditingController,
                 hint: 'MM/YY',
                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
                 inputType: TextInputType.number,
@@ -2272,7 +2151,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             kW20sizedBox,
             Expanded(
               child: CustomModifiedTextField(
-                controller: postReactionController.cvvController,
+                controller: pendentBadgesController.badgesCvvTextEditingController,
                 hint: ksCVV.tr,
                 inputType: TextInputType.number,
                 inputAction: TextInputAction.done,
@@ -2297,10 +2176,10 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             Obx(() => Transform.translate(
                   offset: const Offset(-10.0, 0.0),
                   child: Checkbox(
-                    value: postReactionController.giftAgreeCheckBox.value,
+                    value: pendentBadgesController.badgesPaymentCheckBox.value,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onChanged: (v) {
-                      postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                      pendentBadgesController.badgesPaymentCheckBox.value = !pendentBadgesController.badgesPaymentCheckBox.value;
                     },
                   ),
                 )),
@@ -2313,9 +2192,12 @@ class GiftPurchasePaymentContent extends StatelessWidget {
                     WidgetSpan(
                         child: InkWell(
                             onTap: () {
-                              postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                              pendentBadgesController.badgesPaymentCheckBox.value = !pendentBadgesController.badgesPaymentCheckBox.value;
                             },
-                            child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.8),
+                              child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
+                            ))),
                     TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
                   ],
                 ),
@@ -2330,12 +2212,171 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             label: ksPayNow.tr,
             buttonHeight: 42,
             buttonWidth: width - 40,
-            onPressed: postReactionController.giftAgreeCheckBox.value
-                ? () {
-                    Get.offAllNamed(krHome);
+            onPressed: pendentBadgesController.badgesPaymentCheckBox.value
+                ? () async {
+                    Get.back();
+                    Get.back();
+                    Get.back();
+                    pendentBadgesController.resetBadgesData();
+                    await pendentBadgesController.buyBadge();
+                    Get.find<PostReactionController>().giftStar(pendentBadgesController.totalStars.value == ""
+                        ? pendentBadgesController.selectedBadgeStar.value
+                        : pendentBadgesController.totalStars.value);
                   }
                 : null)),
       ],
     );
   }
 }
+
+
+
+// class GiftPurchasePaymentContent extends StatelessWidget {
+//   GiftPurchasePaymentContent({super.key});
+//   final PostReactionController postReactionController = Get.find<PostReactionController>();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Row(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             SizedBox(
+//               width: 50,
+//               height: 50,
+//               child: SvgPicture.asset(
+//                 kiPayment,
+//                 width: h40,
+//                 height: h40,
+//               ),
+//             ),
+//             kW12sizedBox,
+//             kH8sizedBox,
+//             Column(
+//               children: [
+//                 Text(
+//                   '\$105.00',
+//                   style: semiBold18TextStyle(cBlackColor),
+//                 ),
+//                 kH4sizedBox,
+//                 Text(
+//                   '1000 stars',
+//                   style: semiBold14TextStyle(cPlaceHolderColor),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//         kH20sizedBox,
+//         const CustomDivider(),
+//         kH20sizedBox,
+//         CustomModifiedTextField(
+//           controller: postReactionController.cardNumberController,
+//           hint: ksCardNumber.tr,
+//           inputType: TextInputType.number,
+//           inputAction: TextInputAction.next,
+//           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//           maxLength: 16,
+//           textHintStyle: regular14TextStyle(cPlaceHolderColor),
+//           prefixIcon: BipHip.calendarFill,
+//           fillColor: cWhiteColor,
+//           border: const OutlineInputBorder(
+//             borderSide: BorderSide(
+//               color: cLineColor2,
+//               width: 1.0,
+//             ),
+//           ),
+//         ),
+//         kH20sizedBox,
+//         Row(
+//           children: [
+//             Expanded(
+//               child: CustomModifiedTextField(
+//                 controller: postReactionController.mmyyStarController,
+//                 hint: 'MM/YY',
+//                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
+//                 inputType: TextInputType.number,
+//                 inputAction: TextInputAction.next,
+//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//                 onChanged: (String value) {},
+//                 maxLength: 6,
+//                 fillColor: cWhiteColor,
+//                 border: const OutlineInputBorder(
+//                   borderSide: BorderSide(
+//                     color: cLineColor2,
+//                     width: 1.0,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             kW20sizedBox,
+//             Expanded(
+//               child: CustomModifiedTextField(
+//                 controller: postReactionController.cvvController,
+//                 hint: ksCVV.tr,
+//                 inputType: TextInputType.number,
+//                 inputAction: TextInputAction.done,
+//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//                 maxLength: 3,
+//                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
+//                 fillColor: cWhiteColor,
+//                 border: const OutlineInputBorder(
+//                   borderSide: BorderSide(
+//                     color: cLineColor2,
+//                     width: 1.0,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Obx(() => Transform.translate(
+//                   offset: const Offset(-10.0, 0.0),
+//                   child: Checkbox(
+//                     value: postReactionController.giftAgreeCheckBox.value,
+//                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//                     onChanged: (v) {
+//                       postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+//                     },
+//                   ),
+//                 )),
+//             kW12sizedBox,
+//             Transform.translate(
+//               offset: const Offset(-20, 0.0),
+//               child: RichText(
+//                 text: TextSpan(
+//                   children: [
+//                     WidgetSpan(
+//                         child: InkWell(
+//                             onTap: () {
+//                               postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+//                             },
+//                             child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
+//                     TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         kH16sizedBox,
+//         const CustomDivider(),
+//         kH16sizedBox,
+//         Obx(() => CustomElevatedButton(
+//             label: ksPayNow.tr,
+//             buttonHeight: 42,
+//             buttonWidth: width - 40,
+//             onPressed: postReactionController.giftAgreeCheckBox.value
+//                 ? () {
+//                     Get.offAllNamed(krHome);
+//                   }
+//                 : null)),
+//       ],
+//     );
+//   }
+// }

@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
@@ -453,11 +454,11 @@ class HomePage extends StatelessWidget {
           //         Image.asset(kiProfileDefaultImageUrl),
           //       ],
           //     )),
-          if (Get.find<PostReactionController>().isGiftStarLoading.value)
+          if (Get.find<PostReactionController>().isGiftStarLoading.value || Get.find<PendentBadgesController>().isBuyBadgeLoading.value)
             Positioned(
               child: CommonLoadingAnimation(
                 onWillPop: () async {
-                  if (Get.find<PostReactionController>().isGiftStarLoading.value) {
+                  if (Get.find<PostReactionController>().isGiftStarLoading.value || Get.find<PendentBadgesController>().isBuyBadgeLoading.value) {
                     return false;
                   }
                   return true;
