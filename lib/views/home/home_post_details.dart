@@ -507,23 +507,25 @@ class PostDetailsBottomSection extends StatelessWidget {
                     refType: 1,
                     refId: postReactionController.postId.value,
                     isGiftShown: true,
-                    likeOnTap: () {},
+                    likeOnTap: () {
+                      
+                    },
                     giftOnPressed: () {
-                      postReactionController.resetGiftData();
-                      globalController.commonBottomSheet(
-                        context: context,
-                        content: GiftContent(),
-                        isScrollControlled: true,
-                        bottomSheetHeight: height * .9,
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: null,
-                        rightText: '',
-                        rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                        title: ksSendGift.tr,
-                        isRightButtonShow: false,
-                      );
+                      // postReactionController.resetGiftData();
+                      // globalController.commonBottomSheet(
+                      //   context: context,
+                      //   content: GiftContent(),
+                      //   isScrollControlled: true,
+                      //   bottomSheetHeight: height * .9,
+                      //   onPressCloseButton: () {
+                      //     Get.back();
+                      //   },
+                      //   onPressRightButton: null,
+                      //   rightText: '',
+                      //   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                      //   title: ksSendGift.tr,
+                      //   isRightButtonShow: false,
+                      // );
                     },
                     commentOnPressed: () async {
                       postReactionController.commentMentionKey.currentState?.controller?.text = "";

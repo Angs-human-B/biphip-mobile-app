@@ -368,8 +368,8 @@ class HomePage extends StatelessWidget {
                                             userId: item.user!.id!,
                                             isCommented: index % 2 == 0,
                                             isLiked: index % 2 != 0,
-                                            // isGiftShow:
                                             isSharedPost: false,
+                                            // isSharedPost: item.isSharePost == 0 ? false : true,
                                             showBottomSection: true,
                                             userName: item.user!.fullName!,
                                             postTime: homeController.postTimeDifference(item.createdAt),
