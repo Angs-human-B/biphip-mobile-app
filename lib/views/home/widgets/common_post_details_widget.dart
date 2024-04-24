@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
@@ -15,7 +16,8 @@ class CommonPostDetailsWidget extends StatelessWidget {
     required this.isCommentShown,
     required this.showBottomSection,
     required this.refType,
-    required this.refId, this.postList,
+    required this.refId,
+    this.postList,
   });
   final bool isCommentShown, showBottomSection;
   final String? category, title, postText;
@@ -309,18 +311,19 @@ class CommonPostDetailsWidget extends StatelessWidget {
             ),
           ),
 
-        // if (showBottomSection)
-        PostDetailsBottomSection(
-          postList: postList,
-          postIndex: postIndex,
-          refType: 3,
-          isCommentShown: true,
-          isSelfPost: true,
-          commentCount: 0,
-          shareCount: 0,
-          giftCount: 0,
-          // reactCount: 67,
-        ),
+        if (showBottomSection)
+          PostDetailsBottomSection(
+            postList: postList,
+            postIndex: postIndex,
+            refType: 3,
+            isCommentShown: true,
+            isSelfPost: true,
+            commentCount:
+                Get.find<PostReactionController>().commentList.isEmpty ? 0 : Get.find<PostReactionController>().commentList[0].refRelation!.post!.countComment!,
+            shareCount: 0,
+            giftCount: 0,
+            // reactCount: 67,
+          ),
       ],
     );
   }

@@ -444,25 +444,42 @@ class PostDetailsBottomSection extends StatelessWidget {
           //     ),
           //   ),
 
-          if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
-            Padding(
-              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-              child: PostActivityStatusWidget(
-                reactCount: reactCount,
-                reactionOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-                giftCount: giftCount,
-                commentCount: commentCount,
-                shareCount: shareCount,
-                isGiftShown: true,
-                giftOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
-              ),
-            ),
+          // if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
+          postReactionController.isCommentLoading.value
+              ? Padding(
+                  padding: const EdgeInsets.only(left: k40Padding, right: kHorizontalPadding, top: k12Padding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ShimmerCommon(
+                        widget: Container(height: h12, width: width * 0.1, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                      ShimmerCommon(
+                        widget: Container(height: h12, width: width * 0.3, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                    ],
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+                  child: PostActivityStatusWidget(
+                    reactCount: reactCount,
+                    reactionOnPressed: () {
+                      postReactionController.giftFilter(0);
+                      globalController.blankBottomSheet(
+                          context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                    },
+                    giftCount: giftCount,
+                    commentCount: commentCount,
+                    shareCount: shareCount,
+                    isGiftShown: true,
+                    giftOnPressed: () {
+                      postReactionController.giftFilter(0);
+                      globalController.blankBottomSheet(
+                          context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                    },
+                  ),
+                ),
           postReactionController.isCommentLoading.value
               ? Padding(
                   padding: const EdgeInsets.only(bottom: k8Padding, top: k8Padding),
@@ -871,9 +888,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                         }
                         //*Others user post action
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {
-                          Get.back();
-                        }
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.commentMentionKey.currentState?.controller?.text = "";
@@ -899,12 +914,10 @@ class CommentBottomSheetContent extends StatelessWidget {
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                           // await postReactionController.deleteComment();
-                          Get.back();
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           // await postReactionController.hideComment();
-                          Get.back();
                         }
                       },
                     ),
@@ -983,13 +996,11 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      Get.back();
                       // await postReactionController.deleteReply();
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
                       // await postReactionController.hideReply();
-                      Get.back();
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
