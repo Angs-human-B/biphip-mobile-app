@@ -30,7 +30,8 @@ class HomePostDetails extends StatelessWidget {
       this.images,
       this.postText,
       this.title,
-      this.refId = 0});
+      this.refId = 0,
+      this.postList});
   final int postIndex;
   final int refId;
   final String? userName, postTime;
@@ -45,6 +46,7 @@ class HomePostDetails extends StatelessWidget {
   final String? postText;
   final String? title;
   final List? images;
+  final RxList<PostData>? postList;
 
   final HomeController homeController = Get.find<HomeController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -108,6 +110,7 @@ class HomePostDetails extends StatelessWidget {
                                       ),
                                       kH12sizedBox,
                                       CommonPostDetailsWidget(
+                                        postList: postList,
                                         mediaList: images ?? [],
                                         isCommentShown: true,
                                         showBottomSection: true,
@@ -173,9 +176,11 @@ class HomePostDetails extends StatelessWidget {
                                           // await Get.find<PostReactionController>().updateComment();
                                         } else if (postReactionController.commentId.value == -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "comment");
+                                          //CALL NEW FUNCTION
                                         } else if (postReactionController.commentId.value != -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "reply");
                                         }
+                                        Get.find<GlobalController>().updateCommentCount(postList!, postIndex, true);
                                       },
                                     )),
                               ),
@@ -298,7 +303,8 @@ class PostDetailsBottomSection extends StatelessWidget {
       this.reactCount,
       this.postIndex = 0,
       this.refType = 0,
-      this.refId = 0});
+      this.refId = 0,
+      this.postList});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -308,6 +314,7 @@ class PostDetailsBottomSection extends StatelessWidget {
   final int postIndex;
   final int refType;
   final int refId;
+  final RxList<PostData>? postList;
   final CountReactions? reactCount;
   final String? category, actionName;
   final VoidCallback? actionOnPressed;
@@ -538,7 +545,10 @@ class PostDetailsBottomSection extends StatelessWidget {
                               Get.find<GlobalController>().commonBottomSheet(
                                   context: context,
                                   bottomSheetHeight: height * 0.4,
-                                  content: CommentBottomSheetContent(),
+                                  content: CommentBottomSheetContent(
+                                    postList: postList,
+                                    postIndex: postIndex,
+                                  ),
                                   onPressCloseButton: () {
                                     Get.back();
                                   },
@@ -726,8 +736,10 @@ class PostDetailsBottomSection extends StatelessWidget {
 }
 
 class CommentBottomSheetContent extends StatelessWidget {
-  CommentBottomSheetContent({super.key});
+  CommentBottomSheetContent({super.key, this.postList, this.postIndex});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final RxList<PostData>? postList;
+  final int? postIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -769,6 +781,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                         Get.back();
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                           await postReactionController.deleteComment();
+                          Get.find<GlobalController>().updateCommentCount(postList!, postIndex, false);
                         }
                         if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           await postReactionController.hideComment();

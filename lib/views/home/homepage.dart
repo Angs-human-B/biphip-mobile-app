@@ -357,6 +357,7 @@ class HomePage extends StatelessWidget {
                                         color: cWhiteColor,
                                         width: width,
                                         child: CommonPostWidget(
+                                          postList: homeController.allPostList,
                                           postIndex: index,
                                           refType: 1,
                                           refId: item.id!,

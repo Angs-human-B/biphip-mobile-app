@@ -73,7 +73,7 @@ class CommonPostWidget extends StatelessWidget {
     this.onHahaPressed,
     this.onSadPressed,
     this.onAngryPressed,
-    this.selfReaction,
+    this.selfReaction, this.postList,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -101,6 +101,7 @@ class CommonPostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final RxList<PostData>? postList;
   final List<TaggedFriend> taggedFriends;
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
@@ -701,6 +702,7 @@ class CommonPostWidget extends StatelessWidget {
               postReactionController.resetCommentAndReplyData();
               Get.to(() => HomePostDetails(
                     postIndex: postIndex,
+                    postList: postList,
                     images: mediaList,
                     userName: userName,
                     userImage: userImage,
