@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/models/post/post_comment_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
@@ -398,7 +399,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       } else {
         commentListSub = getCommentSubLink.value!.split('?');
       }
-
       String commentListSuffixUrl = '';
 
       commentListSuffixUrl = '?${commentListSub[1]}&ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=10';
@@ -511,6 +511,24 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     //   'action': 'Reply',
     // },
   ]);
+  final RxList othersReplyActionList = RxList([
+    {
+      'icon': BipHip.report,
+      'action': 'Report Reply',
+    },
+    {
+      'icon': BipHip.circleCrossNew,
+      'action': 'Hide Reply',
+    },
+    {
+      'icon': BipHip.deleteNew,
+      'action': 'Delete',
+    },
+    // {
+    //   'icon': BipHip.menuFill,
+    //   'action': 'Reply',
+    // },
+  ]);
 
   final RxInt commentId = RxInt(-1);
   final RxInt replyId = RxInt(-1);
@@ -533,11 +551,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        // for (int index = 0; index <= commentList.length; index++) {
-        //   if (commentId.value == commentList[index].id) {
-        //     commentList.removeAt(index);
-        //   }
-        // }
         await getCommentList(1, refId.value);
         isCommentDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -626,6 +639,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         await getCommentList(1, refId.value);
         isUpdateComment.value = false;
         commentTextEditingController.clear();
+        commentMentionKey.currentState?.controller?.text = "";
         commentMentionList.clear();
         isCommentImageChanged.value = false;
         commentImageLink.value = "";
@@ -804,7 +818,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         await getCommentList(1, refId.value);
         isUpdateReply.value = false;
         replyTextEditingController.clear();
-        // replyMentionList.clear();
+        commentMentionKey.currentState?.controller?.text = "";
         isReplyImageChanged.value = false;
         replyImageLink.value = "";
         replyImageFile.value = File("");
@@ -828,11 +842,45 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final RxInt userId = RxInt(-1);
   final RxInt commentedUserId = RxInt(-1);
+  final RxInt replyUserId = RxInt(-1);
 
   final FocusNode commentFocusNode = FocusNode();
   final GlobalKey<FlutterMentionsState> commentMentionKey = GlobalKey<FlutterMentionsState>();
   final RxList commentMentionList = RxList([]);
 
+  //* Format for update comment and reply
+  String formatComment(String text) {
+    final RegExp pattern = RegExp(r'@\[(.*?)\]\((\d+)\)');
+    final Iterable<Match> matches = pattern.allMatches(text);
+
+    List<String> parts = [];
+
+    int lastEnd = 0;
+    for (var match in matches) {
+      parts.add(text.substring(lastEnd, match.start));
+
+      for (int i = 0; i < commentList.length; i++) {
+        Get.find<FriendController>().mentionsList.removeWhere((map) => map['id'] == commentList[i].user!.id.toString());
+        if (Get.find<GlobalController>().userId.value != commentList[i].user!.id) {
+          Map<String, dynamic> friendMap = {
+            'id': commentList[i].user!.id.toString(),
+            'display': commentList[i].user!.fullName,
+            'full_name': commentList[i].user!.fullName,
+            'photo': commentList[i].user!.profilePicture,
+          };
+          Get.find<FriendController>().mentionsList.add(friendMap);
+          commentMentionKey.currentState?.controller?.text = "@${commentList[i].user?.fullName} ";
+        }
+        commentId.value = commentList[i].id!;
+      }
+      parts.add('@${match.group(1)}');
+      lastEnd = match.end;
+    }
+    parts.add(text.substring(lastEnd));
+    return parts.join(' ');
+  }
+
+  //* Format the mention data
   Widget formatMentions(String text, BuildContext context) {
     final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
 

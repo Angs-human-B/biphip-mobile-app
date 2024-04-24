@@ -67,13 +67,15 @@ class CommonPostWidget extends StatelessWidget {
     this.postIndex = 0,
     this.refType = 0,
     this.refId = 0,
+    this.userId = 0,
     this.onLikePressed,
     this.onLovePressed,
     this.onWowPressed,
     this.onHahaPressed,
     this.onSadPressed,
     this.onAngryPressed,
-    this.selfReaction, this.postList,
+    this.selfReaction,
+    this.postList,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -105,7 +107,7 @@ class CommonPostWidget extends StatelessWidget {
   final List<TaggedFriend> taggedFriends;
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
-  final int postIndex;
+  final int postIndex, userId;
   final int refType;
   final int refId;
   final VoidCallback? postUpperContainerOnPressed;
@@ -700,7 +702,7 @@ class CommonPostWidget extends StatelessWidget {
             commentOnPressed: () async {
               showComment.value = !showComment.value;
               postReactionController.resetCommentAndReplyData();
-              // postReactionController.userId.value = 
+              // postReactionController.userId.value =
               Get.to(() => HomePostDetails(
                     postIndex: postIndex,
                     postList: postList,
@@ -2230,8 +2232,6 @@ class GiftPurchasePaymentContent extends StatelessWidget {
     );
   }
 }
-
-
 
 // class GiftPurchasePaymentContent extends StatelessWidget {
 //   GiftPurchasePaymentContent({super.key});

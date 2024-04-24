@@ -365,6 +365,7 @@ class HomePage extends StatelessWidget {
                                             postIndex: index,
                                             refType: 1,
                                             refId: item.id!,
+                                            userId: item.user!.id!,
                                             isCommented: index % 2 == 0,
                                             isLiked: index % 2 != 0,
                                             // isGiftShow:

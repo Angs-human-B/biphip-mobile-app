@@ -79,108 +79,102 @@ class HomePostDetails extends StatelessWidget {
                             },
                           ),
                         ),
-
-                        // floatingActionButton:
-                        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                        // resizeToAvoidBottomInset: true,
                         body: Stack(
                           children: [
-                            postReactionController.commentList.isNotEmpty
-                                ? NotificationListener<ScrollNotification>(
-                                    onNotification: (scrollNotification) {
-                                      if (postReactionController.commentListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-                                          scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                                          !postReactionController.getCommentScrolled.value) {
-                                        postReactionController.getCommentScrolled.value = true;
-                                        if (postReactionController.commentList.isNotEmpty) {
-                                          ll('123');
-                                          postReactionController.getMoreCommentList(null, 1, refId);
-                                        }
-                                        return true;
-                                      }
-                                      return false;
-                                    },
-                                    child: SizedBox(
-                                      height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                                      child: SingleChildScrollView(
-                                        controller: postReactionController.commentListScrollController,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: k12Padding),
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                                child: PostUpperContainer(
-                                                  taggedFriend: const [],
-                                                  userName: userName ?? ksNA.tr,
-                                                  isCategorized: false,
-                                                  privacy: BipHip.world,
-                                                  postTime: postTime!,
-                                                  userImage: userImage ?? "",
-                                                  category: category,
-                                                  categoryIcon: categoryIcon,
-                                                  categoryIconColor: categoryIconColor,
-                                                  kidName: kidName, //API
-                                                  kidAge: kidAge, //API
-                                                  brandName: brandName, //API
-                                                  secondaryImage: secondaryImage,
-                                                ),
-                                              ),
-                                              kH12sizedBox,
-                                              CommonPostDetailsWidget(
-                                                postList: postList,
-                                                mediaList: images ?? [],
-                                                isCommentShown: true,
-                                                showBottomSection: true,
-                                                postIndex: postIndex,
-                                                postText: postText ?? '', //API
-                                                title: title, //API
-                                                refType: 1,
-                                                refId: refId,
-                                              ),
-                                              // CommonPostDetailsWidget(//!Not used now
-                                              //   mediaList: homeController.postData.value!.post.images,
-                                              //   isCommentShown: true,
-                                              //   showBottomSection: true,
-                                              //   postIndex: postIndex,
-                                              //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                                              //       ? homeController.postData.value!.post.description ?? ''
-                                              //       : homeController.postData.value!.post.content ?? '', //API
-                                              //   // title: homeController.postData.value!.post.title, //API
-                                              //   title: homeController.postData.value!.post.title, //API
-                                              // ),
-                                              // SizedBox(
-                                              //     width: width - 40,
-                                              //     height: 108,
-                                              //     child: CommentTextField(
-                                              //       hintText: "${ksWriteAComment.tr} ...",
-                                              //       onPressedCamera: () async {
-                                              //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                              //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                              //         postReactionController.commentSendEnabled();
-                                              //       },
-                                              //       onPressedSend: () async {
-                                              //         if (postReactionController.isUpdateComment.value) {
-                                              //           await Get.find<PostReactionController>().updateComment();
-                                              //         } else {
-                                              //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-                                              //         }
-                                              //       },
-                                              //     )),
-                                              if (postReactionController.commentList.isNotEmpty &&
-                                                  postReactionController.getCommentScrolled.value &&
-                                                  postReactionController.getCommentSubLink.value != null)
-                                                const Center(child: CircularProgressIndicator()),
-                                              const SizedBox(
-                                                height: 110,
-                                              ),
-                                            ],
+                            NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                if (postReactionController.commentListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                                    scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                                    !postReactionController.getCommentScrolled.value) {
+                                  postReactionController.getCommentScrolled.value = true;
+                                  if (postReactionController.commentList.isNotEmpty) {
+                                    ll('123');
+                                    postReactionController.getMoreCommentList(null, 1, refId);
+                                  }
+                                  return true;
+                                }
+                                return false;
+                              },
+                              child: SizedBox(
+                                height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                                child: SingleChildScrollView(
+                                  controller: postReactionController.commentListScrollController,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: k12Padding),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                          child: PostUpperContainer(
+                                            taggedFriend: const [],
+                                            userName: userName ?? ksNA.tr,
+                                            isCategorized: false,
+                                            privacy: BipHip.world,
+                                            postTime: postTime!,
+                                            userImage: userImage ?? "",
+                                            category: category,
+                                            categoryIcon: categoryIcon,
+                                            categoryIconColor: categoryIconColor,
+                                            kidName: kidName, //API
+                                            kidAge: kidAge, //API
+                                            brandName: brandName, //API
+                                            secondaryImage: secondaryImage,
                                           ),
                                         ),
-                                      ),
+                                        kH12sizedBox,
+                                        CommonPostDetailsWidget(
+                                          postList: postList,
+                                          mediaList: images ?? [],
+                                          isCommentShown: true,
+                                          showBottomSection: true,
+                                          postIndex: postIndex,
+                                          postText: postText ?? '', //API
+                                          title: title, //API
+                                          refType: 1,
+                                          refId: refId,
+                                        ),
+                                        // CommonPostDetailsWidget(//!Not used now
+                                        //   mediaList: homeController.postData.value!.post.images,
+                                        //   isCommentShown: true,
+                                        //   showBottomSection: true,
+                                        //   postIndex: postIndex,
+                                        //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
+                                        //       ? homeController.postData.value!.post.description ?? ''
+                                        //       : homeController.postData.value!.post.content ?? '', //API
+                                        //   // title: homeController.postData.value!.post.title, //API
+                                        //   title: homeController.postData.value!.post.title, //API
+                                        // ),
+                                        // SizedBox(
+                                        //     width: width - 40,
+                                        //     height: 108,
+                                        //     child: CommentTextField(
+                                        //       hintText: "${ksWriteAComment.tr} ...",
+                                        //       onPressedCamera: () async {
+                                        //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                        //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                        //         postReactionController.commentSendEnabled();
+                                        //       },
+                                        //       onPressedSend: () async {
+                                        //         if (postReactionController.isUpdateComment.value) {
+                                        //           await Get.find<PostReactionController>().updateComment();
+                                        //         } else {
+                                        //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                                        //         }
+                                        //       },
+                                        //     )),
+                                        if (postReactionController.commentList.isNotEmpty &&
+                                            postReactionController.getCommentScrolled.value &&
+                                            postReactionController.getCommentSubLink.value != null)
+                                          const Center(child: CommentCommonShimmer()),
+                                        const SizedBox(
+                                          height: 110,
+                                        ),
+                                      ],
                                     ),
-                                  )
-                                : const SizedBox(),
+                                  ),
+                                ),
+                              ),
+                            ),
                             Positioned(
                               bottom: 0,
                               child: Container(
@@ -197,7 +191,9 @@ class HomePostDetails extends StatelessWidget {
                                       },
                                       onPressedSend: () async {
                                         if (postReactionController.isUpdateComment.value) {
-                                          // await Get.find<PostReactionController>().updateComment();
+                                          await Get.find<PostReactionController>().updateComment(context);
+                                        } else if (Get.find<PostReactionController>().isUpdateReply.value) {
+                                          await Get.find<PostReactionController>().updateReply(context);
                                         } else if (postReactionController.commentId.value == -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "comment");
                                           Get.find<FriendController>().mentionsList.removeLast();
@@ -650,7 +646,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                               postReactionController.commentId.value = postReactionController.commentList[i].id!;
                               await postReactionController.hideComment();
                             },
-                            replyButtonOnPressed: () async {
+                            replyButtonOnPressed: () {
                               postReactionController.commentMentionKey.currentState?.controller?.text = "";
                               Get.find<FriendController>()
                                   .mentionsList
@@ -745,6 +741,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                                     Get.find<PostReactionController>().replyId.value = postReactionController.commentList[i].commentReplies[index].id!;
                                     Get.find<PostReactionController>().selectedReplyIndex.value = index;
                                     Get.find<PostReactionController>().commentId.value = postReactionController.commentList[i].id!;
+                                    postReactionController.replyUserId.value = postReactionController.commentList[i].commentReplies[index].user!.id!;
                                     Get.find<GlobalController>().commonBottomSheet(
                                         context: context,
                                         bottomSheetHeight: height * 0.4,
@@ -841,8 +838,8 @@ class CommentBottomSheetContent extends StatelessWidget {
                           postReactionController.isUpdateComment.value = true;
                           postReactionController.commentTextEditingController.text =
                               postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
-                          postReactionController.commentMentionKey.currentState!.controller!.text =
-                              postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment!;
+                          postReactionController.commentMentionKey.currentState!.controller!.text = postReactionController
+                              .formatComment(postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment.toString());
                           if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
                             postReactionController.commentImage.value =
                                 postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
@@ -852,14 +849,50 @@ class CommentBottomSheetContent extends StatelessWidget {
 
                         if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
                             postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                          postReactionController.commentTextEditingController.text = "";
+                          postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                          for (int i = 0; i < postReactionController.commentList.length; i++) {
+                            Get.find<FriendController>()
+                                .mentionsList
+                                .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
+                            if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
+                              Map<String, dynamic> friendMap = {
+                                'id': postReactionController.commentList[i].user!.id.toString(),
+                                'display': postReactionController.commentList[i].user!.fullName,
+                                'full_name': postReactionController.commentList[i].user!.fullName,
+                                'photo': postReactionController.commentList[i].user!.profilePicture,
+                              };
+                              Get.find<FriendController>().mentionsList.add(friendMap);
+                              postReactionController.commentMentionKey.currentState?.controller?.text =
+                                  "@${postReactionController.commentList[i].user?.fullName} ";
+                            }
+                            postReactionController.commentFocusNode.requestFocus();
+                            postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                          }
                         }
                         //*Others user post action
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                          postReactionController.commentTextEditingController.text = "";
+                          postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                          for (int i = 0; i < postReactionController.commentList.length; i++) {
+                            Get.find<FriendController>()
+                                .mentionsList
+                                .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
+                            if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
+                              Map<String, dynamic> friendMap = {
+                                'id': postReactionController.commentList[i].user!.id.toString(),
+                                'display': postReactionController.commentList[i].user!.fullName,
+                                'full_name': postReactionController.commentList[i].user!.fullName,
+                                'photo': postReactionController.commentList[i].user!.profilePicture,
+                              };
+                              Get.find<FriendController>().mentionsList.add(friendMap);
+                              postReactionController.commentMentionKey.currentState?.controller?.text =
+                                  "@${postReactionController.commentList[i].user?.fullName} ";
+                            }
+                            postReactionController.commentFocusNode.requestFocus();
+                            postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                          }
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
@@ -891,7 +924,9 @@ class ReplyBottomSheetContent extends StatelessWidget {
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: postReactionController.replyActionList.length,
+          itemCount: Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
+              ? postReactionController.replyActionList.length
+              : postReactionController.othersReplyActionList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
@@ -905,28 +940,36 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     height: h28,
                     width: h28,
                     child: Icon(
-                      postReactionController.replyActionList[index]['icon'],
+                      Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
+                          ? postReactionController.replyActionList[index]['icon']
+                          : postReactionController.othersReplyActionList[index]['icon'],
                       color: cBlackColor,
                       size: isDeviceScreenLarge() ? h18 : h14,
                     ),
                   ),
-                  title: postReactionController.replyActionList[index]['action'].toString().tr,
+                  title: Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
+                      ? postReactionController.replyActionList[index]['action'].toString().tr
+                      : postReactionController.othersReplyActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   onPressed: () async {
                     Get.back();
-                    if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                    if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
+                        postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                       await postReactionController.deleteReply();
                     }
-                    if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
+                    if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
+                        postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
                       await postReactionController.hideReply();
                     }
-                    if (postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
+                    if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
+                        postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
                       postReactionController.isUpdateReply.value = true;
                       for (int i = 0; i < postReactionController.commentList.length; i++) {
                         for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
                           if (postReactionController.replyId.value == postReactionController.commentList[i].commentReplies[j].id) {
-                            postReactionController.replyTextEditingController.text = postReactionController.commentList[i].commentReplies[j].reply ?? "";
+                            postReactionController.commentMentionKey.currentState!.controller!.text =
+                                postReactionController.formatComment(postReactionController.commentList[i].commentReplies[j].reply.toString());
                             if (postReactionController.commentList[i].commentReplies[j].image != null) {
                               postReactionController.replyImage.value = postReactionController.commentList[i].commentReplies[j].image;
                             }
@@ -934,6 +977,16 @@ class ReplyBottomSheetContent extends StatelessWidget {
                         }
                       }
                     }
+                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
+                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                      await postReactionController.deleteReply();
+                    }
+                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
+                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
+                      await postReactionController.hideReply();
+                    }
+                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
+                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
                   },
                 ),
               ),
