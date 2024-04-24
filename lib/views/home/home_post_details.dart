@@ -12,6 +12,7 @@ import 'package:bip_hip/widgets/post/comment_textfield.dart';
 import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 class HomePostDetails extends StatelessWidget {
@@ -84,80 +85,102 @@ class HomePostDetails extends StatelessWidget {
                         // resizeToAvoidBottomInset: true,
                         body: Stack(
                           children: [
-                            SizedBox(
-                              height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: k12Padding),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                        child: PostUpperContainer(
-                                          taggedFriend: const [],
-                                          userName: userName ?? ksNA.tr,
-                                          isCategorized: false,
-                                          privacy: BipHip.world,
-                                          postTime: postTime!,
-                                          userImage: userImage ?? "",
-                                          category: category,
-                                          categoryIcon: categoryIcon,
-                                          categoryIconColor: categoryIconColor,
-                                          kidName: kidName, //API
-                                          kidAge: kidAge, //API
-                                          brandName: brandName, //API
-                                          secondaryImage: secondaryImage,
+                            postReactionController.commentList.isNotEmpty
+                                ? NotificationListener<ScrollNotification>(
+                                    onNotification: (scrollNotification) {
+                                      if (postReactionController.commentListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                                          scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                                          !postReactionController.getCommentScrolled.value) {
+                                        postReactionController.getCommentScrolled.value = true;
+                                        if (postReactionController.commentList.isNotEmpty) {
+                                          ll('123');
+                                          postReactionController.getMoreCommentList(null, 1, refId);
+                                        }
+                                        return true;
+                                      }
+                                      return false;
+                                    },
+                                    child: SizedBox(
+                                      height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                                      child: SingleChildScrollView(
+                                        controller: postReactionController.commentListScrollController,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(top: k12Padding),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                                child: PostUpperContainer(
+                                                  taggedFriend: const [],
+                                                  userName: userName ?? ksNA.tr,
+                                                  isCategorized: false,
+                                                  privacy: BipHip.world,
+                                                  postTime: postTime!,
+                                                  userImage: userImage ?? "",
+                                                  category: category,
+                                                  categoryIcon: categoryIcon,
+                                                  categoryIconColor: categoryIconColor,
+                                                  kidName: kidName, //API
+                                                  kidAge: kidAge, //API
+                                                  brandName: brandName, //API
+                                                  secondaryImage: secondaryImage,
+                                                ),
+                                              ),
+                                              kH12sizedBox,
+                                              CommonPostDetailsWidget(
+                                                postList: postList,
+                                                mediaList: images ?? [],
+                                                isCommentShown: true,
+                                                showBottomSection: true,
+                                                postIndex: postIndex,
+                                                postText: postText ?? '', //API
+                                                title: title, //API
+                                                refType: 1,
+                                                refId: refId,
+                                              ),
+                                              // CommonPostDetailsWidget(//!Not used now
+                                              //   mediaList: homeController.postData.value!.post.images,
+                                              //   isCommentShown: true,
+                                              //   showBottomSection: true,
+                                              //   postIndex: postIndex,
+                                              //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
+                                              //       ? homeController.postData.value!.post.description ?? ''
+                                              //       : homeController.postData.value!.post.content ?? '', //API
+                                              //   // title: homeController.postData.value!.post.title, //API
+                                              //   title: homeController.postData.value!.post.title, //API
+                                              // ),
+                                              // SizedBox(
+                                              //     width: width - 40,
+                                              //     height: 108,
+                                              //     child: CommentTextField(
+                                              //       hintText: "${ksWriteAComment.tr} ...",
+                                              //       onPressedCamera: () async {
+                                              //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                              //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                              //         postReactionController.commentSendEnabled();
+                                              //       },
+                                              //       onPressedSend: () async {
+                                              //         if (postReactionController.isUpdateComment.value) {
+                                              //           await Get.find<PostReactionController>().updateComment();
+                                              //         } else {
+                                              //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                                              //         }
+                                              //       },
+                                              //     )),
+                                              if (postReactionController.commentList.isNotEmpty &&
+                                                  postReactionController.getCommentScrolled.value &&
+                                                  postReactionController.getCommentSubLink.value != null)
+                                                const Center(child: CircularProgressIndicator()),
+                                              const SizedBox(
+                                                height: 110,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      kH12sizedBox,
-                                      CommonPostDetailsWidget(
-                                        postList: postList,
-                                        mediaList: images ?? [],
-                                        isCommentShown: true,
-                                        showBottomSection: true,
-                                        postIndex: postIndex,
-                                        postText: postText ?? '', //API
-                                        title: title, //API
-                                        refType: 1,
-                                        refId: refId,
-                                      ),
-                                      // CommonPostDetailsWidget(//!Not used now
-                                      //   mediaList: homeController.postData.value!.post.images,
-                                      //   isCommentShown: true,
-                                      //   showBottomSection: true,
-                                      //   postIndex: postIndex,
-                                      //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                                      //       ? homeController.postData.value!.post.description ?? ''
-                                      //       : homeController.postData.value!.post.content ?? '', //API
-                                      //   // title: homeController.postData.value!.post.title, //API
-                                      //   title: homeController.postData.value!.post.title, //API
-                                      // ),
-                                      // SizedBox(
-                                      //     width: width - 40,
-                                      //     height: 108,
-                                      //     child: CommentTextField(
-                                      //       hintText: "${ksWriteAComment.tr} ...",
-                                      //       onPressedCamera: () async {
-                                      //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                      //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                      //         postReactionController.commentSendEnabled();
-                                      //       },
-                                      //       onPressedSend: () async {
-                                      //         if (postReactionController.isUpdateComment.value) {
-                                      //           await Get.find<PostReactionController>().updateComment();
-                                      //         } else {
-                                      //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-                                      //         }
-                                      //       },
-                                      //     )),
-                                      const SizedBox(
-                                        height: 110,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                                    ),
+                                  )
+                                : const SizedBox(),
                             Positioned(
                               bottom: 0,
                               child: Container(

@@ -103,7 +103,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
 
     List<MapEntry<String, dynamic>> topThree = entries.take(3).toList();
-    
+
     for (int index = 0; index < topThree.length; index++) {
       if (topThree[index].value == 0) {
         continue;
@@ -343,6 +343,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final RxInt refId = RxInt(-1);
   //   //*get Comment Api Call
+  final ScrollController commentListScrollController = ScrollController();
   final Rx<PostCommentModel?> commentListData = Rx<PostCommentModel?>(null);
   final RxList<CommentData> commentList = RxList<CommentData>([]);
   final List<Map<String, dynamic>> commentReactions = [];
@@ -357,7 +358,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuGetComment?ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=5",
+        url: "$kuGetComment?ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=10",
       ) as CommonDM;
       if (response.success == true) {
         commentList.clear();
@@ -387,12 +388,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  //*Get More Friend List for pagination
+  //*Get More Comment List for pagination
   Future<void> getMoreCommentList(take, int refType, int refId) async {
     try {
       String? token = await spController.getBearerToken();
       dynamic commentListSub;
-      if (commentListSub.value == null) {
+      if (getCommentSubLink.value == null) {
         return;
       } else {
         commentListSub = getCommentSubLink.value!.split('?');
@@ -400,12 +401,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       String commentListSuffixUrl = '';
 
-      commentListSuffixUrl = '?${commentListSub[1]}&ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=5';
+      commentListSuffixUrl = '?${commentListSub[1]}&ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=10';
 
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuGetFriendList + commentListSuffixUrl,
+        url: kuGetComment + commentListSuffixUrl,
       ) as CommonDM;
 
       if (response.success == true) {
@@ -898,7 +899,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ll('postReply error: $e');
     }
   }
-
 
   void resetCommentAndReplyData() {
     commentTextEditingController.clear();
