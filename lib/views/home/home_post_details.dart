@@ -871,7 +871,9 @@ class CommentBottomSheetContent extends StatelessWidget {
                         }
                         //*Others user post action
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {
+                          Get.back();
+                        }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.commentMentionKey.currentState?.controller?.text = "";
@@ -896,11 +898,13 @@ class CommentBottomSheetContent extends StatelessWidget {
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                          await postReactionController.deleteComment();
+                          // await postReactionController.deleteComment();
+                          Get.back();
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
-                          await postReactionController.hideComment();
+                          // await postReactionController.hideComment();
+                          Get.back();
                         }
                       },
                     ),
@@ -979,11 +983,13 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      await postReactionController.deleteReply();
+                      Get.back();
+                      // await postReactionController.deleteReply();
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      await postReactionController.hideReply();
+                      // await postReactionController.hideReply();
+                      Get.back();
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
