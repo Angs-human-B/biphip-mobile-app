@@ -762,7 +762,7 @@ class CommentBottomSheetContent extends StatelessWidget {
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: postReactionController.userId.value == postReactionController.commentedUserId.value
+              itemCount: Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
                   ? postReactionController.commentActionList.length
                   : postReactionController.othersCommentActionList.length,
               itemBuilder: (BuildContext context, int index) {
@@ -778,27 +778,30 @@ class CommentBottomSheetContent extends StatelessWidget {
                         height: h28,
                         width: h28,
                         child: Icon(
-                          postReactionController.userId.value == postReactionController.commentedUserId.value
+                          Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
                               ? postReactionController.commentActionList[index]['icon']
                               : postReactionController.othersCommentActionList[index]['icon'],
                           color: cBlackColor,
                           size: isDeviceScreenLarge() ? h18 : h14,
                         ),
                       ),
-                      title: postReactionController.userId.value == postReactionController.commentedUserId.value
+                      title: Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
                           ? postReactionController.commentActionList[index]['action'].toString().tr
                           : postReactionController.othersCommentActionList[index]['action'].toString().tr,
                       titleTextStyle: semiBold16TextStyle(cBlackColor),
                       subTitleTextStyle: regular14TextStyle(cBlackColor),
                       onPressed: () async {
                         Get.back();
-                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
+                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
                           await postReactionController.deleteComment();
                         }
-                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
+                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
+                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           await postReactionController.hideComment();
                         }
-                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
+                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
+                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
                           postReactionController.isUpdateComment.value = true;
                           postReactionController.commentTextEditingController.text =
                               postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
@@ -811,20 +814,23 @@ class CommentBottomSheetContent extends StatelessWidget {
                           postReactionController.commentFocusNode.requestFocus();
                         }
 
-                        if (postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
+                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
+                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.commentTextEditingController.text = "";
-                          // postReactionController.replyFocusNode.requestFocus();
                         }
                         //*Others user post action
-                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
-                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
+                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
+                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
                           postReactionController.commentTextEditingController.text = "";
-                          // postReactionController.replyFocusNode.requestFocus();
                         }
-                        // if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                        //   await postReactionController.deleteComment();
-                        // }
-                        if (postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
+                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
+                          await postReactionController.deleteComment();
+                        }
+                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           await postReactionController.hideComment();
                         }
                       },

@@ -699,6 +699,7 @@ class CommonPostWidget extends StatelessWidget {
             commentOnPressed: () async {
               showComment.value = !showComment.value;
               postReactionController.resetCommentAndReplyData();
+              // postReactionController.userId.value = 
               Get.to(() => HomePostDetails(
                     postIndex: postIndex,
                     images: mediaList,
@@ -716,9 +717,8 @@ class CommonPostWidget extends StatelessWidget {
                     title: title,
                     postText: postText,
                   ));
-              // }
-              // }
               postReactionController.refId.value = postID;
+              // ll(userI);
               await postReactionController.getCommentList(1, refId);
               await Get.find<FriendController>().getFriendList();
             },
