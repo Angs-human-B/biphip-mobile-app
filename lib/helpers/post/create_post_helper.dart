@@ -271,6 +271,7 @@ class CreatePostHelper {
   }
 
   void resetCreatePostData() {
+    createPostController.isSharingPost.value = false;
     createPostController.taggedFriends.clear();
     createPostController.tempTaggedFriends.clear();
     createPostController.tempTagIndex.clear();

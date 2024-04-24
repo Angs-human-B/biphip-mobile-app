@@ -25,6 +25,7 @@ class CreatePostController extends GetxController {
   final RxBool isTagAdded = RxBool(false);
   final RxString selectedBrandName = RxString('');
   final RxString selectedBrandImage = RxString('');
+  final RxBool isSharingPost = RxBool(false);
 
   // image and video picker variables
   final RxString createPostImageLink = RxString('');

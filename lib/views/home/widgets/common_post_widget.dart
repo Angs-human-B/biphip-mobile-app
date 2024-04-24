@@ -1,7 +1,10 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/shimmers/menu/badges/badge_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -10,6 +13,7 @@ import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
+import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/biding_insight.dart';
@@ -73,7 +77,8 @@ class CommonPostWidget extends StatelessWidget {
     this.onHahaPressed,
     this.onSadPressed,
     this.onAngryPressed,
-    this.selfReaction, this.postList,
+    this.selfReaction,
+    this.postList,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -662,6 +667,15 @@ class CommonPostWidget extends StatelessWidget {
             horizontal: kHorizontalPadding,
           ),
           child: LikeSectionWidget(
+            shareOnPressed: () {
+              Get.find<GlobalController>().blankBottomSheet(
+                context: context,
+                bottomSheetHeight: height * 0.38,
+                content: ShareBottomSheetContent(
+                  postData: postList![postIndex],
+                ),
+              );
+            },
             selfReaction: selfReaction,
             onAngryPressed: onAngryPressed,
             onHahaPressed: onHahaPressed,
@@ -700,7 +714,7 @@ class CommonPostWidget extends StatelessWidget {
             commentOnPressed: () async {
               showComment.value = !showComment.value;
               postReactionController.resetCommentAndReplyData();
-              // postReactionController.userId.value = 
+              // postReactionController.userId.value =
               Get.to(() => HomePostDetails(
                     postIndex: postIndex,
                     postList: postList,
@@ -2231,8 +2245,6 @@ class GiftPurchasePaymentContent extends StatelessWidget {
   }
 }
 
-
-
 // class GiftPurchasePaymentContent extends StatelessWidget {
 //   GiftPurchasePaymentContent({super.key});
 //   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -2382,3 +2394,113 @@ class GiftPurchasePaymentContent extends StatelessWidget {
 //     );
 //   }
 // }
+class ShareBottomSheetContent extends StatelessWidget {
+  ShareBottomSheetContent({super.key, required this.postData});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PostData postData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            // kH16sizedBox,
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: postReactionController.shareActionList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      leading: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cNeutralColor,
+                        ),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          postReactionController.shareActionList[index]['icon'],
+                          color: cBlackColor,
+                          size: isDeviceScreenLarge() ? h18 : h14,
+                        ),
+                      ),
+                      title: postReactionController.shareActionList[index]['action'].toString().tr,
+                      titleTextStyle: semiBold16TextStyle(cBlackColor),
+                      subTitleTextStyle: regular14TextStyle(cBlackColor),
+                      onPressed: () async {
+                        Get.back();
+                        if (postReactionController.shareActionList[index]['action'] == 'Share to Feed') {
+                          Get.find<CreatePostController>().isPostedFromProfile.value = false;
+                          CreatePostHelper().resetCreatePostData();
+                          Get.find<KidsController>().isRouteFromKid.value = false;
+                          Get.find<CreatePostController>().getCreatePost();
+                          Get.find<CreatePostController>().isSharingPost.value = true;
+                          Get.find<GlobalController>().blankBottomSheet(
+                              context: context,
+                              content: SharePostBottomSheetContent(
+                                postData: postData,
+                              ),
+                              isScrollControlled: true);
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ));
+  }
+}
+
+class SharePostBottomSheetContent extends StatelessWidget {
+  SharePostBottomSheetContent({super.key, required this.postData});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final PostData postData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: 4),
+          child: Column(
+            children: [
+              CreatePostUpperSection(),
+              CustomModifiedTextField(
+                controller: createPostController.createPostController,
+                maxLength: 1000,
+                maxLines: 7,
+                minLines: 1,
+                isFilled: false,
+                fillColor: cWhiteColor,
+                inputAction: TextInputAction.newline,
+                inputType: TextInputType.multiline,
+                hint: "${ksSaySomethingAboutThis.tr}....",
+                contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
+                textHintStyle: regular16TextStyle(cPlaceHolderColor),
+                textInputStyle: regular16TextStyle(cBlackColor),
+                onChanged: (v) {},
+              ),
+              Row(
+                children: [
+                  const Spacer(),
+                  CustomElevatedButton(textStyle: semiBold14TextStyle(cWhiteColor), buttonWidth: 80, buttonHeight: 40, label: ksShareNow.tr, onPressed: () {}),
+                ],
+              )
+            ],
+          ),
+        ),
+        kH12sizedBox,
+        Container(
+          width: width,
+          height: height,
+          color: cBackgroundColor,
+        )
+      ],
+    );
+  }
+}

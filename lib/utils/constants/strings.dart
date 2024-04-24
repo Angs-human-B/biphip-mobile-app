@@ -633,3 +633,5 @@ const String ksAddLegalDocument = "Add Legal Document";
 const String ksReview = "Review";
 const String ksNoReviews = "No Reviews";
 const String ksRecommends = "Recommends";
+const String ksShareNow = "Share now";
+const String ksSaySomethingAboutThis  = "Say something about this";
