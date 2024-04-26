@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/post/get_create_post_model.dart';
@@ -510,6 +511,49 @@ class CreatePostController extends GetxController {
     } catch (e) {
       isCreatePostLoading.value = false;
       ll('createPost error: $e');
+    }
+  }
+
+  Future<void> sharePost(postId) async {
+    List tags = [];
+    for (int i = 0; i < taggedFriends.length; i++) {
+      tags.add(taggedFriends[i].id);
+    }
+    try {
+      Get.find<PostReactionController>().isGiftStarLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'share_post_id': postId.toString(),
+        'content': createPostController.text.trim(),
+        'is_public': '1',
+        // 'post_tag_friend_id': tags.join(','),
+      };
+      ll(body);
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSharePost,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      ll("HELLO: $response");
+      if (response.success == true) {
+        await Get.find<HomeController>().getPostList();
+
+        resetCreatePost();
+        Get.find<PostReactionController>().isGiftStarLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        Get.find<PostReactionController>().isGiftStarLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      Get.find<PostReactionController>().isGiftStarLoading.value = false;
+      ll('sharePost error: $e');
     }
   }
 

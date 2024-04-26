@@ -11,6 +11,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
+import 'package:bip_hip/views/home/widgets/common_shared_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
 import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
@@ -348,34 +349,34 @@ class CommonPostWidget extends StatelessWidget {
               )),
         if (isSharedPost)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
             child: Container(
                 decoration: BoxDecoration(
                   borderRadius: k8CircularBorderRadius,
                   border: Border.all(color: cLineColor),
                 ),
-                child: CommonPostWidget(
-                  taggedFriends: [],
-                  postID: 0,
-                  reactCount: null,
-                  isCommented: false,
-                  isLiked: false,
-                  mediaList: const [],
-                  isCategorized: false,
-                  userName: 'Steve Sanchez',
-                  postTime: '5 hrs ago',
-                  privacy: BipHip.world,
-                  isSelfPost: false,
-                  isCommentShown: false,
-                  isSharedPost: false,
-                  showBottomSection: false,
-                  postText:
-                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.',
-                  commentCount: 10,
-                  shareCount: 10,
-                  giftCount: 10,
-                  isInStock: false,
-                  userImage: userImage,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: CommonSharedPostWidget(
+                    taggedFriends: [],
+                    postID: postList![postIndex].sharePosts!.id!,
+                    mediaList: postList![postIndex].sharePosts!.images,
+                    isCategorized: false,
+                    userName: postList![postIndex].sharePosts!.user!.fullName!,
+                    postTime: homeController.postTimeDifference(postList![postIndex].sharePosts!.createdAt),
+                    privacy: BipHip.world,
+                    postText: postList![postIndex].sharePosts!.content,
+                    isInStock: false,
+                    userImage: postList![postIndex].sharePosts!.user!.profilePicture!,
+                    postList: homeController.allPostList,
+                    category: postList![postIndex].sharePosts!.postCategory == null ? null : postList![postIndex].sharePosts!.postCategory!.name,
+                    categoryIcon: postList![postIndex].sharePosts!.postCategory == null
+                        ? null
+                        : homeController.getCategoryIcon(postList![postIndex].sharePosts!.postCategory!.id), // need change API
+                    categoryIconColor: postList![postIndex].sharePosts!.postCategory == null
+                        ? null
+                        : homeController.getCategoryColor(postList![postIndex].sharePosts!.postCategory!.id),
+                  ),
                 )),
           ),
         if (mediaList.isNotEmpty)
@@ -406,7 +407,7 @@ class CommonPostWidget extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
-                          width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
+                          width: mediaList.length > 3 ? (width - 42) / 2 : (isSharedPost ? null : width - 40),
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
@@ -662,88 +663,90 @@ class CommonPostWidget extends StatelessWidget {
               },
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: kHorizontalPadding,
+        if (showBottomSection)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kHorizontalPadding,
+            ),
+            child: LikeSectionWidget(
+              shareOnPressed: () {
+                Get.find<GlobalController>().blankBottomSheet(
+                  context: context,
+                  bottomSheetHeight: height * 0.38,
+                  content: ShareBottomSheetContent(
+                    postData: postList![postIndex],
+                  ),
+                );
+              },
+              selfReaction: selfReaction,
+              onAngryPressed: onAngryPressed,
+              onHahaPressed: onHahaPressed,
+              onLikePressed: onLikePressed,
+              onLovePressed: onLovePressed,
+              onSadPressed: onSadPressed,
+              onWowPressed: onWowPressed,
+              postIndex: postIndex,
+              refType: refType,
+              refId: refId,
+              isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
+              likeOnTap: () {},
+              giftOnPressed: () async {
+                Get.find<PendentBadgesController>().resetBadgesData();
+                postReactionController.postId.value = refId;
+                globalController.commonBottomSheet(
+                  context: context,
+                  content: Obx(() =>
+                      Get.find<PendentBadgesController>().isUserBadgeLoading.value || Get.find<PendentBadgesController>().isgetStarPriceLoading.value
+                          ? const BadgeBottomSheetShimmer()
+                          : GiftContent()),
+                  isScrollControlled: true,
+                  bottomSheetHeight: height * .9,
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: null,
+                  rightText: '',
+                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                  title: ksSendGift.tr,
+                  isRightButtonShow: false,
+                );
+                await Get.find<PendentBadgesController>().getUserBadges();
+                await Get.find<PendentBadgesController>().getStarPrice();
+              },
+              commentOnPressed: () async {
+                showComment.value = !showComment.value;
+                postReactionController.resetCommentAndReplyData();
+                // postReactionController.userId.value =
+                Get.to(() => HomePostDetails(
+                      postIndex: postIndex,
+                      postList: postList,
+                      images: mediaList,
+                      userName: userName,
+                      userImage: userImage,
+                      postTime: postTime,
+                      refId: refId,
+                      category: category == null ? null : category ?? "",
+                      categoryIcon: categoryIcon,
+                      categoryIconColor: categoryIconColor,
+                      kidName: kidName,
+                      kidAge: kidAge,
+                      brandName: brandName,
+                      secondaryImage: secondaryImage,
+                      title: title,
+                      postText: postText,
+                    ));
+                postReactionController.refId.value = postID;
+                // ll(userI);
+                await postReactionController.getCommentList(1, refId);
+                await Get.find<FriendController>().getFriendList();
+              },
+            ),
           ),
-          child: LikeSectionWidget(
-            shareOnPressed: () {
-              Get.find<GlobalController>().blankBottomSheet(
-                context: context,
-                bottomSheetHeight: height * 0.38,
-                content: ShareBottomSheetContent(
-                  postData: postList![postIndex],
-                ),
-              );
-            },
-            selfReaction: selfReaction,
-            onAngryPressed: onAngryPressed,
-            onHahaPressed: onHahaPressed,
-            onLikePressed: onLikePressed,
-            onLovePressed: onLovePressed,
-            onSadPressed: onSadPressed,
-            onWowPressed: onWowPressed,
-            postIndex: postIndex,
-            refType: refType,
-            refId: refId,
-            isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
-            likeOnTap: () {},
-            giftOnPressed: () async {
-              Get.find<PendentBadgesController>().resetBadgesData();
-              postReactionController.postId.value = refId;
-              globalController.commonBottomSheet(
-                context: context,
-                content: Obx(() =>
-                    Get.find<PendentBadgesController>().isUserBadgeLoading.value || Get.find<PendentBadgesController>().isgetStarPriceLoading.value
-                        ? const BadgeBottomSheetShimmer()
-                        : GiftContent()),
-                isScrollControlled: true,
-                bottomSheetHeight: height * .9,
-                onPressCloseButton: () {
-                  Get.back();
-                },
-                onPressRightButton: null,
-                rightText: '',
-                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                title: ksSendGift.tr,
-                isRightButtonShow: false,
-              );
-              await Get.find<PendentBadgesController>().getUserBadges();
-              await Get.find<PendentBadgesController>().getStarPrice();
-            },
-            commentOnPressed: () async {
-              showComment.value = !showComment.value;
-              postReactionController.resetCommentAndReplyData();
-              // postReactionController.userId.value =
-              Get.to(() => HomePostDetails(
-                    postIndex: postIndex,
-                    postList: postList,
-                    images: mediaList,
-                    userName: userName,
-                    userImage: userImage,
-                    postTime: postTime,
-                    refId: refId,
-                    category: category == null ? null : category ?? "",
-                    categoryIcon: categoryIcon,
-                    categoryIconColor: categoryIconColor,
-                    kidName: kidName,
-                    kidAge: kidAge,
-                    brandName: brandName,
-                    secondaryImage: secondaryImage,
-                    title: title,
-                    postText: postText,
-                  ));
-              postReactionController.refId.value = postID;
-              // ll(userI);
-              await postReactionController.getCommentList(1, refId);
-              await Get.find<FriendController>().getFriendList();
-            },
+        if (isSharedPost)
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: CustomDivider(),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: CustomDivider(),
-        ),
         kH12sizedBox,
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
@@ -2488,7 +2491,15 @@ class SharePostBottomSheetContent extends StatelessWidget {
               Row(
                 children: [
                   const Spacer(),
-                  CustomElevatedButton(textStyle: semiBold14TextStyle(cWhiteColor), buttonWidth: 80, buttonHeight: 40, label: ksShareNow.tr, onPressed: () {}),
+                  CustomElevatedButton(
+                      textStyle: semiBold14TextStyle(cWhiteColor),
+                      buttonWidth: 80,
+                      buttonHeight: 40,
+                      label: ksShareNow.tr,
+                      onPressed: () async {
+                        Get.back();
+                        await createPostController.sharePost(postData.id.toString());
+                      }),
                 ],
               )
             ],
@@ -2499,6 +2510,70 @@ class SharePostBottomSheetContent extends StatelessWidget {
           width: width,
           height: height,
           color: cBackgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(kHorizontalPadding),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor)),
+                  child: Row(
+                    children: [
+                      if (postData.images.isNotEmpty)
+                        Container(
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                          height: 70,
+                          width: 70,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                            child: Image.network(
+                              postData.images[0].fullPath.toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize20,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            if (postData.content != null)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: width - 130,
+                                  child: Text(
+                                    postData.content!,
+                                    style: semiBold16TextStyle(cBlackColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            SizedBox(
+                              width: width - 130,
+                              child: Text(
+                                postData.user!.fullName!,
+                                style: postData.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
         )
       ],
     );
