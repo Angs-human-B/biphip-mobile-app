@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/models/post/get_reply_list_model.dart';
 import 'package:bip_hip/models/post/post_comment_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
@@ -342,6 +343,40 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
+  final Rx<ReplyListModel?> replyListData = Rx<ReplyListModel?>(null);
+  final RxList<CommentReply> replyList = RxList<CommentReply>([]);
+  // final List<Map<String, dynamic>> commentReactions = [];
+  // final RxInt commentIndex = RxInt(-1);
+  final RxBool isReplyLoading = RxBool(false);
+  Future<void> getReplyList(int commentId) async {
+    try {
+      isReplyLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetReply?commentId=${commentId.toString()}&take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        replyList.clear();
+        replyListData.value = ReplyListModel.fromJson(response.data);
+        replyList.addAll(replyListData.value!.commentReplies!.data);
+        isReplyLoading.value = false;
+      } else {
+        isReplyLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isReplyLoading.value = true;
+      ll('getReplyList error: $e');
+    }
+  }
+
   final RxInt refId = RxInt(-1);
   //   //*get Comment Api Call
   final ScrollController commentListScrollController = ScrollController();
@@ -352,6 +387,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxBool isCommentLoading = RxBool(false);
   final Rx<String?> getCommentSubLink = Rx<String?>(null);
   final RxBool getCommentScrolled = RxBool(false);
+  final RxList<bool> replyShow = RxList<bool>([]);
   Future<void> getCommentList(int refType, int refId) async {
     try {
       isCommentLoading.value = true;
@@ -363,9 +399,13 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ) as CommonDM;
       if (response.success == true) {
         commentList.clear();
+        replyShow.clear();
         getCommentScrolled.value = false;
         commentListData.value = PostCommentModel.fromJson(response.data);
         commentList.addAll(commentListData.value!.comments!.data);
+        for (int i = 0; i < commentList.length; i++) {
+          replyShow.add(false);
+        }
         // ll("123 ${commentList.length}");
         getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
         if (getCommentSubLink.value != null) {
@@ -412,6 +452,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       if (response.success == true) {
         commentListData.value = PostCommentModel.fromJson(response.data);
         commentList.addAll(commentListData.value!.comments!.data);
+        replyShow.clear();
+        for (int i = 0; i < commentList.length; i++) {
+          replyShow.add(false);
+        }
         getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
         if (getCommentSubLink.value != null) {
           getCommentScrolled.value = false;
@@ -516,6 +560,20 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'icon': BipHip.menuFill,
       'action': 'Reply',
     },
+  ]);
+  final RxList othersPostOtherUserCommentActionList = RxList([
+    {
+      'icon': BipHip.report,
+      'action': 'Report Comment',
+    },
+    {
+      'icon': BipHip.circleCrossNew,
+      'action': 'Hide Comment',
+    },
+    // {
+    //   'icon': BipHip.menuFill,
+    //   'action': 'Reply',
+    // },
   ]);
   final RxList replyActionList = RxList([
     {

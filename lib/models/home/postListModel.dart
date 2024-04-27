@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
+import 'package:bip_hip/models/post/post_comment_model.dart';
 
 class PostDataModel {
   PostData post;
@@ -974,44 +975,7 @@ class Comment {
       );
 }
 
-class CommentReply {
-  int? id;
-  int? commentId;
-  int? userId;
-  dynamic countReactions;
-  String? reply;
-  String? mentionUserIds;
-  int? isEdit;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  List<MentionUser> mentionUsers;
 
-  CommentReply({
-    required this.id,
-    required this.commentId,
-    required this.userId,
-    required this.countReactions,
-    required this.reply,
-    required this.mentionUserIds,
-    required this.isEdit,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.mentionUsers,
-  });
-
-  factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
-        id: json["id"],
-        commentId: json["comment_id"],
-        userId: json["user_id"],
-        countReactions: json["count_reactions"],
-        reply: json["reply"],
-        mentionUserIds: json["mention_user_ids"],
-        isEdit: json["is_edit"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        mentionUsers: List<MentionUser>.from(json["mention_users"].map((x) => MentionUser.fromJson(x))),
-      );
-}
 
 class MentionUser {
   int? id;

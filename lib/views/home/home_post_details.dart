@@ -572,228 +572,262 @@ class PostDetailsBottomSection extends StatelessWidget {
                   itemCount: postReactionController.commentList.length,
                   itemBuilder: (context, i) {
                     RxList replyList = RxList(postReactionController.commentList[i].commentReplies);
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: CommentWidget(
-                            commentOnPressed: () {
-                              postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                              postReactionController.selectedCommentIndex.value = i;
-                              postReactionController.commentedUserId.value = postReactionController.commentList[i].user!.id!;
-                              postReactionController.isUpdateReply.value = false;
-                              Get.find<GlobalController>().commonBottomSheet(
-                                  context: context,
-                                  bottomSheetHeight: height * 0.4,
-                                  content: CommentBottomSheetContent(
-                                    postList: postList,
-                                    postIndex: postIndex,
-                                  ),
-                                  onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: () {},
-                                  rightText: "",
-                                  rightTextStyle: regular10TextStyle(cWhiteColor),
-                                  title: "",
-                                  isRightButtonShow: false);
-                            },
-                            profileImage: postReactionController.commentList[i].user?.profilePicture ?? "",
-                            // comment: postReactionController.commentList[i].comment ?? "",
-                            selfReaction: postReactionController.commentList[i].myReaction,
-                            onLikePressed: (Reaction<String>? reaction) {
-                              postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                  "like", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                              postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                  postReactionController.commentList[i].myReaction, "like", refType, postReactionController.commentList[i].id);
-                              postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                            },
-                            onLovePressed: (Reaction<String>? reaction) {
-                              postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                  "love", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                              postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                  postReactionController.commentList[i].myReaction, "love", refType, postReactionController.commentList[i].id);
-                              postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                            },
-                            onHahaPressed: (Reaction<String>? reaction) {
-                              postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                  "haha", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                              postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                  postReactionController.commentList[i].myReaction, "haha", refType, postReactionController.commentList[i].id);
-                              postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                            },
-                            onSadPressed: (Reaction<String>? reaction) {
-                              postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                  "sad", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                              postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                  postReactionController.commentList[i].myReaction, "sad", refType, postReactionController.commentList[i].id);
-                              postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                            },
-                            onAngryPressed: (Reaction<String>? reaction) {
-                              postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                  "angry", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                              postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                  postReactionController.commentList[i].myReaction, "angry", refType, postReactionController.commentList[i].id);
-                              postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                            },
-                            onWowPressed: (Reaction<String>? reaction) {
-                              postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                  "wow", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                              postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                  postReactionController.commentList[i].myReaction, "wow", refType, postReactionController.commentList[i].id);
-                              postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                            },
-                            comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? "", context),
-                            timePassed: Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].createdAt),
-                            isLikeButtonShown: true,
-                            commentId: postReactionController.commentList[i].id,
-                            commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                            isReplyButtonShown: true,
-                            isReactButtonShown: true,
-                            isImageComment: true,
-                            image: postReactionController.commentList[i].image,
-                            isLink: false,
-                            userName: postReactionController.commentList[i].user?.fullName ?? ksNA.tr,
-                            isSendMessageShown: false,
-                            isHideButtonShown: Get.find<GlobalController>().userId.value == postReactionController.commentList[i].user!.id,
-                            replyList: postReactionController.commentList[i].commentReplies,
-                            refType: refType,
-                            refId: postReactionController.commentList[i].id!,
-                            likeButtonOnPressed: () {},
-                            hideButtonOnPressed: () async {
-                              postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                              await postReactionController.hideComment();
-                            },
-                            replyButtonOnPressed: () {
-                              postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                              Get.find<FriendController>()
-                                  .mentionsList
-                                  .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
-                              if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
-                                Map<String, dynamic> friendMap = {
-                                  'id': postReactionController.commentList[i].user!.id.toString(),
-                                  'display': postReactionController.commentList[i].user!.fullName,
-                                  'full_name': postReactionController.commentList[i].user!.fullName,
-                                  'photo': postReactionController.commentList[i].user!.profilePicture,
-                                };
-                                Get.find<FriendController>().mentionsList.add(friendMap);
-                                postReactionController.commentMentionKey.currentState?.controller?.text =
-                                    "@${postReactionController.commentList[i].user?.fullName} ";
-                              }
-                              postReactionController.commentFocusNode.requestFocus();
-                              postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                            },
-                            reactCount: postReactionController.commentList[i].countReactions,
-                          ),
-                        ),
-                        kH8sizedBox,
-                        for (int index = 0; index < replyList.length; index++)
-                          Obx(() => Padding(
-                                padding: const EdgeInsets.only(top: 0, right: kHorizontalPadding),
-                                child: ReplyCommentWidget(
-                                  selfReaction: replyList[index].myReaction,
-                                  onReplyLikePressed: (Reaction<String>? reaction) {
-                                    replyList[index].countReactions =
-                                        Get.find<GlobalController>().updateReaction("like", replyList[index].myReaction, replyList[index].countReactions);
-                                    replyList[index].myReaction =
-                                        Get.find<GlobalController>().getReaction(replyList[index].myReaction, "like", 4, replyList[index].id);
-                                    replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                  },
-                                  onReplyLovePressed: (Reaction<String>? reaction) {
-                                    replyList[index].countReactions =
-                                        Get.find<GlobalController>().updateReaction("love", replyList[index].myReaction, replyList[index].countReactions);
-                                    replyList[index].myReaction =
-                                        Get.find<GlobalController>().getReaction(replyList[index].myReaction, "love", 4, replyList[index].id);
-                                    replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                  },
-                                  onReplyHahaPressed: (Reaction<String>? reaction) {
-                                    replyList[index].countReactions =
-                                        Get.find<GlobalController>().updateReaction("haha", replyList[index].myReaction, replyList[index].countReactions);
-                                    replyList[index].myReaction =
-                                        Get.find<GlobalController>().getReaction(replyList[index].myReaction, "haha", 4, replyList[index].id);
-                                    replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                  },
-                                  onReplyWowPressed: (Reaction<String>? reaction) {
-                                    replyList[index].countReactions =
-                                        Get.find<GlobalController>().updateReaction("wow", replyList[index].myReaction, replyList[index].countReactions);
-                                    replyList[index].myReaction =
-                                        Get.find<GlobalController>().getReaction(replyList[index].myReaction, "wow", 4, replyList[index].id);
-                                    replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                  },
-                                  onReplySadPressed: (Reaction<String>? reaction) {
-                                    replyList[index].countReactions =
-                                        Get.find<GlobalController>().updateReaction("sad", replyList[index].myReaction, replyList[index].countReactions);
-                                    replyList[index].myReaction =
-                                        Get.find<GlobalController>().getReaction(replyList[index].myReaction, "sad", 4, replyList[index].id);
-                                    replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                  },
-                                  onReplyAngryPressed: (Reaction<String>? reaction) {
-                                    replyList[index].countReactions =
-                                        Get.find<GlobalController>().updateReaction("angry", replyList[index].myReaction, replyList[index].countReactions);
-                                    replyList[index].myReaction =
-                                        Get.find<GlobalController>().getReaction(replyList[index].myReaction, "angry", 4, replyList[index].id);
-                                    replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                  },
-                                  replyButtonOnPressed: () async {
-                                    postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                                    Get.find<FriendController>()
-                                        .mentionsList
-                                        .removeWhere((map) => map['id'] == postReactionController.commentList[i].commentReplies[index].user!.id.toString());
+                    // RxList replyList = postReactionController.replyList;
+                    return Obx(() => Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: CommentWidget(
+                                commentOnPressed: () {
+                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                  postReactionController.selectedCommentIndex.value = i;
+                                  postReactionController.commentedUserId.value = postReactionController.commentList[i].user!.id!;
+                                  postReactionController.isUpdateReply.value = false;
+                                  Get.find<GlobalController>().commonBottomSheet(
+                                      context: context,
+                                      bottomSheetHeight: height * 0.4,
+                                      content: CommentBottomSheetContent(
+                                        postList: postList,
+                                        postIndex: postIndex,
+                                        userId: userId,
+                                      ),
+                                      onPressCloseButton: () {
+                                        Get.back();
+                                      },
+                                      onPressRightButton: () {},
+                                      rightText: "",
+                                      rightTextStyle: regular10TextStyle(cWhiteColor),
+                                      title: "",
+                                      isRightButtonShow: false);
+                                },
+                                profileImage: postReactionController.commentList[i].user?.profilePicture ?? "",
+                                // comment: postReactionController.commentList[i].comment ?? "",
+                                selfReaction: postReactionController.commentList[i].myReaction,
+                                onLikePressed: (Reaction<String>? reaction) {
+                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
+                                      "like", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
+                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
+                                      postReactionController.commentList[i].myReaction, "like", refType, postReactionController.commentList[i].id);
+                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+                                },
+                                onLovePressed: (Reaction<String>? reaction) {
+                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
+                                      "love", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
+                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
+                                      postReactionController.commentList[i].myReaction, "love", refType, postReactionController.commentList[i].id);
+                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+                                },
+                                onHahaPressed: (Reaction<String>? reaction) {
+                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
+                                      "haha", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
+                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
+                                      postReactionController.commentList[i].myReaction, "haha", refType, postReactionController.commentList[i].id);
+                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+                                },
+                                onSadPressed: (Reaction<String>? reaction) {
+                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
+                                      "sad", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
+                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
+                                      postReactionController.commentList[i].myReaction, "sad", refType, postReactionController.commentList[i].id);
+                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+                                },
+                                onAngryPressed: (Reaction<String>? reaction) {
+                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
+                                      "angry", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
+                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
+                                      postReactionController.commentList[i].myReaction, "angry", refType, postReactionController.commentList[i].id);
+                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+                                },
+                                onWowPressed: (Reaction<String>? reaction) {
+                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
+                                      "wow", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
+                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
+                                      postReactionController.commentList[i].myReaction, "wow", refType, postReactionController.commentList[i].id);
+                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
+                                },
+                                comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? "", context),
+                                timePassed: Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].createdAt),
+                                isLikeButtonShown: true,
+                                commentId: postReactionController.commentList[i].id,
+                                commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
+                                isReplyButtonShown: true,
+                                isReactButtonShown: true,
+                                isImageComment: true,
+                                image: postReactionController.commentList[i].image,
+                                isLink: false,
+                                userName: postReactionController.commentList[i].user?.fullName ?? ksNA.tr,
+                                isSendMessageShown: false,
+                                isHideButtonShown: Get.find<GlobalController>().userId.value == postReactionController.commentList[i].user!.id,
+                                // replyList: postReactionController.commentList[i].commentReplies,
+                                replyList: replyList,
+                                refType: refType,
+                                refId: postReactionController.commentList[i].id!,
+                                likeButtonOnPressed: () {},
+                                hideButtonOnPressed: () async {
+                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                  await postReactionController.hideComment();
+                                },
+                                replyButtonOnPressed: () {
+                                  postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                                  Get.find<FriendController>()
+                                      .mentionsList
+                                      .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
+                                  if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
                                     Map<String, dynamic> friendMap = {
-                                      'id': postReactionController.commentList[i].commentReplies[index].user!.id.toString(),
-                                      'display': postReactionController.commentList[i].commentReplies[index].user!.fullName,
-                                      'full_name': postReactionController.commentList[i].commentReplies[index].user!.fullName,
-                                      'photo': postReactionController.commentList[i].commentReplies[index].user!.profilePicture,
+                                      'id': postReactionController.commentList[i].user!.id.toString(),
+                                      'display': postReactionController.commentList[i].user!.fullName,
+                                      'full_name': postReactionController.commentList[i].user!.fullName,
+                                      'photo': postReactionController.commentList[i].user!.profilePicture,
                                     };
-
-                                    if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].commentReplies[index].user!.id) {
-                                      Get.find<FriendController>().mentionsList.add(friendMap);
-                                      ll(Get.find<FriendController>().mentionsList);
-                                      postReactionController.commentMentionKey.currentState?.controller?.text =
-                                          "@${postReactionController.commentList[i].commentReplies[index].user!.fullName} ";
-                                    }
-                                    postReactionController.commentFocusNode.requestFocus();
-                                    postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                                  },
-                                  commentOnPressed: () {
-                                    Get.find<PostReactionController>().replyId.value = postReactionController.commentList[i].commentReplies[index].id!;
-                                    Get.find<PostReactionController>().selectedReplyIndex.value = index;
-                                    Get.find<PostReactionController>().commentId.value = postReactionController.commentList[i].id!;
-                                    postReactionController.replyUserId.value = postReactionController.commentList[i].commentReplies[index].user!.id!;
-                                    Get.find<GlobalController>().commonBottomSheet(
-                                        context: context,
-                                        bottomSheetHeight: height * 0.4,
-                                        content: ReplyBottomSheetContent(
-                                          userId: userId,
-                                        ),
-                                        onPressCloseButton: () {
-                                          Get.back();
+                                    Get.find<FriendController>().mentionsList.add(friendMap);
+                                    postReactionController.commentMentionKey.currentState?.controller?.text =
+                                        "@${postReactionController.commentList[i].user?.fullName} ";
+                                  }
+                                  postReactionController.commentFocusNode.requestFocus();
+                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                },
+                                reactCount: postReactionController.commentList[i].countReactions,
+                              ),
+                            ),
+                            kH8sizedBox,
+                            if (!postReactionController.replyShow[i] && replyList.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(left: k60Padding, right: k60Padding, bottom: k10Padding),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: InkWell(
+                                        onTap: () async {
+                                          ll("LENGTH1: ${postReactionController.replyShow.length}");
+                                          postReactionController.commentList[i].commentReplies.clear();
+                                          replyList.clear();
+                                          postReactionController.replyShow[i] = true;
+                                          await postReactionController.getReplyList(postReactionController.commentList[i].id!);
+                                          postReactionController.commentList[i].commentReplies.addAll(postReactionController.replyList);
+                                          replyList.addAll(postReactionController.replyList);
+                                          ll("LENGTH2: ${postReactionController.replyShow.length}");
+                                          ll(postReactionController.replyShow);
                                         },
-                                        onPressRightButton: () {},
-                                        rightText: "",
-                                        rightTextStyle: regular10TextStyle(cWhiteColor),
-                                        title: "",
-                                        isRightButtonShow: false);
-                                  },
-                                  profileImage: postReactionController.commentList[i].commentReplies[index].user?.profilePicture ?? "",
-                                  timePassed:
-                                      Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].commentReplies[index].createdAt),
-                                  isLikeButtonShown: true,
-                                  isReplyButtonShown: true,
-                                  isReactButtonShown: true,
-                                  isLink: false,
-                                  reactCount: replyList[index].countReactions,
-                                  userName: postReactionController.commentList[i].commentReplies[index].user?.fullName ?? ksNA.tr,
-                                  isImageComment: postReactionController.commentList[i].commentReplies[index].image != null ? true : false,
-                                  comment: Get.find<PostReactionController>()
-                                      .formatMentions(postReactionController.commentList[i].commentReplies[index].reply ?? "", context),
-                                  commentLink: "",
-                                  image: postReactionController.commentList[i].commentReplies[index].image,
-                                ),
-                              ))
-                      ],
-                    );
+                                        child: Text(
+                                          "View Replies",
+                                          style: semiBold14TextStyle(cSmallBodyTextColor),
+                                        ))),
+                              ),
+                            // if (postReactionController.isReplyLoading.value)
+                            //   const Center(
+                            //       child: SizedBox(
+                            //           width: 20,
+                            //           height: 20,
+                            //           child: CircularProgressIndicator(
+                            //             strokeWidth: 2,
+                            //           ))),
+                            if (postReactionController.replyShow[i])
+                              for (int index = 0; index < replyList.length; index++)
+                                Obx(() => Padding(
+                                      padding: const EdgeInsets.only(top: 0, right: kHorizontalPadding),
+                                      child: ReplyCommentWidget(
+                                        selfReaction: replyList[index].myReaction,
+                                        onReplyLikePressed: (Reaction<String>? reaction) {
+                                          replyList[index].countReactions =
+                                              Get.find<GlobalController>().updateReaction("like", replyList[index].myReaction, replyList[index].countReactions);
+                                          replyList[index].myReaction =
+                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "like", 4, replyList[index].id);
+                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
+                                        },
+                                        onReplyLovePressed: (Reaction<String>? reaction) {
+                                          replyList[index].countReactions =
+                                              Get.find<GlobalController>().updateReaction("love", replyList[index].myReaction, replyList[index].countReactions);
+                                          replyList[index].myReaction =
+                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "love", 4, replyList[index].id);
+                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
+                                        },
+                                        onReplyHahaPressed: (Reaction<String>? reaction) {
+                                          replyList[index].countReactions =
+                                              Get.find<GlobalController>().updateReaction("haha", replyList[index].myReaction, replyList[index].countReactions);
+                                          replyList[index].myReaction =
+                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "haha", 4, replyList[index].id);
+                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
+                                        },
+                                        onReplyWowPressed: (Reaction<String>? reaction) {
+                                          replyList[index].countReactions =
+                                              Get.find<GlobalController>().updateReaction("wow", replyList[index].myReaction, replyList[index].countReactions);
+                                          replyList[index].myReaction =
+                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "wow", 4, replyList[index].id);
+                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
+                                        },
+                                        onReplySadPressed: (Reaction<String>? reaction) {
+                                          replyList[index].countReactions =
+                                              Get.find<GlobalController>().updateReaction("sad", replyList[index].myReaction, replyList[index].countReactions);
+                                          replyList[index].myReaction =
+                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "sad", 4, replyList[index].id);
+                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
+                                        },
+                                        onReplyAngryPressed: (Reaction<String>? reaction) {
+                                          replyList[index].countReactions = Get.find<GlobalController>()
+                                              .updateReaction("angry", replyList[index].myReaction, replyList[index].countReactions);
+                                          replyList[index].myReaction =
+                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "angry", 4, replyList[index].id);
+                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
+                                        },
+                                        replyButtonOnPressed: () {
+                                          postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                                          Get.find<FriendController>().mentionsList.removeWhere(
+                                              (map) => map['id'] == postReactionController.commentList[i].commentReplies[index].user!.id.toString());
+                                          Map<String, dynamic> friendMap = {
+                                            'id': postReactionController.commentList[i].commentReplies[index].user!.id.toString(),
+                                            'display': postReactionController.commentList[i].commentReplies[index].user!.fullName,
+                                            'full_name': postReactionController.commentList[i].commentReplies[index].user!.fullName,
+                                            'photo': postReactionController.commentList[i].commentReplies[index].user!.profilePicture,
+                                          };
+
+                                          if (Get.find<GlobalController>().userId.value !=
+                                              postReactionController.commentList[i].commentReplies[index].user!.id) {
+                                            Get.find<FriendController>().mentionsList.add(friendMap);
+                                            ll(Get.find<FriendController>().mentionsList);
+                                            postReactionController.commentMentionKey.currentState?.controller?.text =
+                                                "@${postReactionController.commentList[i].commentReplies[index].user!.fullName} ";
+                                          }
+                                          postReactionController.commentFocusNode.requestFocus();
+                                          postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                        },
+                                        commentOnPressed: () {
+                                          Get.find<PostReactionController>().replyId.value = postReactionController.commentList[i].commentReplies[index].id!;
+                                          Get.find<PostReactionController>().selectedReplyIndex.value = index;
+                                          Get.find<PostReactionController>().commentId.value = postReactionController.commentList[i].id!;
+                                          postReactionController.replyUserId.value = postReactionController.commentList[i].commentReplies[index].user!.id!;
+                                          Get.find<GlobalController>().commonBottomSheet(
+                                              context: context,
+                                              bottomSheetHeight: height * 0.4,
+                                              content: ReplyBottomSheetContent(
+                                                userId: userId,
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {},
+                                              rightText: "",
+                                              rightTextStyle: regular10TextStyle(cWhiteColor),
+                                              title: "",
+                                              isRightButtonShow: false);
+                                        },
+                                        profileImage: postReactionController.commentList[i].commentReplies[index].user?.profilePicture ?? "",
+                                        timePassed: Get.find<HomeController>()
+                                            .postTimeDifference(postReactionController.commentList[i].commentReplies[index].createdAt),
+                                        isLikeButtonShown: true,
+                                        isReplyButtonShown: true,
+                                        isReactButtonShown: true,
+                                        isLink: false,
+                                        reactCount: replyList[index].countReactions,
+                                        userName: postReactionController.commentList[i].commentReplies[index].user?.fullName ?? ksNA.tr,
+                                        isImageComment: postReactionController.commentList[i].commentReplies[index].image != null ? true : false,
+                                        comment: Get.find<PostReactionController>()
+                                            .formatMentions(postReactionController.commentList[i].commentReplies[index].reply ?? "", context),
+                                        commentLink: "",
+                                        image: postReactionController.commentList[i].commentReplies[index].image,
+                                      ),
+                                    ))
+                          ],
+                        ));
                   }),
         ],
       ),
@@ -802,10 +836,11 @@ class PostDetailsBottomSection extends StatelessWidget {
 }
 
 class CommentBottomSheetContent extends StatelessWidget {
-  CommentBottomSheetContent({super.key, this.postList, this.postIndex});
+  CommentBottomSheetContent({super.key, this.postList, this.postIndex, required this.userId});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final RxList<PostData>? postList;
   final int? postIndex;
+  final int userId;
 
   @override
   Widget build(BuildContext context) {
@@ -817,7 +852,9 @@ class CommentBottomSheetContent extends StatelessWidget {
               shrinkWrap: true,
               itemCount: Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
                   ? postReactionController.commentActionList.length
-                  : postReactionController.othersCommentActionList.length,
+                  : Get.find<GlobalController>().userId.value == userId
+                      ? postReactionController.othersCommentActionList.length
+                      : postReactionController.othersPostOtherUserCommentActionList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Obx(
                   () => Padding(
@@ -833,14 +870,18 @@ class CommentBottomSheetContent extends StatelessWidget {
                         child: Icon(
                           Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
                               ? postReactionController.commentActionList[index]['icon']
-                              : postReactionController.othersCommentActionList[index]['icon'],
+                              : Get.find<GlobalController>().userId.value == userId
+                                  ? postReactionController.othersCommentActionList[index]['icon']
+                                  : postReactionController.othersPostOtherUserCommentActionList[index]['icon'],
                           color: cBlackColor,
                           size: isDeviceScreenLarge() ? h18 : h14,
                         ),
                       ),
                       title: Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
                           ? postReactionController.commentActionList[index]['action'].toString().tr
-                          : postReactionController.othersCommentActionList[index]['action'].toString().tr,
+                          : Get.find<GlobalController>().userId.value == userId
+                              ? postReactionController.othersCommentActionList[index]['action'].toString().tr
+                              : postReactionController.othersPostOtherUserCommentActionList[index]['action'].toString().tr,
                       titleTextStyle: semiBold16TextStyle(cBlackColor),
                       subTitleTextStyle: regular14TextStyle(cBlackColor),
                       onPressed: () async {

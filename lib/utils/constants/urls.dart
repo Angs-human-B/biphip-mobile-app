@@ -230,6 +230,7 @@ const String kuDeleteReply = "/mobile/user/delete-comment-reply";
 const String kuHideReply = "/mobile/user/hide-comment-reply";
 const String kuSetReply = "/mobile/user/set-comment-reply";
 const String kuUpdateReply = "/mobile/user/update-comment-reply";
+const String kuGetReply = "/mobile/user/get-comment-replies";
 //* Search
 const String kuSearchHistory = '/mobile/user/search-history';
 const String kuDeleteSearchHistory = '/mobile/user/delete-search-history';
