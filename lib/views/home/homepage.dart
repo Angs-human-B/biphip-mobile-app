@@ -357,7 +357,6 @@ class HomePage extends StatelessWidget {
                                       itemCount: homeController.allPostList.length,
                                       itemBuilder: (context, index) {
                                         var item = homeController.allPostList[index];
-                                        ll("HELLO: ${homeController.allPostList[0].sharePosts != null}");
                                         return Container(
                                           color: cWhiteColor,
                                           width: width,

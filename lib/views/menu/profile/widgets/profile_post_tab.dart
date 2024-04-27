@@ -132,9 +132,14 @@ class PostTab extends StatelessWidget {
                     color: cWhiteColor,
                     width: width,
                     child: CommonPostWidget(
+                      postList: homeController.allTimelinePostList,
+                      postIndex: index,
+                      refType: 1,
+                      refId: item.id!,
+                      userId: item.user!.id!,
                       isCommented: false,
                       isLiked: false,
-                      isSharedPost: false,
+                      isSharedPost: item.sharePosts != null ? true : false,
                       showBottomSection: true,
                       userName: item.user!.fullName!,
                       postTime: homeController.postTimeDifference(item.createdAt),
@@ -162,22 +167,27 @@ class PostTab extends StatelessWidget {
                         homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
                       },
                       onHahaPressed: (Reaction<String>? reaction) {
+                        item.countReactions = Get.find<GlobalController>().updateReaction("haha", item.myReaction, item.countReactions);
                         item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
                         homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
                       },
                       onLikePressed: (Reaction<String>? reaction) {
+                        item.countReactions = Get.find<GlobalController>().updateReaction("like", item.myReaction, item.countReactions);
                         item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
                         homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
                       },
                       onLovePressed: (Reaction<String>? reaction) {
+                        item.countReactions = Get.find<GlobalController>().updateReaction("love", item.myReaction, item.countReactions);
                         item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
                         homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
                       },
                       onSadPressed: (Reaction<String>? reaction) {
+                        item.countReactions = Get.find<GlobalController>().updateReaction("sad", item.myReaction, item.countReactions);
                         item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
                         homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
                       },
                       onWowPressed: (Reaction<String>? reaction) {
+                        item.countReactions = Get.find<GlobalController>().updateReaction("wow", item.myReaction, item.countReactions);
                         item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
                         homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
                       },
