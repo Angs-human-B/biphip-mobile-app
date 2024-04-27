@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/models/post/get_reply_list_model.dart';
 import 'package:bip_hip/models/post/post_comment_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -37,6 +38,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxString temporaryTotalStars = RxString('');
   final RxString totalStars = RxString('');
   final String perPageTake = "take=15";
+  final Rx<PostData?> homePostDetailsData = Rx<PostData?>(null);
 
   @override
   void onInit() {
@@ -208,39 +210,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  // selectedReaction(postIndex) {
-  //   if (Get.find<HomeController>().allPostList[postIndex].myReaction == 'Love' || selectedReactionText.value == "Love") {
-  //     return SvgPicture.asset(
-  //       kiLoveSvgImageUrl,
-  //       width: 20,
-  //     );
-  //   } else if (Get.find<HomeController>().allPostList[postIndex].myReaction ==  'Like' || selectedReactionText.value == "Like") {
-  //     return SvgPicture.asset(
-  //       kiLikeSvgImageUrl,
-  //       width: 20,
-  //     );
-  //   } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Haha') {
-  //     return SvgPicture.asset(
-  //       kiHahaSvgImageUrl,
-  //       width: 20,
-  //     );
-  //   } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Wow') {
-  //     return SvgPicture.asset(
-  //       kiWowSvgImageUrl,
-  //       width: 20,
-  //     );
-  //   } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Sad') {
-  //     return SvgPicture.asset(
-  //       kiSadSvgImageUrl,
-  //       width: 20,
-  //     );
-  //   } else if (Get.find<PostReactionController>().reactions[postIndex]['reaction'].value == 'Angry') {
-  //     return SvgPicture.asset(
-  //       kiAngrySvgImageUrl,
-  //       width: 20,
-  //     );
-  //   }
-  // }
   final RxString commentImageLink = RxString('');
   final Rx<File> commentImageFile = File('').obs;
   final RxBool isCommentImageChanged = RxBool(false);
@@ -983,8 +952,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   //* Format the mention data
-  Widget formatMentions(String text, BuildContext context) {
+  Widget formatMentions(String? text, BuildContext context) {
     final RegExp mentionPattern = RegExp(r'@\[([^\]]+)\]\([^\)]+\)');
+    if (text == null) return const SizedBox();
 
     final Iterable<RegExpMatch> matches = mentionPattern.allMatches(text);
     List<TextSpan> spans = [];

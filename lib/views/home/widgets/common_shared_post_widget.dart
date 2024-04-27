@@ -82,24 +82,11 @@ class CommonSharedPostWidget extends StatelessWidget {
         InkWell(
           onTap: () async {
             Get.find<PostReactionController>().resetCommentAndReplyData();
-            // postReactionController.userId.value =
+             Get.find<PostReactionController>().homePostDetailsData.value = null;
+                Get.find<PostReactionController>().homePostDetailsData.value = postList![postIndex];
             Get.to(() => HomePostDetails(
                   postIndex: postIndex,
                   postList: postList,
-                  images: mediaList,
-                  userName: userName,
-                  userImage: userImage,
-                  postTime: postTime,
-                  // refId: refId,
-                  category: category == null ? null : category ?? "",
-                  categoryIcon: categoryIcon,
-                  categoryIconColor: categoryIconColor,
-                  kidName: kidName,
-                  kidAge: kidAge,
-                  brandName: brandName,
-                  secondaryImage: secondaryImage,
-                  title: title,
-                  postText: postText,
                 ));
             Get.find<PostReactionController>().refId.value = postID;
 

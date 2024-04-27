@@ -128,81 +128,68 @@ class CommonPostWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (isLiked)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-            child: Row(
-              children: [
-                Stack(
-                  children: [
-                    const SizedBox(
-                      width: 40,
-                      height: 20,
-                    ),
-                    for (int index = 0; index < 3; index++)
-                      Positioned(
-                        left: index * 10,
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: cWhiteColor, width: 1),
-                          ),
-                          child: Image.asset(
-                            kiProfilePicImageUrl,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-                kW8sizedBox,
-                // RichText(
-                //     text: TextSpan(children: [
-                //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-                //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-                // ]))
-              ],
-            ),
-          ),
-        if (isCommented)
           // Padding(
           //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
           //   child: Row(
           //     children: [
-          // kW8sizedBox,
-          // RichText(
-          //     text: TextSpan(children: [
-          //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-          //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-          // ])),
+          //       Stack(
+          //         children: [
+          //           const SizedBox(
+          //             width: 40,
+          //             height: 20,
+          //           ),
+          //           for (int index = 0; index < 3; index++)
+          //             Positioned(
+          //               left: index * 10,
+          //               child: Container(
+          //                 height: 20,
+          //                 width: 20,
+          //                 decoration: BoxDecoration(
+          //                   shape: BoxShape.circle,
+          //                   border: Border.all(color: cWhiteColor, width: 1),
+          //                 ),
+          //                 child: Image.asset(
+          //                   kiProfilePicImageUrl,
+          //                   fit: BoxFit.fill,
+          //                 ),
+          //               ),
+          //             ),
+          //         ],
+          //       ),
+          //       kW8sizedBox,
+          //       // RichText(
+          //       //     text: TextSpan(children: [
+          //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
+          //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
+          //       // ]))
           //     ],
           //   ),
           // ),
-          if (isCommented || isLiked) const CustomDivider(thickness: 1),
+
+          if (isCommented)
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+            //   child: Row(
+            //     children: [
+            // kW8sizedBox,
+            // RichText(
+            //     text: TextSpan(children: [
+            //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
+            //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
+            // ])),
+            //     ],
+            //   ),
+            // ),
+            if (isCommented || isLiked) const CustomDivider(thickness: 1),
         kH10sizedBox,
         InkWell(
           onTap: () async {
             postReactionController.resetCommentAndReplyData();
-            // postReactionController.userId.value =
+            postReactionController.homePostDetailsData.value = null;
+            postReactionController.homePostDetailsData.value = postList![postIndex];
             Get.to(() => HomePostDetails(
-                  userId: userId,
                   postIndex: postIndex,
                   postList: postList,
-                  images: mediaList,
-                  userName: userName,
-                  userImage: userImage,
-                  postTime: postTime,
-                  refId: refId,
-                  category: category == null ? null : category ?? "",
-                  categoryIcon: categoryIcon,
-                  categoryIconColor: categoryIconColor,
-                  kidName: kidName,
-                  kidAge: kidAge,
-                  brandName: brandName,
-                  secondaryImage: secondaryImage,
-                  title: title,
-                  postText: postText,
                 ));
             postReactionController.refId.value = postID;
             // ll(userI);
@@ -742,25 +729,11 @@ class CommonPostWidget extends StatelessWidget {
               commentOnPressed: () async {
                 showComment.value = !showComment.value;
                 postReactionController.resetCommentAndReplyData();
-                // postReactionController.userId.value =
+                postReactionController.homePostDetailsData.value = null;
+                postReactionController.homePostDetailsData.value = postList![postIndex];
                 Get.to(() => HomePostDetails(
-                      userId: userId,
                       postIndex: postIndex,
                       postList: postList,
-                      images: mediaList,
-                      userName: userName,
-                      userImage: userImage,
-                      postTime: postTime,
-                      refId: refId,
-                      category: category == null ? null : category ?? "",
-                      categoryIcon: categoryIcon,
-                      categoryIconColor: categoryIconColor,
-                      kidName: kidName,
-                      kidAge: kidAge,
-                      brandName: brandName,
-                      secondaryImage: secondaryImage,
-                      title: title,
-                      postText: postText,
                     ));
                 postReactionController.refId.value = postID;
                 // ll(userI);

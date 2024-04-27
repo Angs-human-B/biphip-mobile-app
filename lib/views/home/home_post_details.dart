@@ -16,39 +16,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 class HomePostDetails extends StatelessWidget {
-  HomePostDetails(
-      {super.key,
-      this.postIndex = 0,
-      this.userName,
-      this.userImage,
-      this.postTime,
-      this.category,
-      this.categoryIcon,
-      this.categoryIconColor,
-      this.kidName,
-      this.kidAge,
-      this.brandName,
-      this.secondaryImage,
-      this.images,
-      this.postText,
-      this.title,
-      this.refId = 0,
-      this.postList,
-      this.userId = 0});
+  HomePostDetails({super.key, this.postIndex = 0, this.postList});
   final int postIndex;
-  final int refId, userId;
-  final String? userName, postTime;
-  final String? userImage;
-  final String? category;
-  final IconData? categoryIcon;
-  final Color? categoryIconColor;
-  final String? kidName;
-  final String? kidAge;
-  final String? brandName;
-  final String? secondaryImage;
-  final String? postText;
-  final String? title;
-  final List? images;
   final RxList<PostData>? postList;
 
   final HomeController homeController = Get.find<HomeController>();
@@ -74,7 +43,7 @@ class HomePostDetails extends StatelessWidget {
                           child: CustomAppBar(
                             hasBackButton: true,
                             isCenterTitle: true,
-                            title: userName ?? ksNA.tr,
+                            title: postReactionController.homePostDetailsData.value!.user!.userName ?? ksNA.tr,
                             onBack: () {
                               Get.back();
                             },
@@ -89,8 +58,7 @@ class HomePostDetails extends StatelessWidget {
                                     !postReactionController.getCommentScrolled.value) {
                                   postReactionController.getCommentScrolled.value = true;
                                   if (postReactionController.commentList.isNotEmpty) {
-                                    ll('123');
-                                    postReactionController.getMoreCommentList(null, 1, refId);
+                                    postReactionController.getMoreCommentList(null, 1, postReactionController.homePostDetailsData.value!.id!);
                                   }
                                   return true;
                                 }
@@ -108,32 +76,37 @@ class HomePostDetails extends StatelessWidget {
                                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                           child: PostUpperContainer(
                                             taggedFriend: const [],
-                                            userName: userName ?? ksNA.tr,
+                                            userName: postReactionController.homePostDetailsData.value!.user!.userName ?? ksNA.tr,
                                             isCategorized: false,
                                             privacy: BipHip.world,
-                                            postTime: postTime!,
-                                            userImage: userImage ?? "",
-                                            category: category,
-                                            categoryIcon: categoryIcon,
-                                            categoryIconColor: categoryIconColor,
-                                            kidName: kidName, //API
-                                            kidAge: kidAge, //API
-                                            brandName: brandName, //API
-                                            secondaryImage: secondaryImage,
+                                            postTime: homeController.postTimeDifference(postReactionController.homePostDetailsData.value!.createdAt),
+                                            userImage: postReactionController.homePostDetailsData.value?.user?.profilePicture ?? "",
+                                            category: postReactionController.homePostDetailsData.value?.postCategory?.name,
+                                            categoryIcon: postReactionController.homePostDetailsData.value?.postCategory == null
+                                                ? null
+                                                : homeController.getCategoryIcon(postReactionController.homePostDetailsData.value!.postCategory!.id),
+                                            categoryIconColor: postReactionController.homePostDetailsData.value?.postCategory == null
+                                                ? null
+                                                : homeController.getCategoryColor(postReactionController.homePostDetailsData.value!.postCategory!.id),
+                                            kidName: postReactionController.homePostDetailsData.value?.kid?.name, //API
+                                            kidAge: postReactionController.homePostDetailsData.value!.kid?.age?.toString(), //API
+                                            brandName: postReactionController.homePostDetailsData.value?.store?.name, //API
+                                            secondaryImage: postReactionController.homePostDetailsData.value?.kid?.profilePicture ??
+                                                postReactionController.homePostDetailsData.value!.store?.profilePicture,
                                           ),
                                         ),
                                         kH12sizedBox,
                                         CommonPostDetailsWidget(
-                                          userId: userId,
+                                          userId: postReactionController.homePostDetailsData.value!.user!.id!,
                                           postList: postList,
-                                          mediaList: images ?? [],
+                                          mediaList: postReactionController.homePostDetailsData.value!.images,
                                           isCommentShown: true,
                                           showBottomSection: true,
                                           postIndex: postIndex,
-                                          postText: postText ?? '', //API
-                                          title: title, //API
+                                          postText: postReactionController.homePostDetailsData.value!.content ?? '', //API
+                                          title: postReactionController.homePostDetailsData.value!.title, //API
                                           refType: 1,
-                                          refId: refId,
+                                          refId: postReactionController.homePostDetailsData.value!.id!,
                                         ),
                                         // CommonPostDetailsWidget(//!Not used now
                                         //   mediaList: homeController.postData.value!.post.images,
@@ -465,8 +438,12 @@ class PostDetailsBottomSection extends StatelessWidget {
               : Padding(
                   padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
                   child: PostActivityStatusWidget(
+                    // reactCount: reactCount,
                     reactCount: reactCount,
                     reactionOnPressed: () {
+                      // postReactionController.giftFilter(0);
+                      // globalController.blankBottomSheet(
+                      //     context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                       postReactionController.giftFilter(0);
                       globalController.blankBottomSheet(
                           context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
@@ -646,7 +623,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                                       postReactionController.commentList[i].myReaction, "wow", refType, postReactionController.commentList[i].id);
                                   postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
                                 },
-                                comment: postReactionController.formatMentions(postReactionController.commentList[i].comment ?? "", context),
+                                comment: postReactionController.formatMentions(postReactionController.commentList[i].comment, context),
                                 timePassed: Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].createdAt),
                                 isLikeButtonShown: true,
                                 commentId: postReactionController.commentList[i].id,
@@ -820,8 +797,8 @@ class PostDetailsBottomSection extends StatelessWidget {
                                         reactCount: replyList[index].countReactions,
                                         userName: postReactionController.commentList[i].commentReplies[index].user?.fullName ?? ksNA.tr,
                                         isImageComment: postReactionController.commentList[i].commentReplies[index].image != null ? true : false,
-                                        comment: Get.find<PostReactionController>()
-                                            .formatMentions(postReactionController.commentList[i].commentReplies[index].reply ?? "", context),
+                                        comment:
+                                            postReactionController.formatMentions(postReactionController.commentList[i].commentReplies[index].reply, context),
                                         commentLink: "",
                                         image: postReactionController.commentList[i].commentReplies[index].image,
                                       ),

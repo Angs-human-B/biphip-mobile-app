@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
@@ -1213,7 +1214,7 @@ class KidsController extends GetxController {
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final Rx<GetKidPostModel?> postListData = Rx<GetKidPostModel?>(null);
-  final RxList<KidPostData> allPostList = RxList<KidPostData>([]);
+  final RxList<PostData> allPostList = RxList<PostData>([]);
   final RxBool isKidPageLoading = RxBool(false);
   final RxBool isKidPagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);

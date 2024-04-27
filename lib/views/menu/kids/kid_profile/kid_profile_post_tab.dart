@@ -223,7 +223,7 @@ class KidProfilePostSection extends StatelessWidget {
                         isSharedPost: false,
                         showBottomSection: true,
                         userName: item.user!.fullName!,
-                        postTime: Get.find<HomeController>().postTimeDifference(item.createdAt ?? DateTime.now()),
+                        postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
                         isCategorized: true,
                         subCategory: null, //API
                         category: item.postCategory == null ? null : item.postCategory!.name,
@@ -231,12 +231,12 @@ class KidProfilePostSection extends StatelessWidget {
                         categoryIconColor:
                             item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
                         privacy: BipHip.world,
-                        kidName: item.kidsData?.name ?? "",
-                        kidAge: item.kidsData?.age.toString() ?? "",
+                        kidName: item.kid!.name!,
+                        kidAge: item.kid!.age?.toString(),
                         title: item.title,
                         postText: item.content ?? '',
                         price: null,
-                        mediaList: item.images ?? [],
+                        mediaList: item.images ,
                         isSelfPost: true,
                         isInStock: true,
                         isCommentShown: true, commentCount: item.countComment ?? 0, shareCount: item.countShare ?? 0, giftCount: item.countStar ?? 0,
