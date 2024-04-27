@@ -656,7 +656,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                             isLink: false,
                             userName: postReactionController.commentList[i].user?.fullName ?? ksNA.tr,
                             isSendMessageShown: false,
-                            isHideButtonShown: true,
+                            isHideButtonShown: Get.find<GlobalController>().userId.value == postReactionController.commentList[i].user!.id,
                             replyList: postReactionController.commentList[i].commentReplies,
                             refType: refType,
                             refId: postReactionController.commentList[i].id!,
@@ -764,7 +764,9 @@ class PostDetailsBottomSection extends StatelessWidget {
                                     Get.find<GlobalController>().commonBottomSheet(
                                         context: context,
                                         bottomSheetHeight: height * 0.4,
-                                        content: ReplyBottomSheetContent(),
+                                        content: ReplyBottomSheetContent(
+                                          userId: userId,
+                                        ),
                                         onPressCloseButton: () {
                                           Get.back();
                                         },
@@ -933,8 +935,9 @@ class CommentBottomSheetContent extends StatelessWidget {
 }
 
 class ReplyBottomSheetContent extends StatelessWidget {
-  ReplyBottomSheetContent({super.key});
+  ReplyBottomSheetContent({super.key, this.userId = 0});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final int userId;
 
   @override
   Widget build(BuildContext context) {
@@ -945,7 +948,9 @@ class ReplyBottomSheetContent extends StatelessWidget {
           shrinkWrap: true,
           itemCount: Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
               ? postReactionController.replyActionList.length
-              : postReactionController.othersReplyActionList.length,
+              : Get.find<GlobalController>().userId.value == userId
+                  ? postReactionController.othersReplyActionList.length
+                  : postReactionController.othersPostOtherUserReplyActionList.length,
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
@@ -961,14 +966,18 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     child: Icon(
                       Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
                           ? postReactionController.replyActionList[index]['icon']
-                          : postReactionController.othersReplyActionList[index]['icon'],
+                          : Get.find<GlobalController>().userId.value == userId
+                              ? postReactionController.othersReplyActionList[index]['icon']
+                              : postReactionController.othersPostOtherUserReplyActionList[index]['icon'],
                       color: cBlackColor,
                       size: isDeviceScreenLarge() ? h18 : h14,
                     ),
                   ),
                   title: Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
                       ? postReactionController.replyActionList[index]['action'].toString().tr
-                      : postReactionController.othersReplyActionList[index]['action'].toString().tr,
+                      : Get.find<GlobalController>().userId.value == userId
+                          ? postReactionController.othersReplyActionList[index]['action'].toString().tr
+                          : postReactionController.othersPostOtherUserReplyActionList[index]['action'].toString().tr,
                   titleTextStyle: semiBold16TextStyle(cBlackColor),
                   subTitleTextStyle: regular14TextStyle(cBlackColor),
                   onPressed: () async {
@@ -1006,6 +1015,34 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     }
                     if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
                         postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
+                    // if (postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
+                    //     postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
+                    //     postReactionController.othersPostOtherUserReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
+                    //   postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                    //   for (int i = 0; i < postReactionController.commentList.length; i++) {
+                    //     for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
+                    //       ll(postReactionController.commentList[i].commentReplies[j].user!.fullName);
+                    //       Get.find<FriendController>()
+                    //           .mentionsList
+                    //           .removeWhere((map) => map['id'] == postReactionController.commentList[i].commentReplies[j].user!.id.toString());
+                    //       Map<String, dynamic> friendMap = {
+                    //         'id': postReactionController.commentList[i].commentReplies[j].user!.id.toString(),
+                    //         'display': postReactionController.commentList[i].commentReplies[j].user!.fullName,
+                    //         'full_name': postReactionController.commentList[i].commentReplies[j].user!.fullName,
+                    //         'photo': postReactionController.commentList[i].commentReplies[j].user!.profilePicture,
+                    //       };
+
+                    //       if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].commentReplies[j].user!.id) {
+                    //         Get.find<FriendController>().mentionsList.add(friendMap);
+                    //         ll(Get.find<FriendController>().mentionsList);
+                    //         postReactionController.commentMentionKey.currentState?.controller?.text =
+                    //             "@${postReactionController.commentList[i].commentReplies[j].user!.fullName} ";
+                    //       }
+                    //       postReactionController.commentFocusNode.requestFocus();
+                    //       postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                    //     }
+                    //   }
+                    // }
                   },
                 ),
               ),

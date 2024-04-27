@@ -553,6 +553,20 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     //   'action': 'Reply',
     // },
   ]);
+  final RxList othersPostOtherUserReplyActionList = RxList([
+    {
+      'icon': BipHip.report,
+      'action': 'Report Reply',
+    },
+    {
+      'icon': BipHip.circleCrossNew,
+      'action': 'Hide Reply',
+    },
+    // {
+    //   'icon': BipHip.menuFill,
+    //   'action': 'Reply',
+    // },
+  ]);
 
   final RxInt commentId = RxInt(-1);
   final RxInt replyId = RxInt(-1);
