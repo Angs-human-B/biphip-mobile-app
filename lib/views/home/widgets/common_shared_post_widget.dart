@@ -1,4 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
@@ -79,10 +81,35 @@ class CommonSharedPostWidget extends StatelessWidget {
         kH10sizedBox,
         InkWell(
           onTap: () async {
+            Get.find<PostReactionController>().resetCommentAndReplyData();
+            // postReactionController.userId.value =
             Get.to(() => HomePostDetails(
                   postIndex: postIndex,
+                  postList: postList,
+                  images: mediaList,
+                  userName: userName,
+                  userImage: userImage,
+                  postTime: postTime,
+                  // refId: refId,
+                  category: category == null ? null : category ?? "",
+                  categoryIcon: categoryIcon,
+                  categoryIconColor: categoryIconColor,
+                  kidName: kidName,
+                  kidAge: kidAge,
+                  brandName: brandName,
+                  secondaryImage: secondaryImage,
+                  title: title,
+                  postText: postText,
                 ));
-            await Get.find<HomeController>().getPostData(postID);
+            Get.find<PostReactionController>().refId.value = postID;
+
+            // ll(userI);
+            await Get.find<PostReactionController>().getCommentList(1, Get.find<PostReactionController>().refId.value);
+            await Get.find<FriendController>().getFriendList();
+            // Get.to(() => HomePostDetails(
+            //       postIndex: postIndex,
+            //     ));
+            // await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
