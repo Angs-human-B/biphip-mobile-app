@@ -157,35 +157,36 @@ class CommonPostWidget extends StatelessWidget {
                   ],
                 ),
                 kW8sizedBox,
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-                  TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-                ]))
+                // RichText(
+                //     text: TextSpan(children: [
+                //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
+                //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
+                // ]))
               ],
             ),
           ),
         if (isCommented)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-            child: Row(
-              children: [
-                // kW8sizedBox,
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-                  TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-                ])),
-              ],
-            ),
-          ),
-        if (isCommented || isLiked) const CustomDivider(thickness: 1),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+          //   child: Row(
+          //     children: [
+          // kW8sizedBox,
+          // RichText(
+          //     text: TextSpan(children: [
+          //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
+          //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
+          // ])),
+          //     ],
+          //   ),
+          // ),
+          if (isCommented || isLiked) const CustomDivider(thickness: 1),
         kH10sizedBox,
         InkWell(
           onTap: () async {
             postReactionController.resetCommentAndReplyData();
             // postReactionController.userId.value =
             Get.to(() => HomePostDetails(
+                  userId: userId,
                   postIndex: postIndex,
                   postList: postList,
                   images: mediaList,
@@ -743,6 +744,7 @@ class CommonPostWidget extends StatelessWidget {
                 postReactionController.resetCommentAndReplyData();
                 // postReactionController.userId.value =
                 Get.to(() => HomePostDetails(
+                      userId: userId,
                       postIndex: postIndex,
                       postList: postList,
                       images: mediaList,

@@ -33,9 +33,10 @@ class HomePostDetails extends StatelessWidget {
       this.postText,
       this.title,
       this.refId = 0,
-      this.postList});
+      this.postList,
+      this.userId = 0});
   final int postIndex;
-  final int refId;
+  final int refId, userId;
   final String? userName, postTime;
   final String? userImage;
   final String? category;
@@ -123,6 +124,7 @@ class HomePostDetails extends StatelessWidget {
                                         ),
                                         kH12sizedBox,
                                         CommonPostDetailsWidget(
+                                          userId: userId,
                                           postList: postList,
                                           mediaList: images ?? [],
                                           isCommentShown: true,
@@ -197,7 +199,6 @@ class HomePostDetails extends StatelessWidget {
                                         } else if (postReactionController.commentId.value == -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "comment");
                                           Get.find<FriendController>().mentionsList.removeLast();
-                                          //CALL NEW FUNCTION
                                         } else if (postReactionController.commentId.value != -1) {
                                           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "reply");
                                           Get.find<FriendController>().mentionsList.removeLast();
@@ -326,6 +327,7 @@ class PostDetailsBottomSection extends StatelessWidget {
       this.postIndex = 0,
       this.refType = 0,
       this.refId = 0,
+      this.userId = 0,
       this.postList});
 
   final GlobalController globalController = Get.find<GlobalController>();
@@ -335,7 +337,7 @@ class PostDetailsBottomSection extends StatelessWidget {
   final int commentCount, shareCount, giftCount;
   final int postIndex;
   final int refType;
-  final int refId;
+  final int refId, userId;
   final RxList<PostData>? postList;
   final CountReactions? reactCount;
   final String? category, actionName;
@@ -506,10 +508,8 @@ class PostDetailsBottomSection extends StatelessWidget {
                     postIndex: postIndex,
                     refType: 1,
                     refId: postReactionController.postId.value,
-                    isGiftShown: true,
-                    likeOnTap: () {
-                      
-                    },
+                    isGiftShown: Get.find<GlobalController>().userId.value == userId ? false : true,
+                    likeOnTap: () {},
                     giftOnPressed: () {
                       // postReactionController.resetGiftData();
                       // globalController.commonBottomSheet(
@@ -858,7 +858,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                           postReactionController.commentTextEditingController.text =
                               postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
                           postReactionController.commentMentionKey.currentState!.controller!.text = postReactionController
-                              .formatComment(postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment.toString());
+                              .formatComment(postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "");
                           if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
                             postReactionController.commentImage.value =
                                 postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
@@ -988,9 +988,9 @@ class ReplyBottomSheetContent extends StatelessWidget {
                         for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
                           if (postReactionController.replyId.value == postReactionController.commentList[i].commentReplies[j].id) {
                             postReactionController.commentMentionKey.currentState!.controller!.text =
-                                postReactionController.formatComment(postReactionController.commentList[i].commentReplies[j].reply.toString());
+                                postReactionController.formatComment(postReactionController.commentList[i].commentReplies[j].reply ?? "");
                             if (postReactionController.commentList[i].commentReplies[j].image != null) {
-                              postReactionController.replyImage.value = postReactionController.commentList[i].commentReplies[j].image;
+                              postReactionController.commentImage.value = postReactionController.commentList[i].commentReplies[j].image;
                             }
                           }
                         }

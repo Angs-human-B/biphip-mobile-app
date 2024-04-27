@@ -664,6 +664,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         isUpdateComment.value = false;
         commentTextEditingController.clear();
         commentMentionKey.currentState?.controller?.text = "";
+        commentImage.value = "";
         commentMentionList.clear();
         isCommentImageChanged.value = false;
         commentImageLink.value = "";
@@ -816,7 +817,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       isUpdateReplyLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        'reply': replyTextEditingController.text.toString().trim(),
+        'reply': commentTextEditingController.text.toString().trim(),
         'mention_user_ids': commentMentionList.join(','),
       };
       ll(replyImageFile.value);
@@ -843,10 +844,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         isUpdateReply.value = false;
         replyTextEditingController.clear();
         commentMentionKey.currentState?.controller?.text = "";
-        isReplyImageChanged.value = false;
-        replyImageLink.value = "";
-        replyImageFile.value = File("");
-        isReplySendEnable.value = false;
+        commentImage.value = "";
+        // isReplyImageChanged.value = false;
+        // replyImageLink.value = "";
+        // replyImageFile.value = File("");
+        // isReplySendEnable.value = false;
+        isCommentImageChanged.value = false;
+        commentImageLink.value = "";
+        commentImageFile.value = File("");
+        isCommentSendEnable.value = false;
         isUpdateReplyLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

@@ -12,6 +12,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
     this.title,
     this.postText,
     this.postIndex = 0,
+    this.userId = 0,
     required this.mediaList,
     required this.isCommentShown,
     required this.showBottomSection,
@@ -25,7 +26,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
   final RxList<PostData>? postList;
   final int postIndex;
   final int refType;
-  final int refId;
+  final int refId, userId;
   final HomeController homeController = Get.find<HomeController>();
 
   @override
@@ -313,6 +314,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
 
         if (showBottomSection)
           PostDetailsBottomSection(
+            userId: userId,
             postList: postList,
             postIndex: postIndex,
             refType: 3,
