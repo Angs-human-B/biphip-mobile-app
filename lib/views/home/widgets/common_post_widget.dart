@@ -183,10 +183,34 @@ class CommonPostWidget extends StatelessWidget {
         kH10sizedBox,
         InkWell(
           onTap: () async {
+            postReactionController.resetCommentAndReplyData();
+            // postReactionController.userId.value =
             Get.to(() => HomePostDetails(
                   postIndex: postIndex,
+                  postList: postList,
+                  images: mediaList,
+                  userName: userName,
+                  userImage: userImage,
+                  postTime: postTime,
+                  refId: refId,
+                  category: category == null ? null : category ?? "",
+                  categoryIcon: categoryIcon,
+                  categoryIconColor: categoryIconColor,
+                  kidName: kidName,
+                  kidAge: kidAge,
+                  brandName: brandName,
+                  secondaryImage: secondaryImage,
+                  title: title,
+                  postText: postText,
                 ));
-            await Get.find<HomeController>().getPostData(postID);
+            postReactionController.refId.value = postID;
+            // ll(userI);
+            await postReactionController.getCommentList(1, refId);
+            await Get.find<FriendController>().getFriendList();
+            // Get.to(() => HomePostDetails(
+            //       postIndex: postIndex,
+            //     ));
+            // await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
