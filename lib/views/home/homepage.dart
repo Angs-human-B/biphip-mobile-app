@@ -357,6 +357,7 @@ class HomePage extends StatelessWidget {
                                       itemCount: homeController.allPostList.length,
                                       itemBuilder: (context, index) {
                                         var item = homeController.allPostList[index];
+                                        ll("HELLO: ${homeController.allPostList[0].sharePosts != null}");
                                         return Container(
                                           color: cWhiteColor,
                                           width: width,
@@ -368,8 +369,8 @@ class HomePage extends StatelessWidget {
                                             userId: item.user!.id!,
                                             isCommented: index % 2 == 0,
                                             isLiked: index % 2 != 0,
-                                            isSharedPost: false,
-                                            // isSharedPost: item.isSharePost == 0 ? false : true,
+                                            // isGiftShow:
+                                            isSharedPost: item.sharePosts != null ? true : false,
                                             showBottomSection: true,
                                             userName: item.user!.fullName!,
                                             postTime: homeController.postTimeDifference(item.createdAt),

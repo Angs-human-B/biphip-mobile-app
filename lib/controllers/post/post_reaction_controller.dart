@@ -475,6 +475,30 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'action': 'Reply',
     },
   ]);
+
+  final RxList shareActionList = RxList([
+    {
+      'icon': BipHip.world,
+      'action': 'Share to Feed',
+    },
+    {
+      'icon': BipHip.kids,
+      'action': 'Share to Your Kids Profile',
+    },
+    {
+      'icon': BipHip.shopFill,
+      'action': 'Share to Your Store Profile',
+    },
+    {
+      'icon': Icons.message_rounded,
+      'action': 'Send to Messenger',
+    },
+    {
+      'icon': BipHip.webLink,
+      'action': 'Copy Link',
+    },
+  ]);
+
   final RxList othersCommentActionList = RxList([
     {
       'icon': BipHip.report, //!Icon should change
