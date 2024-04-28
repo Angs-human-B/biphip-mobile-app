@@ -127,60 +127,60 @@ class CommonPostWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isLiked)
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-          //   child: Row(
-          //     children: [
-          //       Stack(
-          //         children: [
-          //           const SizedBox(
-          //             width: 40,
-          //             height: 20,
-          //           ),
-          //           for (int index = 0; index < 3; index++)
-          //             Positioned(
-          //               left: index * 10,
-          //               child: Container(
-          //                 height: 20,
-          //                 width: 20,
-          //                 decoration: BoxDecoration(
-          //                   shape: BoxShape.circle,
-          //                   border: Border.all(color: cWhiteColor, width: 1),
-          //                 ),
-          //                 child: Image.asset(
-          //                   kiProfilePicImageUrl,
-          //                   fit: BoxFit.fill,
-          //                 ),
-          //               ),
-          //             ),
-          //         ],
-          //       ),
-          //       kW8sizedBox,
-          //       // RichText(
-          //       //     text: TextSpan(children: [
-          //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-          //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-          //       // ]))
-          //     ],
-          //   ),
-          // ),
+        // if (isLiked)
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+        //   child: Row(
+        //     children: [
+        //       Stack(
+        //         children: [
+        //           const SizedBox(
+        //             width: 40,
+        //             height: 20,
+        //           ),
+        //           for (int index = 0; index < 3; index++)
+        //             Positioned(
+        //               left: index * 10,
+        //               child: Container(
+        //                 height: 20,
+        //                 width: 20,
+        //                 decoration: BoxDecoration(
+        //                   shape: BoxShape.circle,
+        //                   border: Border.all(color: cWhiteColor, width: 1),
+        //                 ),
+        //                 child: Image.asset(
+        //                   kiProfilePicImageUrl,
+        //                   fit: BoxFit.fill,
+        //                 ),
+        //               ),
+        //             ),
+        //         ],
+        //       ),
+        //       kW8sizedBox,
+        //       // RichText(
+        //       //     text: TextSpan(children: [
+        //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
+        //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
+        //       // ]))
+        //     ],
+        //   ),
+        // ),
 
-          if (isCommented)
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-            //   child: Row(
-            //     children: [
-            // kW8sizedBox,
-            // RichText(
-            //     text: TextSpan(children: [
-            //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-            //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-            // ])),
-            //     ],
-            //   ),
-            // ),
-            if (isCommented || isLiked) const CustomDivider(thickness: 1),
+        // if (isCommented)
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+        //   child: Row(
+        //     children: [
+        // kW8sizedBox,
+        // RichText(
+        //     text: TextSpan(children: [
+        //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
+        //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
+        // ])),
+        //     ],
+        //   ),
+        // ),
+        // if (isCommented || isLiked) const CustomDivider(thickness: 1),
         kH10sizedBox,
         InkWell(
           onTap: () async {
@@ -192,13 +192,8 @@ class CommonPostWidget extends StatelessWidget {
                   postList: postList,
                 ));
             postReactionController.refId.value = postID;
-            // ll(userI);
             await postReactionController.getCommentList(1, refId);
             await Get.find<FriendController>().getFriendList();
-            // Get.to(() => HomePostDetails(
-            //       postIndex: postIndex,
-            //     ));
-            // await Get.find<HomeController>().getPostData(postID);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -401,7 +396,6 @@ class CommonPostWidget extends StatelessWidget {
               width: width - 40,
               child: Column(
                 children: [
-                  // if (mediaList.length > 0 )
                   Row(
                     children: [
                       TextButton(
@@ -2518,7 +2512,7 @@ class SharePostBottomSheetContent extends StatelessWidget {
                   decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor)),
                   child: Row(
                     children: [
-                      if (postData.images.isNotEmpty)
+                      if (postData.images.isNotEmpty && postData.sharePosts == null)
                         Container(
                           decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
@@ -2541,11 +2535,34 @@ class SharePostBottomSheetContent extends StatelessWidget {
                             ),
                           ),
                         ),
+                      if (postData.sharePosts != null && postData.sharePosts!.images.isNotEmpty)
+                        Container(
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                          height: 70,
+                          width: 70,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                            child: Image.network(
+                              postData.sharePosts!.images[0].fullPath.toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize20,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
+                            ),
+                          ),
+                        ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            if (postData.content != null)
+                            if (postData.content != null && postData.sharePosts == null)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: SizedBox(
@@ -2557,14 +2574,36 @@ class SharePostBottomSheetContent extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            SizedBox(
-                              width: width - 130,
-                              child: Text(
-                                postData.user!.fullName!,
-                                style: postData.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
-                                overflow: TextOverflow.ellipsis,
+                            if (postData.sharePosts != null && postData.sharePosts!.content != null)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: width - 130,
+                                  child: Text(
+                                    postData.sharePosts!.content!,
+                                    style: semiBold16TextStyle(cBlackColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
                               ),
-                            )
+                            if (postData.sharePosts == null)
+                              SizedBox(
+                                width: width - 130,
+                                child: Text(
+                                  postData.user!.fullName!,
+                                  style: postData.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            if (postData.sharePosts != null)
+                              SizedBox(
+                                width: width - 130,
+                                child: Text(
+                                  postData.sharePosts!.user!.fullName!,
+                                  style: postData.sharePosts!.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
                           ],
                         ),
                       )
