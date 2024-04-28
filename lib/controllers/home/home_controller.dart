@@ -82,6 +82,7 @@ class HomeController extends GetxController {
   final RxBool isHomePagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
   final RxBool postListScrolled = RxBool(false);
+  final Rx<String?> myReaction = Rx<String?>(null);
   Future<void> getPostList() async {
     try {
       isHomePageLoading.value = true;

@@ -136,6 +136,7 @@ const String kuAddStore = '/mobile/user/store-store';
 const String kuCreatePost = '/mobile/user/store-post';
 const String kuGetStores = '/mobile/user/get-all-stores';
 const String kuGetCreatePost = '/mobile/user/create-post';
+const String kuSharePost = '/mobile/user/share-post';
 
 //---------------------------------------
 //* Home page
@@ -210,7 +211,26 @@ const String kuGetAllLinks = '/mobile/user/get-store-links';
 const String kuStoreStoreLink = '/mobile/user/store-store-link';
 const String kuUpdateStoreLink = '/mobile/user/update-store-link';
 const String kuDeleteStoreLink = '/mobile/user/delete-store-link';
+const String kuGetStorePost = '/mobile/user/get-store-posts';
 
+//* Post Reaction
+const String kuSetReaction = "/mobile/user/set-reaction";
+
+//* Star
+const String kuGiftStar = '/mobile/user/post-gift-star';
+
+//*  Comment
+const String kuSetComment = "/mobile/user/set-comment";
+const String kuGetComment = "/mobile/user/get-comments";
+const String kuDeleteComment = "/mobile/user/delete-comment";
+const String kuHideComment = "/mobile/user/hide-comment";
+const String kuUpdateComment = "/mobile/user/update-comment";
+
+const String kuDeleteReply = "/mobile/user/delete-comment-reply";
+const String kuHideReply = "/mobile/user/hide-comment-reply";
+const String kuSetReply = "/mobile/user/set-comment-reply";
+const String kuUpdateReply = "/mobile/user/update-comment-reply";
+const String kuGetReply = "/mobile/user/get-comment-replies";
 //* Search
 const String kuSearchHistory = '/mobile/user/search-history';
 const String kuDeleteSearchHistory = '/mobile/user/delete-search-history';

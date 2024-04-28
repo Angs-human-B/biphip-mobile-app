@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
 import 'package:bip_hip/models/post/get_create_post_model.dart';
@@ -25,6 +26,7 @@ class CreatePostController extends GetxController {
   final RxBool isTagAdded = RxBool(false);
   final RxString selectedBrandName = RxString('');
   final RxString selectedBrandImage = RxString('');
+  final RxBool isSharingPost = RxBool(false);
 
   // image and video picker variables
   final RxString createPostImageLink = RxString('');
@@ -458,7 +460,7 @@ class CreatePostController extends GetxController {
         for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
         for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
         if (category.value == 'Kids') 'kid_id': kidID.value.toString(),
-        if (category.value == 'Selling') 'store_id': '55',
+        if (category.value == 'Selling') 'store_id': selectedBrandId.value.toString(),
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
         if (category.value == 'Selling') 'title': biddingTitleTextEditingController.text.trim(),
         if (category.value == 'Selling') 'price': biddingPriceTextEditingController.text.trim(),
@@ -493,7 +495,7 @@ class CreatePostController extends GetxController {
           await Get.find<HomeController>().getPostList();
         }
         isCreatePostLoading.value = false;
-        Get.find<HomeController>().homeTabIndex.value=0;
+        Get.find<HomeController>().homeTabIndex.value = 0;
         Get.offAllNamed(krHome);
         resetCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -512,7 +514,49 @@ class CreatePostController extends GetxController {
     }
   }
 
-  
+  Future<void> sharePost(postId) async {
+    List tags = [];
+    for (int i = 0; i < taggedFriends.length; i++) {
+      tags.add(taggedFriends[i].id);
+    }
+    try {
+      Get.find<PostReactionController>().isGiftStarLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'share_post_id': postId.toString(),
+        'content': createPostController.text.trim(),
+        'is_public': '1',
+        // 'post_tag_friend_id': tags.join(','),
+      };
+      ll(body);
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSharePost,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      ll("HELLO: $response");
+      if (response.success == true) {
+        await Get.find<HomeController>().getPostList();
+
+        resetCreatePost();
+        Get.find<PostReactionController>().isGiftStarLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        Get.find<PostReactionController>().isGiftStarLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      Get.find<PostReactionController>().isGiftStarLoading.value = false;
+      ll('sharePost error: $e');
+    }
+  }
+
   final RxString tempSubCategory = RxString('');
   final RxString subCategory = RxString('');
   final RxList subCategoryList = RxList([]);

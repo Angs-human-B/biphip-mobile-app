@@ -77,9 +77,9 @@ class SocialLogInController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        if(body['provider'] == 'facebook'){
+        if (body['provider'] == 'facebook') {
           await spController.saveIsFacebookLogin(true);
-        }else if(body['provider'] == 'firebase'){
+        } else if (body['provider'] == 'firebase') {
           await spController.saveIsGmailLogin(true);
         }
         LoginModel loginData = LoginModel.fromJson(response.data);
@@ -92,7 +92,9 @@ class SocialLogInController extends GetxController {
         await spController.saveUserLastName(loginData.user.lastName.toString());
         await spController.saveUserImage(loginData.user.profilePicture.toString());
         await spController.saveUserEmail(loginData.user.email.toString());
+        await spController.saveUserId(loginData.user.id);
         await spController.saveUserList({
+          "id": loginData.user.id,
           "email": loginData.user.email.toString(),
           "name": loginData.user.fullName.toString(),
           "first_name": loginData.user.firstName.toString(),
@@ -102,7 +104,7 @@ class SocialLogInController extends GetxController {
         });
         await globalController.getUserInfo();
         Get.find<AuthenticationController>().isLoginLoading.value = false;
-        Get.find<HomeController>().homeTabIndex.value=0;
+        Get.find<HomeController>().homeTabIndex.value = 0;
         Get.offAllNamed(krHome);
         await Get.find<HomeController>().getPostList();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

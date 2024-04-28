@@ -385,6 +385,7 @@ class PurchaseStar extends StatelessWidget {
                   ),
                 ),
               ),
+          
             ),
           ),
         ),

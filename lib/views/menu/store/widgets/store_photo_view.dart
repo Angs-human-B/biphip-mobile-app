@@ -66,7 +66,7 @@ class StorePhotoView extends StatelessWidget {
                         height: 1,
                         width: width - 40,
                       ),
-                      const LikeSectionWidget(
+                       LikeSectionWidget(
                         sectionColor: cWhiteColor,
                         isGiftShown: false,
                       ),

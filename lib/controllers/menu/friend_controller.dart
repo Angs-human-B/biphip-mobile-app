@@ -14,6 +14,7 @@ class FriendController extends GetxController {
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
   final RxList<FriendFamilyUserData> friendList = RxList<FriendFamilyUserData>([]);
+  List<Map<String, dynamic>> mentionsList = ([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
@@ -29,10 +30,28 @@ class FriendController extends GetxController {
         url: kuGetFriendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
+        // mentionsList.add(response.data);
+        // ll("mention List $mentionsList");
         friendList.clear();
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
+        // mentionsList.add(friendListData.value?.friends!.data as Map<String, dynamic>);
         friendList.addAll(friendListData.value!.friends!.data);
+//         for (var friend in friendList) {
+//  // Assuming FriendFamilyUserData has a method toMap() that returns a Map<String, dynamic>
+//  mentionsList.add(friend.toMap());
+// }
+        mentionsList.clear();
+        for (var friend in friendList) {
+          Map<String, dynamic> friendMap = {
+            'id': friend.id.toString(),
+            'display': friend.fullName,
+            'full_name': friend.fullName,
+            'photo': friend.profilePicture,
+          };
+          mentionsList.add(friendMap);
+        }
+
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -776,7 +795,7 @@ class FriendController extends GetxController {
     }
   }
 
-  //*Get More Friend Search List for pagination
+  // //*Get More Friend Search List for pagination
   Future<void> getMoreFriendSearchList(take) async {
     try {
       String? token = await spController.getBearerToken();
@@ -824,7 +843,7 @@ class FriendController extends GetxController {
       ll('getMoreFriendSearchList error: $e');
     }
   }
-
+  
   Timer? debounce;
 
   final RxBool isFriendSearched = RxBool(false);
