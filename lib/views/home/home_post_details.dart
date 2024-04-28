@@ -43,7 +43,7 @@ class HomePostDetails extends StatelessWidget {
                           child: CustomAppBar(
                             hasBackButton: true,
                             isCenterTitle: true,
-                            title: postReactionController.homePostDetailsData.value!.user!.userName ?? ksNA.tr,
+                            title: postReactionController.homePostDetailsData.value?.user?.fullName ?? ksNA.tr,
                             onBack: () {
                               Get.back();
                             },
@@ -76,7 +76,7 @@ class HomePostDetails extends StatelessWidget {
                                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                           child: PostUpperContainer(
                                             taggedFriend: const [],
-                                            userName: postReactionController.homePostDetailsData.value!.user!.userName ?? ksNA.tr,
+                                            userName: postReactionController.homePostDetailsData.value?.user?.fullName ?? ksNA.tr,
                                             isCategorized: false,
                                             privacy: BipHip.world,
                                             postTime: homeController.postTimeDifference(postReactionController.homePostDetailsData.value!.createdAt),
@@ -158,7 +158,9 @@ class HomePostDetails extends StatelessWidget {
                                 child: SizedBox(
                                     width: width,
                                     child: CommentTextField(
-                                      hintText: postReactionController.commentId.value == -1 ? "${ksWriteAComment.tr} ..." : "${ksWriteAReply.tr} ...",
+                                      hintText: postReactionController.commentId.value == -1 || postReactionController.isComment.value
+                                          ? "${ksWriteAComment.tr} ..."
+                                          : "${ksWriteAReply.tr} ...",
                                       onPressedCamera: () async {
                                         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
                                             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
@@ -661,6 +663,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                                   }
                                   postReactionController.commentFocusNode.requestFocus();
                                   postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                  postReactionController.isComment.value = false;
                                 },
                                 reactCount: postReactionController.commentList[i].countReactions,
                               ),
@@ -764,6 +767,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                                           }
                                           postReactionController.commentFocusNode.requestFocus();
                                           postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                                          postReactionController.isComment.value = false;
                                         },
                                         commentOnPressed: () {
                                           Get.find<PostReactionController>().replyId.value = postReactionController.commentList[i].commentReplies[index].id!;
@@ -873,6 +877,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                         if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
                             postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
                           postReactionController.isUpdateComment.value = true;
+                          postReactionController.isComment.value = true;
                           postReactionController.commentTextEditingController.text =
                               postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
                           postReactionController.commentMentionKey.currentState!.controller!.text = postReactionController
@@ -904,6 +909,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                             }
                             postReactionController.commentFocusNode.requestFocus();
                             postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                            postReactionController.isComment.value = false;
                           }
                         }
                         //*Others user post action
@@ -929,6 +935,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                             }
                             postReactionController.commentFocusNode.requestFocus();
                             postReactionController.commentId.value = postReactionController.commentList[i].id!;
+                            postReactionController.isComment.value = false;
                           }
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&

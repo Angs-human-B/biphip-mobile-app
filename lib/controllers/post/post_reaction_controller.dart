@@ -706,6 +706,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         isUpdateComment.value = false;
         commentTextEditingController.clear();
         commentMentionKey.currentState?.controller?.text = "";
+        isComment.value = false;
         commentImage.value = "";
         commentMentionList.clear();
         isCommentImageChanged.value = false;
@@ -864,7 +865,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       };
       ll(replyImageFile.value);
       var response;
-      if (isReplyImageChanged.value != true) {
+      if (isCommentImageChanged.value != true) {
         response = await apiController.commonApiCall(
           requestMethod: kPut,
           url: '$kuUpdateReply/${replyId.value.toString()}?_method=PUT',
@@ -915,6 +916,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxInt userId = RxInt(-1);
   final RxInt commentedUserId = RxInt(-1);
   final RxInt replyUserId = RxInt(-1);
+  final RxBool isComment = RxBool(false);
 
   final FocusNode commentFocusNode = FocusNode();
   final GlobalKey<FlutterMentionsState> commentMentionKey = GlobalKey<FlutterMentionsState>();
