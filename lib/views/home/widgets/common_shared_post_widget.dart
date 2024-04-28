@@ -1,9 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
@@ -79,44 +76,24 @@ class CommonSharedPostWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         kH10sizedBox,
-        InkWell(
-          onTap: () async {
-            Get.find<PostReactionController>().resetCommentAndReplyData();
-             Get.find<PostReactionController>().homePostDetailsData.value = null;
-                Get.find<PostReactionController>().homePostDetailsData.value = postList![postIndex];
-            Get.to(() => HomePostDetails(
-                  postIndex: postIndex,
-                  postList: postList,
-                ));
-            Get.find<PostReactionController>().refId.value = postID;
-
-            // ll(userI);
-            await Get.find<PostReactionController>().getCommentList(1, Get.find<PostReactionController>().refId.value);
-            await Get.find<FriendController>().getFriendList();
-            // Get.to(() => HomePostDetails(
-            //       postIndex: postIndex,
-            //     ));
-            // await Get.find<HomeController>().getPostData(postID);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: PostUpperContainer(
-              userName: userName,
-              postTime: postTime,
-              isCategorized: isCategorized,
-              category: category,
-              categoryIcon: categoryIcon,
-              categoryIconColor: categoryIconColor,
-              privacy: privacy,
-              brandName: brandName,
-              kidName: kidName,
-              kidAge: kidAge,
-              title: title,
-              subCategory: subCategory,
-              userImage: userImage,
-              secondaryImage: secondaryImage,
-              taggedFriend: taggedFriends,
-            ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: PostUpperContainer(
+            userName: userName,
+            postTime: postTime,
+            isCategorized: isCategorized,
+            category: category,
+            categoryIcon: categoryIcon,
+            categoryIconColor: categoryIconColor,
+            privacy: privacy,
+            brandName: brandName,
+            kidName: kidName,
+            kidAge: kidAge,
+            title: title,
+            subCategory: subCategory,
+            userImage: userImage,
+            secondaryImage: secondaryImage,
+            taggedFriend: taggedFriends,
           ),
         ),
         kH8sizedBox,
