@@ -1890,10 +1890,9 @@ class PurchaseStarContent extends StatelessWidget {
                       borderRadius: h8,
                       focusNode: giftCommentFocusNode,
                       controller: Get.find<PostReactionController>().giftAddCommentTextEditingController,
-                      prefixIcon: BipHip.search,
                       suffixIcon: Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value ? BipHip.circleCrossNew : null,
-                      hint: ksSearch.tr,
-                      contentPadding: const EdgeInsets.symmetric(vertical: k12Padding),
+                      hint: ksAddAommentWithYourGift.tr,
+                      contentPadding: const EdgeInsets.symmetric(vertical: k12Padding, horizontal: k12Padding),
                       textInputStyle: regular16TextStyle(cBlackColor),
                       onSuffixPress: () {
                         Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = false;
