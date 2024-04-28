@@ -158,7 +158,7 @@ class HomePostDetails extends StatelessWidget {
                                 child: SizedBox(
                                     width: width,
                                     child: CommentTextField(
-                                      hintText: "${ksWriteAComment.tr} ...",
+                                      hintText: postReactionController.commentId.value == -1 ? "${ksWriteAComment.tr} ..." : "${ksWriteAReply.tr} ...",
                                       onPressedCamera: () async {
                                         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
                                             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
@@ -259,7 +259,6 @@ class HomePostDetails extends StatelessWidget {
                       postReactionController.isUpdateCommentLoading.value ||
                       postReactionController.isReplyDeleteLoading.value ||
                       postReactionController.isReplyHideLoading.value ||
-                      postReactionController.isPostReplyLoading.value ||
                       postReactionController.isUpdateReplyLoading.value)
                     Positioned(
                       child: CommonLoadingAnimation(
@@ -270,7 +269,6 @@ class HomePostDetails extends StatelessWidget {
                               postReactionController.isUpdateCommentLoading.value ||
                               postReactionController.isReplyDeleteLoading.value ||
                               postReactionController.isReplyHideLoading.value ||
-                              postReactionController.isPostReplyLoading.value ||
                               postReactionController.isUpdateReplyLoading.value) {
                             return false;
                           }
