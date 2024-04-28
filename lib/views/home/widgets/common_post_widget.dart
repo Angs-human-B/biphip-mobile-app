@@ -663,10 +663,22 @@ class CommonPostWidget extends StatelessWidget {
               giftCount: giftCount,
               commentCount: commentCount,
               shareCount: shareCount,
+              commentOnPressed: () async {
+                postReactionController.resetCommentAndReplyData();
+                postReactionController.homePostDetailsData.value = null;
+                postReactionController.homePostDetailsData.value = postList![postIndex];
+                Get.to(() => HomePostDetails(
+                      postIndex: postIndex,
+                      postList: postList,
+                    ));
+                postReactionController.refId.value = postID;
+                await postReactionController.getCommentList(1, refId);
+                await Get.find<FriendController>().getFriendList();
+              },
               isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
               giftOnPressed: () {
-                postReactionController.giftFilter(0);
-                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                // postReactionController.giftFilter(0);
+                // globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
               },
             ),
           ),
