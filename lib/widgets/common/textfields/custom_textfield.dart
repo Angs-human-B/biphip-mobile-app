@@ -156,6 +156,7 @@ class CustomModifiedTextField extends StatelessWidget {
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
         ),
+        
         autocorrect: false,
         keyboardType: inputType,
         textInputAction: inputAction,

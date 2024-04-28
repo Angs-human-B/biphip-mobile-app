@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
@@ -12,7 +13,6 @@ import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
 
 class MenuHelper {
   final SpController spController = SpController();
@@ -97,16 +97,8 @@ class MenuHelper {
   }
 
   void menuSearch() async {
-    Get.find<GlobalController>().recentSearch.value = await spController.getRecentSearchList();
-    Get.find<GlobalController>().searchController.clear();
-    Get.to(
-      () => Search(
-        searchController: Get.find<GlobalController>().searchController,
-        recentSearchList: Get.find<GlobalController>().recentSearch,
-        onSubmit: () {},
-      ),
-      transition: Transition.rightToLeft,
-    );
+    Get.find<AllSearchController>().resetSearchData();
+    Get.toNamed(krSearchPage);
   }
 
   void logout() async {

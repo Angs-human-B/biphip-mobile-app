@@ -1,11 +1,20 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
+import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/shimmers/menu/badges/badge_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
+import 'package:bip_hip/views/home/widgets/common_shared_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
+import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
+import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/biding_insight.dart';
@@ -14,6 +23,7 @@ import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
+import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -62,6 +72,15 @@ class CommonPostWidget extends StatelessWidget {
     this.postIndex = 0,
     this.refType = 0,
     this.refId = 0,
+    this.userId = 0,
+    this.onLikePressed,
+    this.onLovePressed,
+    this.onWowPressed,
+    this.onHahaPressed,
+    this.onSadPressed,
+    this.onAngryPressed,
+    this.selfReaction,
+    this.postList,
   });
   final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
   // final RxBool sharedPostSeeMore = RxBool(false);
@@ -83,85 +102,98 @@ class CommonPostWidget extends StatelessWidget {
       platformName,
       platformLink,
       actionName,
-      secondaryImage;
+      secondaryImage,
+      selfReaction;
   final IconData? categoryIcon;
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
+  final RxList<PostData>? postList;
   final List<TaggedFriend> taggedFriends;
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
-  final int postIndex;
+  final int postIndex, userId;
   final int refType;
   final int refId;
   final VoidCallback? postUpperContainerOnPressed;
+  final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
   final HomeController homeController = Get.find<HomeController>();
+  final RxBool showComment = RxBool(false);
+  final GlobalController globalController = Get.find<GlobalController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (isLiked)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-            child: Row(
-              children: [
-                Stack(
-                  children: [
-                    const SizedBox(
-                      width: 40,
-                      height: 20,
-                    ),
-                    for (int index = 0; index < 3; index++)
-                      Positioned(
-                        left: index * 10,
-                        child: Container(
-                          height: 20,
-                          width: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: cWhiteColor, width: 1),
-                          ),
-                          child: Image.asset(
-                            kiProfilePicImageUrl,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-                kW8sizedBox,
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-                  TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-                ]))
-              ],
-            ),
-          ),
-        if (isCommented)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-            child: Row(
-              children: [
-                // kW8sizedBox,
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-                  TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-                ])),
-              ],
-            ),
-          ),
-        if (isCommented || isLiked) const CustomDivider(thickness: 1),
+        // if (isLiked)
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+        //   child: Row(
+        //     children: [
+        //       Stack(
+        //         children: [
+        //           const SizedBox(
+        //             width: 40,
+        //             height: 20,
+        //           ),
+        //           for (int index = 0; index < 3; index++)
+        //             Positioned(
+        //               left: index * 10,
+        //               child: Container(
+        //                 height: 20,
+        //                 width: 20,
+        //                 decoration: BoxDecoration(
+        //                   shape: BoxShape.circle,
+        //                   border: Border.all(color: cWhiteColor, width: 1),
+        //                 ),
+        //                 child: Image.asset(
+        //                   kiProfilePicImageUrl,
+        //                   fit: BoxFit.fill,
+        //                 ),
+        //               ),
+        //             ),
+        //         ],
+        //       ),
+        //       kW8sizedBox,
+        //       // RichText(
+        //       //     text: TextSpan(children: [
+        //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
+        //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
+        //       // ]))
+        //     ],
+        //   ),
+        // ),
+
+        // if (isCommented)
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+        //   child: Row(
+        //     children: [
+        // kW8sizedBox,
+        // RichText(
+        //     text: TextSpan(children: [
+        //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
+        //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
+        // ])),
+        //     ],
+        //   ),
+        // ),
+        // if (isCommented || isLiked) const CustomDivider(thickness: 1),
         kH10sizedBox,
         InkWell(
           onTap: () async {
+            postReactionController.resetCommentAndReplyData();
+            postReactionController.homePostDetailsData.value = null;
+            postReactionController.homePostDetailsData.value = postList![postIndex];
             Get.to(() => HomePostDetails(
                   postIndex: postIndex,
+                  postList: postList,
                 ));
-            await Get.find<HomeController>().getPostData(postID);
+            postReactionController.refId.value = postID;
+            await postReactionController.getCommentList(1, refId);
+            await Get.find<FriendController>().getFriendList();
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -325,34 +357,34 @@ class CommonPostWidget extends StatelessWidget {
               )),
         if (isSharedPost)
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
             child: Container(
                 decoration: BoxDecoration(
                   borderRadius: k8CircularBorderRadius,
                   border: Border.all(color: cLineColor),
                 ),
-                child: CommonPostWidget(
-                  taggedFriends: [],
-                  postID: 0,
-                  reactCount: null,
-                  isCommented: false,
-                  isLiked: false,
-                  mediaList: const [],
-                  isCategorized: false,
-                  userName: 'Steve Sanchez',
-                  postTime: '5 hrs ago',
-                  privacy: BipHip.world,
-                  isSelfPost: false,
-                  isCommentShown: false,
-                  isSharedPost: false,
-                  showBottomSection: false,
-                  postText:
-                      'When i was sixteen i won a great victory. I thought i would live to be a hundred. Now i know i shall not see thirty. None of us knows how our life may end.',
-                  commentCount: 10,
-                  shareCount: 10,
-                  giftCount: 10,
-                  isInStock: false,
-                  userImage: userImage,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: CommonSharedPostWidget(
+                    taggedFriends: [],
+                    postID: postList![postIndex].sharePosts!.id!,
+                    mediaList: postList![postIndex].sharePosts!.images,
+                    isCategorized: false,
+                    userName: postList![postIndex].sharePosts!.user!.fullName!,
+                    postTime: homeController.postTimeDifference(postList![postIndex].sharePosts!.createdAt),
+                    privacy: BipHip.world,
+                    postText: postList![postIndex].sharePosts!.content,
+                    isInStock: false,
+                    userImage: postList![postIndex].sharePosts!.user!.profilePicture!,
+                    postList: homeController.allPostList,
+                    category: postList![postIndex].sharePosts!.postCategory == null ? null : postList![postIndex].sharePosts!.postCategory!.name,
+                    categoryIcon: postList![postIndex].sharePosts!.postCategory == null
+                        ? null
+                        : homeController.getCategoryIcon(postList![postIndex].sharePosts!.postCategory!.id), // need change API
+                    categoryIconColor: postList![postIndex].sharePosts!.postCategory == null
+                        ? null
+                        : homeController.getCategoryColor(postList![postIndex].sharePosts!.postCategory!.id),
+                  ),
                 )),
           ),
         if (mediaList.isNotEmpty)
@@ -364,7 +396,6 @@ class CommonPostWidget extends StatelessWidget {
               width: width - 40,
               child: Column(
                 children: [
-                  // if (mediaList.length > 0 )
                   Row(
                     children: [
                       TextButton(
@@ -383,7 +414,7 @@ class CommonPostWidget extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                           height: mediaList.length < 2 ? 302 : 150,
-                          width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
+                          width: mediaList.length > 3 ? (width - 42) / 2 : (isSharedPost ? null : width - 40),
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
@@ -612,7 +643,6 @@ class CommonPostWidget extends StatelessWidget {
             isSelfPost: isSelfPost,
             isCommentShown: isCommentShown,
             commentCount: commentCount,
-            reactCount: reactCount,
             shareCount: shareCount,
             giftCount: giftCount,
             category: category,
@@ -621,6 +651,109 @@ class CommonPostWidget extends StatelessWidget {
             actionName: actionName,
             actionOnPressed: isSelfPost ? null : () {},
           ),
+        if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+            child: PostActivityStatusWidget(
+              reactCount: (reactCount == null || reactCount!.all == 0) ? null : reactCount,
+              reactionOnPressed: () {
+                postReactionController.giftFilter(0);
+                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+              },
+              giftCount: giftCount,
+              commentCount: commentCount,
+              shareCount: shareCount,
+              commentOnPressed: () async {
+                postReactionController.resetCommentAndReplyData();
+                postReactionController.homePostDetailsData.value = null;
+                postReactionController.homePostDetailsData.value = postList![postIndex];
+                Get.to(() => HomePostDetails(
+                      postIndex: postIndex,
+                      postList: postList,
+                    ));
+                postReactionController.refId.value = postID;
+                await postReactionController.getCommentList(1, refId);
+                await Get.find<FriendController>().getFriendList();
+              },
+              isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
+              giftOnPressed: () {
+                // postReactionController.giftFilter(0);
+                // globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+              },
+            ),
+          ),
+        if (showBottomSection)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kHorizontalPadding,
+            ),
+            child: LikeSectionWidget(
+              shareOnPressed: () {
+                Get.find<GlobalController>().blankBottomSheet(
+                  context: context,
+                  bottomSheetHeight: height * 0.38,
+                  content: ShareBottomSheetContent(
+                    postData: postList![postIndex],
+                  ),
+                );
+              },
+              selfReaction: selfReaction,
+              onAngryPressed: onAngryPressed,
+              onHahaPressed: onHahaPressed,
+              onLikePressed: onLikePressed,
+              onLovePressed: onLovePressed,
+              onSadPressed: onSadPressed,
+              onWowPressed: onWowPressed,
+              postIndex: postIndex,
+              refType: refType,
+              refId: refId,
+              isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
+              likeOnTap: () {},
+              giftOnPressed: () async {
+                Get.find<PendentBadgesController>().resetBadgesData();
+                postReactionController.postId.value = refId;
+                globalController.commonBottomSheet(
+                  context: context,
+                  content: Obx(() =>
+                      Get.find<PendentBadgesController>().isUserBadgeLoading.value || Get.find<PendentBadgesController>().isgetStarPriceLoading.value
+                          ? const BadgeBottomSheetShimmer()
+                          : GiftContent()),
+                  isScrollControlled: true,
+                  bottomSheetHeight: height * .9,
+                  onPressCloseButton: () {
+                    Get.back();
+                  },
+                  onPressRightButton: null,
+                  rightText: '',
+                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                  title: ksSendGift.tr,
+                  isRightButtonShow: false,
+                );
+                await Get.find<PendentBadgesController>().getUserBadges();
+                await Get.find<PendentBadgesController>().getStarPrice();
+              },
+              commentOnPressed: () async {
+                showComment.value = !showComment.value;
+                postReactionController.resetCommentAndReplyData();
+                postReactionController.homePostDetailsData.value = null;
+                postReactionController.homePostDetailsData.value = postList![postIndex];
+                Get.to(() => HomePostDetails(
+                      postIndex: postIndex,
+                      postList: postList,
+                    ));
+                postReactionController.refId.value = postID;
+                // ll(userI);
+                await postReactionController.getCommentList(1, refId);
+                await Get.find<FriendController>().getFriendList();
+              },
+            ),
+          ),
+
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomDivider(),
+        ),
+        kH12sizedBox,
         // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
       ],
     );
@@ -640,96 +773,105 @@ class PostBottomSection extends StatelessWidget {
       this.platformLink,
       this.actionName,
       this.actionOnPressed,
-      this.reactCount,
-      this.postIndex = 0,  this.refType=0,  this.refId=0
-      });
+      this.postIndex = 0,
+      this.refType = 0,
+      this.refId = 0});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final bool isSelfPost, isCommentShown;
-  final RxBool showComment = RxBool(false);
   final int commentCount, shareCount, giftCount;
   final int postIndex;
   final int refType;
   final int refId;
-  final CountReactions? reactCount;
   final String? category, platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
-          children: [
-            if (category == 'Selling' && platformName != null)
-              Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
-                child: PlatformActionSection(
-                  actionOnPressed: actionOnPressed,
-                  platformName: 'Jane clothing store',
-                  platformLink: 'www.facebook.com/janeclothing/sdasdsads',
-                  actionName: 'Learn more',
-                ),
-              ),
-            if (isSelfPost && category == 'Selling')
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kHorizontalPadding,
-                  right: kHorizontalPadding,
-                ),
-                child: BiddingWidget(
-                  totalBids: 25,
-                  yourBid: 300,
-                  isPlaceBid: false,
-                  bidingOnPressed: () {
-                    globalController.blankBottomSheet(
-                        context: context,
-                        content: BiddingInsightsContent(
-                          comment: bidingComments,
-                        ),
-                        isScrollControlled: true,
-                        bottomSheetHeight: height * 0.7);
-                  },
-                ),
-              ),
-            if (!isSelfPost && category == 'Selling')
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kHorizontalPadding,
-                  right: kHorizontalPadding,
-                ),
-                child: BiddingWidget(
-                  totalBids: 25,
-                  yourBid: postReactionController.yourBid.value,
-                  bidingOnPressed: () {
-                    if (postReactionController.yourBid.value == null) {
+    return Column(
+      children: [
+        if (category == 'Selling' && platformName != null)
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
+            child: PlatformActionSection(
+              actionOnPressed: actionOnPressed,
+              platformName: 'Jane clothing store',
+              platformLink: 'www.facebook.com/janeclothing/sdasdsads',
+              actionName: 'Learn more',
+            ),
+          ),
+        if (isSelfPost && category == 'Selling')
+          Padding(
+            padding: const EdgeInsets.only(
+              left: kHorizontalPadding,
+              right: kHorizontalPadding,
+            ),
+            child: BiddingWidget(
+              totalBids: 25,
+              yourBid: 300,
+              isPlaceBid: false,
+              bidingOnPressed: () {
+                globalController.blankBottomSheet(
+                    context: context,
+                    content: BiddingInsightsContent(
+                      comment: bidingComments,
+                    ),
+                    isScrollControlled: true,
+                    bottomSheetHeight: height * 0.7);
+              },
+            ),
+          ),
+        if (!isSelfPost && category == 'Selling')
+          Padding(
+            padding: const EdgeInsets.only(
+              left: kHorizontalPadding,
+              right: kHorizontalPadding,
+            ),
+            child: BiddingWidget(
+              totalBids: 25,
+              yourBid: postReactionController.yourBid.value,
+              bidingOnPressed: () {
+                if (postReactionController.yourBid.value == null) {
+                  globalController.commonBottomSheet(
+                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                    context: context,
+                    content: PlaceBidContent(
+                      desiredAmount: '100',
+                      minimumBiddingAmount: '50',
+                    ),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      postReactionController.yourBid.value = int.parse(postReactionController.bidingTextEditingController.text);
+                      Get.back();
+                    },
+                    rightText: ksSubmit.tr,
+                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    title: ksPlaceABid.tr,
+                    isRightButtonShow: true,
+                    isScrollControlled: true,
+                  );
+                } else {
+                  globalController.commonBottomSheet(
+                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                    context: context,
+                    content: BidAmount(
+                      highestAmount: '350',
+                      totalBid: '56',
+                      desireAmount: '400',
+                      yourBid: postReactionController.yourBid.value.toString(),
+                    ),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      Get.back();
                       globalController.commonBottomSheet(
-                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
                         context: context,
-                        content: PlaceBidContent(
-                          desiredAmount: '100',
-                          minimumBiddingAmount: '50',
-                        ),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () {
-                          postReactionController.yourBid.value = int.parse(postReactionController.bidingTextEditingController.text);
-                          Get.back();
-                        },
-                        rightText: ksSubmit.tr,
-                        rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksPlaceABid.tr,
-                        isRightButtonShow: true,
-                        isScrollControlled: true,
-                      );
-                    } else {
-                      globalController.commonBottomSheet(
-                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
-                        context: context,
-                        content: BidAmount(
-                          highestAmount: '350',
-                          totalBid: '56',
-                          desireAmount: '400',
+                        content: UpdateBidding(
                           yourBid: postReactionController.yourBid.value.toString(),
                         ),
                         onPressCloseButton: () {
@@ -737,119 +879,27 @@ class PostBottomSection extends StatelessWidget {
                         },
                         onPressRightButton: () {
                           Get.back();
-                          globalController.commonBottomSheet(
-                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
-                            context: context,
-                            content: UpdateBidding(
-                              yourBid: postReactionController.yourBid.value.toString(),
-                            ),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: () {
-                              Get.back();
-                            },
-                            rightText: ksUpdate.tr,
-                            rightTextStyle: medium14TextStyle(cPrimaryColor),
-                            title: ksUpdateBiddingAmount.tr,
-                            isRightButtonShow: true,
-                            isScrollControlled: true,
-                          );
                         },
-                        rightText: ksEdit.tr,
+                        rightText: ksUpdate.tr,
                         rightTextStyle: medium14TextStyle(cPrimaryColor),
-                        title: ksYourBidAmount.tr,
+                        title: ksUpdateBiddingAmount.tr,
                         isRightButtonShow: true,
                         isScrollControlled: true,
                       );
-                    }
-                  },
-                  isPlaceBid: true,
-                ),
-              ),
-            if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
-              Padding(
-                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-                child: PostActivityStatusWidget(
-                  reactCount: reactCount,
-                  reactionOnPressed: () {
-                    postReactionController.giftFilter(0);
-                    globalController.blankBottomSheet(
-                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                  },
-                  giftCount: giftCount,
-                  commentCount: commentCount,
-                  shareCount: shareCount,
-                  isGiftShown: true,
-                  giftOnPressed: () {
-                    postReactionController.giftFilter(0);
-                    globalController.blankBottomSheet(
-                        context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                  },
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kHorizontalPadding,
-              ),
-              child: LikeSectionWidget(
-                postIndex: postIndex,
-                refType: refType,
-                refId: refId,
-                isGiftShown: true,
-                likeOnTap: () {},
-                giftOnPressed: () {
-                  postReactionController.resetGiftData();
-                  globalController.commonBottomSheet(
-                    context: context,
-                    content: GiftContent(),
-                    isScrollControlled: true,
-                    bottomSheetHeight: height * .9,
-                    onPressCloseButton: () {
-                      Get.back();
                     },
-                    onPressRightButton: null,
-                    rightText: '',
-                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                    title: ksSendGift.tr,
-                    isRightButtonShow: false,
+                    rightText: ksEdit.tr,
+                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                    title: ksYourBidAmount.tr,
+                    isRightButtonShow: true,
+                    isScrollControlled: true,
                   );
-                },
-                commentOnPressed: () {
-                  showComment.value = !showComment.value;
-                  ll(showComment);
-                },
-              ),
+                }
+              },
+              isPlaceBid: true,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: CustomDivider(),
-            ),
-            kH12sizedBox,
-            if (isCommentShown && showComment.value)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: CommentWidget(
-                  profileImage: kiDummyImage3ImageUrl,
-                  comment:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                  timePassed: '30',
-                  isLikeButtonShown: true,
-                  commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                  isReplyButtonShown: true,
-                  isReactButtonShown: true,
-                  isImageComment: true,
-                  image: kiDummyImage3ImageUrl,
-                  isLink: false,
-                  reactCount: 1234,
-                  userName: 'Monjurul Sharker Omi',
-                  isSendMessageShown: false,
-                  isHideButtonShown: true,
-                  replyList: replyComment,
-                ),
-              ),
-          ],
-        ));
+          ),
+      ],
+    );
   }
 }
 
@@ -887,12 +937,13 @@ class BiddingInsightsContent extends StatelessWidget {
                     isReactButtonShown: true,
                     comment: comment[index]['comment'],
                     isLink: false,
-                    reactCount: 440,
                     userName: comment[index]['userName'],
                     isImageComment: false,
                     isSendMessageShown: true,
                     isHideButtonShown: false,
                     replyList: const [],
+                    refType: 1,
+                    refId: 1,
                   );
                 }),
             kH8sizedBox,
@@ -1128,12 +1179,13 @@ class UpdateBidding extends StatelessWidget {
           isReactButtonShown: false,
           comment: '\$$yourBid',
           isLink: false,
-          reactCount: 0,
           userName: 'Omi',
           isImageComment: false,
           isSendMessageShown: false,
           isHideButtonShown: false,
           replyList: const [],
+          refType: 1,
+          refId: 1,
         ),
         kH4sizedBox,
         Wrap(
@@ -1305,7 +1357,8 @@ class ReactionTabPage extends StatelessWidget {
 class GiftContent extends StatelessWidget {
   GiftContent({super.key});
 
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  // final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
   final GlobalController globalController = Get.find<GlobalController>();
 
   @override
@@ -1315,16 +1368,47 @@ class GiftContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           kH16sizedBox,
+          // Text(
+          //   ksAllStars.tr,
+          //   style: semiBold14TextStyle(cBlackColor),
+          // ),
+          // kH16sizedBox,
+          // SizedBox(
+          //   child: GridView.builder(
+          //     shrinkWrap: true,
+          //     physics: const NeverScrollableScrollPhysics(),
+          //     itemCount: giftPackages.length,
+          //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //       childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+          //       crossAxisCount: 3,
+          //       crossAxisSpacing: k16Padding,
+          //       mainAxisSpacing: k16Padding,
+          //     ),
+          //     itemBuilder: (BuildContext context, int index) {
+          //       return InkWell(
+          //         onTap: () {
+          //           postReactionController.selectedPackage.value = giftPackages[index];
+          //           postReactionController.selectedGiftIndex.value = index;
+          //           postReactionController.isPackageSelected.value = true;
+          //         },
+          //         child: PackageGridViewContainer(
+          //           index: index,
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+
           Text(
-            ksAllStars.tr,
-            style: semiBold14TextStyle(cBlackColor),
+            ksAllBadges.tr,
+            style: semiBold16TextStyle(cBlackColor),
           ),
           kH16sizedBox,
           SizedBox(
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: giftPackages.length,
+              itemCount: pendentBadgesController.allBadgesList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
                 crossAxisCount: 3,
@@ -1334,23 +1418,50 @@ class GiftContent extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
-                    postReactionController.selectedPackage.value = giftPackages[index];
-                    postReactionController.selectedGiftIndex.value = index;
-                    postReactionController.isPackageSelected.value = true;
+                    pendentBadgesController.isPackageSelected.value = true;
+                    pendentBadgesController.selectedBadgeIndex.value = index;
+                    pendentBadgesController.badgesCheckBox.value = false;
+                    pendentBadgesController.badgesPaymentCheckBox.value = false;
+                    pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
+                    pendentBadgesController.totalStarBuyAmount.value = 0;
+                    pendentBadgesController.temporaryTotalStars.value = '';
+                    pendentBadgesController.totalStars.value = '';
+                    pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
+                    pendentBadgesController.starAmountTextEditingController.clear();
+                    pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.allBadgesList[index].icon!;
+                    pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.allBadgesList[index].star.toString();
+                    pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.allBadgesList[index].price.toString();
+                    pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.allBadgesList[index].description!;
+                    pendentBadgesController.badgeId.value = pendentBadgesController.allBadgesList[index].id!;
+                    pendentBadgesController.badgesCheckBox.value = false;
+                    pendentBadgesController.badgesPaymentCheckBox.value = false;
+                    pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                    pendentBadgesController.badgesMMYYTextEditingController.clear();
+                    pendentBadgesController.badgesCvvTextEditingController.clear();
+
+                    // Get.toNamed(krPurchaseStar);
                   },
-                  child: PackageGridViewContainer(
+                  child: BadgesGridViewContainer(
                     index: index,
+                    recommendedOrAllBadgesList: pendentBadgesController.allBadgesList,
+                    badgeIcon: pendentBadgesController.allBadgesList[index].icon,
+                    badgeName: pendentBadgesController.allBadgesList[index].name,
+                    badgeStar: pendentBadgesController.allBadgesList[index].star.toString(),
                   ),
                 );
               },
             ),
           ),
           kH20sizedBox,
+
+          kH20sizedBox,
           CustomElevatedButton(
               label: ksGetStars.tr,
               buttonWidth: width - 40,
-              onPressed: postReactionController.isPackageSelected.value
+              onPressed: pendentBadgesController.isPackageSelected.value
                   ? () {
+                      pendentBadgesController.selectedBadgeIndex.value = -1;
+                      pendentBadgesController.isPackageSelected.value = false;
                       globalController.commonBottomSheet(
                           context: context,
                           content: PurchaseStarContent(),
@@ -1438,130 +1549,173 @@ class PackageGridViewContainer extends StatelessWidget {
 class PurchaseStarContent extends StatelessWidget {
   PurchaseStarContent({super.key});
 
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
+  final FocusNode giftCommentFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                ksYourCurrentStar.tr,
-                style: regular12TextStyle(cIconColor),
-              ),
-              Text(
-                " (${postReactionController.balance} of 200)",
-                style: regular12TextStyle(cIconColor),
-              )
-            ],
-          ),
-          kH4sizedBox,
-          Container(
-            height: 44,
-            width: width,
-            decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      () => SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            kH16sizedBox,
+            Row(
               children: [
-                const Icon(
-                  BipHip.giftNew,
-                  color: cSecondaryColor,
-                  size: kIconSize16,
+                Text(
+                  ksYourCurrentStar.tr,
+                  style: regular12TextStyle(cIconColor),
                 ),
-                kW4sizedBox,
-                ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    return const LinearGradient(
-                      colors: [cBlueLinearColor1, cBlueLinearColor2],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ).createShader(bounds);
-                  },
-                  child: Text(
-                    '${postReactionController.balance}',
-                    style: semiBold20TextStyle(cWhiteColor),
+                Text(
+                  " (${pendentBadgesController.userBadgesData.value?.starBalance} of 200)",
+                  style: regular12TextStyle(cIconColor),
+                )
+              ],
+            ),
+            kH4sizedBox,
+            Container(
+              height: 44,
+              width: width,
+              decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cGreyBoxColor),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    BipHip.giftNew,
+                    color: cSecondaryColor,
+                    size: kIconSize16,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: k8Padding, left: 1),
-                  child: Align(
-                    alignment: Alignment.topRight,
+                  kW4sizedBox,
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return const LinearGradient(
+                        colors: [cBlueLinearColor1, cBlueLinearColor2],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds);
+                    },
                     child: Text(
-                      ksStars,
-                      style: regular12TextStyle(cSmallBodyTextColor),
+                      '${pendentBadgesController.userBadgesData.value?.starBalance}',
+                      style: semiBold20TextStyle(cWhiteColor),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: k8Padding, left: 1),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        ksStars,
+                        style: regular12TextStyle(cSmallBodyTextColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          kH24sizedBox,
-          const CustomDivider(),
-          kH16sizedBox,
-          Text(
-            ksYourSelectedPackage.tr,
-            style: regular12TextStyle(cIconColor),
-          ),
-          kH8sizedBox,
-          Obx(() => CustomListTile(
-                leading: SvgPicture.asset(
-                  kiBadgeSvgImageUrl,
-                  width: 20,
-                  height: 20,
-                ),
-                title: postReactionController.totalStars.value != ''
-                    ? '${postReactionController.totalStars.value} stars'
-                    : '${postReactionController.selectedPackage.value!['amount']} stars',
-                borderColor: cPrimaryColor,
-                itemColor: cPrimaryTint2Color,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-                        (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
+
+            kH24sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Text(
+              ksYourSelectedPackage.tr,
+              style: regular12TextStyle(cSmallBodyTextColor),
+            ),
+            kH8sizedBox,
+            Obx(() => CustomListTile(
+                  leading: Image.network(
+                    pendentBadgesController.selectedBadgeIcon.value,
+                    width: h20,
+                    height: h20,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        kiProfileDefaultImageUrl,
+                        height: h40,
+                        width: h40,
+                      );
+                    },
+                    loadingBuilder: imageLoadingBuilder,
+                  ),
+                  title: pendentBadgesController.totalStars.value != ''
+                      ? '${pendentBadgesController.totalStars.value} stars'
+                      : '${pendentBadgesController.selectedBadgeStar.value} stars',
+                  borderColor: cPrimaryColor,
+                  itemColor: cPrimaryTint2Color,
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                       Text(
-                        postReactionController.totalStars.value != ''
-                            ? "\$${postReactionController.totalStarBuyAmount.value.toStringAsFixed(2)}"
-                            : "\$${postReactionController.selectedPackage.value!['cost']}",
+                        (pendentBadgesController.totalStars.value != '' &&
+                                (int.parse(pendentBadgesController.totalStars.value) > pendentBadgesController.userBadgesData.value!.starBalance!))
+                            ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}'
+                            : pendentBadgesController.totalStars.value == '' &&
+                                    (int.parse(pendentBadgesController.selectedBadgeStar.value) > pendentBadgesController.userBadgesData.value!.starBalance!)
+                                ? '\$${pendentBadgesController.selectedBadgePrice.value}'
+                                : "",
                         style: semiBold16TextStyle(cBlackColor),
                       ),
-                  ],
-                ),
-              )),
-          kH16sizedBox,
-          const CustomDivider(),
-          kH16sizedBox,
-          Text(
-            ksAllStars.tr,
-            style: regular12TextStyle(cIconColor),
-          ),
-          kH8sizedBox,
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: ksStarsThatYouPurchase.tr,
-                  style: regular12TextStyle(cBlackColor),
-                ),
-                TextSpan(
-                  text: ksLearnMoreAboutStars.tr,
-                  style: regular12TextStyle(cPrimaryColor),
-                ),
-              ],
+                    ],
+                  ),
+                )),
+            kH16sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Text(
+              ksAllStars.tr,
+              style: regular12TextStyle(cIconColor),
             ),
-          ),
-          if (postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount']) ||
-              (postReactionController.totalStars.value != '' && postReactionController.balance < int.parse(postReactionController.totalStars.value)))
+            kH8sizedBox,
+            Text(
+              pendentBadgesController.selectedBadgeDescription.value,
+              style: regular14TextStyle(cBlackColor),
+            ),
+            //*Not need now.
+            // kH16sizedBox,
+            // for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: k4Padding),
+            //     child: Row(
+            //       children: [
+            //         Container(
+            //           width: 4,
+            //           height: 4,
+            //           decoration: const BoxDecoration(
+            //             shape: BoxShape.circle,
+            //             color: cBlackColor,
+            //           ),
+            //         ),
+            //         kW8sizedBox,
+            //         Text(
+            //           pendentBadgesController.benefitsList[i],
+            //           style: regular12TextStyle(cBlackColor),
+            //           overflow: TextOverflow.clip,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+
+            kH16sizedBox,
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "${ksYouCanSendStars.tr}.",
+                    style: regular12TextStyle(cBlackColor),
+                  ),
+                  TextSpan(
+                    text: " ${ksLearnMoreAboutStars.tr}",
+                    style: regular12TextStyle(cPrimaryColor),
+                  ),
+                ],
+              ),
+            ),
             InkWell(
               onTap: () {
-                postReactionController.temporarytotalStarBuyAmount.value = postReactionController.totalStarBuyAmount.value;
-                postReactionController.temporaryTotalStars.value = postReactionController.totalStars.value;
-                postReactionController.starAmountTextEditingController.text = postReactionController.totalStars.value;
-                if (postReactionController.starAmountTextEditingController.text.toString().trim() == '') {
-                  postReactionController.isStarAmountConfirmButtonEnabled.value = false;
+                pendentBadgesController.temporarytotalStarBuyAmount.value = pendentBadgesController.totalStarBuyAmount.value;
+                pendentBadgesController.temporaryTotalStars.value = pendentBadgesController.totalStars.value;
+                pendentBadgesController.starAmountTextEditingController.text = pendentBadgesController.totalStars.value;
+                if (pendentBadgesController.starAmountTextEditingController.text.toString().trim() == '') {
+                  pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
@@ -1595,147 +1749,222 @@ class PurchaseStarContent extends StatelessWidget {
                 ),
               ),
             ),
-          kH16sizedBox,
-          const CustomDivider(),
-          kH16sizedBox,
-          Text(
-            ksPopularPackage.tr,
-            style: regular10TextStyle(cIconColor),
-          ),
-          kH16sizedBox,
-          SizedBox(
-            child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: packages.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: k8Padding),
-                    child: CustomListTile(
-                      onPressed: () {
-                        postReactionController.selectedPackage.value = packages[index];
-                        postReactionController.resetPurchaseCustomStar();
-                      },
-                      leading: SvgPicture.asset(kiBadgeSvgImageUrl, width: 20, height: 20),
-                      title: '${packages[index]['amount']} stars',
-                      borderColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryColor : cLineColor,
-                      itemColor: postReactionController.selectedPackage.value == packages[index] ? cPrimaryTint3Color : cWhiteColor,
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (postReactionController.balance < int.parse(packages[index]['amount']))
-                            Text(
-                              '\$${packages[index]['cost']}',
-                              style: semiBold16TextStyle(cBlackColor),
-                            ),
-                          kW8sizedBox,
-                          Radio(
-                            value: packages[index],
-                            groupValue: postReactionController.selectedPackage.value,
-                            onChanged: (v) {
-                              postReactionController.selectedPackage.value = v;
+            kH16sizedBox,
+            const CustomDivider(),
+            kH16sizedBox,
+            Text(
+              ksPopularPackage.tr,
+              style: regular10TextStyle(cIconColor),
+            ),
+            kH16sizedBox,
+            SizedBox(
+              child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: pendentBadgesController.popularBadgesList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: k8Padding),
+                      child: Obx(() => CustomListTile(
+                            onPressed: () {
+                              // pendentBadgesController.selectedPackage.value = packages[index];
+                              pendentBadgesController.selectedBadgeIndex.value = index;
+                              pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
+                              pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
+                              pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.popularBadgesList[index].price.toString();
+                              pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.popularBadgesList[index].description!;
+                              pendentBadgesController.badgeId.value = pendentBadgesController.popularBadgesList[index].id!;
+                              pendentBadgesController.badgesCheckBox.value = false;
+                              pendentBadgesController.badgesPaymentCheckBox.value = false;
+                              pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                              pendentBadgesController.badgesMMYYTextEditingController.clear();
+                              pendentBadgesController.badgesCvvTextEditingController.clear();
+                              pendentBadgesController.resetPurchaseCustomStar();
                             },
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            visualDensity: const VisualDensity(
-                              horizontal: VisualDensity.minimumDensity,
-                              vertical: VisualDensity.minimumDensity,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Obx(() => Transform.translate(
-                    offset: const Offset(-10.0, 0.0),
-                    child: Checkbox(
-                      value: postReactionController.giftCheckBox.value,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onChanged: (v) {
-                        postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
-                      },
-                    ),
-                  )),
-              kW12sizedBox,
-              Transform.translate(
-                offset: const Offset(-20, 0.0),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      WidgetSpan(
-                          child: InkWell(
-                              onTap: () {
-                                postReactionController.giftCheckBox.value = !postReactionController.giftCheckBox.value;
+                            leading: Image.network(
+                              pendentBadgesController.popularBadgesList[index].icon!,
+                              width: h20,
+                              height: h20,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  kiProfileDefaultImageUrl,
+                                  height: h20,
+                                  width: h20,
+                                );
                               },
-                              child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
-                      TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-                    ],
+                              loadingBuilder: imageLoadingBuilder,
+                            ),
+                            title: '${pendentBadgesController.popularBadgesList[index].star} stars',
+                            borderColor: pendentBadgesController.selectedBadgeIndex.value == index ? cPrimaryColor : cLineColor,
+                            itemColor: pendentBadgesController.selectedBadgeIndex.value == index ? cPrimaryTint3Color : cWhiteColor,
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  (pendentBadgesController.popularBadgesList[index].star! > pendentBadgesController.userBadgesData.value!.starBalance!)
+                                      ? '\$${pendentBadgesController.popularBadgesList[index].price}'
+                                      : "",
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                                kW8sizedBox,
+                                Radio(
+                                  value: index,
+                                  groupValue: pendentBadgesController.selectedBadgeIndex.value,
+                                  onChanged: (v) {
+                                    pendentBadgesController.selectedBadgeIndex.value = int.parse(v.toString());
+                                    pendentBadgesController.selectedBadgeIndex.value = index;
+                                    pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
+                                    pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
+                                    pendentBadgesController.selectedBadgePrice.value = pendentBadgesController.popularBadgesList[index].price.toString();
+                                    pendentBadgesController.selectedBadgeDescription.value = pendentBadgesController.popularBadgesList[index].description!;
+                                    pendentBadgesController.badgeId.value = pendentBadgesController.popularBadgesList[index].id!;
+                                    pendentBadgesController.badgesCheckBox.value = false;
+                                    pendentBadgesController.badgesPaymentCheckBox.value = false;
+                                    pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                                    pendentBadgesController.badgesMMYYTextEditingController.clear();
+                                    pendentBadgesController.badgesCvvTextEditingController.clear();
+                                    pendentBadgesController.resetPurchaseCustomStar();
+                                  },
+                                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  visualDensity: const VisualDensity(
+                                    horizontal: VisualDensity.minimumDensity,
+                                    vertical: VisualDensity.minimumDensity,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )),
+                    );
+                  }),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Obx(() => Transform.translate(
+                      offset: const Offset(-10.0, 0.0),
+                      child: Checkbox(
+                        value: pendentBadgesController.badgesCheckBox.value,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onChanged: (v) {
+                          pendentBadgesController.badgesCheckBox.value = !pendentBadgesController.badgesCheckBox.value;
+                        },
+                      ),
+                    )),
+                kW12sizedBox,
+                Transform.translate(
+                  offset: const Offset(-20, 0.0),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                            child: InkWell(
+                                onTap: () {
+                                  pendentBadgesController.badgesCheckBox.value = !pendentBadgesController.badgesCheckBox.value;
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 0.8),
+                                  child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
+                                ))),
+                        TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          kH8sizedBox,
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: const BoxDecoration(shape: BoxShape.circle),
-                  child: Image.asset(kiProfilePicImageUrl),
+              ],
+            ),
+            kH20sizedBox,
+
+            Row(
+              children: [
+                ClipOval(
+                  child: Image.network(
+                    Get.find<GlobalController>().userImage.toString(),
+                    width: h32,
+                    height: h32,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(kiDummyImage1ImageUrl);
+                    },
+                    loadingBuilder: imageLoadingBuilder,
+                  ),
                 ),
-              ),
-              kW8sizedBox,
-              Expanded(
-                child: CustomModifiedTextField(
-                    hint: ksAddAommentWithYourGift.tr,
-                    textHintStyle: regular12TextStyle(cSmallBodyTextColor),
-                    inputAction: TextInputAction.done,
-                    contentPadding: const EdgeInsets.symmetric(vertical: k10Padding, horizontal: k8Padding),
-                    borderRadius: 8,
-                    controller: postReactionController.giftAddCommentTextEditingController),
-              ),
-            ],
-          ),
-          kH12sizedBox,
-          CustomElevatedButton(
-              label: postReactionController.balance < int.parse(postReactionController.selectedPackage.value!['amount'])
-                  ? ksNext.tr
-                  : postReactionController.totalStars.value != ''
-                      ? (postReactionController.balance < int.parse(postReactionController.totalStars.value))
-                          ? ksNext.tr
-                          : "${ksSend.tr} ${postReactionController.totalStars.value} ${ksStars.tr}"
-                      : "${ksSend.tr} ${postReactionController.selectedPackage.value!['amount']} ${ksStars.tr}",
-              buttonHeight: 42,
-              buttonWidth: width - 40,
-              onPressed: postReactionController.giftCheckBox.value
-                  ? () {
-                      Get.find<GlobalController>().commonBottomSheet(
-                          context: context,
-                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                          isScrollControlled: true,
-                          content: GiftPurchasePaymentContent(),
-                          onPressCloseButton: () {
-                            Get.back();
-                          },
-                          onPressRightButton: () {},
-                          rightText: '',
-                          rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                          title: ksPayNow.tr,
-                          isRightButtonShow: false);
-                    }
-                  : null),
-        ],
+                kW8sizedBox,
+                Expanded(
+                  child: CustomModifiedTextField(
+                      borderRadius: h8,
+                      focusNode: giftCommentFocusNode,
+                      controller: Get.find<PostReactionController>().giftAddCommentTextEditingController,
+                      suffixIcon: Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value ? BipHip.circleCrossNew : null,
+                      hint: ksAddAommentWithYourGift.tr,
+                      contentPadding: const EdgeInsets.symmetric(vertical: k12Padding, horizontal: k12Padding),
+                      textInputStyle: regular16TextStyle(cBlackColor),
+                      onSuffixPress: () {
+                        Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = false;
+                        Get.find<PostReactionController>().giftAddCommentTextEditingController.clear();
+                      },
+                      onSubmit: (v) {
+                        unfocus(context);
+                        Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = true;
+                      },
+                      onChanged: (v) {
+                        if (Get.find<PostReactionController>().giftAddCommentTextEditingController.text.toString().trim() != '') {
+                          Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = true;
+                        } else {
+                          Get.find<PostReactionController>().isGiftAddCommentSuffixIconVisible.value = false;
+                        }
+                      }),
+                ),
+              ],
+            ),
+
+            kH24sizedBox,
+            CustomElevatedButton(
+                label: pendentBadgesController.totalStars.value == "" &&
+                        (int.parse(pendentBadgesController.selectedBadgeStar.value) < pendentBadgesController.userBadgesData.value!.starBalance!)
+                    ? "Send ${pendentBadgesController.selectedBadgeStar.value} stars"
+                    : pendentBadgesController.totalStars.value != "" &&
+                            ((int.parse(pendentBadgesController.totalStars.value) < pendentBadgesController.userBadgesData.value!.starBalance!))
+                        ? "Send ${pendentBadgesController.totalStars.value} stars"
+                        : ksNext.tr,
+                buttonWidth: width - 40,
+                onPressed: pendentBadgesController.badgesCheckBox.value
+                    ? () async {
+                        pendentBadgesController.badgesCheckBox.value = false;
+                        pendentBadgesController.badgesPaymentCheckBox.value = false;
+                        pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                        pendentBadgesController.badgesMMYYTextEditingController.clear();
+                        pendentBadgesController.badgesCvvTextEditingController.clear();
+                        if (pendentBadgesController.totalStars.value == "" &&
+                                (int.parse(pendentBadgesController.selectedBadgeStar.value) < pendentBadgesController.userBadgesData.value!.starBalance!) ||
+                            pendentBadgesController.totalStars.value != "" &&
+                                ((int.parse(pendentBadgesController.totalStars.value) < pendentBadgesController.userBadgesData.value!.starBalance!))) {
+                          Get.back();
+                          Get.back();
+                          Get.find<PostReactionController>().giftStar(pendentBadgesController.totalStars.value == ""
+                              ? pendentBadgesController.selectedBadgeStar.value
+                              : pendentBadgesController.totalStars.value);
+                        } else {
+                          Get.find<GlobalController>().commonBottomSheet(
+                              context: context,
+                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                              isScrollControlled: true,
+                              content: GiftPurchasePaymentContent(),
+                              onPressCloseButton: () {
+                                Get.back();
+                              },
+                              onPressRightButton: () {},
+                              rightText: '',
+                              rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                              title: ksPayNow.tr,
+                              isRightButtonShow: false);
+                        }
+                      }
+                    : null),
+            kH20sizedBox,
+          ],
+        ),
       ),
     );
   }
@@ -1743,7 +1972,7 @@ class PurchaseStarContent extends StatelessWidget {
 
 class PurchaseCustomStarContent extends StatelessWidget {
   PurchaseCustomStarContent({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
 
   @override
   Widget build(BuildContext context) {
@@ -1764,14 +1993,14 @@ class PurchaseCustomStarContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '\$${postReactionController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
+                      '\$${pendentBadgesController.temporarytotalStarBuyAmount.value.toStringAsFixed(2)}',
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kH4sizedBox,
                     Text(
-                      postReactionController.starAmountTextEditingController.text.toString().trim() == ''
+                      pendentBadgesController.starAmountTextEditingController.text.toString().trim() == ''
                           ? '0 ${ksStarNew.tr}'
-                          : '${postReactionController.starAmountTextEditingController.text} ${ksStars.tr}',
+                          : '${pendentBadgesController.starAmountTextEditingController.text} ${ksStars.tr}',
                       style: semiBold14TextStyle(cPlaceHolderColor),
                     ),
                   ],
@@ -1782,18 +2011,19 @@ class PurchaseCustomStarContent extends StatelessWidget {
             const CustomDivider(),
             kH16sizedBox,
             CustomModifiedTextField(
-              controller: postReactionController.starAmountTextEditingController,
+              controller: pendentBadgesController.starAmountTextEditingController,
               hint: ksAmountOfStar.tr,
               onChanged: (text) {
-                if (postReactionController.starAmountTextEditingController.text.toString().trim() != '' &&
-                    postReactionController.starAmountTextEditingController.text.toString().trim() != '0') {
-                  postReactionController.isStarAmountConfirmButtonEnabled.value = true;
-                  postReactionController.temporarytotalStarBuyAmount.value =
-                      (double.parse(postReactionController.starAmountTextEditingController.text.toString()) * postReactionController.perStarAmount.value);
-                  postReactionController.temporaryTotalStars.value = postReactionController.starAmountTextEditingController.text.toString().trim();
+                if (pendentBadgesController.starAmountTextEditingController.text.toString().trim() != '' &&
+                    pendentBadgesController.starAmountTextEditingController.text.toString().trim() != '0') {
+                  pendentBadgesController.isStarAmountConfirmButtonEnabled.value = true;
+                  pendentBadgesController.temporarytotalStarBuyAmount.value =
+                      (double.parse(pendentBadgesController.starAmountTextEditingController.text.toString()) *
+                          pendentBadgesController.starPriceData.value!.starPrice!.toDouble());
+                  pendentBadgesController.temporaryTotalStars.value = pendentBadgesController.starAmountTextEditingController.text.toString().trim();
                 } else {
-                  postReactionController.isStarAmountConfirmButtonEnabled.value = false;
-                  postReactionController.temporarytotalStarBuyAmount.value = 0;
+                  pendentBadgesController.isStarAmountConfirmButtonEnabled.value = false;
+                  pendentBadgesController.temporarytotalStarBuyAmount.value = 0;
                 }
               },
               onSubmit: (text) {},
@@ -1819,7 +2049,7 @@ class PurchaseCustomStarContent extends StatelessWidget {
                     style: regular10TextStyle(cIconColor),
                   ),
                   TextSpan(
-                    text: ' ${postReactionController.perStarAmount.value}\$ ',
+                    text: ' ${pendentBadgesController.starPriceData.value!.starPrice.toString()}\$ ',
                     style: regular10TextStyle(cGreenColor),
                   ),
                   TextSpan(
@@ -1835,13 +2065,21 @@ class PurchaseCustomStarContent extends StatelessWidget {
             Obx(() => CustomElevatedButton(
                   buttonWidth: width - 40,
                   label: ksConfirm.tr,
-                  onPressed: postReactionController.isStarAmountConfirmButtonEnabled.value
+                  onPressed: pendentBadgesController.isStarAmountConfirmButtonEnabled.value
                       ? () {
-                          postReactionController.totalStarBuyAmount.value = postReactionController.temporarytotalStarBuyAmount.value;
-                          postReactionController.totalStars.value = postReactionController.temporaryTotalStars.value;
-                          postReactionController.selectedPackage.value = giftPackages[0];
-                          postReactionController.selectedGiftIndex.value = -1;
-                          postReactionController.isPackageSelected.value = false;
+                          pendentBadgesController.totalStarBuyAmount.value = pendentBadgesController.temporarytotalStarBuyAmount.value;
+                          pendentBadgesController.totalStars.value = pendentBadgesController.temporaryTotalStars.value;
+                          pendentBadgesController.selectedBadgeIndex.value = -1;
+                          pendentBadgesController.isPackageSelected.value = false;
+                          pendentBadgesController.selectedBadgeDescription.value = "";
+                          pendentBadgesController.badgeId.value = -1;
+                          pendentBadgesController.badgeStar.value = pendentBadgesController.totalStars.value;
+                          pendentBadgesController.badgePrice.value = pendentBadgesController.totalStarBuyAmount.value.toString();
+                          pendentBadgesController.badgesCheckBox.value = false;
+                          pendentBadgesController.badgesPaymentCheckBox.value = false;
+                          pendentBadgesController.badgesCardNumberTextEditingController.clear();
+                          pendentBadgesController.badgesMMYYTextEditingController.clear();
+                          pendentBadgesController.badgesCvvTextEditingController.clear();
                           Get.back();
                         }
                       : null,
@@ -1854,7 +2092,7 @@ class PurchaseCustomStarContent extends StatelessWidget {
 
 class GiftPurchasePaymentContent extends StatelessWidget {
   GiftPurchasePaymentContent({super.key});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -1875,14 +2113,17 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             kW12sizedBox,
             kH8sizedBox,
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$105.00',
+                  '\$${pendentBadgesController.totalStars.value != '' ? '\$${pendentBadgesController.totalStarBuyAmount.value.toStringAsFixed(2)}' : pendentBadgesController.selectedBadgePrice.value}',
                   style: semiBold18TextStyle(cBlackColor),
                 ),
                 kH4sizedBox,
                 Text(
-                  '1000 stars',
+                  pendentBadgesController.totalStars.value != ''
+                      ? '${pendentBadgesController.totalStars.value} stars'
+                      : '${pendentBadgesController.selectedBadgeStar.value} stars',
                   style: semiBold14TextStyle(cPlaceHolderColor),
                 ),
               ],
@@ -1893,7 +2134,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
         const CustomDivider(),
         kH20sizedBox,
         CustomModifiedTextField(
-          controller: postReactionController.cardNumberController,
+          controller: pendentBadgesController.badgesCardNumberTextEditingController,
           hint: ksCardNumber.tr,
           inputType: TextInputType.number,
           inputAction: TextInputAction.next,
@@ -1914,7 +2155,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
           children: [
             Expanded(
               child: CustomModifiedTextField(
-                controller: postReactionController.mmyyStarController,
+                controller: pendentBadgesController.badgesMMYYTextEditingController,
                 hint: 'MM/YY',
                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
                 inputType: TextInputType.number,
@@ -1934,7 +2175,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             kW20sizedBox,
             Expanded(
               child: CustomModifiedTextField(
-                controller: postReactionController.cvvController,
+                controller: pendentBadgesController.badgesCvvTextEditingController,
                 hint: ksCVV.tr,
                 inputType: TextInputType.number,
                 inputAction: TextInputAction.done,
@@ -1959,10 +2200,10 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             Obx(() => Transform.translate(
                   offset: const Offset(-10.0, 0.0),
                   child: Checkbox(
-                    value: postReactionController.giftAgreeCheckBox.value,
+                    value: pendentBadgesController.badgesPaymentCheckBox.value,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onChanged: (v) {
-                      postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                      pendentBadgesController.badgesPaymentCheckBox.value = !pendentBadgesController.badgesPaymentCheckBox.value;
                     },
                   ),
                 )),
@@ -1975,9 +2216,12 @@ class GiftPurchasePaymentContent extends StatelessWidget {
                     WidgetSpan(
                         child: InkWell(
                             onTap: () {
-                              postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+                              pendentBadgesController.badgesPaymentCheckBox.value = !pendentBadgesController.badgesPaymentCheckBox.value;
                             },
-                            child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 0.8),
+                              child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)),
+                            ))),
                     TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
                   ],
                 ),
@@ -1992,11 +2236,395 @@ class GiftPurchasePaymentContent extends StatelessWidget {
             label: ksPayNow.tr,
             buttonHeight: 42,
             buttonWidth: width - 40,
-            onPressed: postReactionController.giftAgreeCheckBox.value
-                ? () {
-                    Get.offAllNamed(krHome);
+            onPressed: pendentBadgesController.badgesPaymentCheckBox.value
+                ? () async {
+                    Get.back();
+                    Get.back();
+                    Get.back();
+                    pendentBadgesController.resetBadgesData();
+                    await pendentBadgesController.buyBadge();
+                    Get.find<PostReactionController>().giftStar(pendentBadgesController.totalStars.value == ""
+                        ? pendentBadgesController.selectedBadgeStar.value
+                        : pendentBadgesController.totalStars.value);
                   }
                 : null)),
+      ],
+    );
+  }
+}
+
+// class GiftPurchasePaymentContent extends StatelessWidget {
+//   GiftPurchasePaymentContent({super.key});
+//   final PostReactionController postReactionController = Get.find<PostReactionController>();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Row(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           children: [
+//             SizedBox(
+//               width: 50,
+//               height: 50,
+//               child: SvgPicture.asset(
+//                 kiPayment,
+//                 width: h40,
+//                 height: h40,
+//               ),
+//             ),
+//             kW12sizedBox,
+//             kH8sizedBox,
+//             Column(
+//               children: [
+//                 Text(
+//                   '\$105.00',
+//                   style: semiBold18TextStyle(cBlackColor),
+//                 ),
+//                 kH4sizedBox,
+//                 Text(
+//                   '1000 stars',
+//                   style: semiBold14TextStyle(cPlaceHolderColor),
+//                 ),
+//               ],
+//             ),
+//           ],
+//         ),
+//         kH20sizedBox,
+//         const CustomDivider(),
+//         kH20sizedBox,
+//         CustomModifiedTextField(
+//           controller: postReactionController.cardNumberController,
+//           hint: ksCardNumber.tr,
+//           inputType: TextInputType.number,
+//           inputAction: TextInputAction.next,
+//           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//           maxLength: 16,
+//           textHintStyle: regular14TextStyle(cPlaceHolderColor),
+//           prefixIcon: BipHip.calendarFill,
+//           fillColor: cWhiteColor,
+//           border: const OutlineInputBorder(
+//             borderSide: BorderSide(
+//               color: cLineColor2,
+//               width: 1.0,
+//             ),
+//           ),
+//         ),
+//         kH20sizedBox,
+//         Row(
+//           children: [
+//             Expanded(
+//               child: CustomModifiedTextField(
+//                 controller: postReactionController.mmyyStarController,
+//                 hint: 'MM/YY',
+//                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
+//                 inputType: TextInputType.number,
+//                 inputAction: TextInputAction.next,
+//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//                 onChanged: (String value) {},
+//                 maxLength: 6,
+//                 fillColor: cWhiteColor,
+//                 border: const OutlineInputBorder(
+//                   borderSide: BorderSide(
+//                     color: cLineColor2,
+//                     width: 1.0,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             kW20sizedBox,
+//             Expanded(
+//               child: CustomModifiedTextField(
+//                 controller: postReactionController.cvvController,
+//                 hint: ksCVV.tr,
+//                 inputType: TextInputType.number,
+//                 inputAction: TextInputAction.done,
+//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+//                 maxLength: 3,
+//                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
+//                 fillColor: cWhiteColor,
+//                 border: const OutlineInputBorder(
+//                   borderSide: BorderSide(
+//                     color: cLineColor2,
+//                     width: 1.0,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Obx(() => Transform.translate(
+//                   offset: const Offset(-10.0, 0.0),
+//                   child: Checkbox(
+//                     value: postReactionController.giftAgreeCheckBox.value,
+//                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//                     onChanged: (v) {
+//                       postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+//                     },
+//                   ),
+//                 )),
+//             kW12sizedBox,
+//             Transform.translate(
+//               offset: const Offset(-20, 0.0),
+//               child: RichText(
+//                 text: TextSpan(
+//                   children: [
+//                     WidgetSpan(
+//                         child: InkWell(
+//                             onTap: () {
+//                               postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
+//                             },
+//                             child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
+//                     TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         kH16sizedBox,
+//         const CustomDivider(),
+//         kH16sizedBox,
+//         Obx(() => CustomElevatedButton(
+//             label: ksPayNow.tr,
+//             buttonHeight: 42,
+//             buttonWidth: width - 40,
+//             onPressed: postReactionController.giftAgreeCheckBox.value
+//                 ? () {
+//                     Get.offAllNamed(krHome);
+//                   }
+//                 : null)),
+//       ],
+//     );
+//   }
+// }
+class ShareBottomSheetContent extends StatelessWidget {
+  ShareBottomSheetContent({super.key, required this.postData});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final PostData postData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            // kH16sizedBox,
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: postReactionController.shareActionList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      leading: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cNeutralColor,
+                        ),
+                        height: 30,
+                        width: 30,
+                        child: Icon(
+                          postReactionController.shareActionList[index]['icon'],
+                          color: cBlackColor,
+                          size: isDeviceScreenLarge() ? h18 : h14,
+                        ),
+                      ),
+                      title: postReactionController.shareActionList[index]['action'].toString().tr,
+                      titleTextStyle: semiBold16TextStyle(cBlackColor),
+                      subTitleTextStyle: regular14TextStyle(cBlackColor),
+                      onPressed: () async {
+                        Get.back();
+                        if (postReactionController.shareActionList[index]['action'] == 'Share to Feed') {
+                          Get.find<CreatePostController>().isPostedFromProfile.value = false;
+                          CreatePostHelper().resetCreatePostData();
+                          Get.find<KidsController>().isRouteFromKid.value = false;
+                          Get.find<CreatePostController>().getCreatePost();
+                          Get.find<CreatePostController>().isSharingPost.value = true;
+                          Get.find<GlobalController>().blankBottomSheet(
+                              context: context,
+                              content: SharePostBottomSheetContent(
+                                postData: postData,
+                              ),
+                              isScrollControlled: true);
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ));
+  }
+}
+
+class SharePostBottomSheetContent extends StatelessWidget {
+  SharePostBottomSheetContent({super.key, required this.postData});
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final PostData postData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: 4),
+          child: Column(
+            children: [
+              CreatePostUpperSection(),
+              CustomModifiedTextField(
+                controller: createPostController.createPostController,
+                maxLength: 1000,
+                maxLines: 7,
+                minLines: 1,
+                isFilled: false,
+                fillColor: cWhiteColor,
+                inputAction: TextInputAction.newline,
+                inputType: TextInputType.multiline,
+                hint: "${ksSaySomethingAboutThis.tr}....",
+                contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k16Padding),
+                textHintStyle: regular16TextStyle(cPlaceHolderColor),
+                textInputStyle: regular16TextStyle(cBlackColor),
+                onChanged: (v) {},
+              ),
+              Row(
+                children: [
+                  const Spacer(),
+                  CustomElevatedButton(
+                      textStyle: semiBold14TextStyle(cWhiteColor),
+                      buttonWidth: 80,
+                      buttonHeight: 40,
+                      label: ksShareNow.tr,
+                      onPressed: () async {
+                        Get.back();
+                        await createPostController.sharePost(postData.id.toString());
+                      }),
+                ],
+              )
+            ],
+          ),
+        ),
+        kH12sizedBox,
+        Container(
+          width: width,
+          height: height,
+          color: cBackgroundColor,
+          child: Padding(
+            padding: const EdgeInsets.all(kHorizontalPadding),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor)),
+                  child: Row(
+                    children: [
+                      if (postData.images.isNotEmpty && postData.sharePosts == null)
+                        Container(
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                          height: 70,
+                          width: 70,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                            child: Image.network(
+                              postData.images[0].fullPath.toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize20,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
+                            ),
+                          ),
+                        ),
+                      if (postData.sharePosts != null && postData.sharePosts!.images.isNotEmpty)
+                        Container(
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                          height: 70,
+                          width: 70,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                            child: Image.network(
+                              postData.sharePosts!.images[0].fullPath.toString(),
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                                BipHip.imageFile,
+                                size: kIconSize20,
+                                color: cIconColor,
+                              ),
+                              loadingBuilder: imageLoadingBuilder,
+                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                return child;
+                              },
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            if (postData.content != null && postData.sharePosts == null)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: width - 130,
+                                  child: Text(
+                                    postData.content!,
+                                    style: semiBold16TextStyle(cBlackColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            if (postData.sharePosts != null && postData.sharePosts!.content != null)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                  width: width - 130,
+                                  child: Text(
+                                    postData.sharePosts!.content!,
+                                    style: semiBold16TextStyle(cBlackColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            if (postData.sharePosts == null)
+                              SizedBox(
+                                width: width - 130,
+                                child: Text(
+                                  postData.user!.fullName!,
+                                  style: postData.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            if (postData.sharePosts != null)
+                              SizedBox(
+                                width: width - 130,
+                                child: Text(
+                                  postData.sharePosts!.user!.fullName!,
+                                  style: postData.sharePosts!.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
       ],
     );
   }

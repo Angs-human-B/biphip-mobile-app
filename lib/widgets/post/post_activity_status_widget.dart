@@ -148,7 +148,7 @@ class CommentShareRecord extends StatelessWidget {
           InkWell(
             onTap: giftOnPressed,
             child: Text(
-              giftCount > 1000 ? '${(giftCount / 1000).toStringAsFixed(1)}k ${ksGifts.tr}' : '$giftCount ${ksGifts.tr}',
+              giftCount > 1000 ? '${(giftCount / 1000).toStringAsFixed(1)}k ${ksStars.tr}' : '$giftCount ${ksStars.tr}',
               style: regular10TextStyle(cSmallBodyTextColor),
             ),
           ),

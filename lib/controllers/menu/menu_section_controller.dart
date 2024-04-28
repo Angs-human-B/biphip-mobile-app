@@ -144,6 +144,7 @@ class MenuSectionController extends GetxController {
         var rememberMe = await spController.getRememberMe();
         if (rememberMe == true) {
           await spController.saveUserList({
+             "id": profileController.userData.value!.id,
             "email": profileController.userData.value!.email.toString(),
             "name": profileController.userData.value!.fullName.toString(),
             "first_name": profileController.userData.value!.firstName.toString(),

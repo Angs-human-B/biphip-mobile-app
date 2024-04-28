@@ -30,6 +30,7 @@ class StoreListView extends StatelessWidget {
                                 storeController.selectedStoreId.value = storeController.storeList[index].id!;
                                 Get.toNamed(krStoreProfile);
                                 await storeController.getStoreOverview();
+                                await storeController.getPostList();
                                 //  await Get.find<HomeController>().getTimelinePostList();//!Remove this api call
                               },
                               child: ClipRRect(

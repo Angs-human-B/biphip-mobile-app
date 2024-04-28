@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
+import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/widgets/all_family_listview.dart';
 import 'package:bip_hip/views/menu/family/widgets/pending_family_listview.dart';
 import 'package:bip_hip/views/menu/family/widgets/received_family_listview.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -233,7 +236,6 @@ class GlobalController extends GetxController {
     );
   }
 
-
   //* Image picker
   final ImagePicker _picker = ImagePicker();
 
@@ -443,6 +445,7 @@ class GlobalController extends GetxController {
   final Rx<String?> userLastName = Rx<String?>(null);
   final Rx<String?> userImage = Rx<String?>(null);
   final Rx<String?> userEmail = Rx<String?>(null);
+  final Rx<int?> userId = Rx<int?>(null);
   final Rx<String?> userToken = Rx<String?>(null);
 
   Future<void> getUserInfo() async {
@@ -452,6 +455,7 @@ class GlobalController extends GetxController {
     userLastName.value = await spController.getUserLastName();
     userImage.value = await spController.getUserImage();
     userEmail.value = await spController.getUserEmail();
+    userId.value = await spController.getUserId();
     userToken.value = await spController.getBearerToken();
     var userData = await spController.getUserData(userToken.value);
     ll("--- : $userData");
@@ -461,9 +465,163 @@ class GlobalController extends GetxController {
       userLastName.value = userData['last_name'];
       userImage.value = userData['image_url'];
       userEmail.value = userData['email'];
+      userId.value = userData['id'];
       userToken.value = userData['token'];
     }
   }
 
+  String? getReaction(String? selfReaction, reaction, refType, refId) {
+    Get.back();
+    if (selfReaction != null) {
+      if (selfReaction == reaction) {
+        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
+        selfReaction = null;
+      } else {
+        selfReaction = reaction;
+        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
+      }
+    } else {
+      selfReaction = reaction;
+      Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
+    }
+    return selfReaction;
+  }
+
+  List<Map<String, dynamic>> reactionVariant = [
+    {"reaction": "Like", "color": cPrimaryColor, "icon": kiLikeSvgImageUrl},
+    {"reaction": "Love", "color": cRedColor, "icon": kiLoveSvgImageUrl},
+    {"reaction": "Haha", "color": cAmberColor, "icon": kiHahaSvgImageUrl},
+    {"reaction": "Sad", "color": cAmberColor, "icon": kiSadSvgImageUrl},
+    {"reaction": "Angry", "color": cAmberColor, "icon": kiAngrySvgImageUrl},
+    {"reaction": "Wow", "color": cAmberColor, "icon": kiWowSvgImageUrl},
+  ];
+
+  Widget getColoredCommentReaction(String? myReaction) {
+    if (myReaction == null) {
+      return Text(
+        ksLike,
+        style: regular10TextStyle(cSmallBodyTextColor),
+      );
+    } else {
+      for (int i = 0; i < reactionVariant.length; i++) {
+        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction) {
+          return Text(
+            reactionVariant[i]["reaction"].toString(),
+            style: regular10TextStyle(reactionVariant[i]["color"]),
+          );
+        }
+      }
+      return const SizedBox();
+    }
+  }
+
+  Widget getColoredReactionIcon(String? myReaction) {
+    if (myReaction == null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            ksLike,
+            style: semiBold12TextStyle(cSmallBodyTextColor),
+          ),
+          kW4sizedBox,
+          const Icon(
+            BipHip.love,
+            color: cIconColor,
+            size: kIconSize20,
+          )
+        ],
+      );
+    } else {
+      for (int i = 0; i < reactionVariant.length; i++) {
+        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                reactionVariant[i]["reaction"],
+                style: semiBold12TextStyle(reactionVariant[i]["color"]),
+              ),
+              kW4sizedBox,
+              SvgPicture.asset(
+                reactionVariant[i]["icon"],
+                width: 20,
+              )
+            ],
+          );
+        }
+      }
+      return const SizedBox();
+    }
+  }
+
+  CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
+    void adjustReactionCount(String reaction, bool increment) {
+      countReaction ??= CountReactions(
+        all: 0,
+        haha: 0,
+        like: 0,
+        love: 0,
+        sad: 0,
+        wow: 0,
+        angry: 0,
+      );
+
+      switch (reaction) {
+        case 'haha':
+          countReaction!.haha = increment ? (countReaction!.haha ?? 0) + 1 : (countReaction!.haha ?? 0) - 1;
+          break;
+        case 'like':
+          countReaction!.like = increment ? (countReaction!.like ?? 0) + 1 : (countReaction!.like ?? 0) - 1;
+          break;
+        case 'love':
+          countReaction!.love = increment ? (countReaction!.love ?? 0) + 1 : (countReaction!.love ?? 0) - 1;
+          break;
+        case 'sad':
+          countReaction!.sad = increment ? (countReaction!.sad ?? 0) + 1 : (countReaction!.sad ?? 0) - 1;
+          break;
+        case 'wow':
+          countReaction!.wow = increment ? (countReaction!.wow ?? 0) + 1 : (countReaction!.wow ?? 0) - 1;
+          break;
+        case 'angry':
+          countReaction!.angry = increment ? (countReaction!.angry ?? 0) + 1 : (countReaction!.angry ?? 0) - 1;
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (myReaction == null) {
+      adjustReactionCount(reaction, true);
+      countReaction!.all = (countReaction!.all ?? 0) + 1;
+    } else {
+      if (myReaction == reaction) {
+        adjustReactionCount(reaction, false);
+        countReaction!.all = (countReaction!.all ?? 0) - 1;
+        if (countReaction!.all == 0) {
+          return null;
+        }
+      } else {
+        adjustReactionCount(myReaction, false);
+        adjustReactionCount(reaction, true);
+        countReaction!.all = (countReaction!.all ?? 0) - 1;
+        countReaction!.all = (countReaction!.all ?? 0) + 1;
+        if (countReaction!.all == 0) {
+          return null;
+        }
+      }
+    }
+
+    return countReaction;
+  }
+
+  void updateCommentCount(RxList<PostData> postList, postIndex, isAddComment) {
+    if(isAddComment){
+    postList[postIndex].countComment = postList[postIndex].countComment! + 1;
+    }else{
+    postList[postIndex].countComment = postList[postIndex].countComment! - 1;
+    }
+    postList.replaceRange(postIndex, postIndex + 1, [postList[postIndex]]);
+  }
   //! end
 }

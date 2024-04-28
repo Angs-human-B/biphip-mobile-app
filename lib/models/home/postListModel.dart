@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
+import 'package:bip_hip/models/post/post_comment_model.dart';
 
 class PostDataModel {
   PostData post;
@@ -460,7 +461,8 @@ class PostData {
   List<dynamic> postTags;
   List<ImageElement> images;
   List<dynamic> comments;
-    String? myReaction;
+  String? myReaction;
+  SharePosts? sharePosts;
 
   PostData({
     required this.id,
@@ -511,7 +513,8 @@ class PostData {
     required this.postTags,
     required this.images,
     required this.comments,
-      required this.myReaction,
+    required this.myReaction,
+    this.sharePosts,
   });
 
   factory PostData.fromJson(Map<String, dynamic> json) => PostData(
@@ -563,7 +566,188 @@ class PostData {
         postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
         images: List<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
         comments: List<dynamic>.from(json["comments"].map((x) => x)),
-          myReaction: json["my_reaction"],
+        myReaction: json["my_reaction"],
+        sharePosts: json["share_posts"] == null ? null : SharePosts.fromJson(json["share_posts"]),
+      );
+}
+
+class SharePosts {
+  int? id;
+  int? userId;
+  int? isSharePost;
+  dynamic sharePostId;
+  String? content;
+  dynamic location;
+  dynamic sellPostType;
+  dynamic sellPostCategoryId;
+  dynamic sellPostConditionId;
+  dynamic price;
+  dynamic discount;
+  dynamic description;
+  dynamic sellPostAvailabilty;
+  dynamic productTags;
+  dynamic sku;
+  int? isHideFnf;
+  dynamic platform;
+  dynamic action;
+  int? isBidding;
+  dynamic biddingPostType;
+  dynamic desireAmount;
+  dynamic minBiddingAmount;
+  dynamic biddingDuration;
+  dynamic title;
+  DateTime dateTime;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int? postCategoryId;
+  int? isPublic;
+  int? countView;
+  int? countShare;
+  int? countComment;
+  int? countStar;
+  CountReactions? countReactions;
+  int? postSubCategoryId;
+  dynamic timelineId;
+  dynamic type;
+  int? kidId;
+  dynamic storeId;
+  dynamic reviewRating;
+  dynamic imageAlbumId;
+  List<dynamic> taggedFriends;
+  int? countBids;
+  String? myReaction;
+  List<String> viewers;
+  bool? hasReport;
+  bool? myReport;
+  bool? isNotifaction;
+  bool? isVisibleToMe;
+  int? countReaction;
+  User? user;
+  Brand? kid;
+  Brand? store;
+  PostCategory? postCategory;
+  PostCategory? postSubCategory;
+  List<dynamic> postTags;
+  List<ImageElement> images;
+
+  SharePosts({
+    required this.id,
+    required this.userId,
+    required this.isSharePost,
+    required this.sharePostId,
+    required this.content,
+    required this.location,
+    required this.sellPostType,
+    required this.sellPostCategoryId,
+    required this.sellPostConditionId,
+    required this.price,
+    required this.discount,
+    required this.description,
+    required this.sellPostAvailabilty,
+    required this.productTags,
+    required this.sku,
+    required this.isHideFnf,
+    required this.platform,
+    required this.action,
+    required this.isBidding,
+    required this.biddingPostType,
+    required this.desireAmount,
+    required this.minBiddingAmount,
+    required this.biddingDuration,
+    required this.title,
+    required this.dateTime,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.postCategoryId,
+    required this.isPublic,
+    required this.countView,
+    required this.countShare,
+    required this.countComment,
+    required this.countStar,
+    required this.countReactions,
+    required this.postSubCategoryId,
+    required this.timelineId,
+    required this.type,
+    required this.kidId,
+    required this.storeId,
+    required this.reviewRating,
+    required this.imageAlbumId,
+    required this.taggedFriends,
+    required this.countBids,
+    required this.myReaction,
+    required this.viewers,
+    required this.hasReport,
+    required this.myReport,
+    required this.isNotifaction,
+    required this.isVisibleToMe,
+    required this.countReaction,
+    required this.user,
+    required this.kid,
+    required this.store,
+    required this.postCategory,
+    required this.postSubCategory,
+    required this.postTags,
+    required this.images,
+  });
+
+  factory SharePosts.fromJson(Map<String, dynamic> json) => SharePosts(
+        id: json["id"],
+        userId: json["user_id"],
+        isSharePost: json["is_share_post"],
+        sharePostId: json["share_post_id"],
+        content: json["content"],
+        location: json["location"],
+        sellPostType: json["sell_post_type"],
+        sellPostCategoryId: json["sell_post_category_id"],
+        sellPostConditionId: json["sell_post_condition_id"],
+        price: json["price"],
+        discount: json["discount"],
+        description: json["description"],
+        sellPostAvailabilty: json["sell_post_availabilty"],
+        productTags: json["product_tags"],
+        sku: json["sku"],
+        isHideFnf: json["is_hide_fnf"],
+        platform: json["platform"],
+        action: json["action"],
+        isBidding: json["is_bidding"],
+        biddingPostType: json["bidding_post_type"],
+        desireAmount: json["desire_amount"],
+        minBiddingAmount: json["min_bidding_amount"],
+        biddingDuration: json["bidding_duration"],
+        title: json["title"],
+        dateTime: DateTime.parse(json["date_time"]),
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        postCategoryId: json["post_category_id"],
+        isPublic: json["is_public"],
+        countView: json["count_view"],
+        countShare: json["count_share"],
+        countComment: json["count_comment"],
+        countStar: json["count_star"],
+        countReactions: json["count_reactions"] == null ? null : CountReactions.fromJson(json["count_reactions"]),
+        postSubCategoryId: json["post_sub_category_id"],
+        timelineId: json["timeline_id"],
+        type: json["type"],
+        kidId: json["kid_id"],
+        storeId: json["store_id"],
+        reviewRating: json["review_rating"],
+        imageAlbumId: json["image_album_id"],
+        taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
+        countBids: json["count_bids"],
+        myReaction: json["my_reaction"],
+        viewers: List<String>.from(json["viewers"].map((x) => x)),
+        hasReport: json["has_report"],
+        myReport: json["my_report"],
+        isNotifaction: json["is_notifaction"],
+        isVisibleToMe: json["is_visible_to_me"],
+        countReaction: json["count_reaction"],
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+        kid: json["kid"] == null ? null : Brand.fromJson(json["kid"]),
+        store: json["store"] == null ? null : Brand.fromJson(json["store"]),
+        postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
+        postSubCategory: json["post_sub_category"] == null ? null : PostCategory.fromJson(json["post_sub_category"]),
+        postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
+        images: List<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
       );
 }
 
@@ -791,44 +975,7 @@ class Comment {
       );
 }
 
-class CommentReply {
-  int? id;
-  int? commentId;
-  int? userId;
-  dynamic countReactions;
-  String? reply;
-  String? mentionUserIds;
-  int? isEdit;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  List<MentionUser> mentionUsers;
 
-  CommentReply({
-    required this.id,
-    required this.commentId,
-    required this.userId,
-    required this.countReactions,
-    required this.reply,
-    required this.mentionUserIds,
-    required this.isEdit,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.mentionUsers,
-  });
-
-  factory CommentReply.fromJson(Map<String, dynamic> json) => CommentReply(
-        id: json["id"],
-        commentId: json["comment_id"],
-        userId: json["user_id"],
-        countReactions: json["count_reactions"],
-        reply: json["reply"],
-        mentionUserIds: json["mention_user_ids"],
-        isEdit: json["is_edit"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        mentionUsers: List<MentionUser>.from(json["mention_users"].map((x) => MentionUser.fromJson(x))),
-      );
-}
 
 class MentionUser {
   int? id;
@@ -852,6 +999,7 @@ class CountReactions {
   int? love;
   int? sad;
   int? wow;
+  int? angry;
 
   CountReactions({
     required this.all,
@@ -860,6 +1008,7 @@ class CountReactions {
     required this.love,
     required this.sad,
     required this.wow,
+    required this.angry,
   });
 
   factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
@@ -869,6 +1018,7 @@ class CountReactions {
         love: json["love"] ?? 0,
         sad: json["sad"] ?? 0,
         wow: json["wow"] ?? 0,
+        angry: json["angry"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -878,5 +1028,6 @@ class CountReactions {
         "love": love,
         "sad": sad,
         "wow": wow,
+        "angry": angry,
       };
 }
