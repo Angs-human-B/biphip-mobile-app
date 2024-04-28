@@ -4,6 +4,7 @@ import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
+import 'package:bip_hip/views/home/widgets/common_shared_post_widget.dart';
 
 class CommonPostDetailsWidget extends StatelessWidget {
   CommonPostDetailsWidget({
@@ -311,6 +312,37 @@ class CommonPostDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
+        Padding(
+          padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: k8CircularBorderRadius,
+                border: Border.all(color: cLineColor),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: CommonSharedPostWidget(
+                  taggedFriends: [],
+                  postID: postList![postIndex].sharePosts!.id!,
+                  mediaList: postList![postIndex].sharePosts!.images,
+                  isCategorized: false,
+                  userName: postList![postIndex].sharePosts!.user!.fullName!,
+                  postTime: homeController.postTimeDifference(postList![postIndex].sharePosts!.createdAt),
+                  privacy: BipHip.world,
+                  postText: postList![postIndex].sharePosts!.content,
+                  isInStock: false,
+                  userImage: postList![postIndex].sharePosts!.user!.profilePicture!,
+                  postList: homeController.allPostList,
+                  category: postList![postIndex].sharePosts!.postCategory == null ? null : postList![postIndex].sharePosts!.postCategory!.name,
+                  categoryIcon: postList![postIndex].sharePosts!.postCategory == null
+                      ? null
+                      : homeController.getCategoryIcon(postList![postIndex].sharePosts!.postCategory!.id), // need change API
+                  categoryIconColor: postList![postIndex].sharePosts!.postCategory == null
+                      ? null
+                      : homeController.getCategoryColor(postList![postIndex].sharePosts!.postCategory!.id),
+                ),
+              )),
+        ),
 
         if (showBottomSection)
           PostDetailsBottomSection(
