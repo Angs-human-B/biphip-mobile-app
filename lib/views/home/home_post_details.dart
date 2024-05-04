@@ -1,10 +1,8 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
-import 'package:bip_hip/shimmers/home/home_page_details_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_details_widget.dart';
-import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/comment_textfield.dart';
@@ -343,19 +341,11 @@ class PostDetailsBottomSection extends StatelessWidget {
                   padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
                   child: PostActivityStatusWidget(
                     postIndex: postIndex,
-                    reactionOnPressed: () {
-                      // postReactionController.giftFilter(0);
-                      // globalController.blankBottomSheet(
-                      //     context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                      postReactionController.giftFilter(0);
-                      globalController.blankBottomSheet(
-                          context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                    },
+                    reactionOnPressed: () {},
                     isGiftShown: true,
                     giftOnPressed: () {
                       postReactionController.giftFilter(0);
-                      globalController.blankBottomSheet(
-                          context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                      Get.toNamed(krGiftView);
                     },
                   ),
                 ),

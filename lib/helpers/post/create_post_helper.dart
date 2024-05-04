@@ -318,10 +318,11 @@ class CreatePostHelper {
     createPostController.selectedProductCategoryID.value = '';
     createPostController.selectedProductCondition.value = '';
     createPostController.selectedProductConditionID.value = '';
-    createPostController.tempCreatePostSelectedPrivacy.value = 'Friends';
-    createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
-    createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
-    createPostController.createPostSelectedPrivacy.value = 'Friends';
+    createPostController.tempCreatePostSelectedPrivacy.value = 'Public';
+    createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.world;
+    createPostController.createPostSelectedPrivacyIcon.value = BipHip.world;
+    createPostController.createPostSelectedPrivacy.value = 'Public';
+    createPostController.privacyId.value = 1;
     createPostController.imageDescriptionTextEditingController.clear();
     createPostController.imageLocationsList.clear();
     createPostController.imageTimesList.clear();

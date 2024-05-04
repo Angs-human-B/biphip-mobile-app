@@ -21,7 +21,6 @@ import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/biding_insight.dart';
 import 'package:bip_hip/widgets/post/biding_widget.dart';
-import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
@@ -106,7 +105,7 @@ class CommonPostWidget extends StatelessWidget {
               Get.to(() => HomePostDetails(
                     postIndex: postIndex,
                   ));
-              await postReactionController.getCommentList(1, globalController.commonPostList[postIndex].user!.id!, postIndex);
+              await postReactionController.getCommentList(1, globalController.commonPostList[postIndex].id!, postIndex);
               await Get.find<FriendController>().getFriendList();
             },
             child: Padding(
@@ -308,7 +307,9 @@ class CommonPostWidget extends StatelessWidget {
                             if ((globalController.commonPostList[postIndex].content != null &&
                                     globalController.commonPostList[postIndex].content!.trim() != '') ||
                                 globalController.commonPostList[postIndex].images.length > 1) {
-                                  
+                              Get.to(() => HomePostDetailsScreen(
+                                    postIndex: postIndex,
+                                  ));
                               await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             } else {
                               Get.to(() => CommonPhotoView(
@@ -555,10 +556,7 @@ class CommonPostWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
               child: PostActivityStatusWidget(
                 postIndex: postIndex,
-                reactionOnPressed: () {
-                  postReactionController.giftFilter(0);
-                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-                },
+                reactionOnPressed: () {},
                 commentOnPressed: () async {
                   postReactionController.resetCommentAndReplyData();
                   Get.to(() => HomePostDetails(
@@ -570,8 +568,8 @@ class CommonPostWidget extends StatelessWidget {
                 isGiftShown: !(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id) &&
                     !(globalController.commonPostList[postIndex].postCategory?.name.toString().toLowerCase() == "Selling".toLowerCase()),
                 giftOnPressed: () {
-                  // postReactionController.giftFilter(0);
-                  // globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                  postReactionController.giftFilter(0);
+                  Get.toNamed(krGiftView);
                 },
               ),
             ),
@@ -1060,158 +1058,6 @@ class UpdateBidding extends StatelessWidget {
         )
       ],
     );
-  }
-}
-
-class BadgeTabViewContent extends StatelessWidget {
-  BadgeTabViewContent({super.key});
-
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 6,
-      child: Obx(
-        () => Column(
-          children: [
-            SizedBox(
-              height: 40,
-              child: TabBar(
-                padding: EdgeInsets.zero,
-                labelPadding: EdgeInsets.zero,
-                controller: postReactionController.tabController,
-                isScrollable: true,
-                tabs: [
-                  ReactionBottomSheetTab(
-                    isReactionImageShown: false,
-                    reactionImage: '',
-                    text: ksAll.tr,
-                  ),
-                  ReactionBottomSheetTab(
-                    isReactionImageShown: true,
-                    reactionImage: kiLikeSvgImageUrl,
-                    text: postReactionController.badgeCount1.value.toString(),
-                  ),
-                  ReactionBottomSheetTab(
-                    isReactionImageShown: true,
-                    reactionImage: kiLoveSvgImageUrl,
-                    text: postReactionController.badgeCount2.value.toString(),
-                  ),
-                  ReactionBottomSheetTab(
-                    isReactionImageShown: true,
-                    reactionImage: kiHahaSvgImageUrl,
-                    text: postReactionController.badgeCount3.value.toString(),
-                  ),
-                  ReactionBottomSheetTab(
-                    isReactionImageShown: true,
-                    reactionImage: kiWowSvgImageUrl,
-                    text: postReactionController.badgeCount4.value.toString(),
-                  ),
-                  ReactionBottomSheetTab(
-                    isReactionImageShown: true,
-                    reactionImage: kiAngrySvgImageUrl,
-                    text: postReactionController.badgeCount4.value.toString(),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: (height * 0.9) - 65,
-              child: TabBarView(controller: postReactionController.tabController, children: [
-                ReactionTabPage(list: postReactionController.gift1),
-                ReactionTabPage(list: postReactionController.gift1),
-                ReactionTabPage(list: postReactionController.gift1),
-                ReactionTabPage(list: postReactionController.gift1),
-                ReactionTabPage(list: postReactionController.gift1),
-              ]),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ReactionBottomSheetTab extends StatelessWidget {
-  const ReactionBottomSheetTab({super.key, required this.isReactionImageShown, required this.reactionImage, required this.text});
-
-  final bool isReactionImageShown;
-  final String reactionImage;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: (width - 30) / 5,
-      child: Tab(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isReactionImageShown)
-              SvgPicture.asset(
-                reactionImage,
-                width: 20,
-              ),
-            if (isReactionImageShown) kW8sizedBox,
-            Text(
-              text,
-              style: isReactionImageShown ? regular12TextStyle(cBlackColor) : semiBold12TextStyle(cBlackColor),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ReactionTabPage extends StatelessWidget {
-  const ReactionTabPage({super.key, required this.list});
-  final List list;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-        separatorBuilder: (context, index) => kH8sizedBox,
-        // physics: const NeverScrollableScrollPhysics(),
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          var item = list[index];
-          return Padding(
-            padding: const EdgeInsets.only(left: h8, right: h8),
-            child: CustomListTile(
-              leading: Stack(
-                children: [
-                  SizedBox(
-                    height: 40,
-                    width: 40,
-                    child: ClipOval(
-                      child: Image.asset(item['image']),
-                    ),
-                  ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: SvgPicture.asset(
-                        item['giftImage'],
-                        height: 16,
-                        width: 16,
-                      ))
-                ],
-              ),
-              title: item['name'],
-              trailing: item['isFriend']
-                  ? Text(
-                      ksMessage.tr,
-                      style: regular14TextStyle(cPrimaryColor),
-                    )
-                  : Text(
-                      ksAddFriend.tr,
-                      style: regular14TextStyle(cPrimaryColor),
-                    ),
-            ),
-          );
-        });
   }
 }
 

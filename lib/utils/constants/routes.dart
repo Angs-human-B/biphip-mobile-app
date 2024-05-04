@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/home/common_gift_view_screen.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
@@ -116,6 +117,7 @@ const String krNotification = '/notification';
 const String krChangePassword = '/change-password';
 const String krChangeLanguage = '/change-language';
 const String krHomePostDetails = '/home-post-details';
+const String krGiftView = "/gift-view";
 
 const String krMenu = '/menu';
 const String krProfile = '/profile';
@@ -270,6 +272,7 @@ List<GetPage<dynamic>>? routes = [
   //* home
   GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
   GetPage(name: krHomePostDetails, page: () => HomePostDetails(), transition: Transition.noTransition),
+  GetPage(name: krGiftView, page: () => CommonGiftViewScreen(), transition: Transition.downToUp),
   //*newly added for gallery image and videos
   GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition),
   GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition),

@@ -39,7 +39,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   void onInit() {
     super.onInit();
     tabController = TabController(
-      length: 6,
+      length: 5,
       animationDuration: Duration.zero,
       vsync: this,
     );

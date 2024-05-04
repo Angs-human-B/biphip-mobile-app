@@ -126,8 +126,10 @@ class GalleryWidget extends StatelessWidget {
   static RxString imageDescription = RxString("");
   static RxString selfReaction = RxString("");
   static Rx<CountReactions>? sharePostCountReaction;
+  static int temporaryImageIndex = 0;
   @override
   Widget build(BuildContext context) {
+    temporaryImageIndex = imageIndex;
     imageDescription.value = "";
     if (urlImages[imageIndex].description != null) {
       imageDescription.value = urlImages[imageIndex].description!;
@@ -171,6 +173,7 @@ class GalleryWidget extends StatelessWidget {
                   }
                   sharePostCountReaction = urlImages[index].countReactions;
                   selfReaction.value = urlImages[index].myReaction?.value ?? "";
+                  temporaryImageIndex = index;
                 },
                 builder: (context, index) {
                   return PhotoViewGalleryPageOptions(
@@ -259,13 +262,13 @@ class GalleryWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: (Reaction<String>? reaction) {
-                                              urlImages[imageIndex].countReactions = Get.find<GlobalController>()
-                                                  .updateReaction("love", urlImages[imageIndex].myReaction, urlImages[imageIndex].countReactions);
-                                              urlImages[imageIndex].myReaction = Get.find<GlobalController>()
-                                                  .getReaction(urlImages[imageIndex].myReaction, "love", 2, urlImages[imageIndex].id!);
-                                              sharePostCountReaction = urlImages[imageIndex].countReactions;
-                                              selfReaction.value = urlImages[imageIndex].myReaction?.value ?? "";
-                                              urlImages.replaceRange(imageIndex, imageIndex + 1, [urlImages[imageIndex]]);
+                                              urlImages[temporaryImageIndex].countReactions = Get.find<GlobalController>().updateReaction(
+                                                  "love", urlImages[temporaryImageIndex].myReaction, urlImages[temporaryImageIndex].countReactions);
+                                              urlImages[temporaryImageIndex].myReaction = Get.find<GlobalController>()
+                                                  .getReaction(urlImages[temporaryImageIndex].myReaction, "love", 2, urlImages[temporaryImageIndex].id!);
+                                              sharePostCountReaction = urlImages[temporaryImageIndex].countReactions;
+                                              selfReaction.value = urlImages[temporaryImageIndex].myReaction?.value ?? "";
+                                              urlImages.replaceRange(temporaryImageIndex, temporaryImageIndex + 1, [urlImages[temporaryImageIndex]]);
                                             },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
@@ -296,13 +299,13 @@ class GalleryWidget extends StatelessWidget {
                                             itemAnimationDuration: const Duration(milliseconds: 500),
                                             itemSize: const Size.square(48),
                                             onReactionChanged: (Reaction<String>? reaction) {
-                                              urlImages[imageIndex].countReactions = Get.find<GlobalController>()
-                                                  .updateReaction("like", urlImages[imageIndex].myReaction, urlImages[imageIndex].countReactions);
-                                              urlImages[imageIndex].myReaction = Get.find<GlobalController>()
-                                                  .getReaction(urlImages[imageIndex].myReaction, "like", 2, urlImages[imageIndex].id!);
-                                              sharePostCountReaction = urlImages[imageIndex].countReactions;
-                                              selfReaction.value = urlImages[imageIndex].myReaction?.value ?? "";
-                                              urlImages.replaceRange(imageIndex, imageIndex + 1, [urlImages[imageIndex]]);
+                                              urlImages[temporaryImageIndex].countReactions = Get.find<GlobalController>().updateReaction(
+                                                  "like", urlImages[temporaryImageIndex].myReaction, urlImages[temporaryImageIndex].countReactions);
+                                              urlImages[temporaryImageIndex].myReaction = Get.find<GlobalController>()
+                                                  .getReaction(urlImages[temporaryImageIndex].myReaction, "like", 2, urlImages[temporaryImageIndex].id!);
+                                              sharePostCountReaction = urlImages[temporaryImageIndex].countReactions;
+                                              selfReaction.value = urlImages[temporaryImageIndex].myReaction?.value ?? "";
+                                              urlImages.replaceRange(temporaryImageIndex, temporaryImageIndex + 1, [urlImages[temporaryImageIndex]]);
                                             },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
@@ -330,13 +333,13 @@ class GalleryWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: (Reaction<String>? reaction) {
-                                              urlImages[imageIndex].countReactions = Get.find<GlobalController>()
-                                                  .updateReaction("haha", urlImages[imageIndex].myReaction, urlImages[imageIndex].countReactions);
-                                              urlImages[imageIndex].myReaction = Get.find<GlobalController>()
-                                                  .getReaction(urlImages[imageIndex].myReaction, "haha", 2, urlImages[imageIndex].id!);
-                                              sharePostCountReaction = urlImages[imageIndex].countReactions;
-                                              selfReaction.value = urlImages[imageIndex].myReaction?.value ?? "";
-                                              urlImages.replaceRange(imageIndex, imageIndex + 1, [urlImages[imageIndex]]);
+                                              urlImages[temporaryImageIndex].countReactions = Get.find<GlobalController>().updateReaction(
+                                                  "haha", urlImages[temporaryImageIndex].myReaction, urlImages[temporaryImageIndex].countReactions);
+                                              urlImages[temporaryImageIndex].myReaction = Get.find<GlobalController>()
+                                                  .getReaction(urlImages[temporaryImageIndex].myReaction, "haha", 2, urlImages[temporaryImageIndex].id!);
+                                              sharePostCountReaction = urlImages[temporaryImageIndex].countReactions;
+                                              selfReaction.value = urlImages[temporaryImageIndex].myReaction?.value ?? "";
+                                              urlImages.replaceRange(temporaryImageIndex, temporaryImageIndex + 1, [urlImages[temporaryImageIndex]]);
                                             },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
@@ -364,13 +367,13 @@ class GalleryWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: (Reaction<String>? reaction) {
-                                              urlImages[imageIndex].countReactions = Get.find<GlobalController>()
-                                                  .updateReaction("wow", urlImages[imageIndex].myReaction, urlImages[imageIndex].countReactions);
-                                              urlImages[imageIndex].myReaction = Get.find<GlobalController>()
-                                                  .getReaction(urlImages[imageIndex].myReaction, "wow", 2, urlImages[imageIndex].id!);
-                                              sharePostCountReaction = urlImages[imageIndex].countReactions;
-                                              selfReaction.value = urlImages[imageIndex].myReaction?.value ?? "";
-                                              urlImages.replaceRange(imageIndex, imageIndex + 1, [urlImages[imageIndex]]);
+                                              urlImages[temporaryImageIndex].countReactions = Get.find<GlobalController>().updateReaction(
+                                                  "wow", urlImages[temporaryImageIndex].myReaction, urlImages[temporaryImageIndex].countReactions);
+                                              urlImages[temporaryImageIndex].myReaction = Get.find<GlobalController>()
+                                                  .getReaction(urlImages[temporaryImageIndex].myReaction, "wow", 2, urlImages[temporaryImageIndex].id!);
+                                              sharePostCountReaction = urlImages[temporaryImageIndex].countReactions;
+                                              selfReaction.value = urlImages[temporaryImageIndex].myReaction?.value ?? "";
+                                              urlImages.replaceRange(temporaryImageIndex, temporaryImageIndex + 1, [urlImages[temporaryImageIndex]]);
                                             },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
@@ -398,13 +401,13 @@ class GalleryWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: (Reaction<String>? reaction) {
-                                              urlImages[imageIndex].countReactions = Get.find<GlobalController>()
-                                                  .updateReaction("sad", urlImages[imageIndex].myReaction, urlImages[imageIndex].countReactions);
-                                              sharePostCountReaction = urlImages[imageIndex].countReactions;
-                                              urlImages[imageIndex].myReaction = Get.find<GlobalController>()
-                                                  .getReaction(urlImages[imageIndex].myReaction, "sad", 2, urlImages[imageIndex].id!);
-                                              selfReaction.value = urlImages[imageIndex].myReaction?.value ?? "";
-                                              urlImages.replaceRange(imageIndex, imageIndex + 1, [urlImages[imageIndex]]);
+                                              urlImages[temporaryImageIndex].countReactions = Get.find<GlobalController>().updateReaction(
+                                                  "sad", urlImages[temporaryImageIndex].myReaction, urlImages[temporaryImageIndex].countReactions);
+                                              sharePostCountReaction = urlImages[temporaryImageIndex].countReactions;
+                                              urlImages[temporaryImageIndex].myReaction = Get.find<GlobalController>()
+                                                  .getReaction(urlImages[temporaryImageIndex].myReaction, "sad", 2, urlImages[temporaryImageIndex].id!);
+                                              selfReaction.value = urlImages[temporaryImageIndex].myReaction?.value ?? "";
+                                              urlImages.replaceRange(temporaryImageIndex, temporaryImageIndex + 1, [urlImages[temporaryImageIndex]]);
                                             },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
@@ -432,13 +435,13 @@ class GalleryWidget extends StatelessWidget {
                                           child: ReactionButton<String>(
                                             itemSize: const Size.square(48),
                                             onReactionChanged: (Reaction<String>? reaction) {
-                                              urlImages[imageIndex].countReactions = Get.find<GlobalController>()
-                                                  .updateReaction("angry", urlImages[imageIndex].myReaction, urlImages[imageIndex].countReactions);
-                                              sharePostCountReaction = urlImages[imageIndex].countReactions;
-                                              urlImages[imageIndex].myReaction = Get.find<GlobalController>()
-                                                  .getReaction(urlImages[imageIndex].myReaction, "angry", 2, urlImages[imageIndex].id!);
-                                              urlImages.replaceRange(imageIndex, imageIndex + 1, [urlImages[imageIndex]]);
-                                              selfReaction.value = urlImages[imageIndex].myReaction?.value ?? "";
+                                              urlImages[temporaryImageIndex].countReactions = Get.find<GlobalController>().updateReaction(
+                                                  "angry", urlImages[temporaryImageIndex].myReaction, urlImages[temporaryImageIndex].countReactions);
+                                              sharePostCountReaction = urlImages[temporaryImageIndex].countReactions;
+                                              urlImages[temporaryImageIndex].myReaction = Get.find<GlobalController>()
+                                                  .getReaction(urlImages[temporaryImageIndex].myReaction, "angry", 2, urlImages[temporaryImageIndex].id!);
+                                              urlImages.replaceRange(temporaryImageIndex, temporaryImageIndex + 1, [urlImages[temporaryImageIndex]]);
+                                              selfReaction.value = urlImages[temporaryImageIndex].myReaction?.value ?? "";
                                             },
                                             reactions: <Reaction<String>>[
                                               Reaction<String>(
