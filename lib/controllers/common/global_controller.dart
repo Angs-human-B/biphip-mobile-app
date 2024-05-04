@@ -756,7 +756,7 @@ class GlobalController extends GetxController {
   final RxString editDate = RxString('');
   final RxString postDate = RxString('');
 
-  void editPostDate({required BuildContext context, required int postId}) {
+  void editPostDate({required BuildContext context, required int postId, required int postIndex}) {
     tempEditDate.value = '';
     if (tempEditDate.value == '') {
       editDateBottomSheetRightButtonState.value = false;
@@ -774,6 +774,8 @@ class GlobalController extends GetxController {
           postId: postId,
           date: editDate.value,
         );
+        commonPostList[postIndex].updatedAt = DateTime.parse(editDate.value);
+        commonPostList.replaceRange(postIndex, postIndex + 1, [commonPostList[postIndex]]);
       },
       rightText: ksDone.tr,
       rightTextStyle: semiBold14TextStyle(cPrimaryColor),
@@ -890,11 +892,6 @@ class GlobalController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        for (int i = 0; i < commonPostList.length; i++) {
-          if (commonPostList[i].id == postId) {
-            commonPostList[i].updatedAt = DateTime.parse(date);
-          }
-        }
         isPostNotificationOffLoading.value = false;
         showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -1014,11 +1011,6 @@ class GlobalController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        for (int i = 0; i < commonPostList.length; i++) {
-          if (commonPostList[i].id == postId) {
-            commonPostList[i].isPublic = selectedAudienceId.value;
-          }
-        }
         isEditAudienceLoading.value = false;
         selectedAudienceId.value = -1;
         showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

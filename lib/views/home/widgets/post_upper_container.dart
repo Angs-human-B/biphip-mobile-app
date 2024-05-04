@@ -203,7 +203,7 @@ class PostUpperContainer extends StatelessWidget {
                                   text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
                                   style: semiBold14TextStyle(cBlackColor)),
                             TextSpan(
-                                text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].createdAt!)}',
+                                text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].updatedAt!)}',
                                 style: regular14TextStyle(cSmallBodyTextColor))
                           ],
                         ),
@@ -638,10 +638,12 @@ class SelfPostActionContent extends StatelessWidget {
                   context: context,
                   content: EditAudienceActionContent(),
                   onPressCloseButton: () => Get.back(),
-                  onPressRightButton: () {
+                  onPressRightButton: () async {
                     globalController.selectedAudienceId.value = globalController.temporaryselectedAudienceId.value;
                     Get.back();
-                    globalController.editAudience(postData.id!);
+                    globalController.commonPostList[postIndex].isPublic = globalController.selectedAudienceId.value;
+                    await globalController.editAudience(postData.id!);
+                    globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                   },
                   rightText: ksDone.tr,
                   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
@@ -677,7 +679,7 @@ class SelfPostActionContent extends StatelessWidget {
             globalController.postSelectedAction.value = "Edit Date";
             if (globalController.postSelectedAction.value == "Edit Date") {
               globalController.postDate.value = postData.updatedAt.toString();
-              globalController.editPostDate(context: context, postId: postData.id!);
+              globalController.editPostDate(context: context, postId: postData.id!, postIndex: postIndex);
             }
           },
         ),
