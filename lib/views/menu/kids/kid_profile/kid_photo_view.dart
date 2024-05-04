@@ -66,10 +66,10 @@ class KidPhotoView extends StatelessWidget {
                         height: 1,
                         width: width - 40,
                       ),
-                       LikeSectionWidget(
-                        sectionColor: cWhiteColor,
-                        isGiftShown: false,
-                      ),
+                      //  LikeSectionWidget(
+                      //   sectionColor: cWhiteColor,
+                      //   isGiftShown: false,
+                      // ),
                     ],
                   ),
                 ),

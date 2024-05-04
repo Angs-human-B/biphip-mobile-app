@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
 import 'package:bip_hip/models/menu/store/all_location_model.dart';
 import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dart';
@@ -1296,7 +1297,7 @@ class StoreController extends GetxController {
   //*Store all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final Rx<StorePostModel?> postListData = Rx<StorePostModel?>(null);
-  final RxList<StorePostData> allPostList = RxList<StorePostData>([]);
+  final RxList<PostDataRx> allPostList = RxList<PostDataRx>([]);
   final RxBool isStorePageLoading = RxBool(false);
   final RxBool isStorePagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
@@ -1313,10 +1314,12 @@ class StoreController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
+        globalController.commonPostList.clear();
         // Get.find<PostReactionController>().reactions.clear();
         postListScrolled.value = false;
         postListData.value = StorePostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts!.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1366,8 +1369,10 @@ class StoreController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        allPostList.clear();
         postListData.value = StorePostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts!.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;

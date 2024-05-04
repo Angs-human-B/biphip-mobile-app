@@ -16,12 +16,12 @@ import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:bip_hip/widgets/post/stories_widget.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final HomeController homeController = Get.find<HomeController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,7 @@ class HomePage extends StatelessWidget {
                                 scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
                                 !homeController.postListScrolled.value) {
                               homeController.postListScrolled.value = true;
-                              if (homeController.allPostList.isNotEmpty) {
+                              if (globalController.commonPostList.isNotEmpty) {
                                 homeController.getMorePostList();
                               }
                               return true;
@@ -341,7 +341,7 @@ class HomePage extends StatelessWidget {
                                 // ),
 
                                 kH8sizedBox,
-                                if (homeController.allPostList.isEmpty)
+                                if (globalController.commonPostList.isEmpty)
                                   SizedBox(
                                     height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
                                     child: EmptyView(
@@ -349,95 +349,23 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                 // ),
-                                if (homeController.allPostList.isNotEmpty)
+                                if (globalController.commonPostList.isNotEmpty)
                                   ListView.separated(
                                       shrinkWrap: true,
                                       physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (context, index) => kH8sizedBox,
-                                      itemCount: homeController.allPostList.length,
+                                      itemCount: globalController.commonPostList.length,
                                       itemBuilder: (context, index) {
-                                        var item = homeController.allPostList[index];
                                         return Container(
                                           color: cWhiteColor,
                                           width: width,
                                           child: CommonPostWidget(
-                                            postList: homeController.allPostList,
                                             postIndex: index,
-                                            refType: 1,
-                                            refId: item.id!,
-                                            userId: item.user!.id!,
-                                            isCommented: index % 2 == 0,
-                                            isLiked: index % 2 != 0,
-                                            // isGiftShow:
-                                            isSharedPost: item.sharePosts != null ? true : false,
-                                            showBottomSection: true,
-                                            userName: item.user!.fullName!,
-                                            postTime: homeController.postTimeDifference(item.createdAt),
-                                            isCategorized: true,
-                                            category: item.postCategory == null ? null : item.postCategory!.name, //API
-                                            categoryIcon:
-                                                item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                                            categoryIconColor:
-                                                item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
-                                            privacy: BipHip.world,
-                                            brandName: item.store == null ? null : item.store!.name, //API
-                                            kidName: item.kid == null ? null : item.kid!.name, //API
-                                            kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                            postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                                            mediaList: item.images, //API
-                                            isSelfPost: Get.find<GlobalController>().userId.value == item.user!.id ? true : false,
-                                            isCommentShown: true, commentCount: item.countComment ?? 1, shareCount: item.countShare ?? 1,
-                                            giftCount: item.countStar ?? 0,
-                                            reactCount: (item.countReactions == null || item.countReactions!.all == 0) ? null : item.countReactions,
-                                            postID: item.id!,
-                                            secondaryImage: item.kid?.profilePicture ?? item.store?.profilePicture,
-                                            subCategory: null,
-                                            platformName: 'Jane Clothing',
-                                            platformLink: 'www.facebook.com/Clothing/lorem',
-                                            actionName: null,
-                                            title: item.title, //API
-                                            price: item.price.toString(), //API
-                                            mainPrice: '400',
-                                            discount: item.discount.toString(),
-                                            isInStock: false,
-                                            productCondition: 'New',
-                                            productCategory: 'Phone', userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                                            onAngryPressed: (Reaction<String>? reaction) {
-                                              item.countReactions = Get.find<GlobalController>().updateReaction("angry", item.myReaction, item.countReactions);
-                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
-                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                            },
-                                            onHahaPressed: (Reaction<String>? reaction) {
-                                              item.countReactions = Get.find<GlobalController>().updateReaction("haha", item.myReaction, item.countReactions);
-                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
-                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                            },
-                                            onLikePressed: (Reaction<String>? reaction) {
-                                              item.countReactions = Get.find<GlobalController>().updateReaction("like", item.myReaction, item.countReactions);
-                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
-                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                            },
-                                            onLovePressed: (Reaction<String>? reaction) {
-                                              item.countReactions = Get.find<GlobalController>().updateReaction("love", item.myReaction, item.countReactions);
-                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
-                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                            },
-                                            onSadPressed: (Reaction<String>? reaction) {
-                                              item.countReactions = Get.find<GlobalController>().updateReaction("sad", item.myReaction, item.countReactions);
-                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
-                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                            },
-                                            onWowPressed: (Reaction<String>? reaction) {
-                                              item.countReactions = Get.find<GlobalController>().updateReaction("wow", item.myReaction, item.countReactions);
-                                              item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
-                                              homeController.allPostList.replaceRange(index, index + 1, [item]);
-                                            },
-                                            selfReaction: item.myReaction,
                                           ),
                                         );
                                       }),
 
-                                if (homeController.allPostList.isNotEmpty &&
+                                if (globalController.commonPostList.isNotEmpty &&
                                     homeController.postListScrolled.value &&
                                     homeController.postListSubLink.value != null)
                                   const HomePagePaginationShimmer(),

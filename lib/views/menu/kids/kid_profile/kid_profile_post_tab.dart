@@ -163,16 +163,15 @@ class KidProfilePostSection extends StatelessWidget {
                                 isCommented: false,
                                 isLiked: false,
                                 isSharedPost: false,
-                                showBottomSection: false,
                                 userName: item.user!.fullName!,
-                                postTime: Get.find<HomeController>().postTimeDifference(item.createdAt!),
+                                postTime: Get.find<GlobalController>().postTimeDifference(item.createdAt!),
                                 isCategorized: true,
                                 subCategory: null, //API
                                 category: item.postCategory == null ? null : item.postCategory!.name, //API
                                 categoryIcon:
-                                    item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id), // need change API
                                 categoryIconColor:
-                                    item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id), // Based on API
                                 privacy: BipHip.world,
                                 // brandName: item.store == null ? null : item.store!.name, //API
                                 kidName: item.kid == null ? null : item.kid!.name, //API
@@ -202,77 +201,24 @@ class KidProfilePostSection extends StatelessWidget {
             ),
           ),
           kH8sizedBox,
-          if (kidsController.allPostList.isNotEmpty)
+          if (Get.find<GlobalController>().commonPostList.isNotEmpty)
             Obx(
               () => ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   separatorBuilder: (context, index) => kH8sizedBox,
-                  itemCount: kidsController.allPostList.length,
+                  itemCount: Get.find<GlobalController>().commonPostList.length,
                   itemBuilder: (context, index) {
-                    var item = kidsController.allPostList[index];
                     return Container(
                       color: cWhiteColor,
                       width: width,
                       child: CommonPostWidget(
-                        isCommented: index % 2 == 0,
-                        isLiked: index % 2 != 0,
                         postIndex: index,
-                        refType: 1,
-                        refId: item.id!,
-                        isSharedPost: false,
-                        showBottomSection: true,
-                        userName: item.user!.fullName!,
-                        postTime: Get.find<HomeController>().postTimeDifference(item.createdAt),
-                        isCategorized: true,
-                        subCategory: null, //API
-                        category: item.postCategory == null ? null : item.postCategory!.name,
-                        categoryIcon: item.postCategory == null ? null : Get.find<HomeController>().getCategoryIcon(item.postCategory!.id), // need change API
-                        categoryIconColor:
-                            item.postCategory == null ? null : Get.find<HomeController>().getCategoryColor(item.postCategory!.id), // Based on API
-                        privacy: BipHip.world,
-                        kidName: item.kid!.name!,
-                        kidAge: item.kid!.age?.toString(),
-                        title: item.title,
-                        postText: item.content ?? '',
-                        price: null,
-                        mediaList: item.images ,
-                        isSelfPost: true,
-                        isInStock: true,
-                        isCommentShown: true, commentCount: item.countComment ?? 0, shareCount: item.countShare ?? 0, giftCount: item.countStar ?? 0,
-                        postID: item.id!,
-                        userImage: item.user!.profilePicture ?? '',
-                        taggedFriends: const [],
-                        onAngryPressed: (Reaction<String>? reaction) {
-                          item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
-                          kidsController.allPostList.replaceRange(index, index + 1, [item]);
-                        },
-                        onHahaPressed: (Reaction<String>? reaction) {
-                          item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
-                          kidsController.allPostList.replaceRange(index, index + 1, [item]);
-                        },
-                        onLikePressed: (Reaction<String>? reaction) {
-                          item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
-                          kidsController.allPostList.replaceRange(index, index + 1, [item]);
-                        },
-                        onLovePressed: (Reaction<String>? reaction) {
-                          item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
-                          kidsController.allPostList.replaceRange(index, index + 1, [item]);
-                        },
-                        onSadPressed: (Reaction<String>? reaction) {
-                          item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
-                          kidsController.allPostList.replaceRange(index, index + 1, [item]);
-                        },
-                        onWowPressed: (Reaction<String>? reaction) {
-                          item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
-                          kidsController.allPostList.replaceRange(index, index + 1, [item]);
-                        },
-                        selfReaction: item.myReaction,
                       ),
                     );
                   }),
             ),
-          if (kidsController.allPostList.isNotEmpty && kidsController.postListScrolled.value && kidsController.postListSubLink.value != null)
+          if (Get.find<GlobalController>().commonPostList.isNotEmpty && kidsController.postListScrolled.value && kidsController.postListSubLink.value != null)
             const HomePagePaginationShimmer(),
         ],
       ),

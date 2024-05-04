@@ -1,7 +1,5 @@
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   final ApiController apiController = ApiController();
@@ -52,37 +50,15 @@ class HomeController extends GetxController {
     return diff;
   }
 
-  String postTimeDifference(DateTime inputDate) {
-    final now = DateTime.now();
-    final difference = now.difference(inputDate);
-
-    if (difference.inDays >= 7) {
-      return DateFormat('dd MMMM yyyy').format(inputDate);
-    } else if (difference.inDays >= 1) {
-      if (difference.inDays == 1) {
-        return '${difference.inDays} day ago';
-      } else {
-        return '${difference.inDays} days ago';
-      }
-    } else if (difference.inHours >= 1) {
-      return '${difference.inHours} h ago';
-    } else if (difference.inMinutes >= 1) {
-      return '${difference.inMinutes} m ago';
-    } else {
-      return '${difference.inSeconds} s ago';
-    }
-  }
-
   // All post list API Implementation
   final ScrollController postListScrollController = ScrollController();
   final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<PostListModel?> postListData = Rx<PostListModel?>(null);
-  final RxList<PostData> allPostList = RxList<PostData>([]);
+  final RxList<PostDataRx> allPostList = RxList<PostDataRx>([]);
   final RxBool isHomePageLoading = RxBool(false);
   final RxBool isHomePagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
   final RxBool postListScrolled = RxBool(false);
-  final Rx<String?> myReaction = Rx<String?>(null);
   Future<void> getPostList() async {
     try {
       isHomePageLoading.value = true;
@@ -95,17 +71,12 @@ class HomeController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
-        Get.find<PostReactionController>().reactions.clear();
+        globalController.commonPostList.clear();
         postListScrolled.value = false;
+        ll(1);
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
-        for (int i = 0; i < postListData.value!.posts.data.length; i++) {
-          Get.find<PostReactionController>().reactions.add({
-            'reaction': ''.obs,
-            'state': false.obs,
-          });
-        }
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -155,15 +126,10 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        allPostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
-        //!Future should be changed
-        for (int i = 0; i < postListData.value!.posts.data.length; i++) {
-          Get.find<PostReactionController>().reactions.add({
-            'reaction': ''.obs,
-            'state': false.obs,
-          });
-        }
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -188,7 +154,7 @@ class HomeController extends GetxController {
   }
 
   //* Get Self Timeline posts
-  final RxList<PostData> allTimelinePostList = RxList<PostData>([]);
+  final RxList<PostDataRx> allTimelinePostList = RxList<PostDataRx>([]);
   final RxBool isTimelinePostLoading = RxBool(false);
   final RxBool isTimelinePostPaginationLoading = RxBool(false);
   final Rx<String?> timelinePostListSubLink = Rx<String?>(null);
@@ -205,9 +171,11 @@ class HomeController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allTimelinePostList.clear();
+        globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
         allTimelinePostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allTimelinePostList);
         timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
@@ -256,8 +224,10 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        allTimelinePostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
         allTimelinePostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allTimelinePostList);
         timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
@@ -280,42 +250,6 @@ class HomeController extends GetxController {
     }
   }
 
-  IconData getCategoryIcon(categoryID) {
-    if (categoryID == 3) {
-      return BipHip.poetry;
-    } else if (categoryID == 4) {
-      return BipHip.photography;
-    } else if (categoryID == 5) {
-      return BipHip.painting;
-    } else if (categoryID == 6) {
-      return BipHip.storytelling;
-    } else if (categoryID == 7) {
-      return BipHip.kids;
-    } else if (categoryID == 8) {
-      return BipHip.newsFill;
-    } else {
-      return BipHip.selling;
-    }
-  }
-
-  Color getCategoryColor(categoryID) {
-    if (categoryID == 3) {
-      return cPoetryColor;
-    } else if (categoryID == 4) {
-      return cPhotographyColor;
-    } else if (categoryID == 5) {
-      return cPaintingColor;
-    } else if (categoryID == 6) {
-      return cStoryTellingColor;
-    } else if (categoryID == 7) {
-      return cKidsColor;
-    } else if (categoryID == 8) {
-      return cBlackColor;
-    } else {
-      return cSellingColor;
-    }
-  }
-
   //Get post data
   final RxBool isPostDetailsPageLoading = RxBool(false);
   final Rx<PostDataModel?> postData = Rx<PostDataModel?>(null);
@@ -332,7 +266,6 @@ class HomeController extends GetxController {
       if (response.success == true) {
         postData.value = PostDataModel.fromJson(response.data);
         isPostDetailsPageLoading.value = false;
-        // _globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isPostDetailsPageLoading.value = true;
 
@@ -366,4 +299,96 @@ class HomeController extends GetxController {
     {'icon': BipHip.edit, 'action': 'Edit Post'},
   ]);
   final RxString birthdaySelectedAction = RxString("");
+
+  Future<void> getFilteredTimelinePostList({required int categoryId, required int type}) async {
+    //,int typeId
+    try {
+      isTimelinePostLoading.value = true;
+      String suffixUrl = '?page=1';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetPostsByCategoryId$suffixUrl &category_id=${categoryId.toString()}&type=${type.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        allTimelinePostList.clear();
+        globalController.commonPostList.clear();
+        postListScrolled.value = false;
+        postListData.value = PostListModel.fromJson(response.data);
+        allTimelinePostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allTimelinePostList);
+        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        if (timelinePostListSubLink.value != null) {
+          timelinePostListScrolled.value = false;
+        } else {
+          timelinePostListScrolled.value = true;
+        }
+        isTimelinePostLoading.value = false;
+      } else {
+        isTimelinePostLoading.value = true;
+
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTimelinePostLoading.value = true;
+
+      ll('getTimelinePostList error: $e');
+    }
+  }
+
+  Future<void> getMoreFilteredTimelinePostList({required int categoryId, required int type}) async {
+    try {
+      isTimelinePostPaginationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      dynamic timelinePostListSub;
+
+      if (timelinePostListSubLink.value == null) {
+        return;
+      } else {
+        timelinePostListSub = timelinePostListSubLink.value!.split('?');
+      }
+
+      String timelinePostListSuffixUrl = '';
+
+      timelinePostListSuffixUrl = '?${timelinePostListSub[1]}';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        // url: kuGetPostsByCategoryId + timelinePostListSuffixUrl,
+        url: "$kuGetPostsByCategoryId$timelinePostListSuffixUrl &category_id=${categoryId.toString()}&type=${type.toString()}",
+      ) as CommonDM;
+
+      if (response.success == true) {
+        allTimelinePostList.clear();
+        postListData.value = PostListModel.fromJson(response.data);
+        allTimelinePostList.addAll(postListData.value!.posts.data);
+        globalController.commonPostList.addAll(allTimelinePostList);
+        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        if (timelinePostListSubLink.value != null) {
+          timelinePostListScrolled.value = false;
+        } else {
+          timelinePostListScrolled.value = true;
+        }
+        isTimelinePostPaginationLoading.value = false;
+      } else {
+        isTimelinePostPaginationLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTimelinePostPaginationLoading.value = true;
+      ll('getMoreTimelinePostList error: $e');
+    }
+  }
 }

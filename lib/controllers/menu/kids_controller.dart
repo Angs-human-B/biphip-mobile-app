@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
@@ -1214,7 +1214,7 @@ class KidsController extends GetxController {
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final Rx<GetKidPostModel?> postListData = Rx<GetKidPostModel?>(null);
-  final RxList<PostData> allPostList = RxList<PostData>([]);
+  final RxList<PostDataRx> allPostList = RxList<PostDataRx>([]);
   final RxBool isKidPageLoading = RxBool(false);
   final RxBool isKidPagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
@@ -1231,9 +1231,11 @@ class KidsController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
+        globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1283,8 +1285,10 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        allPostList.clear();
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;

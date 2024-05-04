@@ -4,11 +4,11 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
+import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:intl/intl.dart';
 
 class PostTab extends StatelessWidget {
@@ -96,7 +96,7 @@ class PostTab extends StatelessWidget {
                     width: width,
                     height: 50,
                     child: ListView.builder(
-                      itemCount: interestProfile.length,
+                      itemCount: Get.find<CreatePostController>().createPostCategoryList.length,
                       shrinkWrap: true,
                       padding: const EdgeInsets.symmetric(horizontal: k10Padding),
                       scrollDirection: Axis.horizontal,
@@ -105,11 +105,15 @@ class PostTab extends StatelessWidget {
                           () => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: k4Padding),
                             child: CustomChoiceChips(
-                              label: interestProfile[i],
-                              isSelected: (profileController.interestCatagoriesIndex.value == i && profileController.isInterestSelected.value),
+                              label: Get.find<CreatePostController>().createPostCategoryList[i].name ?? "",
+                              isSelected: (profileController.interestCatagoriesIndex.value == Get.find<CreatePostController>().createPostCategoryList[i].id),
                               onSelected: (value) {
-                                profileController.interestCatagoriesIndex.value = i;
-                                profileController.isInterestSelected.value = value;
+                                profileController.interestCatagoriesIndex.value = Get.find<CreatePostController>().createPostCategoryList[i].id!;
+                                if (profileController.interestCatagoriesIndex.value == 0) {
+                                  Get.find<HomeController>().getTimelinePostList();
+                                } else if (profileController.interestCatagoriesIndex.value != 0) {
+                                  Get.find<HomeController>().getFilteredTimelinePostList(categoryId: profileController.interestCatagoriesIndex.value, type: 2);
+                                }
                               },
                             ),
                           ),
@@ -121,81 +125,23 @@ class PostTab extends StatelessWidget {
               ),
             ),
             kH12sizedBox,
-            ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) => kH8sizedBox,
-                itemCount: homeController.allTimelinePostList.length,
-                itemBuilder: (context, index) {
-                  var item = homeController.allTimelinePostList[index];
-                  return Container(
-                    color: cWhiteColor,
-                    width: width,
-                    child: CommonPostWidget(
-                      postList: homeController.allTimelinePostList,
-                      postIndex: index,
-                      refType: 1,
-                      refId: item.id!,
-                      userId: item.user!.id!,
-                      isCommented: false,
-                      isLiked: false,
-                      isSharedPost: item.sharePosts != null ? true : false,
-                      showBottomSection: true,
-                      userName: item.user!.fullName!,
-                      postTime: homeController.postTimeDifference(item.createdAt),
-                      isCategorized: true,
-                      subCategory: null, //API
-                      category: item.postCategory == null ? null : item.postCategory!.name, //API
-                      categoryIcon: item.postCategory == null ? null : homeController.getCategoryIcon(item.postCategory!.id), // need change API
-                      categoryIconColor: item.postCategory == null ? null : homeController.getCategoryColor(item.postCategory!.id), // Based on API
-                      privacy: BipHip.world,
-                      brandName: item.store == null ? null : item.store!.name, //API
-                      kidName: item.kid == null ? null : item.kid!.name, //API
-                      kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                      title: item.title, //API
-                      postText: item.postCategory?.name == 'News' ? item.description ?? '' : item.content ?? '', //API
-                      price: null, //API
-                      // mediaList: item.imageUrls, //API
-                      mediaList: item.images,
-                      isSelfPost: true,
-                      isInStock: true,
-                      isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!, giftCount: item.countStar!, postID: item.id!,
-                      userImage: item.user!.profilePicture ?? '', taggedFriends: item.taggedFriends,
-                      reactCount: item.countReactions,
-                      onAngryPressed: (Reaction<String>? reaction) {
-                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "angry", 1, item.id);
-                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
-                      },
-                      onHahaPressed: (Reaction<String>? reaction) {
-                        item.countReactions = Get.find<GlobalController>().updateReaction("haha", item.myReaction, item.countReactions);
-                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "haha", 1, item.id);
-                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
-                      },
-                      onLikePressed: (Reaction<String>? reaction) {
-                        item.countReactions = Get.find<GlobalController>().updateReaction("like", item.myReaction, item.countReactions);
-                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "like", 1, item.id);
-                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
-                      },
-                      onLovePressed: (Reaction<String>? reaction) {
-                        item.countReactions = Get.find<GlobalController>().updateReaction("love", item.myReaction, item.countReactions);
-                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "love", 1, item.id);
-                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
-                      },
-                      onSadPressed: (Reaction<String>? reaction) {
-                        item.countReactions = Get.find<GlobalController>().updateReaction("sad", item.myReaction, item.countReactions);
-                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "sad", 1, item.id);
-                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
-                      },
-                      onWowPressed: (Reaction<String>? reaction) {
-                        item.countReactions = Get.find<GlobalController>().updateReaction("wow", item.myReaction, item.countReactions);
-                        item.myReaction = Get.find<GlobalController>().getReaction(item.myReaction, "wow", 1, item.id);
-                        homeController.allTimelinePostList.replaceRange(index, index + 1, [item]);
-                      },
-                      selfReaction: item.myReaction,
-                    ),
-                  );
-                }),
-            if (homeController.allTimelinePostList.isNotEmpty &&
+            Get.find<HomeController>().isTimelinePostLoading.value
+                ? const PostCommonShimmer()
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) => kH8sizedBox,
+                    itemCount: Get.find<GlobalController>().commonPostList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        color: cWhiteColor,
+                        width: width,
+                        child: CommonPostWidget(
+                          postIndex: index,
+                        ),
+                      );
+                    }),
+            if (Get.find<GlobalController>().commonPostList.isNotEmpty &&
                 homeController.timelinePostListScrolled.value &&
                 homeController.timelinePostListSubLink.value != null)
               const HomePagePaginationShimmer(),

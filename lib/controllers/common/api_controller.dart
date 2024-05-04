@@ -55,8 +55,7 @@ class ApiController {
           throw TimeoutException(ksConnectionTimeoutMessage.tr);
         },
       );
-    } 
-    else if (method == "PUT") {
+    } else if (method == "PUT") {
       return await client.post(
         uri,
         body: body,
@@ -70,8 +69,7 @@ class ApiController {
           throw TimeoutException(ksConnectionTimeoutMessage.tr);
         },
       );
-    }
-    else {
+    } else {
       return await client.delete(
         uri,
         body: body,
@@ -226,9 +224,11 @@ class ApiController {
       var response = await request.send();
       ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
-        var res = (await response.stream.transform(utf8.decoder).first);
+        String res = '';
+        await for (var chunk in response.stream) {
+          res += utf8.decode(chunk);
+        }
         Map<String, dynamic> de = jsonDecode(res);
-        ll(de.toString());
         CommonDM cm = convertToCommonObject(de);
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
@@ -325,7 +325,7 @@ class ApiController {
       // for (int i = 0; i < keyValue.length; i++) {
       //   request.files.add(await http.MultipartFile.fromPath(keyValue[i].entries.fi));
       // }
-      for(int i=0;i<keys.length;i++){
+      for (int i = 0; i < keys.length; i++) {
         request.files.add(await http.MultipartFile.fromPath(keys[i], values[i]));
       }
       // request.files.add(await http.MultipartFile.fromPath(key1, value1));

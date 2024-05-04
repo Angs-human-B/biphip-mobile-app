@@ -42,6 +42,7 @@ const String kuLogOut = '/mobile/logout';
 //---------------------------------------
 
 const String kuGetProfileOverView = '/mobile/user/get-profile-overview'; //DONE
+const String kuGetPostsByCategoryId = '/user/get-posts-by-category-id';
 
 //* Address/Places
 const String kuGetAllPlaces = '/mobile/user/get-all-places'; //? NOT NEEDED
@@ -237,6 +238,18 @@ const String kuDeleteSearchHistory = '/mobile/user/delete-search-history';
 const String kuDeleteAllSearchHistory = '/mobile/user/delete-all-search-history';
 const String kuSearchFilterData = '/mobile/user/search-filter-data';
 const String kuSearch = '/mobile/user/search';
+
+//* Post Action
+const String kuHidePost = '/mobile/user/hide-post';
+const String kuDeletePost = '/mobile/user/delete-post';
+const String kuPostNotificationOff = '/mobile/user/off-post-notification';
+const String kuPostNotificationOn = '/mobile/user/on-post-notification';
+const String kuEditAudience = '/mobile/user/update-post-privacy';
+const String kuEditDateTime = '/mobile/user/update-post-date-time';
+const String kuGetReoportList = '/mobile/get-all-reporting-list';
+const String kuPostReport = '/mobile/user/store-post-report';
+const String kuUndoPostReport = '/mobile/user/remove-post-report';
+const String kuUpdatePost = '/mobile/user/update-post';
 
 /*
 |--------------------------------------------------------------------------

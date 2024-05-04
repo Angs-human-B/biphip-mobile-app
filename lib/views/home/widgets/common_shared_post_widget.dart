@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
@@ -9,66 +8,12 @@ import 'package:timer_count_down/timer_count_down.dart';
 class CommonSharedPostWidget extends StatelessWidget {
   CommonSharedPostWidget({
     super.key,
-    required this.isCategorized,
-    required this.userName,
-    required this.postTime,
-    required this.privacy,
-    this.category,
-    this.brandName,
-    this.kidName,
-    this.kidAge,
-    this.title,
-    this.price,
-    this.categoryIcon,
-    this.categoryIconColor,
-    this.postText,
-    required this.mediaList,
+    required this.postIndex,
     this.postUpperContainerOnPressed,
-    required this.postID,
-    this.subCategory,
-    this.productCategory,
-    this.productCondition,
-    this.discount,
-    this.discountedPrice,
-    required this.isInStock,
-    this.mainPrice,
-    this.platformName,
-    this.platformLink,
-    this.actionName,
-    this.secondaryImage,
-    required this.userImage,
-    required this.taggedFriends,
-    this.postIndex = 0,
-    this.postList,
   });
-  final bool isCategorized, isInStock;
-  final String userName, postTime, userImage;
-  final String? category,
-      subCategory,
-      productCategory,
-      productCondition,
-      discount,
-      discountedPrice,
-      brandName,
-      kidName,
-      kidAge,
-      title,
-      price,
-      mainPrice,
-      postText,
-      platformName,
-      platformLink,
-      actionName,
-      secondaryImage;
-  final IconData? categoryIcon;
-  final IconData privacy;
-  final Color? categoryIconColor;
-  final List mediaList;
-  final RxList<PostData>? postList;
-  final List<TaggedFriend> taggedFriends;
-  final int postIndex, postID;
+  final int postIndex;
   final VoidCallback? postUpperContainerOnPressed;
-  final HomeController homeController = Get.find<HomeController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,52 +23,44 @@ class CommonSharedPostWidget extends StatelessWidget {
         kH10sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: PostUpperContainer(
-            userName: userName,
-            postTime: postTime,
-            isCategorized: isCategorized,
-            category: category,
-            categoryIcon: categoryIcon,
-            categoryIconColor: categoryIconColor,
-            privacy: privacy,
-            brandName: brandName,
-            kidName: kidName,
-            kidAge: kidAge,
-            title: title,
-            subCategory: subCategory,
-            userImage: userImage,
-            secondaryImage: secondaryImage,
-            taggedFriend: taggedFriends,
+          child: SharePostUpperContainer(
+            postIndex: postIndex,
+            postUpperContainerOnPressed: postUpperContainerOnPressed,
           ),
         ),
         kH8sizedBox,
-        if ((category == 'News' || category == 'Selling') && isCategorized && title != null)
+        if ((globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'News' ||
+                globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling') &&
+            globalController.commonPostList[postIndex].sharePosts?.title != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
             child: Text(
-              title!,
+              globalController.commonPostList[postIndex].sharePosts?.title!,
               overflow: TextOverflow.clip,
               style: semiBold14TextStyle(cBlackColor),
             ),
           ),
-        if (productCondition != null && productCategory != null && category == 'Selling')
+        if (globalController.getProductCondition(globalController.commonPostList[postIndex].sharePosts?.sellPostConditionId) != null &&
+            globalController.getProductCategory(globalController.commonPostList[postIndex].sharePosts?.sellPostCategoryId) != null &&
+            globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: '$productCategory ${ksCondition.tr.toLowerCase()}: ',
+                  text:
+                      '${globalController.getProductCategory(globalController.commonPostList[postIndex].sharePosts?.sellPostCategoryId)} ${ksCondition.tr.toLowerCase()}: ',
                   style: semiBold14TextStyle(cSmallBodyTextColor),
                 ),
                 TextSpan(
-                  text: '$productCondition',
+                  text: '${globalController.getProductCondition(globalController.commonPostList[postIndex].sharePosts?.sellPostConditionId)}',
                   style: semiBold14TextStyle(cBlackColor),
                 ),
               ]),
             ),
           ),
         // check if it is selling post
-        if (category == 'Selling')
+        if (globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
             child: RichText(
@@ -145,7 +82,7 @@ class CommonSharedPostWidget extends StatelessWidget {
                   ),
                   WidgetSpan(
                     child: Countdown(
-                      seconds: homeController.getBiddingDuration(DateTime.parse('2024-01-04 20:18:04Z')),
+                      seconds: Get.find<HomeController>().getBiddingDuration(DateTime.parse('2024-01-04 20:18:04Z')),
                       build: (BuildContext context, double time) {
                         int hours = (time ~/ 3600).toInt();
                         int minutes = ((time % 3600) ~/ 60).toInt();
@@ -163,57 +100,65 @@ class CommonSharedPostWidget extends StatelessWidget {
               ),
             ),
           ),
-        if (category == 'Selling')
+        if (globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
             child: RichText(
               text: TextSpan(
                 children: [
-                  if (discount != null)
+                  if (globalController.commonPostList[postIndex].sharePosts?.discount != null)
                     WidgetSpan(
                       baseline: TextBaseline.alphabetic,
                       alignment: PlaceholderAlignment.baseline,
                       child: Padding(
                         padding: const EdgeInsets.only(right: k4Padding),
                         child: Text(
-                          '-$discount% ',
+                          '-${globalController.commonPostList[postIndex].sharePosts?.discount}% ',
                           style: regular14TextStyle(cRedColor),
                         ),
                       ),
                     ),
                   TextSpan(
-                    text: '$price\$ ',
+                    text: '${globalController.commonPostList[postIndex].sharePosts?.price}\$ ',
                     style: semiBold20TextStyle(cBlackColor),
                   ),
                   TextSpan(
-                    text: isInStock ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
-                    style: semiBold20TextStyle(isInStock ? cLinkColor : cRedColor),
+                    text: globalController.commonPostList[postIndex].sharePosts?.sellPostAvailabilty != 0 ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
+                    style: semiBold20TextStyle(globalController.commonPostList[postIndex].sharePosts?.sellPostAvailabilty != 0 ? cLinkColor : cRedColor),
                   ),
                 ],
               ),
             ),
           ),
-        if (discount != null && category == 'Selling')
+        if (globalController.commonPostList[postIndex].sharePosts?.discount != null &&
+            globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding),
             child: Text(
-              '${ksLastPrice.tr}: $mainPrice\$ ',
+              '${ksLastPrice.tr}: 400\$ ',
               style: regular14TextStyle(cSmallBodyTextColor).copyWith(decoration: TextDecoration.lineThrough),
             ),
           ),
-        if (postText != null && postText != '')
+        if (globalController.commonPostList[postIndex].sharePosts?.content != null && globalController.commonPostList[postIndex].sharePosts?.content != '')
           Obx(() => Padding(
                 padding: EdgeInsets.only(
-                    left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty || category == 'Selling') ? k12Padding : 0),
+                    left: kHorizontalPadding,
+                    right: kHorizontalPadding,
+                    bottom: (globalController.commonPostList[postIndex].sharePosts!.images.isNotEmpty ||
+                            globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling')
+                        ? k12Padding
+                        : 0),
                 child: RichText(
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
-                  maxLines: (homeController.seeMore.value && postText!.length > 256) ? 5 : null,
+                  maxLines: (globalController.commonPostList[postIndex].sharePosts!.content!.length > 256) ? 5 : null,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: postText,
-                        style: (postText!.length < 150 && category != 'Selling' && mediaList.isEmpty)
+                        text: globalController.commonPostList[postIndex].sharePosts?.content,
+                        style: (globalController.commonPostList[postIndex].sharePosts!.content!.length < 150 &&
+                                globalController.commonPostList[postIndex].sharePosts?.postCategory?.name != 'Selling' &&
+                                globalController.commonPostList[postIndex].sharePosts!.images.isEmpty)
                             ? regular20TextStyle(cBlackColor)
                             : regular14TextStyle(cBlackColor),
                       ),
@@ -221,21 +166,21 @@ class CommonSharedPostWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        if (postText != null && postText!.length > 256)
-          Obx(() => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () {
-                    homeController.seeMore.value = !homeController.seeMore.value;
-                  },
-                  child: Text(
-                    homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
-                    style: semiBold14TextStyle(cPrimaryColor),
-                  ),
-                ),
-              )),
-        if (mediaList.isNotEmpty)
+        // if (globalController.commonPostList[postIndex].sharePosts?.content != null && globalController.commonPostList[postIndex].sharePosts!.content!.length > 256)
+        //   Obx(() => Padding(
+        //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        //         child: TextButton(
+        //           style: kTextButtonStyle,
+        //           onPressed: () {
+        //             homeController.seeMore.value = !homeController.seeMore.value;
+        //           },
+        //           child: Text(
+        //             homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
+        //             style: semiBold14TextStyle(cPrimaryColor),
+        //           ),
+        //         ),
+        //       )),
+        if (globalController.commonPostList[postIndex].sharePosts!.images.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: Container(
@@ -250,24 +195,27 @@ class CommonSharedPostWidget extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
-                            Get.toNamed(krHomePostDetailsScreen);
-                            await Get.find<HomeController>().getPostData(postID);
+                          if ((globalController.commonPostList[postIndex].sharePosts!.content != null &&
+                                  globalController.commonPostList[postIndex].sharePosts!.content!.trim() != '') ||
+                              globalController.commonPostList[postIndex].sharePosts!.images.length > 1) {
+                            // Get.toNamed(krHomePostDetailsScreen);
+                            //! need to create for shared post
+                            await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           } else {
                             Get.to(() => CommonPhotoView(
-                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  image: Environment.imageBaseUrl + globalController.commonPostList[postIndex].sharePosts!.images[0].path.toString(),
                                   postIndex: postIndex,
                                 ));
                           }
                         },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                          height: mediaList.length < 2 ? 302 : 150,
-                          width: mediaList.length > 3 ? ((width - 82) / 2) - 1 : width - 82,
+                          height: globalController.commonPostList[postIndex].sharePosts!.images.length < 2 ? 302 : 150,
+                          width: globalController.commonPostList[postIndex].sharePosts!.images.length > 3 ? ((width - 82) / 2) - 1 : width - 82,
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
-                              mediaList[0].fullPath.toString(),
+                              globalController.commonPostList[postIndex].sharePosts!.images[0].fullPath.toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -282,18 +230,18 @@ class CommonSharedPostWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length > 3)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
                             Get.to(() => HomePostDetailsScreen(
                                   postIndex: postIndex,
                                 ));
-                            await Get.find<HomeController>().getPostData(postID);
+                            await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -302,7 +250,7 @@ class CommonSharedPostWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].fullPath.toString(),
+                                globalController.commonPostList[postIndex].sharePosts!.images[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -319,29 +267,30 @@ class CommonSharedPostWidget extends StatelessWidget {
                         ),
                     ],
                   ),
-                  if (mediaList.length > 1)
+                  if (globalController.commonPostList[postIndex].sharePosts!.images.length > 1)
                     const SizedBox(
                       height: 2,
                     ),
                   Row(
                     children: [
-                      if (mediaList.length < 4 && mediaList.length > 1)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length < 4 &&
+                          globalController.commonPostList[postIndex].sharePosts!.images.length > 1)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
                             Get.to(() => HomePostDetailsScreen(
                                   postIndex: postIndex,
                                 ));
-                            await Get.find<HomeController>().getPostData(postID);
+                            await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
-                            width: mediaList.length < 3 ? (width - 82) : ((width - 82) / 2) - 1,
+                            width: globalController.commonPostList[postIndex].sharePosts!.images.length < 3 ? (width - 82) : ((width - 82) / 2) - 1,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].fullPath.toString(),
+                                globalController.commonPostList[postIndex].sharePosts!.images[1].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -356,27 +305,28 @@ class CommonSharedPostWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length < 4 && mediaList.length > 2)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length < 4 &&
+                          globalController.commonPostList[postIndex].sharePosts!.images.length > 2)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length > 2)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
                             Get.to(() => HomePostDetailsScreen(
                                   postIndex: postIndex,
                                 ));
-                            await Get.find<HomeController>().getPostData(postID);
+                            await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
-                            width: mediaList.length > 4 ? (width - 86) / 3 : ((width - 82) / 2) - 1,
+                            width: globalController.commonPostList[postIndex].sharePosts!.images.length > 4 ? (width - 86) / 3 : ((width - 82) / 2) - 1,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[2].fullPath.toString(),
+                                globalController.commonPostList[postIndex].sharePosts!.images[2].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -391,25 +341,26 @@ class CommonSharedPostWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length > 3)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
-                            await Get.find<HomeController>().getPostData(postID);
+                            // Get.toNamed(krHomePostDetailsScreen);
+                            //! need to create for shared post
+                            await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
-                            width: mediaList.length < 5 ? ((width - 82) / 2) - 1 : (width - 86) / 3,
+                            width: globalController.commonPostList[postIndex].sharePosts!.images.length < 5 ? ((width - 82) / 2) - 1 : (width - 86) / 3,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[3].fullPath.toString(),
+                                globalController.commonPostList[postIndex].sharePosts!.images[3].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -424,11 +375,11 @@ class CommonSharedPostWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length > 4)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length > 4)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length >= 5)
+                      if (globalController.commonPostList[postIndex].sharePosts!.images.length >= 5)
                         Stack(
                           alignment: AlignmentDirectional.center,
                           children: [
@@ -438,7 +389,7 @@ class CommonSharedPostWidget extends StatelessWidget {
                                 Get.to(() => HomePostDetailsScreen(
                                       postIndex: postIndex,
                                     ));
-                                await Get.find<HomeController>().getPostData(postID);
+                                await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                               },
                               child: Container(
                                   decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -447,10 +398,10 @@ class CommonSharedPostWidget extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
-                                      mediaList[4].fullPath.toString(),
+                                      globalController.commonPostList[postIndex].sharePosts!.images[4].fullPath.toString(),
                                       fit: BoxFit.cover,
-                                      color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                      colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
+                                      color: globalController.commonPostList[postIndex].sharePosts!.images.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                      colorBlendMode: globalController.commonPostList[postIndex].sharePosts!.images.length > 5 ? BlendMode.multiply : null,
                                       errorBuilder: (context, error, stackTrace) => const Icon(
                                         BipHip.imageFile,
                                         size: kIconSize120,
@@ -463,7 +414,7 @@ class CommonSharedPostWidget extends StatelessWidget {
                                     ),
                                   )),
                             ),
-                            if (mediaList.length > 5)
+                            if (globalController.commonPostList[postIndex].sharePosts!.images.length > 5)
                               Positioned(
                                 child: TextButton(
                                   style: kTextButtonStyle,
@@ -471,7 +422,7 @@ class CommonSharedPostWidget extends StatelessWidget {
                                     //Get.toNamed(krUploadedImageListPage);
                                   },
                                   child: Text(
-                                    "${mediaList.length - 5} More",
+                                    "${globalController.commonPostList[postIndex].sharePosts!.images.length - 5} More",
                                     style: semiBold16TextStyle(cWhiteColor),
                                   ),
                                 ),

@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/shimmers/home/home_page_details_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_details_widget.dart';
@@ -13,295 +12,202 @@ import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 
 class HomePostDetails extends StatelessWidget {
-  HomePostDetails({super.key, this.postIndex = 0, this.postList});
+  //!post index value needed top be changed
+  HomePostDetails({super.key, this.postIndex = 0});
   final int postIndex;
-  final RxList<PostData>? postList;
 
   final HomeController homeController = Get.find<HomeController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => homeController.isPostDetailsPageLoading.value
-          ? const HomePostDetailsShimmer()
-          : Container(
-              color: cWhiteColor,
-              child: Stack(
-                children: [
-                  SafeArea(
-                    top: false,
-                    child: SizedBox(
-                      height: height,
-                      child: Scaffold(
-                        backgroundColor: cWhiteColor,
-                        appBar: PreferredSize(
-                          preferredSize: const Size.fromHeight(kAppBarSize),
-                          //* info:: appBar
-                          child: CustomAppBar(
-                            hasBackButton: true,
-                            isCenterTitle: true,
-                            title: postReactionController.homePostDetailsData.value?.user?.fullName ?? ksNA.tr,
-                            onBack: () {
-                              Get.back();
-                            },
-                          ),
-                        ),
-                        body: Stack(
-                          children: [
-                            NotificationListener<ScrollNotification>(
-                              onNotification: (scrollNotification) {
-                                if (postReactionController.commentListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-                                    scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-                                    !postReactionController.getCommentScrolled.value) {
-                                  postReactionController.getCommentScrolled.value = true;
-                                  if (postReactionController.commentList.isNotEmpty) {
-                                    postReactionController.getMoreCommentList(null, 1, postReactionController.homePostDetailsData.value!.id!);
-                                  }
-                                  return true;
-                                }
-                                return false;
-                              },
-                              child: SizedBox(
-                                height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                                child: SingleChildScrollView(
-                                  controller: postReactionController.commentListScrollController,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: k12Padding),
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                          child: PostUpperContainer(
-                                            taggedFriend: const [],
-                                            userName: postReactionController.homePostDetailsData.value?.user?.fullName ?? ksNA.tr,
-                                            isCategorized: false,
-                                            privacy: BipHip.world,
-                                            postTime: homeController.postTimeDifference(postReactionController.homePostDetailsData.value!.createdAt),
-                                            userImage: postReactionController.homePostDetailsData.value?.user?.profilePicture ?? "",
-                                            category: postReactionController.homePostDetailsData.value?.postCategory?.name,
-                                            categoryIcon: postReactionController.homePostDetailsData.value?.postCategory == null
-                                                ? null
-                                                : homeController.getCategoryIcon(postReactionController.homePostDetailsData.value!.postCategory!.id),
-                                            categoryIconColor: postReactionController.homePostDetailsData.value?.postCategory == null
-                                                ? null
-                                                : homeController.getCategoryColor(postReactionController.homePostDetailsData.value!.postCategory!.id),
-                                            kidName: postReactionController.homePostDetailsData.value?.kid?.name, //API
-                                            kidAge: postReactionController.homePostDetailsData.value!.kid?.age?.toString(), //API
-                                            brandName: postReactionController.homePostDetailsData.value?.store?.name, //API
-                                            secondaryImage: postReactionController.homePostDetailsData.value?.kid?.profilePicture ??
-                                                postReactionController.homePostDetailsData.value!.store?.profilePicture,
-                                          ),
-                                        ),
-                                        kH12sizedBox,
-                                        CommonPostDetailsWidget(
-                                          userId: postReactionController.homePostDetailsData.value!.user!.id!,
-                                          postList: postList,
-                                          mediaList: postReactionController.homePostDetailsData.value!.images,
-                                          isCommentShown: true,
-                                          showBottomSection: true,
-                                          postIndex: postIndex,
-                                          postText: postReactionController.homePostDetailsData.value!.content ?? '', //API
-                                          title: postReactionController.homePostDetailsData.value!.title, //API
-                                          refType: 1,
-                                          refId: postReactionController.homePostDetailsData.value!.id!,
-                                        ),
-                                        // CommonPostDetailsWidget(//!Not used now
-                                        //   mediaList: homeController.postData.value!.post.images,
-                                        //   isCommentShown: true,
-                                        //   showBottomSection: true,
-                                        //   postIndex: postIndex,
-                                        //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                                        //       ? homeController.postData.value!.post.description ?? ''
-                                        //       : homeController.postData.value!.post.content ?? '', //API
-                                        //   // title: homeController.postData.value!.post.title, //API
-                                        //   title: homeController.postData.value!.post.title, //API
-                                        // ),
-                                        // SizedBox(
-                                        //     width: width - 40,
-                                        //     height: 108,
-                                        //     child: CommentTextField(
-                                        //       hintText: "${ksWriteAComment.tr} ...",
-                                        //       onPressedCamera: () async {
-                                        //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                        //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                        //         postReactionController.commentSendEnabled();
-                                        //       },
-                                        //       onPressedSend: () async {
-                                        //         if (postReactionController.isUpdateComment.value) {
-                                        //           await Get.find<PostReactionController>().updateComment();
-                                        //         } else {
-                                        //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-                                        //         }
-                                        //       },
-                                        //     )),
-                                        if (postReactionController.commentList.isNotEmpty &&
-                                            postReactionController.getCommentScrolled.value &&
-                                            postReactionController.getCommentSubLink.value != null)
-                                          const Center(child: CommentCommonShimmer()),
-                                        const SizedBox(
-                                          height: 110,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              child: Container(
-                                decoration: const BoxDecoration(color: cWhiteColor, border: Border(top: BorderSide(color: cLineColor))),
-                                padding: EdgeInsets.zero,
-                                child: SizedBox(
-                                    width: width,
-                                    child: CommentTextField(
-                                      hintText: postReactionController.commentId.value == -1 || postReactionController.isComment.value
-                                          ? "${ksWriteAComment.tr} ..."
-                                          : "${ksWriteAReply.tr} ...",
-                                      onPressedCamera: () async {
-                                        await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                            postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                        postReactionController.commentSendEnabled();
-                                      },
-                                      onPressedSend: () async {
-                                        if (postReactionController.isUpdateComment.value) {
-                                          await Get.find<PostReactionController>().updateComment(context);
-                                        } else if (Get.find<PostReactionController>().isUpdateReply.value) {
-                                          await Get.find<PostReactionController>().updateReply(context);
-                                        } else if (postReactionController.commentId.value == -1) {
-                                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "comment");
-                                          Get.find<FriendController>().mentionsList.removeLast();
-                                        } else if (postReactionController.commentId.value != -1) {
-                                          await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value, context, "reply");
-                                          Get.find<FriendController>().mentionsList.removeLast();
-                                        }
-                                        Get.find<GlobalController>().updateCommentCount(postList!, postIndex, true);
-                                      },
-                                    )),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        // body: SizedBox(
-                        //   height: height - kAppBarSize - MediaQuery.of(context).padding.top,
-                        //   child: SingleChildScrollView(
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.only(top: k12Padding),
-                        //       child: Column(
-                        //         children: [
-                        //           Padding(
-                        //             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        //             child: PostUpperContainer(
-                        //               taggedFriend: homeController.postData.value?.post.taggedFriends,
-                        //               userName: homeController.postData.value?.post.user?.fullName ?? ksNA.tr,
-                        //               isCategorized: false,
-                        //               privacy: BipHip.world,
-                        //               postTime: homeController.postTimeDifference(homeController.postData.value!.post.createdAt),
-                        //               userImage: homeController.postData.value!.post.user!.profilePicture.toString(),
-                        //               category: homeController.postData.value?.post.postCategory == null
-                        //                   ? null
-                        //                   : homeController.postData.value?.post.postCategory?.name ?? "",
-                        //               categoryIcon: homeController.postData.value!.post.postCategory == null
-                        //                   ? null
-                        //                   : homeController.getCategoryIcon(homeController.postData.value!.post.postCategory?.id),
-                        //               categoryIconColor: homeController.postData.value!.post.postCategory == null
-                        //                   ? null
-                        //                   : homeController.getCategoryColor(homeController.postData.value!.post.postCategory?.id),
-                        //               kidName: homeController.postData.value!.post.kid == null ? null : homeController.postData.value!.post.kid!.name, //API
-                        //               kidAge: homeController.postData.value!.post.kid == null
-                        //                   ? null
-                        //                   : homeController.postData.value!.post.kid!.age.toString(), //API
-                        //               brandName:
-                        //                   homeController.postData.value!.post.store == null ? null : homeController.postData.value!.post.store!.name, //API
-                        //               secondaryImage:
-                        //                   homeController.postData.value!.post.kid?.profilePicture ?? homeController.postData.value!.post.store?.profilePicture,
-                        //             ),
-                        //           ),
-                        //           kH12sizedBox,
-                        //           CommonPostDetailsWidget(
-                        //             mediaList: images,
-                        //             isCommentShown: true,
-                        //             showBottomSection: true,
-                        //             postIndex: postIndex,
-                        //             postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                        //                 ? homeController.postData.value!.post.description ?? ''
-                        //                 : homeController.postData.value!.post.content ?? '', //API
-                        //             // title: homeController.postData.value!.post.title, //API
-                        //             title: homeController.postData.value!.post.title, //API
-                        //           ),
-                        //           // CommonPostDetailsWidget(
-                        //           //   mediaList: homeController.postData.value!.post.images,
-                        //           //   isCommentShown: true,
-                        //           //   showBottomSection: true,
-                        //           //   postIndex: postIndex,
-                        //           //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                        //           //       ? homeController.postData.value!.post.description ?? ''
-                        //           //       : homeController.postData.value!.post.content ?? '', //API
-                        //           //   // title: homeController.postData.value!.post.title, //API
-                        //           //   title: homeController.postData.value!.post.title, //API
-                        //           // ),
-                        //           const SizedBox(
-                        //             height: 110,
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ),
+      () => Container(
+        color: cWhiteColor,
+        child: Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: SizedBox(
+                height: height,
+                child: Scaffold(
+                  backgroundColor: cWhiteColor,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(kAppBarSize),
+                    //* info:: appBar
+                    child: CustomAppBar(
+                      hasBackButton: true,
+                      isCenterTitle: true,
+                      title: globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
+                      onBack: () {
+                        Get.back();
+                      },
                     ),
                   ),
-                  if (postReactionController.isCommentDeleteLoading.value ||
-                      postReactionController.isCommentHideLoading.value ||
-                      postReactionController.isPostCommentLoading.value ||
-                      postReactionController.isUpdateCommentLoading.value ||
-                      postReactionController.isReplyDeleteLoading.value ||
-                      postReactionController.isReplyHideLoading.value ||
-                      postReactionController.isUpdateReplyLoading.value)
-                    Positioned(
-                      child: CommonLoadingAnimation(
-                        onWillPop: () async {
-                          if (postReactionController.isCommentDeleteLoading.value ||
-                              postReactionController.isCommentHideLoading.value ||
-                              postReactionController.isPostCommentLoading.value ||
-                              postReactionController.isUpdateCommentLoading.value ||
-                              postReactionController.isReplyDeleteLoading.value ||
-                              postReactionController.isReplyHideLoading.value ||
-                              postReactionController.isUpdateReplyLoading.value) {
-                            return false;
+                  body: Stack(
+                    children: [
+                      NotificationListener<ScrollNotification>(
+                        onNotification: (scrollNotification) {
+                          if (postReactionController.commentListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+                              scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
+                              !postReactionController.getCommentScrolled.value) {
+                            postReactionController.getCommentScrolled.value = true;
+                            if (globalController.commonPostList[postIndex].comments.isNotEmpty) {
+                              postReactionController.getMoreCommentList(null, 1, globalController.commonPostList[postIndex].id!, postIndex);
+                            }
+                            return true;
                           }
-                          return true;
+                          return false;
                         },
+                        child: SizedBox(
+                          height: height - kAppBarSize - MediaQuery.of(context).padding.top,
+                          child: SingleChildScrollView(
+                            controller: postReactionController.commentListScrollController,
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: k12Padding),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                    child: PostUpperContainer(
+                                      postIndex: postIndex,
+                                    ),
+                                  ),
+                                  kH12sizedBox,
+                                  CommonPostDetailsWidget(
+                                    postIndex: postIndex,
+                                  ),
+                                  // CommonPostDetailsWidget(//!Not used now
+                                  //   mediaList: homeController.postData.value!.post.images,
+                                  //   isCommentShown: true,
+                                  //   showBottomSection: true,
+                                  //   postIndex: postIndex,
+                                  //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
+                                  //       ? homeController.postData.value!.post.description ?? ''
+                                  //       : homeController.postData.value!.post.content ?? '', //API
+                                  //   // title: homeController.postData.value!.post.title, //API
+                                  //   title: homeController.postData.value!.post.title, //API
+                                  // ),
+                                  // SizedBox(
+                                  //     width: width - 40,
+                                  //     height: 108,
+                                  //     child: CommentTextField(
+                                  //       hintText: "${ksWriteAComment.tr} ...",
+                                  //       onPressedCamera: () async {
+                                  //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                  //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                  //         postReactionController.commentSendEnabled();
+                                  //       },
+                                  //       onPressedSend: () async {
+                                  //         if (postReactionController.isUpdateComment.value) {
+                                  //           await Get.find<PostReactionController>().updateComment();
+                                  //         } else {
+                                  //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
+                                  //         }
+                                  //       },
+                                  //     )),
+                                  if (postReactionController.commentList.isNotEmpty &&
+                                      postReactionController.getCommentScrolled.value &&
+                                      postReactionController.getCommentSubLink.value != null)
+                                    const Center(child: CommentCommonShimmer()),
+                                  const SizedBox(
+                                    height: 110,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                ],
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          decoration: const BoxDecoration(color: cWhiteColor, border: Border(top: BorderSide(color: cLineColor))),
+                          padding: EdgeInsets.zero,
+                          child: SizedBox(
+                              width: width,
+                              child: CommentTextField(
+                                hintText: postReactionController.commentId.value == -1 || postReactionController.isComment.value
+                                    ? "${ksWriteAComment.tr} ..."
+                                    : "${ksWriteAReply.tr} ...",
+                                onPressedCamera: () async {
+                                  await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                      postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                  postReactionController.commentSendEnabled();
+                                },
+                                onPressedSend: () async {
+                                  if (postReactionController.isUpdateComment.value) {
+                                    await Get.find<PostReactionController>().updateComment(context, postIndex, globalController.commonPostList[postIndex].id);
+                                  } else if (Get.find<PostReactionController>().isUpdateReply.value) {
+                                    await Get.find<PostReactionController>().updateReply(context, postIndex, globalController.commonPostList[postIndex].id);
+                                  } else if (postReactionController.commentId.value == -1) {
+                                    await Get.find<PostReactionController>()
+                                        .postComment(1, globalController.commonPostList[postIndex].id!, context, "comment", postIndex);
+                                    Get.find<FriendController>().mentionsList.removeLast();
+                                    Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
+                                  } else if (postReactionController.commentId.value != -1) {
+                                    await Get.find<PostReactionController>()
+                                        .postComment(1, postReactionController.commentId.value, context, "reply", postIndex);
+                                    Get.find<FriendController>().mentionsList.removeLast();
+                                    Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
+                                  }
+                                },
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
+            if (postReactionController.isCommentDeleteLoading.value ||
+                postReactionController.isCommentHideLoading.value ||
+                postReactionController.isPostCommentLoading.value ||
+                postReactionController.isUpdateCommentLoading.value ||
+                postReactionController.isReplyDeleteLoading.value ||
+                postReactionController.isReplyHideLoading.value ||
+                postReactionController.isUpdateReplyLoading.value)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (postReactionController.isCommentDeleteLoading.value ||
+                        postReactionController.isCommentHideLoading.value ||
+                        postReactionController.isPostCommentLoading.value ||
+                        postReactionController.isUpdateCommentLoading.value ||
+                        postReactionController.isReplyDeleteLoading.value ||
+                        postReactionController.isReplyHideLoading.value ||
+                        postReactionController.isUpdateReplyLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class PostDetailsBottomSection extends StatelessWidget {
-  PostDetailsBottomSection(
-      {super.key,
-      required this.isSelfPost,
-      required this.isCommentShown,
-      required this.commentCount,
-      required this.shareCount,
-      required this.giftCount,
-      this.category,
-      this.actionName,
-      this.actionOnPressed,
-      this.reactCount,
-      this.postIndex = 0,
-      this.refType = 0,
-      this.refId = 0,
-      this.userId = 0,
-      this.postList});
+  PostDetailsBottomSection({
+    super.key,
+    required this.isSelfPost,
+    required this.isCommentShown,
+    required this.commentCount,
+    required this.shareCount,
+    required this.giftCount,
+    this.category,
+    this.actionName,
+    this.actionOnPressed,
+    this.postIndex = 0,
+    this.refType = 0,
+    this.refId = 0,
+    this.userId = 0,
+  });
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
@@ -311,8 +217,6 @@ class PostDetailsBottomSection extends StatelessWidget {
   final int postIndex;
   final int refType;
   final int refId, userId;
-  final RxList<PostData>? postList;
-  final CountReactions? reactCount;
   final String? category, actionName;
   final VoidCallback? actionOnPressed;
 
@@ -438,8 +342,7 @@ class PostDetailsBottomSection extends StatelessWidget {
               : Padding(
                   padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
                   child: PostActivityStatusWidget(
-                    // reactCount: reactCount,
-                    reactCount: reactCount,
+                    postIndex: postIndex,
                     reactionOnPressed: () {
                       // postReactionController.giftFilter(0);
                       // globalController.blankBottomSheet(
@@ -448,9 +351,6 @@ class PostDetailsBottomSection extends StatelessWidget {
                       globalController.blankBottomSheet(
                           context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                     },
-                    giftCount: giftCount,
-                    commentCount: commentCount,
-                    shareCount: shareCount,
                     isGiftShown: true,
                     giftOnPressed: () {
                       postReactionController.giftFilter(0);
@@ -483,10 +383,7 @@ class PostDetailsBottomSection extends StatelessWidget {
                   ),
                   child: LikeSectionWidget(
                     postIndex: postIndex,
-                    refType: 1,
-                    refId: postReactionController.postId.value,
-                    isGiftShown: Get.find<GlobalController>().userId.value == userId ? false : true,
-                    likeOnTap: () {},
+                    isGiftShown: globalController.userId.value == globalController.commonPostList[postIndex].user!.id! ? false : true,
                     giftOnPressed: () {
                       // postReactionController.resetGiftData();
                       // globalController.commonBottomSheet(
@@ -546,145 +443,33 @@ class PostDetailsBottomSection extends StatelessWidget {
                   separatorBuilder: (context, index) => kH8sizedBox,
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: postReactionController.commentList.length,
+                  itemCount: globalController.commonPostList[postIndex].comments.length,
                   itemBuilder: (context, i) {
-                    RxList replyList = RxList(postReactionController.commentList[i].commentReplies);
-                    // RxList replyList = postReactionController.replyList;
                     return Obx(() => Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                               child: CommentWidget(
-                                commentOnPressed: () {
-                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                                  postReactionController.selectedCommentIndex.value = i;
-                                  postReactionController.commentedUserId.value = postReactionController.commentList[i].user!.id!;
-                                  postReactionController.isUpdateReply.value = false;
-                                  Get.find<GlobalController>().commonBottomSheet(
-                                      context: context,
-                                      bottomSheetHeight: height * 0.4,
-                                      content: CommentBottomSheetContent(
-                                        postList: postList,
-                                        postIndex: postIndex,
-                                        userId: userId,
-                                      ),
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () {},
-                                      rightText: "",
-                                      rightTextStyle: regular10TextStyle(cWhiteColor),
-                                      title: "",
-                                      isRightButtonShow: false);
-                                },
-                                profileImage: postReactionController.commentList[i].user?.profilePicture ?? "",
-                                // comment: postReactionController.commentList[i].comment ?? "",
-                                selfReaction: postReactionController.commentList[i].myReaction,
-                                onLikePressed: (Reaction<String>? reaction) {
-                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                      "like", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                      postReactionController.commentList[i].myReaction, "like", refType, postReactionController.commentList[i].id);
-                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                                },
-                                onLovePressed: (Reaction<String>? reaction) {
-                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                      "love", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                      postReactionController.commentList[i].myReaction, "love", refType, postReactionController.commentList[i].id);
-                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                                },
-                                onHahaPressed: (Reaction<String>? reaction) {
-                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                      "haha", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                      postReactionController.commentList[i].myReaction, "haha", refType, postReactionController.commentList[i].id);
-                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                                },
-                                onSadPressed: (Reaction<String>? reaction) {
-                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                      "sad", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                      postReactionController.commentList[i].myReaction, "sad", refType, postReactionController.commentList[i].id);
-                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                                },
-                                onAngryPressed: (Reaction<String>? reaction) {
-                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                      "angry", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                      postReactionController.commentList[i].myReaction, "angry", refType, postReactionController.commentList[i].id);
-                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                                },
-                                onWowPressed: (Reaction<String>? reaction) {
-                                  postReactionController.commentList[i].countReactions = Get.find<GlobalController>().updateReaction(
-                                      "wow", postReactionController.commentList[i].myReaction, postReactionController.commentList[i].countReactions);
-                                  postReactionController.commentList[i].myReaction = globalController.getReaction(
-                                      postReactionController.commentList[i].myReaction, "wow", refType, postReactionController.commentList[i].id);
-                                  postReactionController.commentList.replaceRange(i, i + 1, [postReactionController.commentList[i]]);
-                                },
-                                comment: postReactionController.formatMentions(postReactionController.commentList[i].comment, context),
-                                timePassed: Get.find<HomeController>().postTimeDifference(postReactionController.commentList[i].createdAt),
+                                postIndex: postIndex,
+                                commentIndex: i,
                                 isLikeButtonShown: true,
-                                commentId: postReactionController.commentList[i].id,
-                                commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
                                 isReplyButtonShown: true,
                                 isReactButtonShown: true,
-                                isImageComment: true,
-                                image: postReactionController.commentList[i].image,
-                                isLink: false,
-                                userName: postReactionController.commentList[i].user?.fullName ?? ksNA.tr,
-                                isSendMessageShown: false,
-                                isHideButtonShown: Get.find<GlobalController>().userId.value == postReactionController.commentList[i].user!.id,
-                                // replyList: postReactionController.commentList[i].commentReplies,
-                                replyList: replyList,
-                                refType: refType,
-                                refId: postReactionController.commentList[i].id!,
-                                likeButtonOnPressed: () {},
-                                hideButtonOnPressed: () async {
-                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                                  await postReactionController.hideComment();
-                                },
-                                replyButtonOnPressed: () {
-                                  postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                                  Get.find<FriendController>()
-                                      .mentionsList
-                                      .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
-                                  if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
-                                    Map<String, dynamic> friendMap = {
-                                      'id': postReactionController.commentList[i].user!.id.toString(),
-                                      'display': postReactionController.commentList[i].user!.fullName,
-                                      'full_name': postReactionController.commentList[i].user!.fullName,
-                                      'photo': postReactionController.commentList[i].user!.profilePicture,
-                                    };
-                                    Get.find<FriendController>().mentionsList.add(friendMap);
-                                    postReactionController.commentMentionKey.currentState?.controller?.text =
-                                        "@${postReactionController.commentList[i].user?.fullName} ";
-                                  }
-                                  postReactionController.commentFocusNode.requestFocus();
-                                  postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                                  postReactionController.isComment.value = false;
-                                },
-                                reactCount: postReactionController.commentList[i].countReactions,
+                                isHideButtonShown: globalController.userId.value == globalController.commonPostList[postIndex].comments[i].user!.id,
                               ),
                             ),
                             kH8sizedBox,
-                            if (!postReactionController.replyShow[i] && replyList.isNotEmpty)
+                            if (!postReactionController.replyShow[i] && globalController.commonPostList[postIndex].comments[i].commentReplies.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(left: k60Padding, right: k60Padding, bottom: k10Padding),
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: InkWell(
                                         onTap: () async {
-                                          ll("LENGTH1: ${postReactionController.replyShow.length}");
-                                          postReactionController.commentList[i].commentReplies.clear();
-                                          replyList.clear();
+                                          globalController.commonPostList[postIndex].comments[i].commentReplies.clear();
                                           postReactionController.replyShow[i] = true;
-                                          await postReactionController.getReplyList(postReactionController.commentList[i].id!);
-                                          postReactionController.commentList[i].commentReplies.addAll(postReactionController.replyList);
-                                          replyList.addAll(postReactionController.replyList);
-                                          ll("LENGTH2: ${postReactionController.replyShow.length}");
-                                          ll(postReactionController.replyShow);
+                                          await postReactionController.getReplyList(globalController.commonPostList[postIndex].comments[i].id!, postIndex, i);
                                         },
                                         child: Text(
                                           "View Replies",
@@ -700,379 +485,23 @@ class PostDetailsBottomSection extends StatelessWidget {
                             //             strokeWidth: 2,
                             //           ))),
                             if (postReactionController.replyShow[i])
-                              for (int index = 0; index < replyList.length; index++)
-                                Obx(() => Padding(
-                                      padding: const EdgeInsets.only(top: 0, right: kHorizontalPadding),
-                                      child: ReplyCommentWidget(
-                                        selfReaction: replyList[index].myReaction,
-                                        onReplyLikePressed: (Reaction<String>? reaction) {
-                                          replyList[index].countReactions =
-                                              Get.find<GlobalController>().updateReaction("like", replyList[index].myReaction, replyList[index].countReactions);
-                                          replyList[index].myReaction =
-                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "like", 4, replyList[index].id);
-                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                        },
-                                        onReplyLovePressed: (Reaction<String>? reaction) {
-                                          replyList[index].countReactions =
-                                              Get.find<GlobalController>().updateReaction("love", replyList[index].myReaction, replyList[index].countReactions);
-                                          replyList[index].myReaction =
-                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "love", 4, replyList[index].id);
-                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                        },
-                                        onReplyHahaPressed: (Reaction<String>? reaction) {
-                                          replyList[index].countReactions =
-                                              Get.find<GlobalController>().updateReaction("haha", replyList[index].myReaction, replyList[index].countReactions);
-                                          replyList[index].myReaction =
-                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "haha", 4, replyList[index].id);
-                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                        },
-                                        onReplyWowPressed: (Reaction<String>? reaction) {
-                                          replyList[index].countReactions =
-                                              Get.find<GlobalController>().updateReaction("wow", replyList[index].myReaction, replyList[index].countReactions);
-                                          replyList[index].myReaction =
-                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "wow", 4, replyList[index].id);
-                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                        },
-                                        onReplySadPressed: (Reaction<String>? reaction) {
-                                          replyList[index].countReactions =
-                                              Get.find<GlobalController>().updateReaction("sad", replyList[index].myReaction, replyList[index].countReactions);
-                                          replyList[index].myReaction =
-                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "sad", 4, replyList[index].id);
-                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                        },
-                                        onReplyAngryPressed: (Reaction<String>? reaction) {
-                                          replyList[index].countReactions = Get.find<GlobalController>()
-                                              .updateReaction("angry", replyList[index].myReaction, replyList[index].countReactions);
-                                          replyList[index].myReaction =
-                                              Get.find<GlobalController>().getReaction(replyList[index].myReaction, "angry", 4, replyList[index].id);
-                                          replyList.replaceRange(index, index + 1, [replyList[index]]);
-                                        },
-                                        replyButtonOnPressed: () {
-                                          postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                                          Get.find<FriendController>().mentionsList.removeWhere(
-                                              (map) => map['id'] == postReactionController.commentList[i].commentReplies[index].user!.id.toString());
-                                          Map<String, dynamic> friendMap = {
-                                            'id': postReactionController.commentList[i].commentReplies[index].user!.id.toString(),
-                                            'display': postReactionController.commentList[i].commentReplies[index].user!.fullName,
-                                            'full_name': postReactionController.commentList[i].commentReplies[index].user!.fullName,
-                                            'photo': postReactionController.commentList[i].commentReplies[index].user!.profilePicture,
-                                          };
-
-                                          if (Get.find<GlobalController>().userId.value !=
-                                              postReactionController.commentList[i].commentReplies[index].user!.id) {
-                                            Get.find<FriendController>().mentionsList.add(friendMap);
-                                            ll(Get.find<FriendController>().mentionsList);
-                                            postReactionController.commentMentionKey.currentState?.controller?.text =
-                                                "@${postReactionController.commentList[i].commentReplies[index].user!.fullName} ";
-                                          }
-                                          postReactionController.commentFocusNode.requestFocus();
-                                          postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                                          postReactionController.isComment.value = false;
-                                        },
-                                        commentOnPressed: () {
-                                          Get.find<PostReactionController>().replyId.value = postReactionController.commentList[i].commentReplies[index].id!;
-                                          Get.find<PostReactionController>().selectedReplyIndex.value = index;
-                                          Get.find<PostReactionController>().commentId.value = postReactionController.commentList[i].id!;
-                                          postReactionController.replyUserId.value = postReactionController.commentList[i].commentReplies[index].user!.id!;
-                                          Get.find<GlobalController>().commonBottomSheet(
-                                              context: context,
-                                              bottomSheetHeight: height * 0.4,
-                                              content: ReplyBottomSheetContent(
-                                                userId: userId,
-                                              ),
-                                              onPressCloseButton: () {
-                                                Get.back();
-                                              },
-                                              onPressRightButton: () {},
-                                              rightText: "",
-                                              rightTextStyle: regular10TextStyle(cWhiteColor),
-                                              title: "",
-                                              isRightButtonShow: false);
-                                        },
-                                        profileImage: postReactionController.commentList[i].commentReplies[index].user?.profilePicture ?? "",
-                                        timePassed: Get.find<HomeController>()
-                                            .postTimeDifference(postReactionController.commentList[i].commentReplies[index].createdAt),
-                                        isLikeButtonShown: true,
-                                        isReplyButtonShown: true,
-                                        isReactButtonShown: true,
-                                        isLink: false,
-                                        reactCount: replyList[index].countReactions,
-                                        userName: postReactionController.commentList[i].commentReplies[index].user?.fullName ?? ksNA.tr,
-                                        isImageComment: postReactionController.commentList[i].commentReplies[index].image != null ? true : false,
-                                        comment:
-                                            postReactionController.formatMentions(postReactionController.commentList[i].commentReplies[index].reply, context),
-                                        commentLink: "",
-                                        image: postReactionController.commentList[i].commentReplies[index].image,
-                                      ),
-                                    ))
+                              for (int index = 0; index < globalController.commonPostList[postIndex].comments[i].commentReplies.length; index++)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 0, right: kHorizontalPadding),
+                                  child: ReplyCommentWidget(
+                                    postIndex: postIndex,
+                                    commentIndex: i,
+                                    replyIndex: index,
+                                    isLikeButtonShown: true,
+                                    isReplyButtonShown: true,
+                                    isReactButtonShown: true,
+                                  ),
+                                )
                           ],
                         ));
                   }),
         ],
       ),
-    );
-  }
-}
-
-class CommentBottomSheetContent extends StatelessWidget {
-  CommentBottomSheetContent({super.key, this.postList, this.postIndex, required this.userId});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
-  final RxList<PostData>? postList;
-  final int? postIndex;
-  final int userId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() => Column(
-          children: [
-            kH16sizedBox,
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
-                  ? postReactionController.commentActionList.length
-                  : Get.find<GlobalController>().userId.value == userId
-                      ? postReactionController.othersCommentActionList.length
-                      : postReactionController.othersPostOtherUserCommentActionList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Obx(
-                  () => Padding(
-                    padding: const EdgeInsets.only(bottom: k8Padding),
-                    child: CustomListTile(
-                      leading: Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cNeutralColor,
-                        ),
-                        height: h28,
-                        width: h28,
-                        child: Icon(
-                          Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
-                              ? postReactionController.commentActionList[index]['icon']
-                              : Get.find<GlobalController>().userId.value == userId
-                                  ? postReactionController.othersCommentActionList[index]['icon']
-                                  : postReactionController.othersPostOtherUserCommentActionList[index]['icon'],
-                          color: cBlackColor,
-                          size: isDeviceScreenLarge() ? h18 : h14,
-                        ),
-                      ),
-                      title: Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value
-                          ? postReactionController.commentActionList[index]['action'].toString().tr
-                          : Get.find<GlobalController>().userId.value == userId
-                              ? postReactionController.othersCommentActionList[index]['action'].toString().tr
-                              : postReactionController.othersPostOtherUserCommentActionList[index]['action'].toString().tr,
-                      titleTextStyle: semiBold16TextStyle(cBlackColor),
-                      subTitleTextStyle: regular14TextStyle(cBlackColor),
-                      onPressed: () async {
-                        Get.back();
-                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
-                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                          await postReactionController.deleteComment();
-                          Get.find<GlobalController>().updateCommentCount(postList!, postIndex, false);
-                        }
-                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
-                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
-                          await postReactionController.hideComment();
-                        }
-                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
-                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Update Comment".toLowerCase()) {
-                          postReactionController.isUpdateComment.value = true;
-                          postReactionController.isComment.value = true;
-                          postReactionController.commentTextEditingController.text =
-                              postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "";
-                          postReactionController.commentMentionKey.currentState!.controller!.text = postReactionController
-                              .formatComment(postReactionController.commentList[postReactionController.selectedCommentIndex.value].comment ?? "");
-                          if (postReactionController.commentList[postReactionController.selectedCommentIndex.value].image != null) {
-                            postReactionController.commentImage.value =
-                                postReactionController.commentList[postReactionController.selectedCommentIndex.value].image;
-                          }
-                          postReactionController.commentFocusNode.requestFocus();
-                        }
-
-                        if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
-                            postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                          postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                          for (int i = 0; i < postReactionController.commentList.length; i++) {
-                            Get.find<FriendController>()
-                                .mentionsList
-                                .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
-                            if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
-                              Map<String, dynamic> friendMap = {
-                                'id': postReactionController.commentList[i].user!.id.toString(),
-                                'display': postReactionController.commentList[i].user!.fullName,
-                                'full_name': postReactionController.commentList[i].user!.fullName,
-                                'photo': postReactionController.commentList[i].user!.profilePicture,
-                              };
-                              Get.find<FriendController>().mentionsList.add(friendMap);
-                              postReactionController.commentMentionKey.currentState?.controller?.text =
-                                  "@${postReactionController.commentList[i].user?.fullName} ";
-                            }
-                            postReactionController.commentFocusNode.requestFocus();
-                            postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                            postReactionController.isComment.value = false;
-                          }
-                        }
-                        //*Others user post action
-                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Report Comment".toLowerCase()) {}
-                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                          postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                          for (int i = 0; i < postReactionController.commentList.length; i++) {
-                            Get.find<FriendController>()
-                                .mentionsList
-                                .removeWhere((map) => map['id'] == postReactionController.commentList[i].user!.id.toString());
-                            if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].user!.id) {
-                              Map<String, dynamic> friendMap = {
-                                'id': postReactionController.commentList[i].user!.id.toString(),
-                                'display': postReactionController.commentList[i].user!.fullName,
-                                'full_name': postReactionController.commentList[i].user!.fullName,
-                                'photo': postReactionController.commentList[i].user!.profilePicture,
-                              };
-                              Get.find<FriendController>().mentionsList.add(friendMap);
-                              postReactionController.commentMentionKey.currentState?.controller?.text =
-                                  "@${postReactionController.commentList[i].user?.fullName} ";
-                            }
-                            postReactionController.commentFocusNode.requestFocus();
-                            postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                            postReactionController.isComment.value = false;
-                          }
-                        }
-                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                          // await postReactionController.deleteComment();
-                        }
-                        if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
-                          // await postReactionController.hideComment();
-                        }
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ));
-  }
-}
-
-class ReplyBottomSheetContent extends StatelessWidget {
-  ReplyBottomSheetContent({super.key, this.userId = 0});
-  final PostReactionController postReactionController = Get.find<PostReactionController>();
-  final int userId;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
-              ? postReactionController.replyActionList.length
-              : Get.find<GlobalController>().userId.value == userId
-                  ? postReactionController.othersReplyActionList.length
-                  : postReactionController.othersPostOtherUserReplyActionList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  leading: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cNeutralColor,
-                    ),
-                    height: h28,
-                    width: h28,
-                    child: Icon(
-                      Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
-                          ? postReactionController.replyActionList[index]['icon']
-                          : Get.find<GlobalController>().userId.value == userId
-                              ? postReactionController.othersReplyActionList[index]['icon']
-                              : postReactionController.othersPostOtherUserReplyActionList[index]['icon'],
-                      color: cBlackColor,
-                      size: isDeviceScreenLarge() ? h18 : h14,
-                    ),
-                  ),
-                  title: Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
-                      ? postReactionController.replyActionList[index]['action'].toString().tr
-                      : Get.find<GlobalController>().userId.value == userId
-                          ? postReactionController.othersReplyActionList[index]['action'].toString().tr
-                          : postReactionController.othersPostOtherUserReplyActionList[index]['action'].toString().tr,
-                  titleTextStyle: semiBold16TextStyle(cBlackColor),
-                  subTitleTextStyle: regular14TextStyle(cBlackColor),
-                  onPressed: () async {
-                    Get.back();
-                    if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
-                        postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      await postReactionController.deleteReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
-                        postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      await postReactionController.hideReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
-                        postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
-                      postReactionController.isUpdateReply.value = true;
-                      for (int i = 0; i < postReactionController.commentList.length; i++) {
-                        for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
-                          if (postReactionController.replyId.value == postReactionController.commentList[i].commentReplies[j].id) {
-                            postReactionController.commentMentionKey.currentState!.controller!.text =
-                                postReactionController.formatComment(postReactionController.commentList[i].commentReplies[j].reply ?? "");
-                            if (postReactionController.commentList[i].commentReplies[j].image != null) {
-                              postReactionController.commentImage.value = postReactionController.commentList[i].commentReplies[j].image;
-                            }
-                          }
-                        }
-                      }
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      // await postReactionController.deleteReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      // await postReactionController.hideReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
-                    // if (postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
-                    //     postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
-                    //     postReactionController.othersPostOtherUserReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                    //   postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                    //   for (int i = 0; i < postReactionController.commentList.length; i++) {
-                    //     for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
-                    //       ll(postReactionController.commentList[i].commentReplies[j].user!.fullName);
-                    //       Get.find<FriendController>()
-                    //           .mentionsList
-                    //           .removeWhere((map) => map['id'] == postReactionController.commentList[i].commentReplies[j].user!.id.toString());
-                    //       Map<String, dynamic> friendMap = {
-                    //         'id': postReactionController.commentList[i].commentReplies[j].user!.id.toString(),
-                    //         'display': postReactionController.commentList[i].commentReplies[j].user!.fullName,
-                    //         'full_name': postReactionController.commentList[i].commentReplies[j].user!.fullName,
-                    //         'photo': postReactionController.commentList[i].commentReplies[j].user!.profilePicture,
-                    //       };
-
-                    //       if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].commentReplies[j].user!.id) {
-                    //         Get.find<FriendController>().mentionsList.add(friendMap);
-                    //         ll(Get.find<FriendController>().mentionsList);
-                    //         postReactionController.commentMentionKey.currentState?.controller?.text =
-                    //             "@${postReactionController.commentList[i].commentReplies[j].user!.fullName} ";
-                    //       }
-                    //       postReactionController.commentFocusNode.requestFocus();
-                    //       postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                    //     }
-                    //   }
-                    // }
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }

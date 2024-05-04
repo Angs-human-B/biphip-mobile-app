@@ -95,11 +95,27 @@ class CreatePostHelper {
       onPressCloseButton: () {
         Get.back();
       },
+      // onPressRightButton: () {
+      //   createPostController.createPostSelectedPrivacy.value = createPostController.tempCreatePostSelectedPrivacy.value;
+      //   createPostController.createPostSelectedPrivacyIcon.value = createPostController.tempCreatePostSelectedPrivacyIcon.value;
+      //   ll("message");
+      //   // selectAudienceTextChange();
+      //   Get.back();
+      // },
       onPressRightButton: () {
         createPostController.createPostSelectedPrivacy.value = createPostController.tempCreatePostSelectedPrivacy.value;
         createPostController.createPostSelectedPrivacyIcon.value = createPostController.tempCreatePostSelectedPrivacyIcon.value;
-        ll("message");
-        // selectAudienceTextChange();
+        if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Only Me".toLowerCase()) {
+          createPostController.privacyId.value = 0;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Public".toLowerCase()) {
+          createPostController.privacyId.value = 1;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Friends".toLowerCase()) {
+          createPostController.privacyId.value = 2;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Families".toLowerCase()) {
+          createPostController.privacyId.value = 3;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Friend & Family".toLowerCase()) {
+          createPostController.privacyId.value = 4;
+        }
         Get.back();
       },
       rightText: ksDone.tr,
@@ -109,7 +125,6 @@ class CreatePostHelper {
     );
   }
 
-  
   void selectPlatformStatusChange(index) {
     for (int i = 0; i < createPostController.platformStatusList.length; i++) {
       if (index == i) {
@@ -238,7 +253,7 @@ class CreatePostHelper {
                 }
               }
               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;
-              Get.find<HomeController>().homeTabIndex.value=0;
+              Get.find<HomeController>().homeTabIndex.value = 0;
               Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
             },
             rightText: ksDone.tr,
@@ -271,6 +286,9 @@ class CreatePostHelper {
   }
 
   void resetCreatePostData() {
+    createPostController.isEditPost.value = false;
+    createPostController.deleteImageIdList.clear();
+    createPostController.imageIdList.clear();
     createPostController.isSharingPost.value = false;
     createPostController.taggedFriends.clear();
     createPostController.tempTaggedFriends.clear();
@@ -742,6 +760,17 @@ class CreatePostHelper {
         createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
       }
       Get.find<FriendController>().isFriendListLoading.value = false;
+    }
+  }
+
+  void removeImage(index) {
+    if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty && createPostController.allMediaFileList.isEmpty) {
+      createPostController.allMediaList.removeAt(index);
+      createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
+      ll(createPostController.deleteImageIdList);
+    } else {
+      createPostController.allMediaList.removeAt(index);
+      createPostController.allMediaFileList.removeAt(index);
     }
   }
 }

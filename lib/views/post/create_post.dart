@@ -47,12 +47,14 @@ class CreatePost extends StatelessWidget {
                         padding: const EdgeInsets.only(right: h16),
                         child: Obx(
                           () => CustomElevatedButton(
-                            label: ksPost.tr,
+                            label: createPostController.isEditPost.value ? ksSave.tr : ksPost.tr,
                             onPressed: createPostController.isPostButtonActive.value
                                 ? () async {
                                     unfocus(context);
                                     if (Get.find<KidsController>().isRouteFromKid.value) {
                                       await Get.find<KidsController>().kidCreatePost();
+                                    } else if (createPostController.isEditPost.value) {
+                                      await createPostController.updatePost(postId: createPostController.postId.value);
                                     } else {
                                       await createPostController.createPost();
                                       boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent());

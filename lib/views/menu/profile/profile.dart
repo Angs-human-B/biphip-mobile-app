@@ -49,9 +49,12 @@ class Profile extends StatelessWidget {
                         if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                             scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
                             !homeController.timelinePostListScrolled.value) {
-                              homeController.timelinePostListScrolled.value = true;
-                          if (homeController.allTimelinePostList.isNotEmpty) {
+                          homeController.timelinePostListScrolled.value = true;
+                          if (Get.find<GlobalController>().commonPostList.isNotEmpty) {
                             homeController.getMoreTimelinePostList();
+                          }
+                          if (homeController.allTimelinePostList.isNotEmpty && profileController.interestCatagoriesIndex.value != 0) {
+                            homeController.getMoreFilteredTimelinePostList(categoryId: profileController.interestCatagoriesIndex.value, type: 2);
                           }
                           return true;
                         }

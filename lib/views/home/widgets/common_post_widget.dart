@@ -5,7 +5,7 @@ import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/shimmers/menu/badges/badge_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
@@ -13,7 +13,9 @@ import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/common_shared_post_widget.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
+import 'package:bip_hip/views/home/widgets/share_post_details.dart';
 import 'package:bip_hip/views/menu/badges/badges_star_page.dart';
+import 'package:bip_hip/views/post/widgets/create_post_bottom_sheet_contents.dart';
 import 'package:bip_hip/views/post/widgets/create_post_upper_section.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -23,476 +25,308 @@ import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class CommonPostWidget extends StatelessWidget {
   CommonPostWidget({
     super.key,
-    required this.isCommented,
-    required this.isLiked,
-    required this.isCategorized,
-    required this.userName,
-    required this.postTime,
-    required this.privacy,
-    this.category,
-    this.brandName,
-    this.kidName,
-    this.kidAge,
-    this.title,
-    this.price,
-    this.categoryIcon,
-    this.categoryIconColor,
-    this.postText,
-    required this.mediaList,
-    required this.isSelfPost,
-    required this.isCommentShown,
-    required this.isSharedPost,
-    required this.showBottomSection,
     this.postUpperContainerOnPressed,
-    required this.commentCount,
-    required this.shareCount,
-    required this.giftCount,
-    required this.postID,
-    this.subCategory,
-    this.productCategory,
-    this.productCondition,
-    this.discount,
-    this.discountedPrice,
-    required this.isInStock,
-    this.mainPrice,
-    this.platformName,
-    this.platformLink,
-    this.actionName,
-    this.secondaryImage,
-    required this.userImage,
-    required this.taggedFriends,
-    this.reactCount,
     this.postIndex = 0,
-    this.refType = 0,
-    this.refId = 0,
-    this.userId = 0,
-    this.onLikePressed,
-    this.onLovePressed,
-    this.onWowPressed,
-    this.onHahaPressed,
-    this.onSadPressed,
-    this.onAngryPressed,
-    this.selfReaction,
-    this.postList,
   });
-  final bool isCommented, isLiked, isCategorized, isSelfPost, isCommentShown, isSharedPost, showBottomSection, isInStock;
-  // final RxBool sharedPostSeeMore = RxBool(false);
-  // final RxBool postSeeMore = RxBool(false);
-  final String userName, postTime, userImage;
-  final String? category,
-      subCategory,
-      productCategory,
-      productCondition,
-      discount,
-      discountedPrice,
-      brandName,
-      kidName,
-      kidAge,
-      title,
-      price,
-      mainPrice,
-      postText,
-      platformName,
-      platformLink,
-      actionName,
-      secondaryImage,
-      selfReaction;
-  final IconData? categoryIcon;
-  final IconData privacy;
-  final Color? categoryIconColor;
-  final List mediaList;
-  final RxList<PostData>? postList;
-  final List<TaggedFriend> taggedFriends;
-  final CountReactions? reactCount;
-  final int commentCount, shareCount, giftCount, postID;
-  final int postIndex, userId;
-  final int refType;
-  final int refId;
+  final int postIndex;
   final VoidCallback? postUpperContainerOnPressed;
-  final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
-  final HomeController homeController = Get.find<HomeController>();
-  final RxBool showComment = RxBool(false);
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // if (isLiked)
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-        //   child: Row(
-        //     children: [
-        //       Stack(
-        //         children: [
-        //           const SizedBox(
-        //             width: 40,
-        //             height: 20,
-        //           ),
-        //           for (int index = 0; index < 3; index++)
-        //             Positioned(
-        //               left: index * 10,
-        //               child: Container(
-        //                 height: 20,
-        //                 width: 20,
-        //                 decoration: BoxDecoration(
-        //                   shape: BoxShape.circle,
-        //                   border: Border.all(color: cWhiteColor, width: 1),
-        //                 ),
-        //                 child: Image.asset(
-        //                   kiProfilePicImageUrl,
-        //                   fit: BoxFit.fill,
-        //                 ),
-        //               ),
-        //             ),
-        //         ],
-        //       ),
-        //       kW8sizedBox,
-        //       // RichText(
-        //       //     text: TextSpan(children: [
-        //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-        //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-        //       // ]))
-        //     ],
-        //   ),
-        // ),
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // if (isLiked)
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+          //   child: Row(
+          //     children: [
+          //       Stack(
+          //         children: [
+          //           const SizedBox(
+          //             width: 40,
+          //             height: 20,
+          //           ),
+          //           for (int index = 0; index < 3; index++)
+          //             Positioned(
+          //               left: index * 10,
+          //               child: Container(
+          //                 height: 20,
+          //                 width: 20,
+          //                 decoration: BoxDecoration(
+          //                   shape: BoxShape.circle,
+          //                   border: Border.all(color: cWhiteColor, width: 1),
+          //                 ),
+          //                 child: Image.asset(
+          //                   kiProfilePicImageUrl,
+          //                   fit: BoxFit.fill,
+          //                 ),
+          //               ),
+          //             ),
+          //         ],
+          //       ),
+          //       kW8sizedBox,
+          //       // RichText(
+          //       //     text: TextSpan(children: [
+          //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
+          //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
+          //       // ]))
+          //     ],
+          //   ),
+          // ),
 
-        // if (isCommented)
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-        //   child: Row(
-        //     children: [
-        // kW8sizedBox,
-        // RichText(
-        //     text: TextSpan(children: [
-        //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-        //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-        // ])),
-        //     ],
-        //   ),
-        // ),
-        // if (isCommented || isLiked) const CustomDivider(thickness: 1),
-        kH10sizedBox,
-        InkWell(
-          onTap: () async {
-            postReactionController.resetCommentAndReplyData();
-            postReactionController.homePostDetailsData.value = null;
-            postReactionController.homePostDetailsData.value = postList![postIndex];
-            Get.to(() => HomePostDetails(
-                  postIndex: postIndex,
-                  postList: postList,
-                ));
-            postReactionController.refId.value = postID;
-            await postReactionController.getCommentList(1, refId);
-            await Get.find<FriendController>().getFriendList();
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: PostUpperContainer(
-              userName: userName,
-              postTime: postTime,
-              isCategorized: isCategorized,
-              category: category,
-              categoryIcon: categoryIcon,
-              categoryIconColor: categoryIconColor,
-              privacy: privacy,
-              brandName: brandName,
-              kidName: kidName,
-              kidAge: kidAge,
-              title: title,
-              subCategory: subCategory,
-              userImage: userImage,
-              secondaryImage: secondaryImage,
-              taggedFriend: taggedFriends,
+          // if (isCommented)
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
+          //   child: Row(
+          //     children: [
+          // kW8sizedBox,
+          // RichText(
+          //     text: TextSpan(children: [
+          //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
+          //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
+          // ])),
+          //     ],
+          //   ),
+          // ),
+          // if (isCommented || isLiked) const CustomDivider(thickness: 1),
+          kH10sizedBox,
+          InkWell(
+            onTap: () async {
+              postReactionController.resetCommentAndReplyData();
+              Get.to(() => HomePostDetails(
+                    postIndex: postIndex,
+                  ));
+              await postReactionController.getCommentList(1, globalController.commonPostList[postIndex].user!.id!, postIndex);
+              await Get.find<FriendController>().getFriendList();
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: PostUpperContainer(
+                postIndex: postIndex,
+              ),
             ),
           ),
-        ),
-        kH8sizedBox,
-        if ((category == 'News' || category == 'Selling') && isCategorized && title != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
-            child: Text(
-              title!,
-              overflow: TextOverflow.clip,
-              style: semiBold14TextStyle(cBlackColor),
+          kH8sizedBox,
+          if ((globalController.commonPostList[postIndex].postCategory?.name == 'News' ||
+                  globalController.commonPostList[postIndex].postCategory?.name == 'Selling') &&
+              globalController.commonPostList[postIndex].title != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
+              child: Text(
+                globalController.commonPostList[postIndex].title!,
+                overflow: TextOverflow.clip,
+                style: semiBold14TextStyle(cBlackColor),
+              ),
             ),
-          ),
-        if (productCondition != null && productCategory != null && category == 'Selling')
-          Padding(
-            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
-            child: RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                  text: '$productCategory ${ksCondition.tr.toLowerCase()}: ',
-                  style: semiBold14TextStyle(cSmallBodyTextColor),
-                ),
-                TextSpan(
-                  text: '$productCondition',
-                  style: semiBold14TextStyle(cBlackColor),
-                ),
-              ]),
-            ),
-          ),
-        // check if it is selling post
-        if (category == 'Selling' && isSelfPost)
-          Padding(
-            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  const WidgetSpan(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: k4Padding),
-                      child: Icon(
-                        BipHip.info,
-                        color: cIconColor,
-                        size: kIconSize16,
-                      ),
-                    ),
-                  ),
+          if (globalController.getProductCondition(globalController.commonPostList[postIndex].sellPostConditionId) != null &&
+              globalController.getProductCategory(globalController.commonPostList[postIndex].sellPostCategoryId) != null &&
+              globalController.commonPostList[postIndex].postCategory?.name == 'Selling')
+            Padding(
+              padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+              child: RichText(
+                text: TextSpan(children: [
                   TextSpan(
-                    text: '${ksDuration.tr}: ',
+                    text:
+                        '${globalController.getProductCategory(globalController.commonPostList[postIndex].sellPostCategoryId)} ${ksCondition.tr.toLowerCase()}: ',
                     style: semiBold14TextStyle(cSmallBodyTextColor),
                   ),
-                  WidgetSpan(
-                    child: Countdown(
-                      seconds: homeController.getBiddingDuration(DateTime.parse('2024-01-04 20:18:04Z')),
-                      build: (BuildContext context, double time) {
-                        int hours = (time ~/ 3600).toInt();
-                        int minutes = ((time % 3600) ~/ 60).toInt();
-                        int seconds = (time % 60).toInt();
-                        return Text(
-                          '${hours}h: ${minutes}m: $seconds sec',
-                          style: semiBold14TextStyle(cRedColor),
-                        );
-                      },
-                      interval: const Duration(milliseconds: 100),
-                      onFinished: () {},
-                    ),
-                  )
-                ],
+                  TextSpan(
+                    text: '${globalController.getProductCondition(globalController.commonPostList[postIndex].sellPostConditionId)}',
+                    style: semiBold14TextStyle(cBlackColor),
+                  ),
+                ]),
               ),
             ),
-          ),
-        if (category == 'Selling' && !isSelfPost)
-          Padding(
-            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  if (discount != null)
-                    WidgetSpan(
-                      baseline: TextBaseline.alphabetic,
-                      alignment: PlaceholderAlignment.baseline,
+          // check if it is selling post
+          if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
+              (Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id))
+            Padding(
+              padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    const WidgetSpan(
                       child: Padding(
-                        padding: const EdgeInsets.only(right: k4Padding),
-                        child: Text(
-                          '-$discount% ',
-                          style: regular14TextStyle(cRedColor),
+                        padding: EdgeInsets.only(right: k4Padding),
+                        child: Icon(
+                          BipHip.info,
+                          color: cIconColor,
+                          size: kIconSize16,
                         ),
                       ),
                     ),
-                  TextSpan(
-                    text: '$price\$ ',
-                    style: semiBold20TextStyle(cBlackColor),
-                  ),
-                  TextSpan(
-                    text: isInStock ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
-                    style: semiBold20TextStyle(isInStock ? cLinkColor : cRedColor),
-                  ),
-                ],
+                    TextSpan(
+                      text: '${ksDuration.tr}: ',
+                      style: semiBold14TextStyle(cSmallBodyTextColor),
+                    ),
+                    WidgetSpan(
+                      child: Countdown(
+                        seconds: Get.find<HomeController>().getBiddingDuration(DateTime.parse('2024-09-29 07:30:13')),
+                        build: (BuildContext context, double time) {
+                          int hours = (time ~/ 3600).toInt();
+                          int minutes = ((time % 3600) ~/ 60).toInt();
+                          int seconds = (time % 60).toInt();
+                          return Text(
+                            '${hours}h: ${minutes}m: $seconds sec',
+                            style: semiBold14TextStyle(cRedColor),
+                          );
+                        },
+                        interval: const Duration(milliseconds: 100),
+                        onFinished: () {},
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        if (discount != null && category == 'Selling' && !isSelfPost)
-          Padding(
-            padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding),
-            child: Text(
-              '${ksLastPrice.tr}: $mainPrice\$ ',
-              style: regular14TextStyle(cSmallBodyTextColor).copyWith(decoration: TextDecoration.lineThrough),
-            ),
-          ),
-        if (postText != '')
-          Obx(() => Padding(
-                padding: EdgeInsets.only(
-                    left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty || category == 'Selling') ? k12Padding : 0),
-                child: RichText(
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.clip,
-                  maxLines: (homeController.seeMore.value && postText!.length > 256) ? 5 : null,
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: postText,
-                        style: (postText!.length < 150 && category != 'Selling' && mediaList.isEmpty)
-                            ? regular20TextStyle(cBlackColor)
-                            : regular14TextStyle(cBlackColor),
+          if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
+              !(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id))
+            Padding(
+              padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    if (globalController.commonPostList[postIndex].discount != null)
+                      WidgetSpan(
+                        baseline: TextBaseline.alphabetic,
+                        alignment: PlaceholderAlignment.baseline,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: k4Padding),
+                          child: Text(
+                            '-${globalController.commonPostList[postIndex].discount}% ',
+                            style: regular14TextStyle(cRedColor),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
+                    TextSpan(
+                      text: '${globalController.commonPostList[postIndex].price}\$ ',
+                      style: semiBold20TextStyle(cBlackColor),
+                    ),
+                    TextSpan(
+                      text: globalController.commonPostList[postIndex].sellPostAvailabilty != 0 ? '• ${ksInStock.tr}' : '• ${ksStockOut.tr}',
+                      style: semiBold20TextStyle(globalController.commonPostList[postIndex].sellPostAvailabilty != 0 ? cLinkColor : cRedColor),
+                    ),
+                  ],
                 ),
-              )),
-        if (postText!.length > 256)
-          Obx(() => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () {
-                    homeController.seeMore.value = !homeController.seeMore.value;
-                  },
-                  child: Text(
-                    homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
-                    style: semiBold14TextStyle(cPrimaryColor),
-                  ),
-                ),
-              )),
-        if (isSharedPost)
-          Padding(
-            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
-            child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: k8CircularBorderRadius,
-                  border: Border.all(color: cLineColor),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: CommonSharedPostWidget(
-                    taggedFriends: [],
-                    postID: postList![postIndex].sharePosts!.id!,
-                    mediaList: postList![postIndex].sharePosts!.images,
-                    isCategorized: false,
-                    userName: postList![postIndex].sharePosts!.user!.fullName!,
-                    postTime: homeController.postTimeDifference(postList![postIndex].sharePosts!.createdAt),
-                    privacy: BipHip.world,
-                    postText: postList![postIndex].sharePosts!.content,
-                    isInStock: false,
-                    userImage: postList![postIndex].sharePosts!.user!.profilePicture!,
-                    postList: homeController.allPostList,
-                    category: postList![postIndex].sharePosts!.postCategory == null ? null : postList![postIndex].sharePosts!.postCategory!.name,
-                    categoryIcon: postList![postIndex].sharePosts!.postCategory == null
-                        ? null
-                        : homeController.getCategoryIcon(postList![postIndex].sharePosts!.postCategory!.id), // need change API
-                    categoryIconColor: postList![postIndex].sharePosts!.postCategory == null
-                        ? null
-                        : homeController.getCategoryColor(postList![postIndex].sharePosts!.postCategory!.id),
+              ),
+            ),
+          if (globalController.commonPostList[postIndex].discount != null &&
+              globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
+              !(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id))
+            Padding(
+              padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding),
+              child: Text(
+                '${ksLastPrice.tr}: 400\$ ',
+                style: regular14TextStyle(cSmallBodyTextColor).copyWith(decoration: TextDecoration.lineThrough),
+              ),
+            ),
+          if (globalController.commonPostList[postIndex].content != null)
+            Obx(() => Padding(
+                  padding: EdgeInsets.only(
+                      left: kHorizontalPadding,
+                      right: kHorizontalPadding,
+                      bottom: (globalController.commonPostList[postIndex].images.isNotEmpty ||
+                              globalController.commonPostList[postIndex].postCategory?.name == 'Selling')
+                          ? k12Padding
+                          : 0),
+                  child: RichText(
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.clip,
+                    maxLines: (Get.find<HomeController>().seeMore.value && globalController.commonPostList[postIndex].content!.length > 256) ? 5 : null,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: globalController.commonPostList[postIndex].content,
+                          style: (globalController.commonPostList[postIndex].content!.length < 150 &&
+                                  globalController.commonPostList[postIndex].postCategory?.name != 'Selling' &&
+                                  globalController.commonPostList[postIndex].images.isEmpty)
+                              ? regular20TextStyle(cBlackColor)
+                              : regular14TextStyle(cBlackColor),
+                        ),
+                      ],
+                    ),
                   ),
                 )),
-          ),
-        if (mediaList.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: Container(
-              color: cWhiteColor,
-              height: 302,
-              width: width - 40,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      TextButton(
-                        style: kTextButtonStyle,
-                        onPressed: () async {
-                          if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
-                            Get.toNamed(krHomePostDetailsScreen);
-                            await Get.find<HomeController>().getPostData(postID);
-                          } else {
-                            Get.to(() => CommonPhotoView(
-                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
-                                  postIndex: postIndex,
-                                ));
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                          height: mediaList.length < 2 ? 302 : 150,
-                          width: mediaList.length > 3 ? (width - 42) / 2 : (isSharedPost ? null : width - 40),
-                          child: ClipRRect(
-                            borderRadius: k8CircularBorderRadius,
-                            child: Image.network(
-                              mediaList[0].fullPath.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize120,
-                                color: cIconColor,
-                              ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                      if (mediaList.length > 3)
-                        const SizedBox(
-                          width: 2,
-                        ),
-                      if (mediaList.length > 3)
-                        TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () async {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
-                            await Get.find<HomeController>().getPostData(postID);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 150,
-                            width: (width - 42) / 2,
-                            child: ClipRRect(
-                              borderRadius: k8CircularBorderRadius,
-                              child: Image.network(
-                                mediaList[1].fullPath.toString(),
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize120,
-                                  color: cIconColor,
-                                ),
-                                loadingBuilder: imageLoadingBuilder,
-                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                  return child;
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
+          // if (globalController.commonPostList[postIndex].content!.length > 256)
+          //   Obx(() => Padding(
+          //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          //         child: TextButton(
+          //           style: kTextButtonStyle,
+          //           onPressed: () {
+          //             Get.find<HomeController>().seeMore.value = !Get.find<HomeController>().seeMore.value;
+          //           },
+          //           child: Text(
+          //             Get.find<HomeController>().seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
+          //             style: semiBold14TextStyle(cPrimaryColor),
+          //           ),
+          //         ),
+          //       )),
+          if (globalController.commonPostList[postIndex].sharePosts != null)
+            Padding(
+              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
+              child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: k8CircularBorderRadius,
+                    border: Border.all(color: cLineColor),
                   ),
-                  if (mediaList.length > 1)
-                    const SizedBox(
-                      height: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: CommonSharedPostWidget(
+                      postIndex: postIndex,
+                      postUpperContainerOnPressed: () {
+                        Get.to(() => SharePostDetails(
+                              sharePostData: globalController.commonPostList[postIndex].sharePosts!,
+                            ));
+                      },
                     ),
-                  Row(
-                    children: [
-                      if (mediaList.length < 4 && mediaList.length > 1)
+                  )),
+            ),
+          if (globalController.commonPostList[postIndex].images.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: Container(
+                color: cWhiteColor,
+                height: 302,
+                width: width - 40,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
-                            await Get.find<HomeController>().getPostData(postID);
+                            if ((globalController.commonPostList[postIndex].content != null &&
+                                    globalController.commonPostList[postIndex].content!.trim() != '') ||
+                                globalController.commonPostList[postIndex].images.length > 1) {
+                                  
+                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
+                            } else {
+                              Get.to(() => CommonPhotoView(
+                                    image: Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[0].path.toString(),
+                                    postIndex: postIndex,
+                                  ));
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 150,
-                            width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
+                            height: globalController.commonPostList[postIndex].images.length < 2 ? 302 : 150,
+                            width: globalController.commonPostList[postIndex].images.length > 3
+                                ? (width - 42) / 2
+                                : (globalController.commonPostList[postIndex].sharePosts != null ? null : width - 40),
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                mediaList[1].fullPath.toString(),
+                                globalController.commonPostList[postIndex].images[0].fullPath.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -507,182 +341,240 @@ class CommonPostWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length < 4 && mediaList.length > 2)
-                        const SizedBox(
-                          width: 2,
-                        ),
-                      if (mediaList.length > 2)
-                        TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () async {
-                            Get.to(() => HomePostDetailsScreen(
-                                  postIndex: postIndex,
-                                ));
-                            await Get.find<HomeController>().getPostData(postID);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 150,
-                            width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
-                            child: ClipRRect(
-                              borderRadius: k8CircularBorderRadius,
-                              child: Image.network(
-                                mediaList[2].fullPath.toString(),
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize120,
-                                  color: cIconColor,
-                                ),
-                                loadingBuilder: imageLoadingBuilder,
-                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                  return child;
-                                },
-                              ),
-                            ),
+                        if (globalController.commonPostList[postIndex].images.length > 3)
+                          const SizedBox(
+                            width: 2,
                           ),
-                        ),
-                      if (mediaList.length > 3)
-                        const SizedBox(
-                          width: 2,
-                        ),
-                      if (mediaList.length > 3)
-                        TextButton(
-                          style: kTextButtonStyle,
-                          onPressed: () async {
-                            Get.toNamed(krHomePostDetailsScreen);
-                            await Get.find<HomeController>().getPostData(postID);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                            height: 150,
-                            width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
-                            child: ClipRRect(
-                              borderRadius: k8CircularBorderRadius,
-                              child: Image.network(
-                                mediaList[3].fullPath.toString(),
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) => const Icon(
-                                  BipHip.imageFile,
-                                  size: kIconSize120,
-                                  color: cIconColor,
-                                ),
-                                loadingBuilder: imageLoadingBuilder,
-                                frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                  return child;
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      if (mediaList.length > 4)
-                        const SizedBox(
-                          width: 2,
-                        ),
-                      if (mediaList.length >= 5)
-                        Stack(
-                          alignment: AlignmentDirectional.center,
-                          children: [
-                            TextButton(
-                              style: kTextButtonStyle,
-                              onPressed: () async {
-                                Get.to(() => HomePostDetailsScreen(
-                                      postIndex: postIndex,
-                                    ));
-                                await Get.find<HomeController>().getPostData(postID);
-                              },
-                              child: Container(
-                                  decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                                  height: 150,
-                                  width: (width - 44) / 3,
-                                  child: ClipRRect(
-                                    borderRadius: k8CircularBorderRadius,
-                                    child: Image.network(
-                                      mediaList[4].fullPath.toString(),
-                                      fit: BoxFit.cover,
-                                      color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                      colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
-                                      errorBuilder: (context, error, stackTrace) => const Icon(
-                                        BipHip.imageFile,
-                                        size: kIconSize120,
-                                        color: cIconColor,
-                                      ),
-                                      loadingBuilder: imageLoadingBuilder,
-                                      frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                        return child;
-                                      },
-                                    ),
-                                  )),
-                            ),
-                            if (mediaList.length > 5)
-                              Positioned(
-                                child: TextButton(
-                                  style: kTextButtonStyle,
-                                  onPressed: () {
-                                    //Get.toNamed(krUploadedImageListPage);
+                        if (globalController.commonPostList[postIndex].images.length > 3)
+                          TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () async {
+                              Get.to(() => HomePostDetailsScreen(
+                                    postIndex: postIndex,
+                                  ));
+                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                              height: 150,
+                              width: (width - 42) / 2,
+                              child: ClipRRect(
+                                borderRadius: k8CircularBorderRadius,
+                                child: Image.network(
+                                  globalController.commonPostList[postIndex].images[1].fullPath.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
                                   },
-                                  child: Text(
-                                    "${mediaList.length - 5} More",
-                                    style: semiBold16TextStyle(cWhiteColor),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    if (globalController.commonPostList[postIndex].images.length > 1)
+                      const SizedBox(
+                        height: 2,
+                      ),
+                    Row(
+                      children: [
+                        if (globalController.commonPostList[postIndex].images.length < 4 && globalController.commonPostList[postIndex].images.length > 1)
+                          TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () async {
+                              Get.to(() => HomePostDetailsScreen(
+                                    postIndex: postIndex,
+                                  ));
+                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                              height: 150,
+                              width: globalController.commonPostList[postIndex].images.length < 3 ? (width - 40) : (width - 42) / 2,
+                              child: ClipRRect(
+                                borderRadius: k8CircularBorderRadius,
+                                child: Image.network(
+                                  globalController.commonPostList[postIndex].images[1].fullPath.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (globalController.commonPostList[postIndex].images.length < 4 && globalController.commonPostList[postIndex].images.length > 2)
+                          const SizedBox(
+                            width: 2,
+                          ),
+                        if (globalController.commonPostList[postIndex].images.length > 2)
+                          TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () async {
+                              Get.to(() => HomePostDetailsScreen(
+                                    postIndex: postIndex,
+                                  ));
+                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                              height: 150,
+                              width: globalController.commonPostList[postIndex].images.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
+                              child: ClipRRect(
+                                borderRadius: k8CircularBorderRadius,
+                                child: Image.network(
+                                  globalController.commonPostList[postIndex].images[2].fullPath.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (globalController.commonPostList[postIndex].images.length > 3)
+                          const SizedBox(
+                            width: 2,
+                          ),
+                        if (globalController.commonPostList[postIndex].images.length > 3)
+                          TextButton(
+                            style: kTextButtonStyle,
+                            onPressed: () async {
+                              Get.to(() => HomePostDetailsScreen(
+                                    postIndex: postIndex,
+                                  ));
+                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                              height: 150,
+                              width: globalController.commonPostList[postIndex].images.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
+                              child: ClipRRect(
+                                borderRadius: k8CircularBorderRadius,
+                                child: Image.network(
+                                  globalController.commonPostList[postIndex].images[3].fullPath.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize120,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (globalController.commonPostList[postIndex].images.length > 4)
+                          const SizedBox(
+                            width: 2,
+                          ),
+                        if (globalController.commonPostList[postIndex].images.length >= 5)
+                          Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              TextButton(
+                                style: kTextButtonStyle,
+                                onPressed: () async {
+                                  Get.to(() => HomePostDetailsScreen(
+                                        postIndex: postIndex,
+                                      ));
+                                  await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
+                                    height: 150,
+                                    width: (width - 44) / 3,
+                                    child: ClipRRect(
+                                      borderRadius: k8CircularBorderRadius,
+                                      child: Image.network(
+                                        globalController.commonPostList[postIndex].images[4].fullPath.toString(),
+                                        fit: BoxFit.cover,
+                                        color: globalController.commonPostList[postIndex].images.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                        colorBlendMode: globalController.commonPostList[postIndex].images.length > 5 ? BlendMode.multiply : null,
+                                        errorBuilder: (context, error, stackTrace) => const Icon(
+                                          BipHip.imageFile,
+                                          size: kIconSize120,
+                                          color: cIconColor,
+                                        ),
+                                        loadingBuilder: imageLoadingBuilder,
+                                        frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                          return child;
+                                        },
+                                      ),
+                                    )),
+                              ),
+                              if (globalController.commonPostList[postIndex].images.length > 5)
+                                Positioned(
+                                  child: TextButton(
+                                    style: kTextButtonStyle,
+                                    onPressed: () {
+                                      //Get.toNamed(krUploadedImageListPage);
+                                    },
+                                    child: Text(
+                                      "${globalController.commonPostList[postIndex].images.length - 5} More",
+                                      style: semiBold16TextStyle(cWhiteColor),
+                                    ),
                                   ),
                                 ),
-                              ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ],
+                            ],
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        if (showBottomSection)
-          PostBottomSection(
-            postIndex: postIndex,
-            refType: refType,
-            refId: refId,
-            isSelfPost: isSelfPost,
-            isCommentShown: isCommentShown,
-            commentCount: commentCount,
-            shareCount: shareCount,
-            giftCount: giftCount,
-            category: category,
-            platformName: platformName,
-            platformLink: platformLink,
-            actionName: actionName,
-            actionOnPressed: isSelfPost ? null : () {},
-          ),
-        if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
-          Padding(
-            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-            child: PostActivityStatusWidget(
-              reactCount: (reactCount == null || reactCount!.all == 0) ? null : reactCount,
-              reactionOnPressed: () {
-                postReactionController.giftFilter(0);
-                globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
-              giftCount: giftCount,
-              commentCount: commentCount,
-              shareCount: shareCount,
-              commentOnPressed: () async {
-                postReactionController.resetCommentAndReplyData();
-                postReactionController.homePostDetailsData.value = null;
-                postReactionController.homePostDetailsData.value = postList![postIndex];
-                Get.to(() => HomePostDetails(
-                      postIndex: postIndex,
-                      postList: postList,
-                    ));
-                postReactionController.refId.value = postID;
-                await postReactionController.getCommentList(1, refId);
-                await Get.find<FriendController>().getFriendList();
-              },
-              isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
-              giftOnPressed: () {
-                // postReactionController.giftFilter(0);
-                // globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
-              },
+          //* Bidding actions
+
+          if (globalController.commonPostList[postIndex].countReactions != null ||
+              globalController.commonPostList[postIndex].countComment!.value != 0 ||
+              globalController.commonPostList[postIndex].countShare!.value != 0 ||
+              globalController.commonPostList[postIndex].countStar!.value != 0)
+            Padding(
+              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+              child: PostActivityStatusWidget(
+                postIndex: postIndex,
+                reactionOnPressed: () {
+                  postReactionController.giftFilter(0);
+                  globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+                commentOnPressed: () async {
+                  postReactionController.resetCommentAndReplyData();
+                  Get.to(() => HomePostDetails(
+                        postIndex: postIndex,
+                      ));
+                  await postReactionController.getCommentList(1, globalController.commonPostList[postIndex].id!, postIndex);
+                  await Get.find<FriendController>().getFriendList();
+                },
+                isGiftShown: !(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id) &&
+                    !(globalController.commonPostList[postIndex].postCategory?.name.toString().toLowerCase() == "Selling".toLowerCase()),
+                giftOnPressed: () {
+                  // postReactionController.giftFilter(0);
+                  // globalController.blankBottomSheet(context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
+                },
+              ),
             ),
-          ),
-        if (showBottomSection)
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: kHorizontalPadding,
@@ -693,25 +585,15 @@ class CommonPostWidget extends StatelessWidget {
                   context: context,
                   bottomSheetHeight: height * 0.38,
                   content: ShareBottomSheetContent(
-                    postData: postList![postIndex],
+                    postData: globalController.commonPostList[postIndex],
                   ),
                 );
               },
-              selfReaction: selfReaction,
-              onAngryPressed: onAngryPressed,
-              onHahaPressed: onHahaPressed,
-              onLikePressed: onLikePressed,
-              onLovePressed: onLovePressed,
-              onSadPressed: onSadPressed,
-              onWowPressed: onWowPressed,
               postIndex: postIndex,
-              refType: refType,
-              refId: refId,
-              isGiftShown: !isSelfPost && !(category.toString().toLowerCase() == "Selling".toLowerCase()),
-              likeOnTap: () {},
+              isGiftShown: !(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id) &&
+                  !(globalController.commonPostList[postIndex].postCategory?.name.toString().toLowerCase() == "Selling".toLowerCase()),
               giftOnPressed: () async {
                 Get.find<PendentBadgesController>().resetBadgesData();
-                postReactionController.postId.value = refId;
                 globalController.commonBottomSheet(
                   context: context,
                   content: Obx(() =>
@@ -733,65 +615,42 @@ class CommonPostWidget extends StatelessWidget {
                 await Get.find<PendentBadgesController>().getStarPrice();
               },
               commentOnPressed: () async {
-                showComment.value = !showComment.value;
                 postReactionController.resetCommentAndReplyData();
-                postReactionController.homePostDetailsData.value = null;
-                postReactionController.homePostDetailsData.value = postList![postIndex];
                 Get.to(() => HomePostDetails(
                       postIndex: postIndex,
-                      postList: postList,
                     ));
-                postReactionController.refId.value = postID;
-                // ll(userI);
-                await postReactionController.getCommentList(1, refId);
+                await postReactionController.getCommentList(1, globalController.commonPostList[postIndex].id!, postIndex);
                 await Get.find<FriendController>().getFriendList();
               },
             ),
           ),
 
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          child: CustomDivider(),
-        ),
-        kH12sizedBox,
-        // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
-      ],
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: CustomDivider(),
+          ),
+          kH12sizedBox,
+          // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
+        ],
+      ),
     );
   }
 }
 
-class PostBottomSection extends StatelessWidget {
-  PostBottomSection(
-      {super.key,
-      required this.isSelfPost,
-      required this.isCommentShown,
-      required this.commentCount,
-      required this.shareCount,
-      required this.giftCount,
-      this.category,
-      this.platformName,
-      this.platformLink,
-      this.actionName,
-      this.actionOnPressed,
-      this.postIndex = 0,
-      this.refType = 0,
-      this.refId = 0});
+class PostBottomSectionBiddingAction extends StatelessWidget {
+  PostBottomSectionBiddingAction({super.key, this.platformName, this.platformLink, this.actionName, this.actionOnPressed, required this.postIndex});
 
   final GlobalController globalController = Get.find<GlobalController>();
   final PostReactionController postReactionController = Get.find<PostReactionController>();
-  final bool isSelfPost, isCommentShown;
-  final int commentCount, shareCount, giftCount;
   final int postIndex;
-  final int refType;
-  final int refId;
-  final String? category, platformName, platformLink, actionName;
+  final String? platformName, platformLink, actionName;
   final VoidCallback? actionOnPressed;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (category == 'Selling' && platformName != null)
+        if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' && platformName != null)
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k4Padding),
             child: PlatformActionSection(
@@ -801,7 +660,8 @@ class PostBottomSection extends StatelessWidget {
               actionName: 'Learn more',
             ),
           ),
-        if (isSelfPost && category == 'Selling')
+        if ((Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id) &&
+            globalController.commonPostList[postIndex].postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(
               left: kHorizontalPadding,
@@ -822,7 +682,8 @@ class PostBottomSection extends StatelessWidget {
               },
             ),
           ),
-        if (!isSelfPost && category == 'Selling')
+        if (!(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id) &&
+            globalController.commonPostList[postIndex].postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(
               left: kHorizontalPadding,
@@ -924,28 +785,28 @@ class BiddingInsightsContent extends StatelessWidget {
               style: semiBold16TextStyle(cBlackColor),
             ),
             kH8sizedBox,
-            ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: postReactionController.showMoreBiddingInsights.value ? 4 : comment.length,
-                itemBuilder: (context, index) {
-                  return CommentWidget(
-                    profileImage: comment[index]['image'],
-                    timePassed: '5',
-                    isLikeButtonShown: true,
-                    isReplyButtonShown: false,
-                    isReactButtonShown: true,
-                    comment: comment[index]['comment'],
-                    isLink: false,
-                    userName: comment[index]['userName'],
-                    isImageComment: false,
-                    isSendMessageShown: true,
-                    isHideButtonShown: false,
-                    replyList: const [],
-                    refType: 1,
-                    refId: 1,
-                  );
-                }),
+            // ListView.builder(
+            //     physics: const NeverScrollableScrollPhysics(),
+            //     shrinkWrap: true,
+            //     itemCount: postReactionController.showMoreBiddingInsights.value ? 4 : comment.length,
+            //     itemBuilder: (context, index) {
+            //       return CommentWidget(
+            //         profileImage: comment[index]['image'],
+            //         timePassed: '5',
+            //         isLikeButtonShown: true,
+            //         isReplyButtonShown: false,
+            //         isReactButtonShown: true,
+            //         comment: comment[index]['comment'],
+            //         isLink: false,
+            //         userName: comment[index]['userName'],
+            //         isImageComment: false,
+            //         isSendMessageShown: true,
+            //         isHideButtonShown: false,
+            //         replyList: const [],
+            //         refType: 1,
+            //         refId: 1,
+            //       );
+            //     }),
             kH8sizedBox,
             if (postReactionController.showMoreBiddingInsights.value)
               SizedBox(
@@ -1172,21 +1033,21 @@ class UpdateBidding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CommentWidget(
-          profileImage: kiProfileDefaultImageUrl,
-          isLikeButtonShown: false,
-          isReplyButtonShown: false,
-          isReactButtonShown: false,
-          comment: '\$$yourBid',
-          isLink: false,
-          userName: 'Omi',
-          isImageComment: false,
-          isSendMessageShown: false,
-          isHideButtonShown: false,
-          replyList: const [],
-          refType: 1,
-          refId: 1,
-        ),
+        // CommentWidget(
+        //   profileImage: kiProfileDefaultImageUrl,
+        //   isLikeButtonShown: false,
+        //   isReplyButtonShown: false,
+        //   isReactButtonShown: false,
+        //   comment: '\$$yourBid',
+        //   isLink: false,
+        //   userName: 'Omi',
+        //   isImageComment: false,
+        //   isSendMessageShown: false,
+        //   isHideButtonShown: false,
+        //   replyList: const [],
+        //   refType: 1,
+        //   refId: 1,
+        // ),
         kH4sizedBox,
         Wrap(
           alignment: WrapAlignment.start,
@@ -2405,7 +2266,8 @@ class GiftPurchasePaymentContent extends StatelessWidget {
 class ShareBottomSheetContent extends StatelessWidget {
   ShareBottomSheetContent({super.key, required this.postData});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
-  final PostData postData;
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final PostDataRx postData;
 
   @override
   Widget build(BuildContext context) {
@@ -2446,11 +2308,118 @@ class ShareBottomSheetContent extends StatelessWidget {
                           Get.find<CreatePostController>().getCreatePost();
                           Get.find<CreatePostController>().isSharingPost.value = true;
                           Get.find<GlobalController>().blankBottomSheet(
+                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
                               context: context,
                               content: SharePostBottomSheetContent(
                                 postData: postData,
                               ),
                               isScrollControlled: true);
+                        }
+                        if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Share to Your Kids Profile".toLowerCase()) {
+                          createPostController.isKidListLoading.value = true;
+                          createPostController.tempSelectedKid.value = null;
+                          createPostController.tempKidID.value = -1;
+                          if (createPostController.tempSelectedKid.value == null) {
+                            createPostController.kidListBottomSheetRightButtonState.value = false;
+                          } else {
+                            createPostController.kidListBottomSheetRightButtonState.value = true;
+                          }
+                          Get.find<GlobalController>().commonBottomSheet(
+                            isBottomSheetRightButtonActive: createPostController.kidListBottomSheetRightButtonState,
+                            isScrollControlled: true,
+                            bottomSheetHeight: height * .7,
+                            context: Get.context,
+                            content: KidListBottomSheetContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {
+                              Get.back();
+                              Get.find<CreatePostController>().isPostedFromProfile.value = false;
+                              CreatePostHelper().resetCreatePostData();
+                              createPostController.selectedKid.value = createPostController.tempSelectedKid.value;
+                              createPostController.tempSelectedKid.value = null;
+                              createPostController.category.value = "Kids";
+                              createPostController.kidID.value = createPostController.tempKidID.value;
+                              ll(createPostController.kidID.value);
+                              createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.profilePicture.toString();
+                              Get.find<KidsController>().isRouteFromKid.value = false;
+                              Get.find<CreatePostController>().getCreatePost();
+                              Get.find<CreatePostController>().isSharingPost.value = true;
+                              Get.find<GlobalController>().blankBottomSheet(
+                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                                isScrollControlled: true,
+                                context: Get.context,
+                                content: SharePostBottomSheetContent(
+                                  postData: postData,
+                                ),
+                              );
+                            },
+                            rightText: ksDone.tr,
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: ksSelectKids.tr,
+                            isRightButtonShow: true,
+                          );
+                          await createPostController.getKidList();
+                        }
+                        if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Share to Your Store Profile".toLowerCase()) {
+                          // createPostController.tempSelectedBrandId.value = createPostController.selectedBrandId.value;
+
+                          if (createPostController.tempSelectedBrandId.value == -1) {
+                            createPostController.storeListBottomSheetRightButtonState.value = false;
+                          } else {
+                            createPostController.storeListBottomSheetRightButtonState.value = true;
+                          }
+                          Get.find<GlobalController>().commonBottomSheet(
+                            isBottomSheetRightButtonActive: createPostController.storeListBottomSheetRightButtonState,
+                            isScrollControlled: true,
+                            bottomSheetHeight: createPostController.savedBrandCustomBottomSheetHeight(),
+                            context: Get.context,
+                            content: SelectBrandBottomSheetContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {
+                              // createPostHelper.selectBrandTextChange();
+                              Get.find<CreatePostController>().isPostedFromProfile.value = false;
+                              CreatePostHelper().resetCreatePostData();
+                              createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
+                              ll(createPostController.selectedBrandId.value);
+                              Get.back();
+                              createPostController.category.value = "Selling";
+                              for (int i = 0; i < createPostController.storeList.length; i++) {
+                                if (createPostController.selectedBrandId.value == createPostController.storeList[i].id) {
+                                  createPostController.brandID.value = createPostController.storeList[i].id!;
+                                  createPostController.postSecondaryCircleAvatar.value = createPostController.storeList[i].profilePicture.toString();
+                                  createPostController.selectedBrandName.value = createPostController.storeList[i].name.toString();
+                                }
+                              }
+                              Get.find<KidsController>().isRouteFromKid.value = false;
+                              Get.find<CreatePostController>().getCreatePost();
+                              Get.find<CreatePostController>().isSharingPost.value = true;
+                              Get.find<GlobalController>().blankBottomSheet(
+                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                                isScrollControlled: true,
+                                context: Get.context,
+                                content: SharePostBottomSheetContent(
+                                  postData: postData,
+                                ),
+                              );
+                            },
+                            rightText: ksDone.tr,
+                            rightTextStyle: medium14TextStyle(cPrimaryColor),
+                            title: ksSelectBrands.tr,
+                            isRightButtonShow: true,
+                          );
+                          await createPostController.getStoreList();
+                        }
+                        if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Copy Link".toLowerCase()) {
+                          String baseUrl = "bip-hip-dev.vercel.app/posts";
+                          Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
+                          // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+                          // ll(clipboardData!.text);
+                          Get.find<GlobalController>()
+                              .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
                         }
                       },
                     ),
@@ -2467,7 +2436,7 @@ class SharePostBottomSheetContent extends StatelessWidget {
   SharePostBottomSheetContent({super.key, required this.postData});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
   final CreatePostController createPostController = Get.find<CreatePostController>();
-  final PostData postData;
+  final PostDataRx postData;
 
   @override
   Widget build(BuildContext context) {
@@ -2513,116 +2482,177 @@ class SharePostBottomSheetContent extends StatelessWidget {
         kH12sizedBox,
         Container(
           width: width,
-          height: height,
+          height: height * 0.4,
           color: cBackgroundColor,
-          child: Padding(
-            padding: const EdgeInsets.all(kHorizontalPadding),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor)),
-                  child: Row(
-                    children: [
-                      if (postData.images.isNotEmpty && postData.sharePosts == null)
-                        Container(
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
-                          height: 70,
-                          width: 70,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
-                            child: Image.network(
-                              postData.images[0].fullPath.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize20,
-                                color: cIconColor,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(kHorizontalPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor)),
+                      child: Row(
+                        children: [
+                          if (postData.images.isNotEmpty && postData.sharePosts == null)
+                            Container(
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                              height: 70,
+                              width: 70,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                                child: Image.network(
+                                  postData.images[0].fullPath.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize20,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                ),
                               ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
                             ),
-                          ),
-                        ),
-                      if (postData.sharePosts != null && postData.sharePosts!.images.isNotEmpty)
-                        Container(
-                          decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
-                          height: 70,
-                          width: 70,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
-                            child: Image.network(
-                              postData.sharePosts!.images[0].fullPath.toString(),
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                                BipHip.imageFile,
-                                size: kIconSize20,
-                                color: cIconColor,
+                          if (postData.sharePosts != null && postData.sharePosts!.images.isNotEmpty)
+                            Container(
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                              height: 70,
+                              width: 70,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                                child: Image.network(
+                                  postData.sharePosts!.images[0].fullPath.toString(),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => const Icon(
+                                    BipHip.imageFile,
+                                    size: kIconSize20,
+                                    color: cIconColor,
+                                  ),
+                                  loadingBuilder: imageLoadingBuilder,
+                                  frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                                    return child;
+                                  },
+                                ),
                               ),
-                              loadingBuilder: imageLoadingBuilder,
-                              frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                                return child;
-                              },
                             ),
-                          ),
-                        ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                if (postData.content != null && postData.sharePosts == null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: SizedBox(
+                                      width: width - 130,
+                                      child: Text(
+                                        postData.content!,
+                                        style: semiBold16TextStyle(cBlackColor),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                if (postData.sharePosts != null && postData.sharePosts!.content != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: SizedBox(
+                                      width: width - 130,
+                                      child: Text(
+                                        postData.sharePosts!.content!,
+                                        style: semiBold16TextStyle(cBlackColor),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                if (postData.sharePosts == null)
+                                  SizedBox(
+                                    width: width - 130,
+                                    child: Text(
+                                      postData.user!.fullName!,
+                                      style: postData.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                if (postData.sharePosts != null)
+                                  SizedBox(
+                                    width: width - 130,
+                                    child: Text(
+                                      postData.sharePosts!.user!.fullName!,
+                                      style: postData.sharePosts!.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    kH20sizedBox,
+                    Text(
+                      ksShareTo.tr,
+                      style: semiBold20TextStyle(cBlackColor),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: width,
+                height: 70,
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(left: k20Padding),
+                    shrinkWrap: true,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: createPostController.sharePostOthersList.length,
+                    separatorBuilder: (context, index) => kW20sizedBox,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () async {
+                          String baseUrl = "bip-hip-dev.vercel.app/posts";
+                          if (createPostController.sharePostOthersList[index]["text"].toString().toLowerCase() == "Copy Link".toLowerCase()) {
+                            Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
+                            // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+                            // ll(clipboardData!.text);
+                            Get.back();
+                            Get.find<GlobalController>()
+                                .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+                          } else {
+                            Get.back();
+                          }
+                        },
                         child: Column(
                           children: [
-                            if (postData.content != null && postData.sharePosts == null)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: SizedBox(
-                                  width: width - 130,
-                                  child: Text(
-                                    postData.content!,
-                                    style: semiBold16TextStyle(cBlackColor),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
+                            Container(
+                              width: h44,
+                              height: h44,
+                              decoration: const BoxDecoration(
+                                color: cWhiteColor,
+                                shape: BoxShape.circle,
                               ),
-                            if (postData.sharePosts != null && postData.sharePosts!.content != null)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: SizedBox(
-                                  width: width - 130,
-                                  child: Text(
-                                    postData.sharePosts!.content!,
-                                    style: semiBold16TextStyle(cBlackColor),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
+                              child: CustomIconButton(
+                                onPress: null,
+                                icon: createPostController.sharePostOthersList[index]["icon"] as IconData,
+                                iconColor: cBlackColor,
+                                size: kIconSize20,
                               ),
-                            if (postData.sharePosts == null)
-                              SizedBox(
-                                width: width - 130,
-                                child: Text(
-                                  postData.user!.fullName!,
-                                  style: postData.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            if (postData.sharePosts != null)
-                              SizedBox(
-                                width: width - 130,
-                                child: Text(
-                                  postData.sharePosts!.user!.fullName!,
-                                  style: postData.sharePosts!.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              )
+                            ),
+                            kH8sizedBox,
+                            Text(
+                              createPostController.sharePostOthersList[index]["text"].toString(),
+                              style: regular12TextStyle(cBlackColor),
+                            ),
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                      );
+                    }),
+              ),
+            ],
           ),
         )
       ],

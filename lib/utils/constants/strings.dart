@@ -159,7 +159,7 @@ const String ksStockOut = 'Stock Out';
 const String ksDuration = 'Duration';
 const String ksDesiredAmount = 'Desired\nAmount';
 const String ksMinimumBiddingAmount = 'Minimum Bidding\nAmount';
-const String ksTaggedFreinds = 'Tagged friends';
+const String ksTaggedFriends = 'Tagged friends';
 
 //---------------------------------------
 //* Menu
@@ -635,3 +635,4 @@ const String ksNoReviews = "No Reviews";
 const String ksRecommends = "Recommends";
 const String ksShareNow = "Share now";
 const String ksSaySomethingAboutThis = "Say something about this";
+const String ksShareTo = "Share to";

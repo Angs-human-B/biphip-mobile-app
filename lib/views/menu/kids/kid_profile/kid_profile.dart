@@ -1,8 +1,12 @@
+import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/helpers/menu/kids/kid_helper.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile_post_tab.dart';
+import 'package:bip_hip/views/menu/photos/gallery_photos.dart';
+import 'package:bip_hip/views/menu/photos/widgets/gallery_photo_container.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter/rendering.dart';
 
 class KidProfile extends StatelessWidget {
@@ -283,9 +287,11 @@ class KidProfile extends StatelessWidget {
                                             ),
                                           ),
                                           child: TabBar(
-                                            onTap: (value) {
+                                            onTap: (value) async {
                                               kidsController.kidProfileTabIndex.value = value;
-                                              // profileHelper.showProfileTabSection(value);
+                                              if (kidsController.kidProfileTabIndex.value == 1 || kidsController.kidProfileTabIndex.value == 2) {
+                                                await Get.find<GalleryController>().getGalleryAlbumList();
+                                              }
                                             },
                                             indicatorColor: cPrimaryColor,
                                             indicatorWeight: 1,
@@ -326,6 +332,78 @@ class KidProfile extends StatelessWidget {
                                     Get.toNamed(krEditKidProfile);
                                   },
                                 ),
+                              if (kidsController.kidProfileTabIndex.value == 1 || kidsController.kidProfileTabIndex.value == 2)
+                                Get.find<GalleryController>().isAlbumListLoading.value
+                                    ? const PhotoVideoContainer()
+                                    : Get.find<GalleryController>().imageDataList.isEmpty
+                                        ? Expanded(
+                                            child: Center(
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                child: EmptyView(
+                                                  title: ksNoAlbumAvailable.tr,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            color: cWhiteColor,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
+                                              child: GridView.builder(
+                                                shrinkWrap: true,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                itemCount: Get.find<GalleryController>().imageDataList.length,
+                                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisSpacing: k4Padding + k2Padding,
+                                                  crossAxisCount: 2,
+                                                ),
+                                                itemBuilder: (context, index) {
+                                                  return Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          GalleryPhotoContainer(
+                                                            title: Get.find<GalleryController>().imageDataList[index].title ?? ksNA.tr,
+                                                            subTitle: Get.find<GalleryController>().imageDataList[index].totalImage.toString(),
+                                                            image: Get.find<GalleryController>().imageDataList[index].preview,
+                                                            threeDotOnPressed: () {
+                                                              Get.find<GalleryController>().galleryPhotoActionSelect.value = '';
+                                                              Get.find<GalleryController>().galleryPhotoBottomSheetRightButtonState.value = false;
+                                                              Get.find<GlobalController>().commonBottomSheet(
+                                                                context: context,
+                                                                isBottomSheetRightButtonActive:
+                                                                    Get.find<GalleryController>().galleryPhotoBottomSheetRightButtonState,
+                                                                isScrollControlled: true,
+                                                                content: GalleryPhotoActionContent(),
+                                                                onPressCloseButton: () {
+                                                                  Get.back();
+                                                                },
+                                                                onPressRightButton: () async {
+                                                                  Get.back();
+                                                                },
+                                                                rightText: ksDone.tr,
+                                                                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                                                title: ksAction.tr,
+                                                                isRightButtonShow: true,
+                                                                bottomSheetHeight: 140,
+                                                              );
+                                                            },
+                                                            onPressed: () {
+                                                              // Get.to(() => Photos(
+                                                              //       imageList: galleryController.imageDataList[index].imageList,
+                                                              //       imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
+                                                              //     ));
+                                                            },
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
                             ],
                           ),
                         ),
@@ -379,6 +457,74 @@ class KidStoreProfileLinkUpIconTextRow extends StatelessWidget {
               text: TextSpan(children: [
                 TextSpan(text: suffixText, style: semiBold14TextStyle(cBlackColor)),
               ]),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PhotoVideoContainer extends StatelessWidget {
+  const PhotoVideoContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            kH12sizedBox,
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 20,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: k10Padding,
+                mainAxisSpacing: k4Padding,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return ClipRRect(
+                  borderRadius: k8CircularBorderRadius,
+                  child: SizedBox(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ClipRRect(
+                          borderRadius: k8CircularBorderRadius,
+                          child: ShimmerCommon(
+                            widget: Container(
+                              color: cWhiteColor,
+                              height: 100,
+                              width: ((width - 52) / 2),
+                            ),
+                          ),
+                        ),
+                        kH8sizedBox,
+                        ShimmerCommon(
+                          widget: Container(
+                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                            height: 12,
+                            width: 80,
+                          ),
+                        ),
+                        kH4sizedBox,
+                        ShimmerCommon(
+                          widget: Container(
+                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                            height: 12,
+                            width: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

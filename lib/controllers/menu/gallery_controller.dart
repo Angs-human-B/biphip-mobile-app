@@ -394,13 +394,6 @@ class GalleryController extends GetxController {
     }
   }
 
-  final List<Map<String, dynamic>> privacyList = [
-    {'id': 0, 'name': 'Private', 'icon': BipHip.lock},
-    {'id': 1, 'name': 'Public', "icon": BipHip.world},
-    {'id': 2, 'name': 'Friends', "icon": BipHip.friends},
-    {'id': 3, 'name': 'Families', "icon": BipHip.addFamily},
-    {'id': 4, 'name': 'Friend & Family', "icon": BipHip.friends},
-  ];
 
   final RxBool isCreateAlbumMediaChanged = RxBool(false);
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);

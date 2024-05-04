@@ -186,6 +186,7 @@ class CreateAlbum extends StatelessWidget {
 class CreateAlbumAudienceContent extends StatelessWidget {
   CreateAlbumAudienceContent({super.key});
   final GalleryController galleryController = Get.find<GalleryController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -202,20 +203,20 @@ class CreateAlbumAudienceContent extends StatelessWidget {
           style: regular14TextStyle(cBlackColor),
         ),
         kH8sizedBox,
-        for (int i = 0; i < galleryController.privacyList.length; i++)
+        for (int i = 0; i < globalController.privacyList.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: k4Padding),
             child: Obx(
               () => CustomListTile(
                 onPressed: () {
-                  galleryController.temporaryCreateAlbumSelectedPrivacy.value = galleryController.privacyList[i]['name'].toString();
-                  galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = galleryController.privacyList[i]['icon'];
-                  galleryController.temoparyprivacyId.value = galleryController.privacyList[i]['id'];
+                  galleryController.temporaryCreateAlbumSelectedPrivacy.value = globalController.privacyList[i]['name'].toString();
+                  galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = globalController.privacyList[i]['icon'];
+                  galleryController.temoparyprivacyId.value = globalController.privacyList[i]['id'];
                 },
-                itemColor: galleryController.temporaryCreateAlbumSelectedPrivacy.value == galleryController.privacyList[i]['name'].toString()
+                itemColor: galleryController.temporaryCreateAlbumSelectedPrivacy.value == globalController.privacyList[i]['name'].toString()
                     ? cPrimaryTint3Color
                     : cWhiteColor,
-                title: galleryController.privacyList[i]['name'].toString(),
+                title: globalController.privacyList[i]['name'].toString(),
                 leading: Container(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
@@ -224,18 +225,18 @@ class CreateAlbumAudienceContent extends StatelessWidget {
                   height: h28,
                   width: h28,
                   child: Icon(
-                    galleryController.privacyList[i]['icon'],
+                    globalController.privacyList[i]['icon'],
                     color: cBlackColor,
                     size: isDeviceScreenLarge() ? h18 : h14,
                   ),
                 ),
                 trailing: CustomRadioButton(
                   onChanged: () {
-                    galleryController.temporaryCreateAlbumSelectedPrivacy.value = galleryController.privacyList[i]['name'].toString();
-                    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = galleryController.privacyList[i]['icon'];
-                    galleryController.temoparyprivacyId.value = galleryController.privacyList[i]['id'];
+                    galleryController.temporaryCreateAlbumSelectedPrivacy.value = globalController.privacyList[i]['name'].toString();
+                    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = globalController.privacyList[i]['icon'];
+                    galleryController.temoparyprivacyId.value = globalController.privacyList[i]['id'];
                   },
-                  isSelected: galleryController.temporaryCreateAlbumSelectedPrivacy.value == galleryController.privacyList[i]['name'].toString(),
+                  isSelected: galleryController.temporaryCreateAlbumSelectedPrivacy.value == globalController.privacyList[i]['name'].toString(),
                 ),
               ),
             ),

@@ -15,6 +15,12 @@ class CreatePostController extends GetxController {
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
 
+  @override
+  void onInit() async {
+    getCreatePost();
+    super.onInit();
+  }
+
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
   final TextEditingController createPostController = TextEditingController();
@@ -27,6 +33,7 @@ class CreatePostController extends GetxController {
   final RxString selectedBrandName = RxString('');
   final RxString selectedBrandImage = RxString('');
   final RxBool isSharingPost = RxBool(false);
+  final RxBool isEditPost = RxBool(false);
 
   // image and video picker variables
   final RxString createPostImageLink = RxString('');
@@ -69,13 +76,6 @@ class CreatePostController extends GetxController {
   final RxBool isSellingLocationSuffixIconVisible = RxBool(false);
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
-  final List audienceTypeList = [
-    {"icon": BipHip.lock},
-    {"icon": BipHip.world},
-    {"icon": BipHip.friends},
-    {"icon": BipHip.addFamily},
-    {"icon": BipHip.friends},
-  ];
 
   final List categoryList = [
     {"id": '', "name": '', "title": "Poetry", "icon": BipHip.poetry, "icon_color": cPoetryColor},
@@ -452,7 +452,7 @@ class CreatePostController extends GetxController {
       Map<String, String> body = {
         if (category.value != '') 'post_category_id': categoryID.value.toString(),
         'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
-        'is_public': '1',
+        "is_public": privacyId.value.toString(),
         'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
           'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
@@ -700,6 +700,15 @@ class CreatePostController extends GetxController {
         createPostPrivacyList.addAll(createPostAllData.value!.privacy);
         createPostSellCategoryList.addAll(createPostAllData.value!.sellPostCategories);
         createPostSellConditionList.addAll(createPostAllData.value!.sellPostCondition);
+        PostCategory allCategory = PostCategory(
+          id: 0,
+          name: "All",
+          isActive: 1,
+        );
+
+        createPostCategoryList.insert(0, allCategory);
+        createPostCategoryList.addAll(createPostAllData.value!.postCategories);
+
         for (int i = 0; i < postCategoryList.length; i++) {
           for (int j = 0; j < categoryList.length; j++) {
             if (categoryList[j]['title'].toLowerCase() == postCategoryList[i].name!.toLowerCase()) {
@@ -734,4 +743,89 @@ class CreatePostController extends GetxController {
   final RxString temporaryProductAvailability = RxString('');
   final RxString productAvailability = RxString('');
   final RxBool productAvailabilityBottomSheetRightButtonState = RxBool(false);
+  final sharePostOthersList = [
+    {"icon": BipHip.activity, "text": "Message"}, //! Icon must change
+    {"icon": BipHip.whatsappFill, "text": "WhatsApp"},
+    {"icon": BipHip.addFamily, "text": "Group"},
+    {"icon": BipHip.activity, "text": "Your Story"}, //! Icon must change
+    {"icon": BipHip.addLink, "text": "Copy Link"},
+  ];
+
+  final RxInt postId = RxInt(-1);
+  final RxInt privacyId = RxInt(-1);
+  List deleteImageIdList = [];
+  RxList imageIdList = RxList([]);
+
+  Future<void> updatePost({required int postId}) async {
+    try {
+      isCreatePostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        "id": postId.toString(),
+        "content": createPostController.text.toString().trim(),
+        if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
+        // if (subCategoryIndex.value != -1) "post_sub_category_id": subCategoryIndex.value.toString(),
+        "is_public": privacyId.value.toString(),
+        "delete_image_ids": deleteImageIdList.join(','),
+        for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
+        if (kidID.value != -1) 'kid_id': kidID.value.toString(),
+        if (selectedBrandId.value != -1) 'store_id': selectedBrandId.value.toString(),
+        if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
+        if (category.value == 'Selling') 'title': biddingTitleTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'price': biddingPriceTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'discount': biddingDiscountAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'description': biddingDescriptionTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'product_tags': biddingProductTagTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'sku': biddingSKUTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'bidding_post_type': (isPublicPost.value && !isPrivatePost.value) ? '0' : '1',
+        if (category.value == 'Selling') 'desire_amount': biddingDesiredAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'min_bidding_amount': biddingDesiredAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'sell_post_category_id': selectedProductCategoryID.value,
+        if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
+        if (category.value == 'Selling') 'sell_post_availabilty': productAvailabilityId.value,
+        if (category.value == 'Selling') 'is_hide_fnf': isHideFriendFamilySwitch.value ? '1' : '0',
+        if (category.value == 'Selling') 'location': sellingLocationTextEditingController.text.toString().trim(),
+        if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
+        if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim(),
+      };
+      // var response = await apiController.commonApiCall(
+      //   requestMethod: kPost,
+      //   url: kuUpdatePost,
+      //   body: body,
+      //   token: token,
+      // ) as CommonDM;
+      var response = await apiController.multiMediaUpload(
+        url: kuUpdatePost,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: category.value == 'Selling' ? sellingAllMediaFileList : allMediaList,
+      ) as CommonDM;
+      // var response = await apiController.multiMediaUpload(
+      //   url: kuUpdatePost,
+      //   body: body,
+      //   token: token,
+      //   key: 'images[]',
+      //   values: category.value == 'Selling' ? sellingAllMediaFileList : allMediaList,
+      // ) as CommonDM;
+
+      if (response.success == true) {
+        await Get.find<HomeController>().getPostList();
+        Get.back();
+        isCreatePostLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isCreatePostLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreatePostLoading.value = false;
+      ll('updatePost error: $e');
+    }
+  }
 }

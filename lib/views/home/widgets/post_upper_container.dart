@@ -1,36 +1,16 @@
-import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/helpers/post/create_post_helper.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class PostUpperContainer extends StatelessWidget {
-  const PostUpperContainer({
+  PostUpperContainer({
     super.key,
-    required this.userName,
-    required this.isCategorized,
-    this.category,
-    this.categoryIcon,
-    this.categoryIconColor,
-    required this.privacy,
-    this.brandName,
-    this.kidName,
-    this.kidAge,
-    required this.postTime,
-    this.title,
-    this.price,
-    this.subCategory,
-    required this.userImage,
-    this.secondaryImage,
-    required this.taggedFriend,
-    this.postIndex,
+    required this.postIndex,
   });
-
-  final String userName, postTime, userImage;
-  final String? category, brandName, kidName, kidAge, title, price, subCategory, secondaryImage;
-  final IconData? categoryIcon;
-  final IconData privacy;
-  final Color? categoryIconColor;
-  final bool isCategorized;
-  final List<TaggedFriend>? taggedFriend;
-  final int ? postIndex;
+  final int postIndex;
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +21,10 @@ class PostUpperContainer extends StatelessWidget {
         Stack(
           children: [
             SizedBox(
-              width: (secondaryImage != null) ? 70 : h44,
+              width: (globalController.commonPostList[postIndex].kid?.profilePicture != null ||
+                      globalController.commonPostList[postIndex].store?.profilePicture != null)
+                  ? 70
+                  : h44,
               child: Row(
                 children: [
                   ClipOval(
@@ -53,7 +36,7 @@ class PostUpperContainer extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Image.network(
-                        userImage,
+                        globalController.commonPostList[postIndex].user!.profilePicture ?? '',
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => const Icon(
                           BipHip.user,
@@ -66,7 +49,8 @@ class PostUpperContainer extends StatelessWidget {
                 ],
               ),
             ),
-            if (secondaryImage != null)
+            if (globalController.commonPostList[postIndex].kid?.profilePicture != null ||
+                globalController.commonPostList[postIndex].store?.profilePicture != null)
               Positioned(
                 right: 0,
                 bottom: 0,
@@ -77,7 +61,7 @@ class PostUpperContainer extends StatelessWidget {
                     width: h45,
                     decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                     child: Image.network(
-                      secondaryImage!,
+                      globalController.commonPostList[postIndex].kid?.profilePicture ?? globalController.commonPostList[postIndex].store?.profilePicture ?? "",
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         BipHip.user,
@@ -109,15 +93,15 @@ class PostUpperContainer extends StatelessWidget {
                           style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
                           children: [
                             TextSpan(
-                              text: userName,
+                              text: globalController.commonPostList[postIndex].user!.fullName!,
                               style: semiBold16TextStyle(cBlackColor),
                             ),
-                            if (category != null)
+                            if (globalController.commonPostList[postIndex].postCategory != null)
                               TextSpan(
                                 text: ' ${ksPostedOn.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
-                            if (category != null)
+                            if (globalController.commonPostList[postIndex].postCategory != null)
                               WidgetSpan(
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -125,55 +109,60 @@ class PostUpperContainer extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(bottom: 0),
                                       child: Icon(
-                                        categoryIcon,
-                                        color: categoryIconColor,
+                                        globalController.getCategoryIcon(globalController.commonPostList[postIndex].postCategory!.id),
+                                        color: globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id),
                                         size: kIconSize14,
                                       ),
                                     ),
-                                    if (category != null)
+                                    if (globalController.commonPostList[postIndex].postCategory != null)
                                       Text(
-                                        " ${category!}",
-                                        style: semiBold14TextStyle(categoryIconColor!),
+                                        " ${globalController.commonPostList[postIndex].postCategory!.name!}",
+                                        style:
+                                            semiBold14TextStyle(globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id)),
                                       ),
                                   ],
                                 ),
                               ),
-                            
-                            if (subCategory != null)
-                              TextSpan(
-                                text: ' ${ksAt.tr} ',
-                                style: regular16TextStyle(cSmallBodyTextColor),
-                              ),
-                            if (subCategory != null)
-                              TextSpan(
-                                text: '($subCategory)',
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                            if (taggedFriend!.isNotEmpty)
+
+                            //* For post subcategory
+                            // if (subCategory != null)
+                            //   TextSpan(
+                            //     text: ' ${ksAt.tr} ',
+                            //     style: regular16TextStyle(cSmallBodyTextColor),
+                            //   ),
+                            // if (subCategory != null)
+                            //   TextSpan(
+                            //     text: '($subCategory)',
+                            //     style: semiBold16TextStyle(cBlackColor),
+                            //   ),
+
+                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
                               TextSpan(
                                 text: ' ${ksWith.tr} ',
                                 style: regular16TextStyle(cSmallBodyTextColor),
                               ),
-                            if (taggedFriend!.isNotEmpty)
+                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
                               TextSpan(
-                                text: '${taggedFriend![0].fullName}',
+                                text: '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
-                            if (taggedFriend!.isNotEmpty && taggedFriend!.length == 2)
+                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
+                                globalController.commonPostList[postIndex].taggedFriends.length == 2)
                               TextSpan(
-                                text: ' & ${taggedFriend?[1].fullName}',
+                                text: ' & ${globalController.commonPostList[postIndex].taggedFriends[1].fullName}',
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
-                            if (taggedFriend!.isNotEmpty && taggedFriend!.length > 2)
+                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
+                                globalController.commonPostList[postIndex].taggedFriends.length > 2)
                               WidgetSpan(
                                 child: InkWell(
                                   onTap: () {
                                     Get.find<GlobalController>().commonBottomSheet(
                                         context: context,
                                         isScrollControlled: true,
-                                        bottomSheetHeight: taggedFriend!.length > 10 ? height * 0.6 : null,
+                                        bottomSheetHeight: globalController.commonPostList[postIndex].taggedFriends.length > 10 ? height * 0.6 : null,
                                         content: TaggedFriendContent(
-                                          taggedFriend: taggedFriend!,
+                                          taggedFriend: globalController.commonPostList[postIndex].taggedFriends,
                                         ),
                                         onPressCloseButton: () {
                                           Get.back();
@@ -181,11 +170,11 @@ class PostUpperContainer extends StatelessWidget {
                                         onPressRightButton: () {},
                                         rightText: ksDone.tr,
                                         rightTextStyle: regular14TextStyle(cPrimaryColor),
-                                        title: ksTaggedFreinds.tr,
+                                        title: ksTaggedFriends.tr,
                                         isRightButtonShow: false);
                                   },
                                   child: Text(
-                                    ' & ${taggedFriend!.length - 1} others',
+                                    ' & ${globalController.commonPostList[postIndex].taggedFriends.length - 1} others',
                                     style: semiBold16TextStyle(cBlackColor),
                                   ),
                                 ),
@@ -195,21 +184,54 @@ class PostUpperContainer extends StatelessWidget {
                               baseline: TextBaseline.alphabetic,
                               alignment: PlaceholderAlignment.baseline,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 0),
+                                padding: EdgeInsets.only(bottom: 0),
                                 child: Icon(
-                                  privacy,
+                                  globalController.privacyList.firstWhere(
+                                    (element) => element['id'] == globalController.commonPostList[postIndex].isPublic,
+                                  )["icon"],
                                   color: cIconColor,
                                   size: kIconSize12,
                                 ),
                               ),
                             ),
-                            if (category == 'Selling' && isCategorized && brandName != null)
-                              TextSpan(text: ' ($brandName)', style: semiBold14TextStyle(cBlackColor)),
-                            if (category == 'Kids' && isCategorized && kidName != null)
-                              TextSpan(text: ' ($kidName, $kidAge)', style: semiBold14TextStyle(cBlackColor)),
-                            TextSpan(text: ' $postTime', style: regular14TextStyle(cSmallBodyTextColor))
+                            if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
+                                globalController.commonPostList[postIndex].store != null)
+                              TextSpan(text: ' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
+                            if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
+                                globalController.commonPostList[postIndex].kid != null)
+                              TextSpan(
+                                  text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
+                                  style: semiBold14TextStyle(cBlackColor)),
+                            TextSpan(
+                                text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].createdAt!)}',
+                                style: regular14TextStyle(cSmallBodyTextColor))
                           ],
                         ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      globalController.postSelectedAction.value = "";
+                      globalController.selectedAudienceId.value = globalController.commonPostList[postIndex].isPublic!;
+                      globalController.blankBottomSheet(
+                        context: context,
+                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.35 : height * 0.45,
+                        content: Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id
+                            ? SelfPostActionContent(
+                                postIndex: postIndex,
+                              )
+                            : OthersPostActionContent(
+                                postIndex: postIndex,
+                              ),
+                      );
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: k4Padding),
+                      child: Icon(
+                        BipHip.system,
+                        size: kIconSize18,
+                        color: cIconColor,
                       ),
                     ),
                   ),
@@ -261,6 +283,766 @@ class TaggedFriendContent extends StatelessWidget {
               );
             })
       ],
+    );
+  }
+}
+
+class SharePostUpperContainer extends StatelessWidget {
+  SharePostUpperContainer({
+    super.key,
+    required this.postIndex,
+    this.postUpperContainerOnPressed,
+  });
+  final int postIndex;
+  final VoidCallback? postUpperContainerOnPressed;
+  final GlobalController globalController = Get.find<GlobalController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: postUpperContainerOnPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                width: (globalController.commonPostList[postIndex].sharePosts!.kid?.profilePicture != null ||
+                        globalController.commonPostList[postIndex].sharePosts!.store?.profilePicture != null)
+                    ? 70
+                    : h44,
+                child: Row(
+                  children: [
+                    ClipOval(
+                      child: Container(
+                        height: h44,
+                        width: h44,
+                        decoration: const BoxDecoration(
+                          color: cBlackColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.network(
+                          globalController.commonPostList[postIndex].sharePosts!.user!.profilePicture ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.user,
+                            size: kIconSize24,
+                            color: cIconColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (globalController.commonPostList[postIndex].sharePosts!.kid?.profilePicture != null ||
+                  globalController.commonPostList[postIndex].sharePosts!.store?.profilePicture != null)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  top: 0,
+                  child: ClipOval(
+                    child: Container(
+                      height: h45,
+                      width: h45,
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
+                      child: Image.network(
+                        globalController.commonPostList[postIndex].sharePosts!.kid?.profilePicture ??
+                            globalController.commonPostList[postIndex].sharePosts!.store?.profilePicture ??
+                            "",
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => const Icon(
+                          BipHip.user,
+                          size: kIconSize24,
+                          color: cIconColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          kW8sizedBox,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: RichText(
+                          textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.clip,
+                          maxLines: 3,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
+                            children: [
+                              TextSpan(
+                                text: globalController.commonPostList[postIndex].sharePosts!.user!.fullName!,
+                                style: semiBold16TextStyle(cBlackColor),
+                              ),
+                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory != null)
+                                TextSpan(
+                                  text: ' ${ksPostedOn.tr} ',
+                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory != null)
+                                WidgetSpan(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 0),
+                                        child: Icon(
+                                          globalController.getCategoryIcon(globalController.commonPostList[postIndex].sharePosts!.postCategory!.id),
+                                          color: globalController.getCategoryColor(globalController.commonPostList[postIndex].sharePosts!.postCategory!.id),
+                                          size: kIconSize14,
+                                        ),
+                                      ),
+                                      if (globalController.commonPostList[postIndex].sharePosts!.postCategory != null)
+                                        Text(
+                                          " ${globalController.commonPostList[postIndex].sharePosts!.postCategory!.name!}",
+                                          style: semiBold14TextStyle(
+                                              globalController.getCategoryColor(globalController.commonPostList[postIndex].sharePosts!.postCategory!.id)),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+
+                              //* For post subcategory
+                              // if (subCategory != null)
+                              //   TextSpan(
+                              //     text: ' ${ksAt.tr} ',
+                              //     style: regular16TextStyle(cSmallBodyTextColor),
+                              //   ),
+                              // if (subCategory != null)
+                              //   TextSpan(
+                              //     text: '($subCategory)',
+                              //     style: semiBold16TextStyle(cBlackColor),
+                              //   ),
+
+                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty)
+                                TextSpan(
+                                  text: ' ${ksWith.tr} ',
+                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty)
+                                TextSpan(
+                                  text: '${globalController.commonPostList[postIndex].sharePosts!.taggedFriends[0].fullName}',
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length == 2)
+                                TextSpan(
+                                  text: ' & ${globalController.commonPostList[postIndex].sharePosts!.taggedFriends[1].fullName}',
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length > 2)
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.find<GlobalController>().commonBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          bottomSheetHeight:
+                                              globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length > 10 ? height * 0.6 : null,
+                                          content: TaggedFriendContent(
+                                            taggedFriend: globalController.commonPostList[postIndex].sharePosts!.taggedFriends,
+                                          ),
+                                          onPressCloseButton: () {
+                                            Get.back();
+                                          },
+                                          onPressRightButton: () {},
+                                          rightText: ksDone.tr,
+                                          rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                          title: ksTaggedFriends.tr,
+                                          isRightButtonShow: false);
+                                    },
+                                    child: Text(
+                                      ' & ${globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length - 1} others',
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                  ),
+                                ),
+                              const TextSpan(text: '\n'),
+                              const WidgetSpan(
+                                baseline: TextBaseline.alphabetic,
+                                alignment: PlaceholderAlignment.baseline,
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 0),
+                                  child: Icon(
+                                    BipHip.world,
+                                    color: cIconColor,
+                                    size: kIconSize12,
+                                  ),
+                                ),
+                              ),
+                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory?.name == 'Selling' &&
+                                  globalController.commonPostList[postIndex].sharePosts!.store != null)
+                                TextSpan(
+                                    text: ' (${globalController.commonPostList[postIndex].sharePosts!.store?.name})', style: semiBold14TextStyle(cBlackColor)),
+                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory?.name == 'Kids' &&
+                                  globalController.commonPostList[postIndex].sharePosts!.kid != null)
+                                TextSpan(
+                                    text:
+                                        ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
+                                    style: semiBold14TextStyle(cBlackColor)),
+                              TextSpan(
+                                  text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].sharePosts!.createdAt!)}',
+                                  style: regular14TextStyle(cSmallBodyTextColor))
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SelfPostActionContent extends StatelessWidget {
+  SelfPostActionContent({
+    super.key,
+    required this.postIndex,
+  });
+  final GlobalController globalController = Get.find<GlobalController>();
+  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final int postIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    PostDataRx postData = globalController.commonPostList[postIndex];
+    return Column(
+      children: [
+        IconWithTextRow(
+          actionIcon: BipHip.edit,
+          actionText: "Edit Post",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Edit Post";
+            if (globalController.postSelectedAction.value == "Edit Post") {
+              CreatePostHelper().resetCreatePostData();
+              createPostController.postId.value = globalController.commonPostList[postIndex].id!;
+              createPostController.isEditPost.value = true;
+              createPostController.privacyId.value = postData.isPublic!;
+              createPostController.category.value = postData.postCategory?.name ?? "";
+              createPostController.createPostSelectedPrivacyIcon.value = globalController.privacyIcon(postData.isPublic);
+              createPostController.createPostSelectedPrivacy.value = globalController.privacyText(postData.isPublic);
+              for (int i = 0; i < createPostController.categoryList.length; i++) {
+                if (createPostController.category.value != "" && createPostController.category.value == createPostController.categoryList[i]['title']) {
+                  createPostController.categoryIcon.value = createPostController.categoryList[i]['icon'];
+                  createPostController.categoryIconColor.value = createPostController.categoryList[i]['icon_color'];
+                  break;
+                }
+              }
+              if (createPostController.category.value == "Selling") {
+                createPostController.biddingTitleTextEditingController.text = postData.content ?? "";
+                createPostController.biddingDescriptionTextEditingController.text = postData.description ?? "";
+                if (postData.price != null) {
+                  createPostController.biddingPriceTextEditingController.text = postData.price.toString();
+                }
+                if (postData.discount != null) {
+                  createPostController.biddingDiscountAmountTextEditingController.text = postData.discount.toString();
+                }
+                if (postData.desireAmount != null) {
+                  createPostController.biddingDesiredAmountTextEditingController.text = postData.desireAmount.toString();
+                }
+                if (postData.productTags != null) {
+                  createPostController.biddingProductTagTextEditingController.text = postData.productTags.toString();
+                }
+                if (postData.sku != null) {
+                  createPostController.biddingSKUTextEditingController.text = postData.sku.toString();
+                }
+                if (postData.location != null) {
+                  createPostController.sellingLocationTextEditingController.text = postData.location.toString();
+                }
+                if (postData.minBiddingAmount != null) {
+                  createPostController.biddingMinimumBidTextEditingController.text = postData.minBiddingAmount.toString();
+                }
+                if (postData.sellPostType != null) {
+                  if (postData.sellPostType == 0) {
+                    createPostController.sellingPostType.value = ksRegularPost.tr;
+                  } else {
+                    createPostController.sellingPostType.value = ksBiddingPost.tr;
+                  }
+                  // createPostController.sellingPostType.value = postData.sellPostType.toString();
+                }
+                createPostController.selectedBrandName.value = postData.store?.name ?? "";
+                createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
+                // createPostController.selectedProductCategoryID.value = postData.sellPostCategoryId;
+                // createPostController.selectedProductCondition.value = postData.sellPostConditionId;
+                // if(createPostController.selectedProductCategoryID.value=){
+                // }
+              } else if (createPostController.category.value == "News") {
+                if (postData.title != null) {
+                  createPostController.newsTitleTextEditingController.text = postData.title.toString();
+                }
+                if (postData.description != null) {
+                  createPostController.newsDescriptionTextEditingController.text = postData.description.toString();
+                }
+              } else {
+                createPostController.createPostController.text = postData.content ?? "";
+                if (postData.images.isNotEmpty) {
+                  createPostController.imageIdList.clear();
+                  for (int i = 0; i < postData.images.length; i++) {
+                    createPostController.deleteImageIdList.clear();
+                    createPostController.allMediaList.add(postData.images[i].fullPath);
+                    createPostController.imageIdList.add(postData.images[i].id);
+                  }
+                }
+                if (createPostController.category.value == "Kids") {
+                  createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";
+                  createPostController.kidID.value = postData.kid?.id ?? -1;
+                }
+              }
+              Get.toNamed(krCreatePost);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.world,
+          actionText: "Edit Audience",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Edit Audience";
+            if (globalController.postSelectedAction.value == "Edit Audience") {
+              ll("Edit audience");
+              globalController.temporaryselectedAudienceId.value = globalController.selectedAudienceId.value;
+              if (globalController.selectedAudienceId.value == 0) {
+                globalController.postAudienceAction.value = "Only me";
+              }
+              if (globalController.selectedAudienceId.value == 1) {
+                globalController.postAudienceAction.value = "Public";
+              }
+              if (globalController.selectedAudienceId.value == 2) {
+                globalController.postAudienceAction.value = "Friends";
+              }
+              if (globalController.selectedAudienceId.value == 3) {
+                globalController.postAudienceAction.value = "Families";
+              }
+              if (globalController.selectedAudienceId.value == 4) {
+                globalController.postAudienceAction.value = "Friends & Families";
+              }
+              Get.find<GlobalController>().commonBottomSheet(
+                  context: context,
+                  content: EditAudienceActionContent(),
+                  onPressCloseButton: () => Get.back(),
+                  onPressRightButton: () {
+                    globalController.selectedAudienceId.value = globalController.temporaryselectedAudienceId.value;
+                    Get.back();
+                    globalController.editAudience(postData.id!);
+                  },
+                  rightText: ksDone.tr,
+                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                  title: "Edit Audience",
+                  isBottomSheetRightButtonActive: true.obs,
+                  isRightButtonShow: true);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: postData.isNotifaction == true ? BipHip.notificationFill : BipHip.notificationOutline,
+          actionText: postData.isNotifaction == true ? "Turn off notification for this post" : "Turn on notification for this post",
+          actionOnPressed: () async {
+            Get.back();
+            if (postData.isNotifaction == true) {
+              globalController.postSelectedAction.value = "Turn off notification for this post";
+            } else {
+              globalController.postSelectedAction.value = "Turn on notification for this post";
+            }
+            ll(globalController.postSelectedAction.value);
+            if (globalController.postSelectedAction.value == "Turn off notification for this post") {
+              await globalController.postNotificationOff(postId: postData.id!);
+            } else {
+              await globalController.postNotificationOn(postId: postData.id!);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.donatedFill,
+          actionText: "Edit Date",
+          actionOnPressed: () {
+            Get.back();
+            globalController.postSelectedAction.value = "Edit Date";
+            if (globalController.postSelectedAction.value == "Edit Date") {
+              globalController.postDate.value = postData.updatedAt.toString();
+              globalController.editPostDate(context: context, postId: postData.id!);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.copy,
+          actionText: "Copy Link",
+          actionOnPressed: () {
+            Get.back();
+            globalController.postSelectedAction.value = "Copy Link";
+            if (globalController.postSelectedAction.value == "Copy Link") {
+              String baseUrl = "bip-hip-dev.vercel.app/posts";
+              Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
+              Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.deleteNew,
+          actionText: "Move to Recycle Bin",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Move to Recycle Bin";
+            if (globalController.postSelectedAction.value == "Move to Recycle Bin") {
+              await globalController.postDelete(postId: postData.id!);
+            }
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class EditAudienceActionContent extends StatelessWidget {
+  EditAudienceActionContent({super.key});
+  final GlobalController globalController = Get.find<GlobalController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: globalController.privacyList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      leading: Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cNeutralColor,
+                        ),
+                        height: h28,
+                        width: h28,
+                        child: Icon(
+                          globalController.privacyList[index]['icon'],
+                          color: cBlackColor,
+                          size: isDeviceScreenLarge() ? h18 : h14,
+                        ),
+                      ),
+                      title: globalController.privacyList[index]['action'].toString().tr,
+                      titleTextStyle: semiBold16TextStyle(cBlackColor),
+                      subTitleTextStyle: regular14TextStyle(cBlackColor),
+                      itemColor: globalController.postAudienceAction.value == globalController.privacyList[index]['action'] ? cPrimaryTint2Color : cWhiteColor,
+                      onPressed: () {
+                        globalController.postAudienceAction.value = globalController.privacyList[index]['action'];
+                        globalController.temporaryselectedAudienceId.value = globalController.privacyList[index]['id'];
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ));
+  }
+}
+
+class ReportBottomSheetContent extends StatelessWidget {
+  ReportBottomSheetContent({super.key, required this.postIndex});
+  final GlobalController globalController = Get.find<GlobalController>();
+  final int postIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: globalController.reportList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      title: globalController.reportList[index].title,
+                      trailing: const Icon(
+                        BipHip.rightArrow,
+                        size: kIconSize18,
+                        color: cIconColor,
+                      ),
+                      titleTextStyle: semiBold16TextStyle(cBlackColor),
+                      subTitleTextStyle: regular14TextStyle(cBlackColor),
+                      itemColor: globalController.reportId.value == globalController.reportList[index].id ? cPrimaryTint2Color : cWhiteColor,
+                      onPressed: () {
+                        globalController.reportId.value = globalController.reportList[index].id!;
+                        globalController.selectedReportIndex.value = index;
+                        globalController.reportBottomSheetState.value = true;
+                        Get.back();
+                        Get.find<GlobalController>().commonBottomSheet(
+                            context: Get.context,
+                            bottomSheetHeight: height * 0.2,
+                            content: ReportDescriptionBottomSheetContent(
+                              selectedIndex: globalController.selectedReportIndex.value,
+                              postIndex: postIndex,
+                            ),
+                            onPressCloseButton: () => Get.back(),
+                            onPressRightButton: () {
+                              Get.back();
+                            },
+                            rightText: ksDone.tr,
+                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                            title: "Report".tr,
+                            isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
+                            isRightButtonShow: false);
+
+                        // homeController.temporaryselectedAudienceId.value = homeController.privacyList[index]['id'];
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ));
+  }
+}
+
+class ReportDescriptionBottomSheetContent extends StatelessWidget {
+  ReportDescriptionBottomSheetContent({super.key, required this.selectedIndex, required this.postIndex});
+  final GlobalController globalController = Get.find<GlobalController>();
+  final int selectedIndex;
+  final int postIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        kH8sizedBox,
+        Text(
+          globalController.reportList[selectedIndex].description ?? "",
+          style: regular16TextStyle(cBlackColor),
+        ),
+        kH20sizedBox,
+        CustomElevatedButton(
+          label: ksSubmit.tr,
+          onPressed: () async {
+            Get.back();
+            await globalController.postReportAndUndoReport(
+              globalController.reportId.value,
+              null,
+              reportOrUndo: "report",
+              postId: globalController.commonPostList[postIndex].id!,
+            );
+          },
+          buttonWidth: width / 2,
+          buttonHeight: h32,
+        ),
+      ],
+    );
+  }
+}
+
+class ReportContentShimmer extends StatelessWidget {
+  const ReportContentShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (BuildContext context, int index) {
+                return Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    child: CustomListTile(
+                      title: ShimmerCommon(
+                        widget: Container(height: h12, width: width - 80, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ));
+  }
+}
+
+class OthersPostActionContent extends StatelessWidget {
+  OthersPostActionContent({super.key, required this.postIndex});
+  final GlobalController globalController = Get.find<GlobalController>();
+  final int postIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    PostDataRx postData = globalController.commonPostList[postIndex];
+    return Column(
+      children: [
+        IconWithTextRow(
+          actionIcon: BipHip.cross,
+          actionText: "Hide Post",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Hide post";
+            if (globalController.postSelectedAction.value == "Hide post") {
+              await globalController.hidePost(postId: postData.id!);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: postData.user!.followStatus == 0 ? BipHip.follow : BipHip.unFollow,
+          actionText: postData.user!.followStatus == 0 ? "Follow ${postData.user!.fullName}" : "UnFollow ${postData.user!.fullName}",
+          actionOnPressed: () async {
+            Get.back();
+            if (postData.user!.followStatus == 0) {
+              globalController.postSelectedAction.value = "Follow ${postData.user!.fullName}";
+            } else {
+              globalController.postSelectedAction.value = "UnFollow ${postData.user!.fullName}";
+            }
+            if (globalController.postSelectedAction.value == "Follow ${postData.user!.fullName}") {
+              await globalController.followUnfollowUser(userId: postData.user!.id!, followOrUnfollow: "Follow");
+            } else {
+              await globalController.followUnfollowUser(userId: postData.user!.id!, followOrUnfollow: "UnFollow");
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: postData.isNotifaction == true ? BipHip.notificationFill : BipHip.notificationOutline,
+          actionText: postData.isNotifaction == true ? "Turn off notification for this post" : "Turn on notification for this post",
+          actionOnPressed: () async {
+            Get.back();
+            if (postData.isNotifaction == true) {
+              globalController.postSelectedAction.value = "Turn off notification for this post";
+            } else {
+              globalController.postSelectedAction.value = "";
+            }
+            ll(globalController.postSelectedAction.value);
+            if (globalController.postSelectedAction.value == "Turn off notification for this post") {
+              await globalController.postNotificationOff(postId: postData.id!);
+            } else {
+              await globalController.postNotificationOn(postId: postData.id!);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: postData.hasReport! ? BipHip.cross : BipHip.report,
+          actionText: postData.hasReport! ? "Undo Report" : "Report post",
+          actionOnPressed: () async {
+            Get.back();
+            if (postData.hasReport!) {
+              globalController.postSelectedAction.value = "Undo Report";
+            } else {
+              globalController.postSelectedAction.value = "Report post";
+            }
+            if (globalController.postSelectedAction.value == "Report post") {
+              globalController.reportId.value = -1;
+              globalController.reportBottomSheetState.value = false;
+              Get.find<GlobalController>().commonBottomSheet(
+                  context: Get.context,
+                  content: globalController.isReportListLoading.value ? ReportContentShimmer() : ReportBottomSheetContent(postIndex: postIndex),
+                  onPressCloseButton: () => Get.back(),
+                  onPressRightButton: () {
+                    Get.back();
+                    Get.find<GlobalController>().commonBottomSheet(
+                        context: Get.context,
+                        bottomSheetHeight: height * 0.2,
+                        content: ReportDescriptionBottomSheetContent(
+                          selectedIndex: globalController.selectedReportIndex.value,
+                          postIndex: postIndex,
+                        ),
+                        onPressCloseButton: () => Get.back(),
+                        onPressRightButton: () {
+                          Get.back();
+                        },
+                        rightText: ksDone.tr,
+                        rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                        title: "Report".tr,
+                        isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
+                        isRightButtonShow: false);
+                  },
+                  rightText: ksDone.tr,
+                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                  title: "Report".tr,
+                  isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
+                  isRightButtonShow: false);
+              await globalController.getReportList();
+            } else {
+              await globalController.postReportAndUndoReport(
+                null,
+                null,
+                reportOrUndo: "Undo Report",
+                postId: postData.id!,
+              );
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.copy,
+          actionText: "Copy Link",
+          actionOnPressed: () {
+            Get.back();
+            globalController.postSelectedAction.value = "Copy Link";
+            if (globalController.postSelectedAction.value == "Copy Link") {
+              String baseUrl = "bip-hip-dev.vercel.app/posts";
+              Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
+              Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.unfriend,
+          actionText: "Block ${postData.user!.fullName}",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Block";
+            if (globalController.postSelectedAction.value == "Block") {
+              await Get.find<FamilyController>().blockUser(userId: postData.user!.id!);
+            }
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class IconWithTextRow extends StatelessWidget {
+  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed});
+  final IconData actionIcon;
+  final String actionText;
+  final VoidCallback? actionOnPressed;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: actionOnPressed,
+      child: Row(
+        children: [
+          CustomIconButton(
+            icon: actionIcon,
+            onPress: null,
+            iconColor: cIconColor,
+            size: kIconSize20,
+          ),
+          Text(
+            actionText,
+            style: semiBold14TextStyle(cBlackColor),
+          ),
+        ],
+      ),
     );
   }
 }
