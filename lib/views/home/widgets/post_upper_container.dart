@@ -203,7 +203,7 @@ class PostUpperContainer extends StatelessWidget {
                                   text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
                                   style: semiBold14TextStyle(cBlackColor)),
                             TextSpan(
-                                text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].updatedAt!)}',
+                                text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
                                 style: regular14TextStyle(cSmallBodyTextColor))
                           ],
                         ),
@@ -678,7 +678,7 @@ class SelfPostActionContent extends StatelessWidget {
             Get.back();
             globalController.postSelectedAction.value = "Edit Date";
             if (globalController.postSelectedAction.value == "Edit Date") {
-              globalController.postDate.value = postData.updatedAt.toString();
+              globalController.postDate.value = postData.dateTime.toString();
               globalController.editPostDate(context: context, postId: postData.id!, postIndex: postIndex);
             }
           },

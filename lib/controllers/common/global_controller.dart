@@ -774,7 +774,7 @@ class GlobalController extends GetxController {
           postId: postId,
           date: editDate.value,
         );
-        commonPostList[postIndex].updatedAt = DateTime.parse(editDate.value);
+        commonPostList[postIndex].dateTime = DateTime.parse(editDate.value);
         commonPostList.replaceRange(postIndex, postIndex + 1, [commonPostList[postIndex]]);
       },
       rightText: ksDone.tr,

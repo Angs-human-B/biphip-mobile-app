@@ -100,6 +100,7 @@ class PostDataRx {
   dynamic minBiddingAmount;
   dynamic biddingDuration;
   dynamic title;
+  DateTime? dateTime;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? postCategoryId;
@@ -158,6 +159,7 @@ bool? hasReport;
     required this.minBiddingAmount,
     required this.biddingDuration,
     required this.title,
+    required this.dateTime,
     required this.createdAt,
     required this.updatedAt,
     required this.postCategoryId,
@@ -211,6 +213,7 @@ bool? hasReport;
         minBiddingAmount: json["min_bidding_amount"],
         biddingDuration: json["bidding_duration"],
         title: json["title"],
+        dateTime: json["date_time"] == null ? null : DateTime.parse(json["date_time"]),
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         postCategoryId: json["post_category_id"],
