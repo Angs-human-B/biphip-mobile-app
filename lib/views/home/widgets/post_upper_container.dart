@@ -599,7 +599,9 @@ class SelfPostActionContent extends StatelessWidget {
                     createPostController.deleteImageIdList.clear();
                     createPostController.allMediaList.add(postData.images[i].fullPath);
                     createPostController.imageIdList.add(postData.images[i].id);
+                    createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
                   }
+                  ll(createPostController.imageDescriptionTextEditingController);
                 }
                 if (createPostController.category.value == "Kids") {
                   createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";

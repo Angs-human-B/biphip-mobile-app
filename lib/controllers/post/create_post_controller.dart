@@ -766,6 +766,8 @@ class CreatePostController extends GetxController {
         if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
         // if (subCategoryIndex.value != -1) "post_sub_category_id": subCategoryIndex.value.toString(),
         "is_public": privacyId.value.toString(),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
+          'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
         "delete_image_ids": deleteImageIdList.join(','),
         for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
         if (kidID.value != -1) 'kid_id': kidID.value.toString(),
@@ -799,7 +801,11 @@ class CreatePostController extends GetxController {
         body: body,
         token: token,
         key: 'images[]',
-        values: category.value == 'Selling' ? sellingAllMediaFileList : allMediaList,
+        values: category.value == 'Selling'
+            ? sellingAllMediaFileList
+            : allMediaFileList.isNotEmpty
+                ? allMediaList
+                : [],
       ) as CommonDM;
       // var response = await apiController.multiMediaUpload(
       //   url: kuUpdatePost,
