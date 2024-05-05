@@ -21,7 +21,6 @@ import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/biding_insight.dart';
 import 'package:bip_hip/widgets/post/biding_widget.dart';
-import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/platform_action_section.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
@@ -308,7 +307,6 @@ class CommonPostWidget extends StatelessWidget {
                             if ((globalController.commonPostList[postIndex].content != null &&
                                     globalController.commonPostList[postIndex].content!.trim() != '') ||
                                 globalController.commonPostList[postIndex].images.length > 1) {
-                                  
                               await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             } else {
                               Get.to(() => CommonPhotoView(
@@ -2113,156 +2111,6 @@ class GiftPurchasePaymentContent extends StatelessWidget {
     );
   }
 }
-
-// class GiftPurchasePaymentContent extends StatelessWidget {
-//   GiftPurchasePaymentContent({super.key});
-//   final PostReactionController postReactionController = Get.find<PostReactionController>();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Row(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             SizedBox(
-//               width: 50,
-//               height: 50,
-//               child: SvgPicture.asset(
-//                 kiPayment,
-//                 width: h40,
-//                 height: h40,
-//               ),
-//             ),
-//             kW12sizedBox,
-//             kH8sizedBox,
-//             Column(
-//               children: [
-//                 Text(
-//                   '\$105.00',
-//                   style: semiBold18TextStyle(cBlackColor),
-//                 ),
-//                 kH4sizedBox,
-//                 Text(
-//                   '1000 stars',
-//                   style: semiBold14TextStyle(cPlaceHolderColor),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//         kH20sizedBox,
-//         const CustomDivider(),
-//         kH20sizedBox,
-//         CustomModifiedTextField(
-//           controller: postReactionController.cardNumberController,
-//           hint: ksCardNumber.tr,
-//           inputType: TextInputType.number,
-//           inputAction: TextInputAction.next,
-//           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-//           maxLength: 16,
-//           textHintStyle: regular14TextStyle(cPlaceHolderColor),
-//           prefixIcon: BipHip.calendarFill,
-//           fillColor: cWhiteColor,
-//           border: const OutlineInputBorder(
-//             borderSide: BorderSide(
-//               color: cLineColor2,
-//               width: 1.0,
-//             ),
-//           ),
-//         ),
-//         kH20sizedBox,
-//         Row(
-//           children: [
-//             Expanded(
-//               child: CustomModifiedTextField(
-//                 controller: postReactionController.mmyyStarController,
-//                 hint: 'MM/YY',
-//                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
-//                 inputType: TextInputType.number,
-//                 inputAction: TextInputAction.next,
-//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-//                 onChanged: (String value) {},
-//                 maxLength: 6,
-//                 fillColor: cWhiteColor,
-//                 border: const OutlineInputBorder(
-//                   borderSide: BorderSide(
-//                     color: cLineColor2,
-//                     width: 1.0,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             kW20sizedBox,
-//             Expanded(
-//               child: CustomModifiedTextField(
-//                 controller: postReactionController.cvvController,
-//                 hint: ksCVV.tr,
-//                 inputType: TextInputType.number,
-//                 inputAction: TextInputAction.done,
-//                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-//                 maxLength: 3,
-//                 textHintStyle: regular14TextStyle(cPlaceHolderColor),
-//                 fillColor: cWhiteColor,
-//                 border: const OutlineInputBorder(
-//                   borderSide: BorderSide(
-//                     color: cLineColor2,
-//                     width: 1.0,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           mainAxisSize: MainAxisSize.min,
-//           children: [
-//             Obx(() => Transform.translate(
-//                   offset: const Offset(-10.0, 0.0),
-//                   child: Checkbox(
-//                     value: postReactionController.giftAgreeCheckBox.value,
-//                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//                     onChanged: (v) {
-//                       postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
-//                     },
-//                   ),
-//                 )),
-//             kW12sizedBox,
-//             Transform.translate(
-//               offset: const Offset(-20, 0.0),
-//               child: RichText(
-//                 text: TextSpan(
-//                   children: [
-//                     WidgetSpan(
-//                         child: InkWell(
-//                             onTap: () {
-//                               postReactionController.giftAgreeCheckBox.value = !postReactionController.giftAgreeCheckBox.value;
-//                             },
-//                             child: Text('${ksIAgreeWith.tr} ', style: regular12TextStyle(cBlackColor)))),
-//                     TextSpan(text: ksTermsCondition.tr, style: regular12TextStyle(cPrimaryColor))
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//         kH16sizedBox,
-//         const CustomDivider(),
-//         kH16sizedBox,
-//         Obx(() => CustomElevatedButton(
-//             label: ksPayNow.tr,
-//             buttonHeight: 42,
-//             buttonWidth: width - 40,
-//             onPressed: postReactionController.giftAgreeCheckBox.value
-//                 ? () {
-//                     Get.offAllNamed(krHome);
-//                   }
-//                 : null)),
-//       ],
-//     );
-//   }
-// }
 class ShareBottomSheetContent extends StatelessWidget {
   ShareBottomSheetContent({super.key, required this.postData});
   final PostReactionController postReactionController = Get.find<PostReactionController>();
