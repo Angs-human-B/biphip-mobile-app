@@ -189,7 +189,7 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
-              !(Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id))
+              !(globalController.userId.value == globalController.commonPostList[postIndex].user!.id))
             Padding(
               padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
               child: RichText(
@@ -282,10 +282,17 @@ class CommonPostWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: CommonSharedPostWidget(
                       postIndex: postIndex,
-                      postUpperContainerOnPressed: () {
-                        Get.to(() => SharePostDetails(
-                              sharePostData: globalController.commonPostList[postIndex].sharePosts!,
-                            ));
+                      postUpperContainerOnPressed: () async {
+                        Get.to(() => SharePostDetails());
+                        await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
+                        await Get.find<HomeController>().getPostCommentList(1, globalController.commonPostList[postIndex].sharePosts!.id!);
+                        if (Get.find<HomeController>().postData.value!.post.countReactions?.value == null ||
+                            Get.find<HomeController>().postData.value!.post.countReactions?.value.all?.value == 0) {
+                          Get.find<HomeController>().sharePostCountReaction.value = null;
+                        } else {
+                          Get.find<HomeController>().sharePostCountReaction.value = Get.find<HomeController>().postData.value!.post.countReactions!.value;
+                        }
+                        Get.find<HomeController>().sharedPostMyReaction.value = Get.find<HomeController>().postData.value!.post.myReaction?.value ?? "";
                       },
                     ),
                   )),
@@ -310,7 +317,6 @@ class CommonPostWidget extends StatelessWidget {
                               Get.to(() => HomePostDetailsScreen(
                                     postIndex: postIndex,
                                   ));
-                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             } else {
                               Get.to(() => CommonPhotoView(
                                     image: Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[0].path.toString(),
@@ -353,7 +359,6 @@ class CommonPostWidget extends StatelessWidget {
                               Get.to(() => HomePostDetailsScreen(
                                     postIndex: postIndex,
                                   ));
-                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             },
                             child: Container(
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -392,7 +397,6 @@ class CommonPostWidget extends StatelessWidget {
                               Get.to(() => HomePostDetailsScreen(
                                     postIndex: postIndex,
                                   ));
-                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             },
                             child: Container(
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -427,7 +431,6 @@ class CommonPostWidget extends StatelessWidget {
                               Get.to(() => HomePostDetailsScreen(
                                     postIndex: postIndex,
                                   ));
-                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             },
                             child: Container(
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -462,7 +465,6 @@ class CommonPostWidget extends StatelessWidget {
                               Get.to(() => HomePostDetailsScreen(
                                     postIndex: postIndex,
                                   ));
-                              await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                             },
                             child: Container(
                               decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -500,7 +502,6 @@ class CommonPostWidget extends StatelessWidget {
                                   Get.to(() => HomePostDetailsScreen(
                                         postIndex: postIndex,
                                       ));
-                                  await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].id);
                                 },
                                 child: Container(
                                     decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -1959,6 +1960,7 @@ class GiftPurchasePaymentContent extends StatelessWidget {
     );
   }
 }
+
 class ShareBottomSheetContent extends StatelessWidget {
   ShareBottomSheetContent({super.key, required this.postData});
   final PostReactionController postReactionController = Get.find<PostReactionController>();

@@ -45,17 +45,17 @@ class PostActivityStatusWidget extends StatelessWidget {
 class ReactionView extends StatelessWidget {
   const ReactionView({super.key, required this.isPost, this.reactCount});
   final bool isPost;
-  final Rx<CountReactions>? reactCount;
+  final Rx<CountReactions?>? reactCount;
 
   @override
   Widget build(BuildContext context) {
-    if (reactCount != null) Get.find<PostReactionController>().reactionView(reactCount?.value.toJson());
+    if (reactCount != null) Get.find<PostReactionController>().reactionView(reactCount?.value?.toJson());
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (!isPost && reactCount?.value.all != null)
+        if (!isPost && reactCount?.value?.all != null)
           Text(
-            reactCount!.value.all!.value >= 1000 ? '${(reactCount!.value.all!.value / 1000).toStringAsFixed(1)}k' : reactCount!.value.all!.value.toString(),
+            reactCount!.value!.all!.value >= 1000 ? '${(reactCount!.value!.all!.value / 1000).toStringAsFixed(1)}k' : reactCount!.value!.all!.value.toString(),
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
         kW4sizedBox,
@@ -66,7 +66,7 @@ class ReactionView extends StatelessWidget {
                 width: Get.find<PostReactionController>().reactStackWidthGetter(),
                 height: 15,
               ),
-              for (int index = 0; index < Get.find<PostReactionController>().reactionView(reactCount?.value.toJson()).length; index++)
+              for (int index = 0; index < Get.find<PostReactionController>().reactionView(reactCount!.value!.toJson()).length; index++)
                 Positioned(
                   left: index * 10,
                   child: Container(
@@ -78,7 +78,7 @@ class ReactionView extends StatelessWidget {
                     ),
                     child: ClipOval(
                       child: SvgPicture.asset(
-                        Get.find<PostReactionController>().reactionView(reactCount?.value.toJson())[index],
+                        Get.find<PostReactionController>().reactionView(reactCount?.value!.toJson())[index],
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -89,7 +89,7 @@ class ReactionView extends StatelessWidget {
         kW4sizedBox,
         if (isPost && reactCount != null)
           Text(
-            reactCount!.value.all!.value > 1000 ? '${(reactCount!.value.all!.value / 1000).toStringAsFixed(1)}k' : reactCount!.value.all!.value.toString(),
+            reactCount!.value!.all!.value > 1000 ? '${(reactCount!.value!.all!.value / 1000).toStringAsFixed(1)}k' : reactCount!.value!.all!.value.toString(),
             style: regular10TextStyle(cSmallBodyTextColor),
           ),
       ],

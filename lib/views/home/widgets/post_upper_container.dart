@@ -470,13 +470,15 @@ class SharePostUpperContainer extends StatelessWidget {
                                   ),
                                 ),
                               const TextSpan(text: '\n'),
-                              const WidgetSpan(
+                              WidgetSpan(
                                 baseline: TextBaseline.alphabetic,
                                 alignment: PlaceholderAlignment.baseline,
                                 child: Padding(
                                   padding: EdgeInsets.only(bottom: 0),
                                   child: Icon(
-                                    BipHip.world,
+                                    globalController.privacyList.firstWhere(
+                                      (element) => element['id'] == globalController.commonPostList[postIndex].sharePosts!.isPublic,
+                                    )["icon"],
                                     color: cIconColor,
                                     size: kIconSize12,
                                   ),

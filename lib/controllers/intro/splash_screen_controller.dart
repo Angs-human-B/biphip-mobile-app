@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class SplashScreenController extends GetxController {
@@ -35,6 +36,7 @@ class SplashScreenController extends GetxController {
           Get.find<HomeController>().homeTabIndex.value = 0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
+          Get.find<CreatePostController>().getCreatePost();
         } else {
           await Get.find<GlobalController>().getUserInfo();
           final AuthenticationController authenticationController = Get.find<AuthenticationController>();

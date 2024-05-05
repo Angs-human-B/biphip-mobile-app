@@ -15,12 +15,6 @@ class CreatePostController extends GetxController {
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
 
-  @override
-  void onInit() async {
-    getCreatePost();
-    super.onInit();
-  }
-
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
   final TextEditingController createPostController = TextEditingController();

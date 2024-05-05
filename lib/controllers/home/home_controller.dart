@@ -1,4 +1,6 @@
 import 'package:bip_hip/models/home/new_post_list_model.dart';
+import 'package:bip_hip/models/post/get_reply_list_model.dart';
+import 'package:bip_hip/models/post/new_post_comment.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class HomeController extends GetxController {
@@ -253,6 +255,8 @@ class HomeController extends GetxController {
   //Get post data
   final RxBool isPostDetailsPageLoading = RxBool(false);
   final Rx<PostDataModel?> postData = Rx<PostDataModel?>(null);
+  final RxString sharedPostMyReaction = RxString("");
+  final Rx<CountReactions?> sharePostCountReaction = Rx<CountReactions?>(null);
   Future<void> getPostData(id) async {
     try {
       isPostDetailsPageLoading.value = true;
@@ -264,7 +268,11 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        postReplyShow.clear();
         postData.value = PostDataModel.fromJson(response.data);
+        for (int i = 0; i < postData.value!.post.comments.length; i++) {
+          postReplyShow.add(false);
+        }
         isPostDetailsPageLoading.value = false;
       } else {
         isPostDetailsPageLoading.value = true;
@@ -279,6 +287,141 @@ class HomeController extends GetxController {
     } catch (e) {
       isPostDetailsPageLoading.value = true;
       ll('getPostData error: $e');
+    }
+  }
+
+  //   //*get Specific post Comments
+  final ScrollController postCommentListScrollController = ScrollController();
+  final Rx<PostCommentModel?> postCommentListData = Rx<PostCommentModel?>(null);
+  final RxList<CommentDataRx> postCommentList = RxList<CommentDataRx>([]);
+  final RxInt postCommentIndex = RxInt(-1);
+  final RxBool isPostCommentLoading = RxBool(false);
+  final Rx<String?> getPostCommentSubLink = Rx<String?>(null);
+  final RxBool getPostCommentScrolled = RxBool(false);
+  final RxList<bool> postReplyShow = RxList<bool>([]);
+  Future<void> getPostCommentList(int refType, int refId) async {
+    try {
+      isPostCommentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetComment?ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        postCommentList.clear();
+        postReplyShow.clear();
+        postData.value!.post.comments.clear();
+        getPostCommentScrolled.value = false;
+        postCommentListData.value = PostCommentModel.fromJson(response.data);
+        postCommentList.addAll(postCommentListData.value!.comments!.data);
+        for (int i = 0; i < postCommentList.length; i++) {
+          postReplyShow.add(false);
+        }
+        postData.value!.post.comments.addAll(postCommentList);
+        getPostCommentSubLink.value = postCommentListData.value!.comments!.nextPageUrl;
+        if (getPostCommentSubLink.value != null) {
+          getPostCommentScrolled.value = false;
+        } else {
+          getPostCommentScrolled.value = true;
+        }
+        isPostCommentLoading.value = false;
+      } else {
+        isPostCommentLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostCommentLoading.value = true;
+      ll('getPostCommentList error: $e');
+    }
+  }
+
+  //*Get More Comment List for pagination
+  Future<void> getMorePostCommentList(take, int refType, int refId) async {
+    try {
+      isPostCommentLoading.value = true;
+      String? token = await spController.getBearerToken();
+      dynamic commentListSub;
+      if (getPostCommentSubLink.value == null) {
+        return;
+      } else {
+        commentListSub = getPostCommentSubLink.value!.split('?');
+      }
+      String commentListSuffixUrl = '';
+
+      commentListSuffixUrl = '?${commentListSub[1]}&ref_type=${refType.toString()}&ref_id=${refId.toString()}&take=10';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetComment + commentListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        postCommentListData.value = PostCommentModel.fromJson(response.data);
+        postData.value!.post.comments.addAll(postCommentListData.value!.comments!.data);
+        postReplyShow.clear();
+        for (int i = 0; i < postData.value!.post.comments.length; i++) {
+          postReplyShow.add(false);
+        }
+        getPostCommentSubLink.value = postCommentListData.value!.comments!.nextPageUrl;
+        if (getPostCommentSubLink.value != null) {
+          getPostCommentScrolled.value = false;
+        } else {
+          getPostCommentScrolled.value = true;
+        }
+        isPostCommentLoading.value = false;
+      } else {
+        isPostCommentLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostCommentLoading.value = true;
+      ll('getMorePostCommentList error: $e');
+    }
+  }
+
+  final Rx<ReplyListModel?> postReplyListData = Rx<ReplyListModel?>(null);
+  final RxList<CommentReply> postReplyList = RxList<CommentReply>([]);
+  final RxBool isPostReplyLoading = RxBool(false);
+  Future<void> getPostReplyList(int commentId, commentIndex) async {
+    try {
+      isPostReplyLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetReply?commentId=${commentId.toString()}&take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        postReplyList.clear();
+        postData.value!.post.comments[commentIndex].commentReplies.clear();
+        postReplyListData.value = ReplyListModel.fromJson(response.data);
+        postReplyList.addAll(postReplyListData.value!.commentReplies!.data);
+        postData.value!.post.comments[commentIndex].commentReplies.addAll(postReplyList);
+        isPostReplyLoading.value = false;
+      } else {
+        isPostReplyLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostReplyLoading.value = true;
+      ll('getPostReplyList error: $e');
     }
   }
 
