@@ -45,28 +45,52 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else if (createPostController.category.value == 'Kids') {
-      if ((createPostController.createPostController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
-          (createPostController.kidID.value != -1)) {
-        createPostController.isPostButtonActive.value = true;
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
       } else {
-        createPostController.isPostButtonActive.value = false;
+        if ((createPostController.createPostTextEditingController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
+            (createPostController.kidID.value != -1)) {
+          createPostController.isPostButtonActive.value = true;
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
       }
     } else if (createPostController.category.value == 'News') {
+       if (createPostController.isEditPost.value) {
+        if ((createPostController.previousNewsTitle.value == createPostController.newsTitleTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
+      } else {
       if (createPostController.newsTitleTextEditingController.text.trim() == '') {
         createPostController.isPostButtonActive.value = false;
       } else {
         createPostController.isPostButtonActive.value = true;
       }
+      }
     } else {
-      if (createPostController.createPostController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
-        createPostController.isPostButtonActive.value = true;
-        if (createPostController.createPostController.text.length > 150) {
-          createPostController.isTextLimitCrossed.value = true;
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
         } else {
-          createPostController.isTextLimitCrossed.value = false;
+          createPostController.isPostButtonActive.value = true;
         }
       } else {
-        createPostController.isPostButtonActive.value = false;
+        if (createPostController.createPostTextEditingController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
+          createPostController.isPostButtonActive.value = true;
+          if (createPostController.createPostTextEditingController.text.length > 150) {
+            createPostController.isTextLimitCrossed.value = true;
+          } else {
+            createPostController.isTextLimitCrossed.value = false;
+          }
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
       }
     }
   }

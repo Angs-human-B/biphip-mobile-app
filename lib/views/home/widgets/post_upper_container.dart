@@ -585,30 +585,27 @@ class SelfPostActionContent extends StatelessWidget {
               } else if (createPostController.category.value == "News") {
                 if (postData.title != null) {
                   createPostController.newsTitleTextEditingController.text = postData.title.toString();
+                  createPostController.previousNewsTitle.value = postData.title ?? "";
                 }
                 if (postData.description != null) {
                   createPostController.newsDescriptionTextEditingController.text = postData.description.toString();
                 }
               } else {
-                createPostController.createPostController.text = postData.content ?? "";
+                createPostController.createPostTextEditingController.text = postData.content ?? "";
+                createPostController.previousPostContent.value = postData.content ?? "";
                 if (postData.images.isNotEmpty) {
                   createPostController.imageIdList.clear();
                   createPostController.deleteImageIdList.clear();
                   for (int i = 0; i < postData.images.length; i++) {
                     createPostController.allMediaList.add(postData.images[i].fullPath);
+                    createPostController.previousPostImageLength.value = createPostController.allMediaList.length;
                     createPostController.imageIdList.add(postData.images[i].id);
-                    // createPostController.imageDescriptionTextEditingController.add(postData.images[i].description ?? "");
-                    // // createPostController.imageDescriptionTextEditingController.add(postData.images[i].description ?? "");
-                    // ll("image descriptions ${createPostController.imageDescriptionTextEditingController[i].toString()}");
-                    ll(postData.images[i].description);
                     createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
-                    ll("image descriptions ${createPostController.imageDescriptionTextEditingController[i].text}");
                     createPostController.imageLocationsList.add(postData.images[i].imageTakenLocation);
                     createPostController.imageTimesList.add(postData.images[i].imageTakenTime);
-                    // createPostController.imageTagIdList.add(postData.images[i].taggedFriends);
                     createPostController.imageTagIdList.add('1,58');
                   }
-                  ll(createPostController.imageDescriptionTextEditingController);
+                  // ll(createPostController.imageDescriptionTextEditingController);
                 }
                 if (createPostController.category.value == "Kids") {
                   createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";

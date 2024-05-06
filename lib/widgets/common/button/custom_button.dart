@@ -10,6 +10,7 @@ class CustomElevatedButton extends StatelessWidget {
   final IconData? prefixIcon, suffixIcon;
   final TextStyle? textStyle;
   final bool? isCustomButton;
+  final Color? disableColor;
 
   const CustomElevatedButton({
     Key? key,
@@ -26,7 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.suffixIconColor,
     this.suffixIcon,
     this.isCustomButton,
-    this.prefixIconSize,
+    this.prefixIconSize, this.disableColor,
   }) : super(key: key);
 
   @override
@@ -47,7 +48,7 @@ class CustomElevatedButton extends StatelessWidget {
             )),
             backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) {
-                return cPlaceHolderColor;
+                return disableColor?? cPlaceHolderColor;
               }
               return buttonColor!;
             }),

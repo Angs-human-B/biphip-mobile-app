@@ -17,7 +17,7 @@ class CreatePostController extends GetxController {
 
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
-  final TextEditingController createPostController = TextEditingController();
+  final TextEditingController createPostTextEditingController = TextEditingController();
   final RxString tempSelectedCategory = RxString('');
   final RxString category = RxString('');
   final RxInt categoryID = RxInt(-1);
@@ -114,6 +114,9 @@ class CreatePostController extends GetxController {
   ];
 
   final RxList<dynamic> allMediaList = RxList<dynamic>([]);
+  final RxInt previousPostImageLength = RxInt(-1);
+  final RxString previousPostContent = RxString("");
+  final RxString previousNewsTitle = RxString("");
   // final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
 
   final List platformList = [
@@ -418,7 +421,7 @@ class CreatePostController extends GetxController {
   final RxBool isPostedFromProfile = RxBool(false);
 
   void resetCreatePost() {
-    createPostController.clear();
+    createPostTextEditingController.clear();
     categoryID.value = -1;
     kidID.value = -1;
     brandID.value = -1;
@@ -445,7 +448,7 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         if (category.value != '') 'post_category_id': categoryID.value.toString(),
-        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
+        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostTextEditingController.text.trim(),
         "is_public": privacyId.value.toString(),
         'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
@@ -518,7 +521,7 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'share_post_id': postId.toString(),
-        'content': createPostController.text.trim(),
+        'content': createPostTextEditingController.text.trim(),
         'is_public': '1',
         // 'post_tag_friend_id': tags.join(','),
       };
@@ -761,7 +764,7 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         "id": postId.toString(),
-        "content": createPostController.text.toString().trim(),
+        "content": createPostTextEditingController.text.toString().trim(),
         if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
         // if (subCategoryIndex.value != -1) "post_sub_category_id": subCategoryIndex.value.toString(),
         "is_public": privacyId.value.toString(),

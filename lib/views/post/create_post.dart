@@ -48,7 +48,10 @@ class CreatePost extends StatelessWidget {
                         child: Obx(
                           () => CustomElevatedButton(
                             label: createPostController.isEditPost.value ? ksSave.tr : ksPost.tr,
-                            onPressed: createPostController.isPostButtonActive.value
+                            onPressed: createPostController.isPostButtonActive.value ||
+                                    (createPostController.isEditPost.value &&
+                                            (createPostController.privacyId.value != globalController.selectedAudienceId.value) ||
+                                        (createPostController.previousPostImageLength.value != createPostController.allMediaList.length))
                                 ? () async {
                                     unfocus(context);
                                     if (Get.find<KidsController>().isRouteFromKid.value) {
@@ -85,7 +88,7 @@ class CreatePost extends StatelessWidget {
                                 if (createPostController.category.value == 'News') kH16sizedBox,
                                 if (createPostController.category.value != 'Selling' && createPostController.category.value != 'News')
                                   CustomModifiedTextField(
-                                    controller: createPostController.createPostController,
+                                    controller: createPostController.createPostTextEditingController,
                                     maxLength: 1000,
                                     maxLines: 100,
                                     minLines: 1,
