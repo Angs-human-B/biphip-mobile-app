@@ -3,9 +3,6 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/post/comment_widget.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
-import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class PhotoDetails extends StatelessWidget {
   PhotoDetails({super.key});

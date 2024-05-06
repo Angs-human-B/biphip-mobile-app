@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -247,7 +248,7 @@ class PostUpperContainer extends StatelessWidget {
 
 class TaggedFriendContent extends StatelessWidget {
   const TaggedFriendContent({super.key, required this.taggedFriend});
-  final List<TaggedFriend> taggedFriend;
+  final List<FriendFamilyUserData> taggedFriend;
 
   @override
   Widget build(BuildContext context) {
@@ -535,6 +536,7 @@ class SelfPostActionContent extends StatelessWidget {
             globalController.postSelectedAction.value = "Edit Post";
             if (globalController.postSelectedAction.value == "Edit Post") {
               CreatePostHelper().resetCreatePostData();
+              createPostController.taggedFriends.addAll(postData.taggedFriends);
               createPostController.postId.value = globalController.commonPostList[postIndex].id!;
               createPostController.isEditPost.value = true;
               createPostController.privacyId.value = postData.isPublic!;

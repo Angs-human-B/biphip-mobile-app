@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -9,7 +8,6 @@ import 'package:bip_hip/views/menu/kids/kid_profile/common_feature_post_widget.d
 import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class KidProfilePostSection extends StatelessWidget {

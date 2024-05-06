@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/common/common_link_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/menu/profile/common_list_models.dart';
@@ -116,7 +117,7 @@ class PostDataRx {
   dynamic timelineId;
   dynamic type;
   dynamic reviewRating;
-  List<TaggedFriend> taggedFriends;
+  List<FriendFamilyUserData> taggedFriends;
   RxInt? countBids;
   User? user;
   Brand? kid;
@@ -231,8 +232,8 @@ bool? hasReport;
         timelineId: json["timeline_id"],
         countBids: RxInt(json["count_bids"]),
         type: json["type"],
-        taggedFriends: json["tagged_friends"] == null ? [] : List<TaggedFriend>.from(json["tagged_friends"].map((x) => TaggedFriend.fromJson(x))),
-        user: User.fromJson(json["user"]),
+        taggedFriends: json["tagged_friends"] == null ? [] : List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => FriendFamilyUserData.fromJson(x))),
+        user:  User.fromJson(json["user"]),
         kid: json["kid"] == null ? null : Brand.fromJson(json["kid"]),
         store: json["store"] == null ? null : Brand.fromJson(json["store"]),
         postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
@@ -289,7 +290,7 @@ class SharePosts {
   dynamic storeId;
   dynamic reviewRating;
   dynamic imageAlbumId;
-  List<TaggedFriend> taggedFriends;
+  List<FriendFamilyUserData> taggedFriends;
   int? countBids;
   RxString? myReaction;
   List<String> viewers;
@@ -406,7 +407,7 @@ class SharePosts {
         storeId: json["store_id"],
         reviewRating: json["review_rating"],
         imageAlbumId: json["image_album_id"],
-        taggedFriends: List<TaggedFriend>.from(json["tagged_friends"].map((x) => x)),
+        taggedFriends: List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => x)),
         countBids: json["count_bids"],
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
         viewers: List<String>.from(json["viewers"].map((x) => x)),
@@ -480,7 +481,7 @@ class ImageElement {
   int? countStar;
   Rx<CountReactions>? countReactions;
   String? fullPath;
-  List<TaggedFriend> taggedFriends;
+  List<FriendFamilyUserData> taggedFriends;
   int? totalViewCount;
   RxString? myReaction;
 
@@ -529,63 +530,11 @@ class ImageElement {
         countStar: json["count_star"],
         countReactions: json["count_reactions"] == null || json["count_reactions"] == 0 ? null : Rx<CountReactions>(CountReactions.fromJson(json["count_reactions"])),
         fullPath: json["full_path"],
-        taggedFriends: List<TaggedFriend>.from(json["tagged_friends"].map((x) => TaggedFriend.fromJson(x))),
+        taggedFriends: List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => FriendFamilyUserData.fromJson(x))),
         totalViewCount: json["total_view_count"],
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
       );
 }
-
-class TaggedFriend {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? image;
-  String? referralUrl;
-  String? fullName;
-  String? profilePicture;
-  dynamic coverPhoto;
-  String? currentBadge;
-  int? friendStatus;
-  int? followStatus;
-  dynamic familyRelationStatus;
-  int? mutualFriend;
-  dynamic yearsOld;
-
-  TaggedFriend({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.image,
-    required this.referralUrl,
-    required this.fullName,
-    required this.profilePicture,
-    required this.coverPhoto,
-    required this.currentBadge,
-    required this.friendStatus,
-    required this.followStatus,
-    required this.familyRelationStatus,
-    required this.mutualFriend,
-    required this.yearsOld,
-  });
-
-  factory TaggedFriend.fromJson(Map<String, dynamic> json) => TaggedFriend(
-        id: json["id"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        image: json["image"],
-        referralUrl: json["referral_url"],
-        fullName: json["full_name"],
-        profilePicture: json["profile_picture"],
-        coverPhoto: json["cover_photo"],
-        currentBadge: json["current_badge"],
-        friendStatus: json["friend_status"],
-        followStatus: json["follow_status"],
-        familyRelationStatus: json["family_relation_status"],
-        mutualFriend: json["mutual_friend"],
-        yearsOld: json["years_old"],
-      );
-}
-
 class MentionUser {
   int? id;
   String? fullName;

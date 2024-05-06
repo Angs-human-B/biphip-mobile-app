@@ -1,10 +1,7 @@
-
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/utility/video_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
-import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class VideoContentSection extends StatelessWidget {
   VideoContentSection({super.key, required this.item});

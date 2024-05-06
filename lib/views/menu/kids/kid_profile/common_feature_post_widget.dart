@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
@@ -73,7 +74,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
   final IconData privacy;
   final Color? categoryIconColor;
   final List mediaList;
-  final List<TaggedFriend> taggedFriends;
+  final List<FriendFamilyUserData> taggedFriends;
   final CountReactions? reactCount;
   final int commentCount, shareCount, giftCount, postID;
   final int postIndex;

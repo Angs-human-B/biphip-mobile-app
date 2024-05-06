@@ -214,8 +214,6 @@ class CreatePostUpperSection extends StatelessWidget {
                             suffixIconColor: cBlackColor,
                             textStyle: regular12TextStyle(cBlackColor),
                           ),
-
-                        // kW8sizedBox,
                         if (!createPostController.isSharingPost.value)
                           CustomElevatedButton(
                             label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
