@@ -21,6 +21,7 @@ class CommentWidget extends StatelessWidget {
   final int postIndex, commentIndex;
   final VoidCallback? profileOnPressed;
   final GlobalController globalController = Get.find<GlobalController>();
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +57,11 @@ class CommentWidget extends StatelessWidget {
             InkWell(
               borderRadius: k8CircularBorderRadius,
               onTap: () {
-                Get.find<PostReactionController>().commentId.value = globalController.commonPostList[postIndex].comments[commentIndex].id!;
-                Get.find<PostReactionController>().selectedCommentIndex.value = commentIndex;
-                Get.find<PostReactionController>().commentedUserId.value = globalController.commonPostList[postIndex].comments[commentIndex].user!.id!;
-                Get.find<PostReactionController>().isUpdateReply.value = false;
-                Get.find<GlobalController>().commonBottomSheet(
+                postReactionController.commentId.value = globalController.commonPostList[postIndex].comments[commentIndex].id!;
+                postReactionController.selectedCommentIndex.value = commentIndex;
+                postReactionController.commentedUserId.value = globalController.commonPostList[postIndex].comments[commentIndex].user!.id!;
+                postReactionController.isUpdateReply.value = false;
+                globalController.commonBottomSheet(
                     context: context,
                     bottomSheetHeight: height * 0.4,
                     content: CommentBottomSheetContent(
@@ -102,7 +103,7 @@ class CommentWidget extends StatelessWidget {
                       //       )
                       //     : comment,
                       if (globalController.commonPostList[postIndex].comments[commentIndex].comment != null)
-                        Get.find<PostReactionController>().formatMentions(globalController.commonPostList[postIndex].comments[commentIndex].comment, context),
+                        postReactionController.formatMentions(globalController.commonPostList[postIndex].comments[commentIndex].comment, context),
 
                       // if (isLink)
                       //   Text(

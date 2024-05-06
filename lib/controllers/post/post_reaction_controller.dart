@@ -210,7 +210,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //* post Reaction API Implementation
   final RxBool isPostCommentLoading = RxBool(false);
   Future<void> postComment(int refType, int refId, context, String commentOrReply, postIndex) async {
-    ll("HELLO : $postIndex");
     try {
       isPostCommentLoading.value = true;
       String? token = await spController.getBearerToken();

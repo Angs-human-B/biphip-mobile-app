@@ -133,7 +133,6 @@ class HomePostDetails extends StatelessWidget {
             ),
             if (postReactionController.isCommentDeleteLoading.value ||
                 postReactionController.isCommentHideLoading.value ||
-                postReactionController.isPostCommentLoading.value ||
                 postReactionController.isUpdateCommentLoading.value ||
                 postReactionController.isReplyDeleteLoading.value ||
                 postReactionController.isReplyHideLoading.value ||
@@ -143,7 +142,6 @@ class HomePostDetails extends StatelessWidget {
                   onWillPop: () async {
                     if (postReactionController.isCommentDeleteLoading.value ||
                         postReactionController.isCommentHideLoading.value ||
-                        postReactionController.isPostCommentLoading.value ||
                         postReactionController.isUpdateCommentLoading.value ||
                         postReactionController.isReplyDeleteLoading.value ||
                         postReactionController.isReplyHideLoading.value ||
@@ -293,112 +291,57 @@ class PostDetailsBottomSection extends StatelessWidget {
           //   ),
 
           // if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
-          postReactionController.isCommentLoading.value
-              ? Padding(
-                  padding: const EdgeInsets.only(left: k40Padding, right: kHorizontalPadding, top: k12Padding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ShimmerCommon(
-                        widget: Container(height: h12, width: width * 0.1, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
-                      ),
-                      ShimmerCommon(
-                        widget: Container(height: h12, width: width * 0.3, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
-                      ),
-                    ],
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
-                  child: PostActivityStatusWidget(
-                    postIndex: postIndex,
-                    reactionOnPressed: () {},
-                    isGiftShown: true,
-                    giftOnPressed: () {
-                      postReactionController.giftFilter(0);
-                      Get.toNamed(krGiftView);
-                    },
-                  ),
-                ),
-          postReactionController.isCommentLoading.value
-              ? Padding(
-                  padding: const EdgeInsets.only(bottom: k8Padding, top: k8Padding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ShimmerCommon(
-                        widget: Container(height: h20, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
-                      ),
-                      ShimmerCommon(
-                        widget: Container(height: h20, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
-                      ),
-                      ShimmerCommon(
-                        widget: Container(height: h20, width: width * 0.2, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
-                      )
-                    ],
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: kHorizontalPadding,
-                  ),
-                  child: LikeSectionWidget(
-                    postIndex: postIndex,
-                    isGiftShown: globalController.userId.value == globalController.commonPostList[postIndex].user!.id! ? false : true,
-                    giftOnPressed: () {
-                      // postReactionController.resetGiftData();
-                      // globalController.commonBottomSheet(
-                      //   context: context,
-                      //   content: GiftContent(),
-                      //   isScrollControlled: true,
-                      //   bottomSheetHeight: height * .9,
-                      //   onPressCloseButton: () {
-                      //     Get.back();
-                      //   },
-                      //   onPressRightButton: null,
-                      //   rightText: '',
-                      //   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                      //   title: ksSendGift.tr,
-                      //   isRightButtonShow: false,
-                      // );
-                    },
-                    commentOnPressed: () async {
-                      postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                      postReactionController.commentId.value = -1;
-                      showComment.value = !showComment.value;
-                    },
-                  ),
-                ),
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
+            child: PostActivityStatusWidget(
+              postIndex: postIndex,
+              reactionOnPressed: () {},
+              isGiftShown: true,
+              giftOnPressed: () {
+                postReactionController.giftFilter(0);
+                Get.toNamed(krGiftView);
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: kHorizontalPadding,
+            ),
+            child: LikeSectionWidget(
+              postIndex: postIndex,
+              isGiftShown: globalController.userId.value == globalController.commonPostList[postIndex].user!.id! ? false : true,
+              giftOnPressed: () {
+                // postReactionController.resetGiftData();
+                // globalController.commonBottomSheet(
+                //   context: context,
+                //   content: GiftContent(),
+                //   isScrollControlled: true,
+                //   bottomSheetHeight: height * .9,
+                //   onPressCloseButton: () {
+                //     Get.back();
+                //   },
+                //   onPressRightButton: null,
+                //   rightText: '',
+                //   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                //   title: ksSendGift.tr,
+                //   isRightButtonShow: false,
+                // );
+              },
+              commentOnPressed: () async {
+                postReactionController.commentMentionKey.currentState?.controller?.text = "";
+                postReactionController.commentId.value = -1;
+                showComment.value = !showComment.value;
+              },
+            ),
+          ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: CustomDivider(),
           ),
           kH12sizedBox,
-          // SizedBox(
-          //     width: width - 40,
-          //     height: 130,
-          //     child: CommentTextField(
-          //       hintText: "${ksWriteAComment.tr} ...",
-          //       onPressedCamera: () async {
-          //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged, postReactionController.commentImageLink,
-          //             postReactionController.commentImageFile, 'gallery', false);
-          //         postReactionController.commentSendEnabled();
-          //       },
-          //       onPressedSend: postReactionController.isCommentSendEnable.value
-          //           ? () async {
-          //               if (postReactionController.isUpdateComment.value) {
-          //                 await postReactionController.updateComment(context);
-          //                 postReactionController.commentMentionKey.currentState!.controller!.text = "";
-          //               } else {
-          //                 await postReactionController.postComment(1, postReactionController.refId.value, context);
-          //                 postReactionController.commentMentionKey.currentState!.controller!.text = "";
-          //               }
-          //             }
-          //           : null,
-          //     )),
-          kH12sizedBox,
           // for (int i = 0; i < postReactionController.commentList.length; i++)
-          postReactionController.isCommentLoading.value
+          if (postReactionController.isPostCommentLoading.value) const SingleCommentShimmer(),
+          (postReactionController.isCommentLoading.value && !postReactionController.isPostCommentLoading.value)
               ? const CommentCommonShimmer()
               : ListView.separated(
                   separatorBuilder: (context, index) => kH8sizedBox,
@@ -467,6 +410,46 @@ class PostDetailsBottomSection extends StatelessWidget {
   }
 }
 
+class SingleCommentShimmer extends StatelessWidget {
+  const SingleCommentShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ShimmerCommon(
+              widget: Container(
+                height: 32,
+                width: 32,
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: cWhiteColor),
+              ),
+            ),
+            kW8sizedBox,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ShimmerCommon(
+                  widget: Container(
+                    width: width - 80,
+                    height: 60,
+                    decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        kH16sizedBox,
+      ],
+    );
+  }
+}
+
 class CommentCommonShimmer extends StatelessWidget {
   const CommentCommonShimmer({super.key});
 
@@ -475,7 +458,6 @@ class CommentCommonShimmer extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        kH16sizedBox,
         Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
