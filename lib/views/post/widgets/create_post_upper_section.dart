@@ -214,34 +214,34 @@ class CreatePostUpperSection extends StatelessWidget {
                           ),
 
                         // kW8sizedBox,
-                        if(!createPostController.isSharingPost.value)
-                        CustomElevatedButton(
-                          label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
-                          prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
-                          prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
-                          onPressed: Get.find<KidsController>().isRouteFromKid.value
-                              ? null
-                              : () async {
-                                  if (createPostController.category.value != '') {
-                                    categoryResetAlertDialog(
-                                      context: context,
-                                      content: const CategoryResetWarningContent(),
-                                      title: ksWarning,
-                                    );
-                                  } else {
-                                    createPostHelper.initializeCategory();
-                                    createPostController.tempCategory.value = createPostController.category.value;
-                                    Get.toNamed(krSelectCategory);
-                                    await createPostController.getPostCategoryList();
-                                  }
-                                },
-                          buttonHeight: 22,
-                          isCustomButton: true,
-                          buttonColor: cGreyBoxColor,
-                          suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
-                          suffixIconColor: cBlackColor,
-                          textStyle: regular12TextStyle(cBlackColor),
-                        ),
+                        if (!createPostController.isSharingPost.value)
+                          CustomElevatedButton(
+                            label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
+                            prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                            prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
+                            onPressed: Get.find<KidsController>().isRouteFromKid.value || createPostController.category.value == ""
+                                ? null
+                                : () async {
+                                    if (createPostController.category.value != '') {
+                                      categoryResetAlertDialog(
+                                        context: context,
+                                        content: const CategoryResetWarningContent(),
+                                        title: ksWarning,
+                                      );
+                                    } else {
+                                      createPostHelper.initializeCategory();
+                                      createPostController.tempCategory.value = createPostController.category.value;
+                                      Get.toNamed(krSelectCategory);
+                                      await createPostController.getPostCategoryList();
+                                    }
+                                  },
+                            buttonHeight: 22,
+                            isCustomButton: true,
+                            buttonColor: cGreyBoxColor,
+                            suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
+                            suffixIconColor: cBlackColor,
+                            textStyle: regular12TextStyle(cBlackColor),
+                          ),
                         // kW8sizedBox,
                         if (createPostController.category.value == "Kids" || createPostController.category.value == 'News')
                           ElevatedButton(

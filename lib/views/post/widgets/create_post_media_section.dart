@@ -29,18 +29,17 @@ class CreatePostMediaSection extends StatelessWidget {
                     color: cWhiteColor,
                     height: (createPostController.allMediaList.length < 2) ? 302 : 150,
                     width: width - 40,
-                    child:
-                        createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty && createPostController.allMediaFileList.isEmpty
-                            ? Image.network(
-                                createPostController.allMediaList[0] ?? "",
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.file(
-                                createPostController.allMediaFileList[0].value,
-                                filterQuality: FilterQuality.high,
-                                fit: BoxFit.cover,
-                              ),
+                    child: createPostController.allMediaList[0] is String
+                        ? Image.network(
+                            createPostController.allMediaList[0] ?? "",
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            createPostController.allMediaList[0].value,
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 Positioned(
@@ -49,11 +48,12 @@ class CreatePostMediaSection extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      if (createPostController.isEditPost.value &&
-                          createPostController.allMediaList.isNotEmpty &&
-                          createPostController.allMediaFileList.isEmpty) {
+                      if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty) {
                         createPostHelper.removeImage(0);
-                        // createPostController.imageDescriptionTextEditingController[0].clear();
+                        createPostController.imageDescriptionTextEditingController[0].clear();
+                        createPostController.imageLocationsList.removeAt(0);
+                        createPostController.imageTimesList.removeAt(0);
+                        createPostController.imageTagIdList.removeAt(0);
                       } else {
                         createPostHelper.removeMedia(0);
                         createPostHelper.checkCanCreatePost();
@@ -89,18 +89,16 @@ class CreatePostMediaSection extends StatelessWidget {
                           color: cWhiteColor,
                           height: 150,
                           width: (createPostController.allMediaList.length < 3) ? (width - 40) : (width - 42) / 2,
-                          child: createPostController.isEditPost.value &&
-                                  createPostController.allMediaList.isNotEmpty &&
-                                  createPostController.allMediaFileList.isEmpty
+                          child: createPostController.allMediaList[1] is String
                               ? Image.network(
                                   createPostController.allMediaList[1] ?? "",
                                   fit: BoxFit.cover,
                                 )
                               : Image.file(
-                                      createPostController.allMediaFileList[1].value,
-                                      filterQuality: FilterQuality.high,
-                                      fit: BoxFit.cover,
-                                    ),
+                                  createPostController.allMediaList[1].value,
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Positioned(
@@ -109,11 +107,12 @@ class CreatePostMediaSection extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            if (createPostController.isEditPost.value &&
-                                createPostController.allMediaList.isNotEmpty &&
-                                createPostController.allMediaFileList.isEmpty) {
+                            if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty) {
                               createPostHelper.removeImage(1);
-                              // createPostController.imageDescriptionTextEditingController[1].clear();
+                              createPostController.imageDescriptionTextEditingController[1].clear();
+                              createPostController.imageLocationsList.removeAt(1);
+                              createPostController.imageTimesList.removeAt(1);
+                              createPostController.imageTagIdList.removeAt(1);
                             } else {
                               createPostHelper.removeMedia(1);
                               createPostController.imageDescriptionTextEditingController[1].clear();
@@ -151,15 +150,13 @@ class CreatePostMediaSection extends StatelessWidget {
                           color: cWhiteColor,
                           height: 150,
                           width: (width - 42) / 2,
-                          child: createPostController.isEditPost.value &&
-                                  createPostController.allMediaList.isNotEmpty &&
-                                  createPostController.allMediaFileList.isEmpty
+                          child: createPostController.allMediaList[2] is String?
                               ? Image.network(
                                   createPostController.allMediaList[2] ?? "",
                                   fit: BoxFit.cover,
                                 )
                               : Image.file(
-                                  createPostController.allMediaFileList[2].value,
+                                  createPostController.allMediaList[2].value,
                                   filterQuality: FilterQuality.high,
                                   fit: BoxFit.cover,
                                   color: cBlackColor.withOpacity(0.3),

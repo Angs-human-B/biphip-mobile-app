@@ -171,7 +171,7 @@ class CreatePostHelper {
 
   void removeMedia(index) {
     createPostController.allMediaList.removeAt(index);
-    createPostController.allMediaFileList.removeAt(index);
+    // createPostController.allMediaFileList.removeAt(index);
     // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
     //   Get.back();
     // }
@@ -309,7 +309,7 @@ class CreatePostHelper {
     createPostController.createPostVideoLink.value = "";
     createPostController.createPostVideoFile.clear();
     createPostController.allMediaList.clear();
-    createPostController.allMediaFileList.clear();
+    // createPostController.allMediaFileList.clear();
     createPostController.sellingAllMediaList.clear();
     createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
@@ -476,7 +476,7 @@ class CreatePostHelper {
 
   void insertMedia(mediaLink, mediaFile) {
     createPostController.allMediaList.addAll(mediaFile);
-    createPostController.allMediaFileList.addAll(mediaFile);
+    // createPostController.allMediaFileList.addAll(mediaFile);
   }
 
   void insertSellingMedia(mediaLink, mediaFile) {
@@ -765,13 +765,12 @@ class CreatePostHelper {
   }
 
   void removeImage(index) {
-    if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty && createPostController.allMediaFileList.isEmpty) {
+    if (createPostController.allMediaList[index] is String) {
       createPostController.allMediaList.removeAt(index);
       createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
-      ll(createPostController.deleteImageIdList);
     } else {
       createPostController.allMediaList.removeAt(index);
-      createPostController.allMediaFileList.removeAt(index);
+      // createPostController.allMediaFileList.removeAt(index);
     }
   }
 }

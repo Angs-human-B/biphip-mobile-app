@@ -582,10 +582,6 @@ class SelfPostActionContent extends StatelessWidget {
                 }
                 createPostController.selectedBrandName.value = postData.store?.name ?? "";
                 createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
-                // createPostController.selectedProductCategoryID.value = postData.sellPostCategoryId;
-                // createPostController.selectedProductCondition.value = postData.sellPostConditionId;
-                // if(createPostController.selectedProductCategoryID.value=){
-                // }
               } else if (createPostController.category.value == "News") {
                 if (postData.title != null) {
                   createPostController.newsTitleTextEditingController.text = postData.title.toString();
@@ -597,11 +593,20 @@ class SelfPostActionContent extends StatelessWidget {
                 createPostController.createPostController.text = postData.content ?? "";
                 if (postData.images.isNotEmpty) {
                   createPostController.imageIdList.clear();
+                  createPostController.deleteImageIdList.clear();
                   for (int i = 0; i < postData.images.length; i++) {
-                    createPostController.deleteImageIdList.clear();
                     createPostController.allMediaList.add(postData.images[i].fullPath);
                     createPostController.imageIdList.add(postData.images[i].id);
+                    // createPostController.imageDescriptionTextEditingController.add(postData.images[i].description ?? "");
+                    // // createPostController.imageDescriptionTextEditingController.add(postData.images[i].description ?? "");
+                    // ll("image descriptions ${createPostController.imageDescriptionTextEditingController[i].toString()}");
+                    ll(postData.images[i].description);
                     createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
+                    ll("image descriptions ${createPostController.imageDescriptionTextEditingController[i].text}");
+                    createPostController.imageLocationsList.add(postData.images[i].imageTakenLocation);
+                    createPostController.imageTimesList.add(postData.images[i].imageTakenTime);
+                    // createPostController.imageTagIdList.add(postData.images[i].taggedFriends);
+                    createPostController.imageTagIdList.add('1,58');
                   }
                   ll(createPostController.imageDescriptionTextEditingController);
                 }
