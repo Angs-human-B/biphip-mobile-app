@@ -77,35 +77,6 @@ class HomePostDetails extends StatelessWidget {
                                   CommonPostDetailsWidget(
                                     postIndex: postIndex,
                                   ),
-                                  // CommonPostDetailsWidget(//!Not used now
-                                  //   mediaList: homeController.postData.value!.post.images,
-                                  //   isCommentShown: true,
-                                  //   showBottomSection: true,
-                                  //   postIndex: postIndex,
-                                  //   postText: homeController.postData.value!.post.postCategory?.name == 'News'
-                                  //       ? homeController.postData.value!.post.description ?? ''
-                                  //       : homeController.postData.value!.post.content ?? '', //API
-                                  //   // title: homeController.postData.value!.post.title, //API
-                                  //   title: homeController.postData.value!.post.title, //API
-                                  // ),
-                                  // SizedBox(
-                                  //     width: width - 40,
-                                  //     height: 108,
-                                  //     child: CommentTextField(
-                                  //       hintText: "${ksWriteAComment.tr} ...",
-                                  //       onPressedCamera: () async {
-                                  //         await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                  //             postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                  //         postReactionController.commentSendEnabled();
-                                  //       },
-                                  //       onPressedSend: () async {
-                                  //         if (postReactionController.isUpdateComment.value) {
-                                  //           await Get.find<PostReactionController>().updateComment();
-                                  //         } else {
-                                  //           await Get.find<PostReactionController>().postComment(1, postReactionController.refId.value);
-                                  //         }
-                                  //       },
-                                  //     )),
                                   if (postReactionController.commentList.isNotEmpty &&
                                       postReactionController.getCommentScrolled.value &&
                                       postReactionController.getCommentSubLink.value != null)

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
@@ -630,6 +631,16 @@ class GlobalController extends GetxController {
       postList[postIndex].countComment!.value = postList[postIndex].countComment!.value - 1;
     }
     // postList.replaceRange(postIndex, postIndex + 1, [postList[postIndex]]);
+  }
+
+  void updateSharedPostCommentCount(isAddComment) {
+    ll("BEFORE COMMENT: ${Get.find<HomeController>().postData.value!.post.countComment!.value}");
+    if (isAddComment) {
+      Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value + 1;
+    } else {
+      Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value - 1;
+    }
+    ll("AFTER COMMENT: ${Get.find<HomeController>().postData.value!.post.countComment!.value}");
   }
 
   final RxList<PostDataRx> commonPostList = RxList<PostDataRx>([]);
