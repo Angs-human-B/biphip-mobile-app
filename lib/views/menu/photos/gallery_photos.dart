@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/shimmers/menu/gallery/gallery_photo_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:bip_hip/views/menu/photos/photos.dart';
 import 'package:bip_hip/views/menu/photos/widgets/gallery_photo_container.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
@@ -87,7 +88,6 @@ class GalleryPhotos extends StatelessWidget {
                           )
                         : Expanded(
                             child: SingleChildScrollView(
-                              // physics: const NeverScrollableScrollPhysics(),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k12Padding),
                                 child: GridView.builder(
@@ -114,18 +114,19 @@ class GalleryPhotos extends StatelessWidget {
                                                   context: context,
                                                   isBottomSheetRightButtonActive: galleryController.galleryPhotoBottomSheetRightButtonState,
                                                   isScrollControlled: true,
-                                                  content: GalleryPhotoActionContent(),
+                                                  content: GalleryPhotoActionContent(
+                                                    defaultValue: galleryController.imageDataList[index].isDefault,
+                                                    selectedIndex: index,
+                                                  ),
                                                   onPressCloseButton: () {
                                                     Get.back();
                                                   },
-                                                  onPressRightButton: () async {
-                                                    Get.back();
-                                                  },
+                                                  onPressRightButton: () {},
                                                   rightText: ksDone.tr,
                                                   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                                   title: ksAction.tr,
-                                                  isRightButtonShow: true,
-                                                  bottomSheetHeight: 140,
+                                                  isRightButtonShow: false,
+                                                  bottomSheetHeight: galleryController.imageDataList[index].isDefault == 0 ? 180 : 120,
                                                 );
                                               },
                                               onPressed: () {
@@ -154,53 +155,47 @@ class GalleryPhotos extends StatelessWidget {
 }
 
 class GalleryPhotoActionContent extends StatelessWidget {
-  GalleryPhotoActionContent({super.key});
+  GalleryPhotoActionContent({super.key, this.defaultValue, this.selectedIndex});
+  final int? defaultValue, selectedIndex;
   final GalleryController galleryController = Get.find<GalleryController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: galleryController.galleryPhotoActionList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
-                child: CustomListTile(
-                  leading: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cNeutralColor,
-                    ),
-                    height: h28,
-                    width: h28,
-                    child: Icon(
-                      galleryController.galleryPhotoActionList[index]['icon'],
-                      color: cBlackColor,
-                      size: isDeviceScreenLarge() ? h18 : h14,
-                    ),
-                  ),
-                  title: galleryController.galleryPhotoActionList[index]['action'].toString().tr,
-                  titleTextStyle: semiBold16TextStyle(cBlackColor),
-                  subTitleTextStyle: regular14TextStyle(cBlackColor),
-                  trailing: CustomRadioButton(
-                    onChanged: () {
-                      GalleryPhotoHelper().galleryPhotoActionOnChanged(index: index);
-                    },
-                    isSelected: (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']),
-                  ),
-                  itemColor: GalleryPhotoHelper().galleryPhotoItemColor(index: index),
-                  onPressed: () {
-                     GalleryPhotoHelper().galleryPhotoOnPressed(index: index);
-                  },
-                ),
-              ),
-            );
+        IconWithTextRow(
+          actionIcon: BipHip.downArrow,
+          actionText: ksDownloadAlbum.tr,
+          actionOnPressed: () {
+            Get.back();
           },
         ),
+        if (defaultValue == 0)
+          IconWithTextRow(
+            actionIcon: BipHip.editImageNew,
+            actionText: ksEditAlbum.tr,
+            actionOnPressed: () {
+              Get.back();
+              GalleryPhotoHelper().resetCreateAlbumData();
+              galleryController.isEditAlbum.value = true;
+              galleryController.selectedAlbumId.value = galleryController.imageDataList[selectedIndex!].id!;
+              galleryController.createAlbumNameController.text = galleryController.imageDataList[selectedIndex!].title!;
+              galleryController.temporaryprivacyId.value = galleryController.imageDataList[selectedIndex!].privacy!;
+              galleryController.privacyId.value = galleryController.imageDataList[selectedIndex!].privacy!;
+              galleryController.createAlbumSelectedPrivacy.value = Get.find<GlobalController>().privacyText(galleryController.privacyId.value);
+              galleryController.createAlbumSelectedPrivacyIcon.value = Get.find<GlobalController>().privacyIcon(galleryController.privacyId.value);
+              for (int i = 0; i < galleryController.imageDataList[selectedIndex!].imageList.length; i++) {
+                galleryController.allMediaList.add(galleryController.imageDataList[selectedIndex!].imageList[i].fullPath);
+                galleryController.imageDescriptionTextEditingController
+                    .add(TextEditingController(text: galleryController.imageDataList[selectedIndex!].imageList[i].description ?? ""));
+                galleryController.imageLocationsList.add(galleryController.imageDataList[selectedIndex!].imageList[i].imageTakenLocation);
+                galleryController.imageTimesList.add(galleryController.imageDataList[selectedIndex!].imageList[i].imageTakenTime);
+                galleryController.imageTagIdList.add('1,58');
+              }
+
+              Get.toNamed(krCreateAlbum);
+            },
+          ),
       ],
     );
   }

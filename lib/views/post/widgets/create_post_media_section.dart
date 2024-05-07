@@ -48,20 +48,12 @@ class CreatePostMediaSection extends StatelessWidget {
                   child: TextButton(
                     style: kTextButtonStyle,
                     onPressed: () {
-                      if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty) {
-                        createPostHelper.removeImage(0);
-                        createPostController.imageDescriptionTextEditingController[0].clear();
-                        createPostController.imageLocationsList.removeAt(0);
-                        createPostController.imageTimesList.removeAt(0);
-                        createPostController.imageTagIdList.removeAt(0);
-                      } else {
-                        createPostHelper.removeMedia(0);
-                        createPostHelper.checkCanCreatePost();
-                        createPostController.imageDescriptionTextEditingController[0].clear();
-                        createPostController.imageLocationsList.removeAt(0);
-                        createPostController.imageTimesList.removeAt(0);
-                        createPostController.imageTagIdList.removeAt(0);
-                      }
+                      createPostHelper.removeMedia(0);
+                      createPostHelper.checkCanCreatePost();
+                      createPostController.imageDescriptionTextEditingController[0].clear();
+                      createPostController.imageLocationsList.removeAt(0);
+                      createPostController.imageTimesList.removeAt(0);
+                      createPostController.imageTagIdList.removeAt(0);
                     },
                     child: const Icon(
                       BipHip.circleCrossNew,
@@ -107,23 +99,11 @@ class CreatePostMediaSection extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty) {
-                              createPostHelper.removeImage(1);
-                              createPostController.imageDescriptionTextEditingController[1].clear();
-                              createPostController.imageLocationsList.removeAt(1);
-                              createPostController.imageTimesList.removeAt(1);
-                              createPostController.imageTagIdList.removeAt(1);
-                            } else {
-                              createPostHelper.removeMedia(1);
-                              createPostController.imageDescriptionTextEditingController[1].clear();
-                              createPostController.imageLocationsList.removeAt(1);
-                              createPostController.imageTimesList.removeAt(1);
-                              createPostController.imageTagIdList.removeAt(1);
-                            }
-                            // createPostController.imageDescriptionTextEditingController[1].clear();
-                            // createPostController.imageLocationsList.removeAt(1);
-                            // createPostController.imageTimesList.removeAt(1);
-                            // createPostController.imageTagIdList.removeAt(1);
+                            createPostHelper.removeMedia(1);
+                            createPostController.imageDescriptionTextEditingController[1].clear();
+                            createPostController.imageLocationsList.removeAt(1);
+                            createPostController.imageTimesList.removeAt(1);
+                            createPostController.imageTagIdList.removeAt(1);
                           },
                           child: const Icon(
                             BipHip.circleCrossNew,
@@ -171,11 +151,7 @@ class CreatePostMediaSection extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
-                              if (createPostController.isEditPost.value) {
-                                createPostHelper.removeImage(2);
-                              } else {
-                                createPostHelper.removeMedia(2);
-                              }
+                              createPostHelper.removeMedia(2);
                             },
                             child: const Icon(
                               BipHip.circleCrossNew,

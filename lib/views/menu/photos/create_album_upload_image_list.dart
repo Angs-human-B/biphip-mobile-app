@@ -49,7 +49,7 @@ class CreateAlbumUploadImageList extends StatelessWidget {
             child: SingleChildScrollView(
               child: Obx(
                 () => Column(
-                  children: [kH8sizedBox, for (int i = 0; i < galleryController.allMediaFileList.length; i++) SeparateImageView(index: i)],
+                  children: [kH8sizedBox, for (int i = 0; i < galleryController.allMediaList.length; i++) SeparateImageView(index: i)],
                 ),
               ),
             ),
@@ -80,10 +80,15 @@ class SeparateImageView extends StatelessWidget {
                   color: cWhiteColor,
                   height: 150,
                   width: width - 40,
-                  child: Image.file(
-                    galleryController.allMediaFileList[index].value,
-                    fit: BoxFit.cover,
-                  ),
+                  child: galleryController.allMediaList[index] is String
+                      ? Image.network(
+                          galleryController.allMediaList[index],
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          galleryController.allMediaList[index].value,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),

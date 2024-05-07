@@ -787,16 +787,6 @@ class CreatePostHelper {
       Get.find<FriendController>().isFriendListLoading.value = false;
     }
   }
-
-  void removeImage(index) {
-    if (createPostController.allMediaList[index] is String) {
-      createPostController.allMediaList.removeAt(index);
-      createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
-    } else {
-      createPostController.allMediaList.removeAt(index);
-      // createPostController.allMediaFileList.removeAt(index);
-    }
-  }
 }
 
 //*Newly added for boost post popup show

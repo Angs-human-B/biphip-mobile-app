@@ -354,9 +354,10 @@ class GalleryController extends GetxController {
 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
-  final RxList galleryPhotoActionList = RxList([
-    {'icon': BipHip.imageFile, 'action': 'Download album'}
-  ]);
+  // final RxList galleryPhotoActionList = RxList([
+  //   {'icon': BipHip.imageFile, 'action': 'Download album'},
+  //   {'icon': BipHip.editImage, 'action': 'Edit Album'},
+  // ]);
   final RxString photoActionSelect = RxString('');
   final RxList photoActionList = RxList([
     {'icon': BipHip.deleteNew, 'action': 'Delete photo'},
@@ -370,12 +371,12 @@ class GalleryController extends GetxController {
   final Rx<String?> albumNameErrorText = Rx<String?>(null);
   final RxBool isCreateAlbumPostButtonEnable = RxBool(false);
   //*for privacy
-  final RxString temporaryCreateAlbumSelectedPrivacy = RxString('Friends');
-  final RxString createAlbumSelectedPrivacy = RxString('Friends');
-  final Rx<IconData> temporaryCreateAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
-  final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
-  final RxInt privacyId = RxInt(2);
-  final RxInt temoparyprivacyId = RxInt(2);
+  final RxString temporaryCreateAlbumSelectedPrivacy = RxString('Public');
+  final RxString createAlbumSelectedPrivacy = RxString('Public');
+  final Rx<IconData> temporaryCreateAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final RxInt privacyId = RxInt(1);
+  final RxInt temporaryprivacyId = RxInt(1);
 
   void albumNameOnChange() {
     if (createAlbumNameController.text.toString().trim() == '') {
@@ -393,7 +394,6 @@ class GalleryController extends GetxController {
       isCreateAlbumPostButtonEnable.value = false;
     }
   }
-
 
   final RxBool isCreateAlbumMediaChanged = RxBool(false);
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
@@ -415,8 +415,10 @@ class GalleryController extends GetxController {
     }
   }
 
-  final RxList allMediaList = RxList([]);
-  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
+  final RxBool isEditAlbum = RxBool(false);
+
+  final RxList<dynamic> allMediaList = RxList<dynamic>([]);
+  // final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
   final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
   List imageDescriptionTextEditingController = [];
@@ -478,6 +480,62 @@ class GalleryController extends GetxController {
     } catch (e) {
       isCreateAlbumLoading.value = false;
       ll('createAlbum error: $e');
+    }
+  }
+
+//*Update album Api call
+  final RxInt selectedAlbumId = RxInt(-1);
+  Future<void> updateAlbum({required int albumId}) async {
+    var uploadedImageList = [];
+    for (int i = 0; i < allMediaList.length; i++) {
+      if (allMediaList.isNotEmpty && allMediaList[i] is! String) {
+        uploadedImageList.add(allMediaList[i]);
+      }
+    }
+    List tags = [];
+    for (int i = 0; i < taggedFriends.length; i++) {
+      tags.add(taggedFriends[i].id);
+    }
+    try {
+      isCreateAlbumLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'id': albumId.toString(),
+        'title': createAlbumNameController.text.toString().trim(),
+        'privacy': privacyId.value.toString(),
+        // 'post_tag_friend_id': tags.join(','),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'tag_friend_ids[$i]': imageTagIdList[i].toString(),
+      };
+      ll(body);
+      var response = await apiController.multiMediaUpload(
+        url: kuUpdateAlbum,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: uploadedImageList.isNotEmpty ? uploadedImageList : [],
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isCreateAlbumLoading.value = false;
+        Get.offNamedUntil(krGalleryPhotos, ModalRoute.withName(krMenu));
+        getGalleryAlbumList();
+        GalleryPhotoHelper().resetCreateAlbumData();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCreateAlbumLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreateAlbumLoading.value = false;
+      ll('updateAlbum error: $e');
     }
   }
 }
