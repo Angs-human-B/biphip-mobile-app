@@ -1980,15 +1980,15 @@ class ShareBottomSheetContent extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Obx(
                   () => Padding(
-                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    padding: const EdgeInsets.only(bottom: k8Padding, left: k10Padding, right: k10Padding),
                     child: CustomListTile(
                       leading: Container(
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: cNeutralColor,
                         ),
-                        height: 30,
-                        width: 30,
+                        height: h32,
+                        width: h32,
                         child: Icon(
                           postReactionController.shareActionList[index]['icon'],
                           color: cBlackColor,
