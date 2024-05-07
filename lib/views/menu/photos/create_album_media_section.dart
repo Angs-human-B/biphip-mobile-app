@@ -29,11 +29,17 @@ class CreateAlbumtMediaSection extends StatelessWidget {
                     color: cWhiteColor,
                     height: galleryController.allMediaList.length < 2 ? 302 : 150,
                     width: width - 40,
-                    child: Image.file(
-                      galleryController.allMediaFileList[0].value,
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
-                    ),
+                    child: galleryController.allMediaList[0] is String
+                        ? Image.network(
+                            galleryController.allMediaList[0],
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            galleryController.allMediaList[0].value,
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 Positioned(
@@ -74,11 +80,17 @@ class CreateAlbumtMediaSection extends StatelessWidget {
                           color: cWhiteColor,
                           height: 150,
                           width: galleryController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                          child: Image.file(
-                            galleryController.allMediaFileList[1].value,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,
-                          ),
+                          child: galleryController.allMediaList[1] is String
+                              ? Image.network(
+                                  galleryController.allMediaList[1],
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  galleryController.allMediaList[1].value,
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Positioned(
@@ -118,13 +130,19 @@ class CreateAlbumtMediaSection extends StatelessWidget {
                           color: cWhiteColor,
                           height: 150,
                           width: (width - 42) / 2,
-                          child: Image.file(
-                            galleryController.allMediaFileList[2].value,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,
-                            color: cBlackColor.withOpacity(0.3),
-                            colorBlendMode: BlendMode.multiply,
-                          ),
+                          child: galleryController.allMediaList[2] is String
+                              ? Image.network(
+                                  galleryController.allMediaList[2],
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  galleryController.allMediaList[2].value,
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                  color: cBlackColor.withOpacity(0.3),
+                                  colorBlendMode: BlendMode.multiply,
+                                ),
                         ),
                       ),
                       if (galleryController.allMediaList.length == 3)

@@ -638,3 +638,6 @@ const String ksSaySomethingAboutThis = "Say something about this";
 const String ksShareTo = "Share to";
 const String ksPeopleWhoGifted = "People who gifted";
 const String ksPosting = "Posting";
+const String ksDownloadAlbum = "Download album";
+const String ksEditAlbum = "Edit album";
+const String ksDeleteAlbum = "Delete album";

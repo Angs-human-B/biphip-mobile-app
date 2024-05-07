@@ -17,7 +17,7 @@ class CreatePostController extends GetxController {
 
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
-  final TextEditingController createPostController = TextEditingController();
+  final TextEditingController createPostTextEditingController = TextEditingController();
   final RxString tempSelectedCategory = RxString('');
   final RxString category = RxString('');
   final RxInt categoryID = RxInt(-1);
@@ -113,8 +113,11 @@ class CreatePostController extends GetxController {
     {"name": "Takin Ahmed 9", "image_url": kiLogoImageUrl},
   ];
 
-  final RxList allMediaList = RxList([]);
-  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
+  final RxList<dynamic> allMediaList = RxList<dynamic>([]);
+  final RxInt previousPostImageLength = RxInt(-1);
+  final RxString previousPostContent = RxString("");
+  final RxString previousNewsTitle = RxString("");
+  // final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
 
   final List platformList = [
     {"id": '', "name": 'Facebook', "title": "Facebook", "image": kiFacebookSvgImageUrl},
@@ -418,7 +421,7 @@ class CreatePostController extends GetxController {
   final RxBool isPostedFromProfile = RxBool(false);
 
   void resetCreatePost() {
-    createPostController.clear();
+    createPostTextEditingController.clear();
     categoryID.value = -1;
     kidID.value = -1;
     brandID.value = -1;
@@ -445,7 +448,7 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         if (category.value != '') 'post_category_id': categoryID.value.toString(),
-        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
+        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostTextEditingController.text.trim(),
         "is_public": privacyId.value.toString(),
         'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
@@ -518,7 +521,7 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'share_post_id': postId.toString(),
-        'content': createPostController.text.trim(),
+        'content': createPostTextEditingController.text.trim(),
         'is_public': '1',
         // 'post_tag_friend_id': tags.join(','),
       };
@@ -749,21 +752,30 @@ class CreatePostController extends GetxController {
   final RxInt privacyId = RxInt(-1);
   List deleteImageIdList = [];
   RxList imageIdList = RxList([]);
-
   Future<void> updatePost({required int postId}) async {
+    var uploadedImageList = [];
+    for (int i = 0; i < allMediaList.length; i++) {
+      if (allMediaList.isNotEmpty && allMediaList[i] is! String) {
+        uploadedImageList.add(allMediaList[i]);
+      }
+    }
     try {
       isCreatePostLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         "id": postId.toString(),
-        "content": createPostController.text.toString().trim(),
+        "content": createPostTextEditingController.text.toString().trim(),
         if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
         // if (subCategoryIndex.value != -1) "post_sub_category_id": subCategoryIndex.value.toString(),
         "is_public": privacyId.value.toString(),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
           'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'image_locations[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
         "delete_image_ids": deleteImageIdList.join(','),
-        for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
+        if (uploadedImageList.isEmpty)
+          for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
         if (kidID.value != -1) 'kid_id': kidID.value.toString(),
         if (selectedBrandId.value != -1) 'store_id': selectedBrandId.value.toString(),
         if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
@@ -795,12 +807,9 @@ class CreatePostController extends GetxController {
         body: body,
         token: token,
         key: 'images[]',
-        values: category.value == 'Selling'
-            ? sellingAllMediaFileList
-            : allMediaFileList.isNotEmpty
-                ? allMediaList
-                : [],
+        values: category.value == 'Selling' ? sellingAllMediaFileList : uploadedImageList,
       ) as CommonDM;
+      ll(body);
       // var response = await apiController.multiMediaUpload(
       //   url: kuUpdatePost,
       //   body: body,
@@ -808,7 +817,6 @@ class CreatePostController extends GetxController {
       //   key: 'images[]',
       //   values: category.value == 'Selling' ? sellingAllMediaFileList : allMediaList,
       // ) as CommonDM;
-
       if (response.success == true) {
         await Get.find<HomeController>().getPostList();
         Get.back();

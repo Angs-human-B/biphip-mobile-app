@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -247,7 +248,7 @@ class PostUpperContainer extends StatelessWidget {
 
 class TaggedFriendContent extends StatelessWidget {
   const TaggedFriendContent({super.key, required this.taggedFriend});
-  final List<TaggedFriend> taggedFriend;
+  final List<FriendFamilyUserData> taggedFriend;
 
   @override
   Widget build(BuildContext context) {
@@ -525,96 +526,72 @@ class SelfPostActionContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostDataRx postData = globalController.commonPostList[postIndex];
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
-      child: Column(
-        children: [
-          IconWithTextRow(
-            actionIcon: BipHip.edit,
-            actionText: "Edit Post",
-            actionOnPressed: () async {
-              Get.back();
-              globalController.postSelectedAction.value = "Edit Post";
-              if (globalController.postSelectedAction.value == "Edit Post") {
-                CreatePostHelper().resetCreatePostData();
-                createPostController.postId.value = globalController.commonPostList[postIndex].id!;
-                createPostController.isEditPost.value = true;
-                createPostController.privacyId.value = postData.isPublic!;
-                createPostController.category.value = postData.postCategory?.name ?? "";
-                createPostController.createPostSelectedPrivacyIcon.value = globalController.privacyIcon(postData.isPublic);
-                createPostController.createPostSelectedPrivacy.value = globalController.privacyText(postData.isPublic);
-                for (int i = 0; i < createPostController.categoryList.length; i++) {
-                  if (createPostController.category.value != "" && createPostController.category.value == createPostController.categoryList[i]['title']) {
-                    createPostController.categoryIcon.value = createPostController.categoryList[i]['icon'];
-                    createPostController.categoryIconColor.value = createPostController.categoryList[i]['icon_color'];
-                    break;
+    return Column(
+      children: [
+        IconWithTextRow(
+          actionIcon: BipHip.edit,
+          actionText: "Edit Post",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Edit Post";
+            if (globalController.postSelectedAction.value == "Edit Post") {
+              CreatePostHelper().resetCreatePostData();
+              createPostController.taggedFriends.addAll(postData.taggedFriends);
+              createPostController.postId.value = globalController.commonPostList[postIndex].id!;
+              createPostController.isEditPost.value = true;
+              createPostController.privacyId.value = postData.isPublic!;
+              createPostController.category.value = postData.postCategory?.name ?? "";
+              createPostController.createPostSelectedPrivacyIcon.value = globalController.privacyIcon(postData.isPublic);
+              createPostController.createPostSelectedPrivacy.value = globalController.privacyText(postData.isPublic);
+              for (int i = 0; i < createPostController.categoryList.length; i++) {
+                if (createPostController.category.value != "" && createPostController.category.value == createPostController.categoryList[i]['title']) {
+                  createPostController.categoryIcon.value = createPostController.categoryList[i]['icon'];
+                  createPostController.categoryIconColor.value = createPostController.categoryList[i]['icon_color'];
+                  break;
+                }
+              }
+              if (createPostController.category.value == "Selling") {
+                createPostController.biddingTitleTextEditingController.text = postData.content ?? "";
+                createPostController.biddingDescriptionTextEditingController.text = postData.description ?? "";
+                if (postData.price != null) {
+                  createPostController.biddingPriceTextEditingController.text = postData.price.toString();
+                }
+                if (postData.discount != null) {
+                  createPostController.biddingDiscountAmountTextEditingController.text = postData.discount.toString();
+                }
+                if (postData.desireAmount != null) {
+                  createPostController.biddingDesiredAmountTextEditingController.text = postData.desireAmount.toString();
+                }
+                if (postData.productTags != null) {
+                  createPostController.biddingProductTagTextEditingController.text = postData.productTags.toString();
+                }
+                if (postData.sku != null) {
+                  createPostController.biddingSKUTextEditingController.text = postData.sku.toString();
+                }
+                if (postData.location != null) {
+                  createPostController.sellingLocationTextEditingController.text = postData.location.toString();
+                }
+                if (postData.minBiddingAmount != null) {
+                  createPostController.biddingMinimumBidTextEditingController.text = postData.minBiddingAmount.toString();
+                }
+                if (postData.sellPostType != null) {
+                  if (postData.sellPostType == 0) {
+                    createPostController.sellingPostType.value = ksRegularPost.tr;
+                  } else {
+                    createPostController.sellingPostType.value = ksBiddingPost.tr;
                   }
                 }
-                if (createPostController.category.value == "Selling") {
-                  createPostController.biddingTitleTextEditingController.text = postData.content ?? "";
-                  createPostController.biddingDescriptionTextEditingController.text = postData.description ?? "";
-                  if (postData.price != null) {
-                    createPostController.biddingPriceTextEditingController.text = postData.price.toString();
-                  }
-                  if (postData.discount != null) {
-                    createPostController.biddingDiscountAmountTextEditingController.text = postData.discount.toString();
-                  }
-                  if (postData.desireAmount != null) {
-                    createPostController.biddingDesiredAmountTextEditingController.text = postData.desireAmount.toString();
-                  }
-                  if (postData.productTags != null) {
-                    createPostController.biddingProductTagTextEditingController.text = postData.productTags.toString();
-                  }
-                  if (postData.sku != null) {
-                    createPostController.biddingSKUTextEditingController.text = postData.sku.toString();
-                  }
-                  if (postData.location != null) {
-                    createPostController.sellingLocationTextEditingController.text = postData.location.toString();
-                  }
-                  if (postData.minBiddingAmount != null) {
-                    createPostController.biddingMinimumBidTextEditingController.text = postData.minBiddingAmount.toString();
-                  }
-                  if (postData.sellPostType != null) {
-                    if (postData.sellPostType == 0) {
-                      createPostController.sellingPostType.value = ksRegularPost.tr;
-                    } else {
-                      createPostController.sellingPostType.value = ksBiddingPost.tr;
-                    }
-                    // createPostController.sellingPostType.value = postData.sellPostType.toString();
-                  }
-                  createPostController.selectedBrandName.value = postData.store?.name ?? "";
-                  createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
-                  // createPostController.selectedProductCategoryID.value = postData.sellPostCategoryId;
-                  // createPostController.selectedProductCondition.value = postData.sellPostConditionId;
-                  // if(createPostController.selectedProductCategoryID.value=){
-                  // }
-                } else if (createPostController.category.value == "News") {
-                  if (postData.title != null) {
-                    createPostController.newsTitleTextEditingController.text = postData.title.toString();
-                  }
-                  if (postData.description != null) {
-                    createPostController.newsDescriptionTextEditingController.text = postData.description.toString();
-                  }
-                } else {
-                  createPostController.createPostController.text = postData.content ?? "";
-                  if (postData.images.isNotEmpty) {
-                    createPostController.imageIdList.clear();
-                    for (int i = 0; i < postData.images.length; i++) {
-                      createPostController.deleteImageIdList.clear();
-                      createPostController.allMediaList.add(postData.images[i].fullPath);
-                      createPostController.imageIdList.add(postData.images[i].id);
-                      createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
-                    }
-                    ll(createPostController.imageDescriptionTextEditingController);
-                  }
-                  if (createPostController.category.value == "Kids") {
-                    createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";
-                    createPostController.kidID.value = postData.kid?.id ?? -1;
-                  }
+                createPostController.selectedBrandName.value = postData.store?.name ?? "";
+                createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
+              } else if (createPostController.category.value == "News") {
+                if (postData.title != null) {
+                  createPostController.newsTitleTextEditingController.text = postData.title.toString();
+                  createPostController.previousNewsTitle.value = postData.title ?? "";
                 }
                 Get.toNamed(krCreatePost);
               }
-            },
+            }
+          }
           ),
           IconWithTextRow(
             actionIcon: BipHip.world,
@@ -667,7 +644,28 @@ class SelfPostActionContent extends StatelessWidget {
               if (postData.isNotifaction == true) {
                 globalController.postSelectedAction.value = "Turn off notification for this post";
               } else {
-                globalController.postSelectedAction.value = "Turn on notification for this post";
+                createPostController.createPostTextEditingController.text = postData.content ?? "";
+                createPostController.previousPostContent.value = postData.content ?? "";
+                if (postData.images.isNotEmpty) {
+                  createPostController.imageIdList.clear();
+                  createPostController.deleteImageIdList.clear();
+                  for (int i = 0; i < postData.images.length; i++) {
+                    if (postData.images[i].fullPath != null) {
+                      createPostController.allMediaList.add(postData.images[i].fullPath.toString());
+                    }
+                    createPostController.previousPostImageLength.value = createPostController.allMediaList.length;
+                    createPostController.imageIdList.add(postData.images[i].id);
+                    createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
+                    createPostController.imageLocationsList.add(postData.images[i].imageTakenLocation);
+                    createPostController.imageTimesList.add(postData.images[i].imageTakenTime);
+                    createPostController.imageTagIdList.add('1,58');
+                  }
+                  // ll(createPostController.imageDescriptionTextEditingController);
+                }
+                if (createPostController.category.value == "Kids") {
+                  createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";
+                  createPostController.kidID.value = postData.kid?.id ?? -1;
+                }
               }
               ll(globalController.postSelectedAction.value);
               if (globalController.postSelectedAction.value == "Turn off notification for this post") {
@@ -714,7 +712,7 @@ class SelfPostActionContent extends StatelessWidget {
             },
           ),
         ],
-      ),
+      
     );
   }
 }

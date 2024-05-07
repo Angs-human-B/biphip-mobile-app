@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
@@ -16,7 +15,6 @@ import 'package:bip_hip/views/menu/photos/widgets/gallery_photo_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/post/post_button_widget.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class StoreProfile extends StatelessWidget {

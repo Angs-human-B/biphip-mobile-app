@@ -93,6 +93,8 @@ const String kuDeleteImage = '/mobile/user/delete-image';
 const String kuDownloadImage = '/mobile/user/download-image';
 const String kuUpdateImageDescription = '/mobile/user/update-image-description';
 const String kuCreateAlbum = '/mobile/user/store-image-album';
+const String kuUpdateAlbum = '/mobile/user/update-image-album';
+const String kuDeleteAlbum = '/mobile/user/delete-image-album';
 
 //---------------------------------------
 //* Friends and Family

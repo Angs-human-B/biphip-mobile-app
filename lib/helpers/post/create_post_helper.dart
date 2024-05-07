@@ -45,28 +45,52 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else if (createPostController.category.value == 'Kids') {
-      if ((createPostController.createPostController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
-          (createPostController.kidID.value != -1)) {
-        createPostController.isPostButtonActive.value = true;
-      } else {
-        createPostController.isPostButtonActive.value = false;
-      }
-    } else if (createPostController.category.value == 'News') {
-      if (createPostController.newsTitleTextEditingController.text.trim() == '') {
-        createPostController.isPostButtonActive.value = false;
-      } else {
-        createPostController.isPostButtonActive.value = true;
-      }
-    } else {
-      if (createPostController.createPostController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
-        createPostController.isPostButtonActive.value = true;
-        if (createPostController.createPostController.text.length > 150) {
-          createPostController.isTextLimitCrossed.value = true;
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
         } else {
-          createPostController.isTextLimitCrossed.value = false;
+          createPostController.isPostButtonActive.value = true;
         }
       } else {
-        createPostController.isPostButtonActive.value = false;
+        if ((createPostController.createPostTextEditingController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
+            (createPostController.kidID.value != -1)) {
+          createPostController.isPostButtonActive.value = true;
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
+      }
+    } else if (createPostController.category.value == 'News') {
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousNewsTitle.value == createPostController.newsTitleTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
+      } else {
+        if (createPostController.newsTitleTextEditingController.text.trim() == '') {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
+      }
+    } else {
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
+      } else {
+        if (createPostController.createPostTextEditingController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
+          createPostController.isPostButtonActive.value = true;
+          if (createPostController.createPostTextEditingController.text.length > 150) {
+            createPostController.isTextLimitCrossed.value = true;
+          } else {
+            createPostController.isTextLimitCrossed.value = false;
+          }
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
       }
     }
   }
@@ -170,8 +194,11 @@ class CreatePostHelper {
   }
 
   void removeMedia(index) {
+    if (createPostController.isEditPost.value) {
+      createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
+    }
     createPostController.allMediaList.removeAt(index);
-    createPostController.allMediaFileList.removeAt(index);
+    // createPostController.allMediaFileList.removeAt(index);
     // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
     //   Get.back();
     // }
@@ -309,7 +336,7 @@ class CreatePostHelper {
     createPostController.createPostVideoLink.value = "";
     createPostController.createPostVideoFile.clear();
     createPostController.allMediaList.clear();
-    createPostController.allMediaFileList.clear();
+    // createPostController.allMediaFileList.clear();
     createPostController.sellingAllMediaList.clear();
     createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
@@ -475,8 +502,11 @@ class CreatePostHelper {
   }
 
   void insertMedia(mediaLink, mediaFile) {
-    createPostController.allMediaList.addAll(mediaFile);
-    createPostController.allMediaFileList.addAll(mediaFile);
+    if (mediaFile is File) {
+      createPostController.allMediaList.add(mediaFile);
+    } else {
+      globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
+    }
   }
 
   void insertSellingMedia(mediaLink, mediaFile) {
@@ -761,17 +791,6 @@ class CreatePostHelper {
         createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
       }
       Get.find<FriendController>().isFriendListLoading.value = false;
-    }
-  }
-
-  void removeImage(index) {
-    if (createPostController.isEditPost.value && createPostController.allMediaList.isNotEmpty && createPostController.allMediaFileList.isEmpty) {
-      createPostController.allMediaList.removeAt(index);
-      createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
-      ll(createPostController.deleteImageIdList);
-    } else {
-      createPostController.allMediaList.removeAt(index);
-      createPostController.allMediaFileList.removeAt(index);
     }
   }
 }

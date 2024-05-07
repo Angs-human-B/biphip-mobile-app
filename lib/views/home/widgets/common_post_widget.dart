@@ -2147,7 +2147,7 @@ class SharePostBottomSheetContent extends StatelessWidget {
             children: [
               CreatePostUpperSection(),
               CustomModifiedTextField(
-                controller: createPostController.createPostController,
+                controller: createPostController.createPostTextEditingController,
                 maxLength: 1000,
                 maxLines: 7,
                 minLines: 1,

@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
 
 class StorePhotoView extends StatelessWidget {
   StorePhotoView({
@@ -29,55 +28,56 @@ class StorePhotoView extends StatelessWidget {
               },
             ),
           ),
-          body: Obx(() => Stack(
-                      children: [
-                        SizedBox(
-                          height: height - kAppBarSize,
-                          width: width,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: width,
-                                height: storeController.isStoreProfilePhoto.value ? height * 0.6 : height * 0.4,
-                                child: Image.network(
-                                  storeController.storePreviewPhoto.value,
-                                  fit: BoxFit.cover,
-                                  filterQuality: FilterQuality.high,
-                                  errorBuilder: (context, error, stackTrace) => const Icon(
-                                    BipHip.imageFile,
-                                    size: kIconSize100,
-                                    color: cIconColor,
-                                  ),
-                                  loadingBuilder: imageLoadingBuilder,
-                                ),
-                              ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 5,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          body: Obx(
+            () => Stack(
+              children: [
+                SizedBox(
+                  height: height - kAppBarSize,
+                  width: width,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        color: cWhiteColor,
-                        height: 1,
-                        width: width - 40,
+                      SizedBox(
+                        width: width,
+                        height: storeController.isStoreProfilePhoto.value ? height * 0.6 : height * 0.4,
+                        child: Image.network(
+                          storeController.storePreviewPhoto.value,
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.high,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.imageFile,
+                            size: kIconSize100,
+                            color: cIconColor,
+                          ),
+                          loadingBuilder: imageLoadingBuilder,
+                        ),
                       ),
-                      //  LikeSectionWidget(
-                      //   sectionColor: cWhiteColor,
-                      //   isGiftShown: false,
-                      // ),
                     ],
                   ),
                 ),
-              )
-            ],
+                Positioned(
+                  bottom: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Column(
+                      children: [
+                        Container(
+                          color: cWhiteColor,
+                          height: 1,
+                          width: width - 40,
+                        ),
+                        //  LikeSectionWidget(
+                        //   sectionColor: cWhiteColor,
+                        //   isGiftShown: false,
+                        // ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
       ),
     );
   }

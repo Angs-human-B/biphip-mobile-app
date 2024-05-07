@@ -1326,7 +1326,7 @@ class KidsController extends GetxController {
       Get.find<CreatePostController>().isCreatePostLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        'content': Get.find<CreatePostController>().createPostController.text.trim(),
+        'content': Get.find<CreatePostController>().createPostTextEditingController.text.trim(),
         'post_category_id': "7",
         'is_public': '1',
         'post_tag_friend_id': tags.join(','),

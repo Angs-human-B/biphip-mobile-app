@@ -80,13 +80,13 @@ class SeparateImageView extends StatelessWidget {
                   color: cWhiteColor,
                   height: 150,
                   width: width - 40,
-                  child: createPostController.allMediaList.isNotEmpty
+                  child: createPostController.allMediaList[index] is String
                       ? Image.network(
                           createPostController.allMediaList[index],
                           fit: BoxFit.cover,
                         )
                       : Image.file(
-                          createPostController.allMediaFileList[index].value,
+                          createPostController.allMediaList[index].value,
                           fit: BoxFit.cover,
                         ),
                 ),

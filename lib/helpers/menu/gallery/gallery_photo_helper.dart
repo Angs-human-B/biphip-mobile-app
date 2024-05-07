@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -32,31 +34,6 @@ class GalleryPhotoHelper {
         galleryController.imageDataList.add(album);
       }
     }
-  }
-
-  void galleryPhotoActionOnChanged({required int index}) {
-    galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
-    if (galleryController.galleryPhotoActionSelect.value == '') {
-      galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
-    } else {
-      galleryController.galleryPhotoBottomSheetRightButtonState.value = true;
-    }
-  }
-
-  void galleryPhotoOnPressed({required int index}) {
-    galleryController.galleryPhotoActionSelect.value = galleryController.galleryPhotoActionList[index]['action'];
-    if (galleryController.galleryPhotoActionSelect.value == '') {
-      galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
-    } else {
-      galleryController.galleryPhotoBottomSheetRightButtonState.value = true;
-    }
-  }
-
-  Color galleryPhotoItemColor({required int index}) {
-    if (galleryController.galleryPhotoActionSelect.value == galleryController.galleryPhotoActionList[index]['action']) {
-      return cPrimaryTint3Color;
-    }
-    return cWhiteColor;
   }
 
   //*Single Photo view bottom sheet
@@ -104,6 +81,8 @@ class GalleryPhotoHelper {
 
   void showAudienceSheet(context) {
     galleryController.temporaryCreateAlbumSelectedPrivacy.value = galleryController.createAlbumSelectedPrivacy.value;
+    galleryController.temporaryprivacyId.value = galleryController.privacyId.value;
+    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = galleryController.createAlbumSelectedPrivacyIcon.value;
     Get.find<GlobalController>().commonBottomSheet(
       isBottomSheetRightButtonActive: true.obs,
       bottomSheetHeight: height * .6,
@@ -115,7 +94,7 @@ class GalleryPhotoHelper {
       onPressRightButton: () {
         galleryController.createAlbumSelectedPrivacy.value = galleryController.temporaryCreateAlbumSelectedPrivacy.value;
         galleryController.createAlbumSelectedPrivacyIcon.value = galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value;
-        galleryController.privacyId.value = galleryController.temoparyprivacyId.value;
+        galleryController.privacyId.value = galleryController.temporaryprivacyId.value;
         Get.back();
       },
       rightText: ksDone.tr,
@@ -126,8 +105,13 @@ class GalleryPhotoHelper {
   }
 
   void insertMedia(mediaLink, mediaFile) {
-    galleryController.allMediaList.addAll(mediaFile);
-    galleryController.allMediaFileList.addAll(mediaFile);
+    if (mediaFile is File) {
+      galleryController.allMediaList.add(mediaFile);
+    } else {
+      globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
+    }
+    // galleryController.allMediaList.addAll(mediaFile);
+    // galleryController.allMediaFileList.addAll(mediaFile);
   }
 
   void configImageDescription() {
@@ -209,8 +193,12 @@ class GalleryPhotoHelper {
   }
 
   void removeMedia(index) {
+    if (galleryController.isEditAlbum.value && galleryController.allMediaList[index] is String) {
+      galleryController.deleteImageIdList.add(galleryController.imageIdList.removeAt(index));
+      ll(galleryController.deleteImageIdList);
+    }
     galleryController.allMediaList.removeAt(index);
-    galleryController.allMediaFileList.removeAt(index);
+    galleryController.checkCreateAlbum();
   }
 
   //* Get tagged friend bottom sheet
@@ -351,12 +339,12 @@ class GalleryPhotoHelper {
     galleryController.createAlbumNameController.clear();
     galleryController.albumNameErrorText.value = null;
     galleryController.isCreateAlbumPostButtonEnable.value = false;
-    galleryController.temporaryCreateAlbumSelectedPrivacy.value = 'Friends';
-    galleryController.createAlbumSelectedPrivacy.value = 'Friends';
-    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = BipHip.friends;
-    galleryController.createAlbumSelectedPrivacyIcon.value = BipHip.friends;
-    galleryController.temoparyprivacyId.value = 2;
-    galleryController.privacyId.value = 2;
+    galleryController.temporaryCreateAlbumSelectedPrivacy.value = 'Public';
+    galleryController.createAlbumSelectedPrivacy.value = 'Public';
+    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = BipHip.world;
+    galleryController.createAlbumSelectedPrivacyIcon.value = BipHip.world;
+    galleryController.temporaryprivacyId.value = 1;
+    galleryController.privacyId.value = 1;
     galleryController.taggedFriends.clear();
     galleryController.temporaryTaggedFriends.clear();
     galleryController.temporaryTagIndex.clear();
@@ -366,7 +354,6 @@ class GalleryPhotoHelper {
     galleryController.createAlbumAllMediaLinkList.clear();
     galleryController.createAlbumAllMediaFileList.clear();
     galleryController.allMediaList.clear();
-    galleryController.allMediaFileList.clear();
     galleryController.locationTextEditingController.clear();
     galleryController.addLocationValue.value = '';
     galleryController.isAddLocationSuffixIconVisible.value = false;
@@ -382,5 +369,11 @@ class GalleryPhotoHelper {
     galleryController.createAlbumTimeBottomSheetState.value = false;
     galleryController.temporaryCreateAlbumTime.value = '';
     galleryController.createAlbumTime.value = '';
+    galleryController.isEditAlbum.value = false;
+    galleryController.deleteImageIdList.clear();
+    galleryController.imageIdList.clear();
+    galleryController.previousAlbumImageLength.value = -1;
+    galleryController.previousAlbumName.value = "";
+    galleryController.selectedPrivacyId.value = -1;
   }
 }

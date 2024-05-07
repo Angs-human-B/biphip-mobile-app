@@ -278,9 +278,16 @@ class ApiController {
       var response = await request.send();
       ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
-        var res = (await response.stream.transform(utf8.decoder).first);
+        // var res = (await response.stream.transform(utf8.decoder).first);
+        // Map<String, dynamic> de = jsonDecode(res);
+        // ll(de['data']);
+        // CommonDM cm = convertToCommonObject(de);
+        // return cm;
+        String res = '';
+        await for (var chunk in response.stream) {
+          res += utf8.decode(chunk);
+        }
         Map<String, dynamic> de = jsonDecode(res);
-        ll(de['data']);
         CommonDM cm = convertToCommonObject(de);
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
