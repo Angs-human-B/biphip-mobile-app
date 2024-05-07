@@ -319,6 +319,7 @@ class HomeController extends GetxController {
           postReplyShow.add(false);
         }
         postData.value!.post.comments.addAll(postCommentList);
+        update();
         getPostCommentSubLink.value = postCommentListData.value!.comments!.nextPageUrl;
         if (getPostCommentSubLink.value != null) {
           getPostCommentScrolled.value = false;

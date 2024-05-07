@@ -21,6 +21,7 @@ class HomePostDetails extends StatelessWidget {
   final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
+    postReactionController.isFromSharePage.value = false;
     return Obx(
       () => Container(
         color: cWhiteColor,
@@ -108,9 +109,9 @@ class HomePostDetails extends StatelessWidget {
                                 },
                                 onPressedSend: () async {
                                   if (postReactionController.isUpdateComment.value) {
-                                    await Get.find<PostReactionController>().updateComment(context, postIndex, globalController.commonPostList[postIndex].id);
+                                    await Get.find<PostReactionController>().updateComment(context, globalController.commonPostList[postIndex].id, postIndex);
                                   } else if (Get.find<PostReactionController>().isUpdateReply.value) {
-                                    await Get.find<PostReactionController>().updateReply(context, postIndex, globalController.commonPostList[postIndex].id);
+                                    await Get.find<PostReactionController>().updateReply(context, globalController.commonPostList[postIndex].id, postIndex);
                                   } else if (postReactionController.commentId.value == -1) {
                                     await Get.find<PostReactionController>()
                                         .postComment(1, globalController.commonPostList[postIndex].id!, context, "comment", postIndex);
@@ -340,8 +341,8 @@ class PostDetailsBottomSection extends StatelessWidget {
           ),
           kH12sizedBox,
           // for (int i = 0; i < postReactionController.commentList.length; i++)
-          if (postReactionController.isPostCommentLoading.value) const SingleCommentShimmer(),
-          (postReactionController.isCommentLoading.value && !postReactionController.isPostCommentLoading.value)
+          if (postReactionController.isCommentPostLoading.value) const SingleCommentShimmer(),
+          (postReactionController.isCommentLoading.value && !postReactionController.isCommentPostLoading.value)
               ? const CommentCommonShimmer()
               : ListView.separated(
                   separatorBuilder: (context, index) => kH8sizedBox,

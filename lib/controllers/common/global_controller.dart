@@ -641,6 +641,7 @@ class GlobalController extends GetxController {
       Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value - 1;
     }
     ll("AFTER COMMENT: ${Get.find<HomeController>().postData.value!.post.countComment!.value}");
+    update();
   }
 
   final RxList<PostDataRx> commonPostList = RxList<PostDataRx>([]);

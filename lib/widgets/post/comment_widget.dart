@@ -996,7 +996,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                         Get.back();
                         if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
                             postReactionController.commentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                          await postReactionController.deleteComment(postIndex, globalController.commonPostList[postIndex].id);
+                          await postReactionController.deleteComment(globalController.commonPostList[postIndex].id, postIndex);
                           Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, false);
                         }
                         if (Get.find<GlobalController>().userId.value == postReactionController.commentedUserId.value &&
@@ -1069,7 +1069,6 @@ class CommentBottomSheetContent extends StatelessWidget {
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                          // await postReactionController.deleteComment();
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
@@ -1137,11 +1136,11 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     Get.back();
                     if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
                         postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      await postReactionController.deleteReply(postIndex, globalController.commonPostList[postIndex].id);
+                      await postReactionController.deleteReply(globalController.commonPostList[postIndex].id, postIndex);
                     }
                     if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
                         postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      await postReactionController.hideReply(postIndex, globalController.commonPostList[postIndex].id);
+                      await postReactionController.hideReply( globalController.commonPostList[postIndex].id, postIndex);
                     }
                     if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
                         postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
@@ -1158,44 +1157,6 @@ class ReplyBottomSheetContent extends StatelessWidget {
                         }
                       }
                     }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      // await postReactionController.deleteReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      // await postReactionController.hideReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
-                    // if (postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
-                    //     postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
-                    //     postReactionController.othersPostOtherUserReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                    //   postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                    //   for (int i = 0; i < postReactionController.commentList.length; i++) {
-                    //     for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
-                    //       ll(postReactionController.commentList[i].commentReplies[j].user!.fullName);
-                    //       Get.find<FriendController>()
-                    //           .mentionsList
-                    //           .removeWhere((map) => map['id'] == postReactionController.commentList[i].commentReplies[j].user!.id.toString());
-                    //       Map<String, dynamic> friendMap = {
-                    //         'id': postReactionController.commentList[i].commentReplies[j].user!.id.toString(),
-                    //         'display': postReactionController.commentList[i].commentReplies[j].user!.fullName,
-                    //         'full_name': postReactionController.commentList[i].commentReplies[j].user!.fullName,
-                    //         'photo': postReactionController.commentList[i].commentReplies[j].user!.profilePicture,
-                    //       };
-
-                    //       if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].commentReplies[j].user!.id) {
-                    //         Get.find<FriendController>().mentionsList.add(friendMap);
-                    //         ll(Get.find<FriendController>().mentionsList);
-                    //         postReactionController.commentMentionKey.currentState?.controller?.text =
-                    //             "@${postReactionController.commentList[i].commentReplies[j].user!.fullName} ";
-                    //       }
-                    //       postReactionController.commentFocusNode.requestFocus();
-                    //       postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                    //     }
-                    //   }
-                    // }
                   },
                 ),
               ),

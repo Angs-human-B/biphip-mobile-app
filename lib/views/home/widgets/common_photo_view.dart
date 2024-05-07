@@ -87,7 +87,7 @@ class CommonPhotoView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() => Text(
-                              Get.find<GalleryController>().imageData.value?.description ?? description,
+                              Get.find<GalleryController>().imageData.value?.description ?? "",
                               style: semiBold14TextStyle(cWhiteColor),
                             )),
                         kH16sizedBox,

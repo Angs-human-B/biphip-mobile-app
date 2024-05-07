@@ -148,7 +148,7 @@ class CommonPostWidget extends StatelessWidget {
             ),
           // check if it is selling post
           if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
-              (Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id))
+              (globalController.userId.value == globalController.commonPostList[postIndex].user!.id))
             Padding(
               padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
               child: RichText(
@@ -286,6 +286,7 @@ class CommonPostWidget extends StatelessWidget {
                         Get.to(() => SharePostDetails());
                         await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                         await Get.find<HomeController>().getPostCommentList(1, globalController.commonPostList[postIndex].sharePosts!.id!);
+                        await Get.find<FriendController>().getFriendList();
                         if (Get.find<HomeController>().postData.value!.post.countReactions?.value == null ||
                             Get.find<HomeController>().postData.value!.post.countReactions?.value.all?.value == 0) {
                           Get.find<HomeController>().sharePostCountReaction.value = null;
