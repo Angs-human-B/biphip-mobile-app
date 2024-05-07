@@ -28,7 +28,7 @@ class CreateAlbum extends StatelessWidget {
                     //* info:: appBar
                     child: CustomAppBar(
                       appBarColor: cWhiteColor,
-                      title: ksCreateAlbum.tr,
+                      title: galleryController.isEditAlbum.value ? ksEditAlbum : ksCreateAlbum.tr,
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
@@ -41,12 +41,11 @@ class CreateAlbum extends StatelessWidget {
                             style: kTextButtonStyle,
                             onPressed: galleryController.isCreateAlbumPostButtonEnable.value
                                 ? () async {
-                                  if( galleryController.isEditAlbum.value){
-                                    await galleryController.updateAlbum(albumId: galleryController.selectedAlbumId.value);
-                                  }
-                                  else{
-                                    await galleryController.createAlbum();
-                                  }
+                                    if (galleryController.isEditAlbum.value) {
+                                      await galleryController.updateAlbum(albumId: galleryController.selectedAlbumId.value);
+                                    } else {
+                                      await galleryController.createAlbum();
+                                    }
                                   }
                                 : null,
                             child: Text(

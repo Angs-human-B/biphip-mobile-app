@@ -538,4 +538,37 @@ class GalleryController extends GetxController {
       ll('updateAlbum error: $e');
     }
   }
+
+  //*Delete  Album Api Call
+  final RxBool isDeleteAlbumLoading = RxBool(false);
+  Future<void> deleteAlbum({required int albumId}) async {
+    try {
+      isDeleteAlbumLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteAlbum/${albumId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        imageDataList.removeWhere((album) => album.id == selectedAlbumId.value);
+        Get.back();
+        isDeleteAlbumLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeleteAlbumLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeleteAlbumLoading.value = false;
+      ll('deleteAlbum error: $e');
+    }
+  }
 }
