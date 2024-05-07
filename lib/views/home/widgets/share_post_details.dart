@@ -1139,21 +1139,14 @@ class SharedPostCommentWidget extends StatelessWidget {
                 Get.find<PostReactionController>().selectedCommentIndex.value = commentIndex;
                 Get.find<PostReactionController>().commentedUserId.value = sharedPostData.comments[commentIndex].user!.id!;
                 Get.find<PostReactionController>().isUpdateReply.value = false;
-                Get.find<GlobalController>().commonBottomSheet(
-                    context: context,
-                    bottomSheetHeight: height * 0.4,
-                    content: PostCommentBottomSheetContent(
-                      sharedPostData: sharedPostData,
-                      commentIndex: commentIndex,
-                    ),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {},
-                    rightText: "",
-                    rightTextStyle: regular10TextStyle(cWhiteColor),
-                    title: "",
-                    isRightButtonShow: false);
+                Get.find<GlobalController>().blankBottomSheet(
+                  context: context,
+                  bottomSheetHeight: height * 0.34,
+                  content: PostCommentBottomSheetContent(
+                    sharedPostData: sharedPostData,
+                    commentIndex: commentIndex,
+                  ),
+                );
               },
               child: Container(
                 width: width - 80,
@@ -1563,21 +1556,14 @@ class PostReplyCommentWidget extends StatelessWidget {
                 Get.find<PostReactionController>().selectedReplyIndex.value = replyIndex;
                 Get.find<PostReactionController>().commentId.value = sharedPostData.comments[commentIndex].id!;
                 Get.find<PostReactionController>().replyUserId.value = reply.user!.id!;
-                Get.find<GlobalController>().commonBottomSheet(
-                    context: context,
-                    bottomSheetHeight: height * 0.4,
-                    content: PostReplyBottomSheetContent(
-                      sharedPost: sharedPostData,
-                      userId: reply.user!.id!,
-                    ),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {},
-                    rightText: "",
-                    rightTextStyle: regular10TextStyle(cWhiteColor),
-                    title: "",
-                    isRightButtonShow: false);
+                Get.find<GlobalController>().blankBottomSheet(
+                  context: context,
+                  bottomSheetHeight: height * 0.24,
+                  content: PostReplyBottomSheetContent(
+                    sharedPost: sharedPostData,
+                    userId: reply.user!.id!,
+                  ),
+                );
               },
               child: Container(
                 width: width - 120,
@@ -1915,15 +1901,15 @@ class PostCommentBottomSheetContent extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Obx(
                   () => Padding(
-                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    padding: const EdgeInsets.only(bottom: k8Padding, left: k10Padding, right: k10Padding),
                     child: CustomListTile(
                       leading: Container(
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: cNeutralColor,
                         ),
-                        height: h28,
-                        width: h28,
+                        height: h32,
+                        width: h32,
                         child: Icon(
                           globalController.userId.value == postReactionController.commentedUserId.value
                               ? postReactionController.commentActionList[index]['icon']
@@ -2051,15 +2037,15 @@ class PostReplyBottomSheetContent extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
+                padding: const EdgeInsets.only(bottom: k8Padding, left: k10Padding, right: k10Padding),
                 child: CustomListTile(
                   leading: Container(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: cNeutralColor,
                     ),
-                    height: h28,
-                    width: h28,
+                    height: h32,
+                    width: h32,
                     child: Icon(
                       Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
                           ? postReactionController.replyActionList[index]['icon']
@@ -2102,44 +2088,6 @@ class PostReplyBottomSheetContent extends StatelessWidget {
                         }
                       }
                     }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                      // await postReactionController.deleteReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      // await postReactionController.hideReply();
-                    }
-                    if (Get.find<GlobalController>().userId.value != postReactionController.replyUserId.value &&
-                        postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Report Reply".toLowerCase()) {}
-                    // if (postReactionController.othersReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
-                    //     postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase() ||
-                    //     postReactionController.othersPostOtherUserReplyActionList[index]['action'].toString().toLowerCase() == "Reply".toLowerCase()) {
-                    //   postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                    //   for (int i = 0; i < postReactionController.commentList.length; i++) {
-                    //     for (int j = 0; j < postReactionController.commentList[i].commentReplies.length; j++) {
-                    //       ll(postReactionController.commentList[i].commentReplies[j].user!.fullName);
-                    //       Get.find<FriendController>()
-                    //           .mentionsList
-                    //           .removeWhere((map) => map['id'] == postReactionController.commentList[i].commentReplies[j].user!.id.toString());
-                    //       Map<String, dynamic> friendMap = {
-                    //         'id': postReactionController.commentList[i].commentReplies[j].user!.id.toString(),
-                    //         'display': postReactionController.commentList[i].commentReplies[j].user!.fullName,
-                    //         'full_name': postReactionController.commentList[i].commentReplies[j].user!.fullName,
-                    //         'photo': postReactionController.commentList[i].commentReplies[j].user!.profilePicture,
-                    //       };
-
-                    //       if (Get.find<GlobalController>().userId.value != postReactionController.commentList[i].commentReplies[j].user!.id) {
-                    //         Get.find<FriendController>().mentionsList.add(friendMap);
-                    //         ll(Get.find<FriendController>().mentionsList);
-                    //         postReactionController.commentMentionKey.currentState?.controller?.text =
-                    //             "@${postReactionController.commentList[i].commentReplies[j].user!.fullName} ";
-                    //       }
-                    //       postReactionController.commentFocusNode.requestFocus();
-                    //       postReactionController.commentId.value = postReactionController.commentList[i].id!;
-                    //     }
-                    //   }
-                    // }
                   },
                 ),
               ),

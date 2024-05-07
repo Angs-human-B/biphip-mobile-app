@@ -61,21 +61,14 @@ class CommentWidget extends StatelessWidget {
                 postReactionController.selectedCommentIndex.value = commentIndex;
                 postReactionController.commentedUserId.value = globalController.commonPostList[postIndex].comments[commentIndex].user!.id!;
                 postReactionController.isUpdateReply.value = false;
-                globalController.commonBottomSheet(
-                    context: context,
-                    bottomSheetHeight: height * 0.4,
-                    content: CommentBottomSheetContent(
-                      postIndex: postIndex,
-                      userId: globalController.commonPostList[postIndex].comments[commentIndex].user!.id!,
-                    ),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {},
-                    rightText: "",
-                    rightTextStyle: regular10TextStyle(cWhiteColor),
-                    title: "",
-                    isRightButtonShow: false);
+                globalController.blankBottomSheet(
+                  context: context,
+                  bottomSheetHeight: height * 0.34,
+                  content: CommentBottomSheetContent(
+                    postIndex: postIndex,
+                    userId: globalController.commonPostList[postIndex].comments[commentIndex].user!.id!,
+                  ),
+                );
               },
               child: Container(
                 width: width - 80,
@@ -570,21 +563,14 @@ class ReplyCommentWidget extends StatelessWidget {
                 Get.find<PostReactionController>().selectedReplyIndex.value = replyIndex;
                 Get.find<PostReactionController>().commentId.value = globalController.commonPostList[postIndex].comments[commentIndex].id!;
                 Get.find<PostReactionController>().replyUserId.value = reply.user!.id!;
-                Get.find<GlobalController>().commonBottomSheet(
-                    context: context,
-                    bottomSheetHeight: height * 0.4,
-                    content: ReplyBottomSheetContent(
-                      postIndex: postIndex,
-                      userId: reply.user!.id!,
-                    ),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {},
-                    rightText: "",
-                    rightTextStyle: regular10TextStyle(cWhiteColor),
-                    title: "",
-                    isRightButtonShow: false);
+                Get.find<GlobalController>().blankBottomSheet(
+                  context: context,
+                  bottomSheetHeight: height * 0.24,
+                  content: ReplyBottomSheetContent(
+                    postIndex: postIndex,
+                    userId: reply.user!.id!,
+                  ),
+                );
               },
               child: Container(
                 width: width - 120,
@@ -966,15 +952,15 @@ class CommentBottomSheetContent extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Obx(
                   () => Padding(
-                    padding: const EdgeInsets.only(bottom: k8Padding),
+                    padding: const EdgeInsets.only(bottom: k8Padding, left: k10Padding, right: k10Padding),
                     child: CustomListTile(
                       leading: Container(
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: cNeutralColor,
                         ),
-                        height: h28,
-                        width: h28,
+                        height: h32,
+                        width: h32,
                         child: Icon(
                           globalController.userId.value == postReactionController.commentedUserId.value
                               ? postReactionController.commentActionList[index]['icon']
@@ -1068,8 +1054,7 @@ class CommentBottomSheetContent extends StatelessWidget {
                           }
                         }
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
-                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {
-                        }
+                            postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Delete".toLowerCase()) {}
                         if (Get.find<GlobalController>().userId.value != postReactionController.commentedUserId.value &&
                             postReactionController.othersCommentActionList[index]['action'].toString().toLowerCase() == "Hide Comment".toLowerCase()) {
                           // await postReactionController.hideComment();
@@ -1106,15 +1091,15 @@ class ReplyBottomSheetContent extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Obx(
               () => Padding(
-                padding: const EdgeInsets.only(bottom: k8Padding),
+                padding: const EdgeInsets.only(bottom: k8Padding, left: k10Padding, right: k10Padding),
                 child: CustomListTile(
                   leading: Container(
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: cNeutralColor,
                     ),
-                    height: h28,
-                    width: h28,
+                    height: h32,
+                    width: h32,
                     child: Icon(
                       Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value
                           ? postReactionController.replyActionList[index]['icon']
@@ -1140,7 +1125,7 @@ class ReplyBottomSheetContent extends StatelessWidget {
                     }
                     if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
                         postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Hide Reply".toLowerCase()) {
-                      await postReactionController.hideReply( globalController.commonPostList[postIndex].id, postIndex);
+                      await postReactionController.hideReply(globalController.commonPostList[postIndex].id, postIndex);
                     }
                     if (Get.find<GlobalController>().userId.value == postReactionController.replyUserId.value &&
                         postReactionController.replyActionList[index]['action'].toString().toLowerCase() == "Update Reply".toLowerCase()) {
