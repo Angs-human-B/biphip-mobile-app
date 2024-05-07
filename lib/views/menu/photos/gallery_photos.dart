@@ -197,14 +197,21 @@ class GalleryPhotoActionContent extends StatelessWidget {
               galleryController.isEditAlbum.value = true;
               galleryController.selectedAlbumId.value = galleryController.imageDataList[selectedIndex!].id!;
               galleryController.createAlbumNameController.text = galleryController.imageDataList[selectedIndex!].title!;
+              galleryController.previousAlbumName.value = galleryController.imageDataList[selectedIndex!].title!;
+              galleryController.selectedPrivacyId.value = galleryController.imageDataList[selectedIndex!].privacy!;
               galleryController.temporaryprivacyId.value = galleryController.imageDataList[selectedIndex!].privacy!;
               galleryController.privacyId.value = galleryController.imageDataList[selectedIndex!].privacy!;
               galleryController.createAlbumSelectedPrivacy.value = Get.find<GlobalController>().privacyText(galleryController.privacyId.value);
               galleryController.createAlbumSelectedPrivacyIcon.value = Get.find<GlobalController>().privacyIcon(galleryController.privacyId.value);
               for (int i = 0; i < galleryController.imageDataList[selectedIndex!].imageList.length; i++) {
                 galleryController.allMediaList.add(galleryController.imageDataList[selectedIndex!].imageList[i].fullPath);
+                galleryController.imageIdList.add(galleryController.imageDataList[selectedIndex!].imageList[i].id);
+                galleryController.previousAlbumImageLength.value = galleryController.imageDataList[selectedIndex!].imageList.length;
+                ll(galleryController.previousAlbumImageLength.value);
                 galleryController.imageDescriptionTextEditingController
                     .add(TextEditingController(text: galleryController.imageDataList[selectedIndex!].imageList[i].description ?? ""));
+                ll("des crip tion test ${galleryController.imageDataList[selectedIndex!].imageList[i].description}");
+                ll("des crip tion test in textfield  ${galleryController.imageDescriptionTextEditingController[i].toString()}");
                 galleryController.imageLocationsList.add(galleryController.imageDataList[selectedIndex!].imageList[i].imageTakenLocation);
                 galleryController.imageTimesList.add(galleryController.imageDataList[selectedIndex!].imageList[i].imageTakenTime);
                 galleryController.imageTagIdList.add('1,58');

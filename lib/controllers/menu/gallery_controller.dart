@@ -388,10 +388,27 @@ class GalleryController extends GetxController {
   }
 
   void checkCreateAlbum() {
-    if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
-      isCreateAlbumPostButtonEnable.value = true;
+    if (isEditAlbum.value) {
+      if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
+        isCreateAlbumPostButtonEnable.value = false;
+      }
+      if (allMediaList.isNotEmpty) {
+        for (int i = 0; i < allMediaList.length; i++) {
+          if (previousAlbumImageLength.value != allMediaList.length) {
+            isCreateAlbumPostButtonEnable.value = true;
+          } else if (allMediaList[i] is String) {
+            isCreateAlbumPostButtonEnable.value = false;
+          } else {
+            isCreateAlbumPostButtonEnable.value = true;
+          }
+        }
+      }
     } else {
-      isCreateAlbumPostButtonEnable.value = false;
+      if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
+        isCreateAlbumPostButtonEnable.value = true;
+      } else {
+        isCreateAlbumPostButtonEnable.value = false;
+      }
     }
   }
 
@@ -483,6 +500,11 @@ class GalleryController extends GetxController {
     }
   }
 
+  List deleteImageIdList = [];
+  RxList imageIdList = RxList([]);
+  final RxInt previousAlbumImageLength = RxInt(-1);
+  final RxString previousAlbumName = RxString("");
+  final RxInt selectedPrivacyId = RxInt(-1);
 //*Update album Api call
   final RxInt selectedAlbumId = RxInt(-1);
   Future<void> updateAlbum({required int albumId}) async {
@@ -492,10 +514,10 @@ class GalleryController extends GetxController {
         uploadedImageList.add(allMediaList[i]);
       }
     }
-    List tags = [];
-    for (int i = 0; i < taggedFriends.length; i++) {
-      tags.add(taggedFriends[i].id);
-    }
+    // List tags = [];
+    // for (int i = 0; i < taggedFriends.length; i++) {
+    //   tags.add(taggedFriends[i].id);
+    // }
     try {
       isCreateAlbumLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -503,6 +525,9 @@ class GalleryController extends GetxController {
         'id': albumId.toString(),
         'title': createAlbumNameController.text.toString().trim(),
         'privacy': privacyId.value.toString(),
+        "delete_image_ids": deleteImageIdList.join(','),
+        if (uploadedImageList.isEmpty)
+          for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
         // 'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
         for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),

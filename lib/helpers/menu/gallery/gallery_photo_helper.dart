@@ -186,8 +186,12 @@ class GalleryPhotoHelper {
   }
 
   void removeMedia(index) {
+    if (galleryController.isEditAlbum.value && galleryController.allMediaList[index] is String) {
+      galleryController.deleteImageIdList.add(galleryController.imageIdList.removeAt(index));
+      ll(galleryController.deleteImageIdList);
+    }
     galleryController.allMediaList.removeAt(index);
-    // galleryController.allMediaFileList.removeAt(index);
+    galleryController.checkCreateAlbum();
   }
 
   //* Get tagged friend bottom sheet
@@ -343,7 +347,6 @@ class GalleryPhotoHelper {
     galleryController.createAlbumAllMediaLinkList.clear();
     galleryController.createAlbumAllMediaFileList.clear();
     galleryController.allMediaList.clear();
-    // galleryController.allMediaFileList.clear();
     galleryController.locationTextEditingController.clear();
     galleryController.addLocationValue.value = '';
     galleryController.isAddLocationSuffixIconVisible.value = false;
@@ -360,5 +363,10 @@ class GalleryPhotoHelper {
     galleryController.temporaryCreateAlbumTime.value = '';
     galleryController.createAlbumTime.value = '';
     galleryController.isEditAlbum.value = false;
+    galleryController.deleteImageIdList.clear();
+    galleryController.imageIdList.clear();
+    galleryController.previousAlbumImageLength.value = -1;
+    galleryController.previousAlbumName.value = "";
+    galleryController.selectedPrivacyId.value = -1;
   }
 }

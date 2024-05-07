@@ -35,25 +35,29 @@ class CreateAlbum extends StatelessWidget {
                         Get.back();
                       },
                       action: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: k20Padding),
-                          child: TextButton(
-                            style: kTextButtonStyle,
-                            onPressed: galleryController.isCreateAlbumPostButtonEnable.value
-                                ? () async {
-                                    if (galleryController.isEditAlbum.value) {
-                                      await galleryController.updateAlbum(albumId: galleryController.selectedAlbumId.value);
-                                    } else {
-                                      await galleryController.createAlbum();
-                                    }
-                                  }
-                                : null,
-                            child: Text(
-                              galleryController.isEditAlbum.value ? ksSave : ksPost.tr,
-                              style: semiBold16TextStyle(galleryController.isCreateAlbumPostButtonEnable.value ? cPrimaryColor : cPlaceHolderColor),
-                            ),
-                          ),
-                        ),
+                        Obx(() => Padding(
+                              padding: const EdgeInsets.only(right: k20Padding),
+                              child: TextButton(
+                                style: kTextButtonStyle,
+                                onPressed: galleryController.isCreateAlbumPostButtonEnable.value ||
+                                        (galleryController.privacyId.value != galleryController.selectedPrivacyId.value)
+                                    ? () async {
+                                        if (galleryController.isEditAlbum.value) {
+                                          await galleryController.updateAlbum(albumId: galleryController.selectedAlbumId.value);
+                                        } else {
+                                          await galleryController.createAlbum();
+                                        }
+                                      }
+                                    : null,
+                                child: Text(
+                                  galleryController.isEditAlbum.value ? ksSave : ksPost.tr,
+                                  style: semiBold16TextStyle(galleryController.isCreateAlbumPostButtonEnable.value ||
+                                          (galleryController.privacyId.value != galleryController.selectedPrivacyId.value)
+                                      ? cPrimaryColor
+                                      : cPlaceHolderColor),
+                                ),
+                              ),
+                            )),
                       ],
                     ),
                   ),

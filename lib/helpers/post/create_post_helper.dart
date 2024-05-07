@@ -60,18 +60,18 @@ class CreatePostHelper {
         }
       }
     } else if (createPostController.category.value == 'News') {
-       if (createPostController.isEditPost.value) {
+      if (createPostController.isEditPost.value) {
         if ((createPostController.previousNewsTitle.value == createPostController.newsTitleTextEditingController.text.toString().trim())) {
           createPostController.isPostButtonActive.value = false;
         } else {
           createPostController.isPostButtonActive.value = true;
         }
       } else {
-      if (createPostController.newsTitleTextEditingController.text.trim() == '') {
-        createPostController.isPostButtonActive.value = false;
-      } else {
-        createPostController.isPostButtonActive.value = true;
-      }
+        if (createPostController.newsTitleTextEditingController.text.trim() == '') {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
       }
     } else {
       if (createPostController.isEditPost.value) {
@@ -194,6 +194,9 @@ class CreatePostHelper {
   }
 
   void removeMedia(index) {
+    if (createPostController.isEditPost.value) {
+      createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
+    }
     createPostController.allMediaList.removeAt(index);
     // createPostController.allMediaFileList.removeAt(index);
     // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
