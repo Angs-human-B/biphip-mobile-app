@@ -580,6 +580,7 @@ class SelfPostActionContent extends StatelessWidget {
                   } else {
                     createPostController.sellingPostType.value = ksBiddingPost.tr;
                   }
+                  // createPostController.sellingPostType.value = postData.sellPostType.toString();
                 }
                 createPostController.selectedBrandName.value = postData.store?.name ?? "";
                 createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
@@ -588,61 +589,9 @@ class SelfPostActionContent extends StatelessWidget {
                   createPostController.newsTitleTextEditingController.text = postData.title.toString();
                   createPostController.previousNewsTitle.value = postData.title ?? "";
                 }
-                Get.toNamed(krCreatePost);
-              }
-            }
-          }
-          ),
-          IconWithTextRow(
-            actionIcon: BipHip.world,
-            actionText: "Edit Audience",
-            actionOnPressed: () async {
-              Get.back();
-              globalController.postSelectedAction.value = "Edit Audience";
-              if (globalController.postSelectedAction.value == "Edit Audience") {
-                ll("Edit audience");
-                globalController.temporaryselectedAudienceId.value = globalController.selectedAudienceId.value;
-                if (globalController.selectedAudienceId.value == 0) {
-                  globalController.postAudienceAction.value = "Only me";
+                if (postData.description != null) {
+                  createPostController.newsDescriptionTextEditingController.text = postData.description.toString();
                 }
-                if (globalController.selectedAudienceId.value == 1) {
-                  globalController.postAudienceAction.value = "Public";
-                }
-                if (globalController.selectedAudienceId.value == 2) {
-                  globalController.postAudienceAction.value = "Friends";
-                }
-                if (globalController.selectedAudienceId.value == 3) {
-                  globalController.postAudienceAction.value = "Families";
-                }
-                if (globalController.selectedAudienceId.value == 4) {
-                  globalController.postAudienceAction.value = "Friends & Families";
-                }
-                Get.find<GlobalController>().commonBottomSheet(
-                    context: context,
-                    content: EditAudienceActionContent(),
-                    onPressCloseButton: () => Get.back(),
-                    onPressRightButton: () async {
-                      globalController.selectedAudienceId.value = globalController.temporaryselectedAudienceId.value;
-                      Get.back();
-                      globalController.commonPostList[postIndex].isPublic = globalController.selectedAudienceId.value;
-                      await globalController.editAudience(postData.id!);
-                      globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
-                    },
-                    rightText: ksDone.tr,
-                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                    title: "Edit Audience",
-                    isBottomSheetRightButtonActive: true.obs,
-                    isRightButtonShow: true);
-              }
-            },
-          ),
-          IconWithTextRow(
-            actionIcon: postData.isNotifaction == true ? BipHip.notificationFill : BipHip.notificationOutline,
-            actionText: postData.isNotifaction == true ? "Turn off notification for this post" : "Turn on notification for this post",
-            actionOnPressed: () async {
-              Get.back();
-              if (postData.isNotifaction == true) {
-                globalController.postSelectedAction.value = "Turn off notification for this post";
               } else {
                 createPostController.createPostTextEditingController.text = postData.content ?? "";
                 createPostController.previousPostContent.value = postData.content ?? "";
@@ -667,52 +616,108 @@ class SelfPostActionContent extends StatelessWidget {
                   createPostController.kidID.value = postData.kid?.id ?? -1;
                 }
               }
-              ll(globalController.postSelectedAction.value);
-              if (globalController.postSelectedAction.value == "Turn off notification for this post") {
-                await globalController.postNotificationOff(postId: postData.id!);
-              } else {
-                await globalController.postNotificationOn(postId: postData.id!);
+              Get.toNamed(krCreatePost);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.world,
+          actionText: "Edit Audience",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Edit Audience";
+            if (globalController.postSelectedAction.value == "Edit Audience") {
+              ll("Edit audience");
+              globalController.temporaryselectedAudienceId.value = globalController.selectedAudienceId.value;
+              if (globalController.selectedAudienceId.value == 0) {
+                globalController.postAudienceAction.value = "Only me";
               }
-            },
-          ),
-          IconWithTextRow(
-            actionIcon: BipHip.donatedFill,
-            actionText: "Edit Date",
-            actionOnPressed: () {
-              Get.back();
-              globalController.postSelectedAction.value = "Edit Date";
-              if (globalController.postSelectedAction.value == "Edit Date") {
-                globalController.postDate.value = postData.dateTime.toString();
-                globalController.editPostDate(context: context, postId: postData.id!, postIndex: postIndex);
+              if (globalController.selectedAudienceId.value == 1) {
+                globalController.postAudienceAction.value = "Public";
               }
-            },
-          ),
-          IconWithTextRow(
-            actionIcon: BipHip.copy,
-            actionText: "Copy Link",
-            actionOnPressed: () {
-              Get.back();
-              globalController.postSelectedAction.value = "Copy Link";
-              if (globalController.postSelectedAction.value == "Copy Link") {
-                String baseUrl = "bip-hip-dev.vercel.app/posts";
-                Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-                Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+              if (globalController.selectedAudienceId.value == 2) {
+                globalController.postAudienceAction.value = "Friends";
               }
-            },
-          ),
-          IconWithTextRow(
-            actionIcon: BipHip.deleteNew,
-            actionText: "Move to Recycle Bin",
-            actionOnPressed: () async {
-              Get.back();
-              globalController.postSelectedAction.value = "Move to Recycle Bin";
-              if (globalController.postSelectedAction.value == "Move to Recycle Bin") {
-                await globalController.postDelete(postId: postData.id!);
+              if (globalController.selectedAudienceId.value == 3) {
+                globalController.postAudienceAction.value = "Families";
               }
-            },
-          ),
-        ],
-      
+              if (globalController.selectedAudienceId.value == 4) {
+                globalController.postAudienceAction.value = "Friends & Families";
+              }
+              Get.find<GlobalController>().commonBottomSheet(
+                  context: context,
+                  content: EditAudienceActionContent(),
+                  onPressCloseButton: () => Get.back(),
+                  onPressRightButton: () async {
+                    globalController.selectedAudienceId.value = globalController.temporaryselectedAudienceId.value;
+                    Get.back();
+                    globalController.commonPostList[postIndex].isPublic = globalController.selectedAudienceId.value;
+                    await globalController.editAudience(postData.id!);
+                    globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                  },
+                  rightText: ksDone.tr,
+                  rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                  title: "Edit Audience",
+                  isBottomSheetRightButtonActive: true.obs,
+                  isRightButtonShow: true);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: postData.isNotifaction == true ? BipHip.notificationFill : BipHip.notificationOutline,
+          actionText: postData.isNotifaction == true ? "Turn off notification for this post" : "Turn on notification for this post",
+          actionOnPressed: () async {
+            Get.back();
+            if (postData.isNotifaction == true) {
+              globalController.postSelectedAction.value = "Turn off notification for this post";
+            } else {
+              globalController.postSelectedAction.value = "Turn on notification for this post";
+            }
+            ll(globalController.postSelectedAction.value);
+            if (globalController.postSelectedAction.value == "Turn off notification for this post") {
+              await globalController.postNotificationOff(postId: postData.id!);
+            } else {
+              await globalController.postNotificationOn(postId: postData.id!);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.donatedFill,
+          actionText: "Edit Date",
+          actionOnPressed: () {
+            Get.back();
+            globalController.postSelectedAction.value = "Edit Date";
+            if (globalController.postSelectedAction.value == "Edit Date") {
+              globalController.postDate.value = postData.dateTime.toString();
+              globalController.editPostDate(context: context, postId: postData.id!, postIndex: postIndex);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.copy,
+          actionText: "Copy Link",
+          actionOnPressed: () {
+            Get.back();
+            globalController.postSelectedAction.value = "Copy Link";
+            if (globalController.postSelectedAction.value == "Copy Link") {
+              String baseUrl = "bip-hip-dev.vercel.app/posts";
+              Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
+              Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+            }
+          },
+        ),
+        IconWithTextRow(
+          actionIcon: BipHip.deleteNew,
+          actionText: "Move to Recycle Bin",
+          actionOnPressed: () async {
+            Get.back();
+            globalController.postSelectedAction.value = "Move to Recycle Bin";
+            if (globalController.postSelectedAction.value == "Move to Recycle Bin") {
+              await globalController.postDelete(postId: postData.id!);
+            }
+          },
+        ),
+      ],
     );
   }
 }
