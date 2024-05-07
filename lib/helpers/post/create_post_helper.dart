@@ -502,8 +502,11 @@ class CreatePostHelper {
   }
 
   void insertMedia(mediaLink, mediaFile) {
-    createPostController.allMediaList.addAll(mediaFile);
-    // createPostController.allMediaFileList.addAll(mediaFile);
+    if (mediaFile is File) {
+      createPostController.allMediaList.add(mediaFile);
+    } else {
+      globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
+    }
   }
 
   void insertSellingMedia(mediaLink, mediaFile) {

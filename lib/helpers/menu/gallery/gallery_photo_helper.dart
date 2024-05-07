@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -103,7 +105,12 @@ class GalleryPhotoHelper {
   }
 
   void insertMedia(mediaLink, mediaFile) {
-    galleryController.allMediaList.addAll(mediaFile);
+    if (mediaFile is File) {
+      galleryController.allMediaList.add(mediaFile);
+    } else {
+      globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
+    }
+    // galleryController.allMediaList.addAll(mediaFile);
     // galleryController.allMediaFileList.addAll(mediaFile);
   }
 

@@ -599,7 +599,9 @@ class SelfPostActionContent extends StatelessWidget {
                   createPostController.imageIdList.clear();
                   createPostController.deleteImageIdList.clear();
                   for (int i = 0; i < postData.images.length; i++) {
-                    createPostController.allMediaList.add(postData.images[i].fullPath);
+                    if (postData.images[i].fullPath != null) {
+                      createPostController.allMediaList.add(postData.images[i].fullPath.toString());
+                    }
                     createPostController.previousPostImageLength.value = createPostController.allMediaList.length;
                     createPostController.imageIdList.add(postData.images[i].id);
                     createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
