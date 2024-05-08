@@ -1,8 +1,10 @@
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 
 class StoriesWidget extends StatelessWidget {
-  const StoriesWidget({super.key});
-
+  StoriesWidget({super.key});
+  final SelfieController selfieController = Get.find<SelfieController>();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -17,12 +19,21 @@ class StoriesWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               if (index == 0) {
-                return const StoryCard(
+                return StoryCard(
                   isStory: false,
                   storyImage: '',
-                  profileImage: kiDummyImage2ImageUrl,
+                  profileImage: Get.find<GlobalController>().userImage.toString(),
                   userName: '',
                   isSeen: false,
+                  onPressed: () async {
+                    await Get.find<GlobalController>().selectImageSource(
+                        selfieController.isSelfieImageChanged, selfieController.selfieImageLink, selfieController.selfieImageFile, 'gallery', false, false);
+                    // ll(selfieController.selfieImageFile);
+                    if (selfieController.isSelfieImageChanged.value) {
+                      // Get.toNamed(krSelfiePage);
+                      Get.to(() => SelfiePage());
+                    }
+                  },
                 );
               } else {
                 return StoryCard(
@@ -108,9 +119,13 @@ class StoryCard extends StatelessWidget {
                         topLeft: Radius.circular(k8BorderRadius),
                         topRight: Radius.circular(k8BorderRadius),
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         profileImage,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(kiDummyImage1ImageUrl);
+                        },
+                        loadingBuilder: imageLoadingBuilder,
                       ),
                     ),
                   ),
@@ -153,7 +168,6 @@ class StoryCard extends StatelessWidget {
                     ))
             ],
           ),
-       
         ),
       ),
     );

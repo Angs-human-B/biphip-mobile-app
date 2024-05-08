@@ -217,6 +217,9 @@ const String krStoreReview = '/store-review';
 const String krStorePhotoPreview = '/store-photo-preview';
 const String krStorePhotoView = '/store-photo-view';
 
+//*Selfie
+const String krSelfiePage = "selfie-page";
+
 //* Messenger
 const String krInbox = "/inbox";
 
@@ -344,5 +347,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krStorePhotoView, page: () => StorePhotoView(), transition: Transition.noTransition),
 
   //* Messenger
-  GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft)
+  GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
+  //*Selfie
+  // GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
 ];

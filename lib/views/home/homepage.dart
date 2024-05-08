@@ -198,7 +198,7 @@ class HomePage extends StatelessWidget {
                                   Container(
                                     color: cWhiteColor,
                                     width: width,
-                                    child: const StoriesWidget(),
+                                    child:  StoriesWidget(),
                                   ),
                                 if (homeController.homeTabIndex.value == 1)
                                   Container(

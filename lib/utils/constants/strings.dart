@@ -650,3 +650,5 @@ const String ksContinueEditing = "Continue editing";
 const String ksInbox = "Inbox";
 const String ksNoChatAvailAble = "No chat available";
 const String ksNoChatDescription = "You haven't chat with anyone yet.";
+const String ksText = "Text";
+const String ksPrivacy = "Privacy";
