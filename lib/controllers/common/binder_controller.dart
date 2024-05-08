@@ -6,6 +6,7 @@ import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
@@ -38,5 +39,6 @@ class BinderController implements Bindings {
     Get.put<AwardController>(AwardController());
     Get.put<QuizController>(QuizController());
     Get.put<MenuSectionController>(MenuSectionController());
+    Get.put<MessengerController>(MessengerController());
   }
 }

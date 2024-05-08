@@ -69,7 +69,9 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: h20),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krInbox);
+                          },
                           child: Icon(
                             BipHip.chatOutline,
                             color: cIconColor,

@@ -65,6 +65,7 @@ import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
+import 'package:bip_hip/views/message/inbox.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -162,7 +163,6 @@ const String krAddKidUploadImage = '/add-kid-upload-image';
 const String krQuizPage = '/quiz-page';
 const String krMyQuiz = '/my-quiz';
 
-
 //*Store
 const String krStore = '/store-page';
 const String krAddStoreBasicInfo = '/add-store-basic-info';
@@ -198,7 +198,6 @@ const String krAwardDetailsPage = '/award-details-page';
 //* Search
 const String krSearchPage = "/search-page";
 
-
 //*Store profile
 const String krStoreProfile = '/store-profile';
 const String krEditStoreProfile = '/edit-store-profile';
@@ -218,6 +217,8 @@ const String krStoreReview = '/store-review';
 const String krStorePhotoPreview = '/store-photo-preview';
 const String krStorePhotoView = '/store-photo-view';
 
+//* Messenger
+const String krInbox = "/inbox";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -300,7 +301,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krBadgesStarPage, page: () => BadgesStarPage(), transition: Transition.noTransition),
   GetPage(name: krAllBadges, page: () => AllBadges(), transition: Transition.noTransition),
   GetPage(name: krPurchaseStar, page: () => PurchaseStar(), transition: Transition.noTransition),
- //*Quiz
+  //*Quiz
   GetPage(name: krQuizPage, page: () => QuizPage(), transition: Transition.noTransition),
   GetPage(name: krMyQuiz, page: () => MyQuiz(), transition: Transition.noTransition),
   //*Birthday
@@ -317,13 +318,13 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krKidEditRelation, page: () => KidEditRelationPage(), transition: Transition.noTransition),
   GetPage(name: krKidAddLanguage, page: () => KidAddLanguagePage(), transition: Transition.noTransition),
   // GetPage(name: krKidCreatePost, page: () => KidCreatePost(), transition: Transition.noTransition),
-   //* Awards
+  //* Awards
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),
   //* Search
   GetPage(name: krSearchPage, page: () => SearchPage(), transition: Transition.noTransition),
 
- //*Store profile
+  //*Store profile
   GetPage(name: krStoreProfile, page: () => StoreProfile(), transition: Transition.noTransition),
   GetPage(name: krEditStoreProfile, page: () => EditStoreProfile(), transition: Transition.noTransition),
   GetPage(name: krStoreEditAbout, page: () => StoreEditAbout(), transition: Transition.noTransition),
@@ -341,4 +342,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krStoreReview, page: () => StoreReview(), transition: Transition.noTransition),
   GetPage(name: krStorePhotoPreview, page: () => StorePhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krStorePhotoView, page: () => StorePhotoView(), transition: Transition.noTransition),
+
+  //* Messenger
+  GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft)
 ];
