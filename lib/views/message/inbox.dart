@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:intl/intl.dart';
 
 class Inbox extends StatelessWidget {
   Inbox({super.key});
@@ -89,10 +89,11 @@ class Inbox extends StatelessWidget {
                         ),
                       ),
                       if (messengerController.inboxList.isEmpty) const EmptyChatView(),
+                      kH16sizedBox,
                       ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) => kH8sizedBox,
+                          separatorBuilder: (context, index) => kH16sizedBox,
                           itemCount: messengerController.inboxList.length,
                           itemBuilder: (context, index) {
                             var item = messengerController.inboxList[index];
@@ -102,29 +103,119 @@ class Inbox extends StatelessWidget {
                               height: h50,
                               child: Row(
                                 children: [
-                                  ClipOval(
-                                    child: Container(
-                                      height: h44,
-                                      width: h44,
-                                      decoration: const BoxDecoration(
-                                        color: cBlackColor,
-                                        shape: BoxShape.circle,
+                                  Stack(
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          height: h50,
+                                          width: h50,
+                                          decoration: const BoxDecoration(
+                                            color: cBlackColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            item["image"],
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (context, error, stackTrace) => const Icon(
+                                              BipHip.user,
+                                              size: kIconSize24,
+                                              color: cIconColor,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      child: Image.network(
-                                        item["image"],
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) => const Icon(
-                                          BipHip.user,
-                                          size: kIconSize24,
-                                          color: cIconColor,
+                                      if (item["isActive"])
+                                        Positioned(
+                                            bottom: 3,
+                                            right: 0,
+                                            child: Container(
+                                              height: h14,
+                                              width: h14,
+                                              decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(2),
+                                                child: Container(
+                                                  height: h12,
+                                                  width: h12,
+                                                  decoration: const BoxDecoration(color: cGreenColor, shape: BoxShape.circle),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(3),
+                                                    child: Container(
+                                                      height: 4,
+                                                      width: 4,
+                                                      decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ))
+                                    ],
+                                  ),
+                                  kW12sizedBox,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: k4Padding),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item["name"],
+                                          style: item["isSeen"] ? regular16TextStyle(cBlackColor) : semiBold16TextStyle(cBlackColor),
+                                        ),
+                                        // kH4sizedBox,
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 200,
+                                              child: Text(
+                                                "${item["isLastMessageSelf"] ? "You:" : ""} ${item["message"]}",
+                                                style: (item["isSeen"]) ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Text(
+                                              "  • ${DateFormat('h:mm a').format(item["lastMassageTime"])}",
+                                              style: (item["isSeen"]) ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  if (item["isMute"])
+                                    const Icon(
+                                      BipHip.notificationFill,
+                                      color: cIconColor,
+                                      size: kIconSize14,
+                                    ),
+                                  if (item["isSeen"])
+                                    ClipOval(
+                                      child: Container(
+                                        height: h14,
+                                        width: h14,
+                                        decoration: const BoxDecoration(
+                                          color: cBlackColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Image.network(
+                                          item["image"],
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (context, error, stackTrace) => const Icon(
+                                            BipHip.user,
+                                            size: kIconSize14,
+                                            color: cIconColor,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
                                 ],
                               ),
                             );
                           }),
+                      kH16sizedBox
                     ],
                   ),
                 ),
