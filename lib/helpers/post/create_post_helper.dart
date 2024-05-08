@@ -793,6 +793,86 @@ class CreatePostHelper {
       Get.find<FriendController>().isFriendListLoading.value = false;
     }
   }
+
+  void deletePostAlertDialog({required BuildContext context, required int id}) {
+    showAlertDialog(
+      context: context,
+      child: CommonAlertDialog(
+        hasCloseBtn: false,
+        addContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [Text(ksDeletePostContent.tr, style: regular14TextStyle(cBlackColor))],
+        ),
+        title: ksMoveToBin.tr,
+        actions: [
+          CustomElevatedButton(
+            label: ksCancel.tr,
+            onPressed: () {
+              Get.back();
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cPrimaryColor),
+            buttonColor: cWhiteColor,
+            borderColor: cLineColor2,
+          ),
+          kH12sizedBox,
+          CustomElevatedButton(
+            label: ksMove.tr,
+            onPressed: () async {
+              Get.back();
+              await globalController.postDelete(postId: id);
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cWhiteColor),
+            buttonColor: cPrimaryColor,
+          ),
+          kH8sizedBox,
+        ],
+      ),
+    );
+  }
+
+  void editPostAlertDialog({required BuildContext context}) {
+    showAlertDialog(
+      context: context,
+      child: CommonAlertDialog(
+        hasCloseBtn: false,
+        addContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [Text(ksEditChangesWarning.tr, style: regular14TextStyle(cBlackColor))],
+        ),
+        title: ksEditPostDiscardChanges.tr,
+        actions: [
+          CustomElevatedButton(
+            label: ksContinueEditing.tr,
+            onPressed: () {
+              Get.back();
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cPrimaryColor),
+            buttonColor: cWhiteColor,
+            borderColor: cLineColor2,
+          ),
+          kH12sizedBox,
+          CustomElevatedButton(
+            label: ksDiscard.tr,
+            onPressed: () async {
+              Get.back();
+              Get.back();
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cWhiteColor),
+            buttonColor: cPrimaryColor,
+          ),
+          kH8sizedBox,
+        ],
+      ),
+    );
+  }
 }
 
 //*Newly added for boost post popup show

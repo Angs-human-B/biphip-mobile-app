@@ -2026,7 +2026,7 @@ class ShareBottomSheetContent extends StatelessWidget {
                           Get.find<GlobalController>().commonBottomSheet(
                             isBottomSheetRightButtonActive: createPostController.kidListBottomSheetRightButtonState,
                             isScrollControlled: true,
-                            bottomSheetHeight: height * .7,
+                            bottomSheetHeight: height * .5,
                             context: Get.context,
                             content: KidListBottomSheetContent(),
                             onPressCloseButton: () {
@@ -2072,7 +2072,7 @@ class ShareBottomSheetContent extends StatelessWidget {
                           Get.find<GlobalController>().commonBottomSheet(
                             isBottomSheetRightButtonActive: createPostController.storeListBottomSheetRightButtonState,
                             isScrollControlled: true,
-                            bottomSheetHeight: createPostController.savedBrandCustomBottomSheetHeight(),
+                            bottomSheetHeight: height * 0.5,
                             context: Get.context,
                             content: SelectBrandBottomSheetContent(),
                             onPressCloseButton: () {
