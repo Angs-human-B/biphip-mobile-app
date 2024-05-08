@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -104,12 +102,12 @@ class GalleryPhotoHelper {
     );
   }
 
-  void insertMedia(mediaLink, mediaFile) {
-    if (mediaFile is File) {
-      galleryController.allMediaList.add(mediaFile);
-    } else {
-      globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
-    }
+  void insertMedia(mediaFile) {
+    // if (mediaFile is File) {
+    galleryController.allMediaList.add(mediaFile);
+    // } else {
+    // globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
+    // }
     // galleryController.allMediaList.addAll(mediaFile);
     // galleryController.allMediaFileList.addAll(mediaFile);
   }
@@ -129,7 +127,7 @@ class GalleryPhotoHelper {
       var status = await globalController.selectMultiMediaSource(
           galleryController.isCreateAlbumMediaChanged, galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
       if (status) {
-        insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+        insertMedia(galleryController.createAlbumAllMediaFileList);
         configImageDescription();
         galleryController.checkCreateAlbum();
         galleryController.isCreateAlbumMediaChanged.value = false;
@@ -195,7 +193,6 @@ class GalleryPhotoHelper {
   void removeMedia(index) {
     if (galleryController.isEditAlbum.value && galleryController.allMediaList[index] is String) {
       galleryController.deleteImageIdList.add(galleryController.imageIdList.removeAt(index));
-      ll(galleryController.deleteImageIdList);
     }
     galleryController.allMediaList.removeAt(index);
     galleryController.checkCreateAlbum();

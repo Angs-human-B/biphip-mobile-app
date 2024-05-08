@@ -111,8 +111,7 @@ class CreateAlbum extends StatelessWidget {
                                   var status = await Get.find<GlobalController>().selectMultiMediaSource(galleryController.isCreateAlbumMediaChanged,
                                       galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
                                   if (status) {
-                                    GalleryPhotoHelper()
-                                        .insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+                                    GalleryPhotoHelper().insertMedia(galleryController.createAlbumAllMediaFileList);
                                     GalleryPhotoHelper().configImageDescription();
                                     galleryController.checkCreateAlbum();
                                     galleryController.isCreateAlbumMediaChanged.value = false;

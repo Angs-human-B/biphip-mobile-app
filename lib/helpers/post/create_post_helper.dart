@@ -75,7 +75,8 @@ class CreatePostHelper {
       }
     } else {
       if (createPostController.isEditPost.value) {
-        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim())) {
+        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim()) ||
+            (createPostController.allMediaList.isNotEmpty)) {
           createPostController.isPostButtonActive.value = false;
         } else {
           createPostController.isPostButtonActive.value = true;
@@ -194,7 +195,7 @@ class CreatePostHelper {
   }
 
   void removeMedia(index) {
-    if (createPostController.isEditPost.value) {
+    if (createPostController.isEditPost.value && createPostController.allMediaList[index] is String) {
       createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
     }
     createPostController.allMediaList.removeAt(index);
@@ -426,7 +427,7 @@ class CreatePostHelper {
           createPostController.isMediaChanged, createPostController.mediaLinkList, createPostController.mediaFileList);
       if (status) {
         ll("media list length : ${createPostController.mediaLinkList.length}");
-        insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        insertMedia(createPostController.mediaFileList);
         configImageDescription();
         checkCanCreatePost();
         createPostController.isMediaChanged.value = false;
@@ -437,7 +438,7 @@ class CreatePostHelper {
       var status = await globalController.selectImageSource(createPostController.isCreatePostImageChanged, createPostController.createPostImageLink,
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
-        insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        insertMedia(createPostController.createPostImageFile);
         configImageDescription();
         checkCanCreatePost();
         createPostController.isCreatePostImageChanged.value = false;
@@ -501,12 +502,12 @@ class CreatePostHelper {
     }
   }
 
-  void insertMedia(mediaLink, mediaFile) {
-    if (mediaFile is File) {
-      createPostController.allMediaList.add(mediaFile);
-    } else {
-      globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
-    }
+  void insertMedia(mediaFile) {
+    // if (mediaFile is File) {
+    createPostController.allMediaList.addAll(mediaFile);
+    // } else {
+    // globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
+    // }
   }
 
   void insertSellingMedia(mediaLink, mediaFile) {
