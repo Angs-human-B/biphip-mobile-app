@@ -75,11 +75,11 @@ class CreatePostHelper {
       }
     } else {
       if (createPostController.isEditPost.value) {
-        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim()) ||
-            (createPostController.allMediaList.isNotEmpty)) {
-          createPostController.isPostButtonActive.value = false;
-        } else {
+        if ((createPostController.previousPostContent.value != createPostController.createPostTextEditingController.text.toString().trim()) &&
+            createPostController.createPostTextEditingController.text.toString().trim() != "") {
           createPostController.isPostButtonActive.value = true;
+        } else {
+          createPostController.isPostButtonActive.value = false;
         }
       } else {
         if (createPostController.createPostTextEditingController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
@@ -355,7 +355,9 @@ class CreatePostHelper {
     createPostController.imageLocationsList.clear();
     createPostController.imageTimesList.clear();
     createPostController.imageTagIdList.clear();
+    createPostController.isImageChanged.value = false;
     clearCreateSellingPostView();
+    createPostController.isPostButtonActive.value = false;
   }
 
   void clearCreateSellingPostView() {
@@ -429,7 +431,12 @@ class CreatePostHelper {
         ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaFileList);
         configImageDescription();
-        checkCanCreatePost();
+        if (createPostController.isEditPost.value) {
+          createPostController.isPostButtonActive.value = true;
+          createPostController.isImageChanged.value = true;
+        } else {
+          checkCanCreatePost();
+        }
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
         createPostController.mediaFileList.clear();
@@ -440,7 +447,12 @@ class CreatePostHelper {
       if (status) {
         insertMedia(createPostController.createPostImageFile);
         configImageDescription();
-        checkCanCreatePost();
+        if (createPostController.isEditPost.value) {
+          createPostController.isPostButtonActive.value = true;
+          createPostController.isImageChanged.value = true;
+        } else {
+          checkCanCreatePost();
+        }
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
         createPostController.createPostImageFile.clear();

@@ -49,7 +49,16 @@ class CreatePostMediaSection extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       createPostHelper.removeMedia(0);
-                      createPostHelper.checkCanCreatePost();
+                      if (createPostController.isEditPost.value) {
+                        if (createPostController.allMediaList.isEmpty && createPostController.createPostTextEditingController.text.trim() == "") {
+                          createPostController.isPostButtonActive.value = false;
+                        } else {
+                          createPostController.isImageChanged.value = true;
+                          createPostController.isPostButtonActive.value = true;
+                        }
+                      } else {
+                        createPostHelper.checkCanCreatePost();
+                      }
                       createPostController.imageDescriptionTextEditingController[0].clear();
                       createPostController.imageLocationsList.removeAt(0);
                       createPostController.imageTimesList.removeAt(0);
@@ -100,6 +109,10 @@ class CreatePostMediaSection extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             createPostHelper.removeMedia(1);
+                            if (createPostController.isEditPost.value) {
+                              createPostController.isImageChanged.value = true;
+                              createPostController.isPostButtonActive.value = true;
+                            }
                             createPostController.imageDescriptionTextEditingController[1].clear();
                             createPostController.imageLocationsList.removeAt(1);
                             createPostController.imageTimesList.removeAt(1);
@@ -151,6 +164,10 @@ class CreatePostMediaSection extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
+                              if (createPostController.isEditPost.value) {
+                                createPostController.isImageChanged.value = true;
+                                createPostController.isPostButtonActive.value = true;
+                              }
                               createPostHelper.removeMedia(2);
                             },
                             child: const Icon(

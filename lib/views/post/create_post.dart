@@ -22,6 +22,8 @@ class CreatePost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ll(width);
+    ll("CHECK: ${((createPostController.privacyId.value != globalController.selectedAudienceId.value) || (createPostController.previousPostImageLength.value != createPostController.allMediaList.length))}");
+    ll((createPostController.previousPostImageLength.value != createPostController.allMediaList.length));
     return PopScope(
       canPop: false,
       onPopInvoked: ((didPop) {
@@ -67,8 +69,7 @@ class CreatePost extends StatelessWidget {
                               label: createPostController.isEditPost.value ? ksSave.tr : ksPost.tr,
                               onPressed: createPostController.isPostButtonActive.value ||
                                       (createPostController.isEditPost.value &&
-                                              (createPostController.privacyId.value != globalController.selectedAudienceId.value) ||
-                                          (createPostController.previousPostImageLength.value != createPostController.allMediaList.length))
+                                          createPostController.privacyId.value != globalController.selectedAudienceId.value)
                                   ? () async {
                                       unfocus(context);
                                       if (Get.find<KidsController>().isRouteFromKid.value) {
@@ -119,7 +120,18 @@ class CreatePost extends StatelessWidget {
                                       textInputStyle:
                                           createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
                                       onChanged: (v) {
-                                        createPostHelper.checkCanCreatePost();
+                                        if (createPostController.isImageChanged.value || createPostController.isEditPost.value) {
+                                          ll(12);
+                                          if (createPostController.allMediaList.isEmpty &&
+                                              createPostController.createPostTextEditingController.text.trim() == "") {
+                                            createPostController.isPostButtonActive.value = false;
+                                          } else {
+                                            createPostController.isPostButtonActive.value = true;
+                                          }
+                                        } else {
+                                          ll(34);
+                                          createPostHelper.checkCanCreatePost();
+                                        }
                                       },
                                     ),
                                   if (createPostController.category.value == 'Selling')
