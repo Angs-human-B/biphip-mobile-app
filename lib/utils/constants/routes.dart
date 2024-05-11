@@ -38,6 +38,7 @@ import 'package:bip_hip/views/menu/photos/create_album_upload_image_list.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/add_language.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
+import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
@@ -218,7 +219,7 @@ const String krStorePhotoPreview = '/store-photo-preview';
 const String krStorePhotoView = '/store-photo-view';
 
 //*Selfie
-const String krSelfiePage = "selfie-page";
+const String krSelfiePage = "/selfie-page";
 
 //* Messenger
 const String krInbox = "/inbox";
@@ -349,5 +350,5 @@ List<GetPage<dynamic>>? routes = [
   //* Messenger
   GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
   //*Selfie
-  // GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
+  GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
 ];

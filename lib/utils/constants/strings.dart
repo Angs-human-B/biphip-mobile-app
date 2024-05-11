@@ -652,3 +652,4 @@ const String ksNoChatAvailAble = "No chat available";
 const String ksNoChatDescription = "You haven't chat with anyone yet.";
 const String ksText = "Text";
 const String ksPrivacy = "Privacy";
+const String ksStartTyping = "Start typing";

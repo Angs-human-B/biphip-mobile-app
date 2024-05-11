@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 
 class StoriesWidget extends StatelessWidget {
   StoriesWidget({super.key});
@@ -26,12 +25,12 @@ class StoriesWidget extends StatelessWidget {
                   userName: '',
                   isSeen: false,
                   onPressed: () async {
+                    Get.find<SelfieController>().resetSelfieData();
                     await Get.find<GlobalController>().selectImageSource(
                         selfieController.isSelfieImageChanged, selfieController.selfieImageLink, selfieController.selfieImageFile, 'gallery', false, false);
                     // ll(selfieController.selfieImageFile);
                     if (selfieController.isSelfieImageChanged.value) {
-                      // Get.toNamed(krSelfiePage);
-                      Get.to(() => SelfiePage());
+                      Get.toNamed(krSelfiePage);
                     }
                   },
                 );
