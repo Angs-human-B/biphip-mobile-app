@@ -87,6 +87,8 @@ class CreatePostController extends GetxController {
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> tempTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> temporaryRemovedTaggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> removedTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
   final RxList tempTagIndex = RxList([]);
 
@@ -758,6 +760,10 @@ class CreatePostController extends GetxController {
     for (int i = 0; i < taggedFriends.length; i++) {
       tags.add(taggedFriends[i].id);
     }
+    List removedTags = [];
+    for (int i = 0; i < removedTaggedFriends.length; i++) {
+      removedTags.add(removedTaggedFriends[i].id);
+    }
     var uploadedImageList = [];
     for (int i = 0; i < allMediaList.length; i++) {
       if (allMediaList.isNotEmpty && allMediaList[i] is! String) {
@@ -773,6 +779,7 @@ class CreatePostController extends GetxController {
         if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
         // if (subCategoryIndex.value != -1) "post_sub_category_id": subCategoryIndex.value.toString(),
         'post_tag_friend_id': tags.join(','),
+        'post_tag_remove_friend_ids': removedTags.join(','),
         "is_public": privacyId.value.toString(),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
           'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),

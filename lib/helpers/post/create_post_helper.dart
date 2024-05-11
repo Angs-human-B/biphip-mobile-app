@@ -467,7 +467,11 @@ class CreatePostHelper {
       // }
     } else {
       // createPostController.tagFriendList.clear();
-      // createPostController.tempTaggedFriends.clear();
+      createPostController.temporaryRemovedTaggedFriends.clear();
+      // if (createPostController.removedTaggedFriends.isNotEmpty) {
+      //   createPostController.temporaryRemovedTaggedFriends.addAll(createPostController.removedTaggedFriends);
+      // }
+      createPostController.tempTaggedFriends.clear();
       Get.find<FriendController>().isFriendListLoading.value = true;
       createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
       if (createPostController.tempTaggedFriends.isNotEmpty) {
@@ -484,6 +488,8 @@ class CreatePostHelper {
         isSearchShow: true,
         content: TagPeopleBottomSheetContent(),
         onPressCloseButton: () {
+          createPostController.removedTaggedFriends.clear();
+          createPostController.temporaryRemovedTaggedFriends.clear();
           createPostController.taggedFriends.clear();
           createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
           createPostController.tempTaggedFriends.clear();
@@ -495,6 +501,10 @@ class CreatePostHelper {
           createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
           createPostController.tempTaggedFriends.clear();
           createPostController.tagFriendButtonSheetRightButtonState.value = false;
+          if (createPostController.isEditPost.value) {
+            createPostController.removedTaggedFriends.addAll(createPostController.temporaryRemovedTaggedFriends);
+          }
+          createPostController.isPostButtonActive.value = true;
           Get.back();
         },
         rightText: ksDone.tr,
@@ -510,6 +520,19 @@ class CreatePostHelper {
           createPostController.tagFriendList.remove(createPostController.tempTaggedFriends);
         }
         Get.find<FriendController>().isFriendListLoading.value = false;
+      }
+      if (createPostController.isEditPost.value && createPostController.taggedFriends.isNotEmpty) {
+        for (int k = 0; k < createPostController.tempTaggedFriends.length; k++) {
+          for (int i = 0; i < createPostController.tagFriendList.length; i++) {
+            if (createPostController.tagFriendList[i].id == createPostController.tempTaggedFriends[k].id) {
+              createPostController.tagFriendList.removeAt(i);
+            }
+          }
+        }
+        for (int k = 0; k < createPostController.tempTaggedFriends.length; k++) {
+          createPostController.tempTagIndex.add(0);
+        }
+        ll("TEMP: ${createPostController.tempTagIndex}");
       }
     }
   }
