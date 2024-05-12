@@ -2,6 +2,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class MessengerController extends GetxController {
   final TextEditingController inboxSearchTextEditingController = TextEditingController();
+  final RxBool isSearchFieldCrossButtonShown = RxBool(false);
   final RxList inboxFilterCategoryList = RxList(["All", "Active", "Marketplace", "Kids"]);
   final RxString selectedFilterCategory = RxString("All");
 

@@ -14,6 +14,8 @@ class CreateAlbum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ll("BELLO: ${galleryController.privacyId.value}");
+    ll("HELLO: ${galleryController.selectedPrivacyId.value}");
     return Obx(
       () => Stack(
         children: [

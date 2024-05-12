@@ -56,15 +56,22 @@ class Inbox extends StatelessWidget {
                         controller: messengerController.inboxSearchTextEditingController,
                         // focusNode: searchFocusNode,
                         prefixIcon: BipHip.search,
-                        suffixIcon: BipHip.circleCrossNew,
+                        suffixIcon: messengerController.isSearchFieldCrossButtonShown.value ? BipHip.circleCrossNew : null,
                         hint: ksSearch.tr,
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: k12Padding,
                         ),
                         textInputStyle: regular16TextStyle(cBlackColor),
-                        onSuffixPress: () {},
+                        onSuffixPress: () {
+                          messengerController.inboxSearchTextEditingController.clear();
+                          messengerController.isSearchFieldCrossButtonShown.value = false;
+                        },
                         onSubmit: (value) async {},
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          if (messengerController.inboxSearchTextEditingController.text.trim() != "") {
+                            messengerController.isSearchFieldCrossButtonShown.value = true;
+                          }
+                        },
                       ),
                       kH16sizedBox,
                       SizedBox(
@@ -187,7 +194,7 @@ class Inbox extends StatelessWidget {
                                   const Spacer(),
                                   if (item["isMute"])
                                     const Icon(
-                                      BipHip.notificationFill,
+                                      Icons.notifications_off_rounded,
                                       color: cIconColor,
                                       size: kIconSize14,
                                     ),

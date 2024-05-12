@@ -233,4 +233,3 @@ class GalleryPhotoActionContent extends StatelessWidget {
     );
   }
 }
-

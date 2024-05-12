@@ -371,6 +371,6 @@ class GalleryPhotoHelper {
     galleryController.imageIdList.clear();
     galleryController.previousAlbumImageLength.value = -1;
     galleryController.previousAlbumName.value = "";
-    galleryController.selectedPrivacyId.value = -1;
+    galleryController.selectedPrivacyId.value = 1;
   }
 }
