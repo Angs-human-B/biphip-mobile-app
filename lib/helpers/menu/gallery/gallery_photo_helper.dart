@@ -104,7 +104,7 @@ class GalleryPhotoHelper {
 
   void insertMedia(mediaFile) {
     // if (mediaFile is File) {
-    galleryController.allMediaList.add(mediaFile);
+    galleryController.allMediaList.addAll(mediaFile);
     // } else {
     // globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
     // }

@@ -121,15 +121,17 @@ class CreatePost extends StatelessWidget {
                                           createPostController.isTextLimitCrossed.value ? regular16TextStyle(cBlackColor) : regular20TextStyle(cBlackColor),
                                       onChanged: (v) {
                                         if (createPostController.isImageChanged.value || createPostController.isEditPost.value) {
-                                          ll(12);
-                                          if (createPostController.allMediaList.isEmpty &&
-                                              createPostController.createPostTextEditingController.text.trim() == "") {
-                                            createPostController.isPostButtonActive.value = false;
-                                          } else {
+                                          if (createPostController.allMediaList.isNotEmpty &&
+                                              createPostController.createPostTextEditingController.text.trim() != "" &&
+                                              createPostController.createPostTextEditingController.text.trim() !=
+                                                  createPostController.previousPostContent.value) {
                                             createPostController.isPostButtonActive.value = true;
+                                          } else {
+                                            if (!createPostController.isImageChanged.value) {
+                                              createPostController.isPostButtonActive.value = false;
+                                            }
                                           }
                                         } else {
-                                          ll(34);
                                           createPostHelper.checkCanCreatePost();
                                         }
                                       },

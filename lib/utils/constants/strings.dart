@@ -319,9 +319,9 @@ const String ksEndTime = 'End time';
 //---------------------------------------
 //* Create Post
 //---------------------------------------
-const String ksAddBrand = "Add Brand";
+const String ksAddBrand = "Add Store";
 const String ksUploadImage = "Upload Image";
-const String ksWriteBrandName = "Write brand name";
+const String ksWriteBrandName = "Write store name";
 const String ksWriteHere = "Write here";
 const String ksAddSocialLinks = "Add Social Links (Minimum 1)";
 const String ksAddKid = "Add Kid";
@@ -353,9 +353,9 @@ const String ksSellAllCap = "SELL";
 const String ksImages = "Images";
 const String ksSelectKids = "Select Kids";
 const String ksKids = "Kids";
-const String ksBrands = "Brands";
-const String ksSelectBrands = "Select Brands";
-const String ksSelectSavedBrands = "Select Saved Brand";
+const String ksBrands = "Stores";
+const String ksSelectBrands = "Select Stores";
+const String ksSelectSavedBrands = "Select Saved Store";
 const String ksSelected = "Selected";
 const String ksTagPeople = "Tag People";
 const String ksWhoCanSeeYourPost = "Who can see your post";
@@ -363,9 +363,9 @@ const String ksEditAudience = "Edit Audience";
 const String ksSuggestionAllCap = "SUGGESTION";
 const String ksAudienceInformation =
     "Your post will appear in feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post.";
-const String ksAddBrandInstruction = "Please add your own brand to promote and grow your business.";
+const String ksAddBrandInstruction = "Please add your own store to promote and grow your business.";
 const String ksCustomAddInstruction = "If you don't have any kid added in system, use 'Custom Add' to post directly with kid's details.";
-const String ksSellInformation = "You can sell all kind of product here. Including your brand on that will boost your selling.";
+const String ksSellInformation = "You can sell all kind of product here. Including your store on that will boost your selling.";
 const String ksAddKidInstructions = "To add kid category, you need to follow the further steps.";
 const String ksBiddingPostDescription = "Selecting bidding post will let the user write their preferred bidding price.";
 const String ksBoostPost = 'Boost post';
@@ -643,7 +643,8 @@ const String ksEditAlbum = "Edit album";
 const String ksDeleteAlbum = "Delete album";
 const String ksMoveToBin = "Move to your bin?";
 const String ksMove = "Move";
-const String ksDeletePostContent = "Items in your bin will be automatically deleted after 30 days. You can delete them earlier from you bin by going to Activity log in Settings.";
+const String ksDeletePostContent =
+    "Items in your bin will be automatically deleted after 30 days. You can delete them earlier from you bin by going to Activity log in Settings.";
 const String ksEditPostDiscardChanges = "Discard changes?";
 const String ksEditChangesWarning = "If you discard now, you'll lose any changes that you've made to this post";
 const String ksContinueEditing = "Continue editing";
