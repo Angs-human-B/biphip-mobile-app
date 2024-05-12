@@ -742,6 +742,10 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                               Positioned(
                                 child: InkWell(
                                   onTap: () {
+                                    if(createPostController.isEditPost.value){
+                                        createPostController.temporaryRemovedTaggedFriends.add(createPostController.tempTaggedFriends[index]);
+                                        createPostController.isPostButtonActive.value = true;
+                                    }
                                     createPostController.tagFriendList
                                         .insert(createPostController.tempTagIndex[index], createPostController.tempTaggedFriends[index]);
                                     createPostController.tempTagIndex.removeAt(index);
@@ -749,7 +753,9 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                                     if (createPostController.tempTaggedFriends.isNotEmpty) {
                                       createPostController.tagFriendButtonSheetRightButtonState.value = true;
                                     } else {
+                                      if(!createPostController.isEditPost.value){
                                       createPostController.tagFriendButtonSheetRightButtonState.value = false;
+                                      }
                                     }
                                   },
                                   child: Container(
@@ -792,6 +798,13 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             createPostController.tempTaggedFriends.add(createPostController.tagFriendList[index]);
+                            if(createPostController.isEditPost.value){
+                              for(int i = 0; i<createPostController.tempTaggedFriends.length; i++){
+                                if(createPostController.temporaryRemovedTaggedFriends.contains(createPostController.tempTaggedFriends[i])){
+                                  createPostController.temporaryRemovedTaggedFriends.remove(createPostController.tempTaggedFriends[i]);
+                                }
+                              }
+                            }
                             createPostController.tempTagIndex.add(index);
                             createPostController.tagFriendList.removeAt(index);
                             if (createPostController.tempTaggedFriends.isNotEmpty) {

@@ -389,9 +389,7 @@ class GalleryController extends GetxController {
 
   void checkCreateAlbum() {
     if (isEditAlbum.value) {
-      if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
-        isCreateAlbumPostButtonEnable.value = false;
-      }
+      //! need to work
       if (allMediaList.isNotEmpty) {
         for (int i = 0; i < allMediaList.length; i++) {
           if (previousAlbumImageLength.value != allMediaList.length) {
@@ -403,6 +401,11 @@ class GalleryController extends GetxController {
           }
         }
       }
+      // if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
+      //   isCreateAlbumPostButtonEnable.value = false;
+      // } else {
+      //   isCreateAlbumPostButtonEnable.value = true;
+      // }
     } else {
       if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
         isCreateAlbumPostButtonEnable.value = true;
