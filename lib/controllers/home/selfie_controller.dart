@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:story_view/story_view.dart';
 
 class SelfieController extends GetxController {
   final ApiController apiController = ApiController();
@@ -32,6 +33,12 @@ class SelfieController extends GetxController {
   final Rx<double> x = Rx<double>(1.0);
   final Rx<double> y = Rx<double>(1.0);
   final RxList<bool> isPeopleSelected = RxList<bool>([]);
+  final storyController = StoryController();
+
+  final RxString selectedPrivacy = RxString("");
+  final RxInt selectedPrivacyId = RxInt(-1);
+  final RxInt temporarySelectedPrivacyId = RxInt(-1);
+
   void resetSelfieData() {
     selfieTextEditingController.clear();
     selfieImageLink.value = "";
@@ -47,6 +54,17 @@ class SelfieController extends GetxController {
     selectPeopleTextEditingController.clear();
   }
 
+  var stories = [
+    StoryItem.pageImage(
+      url: 'https://impulse.aarafacademy.com/uploads/samples/g1.jpg',
+      controller: StoryController(),
+    ),
+    StoryItem.pageImage(
+      url: 'https://cdn.vectorstock.com/i/preview-2x/95/78/young-female-doctor-in-medical-uniform-vector-36659578.webp',
+      controller: StoryController(),
+    ),
+  ];
+
   final RxList<Map<String, dynamic>> privacyList = RxList([
     {'icon': BipHip.world, 'action': 'Public', 'id': 1},
     {'icon': BipHip.friends, 'action': 'Friends', 'id': 2},
@@ -54,10 +72,6 @@ class SelfieController extends GetxController {
     {'icon': BipHip.addFamily, 'action': 'Friends & Families', 'id': 4},
     {'icon': BipHip.unfriend, 'action': 'Custom', 'id': 5},
   ]);
-
-  final RxString selectedPrivacy = RxString("");
-  final RxInt selectedPrivacyId = RxInt(-1);
-  final RxInt temporarySelectedPrivacyId = RxInt(-1);
 
   final List colorList = [
     {"color": "White", "colorCode": cWhiteColor},

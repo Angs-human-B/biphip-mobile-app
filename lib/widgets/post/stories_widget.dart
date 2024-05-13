@@ -41,6 +41,9 @@ class StoriesWidget extends StatelessWidget {
                   profileImage: stories[index - 1]['profileImage'],
                   userName: stories[index - 1]['name'],
                   isSeen: stories[index - 1]['isSeen'],
+                  onPressed: () {
+                    Get.toNamed(krSelfieViewPage);
+                  },
                 );
               }
             }),
@@ -83,11 +86,13 @@ class StoryCard extends StatelessWidget {
                   width: 90,
                   child: ClipRRect(
                     borderRadius: k8CircularBorderRadius,
-                    child: Image.asset(
+                    child: Image.network(
                       storyImage,
                       fit: BoxFit.cover,
-                      color: cBlackColor.withOpacity(0.2),
-                      colorBlendMode: BlendMode.multiply,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(kiDummyImage1ImageUrl);
+                      },
+                      loadingBuilder: imageLoadingBuilder,
                     ),
                   ),
                 ),
@@ -96,13 +101,19 @@ class StoryCard extends StatelessWidget {
                   top: 8,
                   left: 6,
                   child: Container(
-                    height: 27,
-                    width: 27,
+                    // height: h28,
+                    // width: h28,
                     decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSeen ? cLineColor : cPrimaryColor)),
                     child: ClipOval(
-                      child: Image.asset(
+                      child: Image.network(
                         profileImage,
                         fit: BoxFit.cover,
+                        height: h28,
+                        width: h28,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(kiDummyImage1ImageUrl);
+                        },
+                        loadingBuilder: imageLoadingBuilder,
                       ),
                     ),
                   ),
