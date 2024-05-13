@@ -2,14 +2,13 @@ import 'dart:ui';
 
 import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 
 class SelfiePage extends StatelessWidget {
   SelfiePage({super.key});
   final SelfieController selfieController = Get.find<SelfieController>();
   @override
   Widget build(BuildContext context) {
-    final RxDouble x = RxDouble(width * 0.5);
-    final RxDouble y = RxDouble(height * 0.5);
     return SafeArea(
       top: false,
       child: Obx(
@@ -121,10 +120,11 @@ class SelfiePage extends StatelessWidget {
                         ),
                       if (selfieController.isTextFieldShow.value)
                         Positioned(
-                          top: height * 0.4,
+                          top: selfieController.y.value,
+                          left: selfieController.x.value,
                           child: Center(
                             child: SizedBox(
-                              width: width,
+                              width: width - 40,
                               height: 220,
                               child: CustomModifiedTextField(
                                 border: InputBorder.none,
@@ -145,8 +145,8 @@ class SelfiePage extends StatelessWidget {
                         ),
                       if (!selfieController.isTextFieldShow.value)
                         Positioned(
-                          left: x.value,
-                          top: y.value,
+                          left: selfieController.x.value,
+                          top: selfieController.y.value,
                           child: Draggable(
                             feedback: Material(
                               color: cTransparentColor,
@@ -168,8 +168,8 @@ class SelfiePage extends StatelessWidget {
                               ),
                             ),
                             onDragEnd: (details) {
-                              x.value = details.offset.dx;
-                              y.value = (details.offset.dy);
+                              selfieController.x.value = details.offset.dx;
+                              selfieController.y.value = (details.offset.dy);
                             },
                           ),
                         ),
@@ -300,7 +300,11 @@ class SelfiePage extends StatelessWidget {
                               children: [
                                 CustomIconButton(
                                   onPress: () {
-                                    Get.back();
+                                    // Get.back();
+                                    Get.find<GlobalController>().blankBottomSheet(
+                                        context: context,
+                                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.25 : height * 0.3,
+                                        content: SelfieDiscardContent());
                                   },
                                   icon: BipHip.cross,
                                   iconColor: cWhiteColor,
@@ -325,8 +329,8 @@ class SelfiePage extends StatelessWidget {
                           bottom: 20,
                           child: Column(
                             children: [
-                              CustomIconButton(
-                                onPress: () {},
+                              const CustomIconButton(
+                                onPress: null,
                                 icon: BipHip.downCircleArrowNew,
                                 iconColor: cWhiteColor,
                                 size: kIconSize20,
@@ -345,7 +349,10 @@ class SelfiePage extends StatelessWidget {
                           child: Column(
                             children: [
                               CustomIconButton(
-                                onPress: () {},
+                                onPress: () {
+                                  selfieController.temporarySelectedPrivacyId.value = selfieController.selectedPrivacyId.value;
+                                  Get.toNamed(krSelfiePrivacyPage);
+                                },
                                 icon: BipHip.world,
                                 iconColor: cWhiteColor,
                                 size: kIconSize20,
@@ -377,6 +384,54 @@ class SelfiePage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SelfieDiscardContent extends StatelessWidget {
+  const SelfieDiscardContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kH12sizedBox,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "${ksDiscardSelfie.tr}?",
+              style: semiBold18TextStyle(cBlackColor),
+            ),
+          ),
+          kH4sizedBox,
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "${ksYouWillLoseSelfie.tr}.",
+              style: regular14TextStyle(cSmallBodyTextColor),
+            ),
+          ),
+          kH16sizedBox,
+          IconWithTextRow(
+            actionIcon: BipHip.edit,
+            actionText: ksKeepEditing.tr,
+            actionOnPressed: () {
+              Get.back();
+            },
+          ),
+          IconWithTextRow(
+            actionIcon: BipHip.delete,
+            actionText: ksDiscardSelfie.tr,
+            actionOnPressed: () {
+              Get.back();
+              Get.back();
+            },
+          ),
+        ],
       ),
     );
   }

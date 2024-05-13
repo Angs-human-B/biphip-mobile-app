@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -40,6 +41,9 @@ class FriendController extends GetxController {
 //         for (var friend in friendList) {
 //  // Assuming FriendFamilyUserData has a method toMap() that returns a Map<String, dynamic>
 //  mentionsList.add(friend.toMap());
+        for (int i = 0; i < friendList.length; i++) {
+          Get.find<SelfieController>().isPeopleSelected.add(false);
+        }
 // }
         mentionsList.clear();
         for (var friend in friendList) {
@@ -101,6 +105,9 @@ class FriendController extends GetxController {
       if (response.success == true) {
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
+        for (int i = 0; i < friendList.length; i++) {
+          Get.find<SelfieController>().isPeopleSelected.add(false);
+        }
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -843,7 +850,7 @@ class FriendController extends GetxController {
       ll('getMoreFriendSearchList error: $e');
     }
   }
-  
+
   Timer? debounce;
 
   final RxBool isFriendSearched = RxBool(false);

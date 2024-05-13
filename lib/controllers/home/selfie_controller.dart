@@ -13,41 +13,25 @@ class SelfieController extends GetxController {
   final RxBool isTextFieldShow = RxBool(false);
   final RxBool isColorsShow = RxBool(false);
   final TextEditingController selfieTextEditingController = TextEditingController();
+  final TextEditingController selectPeopleTextEditingController = TextEditingController();
+  final RxBool isSelectPeopleCrossShow = RxBool(false);
   final RxString selfieText = RxString("");
-  // Offset dragOffset = Offset.zero;
-  // Rx<Offset> dragOffset = Offset.zero.obs;
-
-  // void updateDragOffset(Offset offset) {
-  //   dragOffset.value = offset;
-  // }
-  // void updateDragOffset(Offset offset) {
-  //   // Perform your calculations here
-  //   Offset calculatedOffset = calculateNewOffset(offset);
-
-  //   // Update the dragOffset with the calculated value
-  //   dragOffset.value = calculatedOffset;
-  // }
-
-  // Offset calculateNewOffset(Offset offset) {
-  //   // Example calculation: Add 10 pixels to the x and y coordinates
-  //   return Offset(offset.dx + 10, offset.dy + 10);
-  // }
-// Offset initialOffset = Offset.zero;
-  //  void updateDragOffset(Offset initialOffset, Offset finalOffset) {
-  //   // Calculate the difference between the final and initial positions
-  //   Offset difference = finalOffset - initialOffset;
-
-  //   // Update the dragOffset with the calculated difference
-  //   dragOffset.value += difference;
-  // }
-
-// void updateDragOffset(Offset newPosition) {
-//     dragOffset.value = newPosition;
-//   }
-  // final RxDouble x = RxDouble(width * 0.5);
-  // final RxDouble y = RxDouble(height * 0.5);
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
+  // final RxList<bool> isPeopleSelect = RxList<bool>[(false)];
+  void customoOnInit() {
+    x.value = width * 0.4;
+    y.value = height * 0.5;
+    ll(x.value);
+    ll(y.value);
+    ll(width * 0.4);
+    ll(height * 0.5);
+    super.onInit();
+  }
+
+  final Rx<double> x = Rx<double>(1.0);
+  final Rx<double> y = Rx<double>(1.0);
+  final RxList<bool> isPeopleSelected = RxList<bool>([]);
   void resetSelfieData() {
     selfieTextEditingController.clear();
     selfieImageLink.value = "";
@@ -57,8 +41,23 @@ class SelfieController extends GetxController {
     isColorsShow.value = false;
     textSelectedColor.value = cWhiteColor;
     selfieText.value = "";
-    // dragOffset.value = Offset.zero;
+    selectedPrivacy.value = "";
+    selectedPrivacyId.value = -1;
+    isSelectPeopleCrossShow.value = false;
+    selectPeopleTextEditingController.clear();
   }
+
+  final RxList<Map<String, dynamic>> privacyList = RxList([
+    {'icon': BipHip.world, 'action': 'Public', 'id': 1},
+    {'icon': BipHip.friends, 'action': 'Friends', 'id': 2},
+    {'icon': BipHip.addFamily, 'action': 'Families', 'id': 3},
+    {'icon': BipHip.addFamily, 'action': 'Friends & Families', 'id': 4},
+    {'icon': BipHip.unfriend, 'action': 'Custom', 'id': 5},
+  ]);
+
+  final RxString selectedPrivacy = RxString("");
+  final RxInt selectedPrivacyId = RxInt(-1);
+  final RxInt temporarySelectedPrivacyId = RxInt(-1);
 
   final List colorList = [
     {"color": "White", "colorCode": cWhiteColor},

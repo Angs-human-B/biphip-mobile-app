@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
 
@@ -7,6 +8,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
+    Get.find<SelfieController>().customoOnInit();
     return Scaffold(
       backgroundColor: cWhiteColor,
       body: SizedBox(
