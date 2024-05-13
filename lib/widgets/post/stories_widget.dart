@@ -13,7 +13,7 @@ class StoriesWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: k10Padding),
         child: ListView.builder(
             padding: const EdgeInsets.only(left: k10Padding),
-            itemCount: stories.length + 1,
+            itemCount: allStories.length + 1,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -37,10 +37,10 @@ class StoriesWidget extends StatelessWidget {
               } else {
                 return StoryCard(
                   isStory: true,
-                  storyImage: stories[index - 1]['storyImage'],
-                  profileImage: stories[index - 1]['profileImage'],
-                  userName: stories[index - 1]['name'],
-                  isSeen: stories[index - 1]['isSeen'],
+                  storyImage: allStories[index - 1]['storyImage'],
+                  profileImage: allStories[index - 1]['profileImage'],
+                  userName: allStories[index - 1]['name'],
+                  isSeen: allStories[index - 1]['isSeen'],
                   onPressed: () {
                     Get.toNamed(krSelfieViewPage);
                   },
@@ -108,12 +108,12 @@ class StoryCard extends StatelessWidget {
                       child: Image.network(
                         profileImage,
                         fit: BoxFit.cover,
-                        height: h28,
-                        width: h28,
+                        height: h32,
+                        width: h32,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(kiDummyImage1ImageUrl);
                         },
-                        loadingBuilder: imageLoadingBuilder,
+                        loadingBuilder: smallImageLoadingBuilder,
                       ),
                     ),
                   ),

@@ -23,17 +23,25 @@ class SelfieController extends GetxController {
   void customoOnInit() {
     x.value = width * 0.4;
     y.value = height * 0.5;
-    ll(x.value);
-    ll(y.value);
-    ll(width * 0.4);
-    ll(height * 0.5);
+    final initialPage = allStories.indexOf(allStories);
+    pageController = PageController(initialPage: initialPage);
+    addStoryItems();
+    ll(allStories.length);
+    ll(initialPage);
+    ll(pageController);
     super.onInit();
   }
+
+  // @override
+  // void dispose() {
+  //   pageController.dispose();
+  //   storyController.dispose();
+  //   super.dispose();
+  // }
 
   final Rx<double> x = Rx<double>(1.0);
   final Rx<double> y = Rx<double>(1.0);
   final RxList<bool> isPeopleSelected = RxList<bool>([]);
-  final storyController = StoryController();
 
   final RxString selectedPrivacy = RxString("");
   final RxInt selectedPrivacyId = RxInt(-1);
@@ -54,16 +62,76 @@ class SelfieController extends GetxController {
     selectPeopleTextEditingController.clear();
   }
 
-  var stories = [
-    StoryItem.pageImage(
-      url: 'https://impulse.aarafacademy.com/uploads/samples/g1.jpg',
-      controller: StoryController(),
-    ),
-    StoryItem.pageImage(
-      url: 'https://cdn.vectorstock.com/i/preview-2x/95/78/young-female-doctor-in-medical-uniform-vector-36659578.webp',
-      controller: StoryController(),
-    ),
-  ];
+  StoryController storyController = StoryController();
+  PageController pageController = PageController();
+  void handleCompleted() {
+    //     final initialPage = allStories.indexOf(allStories);
+    // pageController = PageController(initialPage: initialPage);
+    // addStoryItems();
+    pageController.nextPage(
+      duration: const Duration(milliseconds: 10),
+      curve: Curves.easeIn,
+    );
+    final currentIndex = allStories.indexOf(allStories);
+    final isLastPage = allStories.length - 1 == currentIndex;
+    if (isLastPage) {
+      Get.back();
+    }
+  }
+  // void handleCompleted() {
+  //   // Assuming you have a way to access the current page index
+  //   int currentPageIndex = pageController.page?.round() ?? 1;
+
+  //   pageController.nextPage(
+  //     duration: const Duration(milliseconds: 1000),
+  //     curve: Curves.easeIn,
+  //   );
+
+  //   final isLastPage = allStories.length - 1 == currentPageIndex;
+  //   if (isLastPage) {
+  //     Get.back();
+  //   }
+  // }
+
+  // var stories = [
+  //   StoryItem.pageImage(
+  //     url: 'https://impulse.aarafacademy.com/uploads/samples/g1.jpg',
+  //     controller: StoryController(),
+  //   ),
+  //   StoryItem.pageImage(
+  //     url: 'https://cdn.vectorstock.com/i/preview-2x/95/78/young-female-doctor-in-medical-uniform-vector-36659578.webp',
+  //     controller: StoryController(),
+  //   ),
+  // ];
+
+  // final storyItems = <StoryItem>[];
+  // void addStoryItems() {
+  //   for (final story in allStories) {
+  //     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
+  //   }
+  // }
+  // final storyItems = <StoryItem>[];
+
+// void addStoryItems() {
+//   allStories.forEach((story, index) {
+//     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
+//   });
+// }
+// final storyItems = <StoryItem>[];
+
+// void addStoryItems() {
+//   allStories.asMap().forEach((index, story) {
+//     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
+//   });
+// }
+  final storyItems = <StoryItem>[];
+
+  void addStoryItems() {
+    for (int i = 0; i < allStories.length; i++) {
+      storyItems.add(StoryItem.pageImage(url: allStories[i]["storyImage"], controller: storyController));
+      // ll(allStories.length);
+    }
+  }
 
   final RxList<Map<String, dynamic>> privacyList = RxList([
     {'icon': BipHip.world, 'action': 'Public', 'id': 1},
@@ -85,4 +153,32 @@ class SelfieController extends GetxController {
     {"color": "Pink", "colorCode": cPinkColor},
     {"color": "AmberAccent", "colorCode": cAmberAccentColor},
   ];
+}
+
+class User {
+  final String name;
+  final String imgUrl;
+  final List<Story> stories;
+
+  const User({
+    required this.name,
+    required this.imgUrl,
+    required this.stories,
+  });
+}
+
+class Story {
+  final String url;
+  final double duration;
+  final String caption;
+  final String date;
+  final Color color;
+
+  Story({
+    required this.caption,
+    required this.date,
+    required this.url,
+    this.duration = 5.0,
+    this.color = Colors.grey,
+  });
 }

@@ -10,6 +10,11 @@ class SelfieViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final initialPage = allStories.indexOf(allStories);
+    // final initialPage = 1;
+    selfieController.pageController = PageController(initialPage: initialPage);
+    // selfieController.addStoryItems();
+    ll(initialPage);
     return SafeArea(
       top: false,
       child: Scaffold(
@@ -17,18 +22,18 @@ class SelfieViewPage extends StatelessWidget {
           children: [
             StoryView(
               //  selfieController.stories,
-              storyItems: selfieController.stories,
-              controller: StoryController(),
+              storyItems: selfieController.storyItems,
+              controller: selfieController.storyController,
               inline: false,
               repeat: false,
-              onStoryShow: (story, index) {
-                ll('Story Show');
-              },
-              // onStoryHide: (s) {
-              //   print('Story Hide');
+              // onStoryShow: (storyItem) {
               // },
+              onStoryShow: (storyItem, index) {
+                final index = selfieController.storyItems.indexOf(storyItem);
+                ll(index);
+              },
               onComplete: () {
-                ll('Story Complete');
+                selfieController.handleCompleted();
               },
               progressPosition: ProgressPosition.top,
               indicatorHeight: IndicatorHeight.medium,
@@ -83,31 +88,32 @@ class CustomstoryView extends StatelessWidget {
           ),
           // const Spacer(),
           // const SizedBox(),
-          SizedBox(
-            height: h36,
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: const Icon(
-                    BipHip.system,
-                    color: cWhiteColor,
-                    size: kIconSize20,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: const Icon(
-                    BipHip.cross,
-                    color: cWhiteColor,
-                    size: kIconSize20,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   height: h36,
+          //   child: Row(
+          //     children: [
+          //       InkWell(
+          //         onTap: () {},
+          //         child: const Icon(
+          //           BipHip.system,
+          //           color: cWhiteColor,
+          //           size: kIconSize20,
+          //         ),
+          //       ),
+          //       InkWell(
+          //         onTap: () {
+          //           Get.back();
+          //         },
+          //         child: const Icon(
+          //           BipHip.cross,
+          //           color: cWhiteColor,
+          //           size: kIconSize20,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+      
         ],
       ),
     );

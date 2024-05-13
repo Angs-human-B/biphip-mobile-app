@@ -1,5 +1,73 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
+// final users = [
+//   User(
+//     name: 'Gary',
+//     imgUrl: 'https://images.unsplash.com/photo-1618641986557-1ecd230959aa?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D',
+//     stories: stories,
+//   ),
+//   User(
+//     name: 'Michael',
+//     imgUrl: 'https://images.unsplash.com/photo-1423479185712-25d4a4fe1006?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D',
+//     stories: stories2,
+//   ),
+//   User(
+//     name: 'John',
+//     imgUrl: 'https://images.unsplash.com/photo-1618641986557-1ecd230959aa?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D',
+//     stories: stories,
+//   ),
+//   User(
+//     name: 'Emma',
+//     imgUrl: 'https://images.unsplash.com/photo-1423479185712-25d4a4fe1006?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D',
+//     stories: stories2,
+//   ),
+// ];
+
+// final stories = [
+//   Story(
+//     url: 'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',
+//     caption: 'Check this out',
+//     date: '2 hours ago',
+//   ),
+//   Story(
+//     url:
+//         'https://images.unsplash.com/photo-1604092039551-ddf6d449e29d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+//     caption: 'Totally Cool',
+//     date: '2 hours ago',
+//   ),
+//   Story(
+//     url:
+//         'https://images.unsplash.com/photo-1593642532744-d377ab507dc8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+//     caption: 'Mindblowing',
+//     date: '2 hours ago',
+//   ),
+//   Story(
+//     url: 'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',
+//     caption: 'Check this out',
+//     date: '6 hours ago',
+//   ),
+// ];
+
+// final stories2 = [
+//   Story(
+//     url:
+//         'https://images.unsplash.com/photo-1593642532744-d377ab507dc8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+//     caption: 'Mindblowing',
+//     date: '2 hours ago',
+//   ),
+//   Story(
+//     url:
+//         'https://images.unsplash.com/photo-1604092039551-ddf6d449e29d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+//     caption: 'Totally Cool',
+//     date: '2 hours ago',
+//   ),
+//   Story(
+//     url: 'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif',
+//     caption: 'Check this out',
+//     date: '2 hours ago',
+//   ),
+// ];
+
 List interestProfile = [
   'All',
   'Poetry',
@@ -42,7 +110,7 @@ List friendsList = [
   },
 ];
 
-List stories = [
+List allStories = [
   {
     'name': 'Rick Sanchez',
     'profileImage':
