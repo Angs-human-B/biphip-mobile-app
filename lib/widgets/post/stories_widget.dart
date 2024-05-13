@@ -28,7 +28,6 @@ class StoriesWidget extends StatelessWidget {
                     Get.find<SelfieController>().resetSelfieData();
                     await Get.find<GlobalController>().selectImageSource(
                         selfieController.isSelfieImageChanged, selfieController.selfieImageLink, selfieController.selfieImageFile, 'gallery', false, false);
-                    // ll(selfieController.selfieImageFile);
                     if (selfieController.isSelfieImageChanged.value) {
                       Get.toNamed(krSelfiePage);
                     }

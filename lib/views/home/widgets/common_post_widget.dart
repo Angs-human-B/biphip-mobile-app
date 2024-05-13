@@ -2040,7 +2040,6 @@ class ShareBottomSheetContent extends StatelessWidget {
                               createPostController.tempSelectedKid.value = null;
                               createPostController.category.value = "Kids";
                               createPostController.kidID.value = createPostController.tempKidID.value;
-                              ll(createPostController.kidID.value);
                               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedKid.value!.profilePicture.toString();
                               Get.find<KidsController>().isRouteFromKid.value = false;
                               Get.find<CreatePostController>().getCreatePost();
@@ -2079,11 +2078,9 @@ class ShareBottomSheetContent extends StatelessWidget {
                               Get.back();
                             },
                             onPressRightButton: () {
-                              // createPostHelper.selectBrandTextChange();
                               Get.find<CreatePostController>().isPostedFromProfile.value = false;
                               CreatePostHelper().resetCreatePostData();
                               createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
-                              ll(createPostController.selectedBrandId.value);
                               Get.back();
                               createPostController.category.value = "Selling";
                               for (int i = 0; i < createPostController.storeList.length; i++) {
@@ -2115,8 +2112,6 @@ class ShareBottomSheetContent extends StatelessWidget {
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Copy Link".toLowerCase()) {
                           String baseUrl = "bip-hip-dev.vercel.app/posts";
                           Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-                          // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                          // ll(clipboardData!.text);
                           Get.find<GlobalController>()
                               .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
                         }
@@ -2316,8 +2311,6 @@ class SharePostBottomSheetContent extends StatelessWidget {
                           String baseUrl = "bip-hip-dev.vercel.app/posts";
                           if (createPostController.sharePostOthersList[index]["text"].toString().toLowerCase() == "Copy Link".toLowerCase()) {
                             Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-                            // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                            // ll(clipboardData!.text);
                             Get.back();
                             Get.find<GlobalController>()
                                 .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);

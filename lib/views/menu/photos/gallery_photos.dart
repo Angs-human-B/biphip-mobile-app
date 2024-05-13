@@ -209,7 +209,6 @@ class GalleryPhotoActionContent extends StatelessWidget {
                 }
                 galleryController.imageIdList.add(galleryController.imageDataList[selectedIndex!].imageList[i].id);
                 galleryController.previousAlbumImageLength.value = galleryController.imageDataList[selectedIndex!].imageList.length;
-                ll(galleryController.previousAlbumImageLength.value);
                 galleryController.imageDescriptionTextEditingController
                     .add(TextEditingController(text: galleryController.imageDataList[selectedIndex!].imageList[i].description ?? ""));
                 galleryController.imageLocationsList.add(galleryController.imageDataList[selectedIndex!].imageList[i].imageTakenLocation);

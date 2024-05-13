@@ -31,20 +31,13 @@ class FriendController extends GetxController {
         url: kuGetFriendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
-        // mentionsList.add(response.data);
-        // ll("mention List $mentionsList");
         friendList.clear();
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
-        // mentionsList.add(friendListData.value?.friends!.data as Map<String, dynamic>);
         friendList.addAll(friendListData.value!.friends!.data);
-//         for (var friend in friendList) {
-//  // Assuming FriendFamilyUserData has a method toMap() that returns a Map<String, dynamic>
-//  mentionsList.add(friend.toMap());
         for (int i = 0; i < friendList.length; i++) {
           Get.find<SelfieController>().isPeopleSelected.add(false);
         }
-// }
         mentionsList.clear();
         for (var friend in friendList) {
           Map<String, dynamic> friendMap = {

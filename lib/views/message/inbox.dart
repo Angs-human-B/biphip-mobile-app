@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/message/bottom_sheets/settings_content.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:intl/intl.dart';
 
@@ -33,7 +34,9 @@ class Inbox extends StatelessWidget {
                       padding: const EdgeInsets.only(right: h20),
                       child: TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.find<GlobalController>().blankBottomSheet(context: context, content: MessengerSettingsContent());
+                        },
                         child: Icon(
                           BipHip.setting,
                           color: cIconColor,

@@ -35,7 +35,6 @@ class EditDeleteContent extends StatelessWidget {
           suffixIconColor: cIconColor,
           onPressed: () {
             kidHelper.kidDeleteButtonOnPressed();
-            ll(Get.find<KidsController>().kidId.value);
           },
           buttonHeight: h32,
           buttonWidth: width - 40,

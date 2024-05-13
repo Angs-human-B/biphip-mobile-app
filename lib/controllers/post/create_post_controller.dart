@@ -238,7 +238,6 @@ class CreatePostController extends GetxController {
 
       if (response.success == true) {
         kidData.value = KidModel.fromJson(response.data);
-        ll(kidData.value!.name);
         await Get.find<KidsController>().getKidsList();
         isAddKidPageLoading.value = false;
         Get.back();
@@ -315,7 +314,6 @@ class CreatePostController extends GetxController {
   final TextEditingController brandInstagramTextEditingController = TextEditingController();
   final RxList brandSocialLinkList = RxList([]);
   Future<void> addBrand() async {
-    ll(brandImageFile.value.path);
     try {
       isAddBrandPageLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -401,7 +399,6 @@ class CreatePostController extends GetxController {
     if (brandYoutubeLinkTextEditingController.text.trim() != '') {
       brandSocialLinkList.add({'Youtube': brandYoutubeLinkTextEditingController.text.trim()});
     }
-    ll(brandSocialLinkList);
   }
 
   void checkCanSaveBrand() {
@@ -526,16 +523,13 @@ class CreatePostController extends GetxController {
         'share_post_id': postId.toString(),
         'content': createPostTextEditingController.text.trim(),
         'is_public': '1',
-        // 'post_tag_friend_id': tags.join(','),
       };
-      ll(body);
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSharePost,
         body: body,
         token: token,
       ) as CommonDM;
-      ll("HELLO: $response");
       if (response.success == true) {
         await Get.find<HomeController>().getPostList();
 
@@ -594,28 +588,20 @@ class CreatePostController extends GetxController {
       return height * 0.4;
     } else {
       if (storeList.isEmpty) {
-        ll(storeList.length);
         return height * 0.4;
       } else if (storeList.isNotEmpty && storeList.length <= 1) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
       } else if (storeList.length >= 2 && storeList.length <= 3) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
       } else if (storeList.length >= 4 && storeList.length <= 5) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
       } else if (storeList.length >= 6 && storeList.length <= 7) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
       } else if (storeList.length >= 8 && storeList.length <= 9) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
       } else if (storeList.length >= 10 && storeList.length <= 11) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
       } else if (storeList.length >= 12 && storeList.length <= 13) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
       } else {
         return height * 0.9;
@@ -809,12 +795,6 @@ class CreatePostController extends GetxController {
         if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
         if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim(),
       };
-      // var response = await apiController.commonApiCall(
-      //   requestMethod: kPost,
-      //   url: kuUpdatePost,
-      //   body: body,
-      //   token: token,
-      // ) as CommonDM;
       var response = await apiController.multiMediaUpload(
         url: kuUpdatePost,
         body: body,
@@ -822,14 +802,6 @@ class CreatePostController extends GetxController {
         key: 'images[]',
         values: category.value == 'Selling' ? sellingAllMediaFileList : uploadedImageList,
       ) as CommonDM;
-      ll(body);
-      // var response = await apiController.multiMediaUpload(
-      //   url: kuUpdatePost,
-      //   body: body,
-      //   token: token,
-      //   key: 'images[]',
-      //   values: category.value == 'Selling' ? sellingAllMediaFileList : allMediaList,
-      // ) as CommonDM;
       if (response.success == true) {
         await Get.find<HomeController>().getPostList();
         Get.back();

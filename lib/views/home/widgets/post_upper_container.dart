@@ -611,7 +611,6 @@ class SelfPostActionContent extends StatelessWidget {
                       createPostController.imageTimesList.add(postData.images[i].imageTakenTime);
                       createPostController.imageTagIdList.add('1,58');
                     }
-                    // ll(createPostController.imageDescriptionTextEditingController);
                   }
                   if (createPostController.category.value == "Kids") {
                     createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";
@@ -629,7 +628,6 @@ class SelfPostActionContent extends StatelessWidget {
               Get.back();
               globalController.postSelectedAction.value = "Edit Audience";
               if (globalController.postSelectedAction.value == "Edit Audience") {
-                ll("Edit audience");
                 globalController.temporaryselectedAudienceId.value = globalController.selectedAudienceId.value;
                 if (globalController.selectedAudienceId.value == 0) {
                   globalController.postAudienceAction.value = "Only me";
@@ -675,7 +673,6 @@ class SelfPostActionContent extends StatelessWidget {
               } else {
                 globalController.postSelectedAction.value = "Turn on notification for this post";
               }
-              ll(globalController.postSelectedAction.value);
               if (globalController.postSelectedAction.value == "Turn off notification for this post") {
                 await globalController.postNotificationOff(postId: postData.id!);
               } else {
@@ -948,7 +945,6 @@ class OthersPostActionContent extends StatelessWidget {
               } else {
                 globalController.postSelectedAction.value = "";
               }
-              ll(globalController.postSelectedAction.value);
               if (globalController.postSelectedAction.value == "Turn off notification for this post") {
                 await globalController.postNotificationOff(postId: postData.id!);
               } else {

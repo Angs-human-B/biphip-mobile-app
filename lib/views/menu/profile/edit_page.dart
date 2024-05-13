@@ -176,8 +176,6 @@ class EditPage extends StatelessWidget {
                               },
                               onSelected: (option) {
                                 profileController.designationTextEditingController.text = option;
-
-                                ll(option);
                               },
                               optionsViewBuilder: (context, Function(String) onSelected, options) {
                                 return Align(
@@ -321,12 +319,10 @@ class EditPage extends StatelessWidget {
                         buttonWidth: width - 40,
                         onPressed: profileController.enableSaveButton.value
                             ? () {
-                                ll(profileController.functionFlag.value);
                                 editProfileHelper.selectFunction(profileController.functionFlag.value);
                                 if (profileController.functionFlag.value != 'ADD LINK' && profileController.functionFlag.value != 'EDIT LINK') {
                                   Get.back();
                                 }
-                                //_profileController.clearCommonEditPageData();
                               }
                             : null),
                   ),
