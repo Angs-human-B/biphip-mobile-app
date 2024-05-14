@@ -148,6 +148,7 @@ const String kuSharePost = '/mobile/user/share-post';
 const String kuGetAllPosts = '/mobile/user/get-all-posts';
 const String kuGetPostData = '/mobile/user/get-post';
 const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
+const String kuGetFriendSelfie = '/mobile/user/selfie/get-friend-selfies';
 
 //* kids
 //---------------------------------------

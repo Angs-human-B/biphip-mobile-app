@@ -13,7 +13,9 @@ class StoriesWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: k10Padding),
         child: ListView.builder(
             padding: const EdgeInsets.only(left: k10Padding),
-            itemCount: allStories.length + 1,
+            itemCount: selfieController.mySelfieList.isNotEmpty
+                ? selfieController.mySelfieList.length + selfieController.friendSelfiesList.length + 1
+                : selfieController.friendSelfiesList.length + 1,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -34,18 +36,56 @@ class StoriesWidget extends StatelessWidget {
                     }
                   },
                 );
-              } else {
+              }
+              if (selfieController.mySelfieList.isNotEmpty && index == 1) {
                 return StoryCard(
                   isStory: true,
-                  storyImage: allStories[index - 1]['storyImage'],
-                  profileImage: allStories[index - 1]['profileImage'],
-                  userName: allStories[index - 1]['name'],
-                  isSeen: allStories[index - 1]['isSeen'],
+                  storyImage: selfieController.mySelfieList[0].fullPath ?? "",
+                  profileImage: Get.find<GlobalController>().userImage.toString(),
+                  userName: ksYourSelfie.tr,
+                  isSeen: true,
                   onPressed: () {
                     Get.toNamed(krSelfieViewPage);
                   },
                 );
               }
+              if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isNotEmpty) {
+                return StoryCard(
+                  isStory: true,
+                  storyImage: selfieController.friendSelfiesList[index - 2].currentSelfies[0].fullPath ?? "",
+                  profileImage: selfieController.friendSelfiesList[index - 2].profilePicture ?? "",
+                  userName: selfieController.friendSelfiesList[index - 2].fullName ?? ksNA.tr,
+                  isSeen: false,
+                  onPressed: () {
+                    Get.toNamed(krSelfieViewPage);
+                  },
+                );
+              }
+              if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isEmpty) {
+                return StoryCard(
+                  isStory: true,
+                  storyImage: selfieController.friendSelfiesList[index - 1].currentSelfies[0].fullPath ?? "",
+                  profileImage: selfieController.friendSelfiesList[index - 1].profilePicture ?? "",
+                  userName: selfieController.friendSelfiesList[index - 1].fullName ?? ksNA.tr,
+                  isSeen: false,
+                  onPressed: () {
+                    Get.toNamed(krSelfieViewPage);
+                  },
+                );
+              }
+              return const SizedBox();
+              // else {
+              //   return StoryCard(
+              //     isStory: true,
+              //     storyImage: allStories[index - 1]['storyImage'],
+              //     profileImage: allStories[index - 1]['profileImage'],
+              //     userName: allStories[index - 1]['name'],
+              //     isSeen: allStories[index - 1]['isSeen'],
+              //     onPressed: () {
+              //       Get.toNamed(krSelfieViewPage);
+              //     },
+              //   );
+              // }
             }),
       ),
     );

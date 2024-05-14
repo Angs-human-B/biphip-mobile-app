@@ -2,7 +2,6 @@ import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/post_upper_container.dart';
 import 'package:story_view/story_view.dart';
-// import 'package:story_view/widgets/story_view.dart';
 
 class SelfieViewPage extends StatelessWidget {
   SelfieViewPage({super.key});
@@ -11,9 +10,7 @@ class SelfieViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final initialPage = allStories.indexOf(allStories);
-    // final initialPage = 1;
     selfieController.pageController = PageController(initialPage: initialPage);
-    // selfieController.addStoryItems();
     ll(initialPage);
     return SafeArea(
       top: false,

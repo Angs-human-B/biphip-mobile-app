@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:bip_hip/models/home/selfie/selfie_common_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:story_view/story_view.dart';
 
 class SelfieController extends GetxController {
@@ -32,6 +34,12 @@ class SelfieController extends GetxController {
     super.onInit();
   }
 
+    @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
   // @override
   // void dispose() {
   //   pageController.dispose();
@@ -61,23 +69,49 @@ class SelfieController extends GetxController {
     isSelectPeopleCrossShow.value = false;
     selectPeopleTextEditingController.clear();
   }
-
+  ScreenshotController screenshotController = ScreenshotController();
   StoryController storyController = StoryController();
   PageController pageController = PageController();
+  // void handleCompleted() {
+  //   //     final initialPage = allStories.indexOf(allStories);
+  //   // pageController = PageController(initialPage: initialPage);
+  //   // addStoryItems();
+  //   pageController.nextPage(
+  //     duration: const Duration(milliseconds: 10),
+  //     curve: Curves.linear,
+  //   );
+  //   final currentIndex = allStories.indexOf(allStories);
+  //   final isLastPage = allStories.length - 1 == currentIndex;
+  //   if (isLastPage) {
+  //     Get.back();
+  //   }
+  // }
+
+  
   void handleCompleted() {
-    //     final initialPage = allStories.indexOf(allStories);
-    // pageController = PageController(initialPage: initialPage);
-    // addStoryItems();
     pageController.nextPage(
       duration: const Duration(milliseconds: 10),
-      curve: Curves.easeIn,
+      curve: Curves.linear,
     );
-    final currentIndex = allStories.indexOf(allStories);
+    final currentIndex = allStories.indexOf(allStories.first); // Corrected to find the index of the first story
     final isLastPage = allStories.length - 1 == currentIndex;
     if (isLastPage) {
-      Get.back();
+      Get.back(); // Assuming Get.back() is a valid method to navigate back
     }
-  }
+    }
+  // void handleCompleted() {
+  //   final currentIndex = allStories.indexOf(allStories.first);
+  //   final isLastPage = allStories.length - 1 == currentIndex;
+  //   if (isLastPage) {
+  //     Get.back();
+  //   } else {
+  //     pageController.nextPage(
+  //       duration: const Duration(milliseconds: 10),
+  //       curve: Curves.linear,
+  //     );
+  //   }
+  // }
+
   // void handleCompleted() {
   //   // Assuming you have a way to access the current page index
   //   int currentPageIndex = pageController.page?.round() ?? 1;
@@ -110,13 +144,6 @@ class SelfieController extends GetxController {
   //     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
   //   }
   // }
-  // final storyItems = <StoryItem>[];
-
-// void addStoryItems() {
-//   allStories.forEach((story, index) {
-//     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
-//   });
-// }
 // final storyItems = <StoryItem>[];
 
 // void addStoryItems() {
@@ -124,12 +151,12 @@ class SelfieController extends GetxController {
 //     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
 //   });
 // }
+
   final storyItems = <StoryItem>[];
 
   void addStoryItems() {
     for (int i = 0; i < allStories.length; i++) {
       storyItems.add(StoryItem.pageImage(url: allStories[i]["storyImage"], controller: storyController));
-      // ll(allStories.length);
     }
   }
 
@@ -153,32 +180,131 @@ class SelfieController extends GetxController {
     {"color": "Pink", "colorCode": cPinkColor},
     {"color": "AmberAccent", "colorCode": cAmberAccentColor},
   ];
+
+  // kuGetFriendSelfie
+
+  //*Scroll controller for pagination
+  final ScrollController friendListScrollController = ScrollController();
+
+  //*Friend List Api Call
+  final Rx<SelfieCommonModel?> selfieListData = Rx<SelfieCommonModel?>(null);
+  final RxList<Selfy> mySelfieList = RxList<Selfy>([]);
+  final RxList<FriendSelfieData> friendSelfiesList = RxList<FriendSelfieData>([]);
+  final Rx<String?> friendSelfieListSubLink = Rx<String?>(null);
+  final RxBool friendSelfieListScrolled = RxBool(false);
+  final RxBool isFriendSelfieListLoading = RxBool(false);
+  Future<void> getFriendSelfieList() async {
+    try {
+      isFriendSelfieListLoading.value = true;
+      String suffixUrl = '?take=15';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendSelfie + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        mySelfieList.clear();
+        friendSelfiesList.clear();
+        friendSelfieListScrolled.value = false;
+        selfieListData.value = SelfieCommonModel.fromJson(response.data);
+        mySelfieList.addAll(selfieListData.value!.mySelfies);
+        friendSelfiesList.addAll(selfieListData.value!.friendSelfies!.data);
+
+        friendSelfieListSubLink.value = selfieListData.value!.friendSelfies!.nextPageUrl;
+        if (friendSelfieListSubLink.value != null) {
+          friendSelfieListScrolled.value = false;
+        } else {
+          friendSelfieListScrolled.value = true;
+        }
+
+        isFriendSelfieListLoading.value = false;
+      } else {
+        isFriendSelfieListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendSelfieListLoading.value = true;
+      ll('getFriendSelfieList error: $e');
+    }
+  }
+
+  //*Get More Friend List for pagination
+  Future<void> getMoreFriendList(take) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic friendSelfieListSub;
+
+      if (friendSelfieListSubLink.value == null) {
+        return;
+      } else {
+        friendSelfieListSub = friendSelfieListSubLink.value!.split('?');
+      }
+
+      String friendListSuffixUrl = '';
+
+      friendListSuffixUrl = '?${friendSelfieListSub[1]}&take=15';
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetFriendSelfie + friendListSuffixUrl,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        friendSelfieListSubLink.value = selfieListData.value!.friendSelfies!.nextPageUrl;
+        if (friendSelfieListSubLink.value != null) {
+          friendSelfieListScrolled.value = false;
+        } else {
+          friendSelfieListScrolled.value = true;
+        }
+
+        isFriendSelfieListLoading.value = false;
+      } else {
+        isFriendSelfieListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendSelfieListLoading.value = true;
+      ll('getMoreFriendList error: $e');
+    }
+  }
 }
 
-class User {
-  final String name;
-  final String imgUrl;
-  final List<Story> stories;
+// class User {
+//   final String name;
+//   final String imgUrl;
+//   final List<Story> stories;
 
-  const User({
-    required this.name,
-    required this.imgUrl,
-    required this.stories,
-  });
-}
+//   const User({
+//     required this.name,
+//     required this.imgUrl,
+//     required this.stories,
+//   });
+// }
 
-class Story {
-  final String url;
-  final double duration;
-  final String caption;
-  final String date;
-  final Color color;
+// class Story {
+//   final String url;
+//   final double duration;
+//   final String caption;
+//   final String date;
+//   final Color color;
 
-  Story({
-    required this.caption,
-    required this.date,
-    required this.url,
-    this.duration = 5.0,
-    this.color = Colors.grey,
-  });
-}
+//   Story({
+//     required this.caption,
+//     required this.date,
+//     required this.url,
+//     this.duration = 5.0,
+//     this.color = Colors.grey,
+//   });
+// }
