@@ -13,9 +13,8 @@ class StoriesWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: k10Padding),
         child: ListView.builder(
             padding: const EdgeInsets.only(left: k10Padding),
-            itemCount: selfieController.mySelfieList.isNotEmpty
-                ? selfieController.mySelfieList.length + selfieController.friendSelfiesList.length + 1
-                : selfieController.friendSelfiesList.length + 1,
+            itemCount:
+                selfieController.mySelfieList.isNotEmpty ? 1 + selfieController.friendSelfiesList.length + 1 : selfieController.friendSelfiesList.length + 1,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -37,7 +36,8 @@ class StoriesWidget extends StatelessWidget {
                   },
                 );
               }
-              if (selfieController.mySelfieList.isNotEmpty && index == 1) {
+              if (selfieController.mySelfieList.isNotEmpty && index==1) {
+                // index = selfieController.mySelfieList.length;
                 return StoryCard(
                   isStory: true,
                   storyImage: selfieController.mySelfieList[0].fullPath ?? "",
@@ -49,6 +49,18 @@ class StoriesWidget extends StatelessWidget {
                   },
                 );
               }
+              //  if (selfieController.mySelfieList.isNotEmpty) {
+              //   return StoryCard(
+              //     isStory: true,
+              //     storyImage: selfieController.mySelfieList[index].fullPath ?? "",
+              //     profileImage: selfieController.friendSelf[index].profilePicture ?? "",
+              //     userName: selfieController.friendSelfiesList[index - 2].fullName ?? ksNA.tr,
+              //     isSeen: false,
+              //     onPressed: () {
+              //       Get.toNamed(krSelfieViewPage);
+              //     },
+              //   );
+              // }
               if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isNotEmpty) {
                 return StoryCard(
                   isStory: true,
@@ -89,6 +101,77 @@ class StoriesWidget extends StatelessWidget {
             }),
       ),
     );
+    // SizedBox(
+    //   height: 150,
+    //   width: width - 120,
+    //   child: Padding(
+    //     padding: const EdgeInsets.symmetric(vertical: k10Padding),
+    //     child: ListView.builder(
+    //         padding: const EdgeInsets.only(left: k10Padding),
+    //         itemCount: selfieController.friendSelfiesList.length,
+    //         shrinkWrap: true,
+    //         scrollDirection: Axis.horizontal,
+    //         physics: const AlwaysScrollableScrollPhysics(),
+    //         itemBuilder: (context, index) {
+    //           // int sameIndex = 0;
+    //           // if (selfieController.friendSelfiesList[index].id == Get.find<GlobalController>().userId.value) {
+    //           //   sameIndex++;
+    //           // }
+    //           // index = index - sameIndex;
+    //           return StoryCard(
+    //             isStory: true,
+    //             storyImage: selfieController.friendSelfiesList[index].currentSelfies[0].fullPath ?? "",
+    //             profileImage: selfieController.friendSelfiesList[index].profilePicture ?? "",
+    //             userName: selfieController.friendSelfiesList[index].fullName ?? ksNA.tr,
+    //             isSeen: true,
+    //             onPressed: () {
+    //               Get.toNamed(krSelfieViewPage);
+    //             },
+    //           );
+
+    //           // if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isNotEmpty) {
+    //           //   return StoryCard(
+    //           //     isStory: true,
+    //           //     storyImage: selfieController.friendSelfiesList[index - 2].currentSelfies[0].fullPath ?? "",
+    //           //     profileImage: selfieController.friendSelfiesList[index - 2].profilePicture ?? "",
+    //           //     userName: selfieController.friendSelfiesList[index - 2].fullName ?? ksNA.tr,
+    //           //     isSeen: false,
+    //           //     onPressed: () {
+    //           //       Get.toNamed(krSelfieViewPage);
+    //           //     },
+    //           //   );
+    //           // }
+    //           // if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isEmpty) {
+    //           //   return StoryCard(
+    //           //     isStory: true,
+    //           //     storyImage: selfieController.friendSelfiesList[index - 1].currentSelfies[0].fullPath ?? "",
+    //           //     profileImage: selfieController.friendSelfiesList[index - 1].profilePicture ?? "",
+    //           //     userName: selfieController.friendSelfiesList[index - 1].fullName ?? ksNA.tr,
+    //           //     isSeen: false,
+    //           //     onPressed: () {
+    //           //       Get.toNamed(krSelfieViewPage);
+    //           //     },
+    //           //   );
+    //           // }
+    //           // return const SizedBox();
+    //           // else {
+    //           //   return StoryCard(
+    //           //     isStory: true,
+    //           //     storyImage: allStories[index - 1]['storyImage'],
+    //           //     profileImage: allStories[index - 1]['profileImage'],
+    //           //     userName: allStories[index - 1]['name'],
+    //           //     isSeen: allStories[index - 1]['isSeen'],
+    //           //     onPressed: () {
+    //           //       Get.toNamed(krSelfieViewPage);
+    //           //     },
+    //           //   );
+    //           // }
+    //         }),
+    //   ),
+    // ),
+
+    // ],
+    // );
   }
 }
 

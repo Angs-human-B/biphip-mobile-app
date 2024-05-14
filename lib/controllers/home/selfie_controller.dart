@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:bip_hip/models/home/selfie/selfie_common_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:story_view/story_view.dart';
 
@@ -34,7 +36,7 @@ class SelfieController extends GetxController {
     super.onInit();
   }
 
-    @override
+  @override
   void dispose() {
     pageController.dispose();
     super.dispose();
@@ -52,8 +54,8 @@ class SelfieController extends GetxController {
   final RxList<bool> isPeopleSelected = RxList<bool>([]);
 
   final RxString selectedPrivacy = RxString("");
-  final RxInt selectedPrivacyId = RxInt(-1);
-  final RxInt temporarySelectedPrivacyId = RxInt(-1);
+  final RxInt selectedPrivacyId = RxInt(1);
+  final RxInt temporarySelectedPrivacyId = RxInt(1);
 
   void resetSelfieData() {
     selfieTextEditingController.clear();
@@ -69,6 +71,7 @@ class SelfieController extends GetxController {
     isSelectPeopleCrossShow.value = false;
     selectPeopleTextEditingController.clear();
   }
+
   ScreenshotController screenshotController = ScreenshotController();
   StoryController storyController = StoryController();
   PageController pageController = PageController();
@@ -87,7 +90,6 @@ class SelfieController extends GetxController {
   //   }
   // }
 
-  
   void handleCompleted() {
     pageController.nextPage(
       duration: const Duration(milliseconds: 10),
@@ -98,7 +100,7 @@ class SelfieController extends GetxController {
     if (isLastPage) {
       Get.back(); // Assuming Get.back() is a valid method to navigate back
     }
-    }
+  }
   // void handleCompleted() {
   //   final currentIndex = allStories.indexOf(allStories.first);
   //   final isLastPage = allStories.length - 1 == currentIndex;
@@ -181,6 +183,16 @@ class SelfieController extends GetxController {
     {"color": "AmberAccent", "colorCode": cAmberAccentColor},
   ];
 
+  final Rx<File> selfieFile = File('').obs;
+
+  Future<String> saveScreenshot(Uint8List bytes) async {
+    await [Permission.storage].request();
+    const String name = "Screenshot";
+    final result = await ImageGallerySaver.saveImage(bytes, name: name);
+    ll(result['filePath']);
+    return result['filePath'];
+  }
+
   // kuGetFriendSelfie
 
   //*Scroll controller for pagination
@@ -235,7 +247,7 @@ class SelfieController extends GetxController {
   }
 
   //*Get More Friend List for pagination
-  Future<void> getMoreFriendList(take) async {
+  Future<void> getMoreFriendSelfieList(take) async {
     try {
       String? token = await spController.getBearerToken();
       dynamic friendSelfieListSub;
@@ -276,7 +288,62 @@ class SelfieController extends GetxController {
       }
     } catch (e) {
       isFriendSelfieListLoading.value = true;
-      ll('getMoreFriendList error: $e');
+      ll('getMoreFriendSelfieList error: $e');
+    }
+  }
+
+  //* post Reaction API Implementation
+  final RxBool isSelfieLoading = RxBool(false);
+  Future<void> storeSelfie() async {
+    try {
+      isSelfieLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        "privacy": selectedPrivacyId.value.toString(),
+        // "private_ids": //*for custom privacy selfie
+      };
+
+      // if (isCommentImageChanged.value != true) {
+      //  var response = await apiController.commonApiCall(
+      //     requestMethod: kPost,
+      //     url: kuStoreSelfie,
+      //     body: body,
+      //     token: token,
+      //   ) as CommonDM;
+      // } else {
+      var response = await apiController.mediaUpload(
+        url: kuStoreSelfie,
+        token: token,
+        body: body,
+        key: 'image',
+        value: selfieFile.value.path,
+      ) as CommonDM;
+      ll("Store selfie $response");
+
+      if (response.success == true) {
+        // commentId.value = -1;
+        // commentMentionList.clear();
+        // isCommentImageChanged.value = false;
+        // commentMentionKey.currentState?.controller?.text = "";
+        // commentImageLink.value = "";
+        // commentImageFile.value = File("");
+        // isCommentSendEnable.value = false;
+        await getFriendSelfieList();
+        Get.back();
+        isSelfieLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isSelfieLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSelfieLoading.value = false;
+      ll('storeSelfie error: $e');
     }
   }
 }
