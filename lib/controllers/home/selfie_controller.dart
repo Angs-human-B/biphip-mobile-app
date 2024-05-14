@@ -91,17 +91,29 @@ class SelfieController extends GetxController {
   //   }
   // }
 
+  // void handleCompleted() {
+  //   pageController.nextPage(
+  //     duration: const Duration(milliseconds: 10),
+  //     curve: Curves.linear,
+  //   );
+  //   final currentIndex = allStories.indexOf(allStories.first);
+  //   final isLastPage = allStories.length - 1 == currentIndex;
+  //   if (isLastPage) {
+  //     Get.back();
+  //   }
+  // }
   void handleCompleted() {
     pageController.nextPage(
-      duration: const Duration(milliseconds: 10),
-      curve: Curves.linear,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
     );
     final currentIndex = allStories.indexOf(allStories.first);
     final isLastPage = allStories.length - 1 == currentIndex;
     if (isLastPage) {
-      Get.back();
+      Get.offAllNamed(krHome); // Suggested change
     }
   }
+
   // void handleCompleted() {
   //   final currentIndex = allStories.indexOf(allStories.first);
   //   final isLastPage = allStories.length - 1 == currentIndex;

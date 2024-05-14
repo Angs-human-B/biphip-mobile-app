@@ -129,8 +129,8 @@ class SelfiePage extends StatelessWidget {
 
                               if (selfieController.isTextFieldShow.value)
                                 Positioned(
-                                  top: selfieController.y.value, //
-                                  left: selfieController.x.value,
+                                  top: height*0.5, 
+                                  left: width*0.4,
                                   child: Center(
                                     child: SizedBox(
                                       width: width - 40,

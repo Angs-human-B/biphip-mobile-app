@@ -30,7 +30,8 @@ class SelfieViewPage extends StatelessWidget {
                 ll(index);
               },
               onComplete: () {
-                selfieController.handleCompleted();
+                // selfieController.handleCompleted();
+                Get.back();
               },
               progressPosition: ProgressPosition.top,
               indicatorHeight: IndicatorHeight.medium,
@@ -110,7 +111,6 @@ class CustomstoryView extends StatelessWidget {
           //     ],
           //   ),
           // ),
-      
         ],
       ),
     );
