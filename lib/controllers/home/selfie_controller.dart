@@ -67,7 +67,8 @@ class SelfieController extends GetxController {
     textSelectedColor.value = cWhiteColor;
     selfieText.value = "";
     selectedPrivacy.value = "";
-    selectedPrivacyId.value = -1;
+    selectedPrivacyId.value = 1;
+    temporarySelectedPrivacyId.value = 1;
     isSelectPeopleCrossShow.value = false;
     selectPeopleTextEditingController.clear();
   }
@@ -95,10 +96,10 @@ class SelfieController extends GetxController {
       duration: const Duration(milliseconds: 10),
       curve: Curves.linear,
     );
-    final currentIndex = allStories.indexOf(allStories.first); // Corrected to find the index of the first story
+    final currentIndex = allStories.indexOf(allStories.first);
     final isLastPage = allStories.length - 1 == currentIndex;
     if (isLastPage) {
-      Get.back(); // Assuming Get.back() is a valid method to navigate back
+      Get.back();
     }
   }
   // void handleCompleted() {

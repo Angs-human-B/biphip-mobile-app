@@ -366,7 +366,7 @@ class SelfiePage extends StatelessWidget {
                                     children: [
                                       CustomIconButton(
                                         onPress: () {
-                                          selfieController.temporarySelectedPrivacyId.value = selfieController.selectedPrivacyId.value;
+                                          selfieController.temporarySelectedPrivacyId.value = 1;
                                           Get.toNamed(krSelfiePrivacyPage);
                                         },
                                         icon: BipHip.world,
