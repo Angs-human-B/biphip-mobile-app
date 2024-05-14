@@ -75,8 +75,6 @@ class Menu extends StatelessWidget {
                                 await profileController.getProfileOverview();
                                 await Get.find<CreatePostController>().getCreatePost();
                                 await Get.find<HomeController>().getTimelinePostList();
-                                ll(Get.find<CreatePostController>().createPostCategoryList[0].id);
-                                ll(Get.find<CreatePostController>().createPostCategoryList[0].name);
                               },
                               leading: ClipOval(
                                 child: Container(

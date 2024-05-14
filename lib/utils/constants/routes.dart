@@ -70,6 +70,7 @@ import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
 import 'package:bip_hip/views/message/inbox.dart';
+import 'package:bip_hip/views/message/message_screen.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -229,6 +230,7 @@ const String krSelfieViewPage = "/selfie-view-page";
 
 //* Messenger
 const String krInbox = "/inbox";
+const String krMessages = "/messages";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -355,6 +357,7 @@ List<GetPage<dynamic>>? routes = [
 
   //* Messenger
   GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
+  GetPage(name: krMessages, page: () => MessageScreen(), transition: Transition.noTransition),
   //*Selfie
   GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
   GetPage(name: krSelfiePrivacyPage, page: () => SelfiePrivacyPage(), transition: Transition.noTransition),

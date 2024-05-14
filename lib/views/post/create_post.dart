@@ -21,9 +21,6 @@ class CreatePost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ll(width);
-    ll("CHECK: ${((createPostController.privacyId.value != globalController.selectedAudienceId.value) || (createPostController.previousPostImageLength.value != createPostController.allMediaList.length))}");
-    ll((createPostController.previousPostImageLength.value != createPostController.allMediaList.length));
     return PopScope(
       canPop: false,
       onPopInvoked: ((didPop) {
@@ -157,7 +154,6 @@ class CreatePost extends StatelessWidget {
                                                         createPostController.sellingImageLinkList,
                                                         createPostController.sellingImageFileList);
                                                     if (status) {
-                                                      // ll("media list length : ${createPostController.sellingImageLinkList.length}");
                                                       if (createPostController.sellingAllMediaListLength.value < 10) {
                                                         createPostHelper.insertSellingMedia(
                                                             createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
@@ -165,7 +161,6 @@ class CreatePost extends StatelessWidget {
                                                         createPostController.sellingAllMediaListLength.value =
                                                             createPostController.sellingAllMediaListLength.value +
                                                                 createPostController.sellingImageFileList.length;
-                                                        ll(createPostController.sellingAllMediaListLength.value);
                                                         createPostController.sellingImageLinkList.clear();
                                                         createPostController.sellingImageFileList.clear();
                                                       }
@@ -240,7 +235,6 @@ class CreatePost extends StatelessWidget {
                                                                   createPostController.sellingImageLinkList,
                                                                   createPostController.sellingImageFileList);
                                                               if (status) {
-                                                                ll("media list length : ${createPostController.sellingImageLinkList.length}");
                                                                 createPostHelper.insertSellingMedia(
                                                                     createPostController.sellingImageLinkList, createPostController.sellingImageFileList);
                                                                 createPostController.isMediaChanged.value = false;
@@ -476,7 +470,6 @@ class CreatePost extends StatelessWidget {
                                                       createPostController.productAvailability.value = createPostController.temporaryProductAvailability.value;
                                                       createPostController.productAvailabilityId.value =
                                                           createPostController.temporaryProductAvailabilityId.value;
-                                                      ll(createPostController.productAvailabilityId.value);
                                                       createPostHelper.checkCanCreatePost();
                                                       Get.back();
                                                     },

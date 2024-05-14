@@ -122,7 +122,6 @@ class GalleryPhotoHelper {
   }
 
   void getBottomRowOnPressed(index, [context]) async {
-    ll(index);
     if (index == 1) {
       var status = await globalController.selectMultiMediaSource(
           galleryController.isCreateAlbumMediaChanged, galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);

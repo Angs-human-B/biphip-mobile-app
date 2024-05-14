@@ -595,7 +595,6 @@ class BrandBottomSheetContent extends StatelessWidget {
                 WidgetSpan(
                   child: InkWell(
                     onTap: () {
-                      ll('Route here to add store basic info page');
                     },
                     child: Text(
                       ksCreateStore.tr,

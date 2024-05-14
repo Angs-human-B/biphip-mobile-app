@@ -287,19 +287,10 @@ class GlobalController extends GetxController {
       if (mediaList.isNotEmpty) {
         for (int i = 0; i < mediaList.length; i++) {
           final String? type = lookupMimeType(mediaList[i].path);
-          ll(type);
-          // final List<int> imageBytes = await mediaList[i].readAsBytes();
-          // final String base64Image = base64Encode(imageBytes);
           if (type != null) {
             isMediaChanged.value = true;
             final File imageTemporary = File(mediaList[i].path);
             mediaFileList.add(imageTemporary.obs);
-            // if (type.contains('image')) {
-            //   mediaLinkList.add('data:image/png;base64,$base64Image'.obs);
-            // }
-            // if (type.contains('video')) {
-            //   mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
-            // }
           } else {
             showSnackBar(title: ksWarning.tr, message: ksFileFormatNotSupported.tr, color: cSecondaryColor);
           }
@@ -634,13 +625,11 @@ class GlobalController extends GetxController {
   }
 
   void updateSharedPostCommentCount(isAddComment) {
-    ll("BEFORE COMMENT: ${Get.find<HomeController>().postData.value!.post.countComment!.value}");
     if (isAddComment) {
       Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value + 1;
     } else {
       Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value - 1;
     }
-    ll("AFTER COMMENT: ${Get.find<HomeController>().postData.value!.post.countComment!.value}");
     update();
   }
 
@@ -941,7 +930,6 @@ class GlobalController extends GetxController {
         reportList.clear();
         reportListData.value = ReportListModel.fromJson(response.data);
         reportList.addAll(reportListData.value!.reports);
-        ll(reportList.length);
         isReportListLoading.value = false;
       } else {
         isReportListLoading.value = true;

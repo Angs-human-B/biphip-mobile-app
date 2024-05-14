@@ -120,13 +120,6 @@ class CreatePostHelper {
       onPressCloseButton: () {
         Get.back();
       },
-      // onPressRightButton: () {
-      //   createPostController.createPostSelectedPrivacy.value = createPostController.tempCreatePostSelectedPrivacy.value;
-      //   createPostController.createPostSelectedPrivacyIcon.value = createPostController.tempCreatePostSelectedPrivacyIcon.value;
-      //   ll("message");
-      //   // selectAudienceTextChange();
-      //   Get.back();
-      // },
       onPressRightButton: () {
         createPostController.createPostSelectedPrivacy.value = createPostController.tempCreatePostSelectedPrivacy.value;
         createPostController.createPostSelectedPrivacyIcon.value = createPostController.tempCreatePostSelectedPrivacyIcon.value;
@@ -423,12 +416,10 @@ class CreatePostHelper {
   }
 
   void getBottomRowOnPressed(index, [context]) async {
-    ll(index);
     if (index == 1) {
       var status = await globalController.selectMultiMediaSource(
           createPostController.isMediaChanged, createPostController.mediaLinkList, createPostController.mediaFileList);
       if (status) {
-        ll("media list length : ${createPostController.mediaLinkList.length}");
         insertMedia(createPostController.mediaFileList);
         configImageDescription();
         if (createPostController.isEditPost.value) {
@@ -458,19 +449,10 @@ class CreatePostHelper {
         createPostController.createPostImageFile.clear();
       }
     } else if (index == 3) {
-      // var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera', true);
-      // if (status) {
-      //   insertMedia([createPostVideoLink], createPostVideoFile);
-      //   isCreatePostVideoChanged.value = false;
-      //   createPostVideoLink.value = "";
-      //   createPostVideoFile.clear();
-      // }
+
     } else {
-      // createPostController.tagFriendList.clear();
+
       createPostController.temporaryRemovedTaggedFriends.clear();
-      // if (createPostController.removedTaggedFriends.isNotEmpty) {
-      //   createPostController.temporaryRemovedTaggedFriends.addAll(createPostController.removedTaggedFriends);
-      // }
       createPostController.tempTaggedFriends.clear();
       Get.find<FriendController>().isFriendListLoading.value = true;
       createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
@@ -532,17 +514,12 @@ class CreatePostHelper {
         for (int k = 0; k < createPostController.tempTaggedFriends.length; k++) {
           createPostController.tempTagIndex.add(0);
         }
-        ll("TEMP: ${createPostController.tempTagIndex}");
       }
     }
   }
 
   void insertMedia(mediaFile) {
-    // if (mediaFile is File) {
     createPostController.allMediaList.addAll(mediaFile);
-    // } else {
-    // globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
-    // }
   }
 
   void insertSellingMedia(mediaLink, mediaFile) {
@@ -553,9 +530,6 @@ class CreatePostHelper {
   void removeSellingMedia(index) {
     createPostController.sellingAllMediaList.removeAt(index);
     createPostController.sellingAllMediaFileList.removeAt(index);
-    // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
-    //   Get.back();
-    // }
   }
   //------------------------------
   //! important:: create post bottom option functions end
@@ -603,7 +577,6 @@ class CreatePostHelper {
     }
     String dateStr = "${now.year}-$month-$day";
     String fullDateTimeStr = "$dateStr $timeStr:00";
-    ll(fullDateTimeStr);
     return DateTime.parse(fullDateTimeStr);
   }
 
