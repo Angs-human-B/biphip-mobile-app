@@ -6,39 +6,53 @@ class MessengerSettingsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconWithTextRow(
-          actionIcon: BipHip.setting,
-          actionText: ksPreferences,
-          actionOnPressed: () {},
-        ),
-        IconWithTextRow(
-          actionIcon: BipHip.setting,
-          actionText: ksMessageRequests,
-          actionOnPressed: () {},
-        ),
-        IconWithTextRow(
-          actionIcon: BipHip.setting,
-          actionText: ksArchivedChat,
-          actionOnPressed: () {},
-        ),
-        IconWithTextRow(
-          actionIcon: BipHip.setting,
-          actionText: ksSpamBox,
-          actionOnPressed: () {},
-        ),
-        IconWithTextRow(
-          actionIcon: BipHip.setting,
-          actionText: ksRestrictedAccount,
-          actionOnPressed: () {},
-        ),
-        IconWithTextRow(
-          actionIcon: BipHip.info,
-          actionText: ksHelp,
-          actionOnPressed: () {},
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+      child: Column(
+        children: [
+          IconWithTextRow(
+            actionIcon: BipHip.setting,
+            actionText: ksPreferences,
+            iconColor: cBlackColor,
+            actionOnPressed: () {},
+          ),
+          kH4sizedBox,
+          IconWithTextRow(
+            actionIcon: BipHip.setting,
+            actionText: ksMessageRequests,
+            iconColor: cBlackColor,
+            actionOnPressed: () {},
+          ),
+          kH4sizedBox,
+          IconWithTextRow(
+            actionIcon: BipHip.setting,
+            actionText: ksArchivedChat,
+            iconColor: cBlackColor,
+            actionOnPressed: () {},
+          ),
+          kH4sizedBox,
+          IconWithTextRow(
+            actionIcon: BipHip.setting,
+            actionText: ksSpamBox,
+            iconColor: cBlackColor,
+            actionOnPressed: () {},
+          ),
+          kH4sizedBox,
+          IconWithTextRow(
+            actionIcon: BipHip.setting,
+            actionText: ksRestrictedAccount,
+            iconColor: cBlackColor,
+            actionOnPressed: () {},
+          ),
+          kH4sizedBox,
+          IconWithTextRow(
+            actionIcon: BipHip.info,
+            actionText: ksHelp,
+            iconColor: cBlackColor,
+            actionOnPressed: () {},
+          ),
+        ],
+      ),
     );
   }
 }

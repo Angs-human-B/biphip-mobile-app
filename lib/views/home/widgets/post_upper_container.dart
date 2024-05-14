@@ -1035,8 +1035,9 @@ class OthersPostActionContent extends StatelessWidget {
 }
 
 class IconWithTextRow extends StatelessWidget {
-  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed});
+  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor});
   final IconData actionIcon;
+  final Color? iconColor;
   final String actionText;
   final VoidCallback? actionOnPressed;
   @override
@@ -1048,7 +1049,7 @@ class IconWithTextRow extends StatelessWidget {
           CustomIconButton(
             icon: actionIcon,
             onPress: null,
-            iconColor: cIconColor,
+            iconColor: iconColor ?? cIconColor,
             size: kIconSize20,
           ),
           Text(
