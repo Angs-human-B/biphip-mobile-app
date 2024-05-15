@@ -9,9 +9,9 @@ class SelfieViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initialPage = allStories.indexOf(allStories);
-    selfieController.pageController = PageController(initialPage: initialPage);
-    ll(initialPage);
+    // final initialPage = selfieController.mySelfieList.indexOf(selfieController.mySelfieList);
+    // selfieController.pageController = PageController(initialPage: initialPage);
+    // ll(initialPage);
     return SafeArea(
       top: false,
       child: Scaffold(
@@ -30,8 +30,8 @@ class SelfieViewPage extends StatelessWidget {
                 ll(index);
               },
               onComplete: () {
-                // selfieController.handleCompleted();
-                Get.back();
+                selfieController.handleCompleted();
+                // Get.back();
               },
               progressPosition: ProgressPosition.top,
               indicatorHeight: IndicatorHeight.medium,

@@ -23,16 +23,16 @@ class SelfieController extends GetxController {
   final RxString selfieText = RxString("");
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
-  // final RxList<bool> isPeopleSelect = RxList<bool>[(false)];
-  void customoOnInit() {
+  void customoOnInit() async {
+    await getFriendSelfieList();
+    allSelfieData();
     x.value = width * 0.4;
     y.value = height * 0.5;
-    final initialPage = allStories.indexOf(allStories);
+    final initialPage = allSelfieList.indexOf(allSelfieList);
     pageController = PageController(initialPage: initialPage);
     addStoryItems();
-    ll(allStories.length);
-    ll(initialPage);
-    ll(pageController);
+    // ll(initialPage);
+    // ll(pageController);
     super.onInit();
   }
 
@@ -41,13 +41,6 @@ class SelfieController extends GetxController {
     pageController.dispose();
     super.dispose();
   }
-
-  // @override
-  // void dispose() {
-  //   pageController.dispose();
-  //   storyController.dispose();
-  //   super.dispose();
-  // }
 
   final Rx<double> x = Rx<double>(1.0);
   final Rx<double> y = Rx<double>(1.0);
@@ -71,6 +64,65 @@ class SelfieController extends GetxController {
     temporarySelectedPrivacyId.value = 1;
     isSelectPeopleCrossShow.value = false;
     selectPeopleTextEditingController.clear();
+  }
+
+  // void storeAllSelfieData() {
+  //   // allSelfieList.value = [
+  //   //   AllSelfieData(
+  //   //     userId: globalController.userId.value!,
+  //   //     userName: globalController.userName.value!,
+  //   //     userImage: globalController.userImage.value!,
+  //   //     selfies: mySelfieList,
+  //   //   ),
+  //   //    AllSelfieData(
+  //   //     userId: friendSelfiesList,
+  //   //     userName: globalController.userName.value!,
+  //   //     userImage: globalController.userImage.value!,
+  //   //     selfies: friendSelfiesList,
+  //   //   ),
+  //   // ];
+  // }
+
+  void allSelfieData() {
+    allSelfieList.clear();
+    allSelfieList.add({
+      "userId": globalController.userId,
+      "userName": globalController.userName,
+      "userImage": globalController.userImage,
+      "selfies": mySelfieList,
+    });
+    for (int i = 0; i < friendSelfiesList.length; i++) {
+      allSelfieList.add({
+        "userId": friendSelfiesList[i].id,
+        "userName": friendSelfiesList[i].fullName,
+        "userImage": friendSelfiesList[i].profilePicture,
+        "selfies": friendSelfiesList[i].currentSelfies
+      });
+      // ll(allSelfieList[1]["selfies"][0]);
+      // for (int j = 0; j < friendSelfiesList[i].currentSelfies.length; j++) {
+      //   allSelfieList.add({"selfies": friendSelfiesList[i].currentSelfies[j]});
+      // }
+    }
+
+    for (int i = 0; i < allSelfieList.length; i++) {
+      for (int k = 0; k < allSelfieList[i]["selfies"].length; k++) {
+        ll(allSelfieList[i]["selfies"][k].fullPath);
+      }
+    }
+
+    //Others
+    // allSelfieList.clear();
+    // // allSelfieList.addAll(mySelfieList);
+    // for (int i = 0; i < mySelfieList.length; i++) {
+    //   allSelfieList.add(mySelfieList[i]);
+    //   ll(mySelfieList[i].fullPath);
+    // }
+    // for (int i = 0; i < friendSelfiesList.length; i++) {
+    //   for (int j = 0; j < friendSelfiesList[i].currentSelfies.length; j++) {
+    //     allSelfieList.add(friendSelfiesList[i].currentSelfies[j]);
+    //   }
+    //   ll("All Selfie List ${allSelfieList.length}");
+    // }
   }
 
   ScreenshotController screenshotController = ScreenshotController();
@@ -107,8 +159,8 @@ class SelfieController extends GetxController {
       duration: const Duration(milliseconds: 300),
       curve: Curves.ease,
     );
-    final currentIndex = allStories.indexOf(allStories.first);
-    final isLastPage = allStories.length - 1 == currentIndex;
+    final currentIndex = allSelfieList.indexOf(allSelfieList.first);
+    final isLastPage = allSelfieList.length - 1 == currentIndex;
     if (isLastPage) {
       Get.offAllNamed(krHome); // Suggested change
     }
@@ -170,8 +222,14 @@ class SelfieController extends GetxController {
   final storyItems = <StoryItem>[];
 
   void addStoryItems() {
-    for (int i = 0; i < allStories.length; i++) {
-      storyItems.add(StoryItem.pageImage(url: allStories[i]["storyImage"], controller: storyController));
+    // for (int i = 0; i < allSelfieList.length; i++) {
+    //   storyItems.add(StoryItem.pageImage(url: allSelfieList[i]["stories"], controller: storyController));
+    // }
+    for (int i = 0; i < allSelfieList.length; i++) {
+      for (int k = 0; k < allSelfieList[i]["selfies"].length; k++) {
+        // ll(allSelfieList[i]["selfies"][k].fullPath);
+        storyItems.add(StoryItem.pageImage(url: allSelfieList[i]["selfies"][k].fullPath, controller: storyController));
+      }
     }
   }
 
@@ -206,7 +264,7 @@ class SelfieController extends GetxController {
     return result['filePath'];
   }
 
-  // kuGetFriendSelfie
+  final RxList<Map<String, dynamic>> allSelfieList = RxList<Map<String, dynamic>>([]);
 
   //*Scroll controller for pagination
   final ScrollController friendListScrollController = ScrollController();
@@ -315,15 +373,6 @@ class SelfieController extends GetxController {
         "privacy": selectedPrivacyId.value.toString(),
         // "private_ids": //*for custom privacy selfie
       };
-
-      // if (isCommentImageChanged.value != true) {
-      //  var response = await apiController.commonApiCall(
-      //     requestMethod: kPost,
-      //     url: kuStoreSelfie,
-      //     body: body,
-      //     token: token,
-      //   ) as CommonDM;
-      // } else {
       var response = await apiController.mediaUpload(
         url: kuStoreSelfie,
         token: token,
@@ -334,13 +383,10 @@ class SelfieController extends GetxController {
       ll("Store selfie $response");
 
       if (response.success == true) {
-        // commentId.value = -1;
         // commentMentionList.clear();
         // isCommentImageChanged.value = false;
         // commentMentionKey.currentState?.controller?.text = "";
         // commentImageLink.value = "";
-        // commentImageFile.value = File("");
-        // isCommentSendEnable.value = false;
         await getFriendSelfieList();
         Get.back();
         isSelfieLoading.value = false;
@@ -361,15 +407,17 @@ class SelfieController extends GetxController {
   }
 }
 
-// class User {
-//   final String name;
-//   final String imgUrl;
-//   final List<Story> stories;
+// class AllSelfieData {
+//   final int userId;
+//   final String userName;
+//   final String userImage;
+//   final List<Selfy> selfies;
 
-//   const User({
-//     required this.name,
-//     required this.imgUrl,
-//     required this.stories,
+//   const AllSelfieData({
+//     required this.userId,
+//     required this.userName,
+//     required this.userImage,
+//     required this.selfies,
 //   });
 // }
 

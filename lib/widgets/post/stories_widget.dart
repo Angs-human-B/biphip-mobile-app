@@ -35,7 +35,7 @@ class StoriesWidget extends StatelessWidget {
                   },
                 );
               }
-              if (selfieController.mySelfieList.isNotEmpty && index==1) {
+              if (selfieController.mySelfieList.isNotEmpty && index == 1) {
                 // index = selfieController.mySelfieList.length;
                 return StoryCard(
                   isStory: true,
