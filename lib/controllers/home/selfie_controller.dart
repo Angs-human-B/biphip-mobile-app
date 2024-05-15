@@ -21,6 +21,7 @@ class SelfieController extends GetxController {
   final TextEditingController selectPeopleTextEditingController = TextEditingController();
   final RxBool isSelectPeopleCrossShow = RxBool(false);
   final RxString selfieText = RxString("");
+  final RxInt allSelfieListIndex = RxInt(-1);
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
   void customoOnInit() async {
@@ -30,9 +31,6 @@ class SelfieController extends GetxController {
     y.value = height * 0.5;
     final initialPage = allSelfieList.indexOf(allSelfieList);
     pageController = PageController(initialPage: initialPage);
-    addStoryItems();
-    // ll(initialPage);
-    // ll(pageController);
     super.onInit();
   }
 
@@ -86,9 +84,9 @@ class SelfieController extends GetxController {
   void allSelfieData() {
     allSelfieList.clear();
     allSelfieList.add({
-      "userId": globalController.userId,
-      "userName": globalController.userName,
-      "userImage": globalController.userImage,
+      "userId": globalController.userId.value,
+      "userName": globalController.userName.value,
+      "userImage": globalController.userImage.value,
       "selfies": mySelfieList,
     });
     for (int i = 0; i < friendSelfiesList.length; i++) {
@@ -98,10 +96,6 @@ class SelfieController extends GetxController {
         "userImage": friendSelfiesList[i].profilePicture,
         "selfies": friendSelfiesList[i].currentSelfies
       });
-      // ll(allSelfieList[1]["selfies"][0]);
-      // for (int j = 0; j < friendSelfiesList[i].currentSelfies.length; j++) {
-      //   allSelfieList.add({"selfies": friendSelfiesList[i].currentSelfies[j]});
-      // }
     }
 
     for (int i = 0; i < allSelfieList.length; i++) {
@@ -109,20 +103,6 @@ class SelfieController extends GetxController {
         ll(allSelfieList[i]["selfies"][k].fullPath);
       }
     }
-
-    //Others
-    // allSelfieList.clear();
-    // // allSelfieList.addAll(mySelfieList);
-    // for (int i = 0; i < mySelfieList.length; i++) {
-    //   allSelfieList.add(mySelfieList[i]);
-    //   ll(mySelfieList[i].fullPath);
-    // }
-    // for (int i = 0; i < friendSelfiesList.length; i++) {
-    //   for (int j = 0; j < friendSelfiesList[i].currentSelfies.length; j++) {
-    //     allSelfieList.add(friendSelfiesList[i].currentSelfies[j]);
-    //   }
-    //   ll("All Selfie List ${allSelfieList.length}");
-    // }
   }
 
   ScreenshotController screenshotController = ScreenshotController();
@@ -154,16 +134,37 @@ class SelfieController extends GetxController {
   //     Get.back();
   //   }
   // }
+  void startNextStory() {
+    addStoryItems(allSelfieList[0]["selfies"]);
+  }
+
+  void showSelfiesAtIndex(int index) {
+    // Add the selfies from the specified index
+    addStoryItems(allSelfieList[index]["selfies"]);
+
+    // Start showing the selfies (assuming you have a function to start the story view)
+    // startStoryView();
+    Get.toNamed(krSelfieViewPage);
+  }
+
+  void playNextSelfieSet() {
+    // Update the storyItems
+    // storyItems.addAll(allSelfieList[allSelfieListIndex.value]["selfies"]);
+    addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
+  }
+
   void handleCompleted() {
-    pageController.nextPage(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.ease,
-    );
-    final currentIndex = allSelfieList.indexOf(allSelfieList.first);
-    final isLastPage = allSelfieList.length - 1 == currentIndex;
-    if (isLastPage) {
-      Get.offAllNamed(krHome); // Suggested change
-    }
+    // ll("SCREAM");
+    // pageController.nextPage(
+    //   duration: const Duration(milliseconds: 300),
+    //   curve: Curves.ease,
+    // );
+
+    // final currentIndex = allSelfieList.indexOf(allSelfieList.first);
+    // final isLastPage = allSelfieList.length - 1 == currentIndex;
+    // if (isLastPage) {
+    //   Get.offAllNamed(krHome); // Suggested change
+    // }
   }
 
   // void handleCompleted() {
@@ -219,18 +220,15 @@ class SelfieController extends GetxController {
 //   });
 // }
 
-  final storyItems = <StoryItem>[];
-
-  void addStoryItems() {
-    // for (int i = 0; i < allSelfieList.length; i++) {
-    //   storyItems.add(StoryItem.pageImage(url: allSelfieList[i]["stories"], controller: storyController));
-    // }
-    for (int i = 0; i < allSelfieList.length; i++) {
-      for (int k = 0; k < allSelfieList[i]["selfies"].length; k++) {
-        // ll(allSelfieList[i]["selfies"][k].fullPath);
-        storyItems.add(StoryItem.pageImage(url: allSelfieList[i]["selfies"][k].fullPath, controller: storyController));
-      }
+  List<StoryItem> addStoryItems(List<Selfy> selfieList) {
+    List<StoryItem> storyItems = <StoryItem>[];
+    for (int i = 0; i < selfieList.length; i++) {
+      storyItems.add(StoryItem.pageImage(
+        url: selfieList[i].fullPath!,
+        controller: storyController,
+      ));
     }
+    return storyItems;
   }
 
   final RxList<Map<String, dynamic>> privacyList = RxList([
