@@ -42,14 +42,22 @@ class SelfieController extends GetxController {
 
   final Rx<double> x = Rx<double>(1.0);
   final Rx<double> y = Rx<double>(1.0);
-  final RxList<bool> isPeopleSelected = RxList<bool>([]);
 
   final RxString selectedPrivacy = RxString("");
   final RxInt selectedPrivacyId = RxInt(1);
   final RxInt temporarySelectedPrivacyId = RxInt(1);
+    final Rx<IconData> tempSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final Rx<IconData> selectedPrivacyIcon = Rx<IconData>(BipHip.world);
+
+  final RxList<bool> isCustomPeopleSelected = RxList<bool>([]);
+  final RxList customPeopleNames = RxList([]);
+  final RxList customPeopleIds = RxList([]);
 
   void resetSelfieData() {
     selfieTextEditingController.clear();
+    isCustomPeopleSelected.clear();
+    customPeopleNames.clear();
+    customPeopleIds.clear();
     selfieImageLink.value = "";
     selfieImageFile.value = File("");
     isSelfieImageChanged.value = false;
@@ -373,13 +381,19 @@ class SelfieController extends GetxController {
   //* post Reaction API Implementation
   final RxBool isSelfieLoading = RxBool(false);
   Future<void> storeSelfie() async {
+    List customIds = [];
+    for (int i = 0; i < customPeopleIds.length; i++) {
+      customIds.add(customPeopleIds[i]);
+    }
+    ll(customIds);
     try {
       isSelfieLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         "privacy": selectedPrivacyId.value.toString(),
-        // "private_ids": //*for custom privacy selfie
+        if (selectedPrivacyId.value == 5) "private_ids": customIds.join(','),
       };
+      ll("Store selfie $body");
       var response = await apiController.mediaUpload(
         url: kuStoreSelfie,
         token: token,
@@ -387,13 +401,8 @@ class SelfieController extends GetxController {
         key: 'image',
         value: selfieFile.value.path,
       ) as CommonDM;
-      ll("Store selfie $response");
 
       if (response.success == true) {
-        // commentMentionList.clear();
-        // isCommentImageChanged.value = false;
-        // commentMentionKey.currentState?.controller?.text = "";
-        // commentImageLink.value = "";
         await getFriendSelfieList();
 
         Get.back();
@@ -490,6 +499,18 @@ class SelfieController extends GetxController {
     } catch (e) {
       isFollowUnfollowLoading.value = false;
       ll('followUnfollowUser error: $e');
+    }
+  }
+
+  String customUserName() {
+    if (customPeopleNames.length <= 2) {
+      return customPeopleNames.join(",");
+    } else {
+      List temporaryCustomPeopleName = [];
+      for (int i = 0; i < 2; i++) {
+        temporaryCustomPeopleName.add(customPeopleNames[i]);
+      }
+      return "${temporaryCustomPeopleName.join(",")} & ${customPeopleNames.length - 2} others";
     }
   }
 }

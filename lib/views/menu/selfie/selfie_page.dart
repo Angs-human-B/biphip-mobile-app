@@ -366,10 +366,10 @@ class SelfiePage extends StatelessWidget {
                                     children: [
                                       CustomIconButton(
                                         onPress: () {
-                                          selfieController.temporarySelectedPrivacyId.value = 1;
+                                          selfieController.temporarySelectedPrivacyId.value = selfieController.selectedPrivacyId.value;
                                           Get.toNamed(krSelfiePrivacyPage);
                                         },
-                                        icon: BipHip.world,
+                                        icon: selfieController.selectedPrivacyIcon.value,
                                         iconColor: cWhiteColor,
                                         size: kIconSize20,
                                       ),
