@@ -152,6 +152,9 @@ const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
 //*Selfie
 const String kuGetFriendSelfie = '/mobile/user/selfie/get-friend-selfies';
 const String kuStoreSelfie = '/mobile/user/selfie/store-selfie';
+const String kuDeleteSelfie = '/mobile/user/selfie/delete';
+const String kuReportSelfie = '/mobile/user/store-selfie-report';
+
 
 //* kids
 //---------------------------------------

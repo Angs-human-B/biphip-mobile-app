@@ -83,28 +83,36 @@ class SelfieController extends GetxController {
 
   void allSelfieData() {
     allSelfieList.clear();
-    allSelfieList.add({
-      "userId": globalController.userId.value,
-      "userName": globalController.userName.value,
-      "userImage": globalController.userImage.value,
-      "selfies": mySelfieList,
-    });
+    if (mySelfieList.isNotEmpty) {
+      allSelfieList.add({
+        "userId": globalController.userId.value,
+        "userName": globalController.userName.value,
+        "userImage": globalController.userImage.value,
+        "selfies": mySelfieList,
+      });
+    }
     for (int i = 0; i < friendSelfiesList.length; i++) {
       allSelfieList.add({
         "userId": friendSelfiesList[i].id,
         "userName": friendSelfiesList[i].fullName,
         "userImage": friendSelfiesList[i].profilePicture,
+        "followStatus": friendSelfiesList[i].followStatus,
         "selfies": friendSelfiesList[i].currentSelfies
       });
     }
 
-    for (int i = 0; i < allSelfieList.length; i++) {
-      for (int k = 0; k < allSelfieList[i]["selfies"].length; k++) {
-        ll(allSelfieList[i]["selfies"][k].fullPath);
-      }
-    }
+    // for (int i = 0; i < allSelfieList.length; i++) {
+    //   for (int k = 0; k < allSelfieList[i]["selfies"].length; k++) {
+    //     ll(allSelfieList[i]["selfies"][k].fullPath);
+    //   }
+    // }
   }
 
+  final RxInt selfieId = RxInt(-1);
+  final RxInt currentSelfieIndex = RxInt(-1);
+  final RxInt selectedReportIndex = RxInt(-1);
+  final RxInt reportId = RxInt(-1);
+  final RxBool reportBottomSheetState = RxBool(false);
   ScreenshotController screenshotController = ScreenshotController();
   StoryController storyController = StoryController();
   PageController pageController = PageController();
@@ -153,20 +161,6 @@ class SelfieController extends GetxController {
     addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
   }
 
-  void handleCompleted() {
-    // ll("SCREAM");
-    // pageController.nextPage(
-    //   duration: const Duration(milliseconds: 300),
-    //   curve: Curves.ease,
-    // );
-
-    // final currentIndex = allSelfieList.indexOf(allSelfieList.first);
-    // final isLastPage = allSelfieList.length - 1 == currentIndex;
-    // if (isLastPage) {
-    //   Get.offAllNamed(krHome); // Suggested change
-    // }
-  }
-
   // void handleCompleted() {
   //   final currentIndex = allStories.indexOf(allStories.first);
   //   final isLastPage = allStories.length - 1 == currentIndex;
@@ -177,21 +171,6 @@ class SelfieController extends GetxController {
   //       duration: const Duration(milliseconds: 10),
   //       curve: Curves.linear,
   //     );
-  //   }
-  // }
-
-  // void handleCompleted() {
-  //   // Assuming you have a way to access the current page index
-  //   int currentPageIndex = pageController.page?.round() ?? 1;
-
-  //   pageController.nextPage(
-  //     duration: const Duration(milliseconds: 1000),
-  //     curve: Curves.easeIn,
-  //   );
-
-  //   final isLastPage = allStories.length - 1 == currentPageIndex;
-  //   if (isLastPage) {
-  //     Get.back();
   //   }
   // }
 
@@ -213,12 +192,6 @@ class SelfieController extends GetxController {
   //   }
   // }
 // final storyItems = <StoryItem>[];
-
-// void addStoryItems() {
-//   allStories.asMap().forEach((index, story) {
-//     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
-//   });
-// }
 
   List<StoryItem> addStoryItems(List<Selfy> selfieList) {
     List<StoryItem> storyItems = <StoryItem>[];
@@ -264,8 +237,44 @@ class SelfieController extends GetxController {
 
   final RxList<Map<String, dynamic>> allSelfieList = RxList<Map<String, dynamic>>([]);
 
+  //*Report Selfie
+  final RxBool isReportSelfieLoading = RxBool(false);
+  Future<void> reportSelfie(String? reason) async {
+    try {
+      isReportSelfieLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        "selfie_id": selfieId.toString(),
+        "report_id": reportId.toString(),
+        "reason": reason,
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: kuReportSelfie,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isReportSelfieLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isReportSelfieLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isReportSelfieLoading.value = false;
+      ll('postEditDate error: $e');
+    }
+  }
+
   //*Scroll controller for pagination
-  final ScrollController friendListScrollController = ScrollController();
+  final ScrollController friendSelfieListScrollController = ScrollController();
 
   //*Friend List Api Call
   final Rx<SelfieCommonModel?> selfieListData = Rx<SelfieCommonModel?>(null);
@@ -291,7 +300,7 @@ class SelfieController extends GetxController {
         selfieListData.value = SelfieCommonModel.fromJson(response.data);
         mySelfieList.addAll(selfieListData.value!.mySelfies);
         friendSelfiesList.addAll(selfieListData.value!.friendSelfies!.data);
-
+        allSelfieData();
         friendSelfieListSubLink.value = selfieListData.value!.friendSelfies!.nextPageUrl;
         if (friendSelfieListSubLink.value != null) {
           friendSelfieListScrolled.value = false;
@@ -386,6 +395,7 @@ class SelfieController extends GetxController {
         // commentMentionKey.currentState?.controller?.text = "";
         // commentImageLink.value = "";
         await getFriendSelfieList();
+
         Get.back();
         isSelfieLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -401,6 +411,85 @@ class SelfieController extends GetxController {
     } catch (e) {
       isSelfieLoading.value = false;
       ll('storeSelfie error: $e');
+    }
+  }
+
+  //*Delete Search history Api Call
+  final RxBool isDeleteSelfie = RxBool(false);
+  Future<void> deleteSelfie({required int selfieId}) async {
+    try {
+      isDeleteSelfie.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteSelfie/${selfieId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        await getFriendSelfieList();
+        isDeleteSelfie.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeleteSelfie.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeleteSelfie.value = false;
+      ll('deleteSearchHistory error: $e');
+    }
+  }
+
+  //*Unfollow User
+  final RxBool isFollowUnfollowLoading = RxBool(false);
+  Future<void> followUnfollowUser({required int userId, required String followOrUnfollow}) async {
+    try {
+      isFollowUnfollowLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.toString(),
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: followOrUnfollow == "Follow" ? kuFollowUser : kuUnFollowUser,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        if (followOrUnfollow == "Follow") {
+          for (int i = 0; i < allSelfieList.length; i++) {
+            if (userId == allSelfieList[i]["userId"]) {
+              allSelfieList[allSelfieListIndex.value]["followStatus"] = 1;
+            }
+          }
+        } else {
+          for (int i = 0; i < allSelfieList.length; i++) {
+            if (userId == allSelfieList[i]["userId"]) {
+              allSelfieList[allSelfieListIndex.value]["followStatus"] = 0;
+            }
+          }
+        }
+        if (followOrUnfollow == "Follow") {}
+        isFollowUnfollowLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFollowUnfollowLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFollowUnfollowLoading.value = false;
+      ll('followUnfollowUser error: $e');
     }
   }
 }

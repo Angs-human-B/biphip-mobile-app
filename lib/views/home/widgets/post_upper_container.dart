@@ -994,6 +994,7 @@ class OthersPostActionContent extends StatelessWidget {
                     isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
                     isRightButtonShow: false);
                 await globalController.getReportList();
+              
               } else {
                 await globalController.postReportAndUndoReport(
                   null,
