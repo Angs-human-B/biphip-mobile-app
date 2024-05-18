@@ -37,16 +37,21 @@ class SelfieViewPage extends StatelessWidget {
                           selfieController.selfieId.value = selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"][index].id;
                         },
                         onComplete: () {
+                          ll("complete");
                           int currentIndex = selfieController.allSelfieListIndex.value;
                           if (currentIndex < selfieController.allSelfieList.length - 1) {
                             selfieController.allSelfieListIndex.value++;
                             selfieController.addStoryItems(
-                              selfieController.allSelfieList[currentIndex + 1]["selfies"],
+                              selfieController.allSelfieList[currentIndex]["selfies"],
                             );
+                            selfieController.storyController.play();
                           } else {
                             Get.back();
                           }
                         },
+                        //           onEachStoryLoadComplated: ({String? storyID}) {
+                        //   print(storyID);
+                        // },
                         // onComplete: () {
                         //   int currentIndex = selfieController.allSelfieListIndex.value;
 
@@ -234,7 +239,6 @@ class CustomstoryView extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    
                     Get.find<GlobalController>().blankBottomSheet(
                       context: context,
                       bottomSheetHeight: isDeviceScreenLarge() ? height * 0.2 : height * 0.25,

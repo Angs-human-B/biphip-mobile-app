@@ -363,7 +363,7 @@ class SelfieController extends GetxController {
     }
   }
 
-  //* post Reaction API Implementation
+  //* Store selfie API Implementation
   final RxBool isSelfieLoading = RxBool(false);
   Future<void> storeSelfie() async {
     List customIds = [];
