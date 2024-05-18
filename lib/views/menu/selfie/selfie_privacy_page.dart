@@ -53,14 +53,14 @@ class SelfiePrivacyPage extends StatelessWidget {
                   subtitle: ksAnyoneOnBipHip.tr,
                   onPressed: () {
                     selfieController.temporarySelectedPrivacyId.value = 1;
-                    selfieController.tempSelectedPrivacyIcon.value = BipHip.world;
+                    selfieController.temporarySelectedPrivacyIcon.value = BipHip.world;
                   },
                   itemColor: selfieController.temporarySelectedPrivacyId.value == 1 ? cPrimaryTint2Color : cWhiteColor,
                   trailing: Center(
                     child: CustomRadioButton(
                       onChanged: () {
                         selfieController.temporarySelectedPrivacyId.value = 1;
-                        selfieController.tempSelectedPrivacyIcon.value = BipHip.world;
+                        selfieController.temporarySelectedPrivacyIcon.value = BipHip.world;
                       },
                       isSelected: selfieController.temporarySelectedPrivacyId.value == 1,
                     ),
@@ -77,14 +77,14 @@ class SelfiePrivacyPage extends StatelessWidget {
                   subtitle: ksOnlyYourBipHipFriends.tr,
                   onPressed: () {
                     selfieController.temporarySelectedPrivacyId.value = 2;
-                    selfieController.tempSelectedPrivacyIcon.value = BipHip.friends;
+                    selfieController.temporarySelectedPrivacyIcon.value = BipHip.friends;
                   },
                   itemColor: selfieController.temporarySelectedPrivacyId.value == 2 ? cPrimaryTint2Color : cWhiteColor,
                   trailing: Center(
                     child: CustomRadioButton(
                       onChanged: () {
                         selfieController.temporarySelectedPrivacyId.value = 2;
-                        selfieController.tempSelectedPrivacyIcon.value = BipHip.friends;
+                        selfieController.temporarySelectedPrivacyIcon.value = BipHip.friends;
                       },
                       isSelected: selfieController.temporarySelectedPrivacyId.value == 2,
                     ),
@@ -101,14 +101,14 @@ class SelfiePrivacyPage extends StatelessWidget {
                   subtitle: ksOnlyYourBipHipFamily.tr,
                   onPressed: () {
                     selfieController.temporarySelectedPrivacyId.value = 3;
-                    selfieController.tempSelectedPrivacyIcon.value = BipHip.addFamily;
+                    selfieController.temporarySelectedPrivacyIcon.value = BipHip.addFamily;
                   },
                   itemColor: selfieController.temporarySelectedPrivacyId.value == 3 ? cPrimaryTint2Color : cWhiteColor,
                   trailing: Center(
                     child: CustomRadioButton(
                       onChanged: () {
                         selfieController.temporarySelectedPrivacyId.value = 3;
-                        selfieController.tempSelectedPrivacyIcon.value = BipHip.addFamily;
+                        selfieController.temporarySelectedPrivacyIcon.value = BipHip.addFamily;
                       },
                       isSelected: selfieController.temporarySelectedPrivacyId.value == 3,
                     ),
@@ -125,14 +125,14 @@ class SelfiePrivacyPage extends StatelessWidget {
                   subtitle: ksOnlyYourBipHipFriendsAndFamily.tr,
                   onPressed: () {
                     selfieController.temporarySelectedPrivacyId.value = 4;
-                    selfieController.tempSelectedPrivacyIcon.value = BipHip.addFamily;
+                    selfieController.temporarySelectedPrivacyIcon.value = BipHip.addFamily;
                   },
                   itemColor: selfieController.temporarySelectedPrivacyId.value == 4 ? cPrimaryTint2Color : cWhiteColor,
                   trailing: Center(
                     child: CustomRadioButton(
                       onChanged: () {
                         selfieController.temporarySelectedPrivacyId.value = 4;
-                        selfieController.tempSelectedPrivacyIcon.value = BipHip.addFamily;
+                        selfieController.temporarySelectedPrivacyIcon.value = BipHip.addFamily;
                       },
                       isSelected: selfieController.temporarySelectedPrivacyId.value == 4,
                     ),
@@ -151,7 +151,7 @@ class SelfiePrivacyPage extends StatelessWidget {
                   subtitle: selfieController.customPeopleNames.isNotEmpty ? selfieController.customUserName() : null,
                   onPressed: () async {
                     selfieController.temporarySelectedPrivacyId.value = 5;
-                    selfieController.tempSelectedPrivacyIcon.value = BipHip.friends;
+                    selfieController.temporarySelectedPrivacyIcon.value = BipHip.friends;
                     Get.toNamed(krSelectPeoplePage);
                     await Get.find<FriendController>().getFriendList();
                     for (int i = 0; i < Get.find<FriendController>().friendList.length; i++) {
@@ -162,7 +162,7 @@ class SelfiePrivacyPage extends StatelessWidget {
                   trailing: CustomRadioButton(
                     onChanged: () async {
                       selfieController.temporarySelectedPrivacyId.value = 5;
-                      selfieController.tempSelectedPrivacyIcon.value = BipHip.friends;
+                      selfieController.temporarySelectedPrivacyIcon.value = BipHip.friends;
                       Get.toNamed(krSelectPeoplePage);
                       await Get.find<FriendController>().getFriendList();
                       for (int i = 0; i < Get.find<FriendController>().friendList.length; i++) {
@@ -243,7 +243,7 @@ class SelfiePrivacyPage extends StatelessWidget {
                       onPressed: (selfieController.temporarySelectedPrivacyId.value != 5 || selfieController.customPeopleIds.isNotEmpty)
                           ? () async {
                               selfieController.selectedPrivacyId.value = selfieController.temporarySelectedPrivacyId.value;
-                              selfieController.selectedPrivacyIcon.value = selfieController.tempSelectedPrivacyIcon.value;
+                              selfieController.selectedPrivacyIcon.value = selfieController.temporarySelectedPrivacyIcon.value;
                               Get.back();
                             }
                           : null,

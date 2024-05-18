@@ -25,8 +25,8 @@ class SelfieController extends GetxController {
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
   void customoOnInit() async {
-    await getFriendSelfieList();
-    allSelfieData();
+    // await getFriendSelfieList();
+    // allSelfieData();
     x.value = width * 0.4;
     y.value = height * 0.5;
     final initialPage = allSelfieList.indexOf(allSelfieList);
@@ -46,7 +46,7 @@ class SelfieController extends GetxController {
   final RxString selectedPrivacy = RxString("");
   final RxInt selectedPrivacyId = RxInt(1);
   final RxInt temporarySelectedPrivacyId = RxInt(1);
-    final Rx<IconData> tempSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final Rx<IconData> temporarySelectedPrivacyIcon = Rx<IconData>(BipHip.world);
   final Rx<IconData> selectedPrivacyIcon = Rx<IconData>(BipHip.world);
 
   final RxList<bool> isCustomPeopleSelected = RxList<bool>([]);
@@ -70,24 +70,9 @@ class SelfieController extends GetxController {
     temporarySelectedPrivacyId.value = 1;
     isSelectPeopleCrossShow.value = false;
     selectPeopleTextEditingController.clear();
+    selectedPrivacyIcon.value = BipHip.world;
+    temporarySelectedPrivacyIcon.value = BipHip.world;
   }
-
-  // void storeAllSelfieData() {
-  //   // allSelfieList.value = [
-  //   //   AllSelfieData(
-  //   //     userId: globalController.userId.value!,
-  //   //     userName: globalController.userName.value!,
-  //   //     userImage: globalController.userImage.value!,
-  //   //     selfies: mySelfieList,
-  //   //   ),
-  //   //    AllSelfieData(
-  //   //     userId: friendSelfiesList,
-  //   //     userName: globalController.userName.value!,
-  //   //     userImage: globalController.userImage.value!,
-  //   //     selfies: friendSelfiesList,
-  //   //   ),
-  //   // ];
-  // }
 
   void allSelfieData() {
     allSelfieList.clear();
@@ -437,6 +422,7 @@ class SelfieController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
+        Get.back();
         await getFriendSelfieList();
         isDeleteSelfie.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -504,13 +490,70 @@ class SelfieController extends GetxController {
 
   String customUserName() {
     if (customPeopleNames.length <= 2) {
-      return customPeopleNames.join(",");
+      return customPeopleNames.join(", ");
     } else {
       List temporaryCustomPeopleName = [];
       for (int i = 0; i < 2; i++) {
         temporaryCustomPeopleName.add(customPeopleNames[i]);
       }
-      return "${temporaryCustomPeopleName.join(",")} & ${customPeopleNames.length - 2} others";
+      return "${temporaryCustomPeopleName.join(", ")} & ${customPeopleNames.length - 2} others";
+    }
+  }
+
+  IconData privacyIcon(int? isPublic) {
+    if (isPublic == 1) {
+      return BipHip.world;
+    }
+    if (isPublic == 2) {
+      return BipHip.friends;
+    }
+    if (isPublic == 3) {
+      return BipHip.addFamily;
+    }
+    if (isPublic == 4) {
+      return BipHip.removeFamily;
+    } else {
+      return BipHip.add;
+    }
+  }
+
+  final TextEditingController giftAddCommentTextEditingController = TextEditingController();
+  final RxBool isGiftAddCommentSuffixIconVisible = RxBool(false);
+  final RxInt selectedBadgeId = RxInt(-1);
+  // kuSelfieSendGift
+
+  //*Report Selfie
+  final RxBool isSelfieSendGiftLoading = RxBool(false);
+  Future<void> sendGiftSelfie() async {
+    try {
+      isSelfieSendGiftLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        "selfie_id": selfieId.toString(),
+        "badge_id": selectedBadgeId.value.toString(),
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: kuSelfieSendGift,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isSelfieSendGiftLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isSelfieSendGiftLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSelfieSendGiftLoading.value = false;
+      ll('postEditDate error: $e');
     }
   }
 }
