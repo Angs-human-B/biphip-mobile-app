@@ -36,18 +36,21 @@ class SelfieViewPage extends StatelessWidget {
                           selfieController.currentSelfieIndex.value = index;
                           selfieController.selfieId.value = selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"][index].id;
                         },
+                        // onComplete: () {
+                        //   ll("complete");
+                        //   int currentIndex = selfieController.allSelfieListIndex.value;
+                        //   if (currentIndex < selfieController.allSelfieList.length - 1) {
+                        //     selfieController.allSelfieListIndex.value++;
+                        //     selfieController.addStoryItems(
+                        //       selfieController.allSelfieList[currentIndex]["selfies"],
+                        //     );
+                        //     selfieController.storyController.play();
+                        //   } else {
+                        //     Get.back();
+                        //   }
+                        // },
                         onComplete: () {
-                          ll("complete");
-                          int currentIndex = selfieController.allSelfieListIndex.value;
-                          if (currentIndex < selfieController.allSelfieList.length - 1) {
-                            selfieController.allSelfieListIndex.value++;
-                            selfieController.addStoryItems(
-                              selfieController.allSelfieList[currentIndex]["selfies"],
-                            );
-                            selfieController.storyController.play();
-                          } else {
-                            Get.back();
-                          }
+                          selfieController.handleCompleted();
                         },
                         //           onEachStoryLoadComplated: ({String? storyID}) {
                         //   print(storyID);

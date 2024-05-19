@@ -21,7 +21,7 @@ class SelfieController extends GetxController {
   final TextEditingController selectPeopleTextEditingController = TextEditingController();
   final RxBool isSelectPeopleCrossShow = RxBool(false);
   final RxString selfieText = RxString("");
-  final RxInt allSelfieListIndex = RxInt(-1);
+  final RxInt allSelfieListIndex = RxInt(0);
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
   void customoOnInit() async {
@@ -29,7 +29,8 @@ class SelfieController extends GetxController {
     // allSelfieData();
     x.value = width * 0.4;
     y.value = height * 0.5;
-    final initialPage = allSelfieList.indexOf(allSelfieList);
+    final initialPage = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
+    ll(initialPage);
     pageController = PageController(initialPage: initialPage);
     super.onInit();
   }
@@ -101,6 +102,19 @@ class SelfieController extends GetxController {
     // }
   }
 
+  void handleCompleted() {
+    ll(allSelfieListIndex.value);
+    int currentIndex = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
+    pageController.nextPage(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+    final isLastPage = allSelfieList.length - 1 == currentIndex;
+    if (isLastPage) {
+      Get.back();
+    }
+  }
+
   final RxInt selfieId = RxInt(-1);
   final RxInt currentSelfieIndex = RxInt(-1);
   final RxInt selectedReportIndex = RxInt(-1);
@@ -146,12 +160,6 @@ class SelfieController extends GetxController {
     // Start showing the selfies (assuming you have a function to start the story view)
     // startStoryView();
     Get.toNamed(krSelfieViewPage);
-  }
-
-  void playNextSelfieSet() {
-    // Update the storyItems
-    // storyItems.addAll(allSelfieList[allSelfieListIndex.value]["selfies"]);
-    addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
   }
 
   // void handleCompleted() {
@@ -262,7 +270,7 @@ class SelfieController extends GetxController {
       }
     } catch (e) {
       isReportSelfieLoading.value = false;
-      ll('postEditDate error: $e');
+      ll('reportSelfie error: $e');
     }
   }
 
@@ -408,7 +416,7 @@ class SelfieController extends GetxController {
     }
   }
 
-  //*Delete Search history Api Call
+  //*Delete Selfie history Api Call
   final RxBool isDeleteSelfie = RxBool(false);
   Future<void> deleteSelfie({required int selfieId}) async {
     try {
@@ -520,7 +528,6 @@ class SelfieController extends GetxController {
   final TextEditingController giftAddCommentTextEditingController = TextEditingController();
   final RxBool isGiftAddCommentSuffixIconVisible = RxBool(false);
   final RxInt selectedBadgeId = RxInt(-1);
-  // kuSelfieSendGift
 
   //*Report Selfie
   final RxBool isSelfieSendGiftLoading = RxBool(false);
