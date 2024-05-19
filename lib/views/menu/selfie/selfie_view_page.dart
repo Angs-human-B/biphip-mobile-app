@@ -30,79 +30,21 @@ class SelfieViewPage extends StatelessWidget {
                       StoryView(
                         storyItems: selfieController.addStoryItems(selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"]),
                         controller: selfieController.storyController,
-                        inline: false,
+                        inline: true,
                         repeat: false,
                         onStoryShow: (storyItem, index) {
                           selfieController.currentSelfieIndex.value = index;
                           selfieController.selfieId.value = selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"][index].id;
                         },
-                        // onComplete: () {
-                        //   ll("complete");
-                        //   int currentIndex = selfieController.allSelfieListIndex.value;
-                        //   if (currentIndex < selfieController.allSelfieList.length - 1) {
-                        //     selfieController.allSelfieListIndex.value++;
-                        //     selfieController.addStoryItems(
-                        //       selfieController.allSelfieList[currentIndex]["selfies"],
-                        //     );
-                        //     selfieController.storyController.play();
-                        //   } else {
-                        //     Get.back();
-                        //   }
-                        // },
                         onComplete: () {
-                          selfieController.handleCompleted();
+                          int currentIndex = selfieController.allSelfieListIndex.value;
+                          if (currentIndex < selfieController.allSelfieList.length - 1) {
+                            selfieController.allSelfieListIndex.value++;
+                            selfieController.storyController.previous();
+                          } else {
+                            Get.back();
+                          }
                         },
-                        //           onEachStoryLoadComplated: ({String? storyID}) {
-                        //   print(storyID);
-                        // },
-                        // onComplete: () {
-                        //   int currentIndex = selfieController.allSelfieListIndex.value;
-
-                        //   if (currentIndex < selfieController.allSelfieList.length - 1) {
-                        //     // Move to the next index
-                        //     selfieController.allSelfieListIndex.value++;
-
-                        //     // Show the selfies at the next index
-                        //     selfieController.showSelfiesAtIndex(currentIndex + 1);
-                        //   } else {
-                        //     // Navigate back when there are no more selfies to show
-                        //     Get.back();
-
-                        //     // Reset the index to 0
-                        //     selfieController.allSelfieListIndex.value = 0;
-
-                        //     // Show the selfies at the initial index (0)
-                        //     // selfieController.showSelfiesAtIndex(0);
-                        //   }
-                        // },
-                        // onComplete: () {
-                        //   int currentIndex = selfieController.allSelfieListIndex.value;
-                        //   if (currentIndex < selfieController.allSelfieList.length - 1) {
-                        //     selfieController.allSelfieListIndex.value++;
-                        //     selfieController.addStoryItems(
-                        //       selfieController.allSelfieList[currentIndex + 1]["selfies"],
-                        //     );
-                        //   } else {
-                        //     Get.back();
-                        //     selfieController.allSelfieListIndex.value = 0;
-                        //   }
-                        // },
-                        // onComplete: () {
-                        //   // await Future.delayed(Duration(microseconds: 200));
-                        //   int currentIndex = selfieController.allSelfieListIndex.value;
-                        //   if (currentIndex < selfieController.allSelfieList.length - 1) {
-                        //     selfieController.allSelfieListIndex.value++;
-                        //     selfieController.addStoryItems(
-                        //       selfieController.allSelfieList[currentIndex + 1]["selfies"],
-                        //     );
-                        //     selfieController.playNextSelfieSet();
-                        //   } else {
-                        //     Get.back();
-                        //     selfieController.allSelfieListIndex.value = 0;
-                        //   }
-                        //   // selfieController.storyController.next();
-                        // },
-
                         progressPosition: ProgressPosition.top,
                         indicatorHeight: IndicatorHeight.medium,
                       ),

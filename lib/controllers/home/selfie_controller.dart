@@ -31,7 +31,7 @@ class SelfieController extends GetxController {
     y.value = height * 0.5;
     final initialPage = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
     ll(initialPage);
-    pageController = PageController(initialPage: initialPage);
+    pageController = PageController(initialPage: 0);
     super.onInit();
   }
 
@@ -103,12 +103,14 @@ class SelfieController extends GetxController {
   }
 
   void handleCompleted() {
-    ll(allSelfieListIndex.value);
+    // ll(allSelfieListIndex.value);
     int currentIndex = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
+    addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
     pageController.nextPage(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeIn,
     );
+
     final isLastPage = allSelfieList.length - 1 == currentIndex;
     if (isLastPage) {
       Get.back();
@@ -123,76 +125,6 @@ class SelfieController extends GetxController {
   ScreenshotController screenshotController = ScreenshotController();
   StoryController storyController = StoryController();
   PageController pageController = PageController();
-  // void handleCompleted() {
-  //   //     final initialPage = allStories.indexOf(allStories);
-  //   // pageController = PageController(initialPage: initialPage);
-  //   // addStoryItems();
-  //   pageController.nextPage(
-  //     duration: const Duration(milliseconds: 10),
-  //     curve: Curves.linear,
-  //   );
-  //   final currentIndex = allStories.indexOf(allStories);
-  //   final isLastPage = allStories.length - 1 == currentIndex;
-  //   if (isLastPage) {
-  //     Get.back();
-  //   }
-  // }
-
-  // void handleCompleted() {
-  //   pageController.nextPage(
-  //     duration: const Duration(milliseconds: 10),
-  //     curve: Curves.linear,
-  //   );
-  //   final currentIndex = allStories.indexOf(allStories.first);
-  //   final isLastPage = allStories.length - 1 == currentIndex;
-  //   if (isLastPage) {
-  //     Get.back();
-  //   }
-  // }
-  void startNextStory() {
-    addStoryItems(allSelfieList[0]["selfies"]);
-  }
-
-  void showSelfiesAtIndex(int index) {
-    // Add the selfies from the specified index
-    addStoryItems(allSelfieList[index]["selfies"]);
-
-    // Start showing the selfies (assuming you have a function to start the story view)
-    // startStoryView();
-    Get.toNamed(krSelfieViewPage);
-  }
-
-  // void handleCompleted() {
-  //   final currentIndex = allStories.indexOf(allStories.first);
-  //   final isLastPage = allStories.length - 1 == currentIndex;
-  //   if (isLastPage) {
-  //     Get.back();
-  //   } else {
-  //     pageController.nextPage(
-  //       duration: const Duration(milliseconds: 10),
-  //       curve: Curves.linear,
-  //     );
-  //   }
-  // }
-
-  // var stories = [
-  //   StoryItem.pageImage(
-  //     url: 'https://impulse.aarafacademy.com/uploads/samples/g1.jpg',
-  //     controller: StoryController(),
-  //   ),
-  //   StoryItem.pageImage(
-  //     url: 'https://cdn.vectorstock.com/i/preview-2x/95/78/young-female-doctor-in-medical-uniform-vector-36659578.webp',
-  //     controller: StoryController(),
-  //   ),
-  // ];
-
-  // final storyItems = <StoryItem>[];
-  // void addStoryItems() {
-  //   for (final story in allStories) {
-  //     storyItems.add(StoryItem.pageImage(url: story["storyImage"], controller: storyController));
-  //   }
-  // }
-// final storyItems = <StoryItem>[];
 
   List<StoryItem> addStoryItems(List<Selfy> selfieList) {
     List<StoryItem> storyItems = <StoryItem>[];
@@ -202,6 +134,7 @@ class SelfieController extends GetxController {
         controller: storyController,
       ));
     }
+    // ll(storyItems[0].shown);
     return storyItems;
   }
 
