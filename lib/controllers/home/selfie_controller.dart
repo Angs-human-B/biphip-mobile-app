@@ -134,7 +134,7 @@ class SelfieController extends GetxController {
       storyItems.add(StoryItem.pageImage(
         url: selfieList[i].fullPath!,
         controller: storyController,
-        duration: Duration(seconds: 8),
+        duration: const Duration(seconds: 8),
         shown: false,
       ));
     }
