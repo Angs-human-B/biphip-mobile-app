@@ -6,6 +6,7 @@ class StoriesWidget extends StatelessWidget {
   final SelfieController selfieController = Get.find<SelfieController>();
   @override
   Widget build(BuildContext context) {
+    selfieController.customOnInit();
     return SizedBox(
       height: 150,
       width: width,

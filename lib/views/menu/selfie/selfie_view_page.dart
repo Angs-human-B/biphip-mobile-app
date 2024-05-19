@@ -28,18 +28,28 @@ class SelfieViewPage extends StatelessWidget {
                   () => Stack(
                     children: [
                       StoryView(
-                        storyItems: selfieController.addStoryItems(selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"]),
+                        storyItems: selfieController.addStoryItems(
+                          selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"],
+                          selfieController.storyController,
+                        ),
                         controller: selfieController.storyController,
                         inline: true,
                         repeat: false,
                         onStoryShow: (storyItem, index) {
+                          ll("story index : $index");
                           selfieController.currentSelfieIndex.value = index;
                           selfieController.selfieId.value = selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["selfies"][index].id;
+
+                          ll(selfieController.storyController.playbackNotifier.value);
                         },
                         onComplete: () {
+                          ll("user index : ${selfieController.allSelfieListIndex.value}");
+                          // selfieController.storyController.playbackNotifier.add(PlaybackState.play);
                           int currentIndex = selfieController.allSelfieListIndex.value;
                           if (currentIndex < selfieController.allSelfieList.length - 1) {
                             selfieController.allSelfieListIndex.value++;
+                            // selfieController.storyController.playbackNotifier.add(PlaybackState.next);
+                            selfieController.currentSelfieIndex.value = 0;
                             selfieController.storyController.previous();
                           } else {
                             Get.back();

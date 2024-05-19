@@ -24,11 +24,12 @@ class SelfieController extends GetxController {
   final RxInt allSelfieListIndex = RxInt(0);
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
-  void customoOnInit() async {
+  void customOnInit() async {
     // await getFriendSelfieList();
     // allSelfieData();
     x.value = width * 0.4;
     y.value = height * 0.5;
+    storyController.playbackNotifier.value = PlaybackState.play;
     final initialPage = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
     ll(initialPage);
     pageController = PageController(initialPage: 0);
@@ -102,20 +103,20 @@ class SelfieController extends GetxController {
     // }
   }
 
-  void handleCompleted() {
-    // ll(allSelfieListIndex.value);
-    int currentIndex = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
-    addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
-    pageController.nextPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeIn,
-    );
+  // void handleCompleted() {
+  //   // ll(allSelfieListIndex.value);
+  //   int currentIndex = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
+  //   addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
+  //   pageController.nextPage(
+  //     duration: Duration(milliseconds: 300),
+  //     curve: Curves.easeIn,
+  //   );
 
-    final isLastPage = allSelfieList.length - 1 == currentIndex;
-    if (isLastPage) {
-      Get.back();
-    }
-  }
+  //   final isLastPage = allSelfieList.length - 1 == currentIndex;
+  //   if (isLastPage) {
+  //     Get.back();
+  //   }
+  // }
 
   final RxInt selfieId = RxInt(-1);
   final RxInt currentSelfieIndex = RxInt(-1);
@@ -126,15 +127,17 @@ class SelfieController extends GetxController {
   StoryController storyController = StoryController();
   PageController pageController = PageController();
 
-  List<StoryItem> addStoryItems(List<Selfy> selfieList) {
+  List<StoryItem> addStoryItems(List<Selfy> selfieList, storyController) {
     List<StoryItem> storyItems = <StoryItem>[];
+    // StoryController storyController = StoryController();
     for (int i = 0; i < selfieList.length; i++) {
       storyItems.add(StoryItem.pageImage(
         url: selfieList[i].fullPath!,
         controller: storyController,
+        shown: false,
       ));
     }
-    // ll(storyItems[0].shown);
+    // storyItems[0].shown = false;
     return storyItems;
   }
 
