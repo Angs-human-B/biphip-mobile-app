@@ -51,7 +51,10 @@ class CustomModifiedTextField extends StatelessWidget {
     this.fillColor,
     this.isFilled,
     this.borderRadius,
-    this.border, this.suffixIconColor, this.suffixIconSize, this.textAlign,
+    this.border,
+    this.suffixIconColor,
+    this.suffixIconSize,
+    this.textAlign,
   }) : super(key: key);
 
   @override
@@ -114,7 +117,7 @@ class CustomModifiedTextField extends StatelessWidget {
                     onPress: onSuffixPress,
                     icon: suffixIcon,
                     hasBorder: false,
-                    size: suffixIconSize?? screenWiseSize(kIconSize20, 4),
+                    size: suffixIconSize ?? screenWiseSize(kIconSize20, 4),
                     iconColor: suffixIconColor,
                   ),
                 )
@@ -134,30 +137,29 @@ class CustomModifiedTextField extends StatelessWidget {
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
             borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
           ),
           focusedBorder: border ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(k4BorderRadius),
+                borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(k4BorderRadius),
+            borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
             borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
           ),
           disabledBorder: border ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(k4BorderRadius),
+                borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
           enabledBorder: border ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(k4BorderRadius),
+                borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
               ),
         ),
-        
         autocorrect: false,
         keyboardType: inputType,
         textInputAction: inputAction,

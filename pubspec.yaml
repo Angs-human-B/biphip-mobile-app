@@ -47,6 +47,7 @@ dependencies:
   qr_flutter: ^4.1.0
   flutter_mentions: ^2.0.1
   linkfy_text: ^1.1.5
+  chat_bubbles: ^1.5.0
 
 dev_dependencies:
   flutter_test:

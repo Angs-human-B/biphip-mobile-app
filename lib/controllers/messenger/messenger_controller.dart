@@ -2,9 +2,32 @@ import 'package:bip_hip/utils/constants/imports.dart';
 
 class MessengerController extends GetxController {
   final TextEditingController inboxSearchTextEditingController = TextEditingController();
+  final TextEditingController messageTextEditingController = TextEditingController();
+  final FocusNode messageFocusNode = FocusNode();
+  final RxBool isMessageTextFieldFocused = RxBool(false);
+  final RxBool isSendEnabled = RxBool(false);
   final RxBool isSearchFieldCrossButtonShown = RxBool(false);
   final RxList inboxFilterCategoryList = RxList(["All", "Active", "Marketplace", "Kids"]);
   final RxString selectedFilterCategory = RxString("All");
+
+   void onInit() async {
+    messageFocusNode.addListener(() {
+      if (messageFocusNode.hasFocus) {
+        isMessageTextFieldFocused.value = true;
+      } else {
+        isMessageTextFieldFocused.value = false;
+      }
+    });
+    super.onInit();
+  }
+
+  void checkCanSendMessage(){
+     if (messageTextEditingController.text.trim() == ""){
+      isSendEnabled.value = false;
+     }else{
+      isSendEnabled.value = true;
+     }
+  }
 
   final RxList inboxList = RxList([
     {
