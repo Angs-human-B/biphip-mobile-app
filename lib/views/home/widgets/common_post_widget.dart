@@ -270,6 +270,9 @@ class CommonPostWidget extends StatelessWidget {
           //           ),
           //         ),
           //       )),
+          if (globalController.commonPostList[postIndex].type == 3)
+          
+
           if (globalController.commonPostList[postIndex].sharePosts != null)
             Padding(
               padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),

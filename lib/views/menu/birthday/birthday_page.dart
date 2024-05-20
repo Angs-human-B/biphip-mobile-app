@@ -1,4 +1,7 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/shimmers/birthday/birthday_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:intl/intl.dart';
@@ -350,7 +353,13 @@ class BirthdayCommonView extends StatelessWidget {
                 buttonColor: cPrimaryColor,
                 textStyle: regular12TextStyle(cWhiteColor),
                 label: ksViewPost.tr,
-                onPressed: null,
+                onPressed: () async {
+                  Get.toNamed(krProfile);
+                  Get.find<ProfileController>().interestCatagoriesIndex.value = 0;
+                  await Get.find<ProfileController>().getProfileOverview();
+                  await Get.find<CreatePostController>().getCreatePost();
+                  await Get.find<HomeController>().getTimelinePostList();
+                },
               ),
             ),
           //*Timeline post disable option api have no prameter for differenciate this
