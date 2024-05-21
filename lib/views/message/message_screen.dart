@@ -155,6 +155,7 @@ class MessageScreen extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         var messages = messengerController.messages[index];
                                         return CustomBubbleNormal(
+                                          userImage: messengerController.selectedReceiver.value!.profilePicture,
                                           text: messages["message"].toString(),
                                           isSender: messages["userType"] == "self" ? true : false,
                                           color: messages["userType"] == "self" ? cPrimaryColor : cNeutralColor,
