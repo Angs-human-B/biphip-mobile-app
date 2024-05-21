@@ -667,3 +667,4 @@ const String ksArchivedChat = "Archived chat";
 const String ksSpamBox = "Spam box";
 const String ksRestrictedAccount = "Restricted account";
 const String ksHelp = "Help";
+const String ksWaitingForNetwork = "Waiting for network";

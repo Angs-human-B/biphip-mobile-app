@@ -4,6 +4,7 @@ import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
+import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -72,6 +73,9 @@ class HomePage extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             await Get.find<FriendController>().getFriendList();
+                            if (Get.find<MessengerController>().allFriendMessageList.isEmpty) {
+                              Get.find<MessengerController>().geAllFriendMessages();
+                            }
                             Get.toNamed(krInbox);
                           },
                           child: Icon(

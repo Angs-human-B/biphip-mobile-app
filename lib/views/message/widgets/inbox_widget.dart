@@ -13,7 +13,8 @@ class InboxContainer extends StatelessWidget {
       required this.isSeen,
       required this.isMute,
       required this.isLastMessageSelf,
-      required this.userID, required this.receiverData});
+      required this.userID,
+      required this.receiverData});
   final String userName, userImage, message;
   final bool isActive, isSeen, isMute, isLastMessageSelf;
   final int userID;
@@ -25,6 +26,10 @@ class InboxContainer extends StatelessWidget {
     return InkWell(
       onTap: () {
         messengerController.messages.clear();
+        int index = messengerController.allFriendMessageList.indexWhere((user) => user['userID'] == userID);
+        if (index != -1 && messengerController.allFriendMessageList[index]["messages"].isNotEmpty) {
+          messengerController.messages.addAll(messengerController.allFriendMessageList[index]["messages"]);
+        }
         messengerController.selectedReceiver.value = receiverData;
         if (!messengerController.connectedUserID.contains(userID)) {
           messengerController.exchangePeerID(userID);

@@ -40,7 +40,7 @@ class MessageScreen extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Image.network(
-                              messengerController.selectedReceiver.value!.profilePicture?? "",
+                              messengerController.selectedReceiver.value!.profilePicture ?? "",
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.user,
@@ -74,7 +74,9 @@ class MessageScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                           messengerController.selectedReceiver.value!.fullName!,
+                          messengerController.selectedReceiver.value!.fullName!.length > 14
+                              ? "${messengerController.selectedReceiver.value!.fullName!.substring(0, 14)}..."
+                              : messengerController.selectedReceiver.value!.fullName!,
                           style: semiBold18TextStyle(cBlackColor),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -129,43 +131,62 @@ class MessageScreen extends StatelessWidget {
                 ],
               ),
             ),
-            body: Column(
-              children: [
-                CustomDivider(),
-                Obx(() => Expanded(
-                      child: SingleChildScrollView(
-                        reverse: true,
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              reverse: true,
-                              // padding: const EdgeInsets.only(bottom: 54),
-                              // separatorBuilder: (context, index) {
-                              //   return SizedBox(
-                              //     height: 2,
-                              //   );
-                              // },
-                              shrinkWrap: true,
-                              itemCount: messengerController.messages.length,
-                              itemBuilder: (context, index) {
-                                var messages = messengerController.messages[index];
-                                return CustomBubbleNormal(
-                                  text: messages["message"].toString(),
-                                  isSender: messages["userType"] == "self" ? true : false,
-                                  color: messages["userType"] == "self" ? cPrimaryColor : cNeutralColor,
-                                  tail: false,
-                                  textStyle: regular16TextStyle(messages["userType"] == "self" ? cWhiteColor : cBlackColor),
-                                );
-                              },
+            body: Obx(() => Stack(
+                  children: [
+                    Column(
+                      children: [
+                        CustomDivider(),
+                        Obx(() => Expanded(
+                              child: SingleChildScrollView(
+                                reverse: true,
+                                child: Column(
+                                  children: [
+                                    ListView.builder(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      reverse: true,
+                                      // padding: const EdgeInsets.only(bottom: 54),
+                                      // separatorBuilder: (context, index) {
+                                      //   return SizedBox(
+                                      //     height: 2,
+                                      //   );
+                                      // },
+                                      shrinkWrap: true,
+                                      itemCount: messengerController.messages.length,
+                                      itemBuilder: (context, index) {
+                                        var messages = messengerController.messages[index];
+                                        return CustomBubbleNormal(
+                                          text: messages["message"].toString(),
+                                          isSender: messages["userType"] == "self" ? true : false,
+                                          color: messages["userType"] == "self" ? cPrimaryColor : cNeutralColor,
+                                          tail: false,
+                                          textStyle: regular16TextStyle(messages["userType"] == "self" ? cWhiteColor : cBlackColor),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                        ChatTextField(),
+                      ],
+                    ),
+                    if (!messengerController.isInternetConnectionAvailable.value)
+                      Positioned(
+                        top: 1,
+                        child: Container(
+                          color: cPlaceHolderColor,
+                          width: width,
+                          height: 20,
+                          child: Center(
+                            child: Text(
+                              "$ksWaitingForNetwork...",
+                              style: regular10TextStyle(cBlackColor),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    )),
-                ChatTextField(),
-              ],
-            ),
+                  ],
+                )),
           ),
         ),
       ),

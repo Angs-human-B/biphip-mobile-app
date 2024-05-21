@@ -52,86 +52,105 @@ class Inbox extends StatelessWidget {
                   ],
                 ),
               ),
-              body: Column(
+              body: Stack(
                 children: [
-                  CustomDivider(),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: Column(
-                          children: [
-                            kH16sizedBox,
-                            CustomModifiedTextField(
-                              borderRadius: h8,
-                              controller: messengerController.inboxSearchTextEditingController,
-                              prefixIcon: BipHip.search,
-                              suffixIcon: messengerController.isSearchFieldCrossButtonShown.value ? BipHip.circleCrossNew : null,
-                              hint: ksSearch.tr,
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: k12Padding,
-                              ),
-                              textInputStyle: regular16TextStyle(cBlackColor),
-                              onSuffixPress: () {
-                                messengerController.inboxSearchTextEditingController.clear();
-                                messengerController.isSearchFieldCrossButtonShown.value = false;
-                              },
-                              onSubmit: (value) async {},
-                              onChanged: (value) {
-                                if (messengerController.inboxSearchTextEditingController.text.trim() != "") {
-                                  messengerController.isSearchFieldCrossButtonShown.value = true;
-                                }
-                              },
+                  Column(
+                    children: [
+                      CustomDivider(),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                            child: Column(
+                              children: [
+                                messengerController.isInternetConnectionAvailable.value ? kH16sizedBox : kH24sizedBox,
+                                CustomModifiedTextField(
+                                  borderRadius: h8,
+                                  controller: messengerController.inboxSearchTextEditingController,
+                                  prefixIcon: BipHip.search,
+                                  suffixIcon: messengerController.isSearchFieldCrossButtonShown.value ? BipHip.circleCrossNew : null,
+                                  hint: ksSearch.tr,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: k12Padding,
+                                  ),
+                                  textInputStyle: regular16TextStyle(cBlackColor),
+                                  onSuffixPress: () {
+                                    messengerController.inboxSearchTextEditingController.clear();
+                                    messengerController.isSearchFieldCrossButtonShown.value = false;
+                                  },
+                                  onSubmit: (value) async {},
+                                  onChanged: (value) {
+                                    if (messengerController.inboxSearchTextEditingController.text.trim() != "") {
+                                      messengerController.isSearchFieldCrossButtonShown.value = true;
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  width: width,
+                                  height: 50,
+                                  child: ListView.builder(
+                                    itemCount: messengerController.inboxFilterCategoryList.length,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (BuildContext context, i) {
+                                      return Obx(() => Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                                            child: CustomChoiceChips(
+                                              label: messengerController.inboxFilterCategoryList[i],
+                                              isSelected: (messengerController.selectedFilterCategory.value == messengerController.inboxFilterCategoryList[i]),
+                                              onSelected: (value) {
+                                                messengerController.selectedFilterCategory.value = messengerController.inboxFilterCategoryList[i];
+                                              },
+                                            ),
+                                          ));
+                                    },
+                                  ),
+                                ),
+                                if (Get.find<FriendController>().friendList.isEmpty) const EmptyChatView(),
+                                kH16sizedBox,
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    separatorBuilder: (context, index) => kH16sizedBox,
+                                    itemCount: Get.find<FriendController>().friendList.length,
+                                    itemBuilder: (context, index) {
+                                      FriendFamilyUserData item = Get.find<FriendController>().friendList[index];
+                                      return InboxContainer(
+                                        userID: item.id!,
+                                        userName: item.fullName!,
+                                        userImage: item.profilePicture!,
+                                        message: "Test message",
+                                        isActive: true,
+                                        isMute: false,
+                                        isLastMessageSelf: false,
+                                        isSeen: true,
+                                        receiverData: item,
+                                      );
+                                    }),
+                                kH16sizedBox
+                              ],
                             ),
-                            SizedBox(
-                              width: width,
-                              height: 50,
-                              child: ListView.builder(
-                                itemCount: messengerController.inboxFilterCategoryList.length,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (BuildContext context, i) {
-                                  return Obx(() => Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                                        child: CustomChoiceChips(
-                                          label: messengerController.inboxFilterCategoryList[i],
-                                          isSelected: (messengerController.selectedFilterCategory.value == messengerController.inboxFilterCategoryList[i]),
-                                          onSelected: (value) {
-                                            messengerController.selectedFilterCategory.value = messengerController.inboxFilterCategoryList[i];
-                                          },
-                                        ),
-                                      ));
-                                },
-                              ),
-                            ),
-                            if (Get.find<FriendController>().friendList.isEmpty) const EmptyChatView(),
-                            kH16sizedBox,
-                            ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                separatorBuilder: (context, index) => kH16sizedBox,
-                                itemCount: Get.find<FriendController>().friendList.length,
-                                itemBuilder: (context, index) {
-                                  FriendFamilyUserData item = Get.find<FriendController>().friendList[index];
-                                  return InboxContainer(
-                                    userID: item.id!,
-                                    userName: item.fullName!,
-                                    userImage: item.profilePicture!,
-                                    message: "Test message",
-                                    isActive: true,
-                                    isMute: false,
-                                    isLastMessageSelf: false,
-                                    isSeen: true,
-                                    receiverData: item,
-                                  );
-                                }),
-                            kH16sizedBox
-                          ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (!messengerController.isInternetConnectionAvailable.value)
+                    Positioned(
+                      top: 1,
+                      child: Container(
+                        color: cPlaceHolderColor,
+                        width: width,
+                        height: 20,
+                        child: Center(
+                          child: Text(
+                            "$ksWaitingForNetwork...",
+                            style: regular10TextStyle(cBlackColor),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

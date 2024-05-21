@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:peerdart/peerdart.dart';
 
 class MessengerController extends GetxController {
@@ -11,10 +16,11 @@ class MessengerController extends GetxController {
   final RxBool isSearchFieldCrossButtonShown = RxBool(false);
   final RxList inboxFilterCategoryList = RxList(["All", "Active", "Marketplace", "Kids"]);
   final RxString selectedFilterCategory = RxString("All");
-  final RxList<Map<String, dynamic>> messages = RxList<Map<String, dynamic>>([]);
+  final RxList messages = RxList([]);
   final Rx<FriendFamilyUserData?> selectedReceiver = Rx<FriendFamilyUserData?>(null);
 
   void onInit() async {
+    checkInternetConnectivity();
     connectPeer();
     messageFocusNode.addListener(() {
       if (messageFocusNode.hasFocus) {
@@ -34,7 +40,50 @@ class MessengerController extends GetxController {
   }
 
   //=====================================================
-  //!    Socket and WebRTC
+  //!          Check for internet connection
+  //=====================================================
+
+  late StreamSubscription<InternetConnectionStatus> internetConnectivitySubscription;
+  final RxBool isInternetConnectionAvailable = RxBool(false);
+  Future<void> initConnectivity() async {
+    try {
+      bool internetConnectivityResult = await InternetConnectionChecker().hasConnection;
+      if (internetConnectivityResult != true) {
+        ll("NOOO CONNNN");
+        isInternetConnectionAvailable.value = false;
+      } else {
+        isInternetConnectionAvailable.value = true;
+      }
+    } on SocketException catch (e) {
+      ll('Connectivity status error: $e');
+      isInternetConnectionAvailable.value = false;
+    } on PlatformException catch (e) {
+      ll('Connectivity status error: $e');
+      isInternetConnectionAvailable.value = false;
+    }
+  }
+
+  Future<void> checkInternetConnectivity() async {
+    await initConnectivity();
+    internetConnectivitySubscription = InternetConnectionChecker().onStatusChange.listen(
+      (InternetConnectionStatus status) {
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            isInternetConnectionAvailable.value = true;
+            break;
+          case InternetConnectionStatus.disconnected:
+            ll("CONNN CUTTT");
+            isInternetConnectionAvailable.value = false;
+            break;
+        }
+      },
+    );
+  }
+
+  //=====================================================
+
+  //=====================================================
+  //!                Socket and WebRTC
   //=====================================================
 
   final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All));
@@ -62,7 +111,12 @@ class MessengerController extends GetxController {
       }
       conn = event;
       conn.on("data").listen((data) {
-        messages.add({"userType": "sender", "message": data});
+        messages.insert(0, {"userType": "sender", "message": data});
+        int index = allFriendMessageList.indexWhere((user) => user['userID'] == selectedReceiver.value!.id);
+        if (index != -1) {
+          allFriendMessageList[index]["messages"].insert(0, {"userType": "sender", "message": data});
+          ll(allFriendMessageList[index]["messages"]);
+        }
         ll("incoming message: $data");
       });
 
@@ -71,6 +125,11 @@ class MessengerController extends GetxController {
       });
 
       conn.on("close").listen((event) {
+        connected.value = false;
+      });
+
+      conn.on("error").listen((error) {
+        ll("Error occurred: $error");
         connected.value = false;
       });
 
@@ -108,10 +167,20 @@ class MessengerController extends GetxController {
 
         conn.on("data").listen((data) {
           messages.insert(0, {"userType": "sender", "message": data});
+          int index = allFriendMessageList.indexWhere((user) => user['userID'] == selectedReceiver.value!.id);
+          if (index != -1) {
+            allFriendMessageList[index]["messages"].insert(0, {"userType": "sender", "message": data});
+            ll(allFriendMessageList[index]["messages"]);
+          }
           ll("Peer connect data: $data");
         });
         conn.on("binary").listen((data) {
           ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text("Got binary!")));
+        });
+
+        conn.on("error").listen((error) {
+          ll("Error occurred: $error");
+          connected.value = false;
         });
       });
     } catch (e) {
@@ -146,28 +215,46 @@ class MessengerController extends GetxController {
   List<String> messageQueue = [];
   int batchSize = 5; // Adjust based on your needs
 
-  void sendMessage(String message) async{
-    // Add to offline list
-    messages.insert(0, {"userType": "self", "message": message});
+  void sendMessage(String message) async {
+    if (connected.value && isInternetConnectionAvailable.value) {
+      // Add to offline list
+      messages.insert(0, {"userType": "self", "message": message});
+      setMessage(selectedReceiver.value!.id, {"userType": "self", "message": message});
 
-    // Send through webRTC
-    conn.send(message);
+      // Send through webRTC
+      conn.send(message);
 
-    // Add message to queue
-    messageQueue.add(message);
+      // Add message to queue
+      messageQueue.add(message);
 
-
-    if (messageQueue.length >= batchSize && shouldSendNow()) {
-      await sendBatch();
+      if (messageQueue.length >= batchSize && isInternetConnectionAvailable.value) {
+        await sendBatchMessages();
+      }
+      messageTextEditingController.clear();
     }
   }
 
-  // Check for internet connection
-  bool shouldSendNow() {
-    return true; 
+  // Send through API
+  Future<void> sendBatchMessages() async {}
+
+  // Get Messages
+  RxList<Map<String, dynamic>> allFriendMessageList = RxList<Map<String, dynamic>>([]);
+  void geAllFriendMessages() {
+    for (int i = 0; i < Get.find<FriendController>().friendList.length; i++) {
+      allFriendMessageList.add({
+        "userID": Get.find<FriendController>().friendList[i].id,
+        "userName": Get.find<FriendController>().friendList[i].fullName,
+        "messages": [],
+      });
+    }
+    ll("hello: $allFriendMessageList");
   }
 
-  // Send through API
-  Future<void> sendBatch() async {
+  // Set Messages
+  void setMessage(userID, messageData) {
+    int index = allFriendMessageList.indexWhere((user) => user['userID'] == userID);
+    if (index != -1) {
+      allFriendMessageList[index]["messages"].insert(0, messageData);
+    }
   }
 }
