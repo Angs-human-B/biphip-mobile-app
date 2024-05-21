@@ -40,7 +40,7 @@ class MessageScreen extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Image.network(
-                              "image",
+                              messengerController.selectedReceiver.value!.profilePicture?? "",
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.user,
@@ -74,7 +74,7 @@ class MessageScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Manjurul S. Omi",
+                           messengerController.selectedReceiver.value!.fullName!,
                           style: semiBold18TextStyle(cBlackColor),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -129,44 +129,41 @@ class MessageScreen extends StatelessWidget {
                 ],
               ),
             ),
-            body: Stack(
+            body: Column(
               children: [
-                Column(
-                  children: [
-                    CustomDivider(),
-                    Expanded(
+                CustomDivider(),
+                Obx(() => Expanded(
                       child: SingleChildScrollView(
+                        reverse: true,
                         child: Column(
                           children: [
-                            ListView.separated(
+                            ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               reverse: true,
-                              padding: const EdgeInsets.only(bottom: 54),
-                              separatorBuilder: (context, index) {
-                                return kH8sizedBox;
-                              },
+                              // padding: const EdgeInsets.only(bottom: 54),
+                              // separatorBuilder: (context, index) {
+                              //   return SizedBox(
+                              //     height: 2,
+                              //   );
+                              // },
                               shrinkWrap: true,
-                              itemCount: 27,
+                              itemCount: messengerController.messages.length,
                               itemBuilder: (context, index) {
+                                var messages = messengerController.messages[index];
                                 return CustomBubbleNormal(
-                                  text: "message $index lkasdjhk lfhdkj kjahsjkfh kjsdhf kldhjkgl kjajkfh jkadshfgkja hjkl l",
-                                  isSender: index % 2 == 0 ? false : true,
-                                  color: index % 2 == 0 ? cPrimaryColor : cNeutralColor,
+                                  text: messages["message"].toString(),
+                                  isSender: messages["userType"] == "self" ? true : false,
+                                  color: messages["userType"] == "self" ? cPrimaryColor : cNeutralColor,
                                   tail: false,
-                                  textStyle: regular16TextStyle(index % 2 == 0 ? cWhiteColor : cBlackColor),
+                                  textStyle: regular16TextStyle(messages["userType"] == "self" ? cWhiteColor : cBlackColor),
                                 );
                               },
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: ChatTextField(),
-                ),
+                    )),
+                ChatTextField(),
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
@@ -1147,6 +1148,47 @@ class GlobalController extends GetxController {
     } catch (e) {
       isFollowUnfollowLoading.value = false;
       ll('followUnfollowUser error: $e');
+    }
+  }
+
+  RxList<Map<String, dynamic>> allConnectedPeers = RxList<Map<String, dynamic>>([]);
+  void socketInit() {
+    ll("Connecting...");
+
+    socket.connect();
+
+    socket.on('connect', (_) {
+      ll('Connected: ${socket.id}');
+    });
+
+    socket.on('mobile-chat-channel', (data) {
+      ll('Received peer data: $data');
+      populatePeerList(data);
+      ll(allConnectedPeers);
+    });
+
+    socket.on("mobile-chat-peer-exchange-${userId.value}", (data) {
+      ll('Received peer exchange ID: $data');
+      populatePeerList(data);
+      Get.find<MessengerController>().connectWithPeer(data["peerID"]);
+    });
+
+    socket.on('disconnect', (_) {
+      ll('Disconnected');
+    });
+
+    socket.on('error', (error) {
+      ll('Socket error: $error');
+    });
+  }
+
+  void populatePeerList(Map<String, dynamic> newUserData) {
+    int index = allConnectedPeers.indexWhere((user) => user['userID'] == newUserData['userID']);
+
+    if (index != -1) {
+      allConnectedPeers[index]['peerID'] = newUserData['peerID'];
+    } else {
+      allConnectedPeers.add(newUserData);
     }
   }
   //! end

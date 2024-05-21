@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
@@ -69,7 +70,8 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.only(right: h20),
                         child: TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () {
+                          onPressed: () async {
+                            await Get.find<FriendController>().getFriendList();
                             Get.toNamed(krInbox);
                           },
                           child: Icon(
@@ -198,7 +200,7 @@ class HomePage extends StatelessWidget {
                                   Container(
                                     color: cWhiteColor,
                                     width: width,
-                                    child:  StoriesWidget(),
+                                    child: StoriesWidget(),
                                   ),
                                 if (homeController.homeTabIndex.value == 1)
                                   Container(

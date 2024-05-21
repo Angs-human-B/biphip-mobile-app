@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
@@ -32,6 +31,7 @@ class SplashScreenController extends GetxController {
       () async {
         if (rememberStatus) {
           await Get.find<GlobalController>().getUserInfo();
+          Get.find<GlobalController>().socketInit();
           Get.find<HomeController>().homeTabIndex.value = 0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();

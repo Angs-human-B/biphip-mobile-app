@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void heightWidthKeyboardValue(context) {
   height = MediaQuery.of(context).size.height;
@@ -113,3 +114,8 @@ dynamic checkNullOrStringNull(str) {
     return str;
   }
 }
+
+IO.Socket socket = IO.io(webSocketURL, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });

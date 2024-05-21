@@ -111,9 +111,15 @@ class ChatTextField extends StatelessWidget {
                 if (messengerController.isSendEnabled.value)
                   Padding(
                     padding: const EdgeInsets.only(left: k8Padding, bottom: 14),
-                    child: Icon(
-                      BipHip.comment,
-                      color: cPrimaryColor,
+                    child: InkWell(
+                      onTap: () {
+                        messengerController.sendMessage(messengerController.messageTextEditingController.text.trim());
+                        messengerController.messageTextEditingController.clear();
+                      },
+                      child: const Icon(
+                        BipHip.comment,
+                        color: cPrimaryColor,
+                      ),
                     ),
                   ),
               ],

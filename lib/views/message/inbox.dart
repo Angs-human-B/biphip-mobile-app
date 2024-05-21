@@ -1,4 +1,6 @@
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/message/bottom_sheets/settings_content.dart';
 import 'package:bip_hip/views/message/widgets/empty_chat_view.dart';
@@ -103,17 +105,25 @@ class Inbox extends StatelessWidget {
                                 },
                               ),
                             ),
-                            if (messengerController.inboxList.isEmpty) const EmptyChatView(),
+                            if (Get.find<FriendController>().friendList.isEmpty) const EmptyChatView(),
                             kH16sizedBox,
                             ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 separatorBuilder: (context, index) => kH16sizedBox,
-                                itemCount: messengerController.inboxList.length,
+                                itemCount: Get.find<FriendController>().friendList.length,
                                 itemBuilder: (context, index) {
-                                  var item = messengerController.inboxList[index];
+                                  FriendFamilyUserData item = Get.find<FriendController>().friendList[index];
                                   return InboxContainer(
-                                    item: item,
+                                    userID: item.id!,
+                                    userName: item.fullName!,
+                                    userImage: item.profilePicture!,
+                                    message: "Test message",
+                                    isActive: true,
+                                    isMute: false,
+                                    isLastMessageSelf: false,
+                                    isSeen: true,
+                                    receiverData: item,
                                   );
                                 }),
                             kH16sizedBox

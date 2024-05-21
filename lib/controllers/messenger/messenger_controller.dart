@@ -1,4 +1,6 @@
+import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:peerdart/peerdart.dart';
 
 class MessengerController extends GetxController {
   final TextEditingController inboxSearchTextEditingController = TextEditingController();
@@ -9,8 +11,11 @@ class MessengerController extends GetxController {
   final RxBool isSearchFieldCrossButtonShown = RxBool(false);
   final RxList inboxFilterCategoryList = RxList(["All", "Active", "Marketplace", "Kids"]);
   final RxString selectedFilterCategory = RxString("All");
+  final RxList<Map<String, dynamic>> messages = RxList<Map<String, dynamic>>([]);
+  final Rx<FriendFamilyUserData?> selectedReceiver = Rx<FriendFamilyUserData?>(null);
 
-   void onInit() async {
+  void onInit() async {
+    connectPeer();
     messageFocusNode.addListener(() {
       if (messageFocusNode.hasFocus) {
         isMessageTextFieldFocused.value = true;
@@ -18,139 +23,151 @@ class MessengerController extends GetxController {
         isMessageTextFieldFocused.value = false;
       }
     });
+
     super.onInit();
   }
 
-  void checkCanSendMessage(){
-     if (messageTextEditingController.text.trim() == ""){
-      isSendEnabled.value = false;
-     }else{
-      isSendEnabled.value = true;
-     }
+  @override
+  void onClose() {
+    peer.dispose();
+    super.onClose();
   }
 
-  final RxList inboxList = RxList([
-    {
-      "id": 0,
-      "name": "Manjurul S. Omi",
-      "image":
-          "https://images.pexels.com/photos/17725267/pexels-photo-17725267/free-photo-of-portrait-of-soldier-in-gas-mask.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      "message": "Assalamualaikum vai, kemon achen.",
-      "isActive": true,
-      "isSeen": true,
-      "isMute": false,
-      "isLastMessageSelf": true,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 1,
-      "name": "Johan Liebert",
-      "image": "https://static.wikia.nocookie.net/villains/images/2/2b/Johan.jpg",
-      "message": "Well Richard, how about a drink?",
-      "isActive": false,
-      "isSeen": false,
-      "isMute": true,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 2,
-      "name": "Rick Sanchez",
-      "image": "https://cdn.dribbble.com/users/5592443/screenshots/14279501/drbl_pop_r_m_rick_4x.png",
-      "message": "Wubba lubba dub dub arghhhh!",
-      "isActive": true,
-      "isSeen": true,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 3,
-      "name": "Morty Smith",
-      "image": "https://static.tvtropes.org/pmwiki/pub/images/morty_smith_2.png",
-      "message": "Rick, I.. I can't breathe Rick. Get off me chest.",
-      "isActive": true,
-      "isSeen": false,
-      "isMute": true,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 4,
-      "name": "Peter Griffin",
-      "image": "https://pub-1de51ae1e68144d78f7c582e1dda3ab1.r2.dev/peter_2008_v2F_hires1-56a00f083df78cafda9fdcb6.jpeg",
-      "message": "What Louis! Can't you make on thing right?",
-      "isActive": true,
-      "isSeen": false,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 5,
-      "name": "Stewie Griffin",
-      "image": "https://facts.net/wp-content/uploads/2023/09/10-facts-about-stewie-griffin-family-guy-1694159026.jpg",
-      "message": "See what I'm doing, Scarf, high stool, legs crossed, engaged and in the moment",
-      "isActive": false,
-      "isSeen": true,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 6,
-      "name": "Brian Griffin",
-      "image": "https://facts.net/wp-content/uploads/2023/08/13-facts-about-brian-griffin-family-guy-1692229079.jpg",
-      "message": "Stewie look out!",
-      "isActive": true,
-      "isSeen": false,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 7,
-      "name": "Meg Griffin",
-      "image": "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/800/Meg-Griffin.Family-Guy.webp",
-      "message": "Dad, I heard a noise.",
-      "isActive": true,
-      "isSeen": false,
-      "isMute": true,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 8,
-      "name": "Louis Griffin",
-      "image": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2023/07/lois-griffin.jpg",
-      "message": "You heard me right?",
-      "isActive": false,
-      "isSeen": true,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 9,
-      "name": "Chris Griffin",
-      "image": "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/800/Chris-Griffin.Family-Guy.webp",
-      "message": "What if we have two calculators?",
-      "isActive": true,
-      "isSeen": false,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-    {
-      "id": 10,
-      "name": "Glenn Quagmire",
-      "image": "https://a1cf74336522e87f135f-2f21ace9a6cf0052456644b80fa06d4f.ssl.cf2.rackcdn.com/images/characters/large/800/Glenn-Quagmire.Family-Guy.webp",
-      "message": "Giggity",
-      "isActive": true,
-      "isSeen": false,
-      "isMute": false,
-      "isLastMessageSelf": false,
-      "lastMassageTime": DateTime.now()
-    },
-  ]);
+  //=====================================================
+  //!    Socket and WebRTC
+  //=====================================================
+
+  final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All));
+  final RxString peerId = RxString("");
+  late DataConnection conn;
+  final RxBool connected = RxBool(false);
+  final RxList connectedUserID = RxList([]);
+
+  void connectPeer() {
+    peer.on("open").listen((id) {
+      peerId.value = peer.id!;
+      if (peerId.value != "") {
+        socketConnect(peerId.value);
+      }
+    });
+
+    peer.on("close").listen((id) {
+      connected.value = false;
+    });
+
+    peer.on<DataConnection>("connection").listen((event) {
+      int index = Get.find<GlobalController>().allConnectedPeers.indexWhere((user) => user['peerID'] == event.peer);
+      if (index != -1) {
+        connectedUserID.add(Get.find<GlobalController>().allConnectedPeers[index]['peerID']);
+      }
+      conn = event;
+      conn.on("data").listen((data) {
+        messages.add({"userType": "sender", "message": data});
+        ll("incoming message: $data");
+      });
+
+      conn.on("binary").listen((data) {
+        ll("binary: $data");
+      });
+
+      conn.on("close").listen((event) {
+        connected.value = false;
+      });
+
+      connected.value = true;
+    });
+  }
+
+  void socketConnect(peerID) {
+    ll("Connecting...");
+
+    socket.on('connect', (_) {
+      ll('Connected: ${socket.id}');
+      Map<String, dynamic> data = {
+        "peerID": peerID,
+        "userID": Get.find<GlobalController>().userId.value,
+        "userName": Get.find<GlobalController>().userName.value,
+        "userImage": Get.find<GlobalController>().userImage.value
+      };
+      socket.emit("mobile-chat-channel", data);
+    });
+  }
+
+  void connectWithPeer(peerId) {
+    //connect with peer
+    try {
+      final connection = peer.connect(peerId);
+      ll(connection.connectionId);
+      conn = connection;
+
+      conn.on("open").listen((event) {
+        connected.value = true;
+        connection.on("close").listen((event) {
+          connected.value = false;
+        });
+
+        conn.on("data").listen((data) {
+          messages.insert(0, {"userType": "sender", "message": data});
+          ll("Peer connect data: $data");
+        });
+        conn.on("binary").listen((data) {
+          ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text("Got binary!")));
+        });
+      });
+    } catch (e) {
+      ll(e.toString());
+    }
+  }
+
+  void exchangePeerID(userID) {
+    Map<String, dynamic> data = {
+      "peerID": peerId.value,
+      "userID": Get.find<GlobalController>().userId.value,
+      "userName": Get.find<GlobalController>().userName.value,
+      "userImage": Get.find<GlobalController>().userImage.value
+    };
+    socket.emit("mobile-chat-peer-exchange-$userID", data);
+  }
+
+  //===========END=======================================
+
+  void checkCanSendMessage() {
+    if (messageTextEditingController.text.trim() == "") {
+      isSendEnabled.value = false;
+    } else {
+      isSendEnabled.value = true;
+    }
+  }
+
+  //============================================
+  //!         Send Message Data Persistency
+  //============================================
+
+  List<String> messageQueue = [];
+  int batchSize = 5; // Adjust based on your needs
+
+  void sendMessage(String message) async{
+    // Add to offline list
+    messages.insert(0, {"userType": "self", "message": message});
+
+    // Send through webRTC
+    conn.send(message);
+
+    // Add message to queue
+    messageQueue.add(message);
+
+
+    if (messageQueue.length >= batchSize && shouldSendNow()) {
+      await sendBatch();
+    }
+  }
+
+  // Check for internet connection
+  bool shouldSendNow() {
+    return true; 
+  }
+
+  // Send through API
+  Future<void> sendBatch() async {
+  }
 }
