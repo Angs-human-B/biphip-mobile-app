@@ -650,3 +650,8 @@ const String ksContinueEditing = "Continue editing";
 const String ksInbox = "Inbox";
 const String ksNoChatAvailAble = "No chat available";
 const String ksNoChatDescription = "You haven't chat with anyone yet.";
+
+//*Birthday
+const String ksEditPost = "Edit Post";
+const String ksDeletePost = "Delete Post";
+const String ksAreYouSureYouWantToDeleteThisPost = "Are you sure you want to delete this post";

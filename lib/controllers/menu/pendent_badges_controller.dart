@@ -3,6 +3,7 @@ import 'package:bip_hip/models/menu/birthday/birthday_model.dart';
 import 'package:bip_hip/models/menu/badges/user_badge_model.dart';
 import 'package:bip_hip/models/menu/pendent/user_pendent_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 
 class PendentBadgesController extends GetxController {
   final ApiController apiController = ApiController();
@@ -346,7 +347,54 @@ class PendentBadgesController extends GetxController {
       }
     } catch (e) {
       isBirthdayWishLoading.value = false;
-      ll('acceptFriendRequest error: $e');
+      ll('birthdayWish error: $e');
     }
+  }
+
+  void deletePostAlertDialog({required BuildContext context, required int id}) {
+    showAlertDialog(
+      context: context,
+      child: CommonAlertDialog(
+        hasCloseBtn: false,
+        addContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [Text(ksAreYouSureYouWantToDeleteThisPost.tr, style: regular14TextStyle(cBlackColor))],
+        ),
+        title: ksDeletePost.tr,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomElevatedButton(
+                  label: ksCancel.tr,
+                  onPressed: () {
+                    Get.back();
+                  },
+                  buttonWidth: 100,
+                  buttonHeight: 40,
+                  textStyle: semiBold14TextStyle(cBlackColor),
+                  buttonColor: cWhiteColor,
+                  borderColor: cLineColor2,
+                ),
+                CustomElevatedButton(
+                  label: ksDelete.tr,
+                  onPressed: () async {
+                    Get.back();
+                    await globalController.postDelete(postId: id);
+                  },
+                  buttonWidth: 100,
+                  buttonHeight: 40,
+                  textStyle: semiBold14TextStyle(cWhiteColor),
+                  buttonColor: cRedColor,
+                ),
+              ],
+            ),
+          ),
+          kH8sizedBox,
+        ],
+      ),
+    );
   }
 }

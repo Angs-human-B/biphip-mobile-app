@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
@@ -150,7 +151,14 @@ class PostUpperContainer extends StatelessWidget {
                     Transform.rotate(
                         angle: pi / 2,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            globalController.blankBottomSheet(
+                                context: context,
+                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
+                                content: BirthdayBottomSheetContent(
+                                  postIndex: postIndex,
+                                ));
+                          },
                           child: const Icon(
                             BipHip.system,
                             size: kIconSize20,
@@ -1201,6 +1209,59 @@ class IconWithTextRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BirthdayBottomSheetContent extends StatelessWidget {
+  const BirthdayBottomSheetContent({super.key, required this.postIndex});
+  final int postIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    PostDataRx postData = Get.find<GlobalController>().commonPostList[postIndex];
+    return Column(
+      children: [
+        CustomListTile(
+          onPressed: () {
+            Get.back();
+          },
+          leading: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              color: cNeutralColor,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              BipHip.edit,
+              size: kIconSize14,
+              color: cBlackColor,
+            ),
+          ),
+          title: ksEditPost.tr,
+        ),
+        CustomListTile(
+          onPressed: () {
+            Get.back();
+            Get.find<PendentBadgesController>().deletePostAlertDialog(context: context, id: postData.id!);
+          },
+          leading: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              color: cNeutralColor,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              BipHip.deleteNew,
+              size: kIconSize14,
+              color: cBlackColor,
+            ),
+          ),
+          title: ksDeletePost.tr,
+        ),
+      ],
     );
   }
 }

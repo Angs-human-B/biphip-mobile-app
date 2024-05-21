@@ -232,32 +232,36 @@ class BirthdayCommonView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name!,
-                      style: semiBold18TextStyle(cBlackColor),
-                    ),
-                    kH4sizedBox,
-                    Row(
-                      children: [
-                        Text(
-                          birthday!,
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                        Text(
-                          ", $birthDate",
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                        Text(
-                          ", $age years old",
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                      ],
-                    ),
-                  ],
+                SizedBox(
+                  width: width - 182,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name!,
+                        style: semiBold18TextStyle(cBlackColor),
+                        overflow: TextOverflow.clip,
+                      ),
+                      kH4sizedBox,
+                      Row(
+                        children: [
+                          Text(
+                            birthday!,
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          ),
+                          Text(
+                            ", $birthDate",
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          ),
+                          Text(
+                            ", $age years old",
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false)
