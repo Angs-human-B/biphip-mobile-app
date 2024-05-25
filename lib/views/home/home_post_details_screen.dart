@@ -893,7 +893,7 @@ class ImageShareBottomSheetContent extends StatelessWidget {
                               Get.find<GlobalController>().blankBottomSheet(
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
                                 isScrollControlled: true,
-                                context: Get.context,
+                                context: context,
                                 content: SharePostImageBottomSheetContent(
                                   postData: postData,
                                   imageIndex: imageIndex,
@@ -945,7 +945,7 @@ class ImageShareBottomSheetContent extends StatelessWidget {
                               Get.find<GlobalController>().blankBottomSheet(
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
                                 isScrollControlled: true,
-                                context: Get.context,
+                                context: context,
                                 // content: SharePostBottomSheetContent(
                                 //   postData: postData,
                                 // ),

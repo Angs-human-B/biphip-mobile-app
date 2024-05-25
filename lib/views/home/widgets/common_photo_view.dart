@@ -488,9 +488,15 @@ class GalleryWidget extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () async {
+                              ll(Get.currentRoute);
                               postReactionController.resetCommentAndReplyData();
-                              await postReactionController.getCommentList(
-                                  2, globalController.commonPostList[postIndex].images[temporaryImageIndex].id!, postIndex);
+                              if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase()) {
+                                await postReactionController.getCommentList(
+                                    2, Get.find<GalleryController>().imageDataList[postIndex].imageList[temporaryImageIndex].id!, postIndex);
+                              } else {
+                                await postReactionController.getCommentList(
+                                    2, globalController.commonPostList[postIndex].images[temporaryImageIndex].id!, postIndex);
+                              }
                               globalController.blankBottomSheetForImageComment(
                                 context: Get.context,
                                 isScrollControlled: true,
@@ -615,7 +621,6 @@ class GalleryWidget extends StatelessWidget {
                           // ),
                           InkWell(
                             onTap: () {
-                              ll(temporaryImageIndex);
                               Get.find<GlobalController>().blankBottomSheet(
                                 context: context,
                                 bottomSheetHeight: height * 0.38,
