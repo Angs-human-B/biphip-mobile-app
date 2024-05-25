@@ -1,7 +1,12 @@
 import 'package:bip_hip/controllers/menu/award_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/gallery_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/home_post_details_screen.dart';
+import 'package:bip_hip/widgets/post/comment_textfield.dart';
+import 'package:bip_hip/widgets/post/comment_widget.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
@@ -117,16 +122,19 @@ class CommonPhotoView extends StatelessWidget {
 }
 
 class GalleryWidget extends StatelessWidget {
-  GalleryWidget({super.key, required this.urlImages, required this.imageIndex, this.imageDescriptions})
+  GalleryWidget({super.key, required this.urlImages, required this.imageIndex, this.imageDescriptions, required this.postIndex})
       : pageController = PageController(initialPage: imageIndex);
   final RxList<ImageElement> urlImages;
   final int imageIndex;
+  final int postIndex;
   final String? imageDescriptions;
   final PageController pageController;
   static RxString imageDescription = RxString("");
   static RxString selfReaction = RxString("");
   static Rx<CountReactions>? sharePostCountReaction;
   static int temporaryImageIndex = 0;
+  final PostReactionController postReactionController = Get.find<PostReactionController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     temporaryImageIndex = imageIndex;
@@ -479,7 +487,91 @@ class GalleryWidget extends StatelessWidget {
                             ),
                           ),
                           InkWell(
-                            // onTap: commentOnPressed,
+                            onTap: () async {
+                              postReactionController.resetCommentAndReplyData();
+                              await postReactionController.getCommentList(
+                                  2, globalController.commonPostList[postIndex].images[temporaryImageIndex].id!, postIndex);
+                              globalController.blankBottomSheetForImageComment(
+                                context: Get.context,
+                                isScrollControlled: true,
+                                bottomSheetHeight: height * 0.9,
+                                content: Obx(() => Column(
+                                      children: [
+                                        // if (postReactionController.commentList.isEmpty)
+                                        // SizedBox(
+                                        //   height: height * 0.738,
+                                        //   child: Column(
+                                        //     children: [
+                                        //       const Icon(
+                                        //         BipHip.comment,
+                                        //         color: cIconColor,
+                                        //         size: 80,
+                                        //       ),
+                                        //       kH4sizedBox,
+                                        //       Text(
+                                        //         ksNoCommentsYet.tr,
+                                        //         style: semiBold14TextStyle(cBlackColor),
+                                        //       ),
+                                        //       Text(
+                                        //         ksBeTheFirstToComment.tr,
+                                        //         style: regular12TextStyle(cSmallBodyTextColor),
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+
+                                        if (postReactionController.commentList.isNotEmpty)
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemCount: postReactionController.commentList.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                                child: CommentWidget(
+                                                  postIndex: postIndex,
+                                                  commentIndex: index,
+                                                  isLikeButtonShown: true,
+                                                  isReplyButtonShown: true,
+                                                  isReactButtonShown: true,
+                                                  isHideButtonShown:
+                                                      globalController.userId.value == globalController.commonPostList[postIndex].comments[index].user!.id,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        CommentTextField(
+                                          hintText: postReactionController.commentId.value == -1 || postReactionController.isComment.value
+                                              ? "${ksWriteAComment.tr} ..."
+                                              : "${ksWriteAReply.tr} ...",
+                                          onPressedCamera: () async {
+                                            await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                                postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                            postReactionController.commentSendEnabled();
+                                          },
+                                          onPressedSend: () async {
+                                            // ll(MediaQuery.of(context).viewInsets.bottom);
+                                            if (postReactionController.isUpdateComment.value) {
+                                              await postReactionController.updateComment(context, globalController.commonPostList[postIndex].id, postIndex);
+                                            } else if (Get.find<PostReactionController>().isUpdateReply.value) {
+                                              await postReactionController.updateReply(context, globalController.commonPostList[postIndex].id, postIndex);
+                                            } else if (postReactionController.commentId.value == -1) {
+                                              await postReactionController.postComment(
+                                                  2, globalController.commonPostList[postIndex].images[temporaryImageIndex].id!, context, "comment", postIndex);
+                                              Get.find<FriendController>().mentionsList.removeLast();
+                                              Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
+                                            } else if (postReactionController.commentId.value != -1) {
+                                              await Get.find<PostReactionController>()
+                                                  .postComment(2, postReactionController.commentId.value, context, "reply", postIndex);
+                                              Get.find<FriendController>().mentionsList.removeLast();
+                                              Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    )),
+                              );
+                            },
                             child: SizedBox(
                               width: (width - 40) / 3,
                               height: 44,
@@ -500,7 +592,39 @@ class GalleryWidget extends StatelessWidget {
                               ),
                             ),
                           ),
+                          // InkWell(
+                          //   child: SizedBox(
+                          //     width: (width - 40) / 3,
+                          //     height: 44,
+                          //     child: Row(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       children: [
+                          //         Text(
+                          //           ksShare.tr,
+                          //           style: semiBold12TextStyle(cIconColor),
+                          //         ),
+                          //         kW4sizedBox,
+                          //         const Icon(
+                          //           BipHip.shareOutline,
+                          //           color: cIconColor,
+                          //           size: kIconSize20,
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
                           InkWell(
+                            onTap: () {
+                              ll(temporaryImageIndex);
+                              Get.find<GlobalController>().blankBottomSheet(
+                                context: context,
+                                bottomSheetHeight: height * 0.38,
+                                content: ImageShareBottomSheetContent(
+                                  postData: Get.find<GlobalController>().commonPostList[postIndex],
+                                  imageIndex: temporaryImageIndex,
+                                ),
+                              );
+                            },
                             child: SizedBox(
                               width: (width - 40) / 3,
                               height: 44,

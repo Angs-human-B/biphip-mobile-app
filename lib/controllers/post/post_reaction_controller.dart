@@ -254,7 +254,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(refType, Get.find<HomeController>().postData.value!.post.id!);
         } else {
-          await getCommentList(1, globalController.commonPostList[postIndex].id!, postIndex);
+          await getCommentList(refType, refId, postIndex);
         }
         isCommentPostLoading.value = false;
       } else {
@@ -580,10 +580,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-         if (isFromSharePage.value) {
+        if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1, postId, postIndex);
+          await getCommentList(1,postId, postIndex);
         }
         isCommentDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -672,7 +672,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          await getCommentList(1, postId, postIndex);
         }
         isUpdateComment.value = false;
         commentTextEditingController.clear();
@@ -717,10 +717,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-         if (isFromSharePage.value) {
+        if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          await getCommentList(1, postId, postIndex);
         }
         isReplyDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -756,7 +756,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          await getCommentList(1, postId, postIndex);
         }
         isReplyHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -861,10 +861,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
       if (response.success == true) {
         unFocus(context);
-         if (isFromSharePage.value) {
+        if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          await getCommentList(1, postId, postIndex);
         }
         isUpdateReply.value = false;
         replyTextEditingController.clear();
