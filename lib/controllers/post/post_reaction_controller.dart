@@ -220,7 +220,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (commentOrReply == "comment") 'ref_id': refId.toString(),
         if (commentOrReply == "comment") 'comment': commentTextEditingController.text.toString().trim(),
         if (commentOrReply == "reply") 'reply': commentTextEditingController.text.toString().trim(),
-        if (commentOrReply == "reply") 'comment_id': commentId.toString(),
+        if (commentOrReply == "reply") 'comment_id': commentId.value.toString(),
         'mention_user_ids': commentMentionList.join(','),
       };
       var response;
@@ -568,6 +568,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Delete Comment Api Call
   final RxBool isCommentDeleteLoading = RxBool(false);
+  final RxInt imageId = RxInt(-1);
+  final RxBool isRouteFromHomePage = RxBool(false);
   Future<void> deleteComment(postId, [postIndex]) async {
     try {
       isCommentDeleteLoading.value = true;
@@ -583,7 +585,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1,postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isCommentDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -672,7 +678,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isUpdateComment.value = false;
         commentTextEditingController.clear();
@@ -720,7 +730,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1, postId, postIndex);
+          // await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isReplyDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -756,7 +771,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1, postId, postIndex);
+          // await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isReplyHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -864,7 +884,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isUpdateReply.value = false;
         replyTextEditingController.clear();

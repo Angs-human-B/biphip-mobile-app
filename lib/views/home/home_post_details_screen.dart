@@ -345,6 +345,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                               TextButton(
                                 style: kTextButtonStyle,
                                 onPressed: () {
+                                  postReactionController.isRouteFromHomePage.value = true;
                                   Get.to(() => GalleryWidget(
                                         urlImages: postData.images,
                                         imageIndex: index,
