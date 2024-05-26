@@ -15,7 +15,6 @@ class GalleryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    ll('Gallery APi Call test');
     if (albumData.value != null) {
       imageDataList.clear();
       for (var album in albumData.value!.imageAlbums.data) {
@@ -114,7 +113,6 @@ class GalleryController extends GetxController {
         for (var album in albumData.value!.imageAlbums.data) {
           if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
             imageDataList.add(album);
-            ll(imageDataList.length);
           }
         }
 
@@ -389,9 +387,7 @@ class GalleryController extends GetxController {
 
   void checkCreateAlbum() {
     if (isEditAlbum.value) {
-      if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
-        isCreateAlbumPostButtonEnable.value = false;
-      }
+      //! need to work
       if (allMediaList.isNotEmpty) {
         for (int i = 0; i < allMediaList.length; i++) {
           if (previousAlbumImageLength.value != allMediaList.length) {
@@ -403,6 +399,11 @@ class GalleryController extends GetxController {
           }
         }
       }
+      // if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
+      //   isCreateAlbumPostButtonEnable.value = false;
+      // } else {
+      //   isCreateAlbumPostButtonEnable.value = true;
+      // }
     } else {
       if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
         isCreateAlbumPostButtonEnable.value = true;
@@ -464,7 +465,6 @@ class GalleryController extends GetxController {
       Map<String, String> body = {
         'title': createAlbumNameController.text.toString().trim(),
         'privacy': privacyId.value.toString(),
-        // 'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
         for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
         for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),

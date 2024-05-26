@@ -19,7 +19,6 @@ class VideoContentSection extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              ll('play');
               profileController.videoUrl.value = item.url;
               profileController.playVideo(profileController.videoUrl.value, init: true);
 
@@ -54,7 +53,6 @@ class VideoContentSection extends StatelessWidget {
                   right: 8,
                   child: InkWell(
                     onTap: () {
-                      ll('edit');
                     },
                     child: Container(
                       height: 24,

@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
@@ -108,6 +109,7 @@ class SocialLogInController extends GetxController {
         Get.find<HomeController>().homeTabIndex.value = 0;
         Get.offAllNamed(krHome);
         await Get.find<HomeController>().getPostList();
+        await Get.find<SelfieController>().getFriendSelfieList();
         Get.find<CreatePostController>().getCreatePost();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

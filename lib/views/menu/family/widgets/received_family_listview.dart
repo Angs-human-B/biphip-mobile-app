@@ -64,6 +64,7 @@ class ReceivedFamilyListView extends StatelessWidget {
                                 );
                               },
                             ),
+                          
                           ),
                           if (familyController.receivedFamilyList.isNotEmpty &&
                               familyController.receivedFamilyListScrolled.value &&

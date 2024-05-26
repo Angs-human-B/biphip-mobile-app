@@ -94,7 +94,6 @@ class LikeSectionWidget extends StatelessWidget {
                                 "like", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
                             globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
                                 globalController.commonPostList[postIndex].myReaction, "like", 1, globalController.commonPostList[postIndex].id!);
-                            ll(globalController.commonPostList[postIndex].myReaction);
                             globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                           },
                           reactions: <Reaction<String>>[
@@ -127,7 +126,6 @@ class LikeSectionWidget extends StatelessWidget {
                                 "haha", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
                             globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
                                 globalController.commonPostList[postIndex].myReaction, "haha", 1, globalController.commonPostList[postIndex].id!);
-                            ll(globalController.commonPostList[postIndex].myReaction);
                             globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                           },
                           reactions: <Reaction<String>>[
@@ -160,7 +158,6 @@ class LikeSectionWidget extends StatelessWidget {
                                 "wow", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
                             globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
                                 globalController.commonPostList[postIndex].myReaction, "wow", 1, globalController.commonPostList[postIndex].id!);
-                            ll(globalController.commonPostList[postIndex].myReaction);
                             globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                           },
                           reactions: <Reaction<String>>[
@@ -193,7 +190,6 @@ class LikeSectionWidget extends StatelessWidget {
                                 "sad", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
                             globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
                                 globalController.commonPostList[postIndex].myReaction, "sad", 1, globalController.commonPostList[postIndex].id!);
-                            ll(globalController.commonPostList[postIndex].myReaction);
                             globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                           },
                           reactions: <Reaction<String>>[
@@ -226,7 +222,6 @@ class LikeSectionWidget extends StatelessWidget {
                                 "angry", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
                             globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
                                 globalController.commonPostList[postIndex].myReaction, "angry", 1, globalController.commonPostList[postIndex].id!);
-                            ll(globalController.commonPostList[postIndex].myReaction);
                             globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                           },
                           reactions: <Reaction<String>>[

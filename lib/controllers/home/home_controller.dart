@@ -44,7 +44,6 @@ class HomeController extends GetxController {
 
   void changeSeeMoreValue(bool value) {
     value = !value;
-    ll(seeMore);
   }
 
   int getBiddingDuration(DateTime endTime) {
@@ -75,7 +74,6 @@ class HomeController extends GetxController {
         allPostList.clear();
         globalController.commonPostList.clear();
         postListScrolled.value = false;
-        ll(1);
         postListData.value = PostListModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
         globalController.populatePostList(allPostList);

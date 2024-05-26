@@ -79,7 +79,6 @@ class Photos extends StatelessWidget {
                           return InkWell(
                             onTap: () async {
                               galleryController.imageId.value = imageList[index].id!;
-                              ll(galleryController.imageId.value.toString());
                               await galleryController.getImageDetails();
                               galleryController.imageData.value?.description = null;
                               Get.to(() => CommonPhotoView(

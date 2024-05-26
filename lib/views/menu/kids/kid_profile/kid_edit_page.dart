@@ -177,7 +177,6 @@ class KidEditPage extends StatelessWidget {
                                     return kidsController.temporaryList.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                                   },
                                   onSelected: (option) {
-                                    ll(option);
                                   },
                                   optionsViewBuilder: (context, Function(String) onSelected, options) {
                                     return Align(
@@ -321,13 +320,7 @@ class KidEditPage extends StatelessWidget {
                           buttonHeight: h42,
                           buttonWidth: width - 40,
                           onPressed: () {
-                            //kidsController.enableKidSaveButton.value ?
-                            ll(kidsController.kidFunctionFlag.value);
                             kidHelper.selectFunction(kidsController.kidFunctionFlag.value);
-                            // if (kidsController.kidFunctionFlag.value != 'ADD LINK' && profileController.functionFlag.value != 'EDIT LINK') {
-                            //   Get.back();
-                            // }
-                            //_profileController.clearCommonEditPageData();
                           }),
                     ),
                     // ),
