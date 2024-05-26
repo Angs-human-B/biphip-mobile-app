@@ -378,7 +378,6 @@ class KidsController extends GetxController {
     if (kidYoutubeController.text.toString().trim() != '') {
       kidSocialLinkList.add({'Youtube': kidYoutubeController.text.toString().trim()});
     }
-    ll(kidSocialLinkList);
   }
 
   //!Kid profile
@@ -530,7 +529,6 @@ class KidsController extends GetxController {
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;
         kidBio.value = kidsData.value!.bio;
-        ll(kidsData.value!.bio);
 
         if (isUpdate) {
           Get.back();
@@ -615,7 +613,6 @@ class KidsController extends GetxController {
 
       if (response.success == true) {
         await getKidOverview();
-        ll(kidRelation.value);
         isKidRelationLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -802,7 +799,6 @@ class KidsController extends GetxController {
         for (int i = 0; i < temporaryHobbiesList.length; i++) {
           if (!allHobbiesList.contains(temporaryHobbiesList[i])) {
             allHobbiesList.add(temporaryHobbiesList[i]);
-            ll(allHobbiesList);
           }
         }
         isAllHobbiesListLoading.value = false;
@@ -839,7 +835,6 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        ll(response.data);
         selectedHobbies.clear();
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;

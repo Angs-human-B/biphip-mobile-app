@@ -974,7 +974,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       if (response.success == true) {
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
-        ll(userData.value!.bio);
         if (isUpdate) {
           Get.back();
         }
@@ -1015,7 +1014,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
         isEditProfileLoading.value = false;
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
-        ll(userData.value!.dob);
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isEditProfileLoading.value = false;
@@ -1206,7 +1204,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
   Future<void> setProfession(profession) async {
     List professionList = [];
     professionList.add(profession);
-    ll(professionList);
     try {
       isEditProfileLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -1219,7 +1216,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       ) as CommonDM;
 
       if (response.success == true) {
-        ll(response.data);
         commonUserLayeredData.value = CommonUserDataModel.fromJson(response.data);
         userData.value = commonUserLayeredData.value!.user;
         isEditProfileLoading.value = false;
@@ -1241,12 +1237,10 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
 
   //* set profession API implementation
   Future<void> setInterest(interest) async {
-    ll(interest);
     try {
       isEditProfileLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {'key': 'interest', 'value': interest};
-      ll(body);
       var response = await apiController.commonPostDio(
         url: kuSetGeneralSetting,
         body: body,
@@ -1534,7 +1528,6 @@ class ProfileController extends GetxController with GetSingleTickerProviderState
       Map<String, dynamic> body = {
         'languages': languages,
       };
-      ll(body);
       var response = await apiController.commonPostDio(
         url: kuUpdateLanguages,
         body: body,

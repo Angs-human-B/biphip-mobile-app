@@ -97,8 +97,6 @@ class AllFriendListView extends StatelessWidget {
                                             },
                                             onPressRightButton: () async {
                                               friendController.userId.value = friendController.friendList[index].id!;
-
-                                              ll(friendController.userId.value);
                                               Get.back();
                                               if (friendController.friendActionSelect.value == 'Unfriend') {
                                                 await friendController.unfriendUserRequest();

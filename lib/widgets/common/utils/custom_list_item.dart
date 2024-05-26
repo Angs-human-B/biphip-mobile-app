@@ -47,7 +47,7 @@ class CustomListTile extends StatelessWidget {
             padding: padding ?? const EdgeInsets.symmetric(horizontal: k10Padding, vertical: k4Padding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: alignLeadingWithTitle || subtitle != null ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (leading != null)
                   Padding(

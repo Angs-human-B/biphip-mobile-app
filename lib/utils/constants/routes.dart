@@ -38,6 +38,10 @@ import 'package:bip_hip/views/menu/photos/create_album_upload_image_list.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/add_language.dart';
 import 'package:bip_hip/views/menu/profile/edit_about/relationship_section.dart';
 import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
+import 'package:bip_hip/views/menu/selfie/select_people_page.dart';
+import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
+import 'package:bip_hip/views/menu/selfie/selfie_privacy_page.dart';
+import 'package:bip_hip/views/menu/selfie/selfie_view_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
@@ -67,6 +71,7 @@ import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
 import 'package:bip_hip/views/message/inbox.dart';
 import 'package:bip_hip/views/notification/notification_page.dart';
+import 'package:bip_hip/views/message/message_screen.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -218,8 +223,15 @@ const String krStoreReview = '/store-review';
 const String krStorePhotoPreview = '/store-photo-preview';
 const String krStorePhotoView = '/store-photo-view';
 
+//*Selfie
+const String krSelfiePage = "/selfie-page";
+const String krSelfiePrivacyPage = "/selfie-privacy-page";
+const String krSelectPeoplePage = "/select-people-page";
+const String krSelfieViewPage = "/selfie-view-page";
+
 //* Messenger
 const String krInbox = "/inbox";
+const String krMessages = "/messages";
 
  //*Notification
  const String krNotificationPage = "/notification-page";
@@ -349,7 +361,13 @@ List<GetPage<dynamic>>? routes = [
 
   //* Messenger
   GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
+
   //*Notification
   GetPage(name: krNotificationPage, page: () => NotificationPage(), transition: Transition.noTransition),
-
+  GetPage(name: krMessages, page: () => MessageScreen(), transition: Transition.noTransition),
+  //*Selfie
+  GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
+  GetPage(name: krSelfiePrivacyPage, page: () => SelfiePrivacyPage(), transition: Transition.noTransition),
+  GetPage(name: krSelectPeoplePage, page: () => SelectPeoplePage(), transition: Transition.noTransition),
+  GetPage(name: krSelfieViewPage, page: () => SelfieViewPage(), transition: Transition.noTransition),
 ];

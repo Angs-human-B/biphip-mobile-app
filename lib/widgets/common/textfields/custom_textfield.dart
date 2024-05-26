@@ -22,6 +22,7 @@ class CustomModifiedTextField extends StatelessWidget {
   final InputBorder? border;
   final Color? suffixIconColor;
   final double? suffixIconSize;
+  final TextAlign? textAlign;
   const CustomModifiedTextField({
     this.label,
     this.hint,
@@ -50,7 +51,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.fillColor,
     this.isFilled,
     this.borderRadius,
-    this.border, this.suffixIconColor, this.suffixIconSize,
+    this.border, this.suffixIconColor, this.suffixIconSize, this.textAlign,
   }) : super(key: key);
 
   @override
@@ -76,7 +77,7 @@ class CustomModifiedTextField extends StatelessWidget {
       child: TextFormField(
         textAlignVertical: TextAlignVertical.center,
         obscureText: obscureText,
-        textAlign: TextAlign.start,
+        textAlign: textAlign ?? TextAlign.start,
         textCapitalization: TextCapitalization.sentences,
         style: textInputStyle ?? inputStyle,
         readOnly: readOnly,

@@ -327,7 +327,6 @@ class StoreController extends GetxController {
     if (storeYoutubeController.text.toString().trim() != '') {
       storeSocialLinkList.add({'Youtube': storeYoutubeController.text.toString().trim()});
     }
-    ll(storeSocialLinkList);
   }
 
   //!
@@ -661,14 +660,10 @@ class StoreController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         clearStoreData();
-        // featuredPostList.clear();
         businessCategoryData.value = AllBusinessCategoryModel.fromJson(response.data);
         businessCategoryList.addAll(businessCategoryData.value!.businessCategories!.data);
-        // storeCategoryList.addAll(businessCategoryList.value);
         List<String> categoryValues = businessCategoryList.map((category) => category!.value).toList();
         storeCategoryList.addAll(categoryValues);
-        ll(storeCategoryList);
-        // storeCategoryList.addAll(businessCategoryData.value!.businessCategory.value);
         isBusinessCategoryLoading.value = false;
       } else {
         isBusinessCategoryLoading.value = true;
