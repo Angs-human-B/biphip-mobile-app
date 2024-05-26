@@ -7,6 +7,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
+    // Get.find<SelfieController>().customoOnInit();
     return Scaffold(
       backgroundColor: cWhiteColor,
       body: SizedBox(

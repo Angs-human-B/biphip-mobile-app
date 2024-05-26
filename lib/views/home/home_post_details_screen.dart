@@ -229,6 +229,7 @@ class HomePostDetailsScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+                           
                               ],
                             ),
                           ),

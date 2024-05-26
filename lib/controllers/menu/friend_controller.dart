@@ -30,17 +30,10 @@ class FriendController extends GetxController {
         url: kuGetFriendList + suffixUrl,
       ) as CommonDM;
       if (response.success == true) {
-        // mentionsList.add(response.data);
-        // ll("mention List $mentionsList");
         friendList.clear();
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
-        // mentionsList.add(friendListData.value?.friends!.data as Map<String, dynamic>);
         friendList.addAll(friendListData.value!.friends!.data);
-//         for (var friend in friendList) {
-//  // Assuming FriendFamilyUserData has a method toMap() that returns a Map<String, dynamic>
-//  mentionsList.add(friend.toMap());
-// }
         mentionsList.clear();
         for (var friend in friendList) {
           Map<String, dynamic> friendMap = {
@@ -843,7 +836,7 @@ class FriendController extends GetxController {
       ll('getMoreFriendSearchList error: $e');
     }
   }
-  
+
   Timer? debounce;
 
   final RxBool isFriendSearched = RxBool(false);

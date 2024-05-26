@@ -20,14 +20,12 @@ class MenuHelper {
   void menuPressFunction(index) async {
     switch (index) {
       case 0:
-        ll('Friend');
         Get.find<GlobalController>().resetTapButtonData();
         FriendHelper().friendSearchFieldReset();
         Get.toNamed(krFriends);
         await Get.find<FriendController>().getFriendList();
         break;
       case 1:
-        ll('Family');
         Get.find<GlobalController>().resetTapButtonData();
         Get.find<GlobalController>().searchController.clear();
         Get.find<FamilyController>().isFamilySuffixIconVisible.value = false;
@@ -35,50 +33,41 @@ class MenuHelper {
         await Get.find<FamilyController>().getFamilyList();
         break;
       case 2:
-        ll('Image');
         GalleryPhotoHelper().resetTapButtonData();
         Get.toNamed(krGalleryPhotos);
         await Get.find<GalleryController>().getGalleryAlbumList();
         break;
       case 3:
-        ll('Videos');
         Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
         break;
       case 4:
-        ll('Badges');
         Get.find<PendentBadgesController>().resetBadgesData();
         Get.toNamed(krBadgesStarPage);
         await Get.find<PendentBadgesController>().getUserBadges();
         await Get.find<PendentBadgesController>().getStarPrice();
         break;
       case 5:
-        ll('Pendent');
         Get.find<PendentBadgesController>().resetPendentData();
         Get.toNamed(krPendentPage);
         await Get.find<PendentBadgesController>().getUserPendent();
         break;
       case 6:
-        ll('Earnings');
         break;
       case 7:
         Get.toNamed(krKidsPage);
         await Get.find<KidsController>().getKidsList();
-        ll('Kids');
         break;
       case 8:
-        ll('Store');
         Get.toNamed(krStore);
         await Get.find<StoreController>().getStoreList();
         break;
       case 9:
-        ll('Quiz');
         Get.find<QuizController>().resetQuizTapButtonData();
         Get.find<QuizController>().resetQuizData();
         Get.toNamed(krMyQuiz);
         await Get.find<QuizController>().getQuestionList();
         break;
       case 10:
-        ll('Birthday');
         Get.find<PendentBadgesController>().todayBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().inTwoDaysBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().upcomingBirthdayTimelineTextEditingController.clear();
@@ -89,7 +78,6 @@ class MenuHelper {
         await Get.find<PendentBadgesController>().getBirthday();
         break;
       case 11:
-        ll('Awards');
         Get.find<AwardController>().resetAwardData();
         Get.toNamed(krAwardsPage);
         break;
