@@ -651,6 +651,14 @@ const String ksContinueEditing = "Continue editing";
 const String ksInbox = "Inbox";
 const String ksNoChatAvailAble = "No chat available";
 const String ksNoChatDescription = "You haven't chat with anyone yet.";
+//*Notification
+const String ksNotification = "Notification";
+const String ksNoNotificationAvailable = "No Notification available";
+const String ksYouDontHaveAnyNotification = "You don't have any notification for your Bip-Hip account";
+const String ksMarkAsRead = "Mark as read";
+const String ksMarkAsUnread = "Mark as unread";
+const String ksTurnOffNotificationForThisPost = "Turn off notification for this post";
+const String ksRemoveFromNotification = "Remove from notification";
 const String ksText = "Text";
 const String ksPrivacy = "Privacy";
 const String ksStartTyping = "Start typing";
