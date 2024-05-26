@@ -661,6 +661,33 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                         context: Get.context,
                                         isScrollControlled: true,
                                         bottomSheetHeight: height * 0.9,
+                                        action: CommentTextField(
+                                          hintText: postReactionController.commentId.value == -1 || postReactionController.isComment.value
+                                              ? "${ksWriteAComment.tr} ..."
+                                              : "${ksWriteAReply.tr} ...",
+                                          onPressedCamera: () async {
+                                            await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
+                                                postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
+                                            postReactionController.commentSendEnabled();
+                                          },
+                                          onPressedSend: () async {
+                                            if (postReactionController.isUpdateComment.value) {
+                                              await postReactionController.updateComment(context, globalController.commonPostList[postIndex].id, postIndex);
+                                            } else if (Get.find<PostReactionController>().isUpdateReply.value) {
+                                              await postReactionController.updateReply(context, globalController.commonPostList[postIndex].id, postIndex);
+                                            } else if (postReactionController.commentId.value == -1) {
+                                              await postReactionController.postComment(
+                                                  2, globalController.commonPostList[postIndex].images[index].id!, context, "comment", postIndex);
+                                              Get.find<FriendController>().mentionsList.removeLast();
+                                              Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
+                                            } else if (postReactionController.commentId.value != -1) {
+                                              await Get.find<PostReactionController>()
+                                                  .postComment(2, postReactionController.commentId.value, context, "reply", postIndex);
+                                              Get.find<FriendController>().mentionsList.removeLast();
+                                              Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
+                                            }
+                                          },
+                                        ),
                                         content: Obx(() => postReactionController.isCommentLoading.value
                                             ? const CommentCommonShimmer()
                                             : Column(
@@ -753,35 +780,6 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                                             ));
                                                       },
                                                     ),
-                                                  CommentTextField(
-                                                    hintText: postReactionController.commentId.value == -1 || postReactionController.isComment.value
-                                                        ? "${ksWriteAComment.tr} ..."
-                                                        : "${ksWriteAReply.tr} ...",
-                                                    onPressedCamera: () async {
-                                                      await Get.find<GlobalController>().selectImageSource(postReactionController.isCommentImageChanged,
-                                                          postReactionController.commentImageLink, postReactionController.commentImageFile, 'gallery', false);
-                                                      postReactionController.commentSendEnabled();
-                                                    },
-                                                    onPressedSend: () async {
-                                                      if (postReactionController.isUpdateComment.value) {
-                                                        await postReactionController.updateComment(
-                                                            context, globalController.commonPostList[postIndex].id, postIndex);
-                                                      } else if (Get.find<PostReactionController>().isUpdateReply.value) {
-                                                        await postReactionController.updateReply(
-                                                            context, globalController.commonPostList[postIndex].id, postIndex);
-                                                      } else if (postReactionController.commentId.value == -1) {
-                                                        await postReactionController.postComment(
-                                                            2, globalController.commonPostList[postIndex].images[index].id!, context, "comment", postIndex);
-                                                        Get.find<FriendController>().mentionsList.removeLast();
-                                                        Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
-                                                      } else if (postReactionController.commentId.value != -1) {
-                                                        await Get.find<PostReactionController>()
-                                                            .postComment(2, postReactionController.commentId.value, context, "reply", postIndex);
-                                                        Get.find<FriendController>().mentionsList.removeLast();
-                                                        Get.find<GlobalController>().updateCommentCount(globalController.commonPostList, postIndex, true);
-                                                      }
-                                                    },
-                                                  ),
                                                 ],
                                               )),
                                       );

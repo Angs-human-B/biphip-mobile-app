@@ -445,7 +445,7 @@ class GlobalController extends GetxController {
 
   void blankBottomSheetForImageComment({
     required context,
-    required Widget content,
+    required Widget content,action,
     double? bottomSheetHeight,
     bool? isScrollControlled,
   }) {
@@ -482,6 +482,7 @@ class GlobalController extends GetxController {
                 ],
               ),
             ),
+            if (action != null) Positioned(bottom: MediaQuery.of(context).viewInsets.bottom, left: 0, right: 0, child: action),
           ],
         );
       },
