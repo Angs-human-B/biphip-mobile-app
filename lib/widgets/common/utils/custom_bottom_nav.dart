@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -48,10 +49,10 @@ class CustomBottomNavBar extends StatelessWidget {
                 icon: BipHip.homeOutline,
                 iconSelected: BipHip.homeFill,
                 onPressed: () async {
-                  Get.find<HomeController>().homeTabIndex.value=0;
+                  Get.find<HomeController>().homeTabIndex.value = 0;
                   Get.offAllNamed(krHome);
-
                   await Get.find<HomeController>().getPostList();
+                  await Get.find<SelfieController>().getFriendSelfieList();
                 },
               ),
 
