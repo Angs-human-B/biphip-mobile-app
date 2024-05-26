@@ -26,13 +26,13 @@ class SelfieController extends GetxController {
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
   void customOnInit() async {
     // await getFriendSelfieList();
-    // allSelfieData();
+    allSelfieData();
     x.value = width * 0.4;
     y.value = height * 0.5;
     storyController.playbackNotifier.value = PlaybackState.play;
-    final initialPage = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
-    ll(initialPage);
-    pageController = PageController(initialPage: 0);
+    // final initialPage = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
+    // ll(initialPage);
+    // pageController = PageController(initialPage: 0);
     super.onInit();
   }
 
