@@ -343,7 +343,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         for (int i = 0; i < globalController.commonPostList[postIndex].comments.length; i++) {
           replyShow.add(false);
         }
-        // ll("123 ${commentList.length}");
         getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
         if (getCommentSubLink.value != null) {
           getCommentScrolled.value = false;
@@ -388,13 +387,11 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       if (response.success == true) {
         commentListData.value = PostCommentModel.fromJson(response.data);
-        ll("PREVIOUS: ${globalController.commonPostList[postIndex].comments.length}");
         globalController.commonPostList[postIndex].comments.addAll(commentListData.value!.comments!.data);
         replyShow.clear();
         for (int i = 0; i < globalController.commonPostList[postIndex].comments.length; i++) {
           replyShow.add(false);
         }
-        ll("LATER: ${globalController.commonPostList[postIndex].comments.length}");
         getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
         if (getCommentSubLink.value != null) {
           getCommentScrolled.value = false;

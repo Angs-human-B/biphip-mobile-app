@@ -69,12 +69,6 @@ class KidContactSection extends StatelessWidget {
                       isAddButton: false,
                       suffixOnPressed: () {
                         kidHelper.editKidEmail(kidsController.contactList[i]);
-                        // for (int i = 0; i < kidsController.contactList.length; i++) {
-                        //   if (kidsController.contactList[i].type == "email") {
-                        //    kidHelper.editKidEmail(i);
-                        //   }
-                        // }
-                        ll(kidsController.contactList[i].value);
                       },
                     ),
                   ),

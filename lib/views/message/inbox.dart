@@ -1,5 +1,8 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/message/bottom_sheets/settings_content.dart';
+import 'package:bip_hip/views/message/widgets/empty_chat_view.dart';
+import 'package:bip_hip/views/message/widgets/inbox_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
@@ -33,7 +36,10 @@ class Inbox extends StatelessWidget {
                       padding: const EdgeInsets.only(right: h20),
                       child: TextButton(
                         style: kTextButtonStyle,
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.find<GlobalController>()
+                              .blankBottomSheet(context: context, content: MessengerSettingsContent(), bottomSheetHeight: height * 0.35);
+                        },
                         child: Icon(
                           BipHip.setting,
                           color: cIconColor,
@@ -44,124 +50,83 @@ class Inbox extends StatelessWidget {
                   ],
                 ),
               ),
-              body: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                  child: Column(
-                    children: [
-                      kH16sizedBox,
-                      CustomModifiedTextField(
-                        borderRadius: h8,
-                        controller: messengerController.inboxSearchTextEditingController,
-                        // focusNode: searchFocusNode,
-                        prefixIcon: BipHip.search,
-                        suffixIcon: BipHip.circleCrossNew,
-                        hint: ksSearch.tr,
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: k12Padding,
-                        ),
-                        textInputStyle: regular16TextStyle(cBlackColor),
-                        onSuffixPress: () {},
-                        onSubmit: (value) async {},
-                        onChanged: (value) {},
-                      ),
-                      kH16sizedBox,
-                      SizedBox(
-                        width: width,
-                        height: 50,
-                        child: ListView.builder(
-                          itemCount: messengerController.inboxFilterCategoryList.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, i) {
-                            return Obx(() => Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                                  child: CustomChoiceChips(
-                                    label: messengerController.inboxFilterCategoryList[i],
-                                    isSelected: (messengerController.selectedFilterCategory.value == messengerController.inboxFilterCategoryList[i]),
-                                    onSelected: (value) {
-                                      messengerController.selectedFilterCategory.value = messengerController.inboxFilterCategoryList[i];
-                                    },
-                                  ),
-                                ));
-                          },
-                        ),
-                      ),
-                      if (messengerController.inboxList.isEmpty) const EmptyChatView(),
-                      ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) => kH8sizedBox,
-                          itemCount: messengerController.inboxList.length,
-                          itemBuilder: (context, index) {
-                            var item = messengerController.inboxList[index];
-                            return Container(
-                              color: cWhiteColor,
-                              width: width,
-                              height: h50,
-                              child: Row(
-                                children: [
-                                  ClipOval(
-                                    child: Container(
-                                      height: h44,
-                                      width: h44,
-                                      decoration: const BoxDecoration(
-                                        color: cBlackColor,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.network(
-                                        item["image"],
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) => const Icon(
-                                          BipHip.user,
-                                          size: kIconSize24,
-                                          color: cIconColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+              body: Column(
+                children: [
+                  CustomDivider(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          children: [
+                            kH16sizedBox,
+                            CustomModifiedTextField(
+                              borderRadius: h8,
+                              controller: messengerController.inboxSearchTextEditingController,
+                              prefixIcon: BipHip.search,
+                              suffixIcon: messengerController.isSearchFieldCrossButtonShown.value ? BipHip.circleCrossNew : null,
+                              hint: ksSearch.tr,
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: k12Padding,
                               ),
-                            );
-                          }),
-                    ],
+                              textInputStyle: regular16TextStyle(cBlackColor),
+                              onSuffixPress: () {
+                                messengerController.inboxSearchTextEditingController.clear();
+                                messengerController.isSearchFieldCrossButtonShown.value = false;
+                              },
+                              onSubmit: (value) async {},
+                              onChanged: (value) {
+                                if (messengerController.inboxSearchTextEditingController.text.trim() != "") {
+                                  messengerController.isSearchFieldCrossButtonShown.value = true;
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              width: width,
+                              height: 50,
+                              child: ListView.builder(
+                                itemCount: messengerController.inboxFilterCategoryList.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, i) {
+                                  return Obx(() => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                                        child: CustomChoiceChips(
+                                          label: messengerController.inboxFilterCategoryList[i],
+                                          isSelected: (messengerController.selectedFilterCategory.value == messengerController.inboxFilterCategoryList[i]),
+                                          onSelected: (value) {
+                                            messengerController.selectedFilterCategory.value = messengerController.inboxFilterCategoryList[i];
+                                          },
+                                        ),
+                                      ));
+                                },
+                              ),
+                            ),
+                            if (messengerController.inboxList.isEmpty) const EmptyChatView(),
+                            kH16sizedBox,
+                            ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) => kH16sizedBox,
+                                itemCount: messengerController.inboxList.length,
+                                itemBuilder: (context, index) {
+                                  var item = messengerController.inboxList[index];
+                                  return InboxContainer(
+                                    item: item,
+                                  );
+                                }),
+                            kH16sizedBox
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class EmptyChatView extends StatelessWidget {
-  const EmptyChatView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: k140Padding),
-      child: Column(
-        children: [
-          const Icon(
-            BipHip.report,
-            color: cIconColor,
-            size: 130,
-          ),
-          kH16sizedBox,
-          Text(
-            ksNoChatAvailAble.tr,
-            style: semiBold18TextStyle(cSmallBodyTextColor),
-          ),
-          kH4sizedBox,
-          Text(
-            ksNoChatDescription.tr,
-            style: regular12TextStyle(cSmallBodyTextColor),
-          )
-        ],
       ),
     );
   }
