@@ -86,7 +86,20 @@ class MessengerController extends GetxController {
   //!                Socket and WebRTC
   //=====================================================
 
-  final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All));
+  static const _DEFAULT_CONFIG = {
+    'iceServers': [
+      {'urls': "stun:stun.l.google.com:19302"},
+      {
+        "urls": [
+          "turn:54.91.252.241:3478",
+        ],
+        "username": "user1",
+        "credential": "123456",
+      },
+    ],
+  };
+
+  final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All, config: _DEFAULT_CONFIG));
   final RxString peerId = RxString("");
   late DataConnection conn;
   final RxBool connected = RxBool(false);
