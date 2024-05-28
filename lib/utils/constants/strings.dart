@@ -652,3 +652,10 @@ const String ksNoChatAvailAble = "No chat available";
 const String ksNoChatDescription = "You haven't chat with anyone yet";
 //* Market Place
 const String ksMarketPlace = "Marketplace";
+const String ksBuying = "Buying";
+const String ksTodayPicks = "Today Picks";
+const String ksFilters = "Filters";
+const String ksShortBy = "Short By";
+const String ksDateListed = "Date Posted";
+const String ksAnyDate = "Any date";
+const String ksAny = "Any";
