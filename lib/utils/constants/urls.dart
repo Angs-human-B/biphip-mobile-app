@@ -334,3 +334,4 @@ const String kiStarSvgImage = 'assets/svg/star.svg';
 const String kiNagadSvgImage = 'assets/svg/nagad.svg';
 const String kiPaypalSvgImage = 'assets/svg/paypal.svg';
 const String kiReviewSvgImage = 'assets/svg/review.svg';
+const String kiRightArrow = 'assets/svg/right_arrow.svg';
