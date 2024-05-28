@@ -79,7 +79,9 @@ class CustomBottomNavBar extends StatelessWidget {
                 title: "Badges",
                 icon: BipHip.badgesOutline,
                 iconSelected: BipHip.badgesFill,
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(krMarketPlacePage);
+                },
               ),
 
               //* notification

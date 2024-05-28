@@ -13,6 +13,7 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
+import 'package:bip_hip/views/market_place/market_place_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
@@ -219,6 +220,8 @@ const String krStorePhotoView = '/store-photo-view';
 
 //* Messenger
 const String krInbox = "/inbox";
+//*Marketplace
+const String krMarketPlacePage = "/marketplace-page";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -344,5 +347,8 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krStorePhotoView, page: () => StorePhotoView(), transition: Transition.noTransition),
 
   //* Messenger
-  GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft)
+  GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
+  //*Marketplace
+  GetPage(name: krMarketPlacePage, page: () => MarketplacePage(), transition: Transition.noTransition),
+
 ];

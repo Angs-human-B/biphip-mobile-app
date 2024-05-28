@@ -649,4 +649,6 @@ const String ksEditChangesWarning = "If you discard now, you'll lose any changes
 const String ksContinueEditing = "Continue editing";
 const String ksInbox = "Inbox";
 const String ksNoChatAvailAble = "No chat available";
-const String ksNoChatDescription = "You haven't chat with anyone yet.";
+const String ksNoChatDescription = "You haven't chat with anyone yet";
+//* Market Place
+const String ksMarketPlace = "Marketplace";
