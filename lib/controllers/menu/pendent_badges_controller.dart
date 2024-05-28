@@ -226,7 +226,7 @@ class PendentBadgesController extends GetxController {
       isBuyBadgeLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
-        if (badgeId.value != -1) 'badge_id': badgeId.value.toString(),
+        if (badgeId.value != -1 && totalStars.value == "") 'badge_id': badgeId.value.toString(),
         'star': badgeStar.value,
         'price': badgePrice.value,
       };

@@ -994,6 +994,7 @@ class OthersPostActionContent extends StatelessWidget {
                     isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
                     isRightButtonShow: false);
                 await globalController.getReportList();
+              
               } else {
                 await globalController.postReportAndUndoReport(
                   null,
@@ -1035,10 +1036,12 @@ class OthersPostActionContent extends StatelessWidget {
 }
 
 class IconWithTextRow extends StatelessWidget {
-  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor});
+  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor, this.iconSize, this.actionTextStyle});
   final IconData actionIcon;
   final Color? iconColor;
   final String actionText;
+  final double ? iconSize;
+  final TextStyle ? actionTextStyle;
   final VoidCallback? actionOnPressed;
   @override
   Widget build(BuildContext context) {
@@ -1049,12 +1052,12 @@ class IconWithTextRow extends StatelessWidget {
           CustomIconButton(
             icon: actionIcon,
             onPress: null,
-            iconColor: iconColor ?? cIconColor,
-            size: kIconSize20,
+            iconColor: iconColor?? cIconColor,
+            size: iconSize?? kIconSize20,
           ),
           Text(
             actionText,
-            style: semiBold14TextStyle(cBlackColor),
+            style: actionTextStyle?? semiBold14TextStyle(cBlackColor),
           ),
         ],
       ),

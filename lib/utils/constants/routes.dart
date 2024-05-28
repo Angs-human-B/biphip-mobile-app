@@ -41,6 +41,7 @@ import 'package:bip_hip/views/menu/profile/edit_basic_info.dart';
 import 'package:bip_hip/views/menu/selfie/select_people_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_privacy_page.dart';
+import 'package:bip_hip/views/menu/selfie/selfie_view_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
@@ -69,6 +70,7 @@ import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
 import 'package:bip_hip/views/message/inbox.dart';
+import 'package:bip_hip/views/notification/notification_page.dart';
 import 'package:bip_hip/views/message/message_screen.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
@@ -118,7 +120,7 @@ const String krSetNewPass = '/set-new-pass';
 const String krOTP = '/otp-verify';
 
 const String krHome = '/home';
-const String krNotification = '/notification';
+// const String krNotification = '/notification';
 const String krChangePassword = '/change-password';
 const String krChangeLanguage = '/change-language';
 const String krHomePostDetails = '/home-post-details';
@@ -225,10 +227,14 @@ const String krStorePhotoView = '/store-photo-view';
 const String krSelfiePage = "/selfie-page";
 const String krSelfiePrivacyPage = "/selfie-privacy-page";
 const String krSelectPeoplePage = "/select-people-page";
+const String krSelfieViewPage = "/selfie-view-page";
 
 //* Messenger
 const String krInbox = "/inbox";
 const String krMessages = "/messages";
+
+ //*Notification
+ const String krNotificationPage = "/notification-page";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -355,9 +361,13 @@ List<GetPage<dynamic>>? routes = [
 
   //* Messenger
   GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
+
+  //*Notification
+  GetPage(name: krNotificationPage, page: () => NotificationPage(), transition: Transition.noTransition),
   GetPage(name: krMessages, page: () => MessageScreen(), transition: Transition.noTransition),
   //*Selfie
   GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
   GetPage(name: krSelfiePrivacyPage, page: () => SelfiePrivacyPage(), transition: Transition.noTransition),
   GetPage(name: krSelectPeoplePage, page: () => SelectPeoplePage(), transition: Transition.noTransition),
+  GetPage(name: krSelfieViewPage, page: () => SelfieViewPage(), transition: Transition.noTransition),
 ];
