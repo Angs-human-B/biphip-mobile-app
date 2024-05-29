@@ -6,191 +6,128 @@ class MarketplacePage extends StatelessWidget {
   final MarketPlaceController marketPlaceController = Get.find<MarketPlaceController>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cWhiteColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kAppBarSize),
-        //* info:: appBar
-        child: CustomAppBar(
-          title: ksMarketPlace.tr,
-          hasBackButton: true,
-          isCenterTitle: true,
-          onBack: () {
-            Get.back();
-          },
-          action: const [
-            Icon(
-              BipHip.user,
-              color: cBlackColor,
-              size: kIconSize20,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: k8Padding, right: k12Padding),
-              child: Icon(
-                BipHip.search,
-                color: cBlackColor,
-                size: kIconSize20,
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        child: Column(
-          children: [
-            kH16sizedBox,
-            Row(
-              children: [
-                TopWidgetButton(
-                  width: (width - 60) / 3,
-                  height: h36,
-                  icon: BipHip.add,
-                  text: ksBuying,
+    return Container(
+      color: cWhiteColor,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: cWhiteColor,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kAppBarSize),
+            //* info:: appBar
+            child: CustomAppBar(
+              title: ksMarketPlace.tr,
+              hasBackButton: true,
+              isCenterTitle: true,
+              onBack: () {
+                Get.back();
+              },
+              action: const [
+                Icon(
+                  BipHip.user,
+                  color: cBlackColor,
+                  size: kIconSize20,
                 ),
-                kW8sizedBox,
-                TopWidgetButton(
-                  width: (width - 60) / 3,
-                  height: h36,
-                  icon: BipHip.add,
-                  text: ksBuying,
-                ),
-                kW8sizedBox,
-                TopWidgetButton(
-                  width: (width - 60) / 3,
-                  height: h36,
-                  icon: BipHip.add,
-                  text: ksBuying,
-                ),
-              ],
-            ),
-            kH16sizedBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  ksTodayPicks.tr,
-                  style: semiBold18TextStyle(cBlackColor),
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.find<GlobalController>().commonBottomSheet(
-                        context: context,
-                        content: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: k8Padding, top: k16Padding),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: h24,
-                                    height: h24,
-                                    decoration: const BoxDecoration(
-                                      color: cNeutralColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: const Icon(
-                                      BipHip.location,
-                                      size: kIconSize12,
-                                      color: cBlackColor,
-                                    ),
-                                  ),
-                                  kW8sizedBox,
-                                  Text(
-                                    "Dhaka, Bangladesh",
-                                    style: semiBold14TextStyle(cPrimaryColor),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kH8sizedBox,
-                            CustomListTile(
-                              leading: Container(
-                                width: h24,
-                                height: h24,
-                                decoration: const BoxDecoration(
-                                  color: cNeutralColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  BipHip.calendarFill,
-                                  size: kIconSize12,
-                                  color: cBlackColor,
-                                ),
-                              ),
-                              title: Text(
-                                ksDateListed.tr,
-                                style: semiBold14TextStyle(cBlackColor),
-                              ),
-                              subtitle: Text(
-                                ksAnyDate.tr,
-                                style: regular12TextStyle(cSmallBodyTextColor),
-                              ),
-                            ),
-                            CustomListTile(
-                              leading: Container(
-                                width: h24,
-                                height: h24,
-                                decoration: const BoxDecoration(
-                                  color: cNeutralColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  BipHip.gift,
-                                  size: kIconSize12,
-                                  color: cBlackColor,
-                                ),
-                              ),
-                              title: Text(
-                                ksCondition.tr,
-                                style: semiBold14TextStyle(cBlackColor),
-                              ),
-                              subtitle: Text(
-                                ksAny.tr,
-                                style: regular12TextStyle(cSmallBodyTextColor),
-                              ),
-                            ),
-                          ],
-                        ),
-                        onPressCloseButton: () {
-                          Get.back();
-                        },
-                        onPressRightButton: () {},
-                        rightText: ksReset.tr,
-                        rightTextStyle: semiBold14TextStyle(cSmallBodyTextColor),
-                        title: ksShortBy.tr,
-                        isBottomSheetRightButtonActive: marketPlaceController.shortByBottomSheetState,
-                        isRightButtonShow: true);
-                  },
-                  child: Text(
-                    ksFilters.tr,
-                    style: semiBold16TextStyle(cPrimaryColor),
+                Padding(
+                  padding: EdgeInsets.only(left: k8Padding, right: k12Padding),
+                  child: Icon(
+                    BipHip.search,
+                    color: cBlackColor,
+                    size: kIconSize20,
                   ),
                 ),
               ],
             ),
-            kH16sizedBox,
-            Expanded(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 12,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: k16Padding,
-                      mainAxisSpacing: k16Padding,
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              children: [
+                kH16sizedBox,
+                Row(
+                  children: [
+                    TopWidgetButton(
+                      width: (width - 56) / 3,
+                      height: h36,
+                      icon: BipHip.add,
+                      text: ksBuying.tr,
                     ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return MarketplaceItemContainer();
-                    },
+                    kW8sizedBox,
+                    TopWidgetButton(
+                      width: (width - 56) / 3,
+                      height: h36,
+                      icon: BipHip.add,
+                      text: ksSelling.tr,
+                    ),
+                    kW8sizedBox,
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(krMarketPlaceCategoriesPage);
+                      },
+                      child: TopWidgetButton(
+                        width: (width - 56) / 3,
+                        height: h36,
+                        icon: BipHip.menuFill,
+                        text: ksCategories.tr,
+                      ),
+                    ),
+                  ],
+                ),
+                kH16sizedBox,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      ksTodayPicks.tr,
+                      style: semiBold18TextStyle(cBlackColor),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.find<GlobalController>().commonBottomSheet(
+                            context: context,
+                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.5,
+                            content: ShortByBottomSheetContent(),
+                            onPressCloseButton: () {
+                              Get.back();
+                            },
+                            onPressRightButton: () {},
+                            rightText: ksReset.tr,
+                            rightTextStyle: semiBold14TextStyle(cSmallBodyTextColor),
+                            title: ksShortBy.tr,
+                            isBottomSheetRightButtonActive: marketPlaceController.shortByBottomSheetState,
+                            isRightButtonShow: true);
+                      },
+                      child: Text(
+                        ksFilters.tr,
+                        style: semiBold16TextStyle(cPrimaryColor),
+                      ),
+                    ),
+                  ],
+                ),
+                kH16sizedBox,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 12,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: k16Padding,
+                          mainAxisSpacing: k16Padding,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return MarketplaceItemContainer();
+                        },
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -294,6 +231,257 @@ class MarketplaceItemContainer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ShortByBottomSheetContent extends StatelessWidget {
+  ShortByBottomSheetContent({super.key});
+  final MarketPlaceController marketPlaceController = Get.find<MarketPlaceController>();
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: k8Padding, top: k16Padding),
+              child: Row(
+                children: [
+                  Container(
+                    width: h24,
+                    height: h24,
+                    decoration: const BoxDecoration(
+                      color: cNeutralColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      BipHip.location,
+                      size: kIconSize12,
+                      color: cBlackColor,
+                    ),
+                  ),
+                  kW8sizedBox,
+                  Text(
+                    "Dhaka, Bangladesh",
+                    style: semiBold14TextStyle(cPrimaryColor),
+                  ),
+                ],
+              ),
+            ),
+            kH8sizedBox,
+            CustomListTile(
+              leading: Container(
+                width: h24,
+                height: h24,
+                decoration: const BoxDecoration(
+                  color: cNeutralColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  BipHip.calendarFill,
+                  size: kIconSize12,
+                  color: cBlackColor,
+                ),
+              ),
+              title: Text(
+                ksPriceRange.tr,
+                style: semiBold14TextStyle(cBlackColor),
+              ),
+              subtitle: Text(
+                ksAnyPrice.tr,
+                style: regular12TextStyle(cSmallBodyTextColor),
+              ),
+            ),
+            kH8sizedBox,
+            CustomListTile(
+              onPressed: () {
+                marketPlaceController.temporarySelectedDatePosted.value = marketPlaceController.selectedDatePosted.value;
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: DatePostedContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      marketPlaceController.selectedDatePosted.value = marketPlaceController.temporarySelectedDatePosted.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                    title: ksDateListed.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: marketPlaceController.isDatePostedBottomSheetState);
+              },
+              leading: Container(
+                width: h24,
+                height: h24,
+                decoration: const BoxDecoration(
+                  color: cNeutralColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  BipHip.calendarFill,
+                  size: kIconSize12,
+                  color: cBlackColor,
+                ),
+              ),
+              title: Text(
+                ksDateListed.tr,
+                style: semiBold14TextStyle(cBlackColor),
+              ),
+              subtitle: Text(
+                marketPlaceController.selectedDatePosted.value,
+                style: regular12TextStyle(cSmallBodyTextColor),
+              ),
+            ),
+            CustomListTile(
+              onPressed: () {
+                marketPlaceController.temporarySelectedProductCondition.value = marketPlaceController.selectedProductCondition.value;
+                Get.find<GlobalController>().commonBottomSheet(
+                    context: context,
+                    content: ProductConditionContent(),
+                    onPressCloseButton: () {
+                      Get.back();
+                    },
+                    onPressRightButton: () {
+                      marketPlaceController.selectedProductCondition.value = marketPlaceController.temporarySelectedProductCondition.value;
+                      Get.back();
+                    },
+                    rightText: ksDone.tr,
+                    rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                    title: ksDateListed.tr,
+                    isRightButtonShow: true,
+                    isBottomSheetRightButtonActive: marketPlaceController.isProductConditionBottomSheetState);
+              },
+              leading: Container(
+                width: h24,
+                height: h24,
+                decoration: const BoxDecoration(
+                  color: cNeutralColor,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  BipHip.gift,
+                  size: kIconSize12,
+                  color: cBlackColor,
+                ),
+              ),
+              title: Text(
+                ksCondition.tr,
+                style: semiBold14TextStyle(cBlackColor),
+              ),
+              subtitle: Text(
+                marketPlaceController.selectedProductCondition.value,
+                style: regular12TextStyle(cSmallBodyTextColor),
+              ),
+            ),
+          ],
+        ));
+  }
+}
+
+class DatePostedContent extends StatelessWidget {
+  DatePostedContent({super.key});
+  final MarketPlaceController marketPlaceController = Get.find<MarketPlaceController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: marketPlaceController.datePostedList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  itemColor: marketPlaceController.temporarySelectedDatePosted.value == marketPlaceController.datePostedList[index].toString()
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
+                  onPressed: () {
+                    marketPlaceController.temporarySelectedDatePosted.value = marketPlaceController.datePostedList[index].toString();
+                    if (marketPlaceController.temporarySelectedDatePosted.value == "") {
+                      marketPlaceController.isDatePostedBottomSheetState.value = false;
+                    } else {
+                      marketPlaceController.isDatePostedBottomSheetState.value = true;
+                    }
+                    ll(marketPlaceController.temporarySelectedDatePosted.value);
+                  },
+                  title: marketPlaceController.datePostedList[index].toString(),
+                  borderColor: marketPlaceController.temporarySelectedDatePosted.value == marketPlaceController.datePostedList[index].toString()
+                      ? cPrimaryColor
+                      : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      marketPlaceController.temporarySelectedDatePosted.value = marketPlaceController.datePostedList[index].toString();
+                      if (marketPlaceController.temporarySelectedDatePosted.value == "") {
+                        marketPlaceController.isDatePostedBottomSheetState.value = false;
+                      } else {
+                        marketPlaceController.isDatePostedBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: marketPlaceController.temporarySelectedDatePosted.value == marketPlaceController.datePostedList[index].toString(),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ProductConditionContent extends StatelessWidget {
+  ProductConditionContent({super.key});
+  final MarketPlaceController marketPlaceController = Get.find<MarketPlaceController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: marketPlaceController.productConditionList.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: k10Padding),
+              child: Obx(
+                () => CustomListTile(
+                  itemColor: marketPlaceController.temporarySelectedProductCondition.value == marketPlaceController.productConditionList[index]
+                      ? cPrimaryTint3Color
+                      : cWhiteColor,
+                  onPressed: () {
+                    marketPlaceController.temporarySelectedProductCondition.value = marketPlaceController.productConditionList[index];
+                    if (marketPlaceController.temporarySelectedProductCondition.value == '') {
+                      marketPlaceController.isProductConditionBottomSheetState.value = false;
+                    } else {
+                      marketPlaceController.isProductConditionBottomSheetState.value = true;
+                    }
+                  },
+                  title: marketPlaceController.productConditionList[index],
+                  borderColor: marketPlaceController.temporarySelectedProductCondition.value == marketPlaceController.productConditionList[index]
+                      ? cPrimaryColor
+                      : cLineColor,
+                  trailing: CustomRadioButton(
+                    onChanged: () {
+                      marketPlaceController.temporarySelectedProductCondition.value = marketPlaceController.productConditionList[index];
+                      if (marketPlaceController.temporarySelectedProductCondition.value == '') {
+                        marketPlaceController.isProductConditionBottomSheetState.value = false;
+                      } else {
+                        marketPlaceController.isProductConditionBottomSheetState.value = true;
+                      }
+                    },
+                    isSelected: marketPlaceController.temporarySelectedProductCondition.value == marketPlaceController.productConditionList[index],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
