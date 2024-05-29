@@ -10,6 +10,7 @@ class MarketPlaceController extends GetxController {
   final RxString selectedDatePosted = RxString("");
   final RxString temporarySelectedProductCondition = RxString("");
   final RxString selectedProductCondition = RxString("");
+  final TextEditingController sellertMessageTextEditingController = TextEditingController();
   final List topCategoriesList = [
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Vehicles"},
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Rentals"},
@@ -54,60 +55,71 @@ class MarketPlaceController extends GetxController {
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": true,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
-    },
-    {
-      "iproductImagemage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
-      "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
-    },
-    {
-      "iproductImagemage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
-      "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
       "price": "\$17399",
       "location": "Dhaka",
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": true,
     },
   ];
+  final String descriptionText = "WorldSBK Championship capability with a powerful 998cc engine advanced technology and superior handling";
 }

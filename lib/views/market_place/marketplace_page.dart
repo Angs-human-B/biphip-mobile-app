@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/market_place/marketplace_view_listing_page.dart';
 
 class MarketplacePage extends StatelessWidget {
   MarketplacePage({super.key});
@@ -121,7 +122,13 @@ class MarketplacePage extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              Get.toNamed(krMarketPlaceViewListingPage);
+                              Get.to(() => MarketPlaceViewListingPage(
+                                  productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
+                                  price: marketPlaceController.marketplaceProductList[index]["price"],
+                                  location: marketPlaceController.marketplaceProductList[index]["location"],
+                                  details: marketPlaceController.marketplaceProductList[index]["details"],
+                                  isBiddingPost: marketPlaceController.marketplaceProductList[index]["isBiddingPost"]),
+                                  );
                             },
                             child: MarketplaceItemContainer(
                                 productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
