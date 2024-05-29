@@ -111,7 +111,7 @@ class MarketplacePage extends StatelessWidget {
                       child: GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 12,
+                        itemCount: marketPlaceController.marketplaceProductList.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
                           crossAxisCount: 2,
@@ -119,7 +119,16 @@ class MarketplacePage extends StatelessWidget {
                           mainAxisSpacing: k16Padding,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          return MarketplaceItemContainer();
+                          return InkWell(
+                            onTap: () {
+                              Get.toNamed(krMarketPlaceViewListingPage);
+                            },
+                            child: MarketplaceItemContainer(
+                                productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
+                                price: marketPlaceController.marketplaceProductList[index]["price"],
+                                location: marketPlaceController.marketplaceProductList[index]["location"],
+                                details: marketPlaceController.marketplaceProductList[index]["details"]),
+                          );
                         },
                       ),
                     ),
@@ -170,7 +179,8 @@ class TopWidgetButton extends StatelessWidget {
 }
 
 class MarketplaceItemContainer extends StatelessWidget {
-  const MarketplaceItemContainer({super.key});
+  const MarketplaceItemContainer({super.key, required this.productImage, required this.price, required this.location, required this.details});
+  final String? productImage, price, location, details;
 
   @override
   Widget build(BuildContext context) {
@@ -184,12 +194,20 @@ class MarketplaceItemContainer extends StatelessWidget {
       child: Column(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
             child: Image.network(
-              "https://i.ytimg.com/vi/8PCwX2wRJqQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDc9DBN6OTcf4xhlMroyD0IHfo1tA",
+              productImage ?? "",
               width: 160,
               height: 100,
               fit: BoxFit.cover,
+              loadingBuilder: imageLoadingBuilder,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(
+                  BipHip.imageFile,
+                  size: kIconSize100,
+                  color: cIconColor,
+                );
+              },
             ),
           ),
           kH8sizedBox,
@@ -199,7 +217,7 @@ class MarketplaceItemContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$129",
+                  price ?? ksNA.tr,
                   style: semiBold16TextStyle(cBlackColor),
                 ),
                 Row(
@@ -212,7 +230,7 @@ class MarketplaceItemContainer extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: k2Padding),
                       child: Text(
-                        "Dhaka",
+                        location ?? ksNA.tr,
                         style: regular12TextStyle(cSmallBodyTextColor),
                       ),
                     ),
@@ -225,7 +243,7 @@ class MarketplaceItemContainer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: k8Padding),
             child: Text(
-              "iphone x 256GB Physical Dual sim",
+              details ?? ksNA.tr,
               style: regular12TextStyle(cBlackColor),
             ),
           ),

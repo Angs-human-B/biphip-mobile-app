@@ -643,7 +643,8 @@ const String ksEditAlbum = "Edit album";
 const String ksDeleteAlbum = "Delete album";
 const String ksMoveToBin = "Move to your bin?";
 const String ksMove = "Move";
-const String ksDeletePostContent = "Items in your bin will be automatically deleted after 30 days. You can delete them earlier from you bin by going to Activity log in Settings.";
+const String ksDeletePostContent =
+    "Items in your bin will be automatically deleted after 30 days. You can delete them earlier from you bin by going to Activity log in Settings.";
 const String ksEditPostDiscardChanges = "Discard changes?";
 const String ksEditChangesWarning = "If you discard now, you'll lose any changes that you've made to this post";
 const String ksContinueEditing = "Continue editing";
@@ -663,3 +664,4 @@ const String ksSelling = "Selling";
 const String ksCategories = "Categories";
 const String ksTopCategories = "Top Categories";
 const String ksAllCategories = "All Categories";
+const String ksViewListing = "View Listing";

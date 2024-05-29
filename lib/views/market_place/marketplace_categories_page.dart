@@ -124,7 +124,7 @@ class CategoriesListItemContent extends StatelessWidget {
               image ?? "",
               width: h20,
               height: h20,
-              loadingBuilder: smallImageLoadingBuilder,
+              // loadingBuilder: smallImageLoadingBuilder,
               errorBuilder: (context, error, stackTrace) => const Icon(
                 BipHip.imageFile,
                 size: kIconSize20,

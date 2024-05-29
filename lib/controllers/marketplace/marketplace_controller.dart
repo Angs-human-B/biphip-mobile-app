@@ -48,4 +48,66 @@ class MarketPlaceController extends GetxController {
       "title": "Antiques & Collectibles"
     },
   ];
+  final List marketplaceProductList = [
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "iproductImagemage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "iproductImagemage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+    },
+  ];
 }
