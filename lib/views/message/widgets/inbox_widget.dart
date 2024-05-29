@@ -14,11 +14,12 @@ class InboxContainer extends StatelessWidget {
       required this.isMute,
       required this.isLastMessageSelf,
       required this.userID,
-      required this.receiverData});
+      required this.receiverData, required this.lastMessageTime});
   final String userName, userImage, message;
   final bool isActive, isSeen, isMute, isLastMessageSelf;
   final int userID;
   final RoomData receiverData;
+  final DateTime lastMessageTime;
   final MessengerController messengerController = Get.find<MessengerController>();
 
   @override
@@ -114,7 +115,7 @@ class InboxContainer extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "  • ${DateFormat('h:mm a').format(DateTime.now())}",
+                        "  • ${DateFormat('h:mm a').format(lastMessageTime)}",
                         style: isSeen ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
                         overflow: TextOverflow.ellipsis,
                       )

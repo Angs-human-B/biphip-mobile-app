@@ -116,16 +116,16 @@ class Inbox extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       RoomData item = messengerController.roomList[index];
                                       return InboxContainer(
-                                        userID: item.id!,
-                                        userName: item.roomName!,
-                                        userImage: item.roomImage![0],
-                                        message: "Test message",
-                                        isActive: true,
-                                        isMute: false,
-                                        isLastMessageSelf: false,
-                                        isSeen: true,
-                                        receiverData: item,
-                                      );
+                                          userID: item.id!,
+                                          userName: item.roomName!,
+                                          userImage: item.roomImage![0],
+                                          message: "Test message",
+                                          isActive: true,
+                                          isMute: false,
+                                          isLastMessageSelf: false,
+                                          isSeen: true,
+                                          receiverData: item,
+                                          lastMessageTime: item.updatedAt!);
                                     }),
                                 kH16sizedBox
                               ],
