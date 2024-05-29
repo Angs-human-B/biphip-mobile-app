@@ -16,7 +16,11 @@ class MarketPlaceController extends GetxController {
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Women's Clothing & Shoes"},
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Men's Clothing & Shoes"},
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Furniture"},
-    {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Electronics"},
+    {
+      "image":
+          "https://www.realsimple.com/thmb/kRRAaK6XhZIqL_GFIxfZzHTHx7o=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/furniture-styles-GettyImages-1467984982-512fed4077b646eabbc187619554d517.jpg",
+      "title": "Electronics"
+    },
   ];
   final List allCategoriesList = [
     {
