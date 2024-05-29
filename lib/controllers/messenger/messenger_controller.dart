@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:peerdart/peerdart.dart';
 
 class MessengerController extends GetxController {
+  final GlobalController globalController = Get.find<GlobalController>();
+  final SpController spController = SpController();
+  final ApiController apiController = ApiController();
   final TextEditingController inboxSearchTextEditingController = TextEditingController();
   final TextEditingController messageTextEditingController = TextEditingController();
   final FocusNode messageFocusNode = FocusNode();
@@ -17,7 +19,7 @@ class MessengerController extends GetxController {
   final RxList inboxFilterCategoryList = RxList(["All", "Active", "Marketplace", "Kids"]);
   final RxString selectedFilterCategory = RxString("All");
   final RxList messages = RxList([]);
-  final Rx<FriendFamilyUserData?> selectedReceiver = Rx<FriendFamilyUserData?>(null);
+  final Rx<RoomData?> selectedReceiver = Rx<RoomData?>(null);
 
   void onInit() async {
     checkInternetConnectivity();
@@ -260,7 +262,6 @@ class MessengerController extends GetxController {
         "messages": [],
       });
     }
-    ll("hello: $allFriendMessageList");
   }
 
   // Set Messages
@@ -268,6 +269,45 @@ class MessengerController extends GetxController {
     int index = allFriendMessageList.indexWhere((user) => user['userID'] == userID);
     if (index != -1) {
       allFriendMessageList[index]["messages"].insert(0, messageData);
+    }
+  }
+
+  //==============================================
+  //!           API Implementations
+  //==============================================
+
+  final RxBool isInboxLoading = RxBool(false);
+  final RxBool roomListScrolled = RxBool(false);
+  final Rx<RoomListModel?> roomListData = Rx<RoomListModel?>(null);
+  final RxList<RoomData> roomList = RxList<RoomData>([]);
+  Future<void> getRoomList() async {
+    try {
+      isInboxLoading.value = true;
+      String suffixUrl = '?take=15';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetRoomList + suffixUrl,
+      ) as CommonDM;
+      if (response.success == true) {
+        roomList.clear();
+        roomListScrolled.value = false;
+        roomListData.value = RoomListModel.fromJson(response.data);
+        roomList.addAll(roomListData.value!.rooms!.data!);
+        isInboxLoading.value = false;
+      } else {
+        isInboxLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isInboxLoading.value = true;
+      ll('getRoomList error: $e');
     }
   }
 }

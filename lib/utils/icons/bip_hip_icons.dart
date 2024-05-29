@@ -14,6 +14,8 @@ class BipHip {
 
   static const _kBipHip6FontFam = 'BipHip6';
   static const String? _kBipHip6FontPkg = null;
+  static const _kChatFontFam = 'Chat';
+  static const String? _kChatFontPkg = null;
 
   static const IconData add = IconData(0xe800, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addImage = IconData(0xe801, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
@@ -191,4 +193,18 @@ class BipHip {
   static const IconData passwordShow = IconData(0xe803, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
   static const IconData twitterX = IconData(0xe804, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
   static const IconData follow = IconData(0xe805, fontFamily: _kBipHip6FontFam, fontPackage: _kBipHip6FontPkg);
+
+  static const IconData gif = IconData(0xe800, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData spamMessage = IconData(0xe801, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData sticker = IconData(0xe802, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData mute = IconData(0xe803, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData pin = IconData(0xe804, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData restrictedMessage = IconData(0xe806, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData sendNew = IconData(0xe809, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData send = IconData(0xe80a, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData messageNew = IconData(0xe80b, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData messageOutlined = IconData(0xe80c, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData messageFilled = IconData(0xe80d, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData manage = IconData(0xe80e, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
+  static const IconData text = IconData(0xe80f, fontFamily: _kChatFontFam, fontPackage: _kChatFontPkg);
 }

@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
@@ -72,7 +71,7 @@ class HomePage extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            await Get.find<FriendController>().getFriendList();
+                            await Get.find<MessengerController>().getRoomList();
                             if (Get.find<MessengerController>().allFriendMessageList.isEmpty) {
                               Get.find<MessengerController>().geAllFriendMessages();
                             }

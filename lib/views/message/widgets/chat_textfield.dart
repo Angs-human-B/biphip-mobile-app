@@ -20,7 +20,7 @@ class ChatTextField extends StatelessWidget {
                     padding: const EdgeInsets.only(right: k12Padding, bottom: 14),
                     child: Icon(
                       BipHip.voiceFill,
-                      color: cIconColor,
+                      color: cPrimaryColor,
                     ),
                   ),
                 if (!messengerController.isMessageTextFieldFocused.value)
@@ -28,23 +28,23 @@ class ChatTextField extends StatelessWidget {
                     padding: const EdgeInsets.only(right: k12Padding, bottom: 14),
                     child: Icon(
                       BipHip.imageFile,
-                      color: cIconColor,
+                      color: cPrimaryColor,
                     ),
                   ),
                 if (!messengerController.isMessageTextFieldFocused.value)
                   Padding(
                     padding: const EdgeInsets.only(right: k12Padding, bottom: 14),
                     child: Icon(
-                      BipHip.storytelling,
-                      color: cIconColor,
+                      BipHip.sticker,
+                      color: cPrimaryColor,
                     ),
                   ),
                 if (!messengerController.isMessageTextFieldFocused.value)
                   Padding(
                     padding: const EdgeInsets.only(right: k12Padding, bottom: 14),
                     child: Icon(
-                      BipHip.gift,
-                      color: cIconColor,
+                      BipHip.gif,
+                      color: cPrimaryColor,
                     ),
                   ),
                 if (messengerController.isMessageTextFieldFocused.value)
@@ -116,7 +116,7 @@ class ChatTextField extends StatelessWidget {
                         messengerController.sendMessage(messengerController.messageTextEditingController.text.trim());
                       },
                       child: const Icon(
-                        BipHip.comment,
+                        BipHip.sendNew,
                         color: cPrimaryColor,
                       ),
                     ),

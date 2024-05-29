@@ -1,6 +1,5 @@
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
-import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/message/bottom_sheets/settings_content.dart';
 import 'package:bip_hip/views/message/widgets/empty_chat_view.dart';
@@ -43,7 +42,7 @@ class Inbox extends StatelessWidget {
                               .blankBottomSheet(context: context, content: MessengerSettingsContent(), bottomSheetHeight: height * 0.35);
                         },
                         child: Icon(
-                          BipHip.setting,
+                          BipHip.manage,
                           color: cIconColor,
                           size: isDeviceScreenLarge() ? 24 : 20,
                         ),
@@ -107,19 +106,19 @@ class Inbox extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                                if (Get.find<FriendController>().friendList.isEmpty) const EmptyChatView(),
+                                if (messengerController.roomList.isEmpty) const EmptyChatView(),
                                 kH16sizedBox,
                                 ListView.separated(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
                                     separatorBuilder: (context, index) => kH16sizedBox,
-                                    itemCount: Get.find<FriendController>().friendList.length,
+                                    itemCount: messengerController.roomList.length,
                                     itemBuilder: (context, index) {
-                                      FriendFamilyUserData item = Get.find<FriendController>().friendList[index];
+                                      RoomData item = messengerController.roomList[index];
                                       return InboxContainer(
                                         userID: item.id!,
-                                        userName: item.fullName!,
-                                        userImage: item.profilePicture!,
+                                        userName: item.roomName!,
+                                        userImage: item.roomImage![0],
                                         message: "Test message",
                                         isActive: true,
                                         isMute: false,

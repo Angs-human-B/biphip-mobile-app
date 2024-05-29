@@ -1,5 +1,5 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
-import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +18,7 @@ class InboxContainer extends StatelessWidget {
   final String userName, userImage, message;
   final bool isActive, isSeen, isMute, isLastMessageSelf;
   final int userID;
-  final FriendFamilyUserData receiverData;
+  final RoomData receiverData;
   final MessengerController messengerController = Get.find<MessengerController>();
 
   @override

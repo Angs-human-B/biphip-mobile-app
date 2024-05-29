@@ -25,7 +25,7 @@ class MessageScreen extends StatelessWidget {
               child: CustomAppBar(
                 hasBackButton: true,
                 isCenterTitle: false,
-                leadingWidth: 25,
+                titleSpacing: 0,
                 title: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -40,7 +40,7 @@ class MessageScreen extends StatelessWidget {
                               shape: BoxShape.circle,
                             ),
                             child: Image.network(
-                              messengerController.selectedReceiver.value!.profilePicture ?? "",
+                              messengerController.selectedReceiver.value!.roomImage![0].toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.user,
@@ -74,9 +74,9 @@ class MessageScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          messengerController.selectedReceiver.value!.fullName!.length > 14
-                              ? "${messengerController.selectedReceiver.value!.fullName!.substring(0, 14)}..."
-                              : messengerController.selectedReceiver.value!.fullName!,
+                          messengerController.selectedReceiver.value!.roomName!.length > 14
+                              ? "${messengerController.selectedReceiver.value!.roomName!.substring(0, 14)}..."
+                              : messengerController.selectedReceiver.value!.roomName!,
                           style: semiBold18TextStyle(cBlackColor),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -144,18 +144,12 @@ class MessageScreen extends StatelessWidget {
                                     ListView.builder(
                                       physics: const NeverScrollableScrollPhysics(),
                                       reverse: true,
-                                      // padding: const EdgeInsets.only(bottom: 54),
-                                      // separatorBuilder: (context, index) {
-                                      //   return SizedBox(
-                                      //     height: 2,
-                                      //   );
-                                      // },
                                       shrinkWrap: true,
                                       itemCount: messengerController.messages.length,
                                       itemBuilder: (context, index) {
                                         var messages = messengerController.messages[index];
                                         return CustomBubbleNormal(
-                                          userImage: messengerController.selectedReceiver.value!.profilePicture,
+                                          userImage: messengerController.selectedReceiver.value!.roomImage![0],
                                           text: messages["message"].toString(),
                                           isSender: messages["userType"] == "self" ? true : false,
                                           color: messages["userType"] == "self" ? cPrimaryColor : cNeutralColor,
