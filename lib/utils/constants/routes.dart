@@ -13,7 +13,7 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
-import 'package:bip_hip/views/market_place/market_place_page.dart';
+import 'package:bip_hip/views/market_place/marketplace_page.dart';
 import 'package:bip_hip/views/market_place/marketplace_categories_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
