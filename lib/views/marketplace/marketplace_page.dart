@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/market_place/marketplace_view_listing_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_view_listing_page.dart';
 
 class MarketplacePage extends StatelessWidget {
   MarketplacePage({super.key});
