@@ -695,3 +695,5 @@ const String ksMarkAsSold = "Mark as Sold";
 const String  ksMarkAsAvailable= "Mark as Available";
 const String  ksDeleteListing= "Delete listing";
 const String  ksEditListing= "Edit listing";
+const String  ksDidYouSellThisItem= "Did you sell this item";
+const String  ksYourResponseWontBeSharedWithAnyoneOnBipHip = "Your response won't be shared with anyone on BipHip";

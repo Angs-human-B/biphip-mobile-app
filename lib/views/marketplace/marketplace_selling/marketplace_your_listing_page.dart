@@ -121,7 +121,11 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                             ? regular14TextStyle(cPlaceHolderColor)
                                             : regular14TextStyle(cBlackColor),
                                         onPressed: () {},
-                                        firstButtonOnPressed: () {},
+                                        firstButtonOnPressed: () {
+                                          if (marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing") {
+                                            Get.toNamed(krMarketPlaceMarkSoldPage);
+                                          }
+                                        },
                                         secondButtonOnPressed: marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "sold"
                                             ? null
                                             : () {
@@ -177,7 +181,11 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                             : ksMarkAsAvailable.tr,
                                         secondButtonText: ksShare,
                                         onPressed: () {},
-                                        firstButtonOnPressed: () {},
+                                        firstButtonOnPressed: () {
+                                          if (marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing") {
+                                            Get.toNamed(krMarketPlaceMarkSoldPage);
+                                          }
+                                        },
                                         secondButtonOnPressed: () {
                                           globalController.blankBottomSheet(
                                               context: context,
