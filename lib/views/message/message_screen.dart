@@ -3,6 +3,7 @@ import 'package:bip_hip/models/messenger/message_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/message/widgets/chat_textfield.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'widgets/custom_chat_bubble.dart';
 
@@ -161,6 +162,16 @@ class MessageScreen extends StatelessWidget {
                                         );
                                       },
                                     ),
+                                    if (messengerController.isMessageListLoading.value)
+                                      const Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          SpinKitThreeBounce(
+                                            color: cPrimaryColor,
+                                            size: 30,
+                                          ),
+                                        ],
+                                      )
                                   ],
                                 ),
                               ),

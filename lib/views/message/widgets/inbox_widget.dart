@@ -16,7 +16,8 @@ class InboxContainer extends StatelessWidget {
       required this.userID,
       required this.receiverData,
       required this.lastMessageTime,
-      required this.roomID, required this.index});
+      required this.roomID,
+      required this.index});
   final String userName, userImage, message;
   final bool isActive, isSeen, isMute, isLastMessageSelf;
   final int userID, roomID, index;
@@ -33,10 +34,10 @@ class InboxContainer extends StatelessWidget {
         if (!messengerController.connectedUserID.contains(userID)) {
           messengerController.exchangePeerID(userID);
         }
+        Get.toNamed(krMessages);
         //* GET MESSAGE API CALL
         await messengerController.getMessageList(roomID);
         //*
-        Get.toNamed(krMessages);
       },
       child: Container(
         color: cWhiteColor,

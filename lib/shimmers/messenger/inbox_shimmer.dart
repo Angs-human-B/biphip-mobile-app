@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class InboxShimmer extends StatelessWidget {
