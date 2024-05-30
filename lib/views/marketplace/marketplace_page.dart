@@ -65,6 +65,9 @@ class MarketplacePage extends StatelessWidget {
                       height: h36,
                       icon: BipHip.add,
                       text: ksSelling.tr,
+                      onPressed: (){
+                        Get.toNamed(krMarketPlaceSellingPage);
+                      },
                     ),
                     kW8sizedBox,
                     TopWidgetButton(

@@ -687,3 +687,5 @@ const String ksNoNotificationAvailable = "No notification available";
 const String ksYouDontHaveAnyNotification = "You don't have any notification";
 const String ksAllBidding = "All Bidding";
 const String ksSeeBidding = "See Bidding";
+const String ksCreateNewSellPost = "Create new sellpost";
+const String ksOverview = "Overview";

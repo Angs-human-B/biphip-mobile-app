@@ -38,7 +38,7 @@ class MarketPlaceAccount extends StatelessWidget {
                       messageCount: 3,
                       onPressed: () {},
                     ),
-                    kW8sizedBox,
+                    kW16sizedBox,
                     AccountTopWidget(
                       icon: BipHip.bidding,
                       title: ksBidding.tr,
@@ -140,7 +140,7 @@ class AccountTopWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        width: (width - 48) / 2,
+        width: (width - 56) / 2,
         height: 80,
         decoration: BoxDecoration(border: Border.all(color: cLineColor), borderRadius: BorderRadius.circular(k8BorderRadius)),
         child: Padding(
