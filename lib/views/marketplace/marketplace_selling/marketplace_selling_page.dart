@@ -47,9 +47,11 @@ class MarketPlaceSellingPage extends StatelessWidget {
                   children: [
                     SellingTopContainerWidget(
                       count: "10",
-                      name: "Your listing",
+                      name: ksYourListing.tr,
                       icon: BipHip.report,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(krMarketPlaceYourListingPage);
+                      },
                     ),
                     kW16sizedBox,
                     SellingTopContainerWidget(

@@ -689,3 +689,7 @@ const String ksAllBidding = "All Bidding";
 const String ksSeeBidding = "See Bidding";
 const String ksCreateNewSellPost = "Create new sellpost";
 const String ksOverview = "Overview";
+const String ksYourListing = "Your Listing";
+const String ksAllListing = "All listing";
+const String ksMarkAsSold = "Mark as Sold";
+const String  ksMarkAsAvailable= "Mark as Available";

@@ -124,17 +124,82 @@ class MarketPlaceController extends GetxController {
   final String descriptionText = "WorldSBK Championship capability with a powerful 998cc engine advanced technology and superior handling";
 
   final List sellingActionList = [
-    {"icon": BipHip.report,"title": "Your Listing"},
-    {"icon": BipHip.chatFill,"title": "Inbox"},
-    {"icon": BipHip.bidding,"title": "Bidding"},
-    {"icon": BipHip.shopFill,"title": "Store"},
+    {"icon": BipHip.report, "title": "Your Listing"},
+    {"icon": BipHip.chatFill, "title": "Inbox"},
+    {"icon": BipHip.bidding, "title": "Bidding"},
+    {"icon": BipHip.shopFill, "title": "Store"},
   ];
   final List buyingActionList = [
-    {"icon": BipHip.chatFill,"title": "Inbox"},
-    {"icon": BipHip.bidding,"title": "Bidding"},
+    {"icon": BipHip.chatFill, "title": "Inbox"},
+    {"icon": BipHip.bidding, "title": "Bidding"},
   ];
-    final List moreActionList = [
-    {"icon": BipHip.location,"title": "Location"},
-    {"icon": BipHip.notificationFill,"title": "Notification"},
+  final List moreActionList = [
+    {"icon": BipHip.location, "title": "Location"},
+    {"icon": BipHip.notificationFill, "title": "Notification"},
+  ];
+  final List yourListingFilterList = ["All", "Active items", "Sold items"];
+  final RxInt selectedListingFilterIndex = RxInt(0);
+  final RxString selectedListingFilterValue = RxString("");
+  final List allProductList = [
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": true,
+      "status": "sold",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
+      "status": "Active listing",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": true,
+      "status": "Active listing",
+    },
+  ];
+  final List activeProductList = [
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": true,
+      "status": "Active listing",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
+      "status": "Active listing",
+    },
+  ];
+  final List soldProductList = [
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": true,
+      "status": "sold",
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
+      "price": "\$17399",
+      "location": "Dhaka",
+      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "isBiddingPost": false,
+      "status": "sold",
+    },
   ];
 }
