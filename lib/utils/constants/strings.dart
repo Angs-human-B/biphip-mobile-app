@@ -693,3 +693,5 @@ const String ksYourListing = "Your Listing";
 const String ksAllListing = "All listing";
 const String ksMarkAsSold = "Mark as Sold";
 const String  ksMarkAsAvailable= "Mark as Available";
+const String  ksDeleteListing= "Delete listing";
+const String  ksEditListing= "Edit listing";

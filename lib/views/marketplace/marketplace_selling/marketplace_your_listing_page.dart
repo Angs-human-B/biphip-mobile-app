@@ -8,6 +8,7 @@ import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 class MarketPlaceYourListingPage extends StatelessWidget {
   MarketPlaceYourListingPage({super.key});
   final MarketPlaceController marketPlaceController = Get.find<MarketPlaceController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -116,14 +117,32 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                             ? ksMarkAsSold.tr
                                             : ksMarkAsAvailable.tr,
                                         secondButtonText: ksShare,
+                                        secondButtonTextStyle: marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "sold"
+                                            ? regular14TextStyle(cPlaceHolderColor)
+                                            : regular14TextStyle(cBlackColor),
                                         onPressed: () {},
                                         firstButtonOnPressed: () {},
-                                        secondButtonOnPressed: () {},
+                                        secondButtonOnPressed: marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "sold"
+                                            ? null
+                                            : () {
+                                                globalController.blankBottomSheet(
+                                                    context: context,
+                                                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.25 : height * 0.35,
+                                                    content: const ShareBottomSheetContent());
+                                              },
                                         threeDotOnPressed: () {
                                           Get.find<GlobalController>().blankBottomSheet(
                                             context: context,
-                                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
-                                            content: MoreBottomSheetContent(),
+                                            bottomSheetHeight: marketPlaceController.allProductList[index]["isSelfPost"]
+                                                ? isDeviceScreenLarge()
+                                                    ? height * 0.3
+                                                    : height * 0.4
+                                                : isDeviceScreenLarge()
+                                                    ? height * 0.15
+                                                    : height * 0.25,
+                                            content: marketPlaceController.allProductList[index]["isSelfPost"]
+                                                ? SelfPostBottomSheetContent()
+                                                : MoreBottomSheetContent(),
                                           );
                                         });
                                   }),
@@ -159,12 +178,25 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                         secondButtonText: ksShare,
                                         onPressed: () {},
                                         firstButtonOnPressed: () {},
-                                        secondButtonOnPressed: () {},
+                                        secondButtonOnPressed: () {
+                                          globalController.blankBottomSheet(
+                                              context: context,
+                                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.25 : height * 0.35,
+                                              content: const ShareBottomSheetContent());
+                                        },
                                         threeDotOnPressed: () {
                                           Get.find<GlobalController>().blankBottomSheet(
                                             context: context,
-                                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
-                                            content: MoreBottomSheetContent(),
+                                            bottomSheetHeight: marketPlaceController.activeProductList[index]["isSelfPost"]
+                                                ? isDeviceScreenLarge()
+                                                    ? height * 0.3
+                                                    : height * 0.4
+                                                : isDeviceScreenLarge()
+                                                    ? height * 0.15
+                                                    : height * 0.25,
+                                            content: marketPlaceController.activeProductList[index]["isSelfPost"]
+                                                ? SelfPostBottomSheetContent()
+                                                : MoreBottomSheetContent(),
                                           );
                                         });
                                   }),
@@ -198,14 +230,23 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                             ? ksMarkAsSold.tr
                                             : ksMarkAsAvailable.tr,
                                         secondButtonText: ksShare,
+                                        secondButtonTextStyle: regular14TextStyle(cPlaceHolderColor),
                                         onPressed: () {},
                                         firstButtonOnPressed: () {},
-                                        secondButtonOnPressed: () {},
+                                        secondButtonOnPressed: null,
                                         threeDotOnPressed: () {
                                           Get.find<GlobalController>().blankBottomSheet(
                                             context: context,
-                                            bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
-                                            content: MoreBottomSheetContent(),
+                                            bottomSheetHeight: marketPlaceController.soldProductList[index]["isSelfPost"]
+                                                ? isDeviceScreenLarge()
+                                                    ? height * 0.3
+                                                    : height * 0.4
+                                                : isDeviceScreenLarge()
+                                                    ? height * 0.15
+                                                    : height * 0.25,
+                                            content: marketPlaceController.soldProductList[index]["isSelfPost"]
+                                                ? SelfPostBottomSheetContent()
+                                                : MoreBottomSheetContent(),
                                           );
                                         });
                                   }),
@@ -235,9 +276,11 @@ class YourListingItemContent extends StatelessWidget {
       this.firstButtonText,
       this.secondButtonText,
       this.firstButtonOnPressed,
-      this.secondButtonOnPressed});
+      this.secondButtonOnPressed,
+      this.secondButtonTextStyle});
   final String? productImage, details, price, status, firstButtonText, secondButtonText;
   final VoidCallback? onPressed, threeDotOnPressed, firstButtonOnPressed, secondButtonOnPressed;
+  final TextStyle? secondButtonTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -334,13 +377,66 @@ class YourListingItemContent extends StatelessWidget {
                   buttonWidth: (width - 78) / 2,
                   buttonHeight: h32,
                   buttonColor: cNeutralColor,
-                  textStyle: regular14TextStyle(cBlackColor),
+                  disableColor: cNeutralColor,
+                  textStyle: secondButtonTextStyle ?? regular14TextStyle(cBlackColor),
                 ),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ShareBottomSheetContent extends StatelessWidget {
+  const ShareBottomSheetContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.world),
+          title: ksShareToFeed.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.chatFill),
+          title: ksSendInMessenger.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.copy),
+          title: ksCopyLink.tr,
+        ),
+      ],
+    );
+  }
+}
+
+class SelfPostBottomSheetContent extends StatelessWidget {
+  const SelfPostBottomSheetContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.openedEye),
+          title: ksViewListing.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.deleteNew),
+          title: ksDeleteListing.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.edit),
+          title: ksEditListing.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.checkboxNew),
+          title: ksMarkAsSold.tr,
+        ),
+      ],
     );
   }
 }

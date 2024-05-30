@@ -148,6 +148,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": true,
       "status": "sold",
+      "isSelfPost": true,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
@@ -156,6 +157,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": false,
       "status": "Active listing",
+      "isSelfPost": true,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
@@ -164,6 +166,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": true,
       "status": "Active listing",
+      "isSelfPost": false,
     },
   ];
   final List activeProductList = [
@@ -174,6 +177,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": true,
       "status": "Active listing",
+       "isSelfPost": true,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
@@ -182,6 +186,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": false,
       "status": "Active listing",
+       "isSelfPost": false,
     },
   ];
   final List soldProductList = [
@@ -192,6 +197,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": true,
       "status": "sold",
+       "isSelfPost": true,
     },
     {
       "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
@@ -200,6 +206,7 @@ class MarketPlaceController extends GetxController {
       "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
       "isBiddingPost": false,
       "status": "sold",
+       "isSelfPost": false,
     },
   ];
 }
