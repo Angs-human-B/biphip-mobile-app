@@ -255,6 +255,8 @@ const String kuUpdatePost = '/mobile/user/update-post';
 
 //* Messenger API
 const String kuGetRoomList = '/user/messenger/get-room-list';
+const String kuGetMessageList = '/user/messenger/get-messages-for-room';
+const String kuSendMessage = '/user/messenger/send-message';
 
 /*
 |--------------------------------------------------------------------------

@@ -72,9 +72,6 @@ class HomePage extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () async {
                             await Get.find<MessengerController>().getRoomList();
-                            if (Get.find<MessengerController>().allFriendMessageList.isEmpty) {
-                              Get.find<MessengerController>().geAllFriendMessages();
-                            }
                             Get.toNamed(krInbox);
                           },
                           child: Icon(

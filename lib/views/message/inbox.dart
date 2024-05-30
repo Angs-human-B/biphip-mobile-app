@@ -116,7 +116,9 @@ class Inbox extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       RoomData item = messengerController.roomList[index];
                                       return InboxContainer(
-                                          userID: item.id!,
+                                        index:index,
+                                        roomID: item.id!,
+                                          userID: item.roomUserId!,
                                           userName: item.roomName!,
                                           userImage: item.roomImage![0],
                                           message: "Test message",

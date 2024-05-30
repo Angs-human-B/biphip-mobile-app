@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/models/messenger/message_list_model.dart';
 import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -18,8 +18,9 @@ class MessengerController extends GetxController {
   final RxBool isSearchFieldCrossButtonShown = RxBool(false);
   final RxList inboxFilterCategoryList = RxList(["All", "Active", "Marketplace", "Kids"]);
   final RxString selectedFilterCategory = RxString("All");
-  final RxList messages = RxList([]);
+  // final RxList messages = RxList([]);
   final Rx<RoomData?> selectedReceiver = Rx<RoomData?>(null);
+  final RxInt selectedRoomIndex = RxInt(-1);
 
   void onInit() async {
     checkInternetConnectivity();
@@ -51,7 +52,6 @@ class MessengerController extends GetxController {
     try {
       bool internetConnectivityResult = await InternetConnectionChecker().hasConnection;
       if (internetConnectivityResult != true) {
-        ll("NOOO CONNNN");
         isInternetConnectionAvailable.value = false;
       } else {
         isInternetConnectionAvailable.value = true;
@@ -74,7 +74,6 @@ class MessengerController extends GetxController {
             isInternetConnectionAvailable.value = true;
             break;
           case InternetConnectionStatus.disconnected:
-            ll("CONNN CUTTT");
             isInternetConnectionAvailable.value = false;
             break;
         }
@@ -88,7 +87,7 @@ class MessengerController extends GetxController {
   //!                Socket and WebRTC
   //=====================================================
 
-  static const _DEFAULT_CONFIG = {
+  static const defaultConfig = {
     'iceServers': [
       {'urls': "stun:stun.l.google.com:19302"},
       {
@@ -101,7 +100,7 @@ class MessengerController extends GetxController {
     ],
   };
 
-  final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All, config: _DEFAULT_CONFIG));
+  final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All, config: defaultConfig));
   final RxString peerId = RxString("");
   late DataConnection conn;
   final RxBool connected = RxBool(false);
@@ -126,11 +125,11 @@ class MessengerController extends GetxController {
       }
       conn = event;
       conn.on("data").listen((data) {
-        messages.insert(0, {"userType": "sender", "message": data});
-        int index = allFriendMessageList.indexWhere((user) => user['userID'] == selectedReceiver.value!.id);
+        // messages.insert(0, {"userType": "sender", "message": data});
+        int index = allRoomMessageList.indexWhere((user) => user['roomID'] == selectedReceiver.value!.id);
         if (index != -1) {
-          allFriendMessageList[index]["messages"].insert(0, {"userType": "sender", "message": data});
-          ll(allFriendMessageList[index]["messages"]);
+          allRoomMessageList[index]["messages"].insert(
+              0, MessageData(text: data, senderId: selectedReceiver.value!.roomUserId, messageText: data, senderImage: selectedReceiver.value!.roomImage![0]));
         }
         ll("incoming message: $data");
       });
@@ -181,11 +180,10 @@ class MessengerController extends GetxController {
         });
 
         conn.on("data").listen((data) {
-          messages.insert(0, {"userType": "sender", "message": data});
-          int index = allFriendMessageList.indexWhere((user) => user['userID'] == selectedReceiver.value!.id);
+          int index = allRoomMessageList.indexWhere((user) => user['roomID'] == selectedReceiver.value!.id);
           if (index != -1) {
-            allFriendMessageList[index]["messages"].insert(0, {"userType": "sender", "message": data});
-            ll(allFriendMessageList[index]["messages"]);
+            allRoomMessageList[index]["messages"].insert(0,
+                MessageData(text: data, senderId: selectedReceiver.value!.roomUserId, messageText: data, senderImage: selectedReceiver.value!.roomImage![0]));
           }
           ll("Peer connect data: $data");
         });
@@ -228,13 +226,12 @@ class MessengerController extends GetxController {
   //============================================
 
   List<String> messageQueue = [];
-  int batchSize = 5; // Adjust based on your needs
+  int batchSize = 1;
 
   void sendMessage(String message) async {
     if (connected.value && isInternetConnectionAvailable.value) {
       // Add to offline list
-      messages.insert(0, {"userType": "self", "message": message});
-      setMessage(selectedReceiver.value!.id, {"userType": "self", "message": message});
+      setMessage(selectedReceiver.value!.id, MessageData(text: message, senderId: globalController.userId.value, messageText: message));
 
       // Send through webRTC
       conn.send(message);
@@ -243,32 +240,65 @@ class MessengerController extends GetxController {
       messageQueue.add(message);
 
       if (messageQueue.length >= batchSize && isInternetConnectionAvailable.value) {
-        await sendBatchMessages();
+        for (int i = 0; i < messageQueue.length; i++) {
+          sendBatchMessages(messageQueue[i]);
+        }
+        messageQueue.clear();
       }
       messageTextEditingController.clear();
     }
   }
 
   // Send through API
-  Future<void> sendBatchMessages() async {}
+  final RxBool isSendMessageLoading = RxBool(false);
+  Future<void> sendBatchMessages(message) async {
+    try {
+      isSendMessageLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'room_id': selectedReceiver.value!.id.toString(),
+        'message': message.toString(),
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuSendMessage,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+      } else {
+        isSendMessageLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isSendMessageLoading.value = false;
+      ll('sendBatchMessages error: $e');
+    }
+  }
 
   // Get Messages
-  RxList<Map<String, dynamic>> allFriendMessageList = RxList<Map<String, dynamic>>([]);
-  void geAllFriendMessages() {
-    for (int i = 0; i < Get.find<FriendController>().friendList.length; i++) {
-      allFriendMessageList.add({
-        "userID": Get.find<FriendController>().friendList[i].id,
-        "userName": Get.find<FriendController>().friendList[i].fullName,
-        "messages": [],
+  RxList<Map<String, dynamic>> allRoomMessageList = RxList<Map<String, dynamic>>([]);
+  void geAllRoomMessages() {
+    for (int i = 0; i < roomList.length; i++) {
+      allRoomMessageList.add({
+        "roomID": roomList[i].id,
+        "userID": roomList[i].roomUserId,
+        "userName": roomList[i].roomName,
+        "messages": RxList([]),
       });
     }
   }
 
   // Set Messages
   void setMessage(userID, messageData) {
-    int index = allFriendMessageList.indexWhere((user) => user['userID'] == userID);
+    int index = allRoomMessageList.indexWhere((user) => user['roomID'] == userID);
     if (index != -1) {
-      allFriendMessageList[index]["messages"].insert(0, messageData);
+      allRoomMessageList[index]["messages"].insert(0, messageData);
     }
   }
 
@@ -295,6 +325,7 @@ class MessengerController extends GetxController {
         roomListScrolled.value = false;
         roomListData.value = RoomListModel.fromJson(response.data);
         roomList.addAll(roomListData.value!.rooms!.data!);
+        geAllRoomMessages();
         isInboxLoading.value = false;
       } else {
         isInboxLoading.value = true;
@@ -308,6 +339,50 @@ class MessengerController extends GetxController {
     } catch (e) {
       isInboxLoading.value = true;
       ll('getRoomList error: $e');
+    }
+  }
+
+  final RxBool isMessageListLoading = RxBool(false);
+  final RxBool messageListScrolled = RxBool(false);
+  final Rx<MessageListModel?> messageListData = Rx<MessageListModel?>(null);
+  final RxList<MessageData> messageList = RxList<MessageData>([]);
+  Future<void> getMessageList(roomID) async {
+    try {
+      isMessageListLoading.value = true;
+      String suffixUrl = '?take=15';
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGetMessageList?room_id=$roomID$suffixUrl&page=1&message_id=",
+      ) as CommonDM;
+      if (response.success == true) {
+        messageList.clear();
+        roomListScrolled.value = false;
+        messageListData.value = MessageListModel.fromJson(response.data);
+        messageList.addAll(messageListData.value!.messages!.data!);
+        populateRoomMessageList(roomID, messageList);
+        isMessageListLoading.value = false;
+      } else {
+        isMessageListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isMessageListLoading.value = true;
+      ll('getMessageList error: $e');
+    }
+  }
+
+  void populateRoomMessageList(roomID, messageList) {
+    int index = allRoomMessageList.indexWhere((user) => user['roomID'] == roomID);
+    if (index != -1) {
+      allRoomMessageList[index]["messages"].clear();
+      allRoomMessageList[index]["messages"].addAll(messageList);
     }
   }
 }

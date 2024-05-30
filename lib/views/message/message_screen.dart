@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
+import 'package:bip_hip/models/messenger/message_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/message/widgets/chat_textfield.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
@@ -145,16 +146,18 @@ class MessageScreen extends StatelessWidget {
                                       physics: const NeverScrollableScrollPhysics(),
                                       reverse: true,
                                       shrinkWrap: true,
-                                      itemCount: messengerController.messages.length,
+                                      itemCount: messengerController.allRoomMessageList[messengerController.selectedRoomIndex.value]["messages"].length,
                                       itemBuilder: (context, index) {
-                                        var messages = messengerController.messages[index];
+                                        MessageData messages =
+                                            messengerController.allRoomMessageList[messengerController.selectedRoomIndex.value]["messages"][index];
                                         return CustomBubbleNormal(
                                           userImage: messengerController.selectedReceiver.value!.roomImage![0],
-                                          text: messages["message"].toString(),
-                                          isSender: messages["userType"] == "self" ? true : false,
-                                          color: messages["userType"] == "self" ? cPrimaryColor : cNeutralColor,
+                                          text: messages.text.toString(),
+                                          isSender: messages.senderId == Get.find<GlobalController>().userId.value ? true : false,
+                                          color: messages.senderId == Get.find<GlobalController>().userId.value ? cPrimaryColor : cNeutralColor,
                                           tail: false,
-                                          textStyle: regular16TextStyle(messages["userType"] == "self" ? cWhiteColor : cBlackColor),
+                                          textStyle:
+                                              regular16TextStyle(messages.senderId == Get.find<GlobalController>().userId.value ? cWhiteColor : cBlackColor),
                                         );
                                       },
                                     ),

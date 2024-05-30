@@ -14,10 +14,12 @@ class InboxContainer extends StatelessWidget {
       required this.isMute,
       required this.isLastMessageSelf,
       required this.userID,
-      required this.receiverData, required this.lastMessageTime});
+      required this.receiverData,
+      required this.lastMessageTime,
+      required this.roomID, required this.index});
   final String userName, userImage, message;
   final bool isActive, isSeen, isMute, isLastMessageSelf;
-  final int userID;
+  final int userID, roomID, index;
   final RoomData receiverData;
   final DateTime lastMessageTime;
   final MessengerController messengerController = Get.find<MessengerController>();
@@ -25,16 +27,15 @@ class InboxContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        messengerController.messages.clear();
-        int index = messengerController.allFriendMessageList.indexWhere((user) => user['userID'] == userID);
-        if (index != -1 && messengerController.allFriendMessageList[index]["messages"].isNotEmpty) {
-          messengerController.messages.addAll(messengerController.allFriendMessageList[index]["messages"]);
-        }
+      onTap: () async {
         messengerController.selectedReceiver.value = receiverData;
+        messengerController.selectedRoomIndex.value = index;
         if (!messengerController.connectedUserID.contains(userID)) {
           messengerController.exchangePeerID(userID);
         }
+        //* GET MESSAGE API CALL
+        await messengerController.getMessageList(roomID);
+        //*
         Get.toNamed(krMessages);
       },
       child: Container(
