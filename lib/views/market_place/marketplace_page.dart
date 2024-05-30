@@ -147,6 +147,7 @@ class MarketplacePage extends StatelessWidget {
                     ),
                   ),
                 ),
+            
               ],
             ),
           ),

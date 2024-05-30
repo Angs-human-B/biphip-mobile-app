@@ -76,60 +76,61 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                         ],
                       ),
                       kH20sizedBox,
-                      Container(
-                        width: width - 40,
-                        height: 90,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                          border: Border.all(width: 1, color: cLineColor),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(
-                                    BipHip.chatFill,
-                                    color: cPrimaryColor,
-                                    size: kIconSize16,
-                                  ),
-                                  kW8sizedBox,
-                                  Text(
-                                    ksSendSellerAMessage.tr,
-                                    style: regular14TextStyle(cBlackColor),
-                                  ),
-                                ],
-                              ),
-                              kH8sizedBox,
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: h40,
-                                      child: CustomModifiedTextField(
-                                        hint: ksIsThisStillAvailable.tr,
-                                        controller: marketPlaceController.sellertMessageTextEditingController,
-                                        contentPadding: const EdgeInsets.only(left: k8Padding, top: k8Padding),
+                      if (isBiddingPost == false)
+                        Container(
+                          width: width - 40,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            border: Border.all(width: 1, color: cLineColor),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: k12Padding, vertical: k12Padding),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Icon(
+                                      BipHip.chatFill,
+                                      color: cPrimaryColor,
+                                      size: kIconSize16,
+                                    ),
+                                    kW8sizedBox,
+                                    Text(
+                                      ksSendSellerAMessage.tr,
+                                      style: regular14TextStyle(cBlackColor),
+                                    ),
+                                  ],
+                                ),
+                                kH8sizedBox,
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: h40,
+                                        child: CustomModifiedTextField(
+                                          hint: ksIsThisStillAvailable.tr,
+                                          controller: marketPlaceController.sellertMessageTextEditingController,
+                                          contentPadding: const EdgeInsets.only(left: k8Padding, top: k8Padding),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  kW8sizedBox,
-                                  CustomElevatedButton(
-                                    label: ksSend,
-                                    onPressed: () {},
-                                    buttonColor: cPrimaryColor,
-                                    buttonWidth: 80,
-                                    buttonHeight: h32,
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    kW8sizedBox,
+                                    CustomElevatedButton(
+                                      label: ksSend,
+                                      onPressed: () {},
+                                      buttonColor: cPrimaryColor,
+                                      buttonWidth: 80,
+                                      buttonHeight: h32,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
                       kH20sizedBox,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

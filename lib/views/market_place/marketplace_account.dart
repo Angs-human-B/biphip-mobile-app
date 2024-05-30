@@ -50,7 +50,9 @@ class MarketPlaceAccount extends StatelessWidget {
                 AccountTopWidget(
                   icon: BipHip.circlePlus,
                   title: ksRecentActivity.tr,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(krMarketPlaceRecentActivity);
+                  },
                 ),
                 kH16sizedBox,
                 Text(
