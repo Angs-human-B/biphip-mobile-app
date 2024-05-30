@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/models/messenger/room_list_model.dart';
+import 'package:bip_hip/shimmers/messenger/inbox_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/message/bottom_sheets/settings_content.dart';
 import 'package:bip_hip/views/message/widgets/empty_chat_view.dart';
@@ -106,29 +107,37 @@ class Inbox extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                                if (messengerController.roomList.isEmpty) const EmptyChatView(),
-                                kH16sizedBox,
-                                ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    separatorBuilder: (context, index) => kH16sizedBox,
-                                    itemCount: messengerController.roomList.length,
-                                    itemBuilder: (context, index) {
-                                      RoomData item = messengerController.roomList[index];
-                                      return InboxContainer(
-                                        index:index,
-                                        roomID: item.id!,
-                                          userID: item.roomUserId!,
-                                          userName: item.roomName!,
-                                          userImage: item.roomImage![0],
-                                          message: "Test message",
-                                          isActive: true,
-                                          isMute: false,
-                                          isLastMessageSelf: false,
-                                          isSeen: true,
-                                          receiverData: item,
-                                          lastMessageTime: item.updatedAt!);
-                                    }),
+                                if (messengerController.roomList.isEmpty && !messengerController.isInboxLoading.value) const EmptyChatView(),
+                                if (!messengerController.isInboxLoading.value)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: h16),
+                                    child: ListView.separated(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        separatorBuilder: (context, index) => kH16sizedBox,
+                                        itemCount: messengerController.roomList.length,
+                                        itemBuilder: (context, index) {
+                                          RoomData item = messengerController.roomList[index];
+                                          return InboxContainer(
+                                              index: index,
+                                              roomID: item.id!,
+                                              userID: item.roomUserId!,
+                                              userName: item.roomName!,
+                                              userImage: item.roomImage![0],
+                                              message: "Test message",
+                                              isActive: true,
+                                              isMute: false,
+                                              isLastMessageSelf: false,
+                                              isSeen: true,
+                                              receiverData: item,
+                                              lastMessageTime: item.updatedAt!);
+                                        }),
+                                  ),
+                                if (messengerController.isInboxLoading.value)
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: h16),
+                                    child: InboxShimmer(),
+                                  ),
                                 kH16sizedBox
                               ],
                             ),
