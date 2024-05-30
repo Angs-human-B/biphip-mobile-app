@@ -42,7 +42,9 @@ class MarketPlaceAccount extends StatelessWidget {
                     AccountTopWidget(
                       icon: BipHip.bidding,
                       title: ksBidding.tr,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(krMarketPlaceBiddingPage);
+                      },
                     ),
                   ],
                 ),

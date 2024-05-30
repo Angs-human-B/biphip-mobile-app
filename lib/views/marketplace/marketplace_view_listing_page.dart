@@ -172,7 +172,8 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                                   bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
                                   content: MoreBottomSheetContent(),
                                 );
-                              }),
+                              }
+                              ),
                         ],
                       ),
                       kH16sizedBox,

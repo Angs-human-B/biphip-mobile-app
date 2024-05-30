@@ -685,3 +685,5 @@ const String ksRecentActivity = "Recent Activity";
 const String ksNotification = "Notification";
 const String ksNoNotificationAvailable = "No notification available";
 const String ksYouDontHaveAnyNotification = "You don't have any notification";
+const String ksAllBidding = "All Bidding";
+const String ksSeeBidding = "See Bidding";

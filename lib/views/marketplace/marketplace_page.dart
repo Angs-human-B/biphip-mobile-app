@@ -57,6 +57,7 @@ class MarketplacePage extends StatelessWidget {
                       height: h36,
                       icon: BipHip.add,
                       text: ksBuying.tr,
+                      onPressed: (){},
                     ),
                     kW8sizedBox,
                     TopWidgetButton(
@@ -66,16 +67,14 @@ class MarketplacePage extends StatelessWidget {
                       text: ksSelling.tr,
                     ),
                     kW8sizedBox,
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(krMarketPlaceCategoriesPage);
+                    TopWidgetButton(
+                      onPressed: (){
+                          Get.toNamed(krMarketPlaceCategoriesPage);
                       },
-                      child: TopWidgetButton(
-                        width: (width - 56) / 3,
-                        height: h36,
-                        icon: BipHip.menuFill,
-                        text: ksCategories.tr,
-                      ),
+                      width: (width - 56) / 3,
+                      height: h36,
+                      icon: BipHip.menuFill,
+                      text: ksCategories.tr,
                     ),
                   ],
                 ),
@@ -158,35 +157,39 @@ class MarketplacePage extends StatelessWidget {
 }
 
 class TopWidgetButton extends StatelessWidget {
-  const TopWidgetButton({super.key, required this.width, required this.icon, required this.text, required this.height});
+  const TopWidgetButton({super.key, required this.width, required this.icon, required this.text, required this.height, this.onPressed});
   final double width, height;
   final IconData icon;
   final String text;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        color: cNeutralColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: kIconSize12,
-            color: cBlackColor,
-          ),
-          kW4sizedBox,
-          Text(
-            text,
-            style: regular12TextStyle(cBlackColor),
-          ),
-        ],
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(k8BorderRadius),
+          color: cNeutralColor,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: kIconSize12,
+              color: cBlackColor,
+            ),
+            kW4sizedBox,
+            Text(
+              text,
+              style: regular12TextStyle(cBlackColor),
+            ),
+          ],
+        ),
       ),
     );
   }
