@@ -122,4 +122,19 @@ class MarketPlaceController extends GetxController {
     },
   ];
   final String descriptionText = "WorldSBK Championship capability with a powerful 998cc engine advanced technology and superior handling";
+
+  final List sellingActionList = [
+    {"icon": BipHip.report,"title": "Your Listing"},
+    {"icon": BipHip.chatFill,"title": "Inbox"},
+    {"icon": BipHip.bidding,"title": "Bidding"},
+    {"icon": BipHip.shopFill,"title": "Store"},
+  ];
+  final List buyingActionList = [
+    {"icon": BipHip.chatFill,"title": "Inbox"},
+    {"icon": BipHip.bidding,"title": "Bidding"},
+  ];
+    final List moreActionList = [
+    {"icon": BipHip.location,"title": "Location"},
+    {"icon": BipHip.notificationFill,"title": "Notification"},
+  ];
 }

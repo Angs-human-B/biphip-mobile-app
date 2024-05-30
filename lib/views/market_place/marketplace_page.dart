@@ -23,13 +23,18 @@ class MarketplacePage extends StatelessWidget {
               onBack: () {
                 Get.back();
               },
-              action: const [
-                Icon(
-                  BipHip.user,
-                  color: cBlackColor,
-                  size: kIconSize20,
+              action: [
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(krMarketPlaceAccount);
+                  },
+                  child: const Icon(
+                    BipHip.user,
+                    color: cBlackColor,
+                    size: kIconSize20,
+                  ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: k8Padding, right: k12Padding),
                   child: Icon(
                     BipHip.search,
@@ -122,13 +127,14 @@ class MarketplacePage extends StatelessWidget {
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              Get.to(() => MarketPlaceViewListingPage(
-                                  productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
-                                  price: marketPlaceController.marketplaceProductList[index]["price"],
-                                  location: marketPlaceController.marketplaceProductList[index]["location"],
-                                  details: marketPlaceController.marketplaceProductList[index]["details"],
-                                  isBiddingPost: marketPlaceController.marketplaceProductList[index]["isBiddingPost"]),
-                                  );
+                              Get.to(
+                                () => MarketPlaceViewListingPage(
+                                    productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
+                                    price: marketPlaceController.marketplaceProductList[index]["price"],
+                                    location: marketPlaceController.marketplaceProductList[index]["location"],
+                                    details: marketPlaceController.marketplaceProductList[index]["details"],
+                                    isBiddingPost: marketPlaceController.marketplaceProductList[index]["isBiddingPost"]),
+                              );
                             },
                             child: MarketplaceItemContainer(
                                 productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
