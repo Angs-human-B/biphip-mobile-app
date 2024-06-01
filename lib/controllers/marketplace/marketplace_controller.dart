@@ -58,67 +58,40 @@ class MarketPlaceController extends GetxController {
       "isBiddingPost": true,
     },
     {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
+      "productImage":
+          "https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=2576&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "price": "\$10",
       "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "details": "Book: Novel",
       "isBiddingPost": false,
     },
     {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
+      "productImage": "https://static-01.daraz.com.bd/p/b78244a8d24f6aac61a1e85f50f45fe7.jpg",
+      "price": "\$5",
       "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "details": "Secret",
       "isBiddingPost": false,
     },
     {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
+      "productImage": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*iA0nFw7o8AucT6E7JawtqA.jpeg",
+      "price": "\$8",
       "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "details": "Ikigai",
       "isBiddingPost": false,
     },
     {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
+      "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpFp5EQYpUOsYXIOrTs713AsehdFo5WV2hNk5eVW3JRnsQykqtqR2cpxfxdpyvPlN4jJY&usqp=CAU",
+      "price": "\$2",
       "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "details": "You are here",
       "isBiddingPost": false,
     },
     {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
+      "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQA4imPquhGNIYb1k8Q4kIJLIxuz9wd1DmhkA&usqp=CAU",
+      "price": "\$4",
       "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
+      "details": "Love for imperfect things",
       "isBiddingPost": false,
-    },
-    {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
-      "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
-      "isBiddingPost": false,
-    },
-    {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
-      "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
-      "isBiddingPost": false,
-    },
-    {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
-      "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
-      "isBiddingPost": false,
-    },
-    {
-      "productImage": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0",
-      "price": "\$17399",
-      "location": "Dhaka",
-      "details": "Kawasaki Ninja® ZX™-10R | Supersport Motorcycle",
-      "isBiddingPost": true,
     },
   ];
   final String descriptionText = "WorldSBK Championship capability with a powerful 998cc engine advanced technology and superior handling";
@@ -212,7 +185,9 @@ class MarketPlaceController extends GetxController {
   final List soldPlaceList = ["Yes, sold on BipHip", "Yes, sold elsewhere", "No, haven't sold", "I'd rather not answer"];
   final RxInt selectedSoldPlaceIndex = RxInt(-1);
   final RxString selectedSoldPlaceValue = RxString("");
-  void resetMarketPlaceData(){
+  final Rx<int?> yourBid = Rx<int?>(null);
+  final RxBool isMarketPlaceBidRightButtonActive = RxBool(false);
+  void resetMarketPlaceData() {
     selectedSoldPlaceIndex.value = -1;
   }
 }

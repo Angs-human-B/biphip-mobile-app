@@ -35,7 +35,7 @@ class MarketplacePage extends StatelessWidget {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(left: k8Padding, right: k12Padding),
+                  padding: EdgeInsets.only(left: k16Padding, right: k12Padding),
                   child: Icon(
                     BipHip.search,
                     color: cBlackColor,
@@ -57,7 +57,7 @@ class MarketplacePage extends StatelessWidget {
                       height: h36,
                       icon: BipHip.add,
                       text: ksBuying.tr,
-                      onPressed: (){},
+                      onPressed: () {},
                     ),
                     kW8sizedBox,
                     TopWidgetButton(
@@ -65,14 +65,14 @@ class MarketplacePage extends StatelessWidget {
                       height: h36,
                       icon: BipHip.add,
                       text: ksSelling.tr,
-                      onPressed: (){
+                      onPressed: () {
                         Get.toNamed(krMarketPlaceSellingPage);
                       },
                     ),
                     kW8sizedBox,
                     TopWidgetButton(
-                      onPressed: (){
-                          Get.toNamed(krMarketPlaceCategoriesPage);
+                      onPressed: () {
+                        Get.toNamed(krMarketPlaceCategoriesPage);
                       },
                       width: (width - 56) / 3,
                       height: h36,
@@ -149,7 +149,6 @@ class MarketplacePage extends StatelessWidget {
                     ),
                   ),
                 ),
-            
               ],
             ),
           ),
@@ -213,21 +212,28 @@ class MarketplaceItemContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
-            child: Image.network(
-              productImage ?? "",
-              width: 160,
-              height: 100,
-              fit: BoxFit.cover,
-              loadingBuilder: imageLoadingBuilder,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(
-                  BipHip.imageFile,
-                  size: kIconSize100,
-                  color: cIconColor,
-                );
-              },
+          Container(
+            // width: 162,
+            height: 100,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
+              child: Image.network(
+                productImage ?? "",
+                width: width,
+                // height: 100,
+                fit: BoxFit.cover,
+                loadingBuilder: imageLoadingBuilder,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    BipHip.imageFile,
+                    size: kIconSize100,
+                    color: cIconColor,
+                  );
+                },
+              ),
             ),
           ),
           kH8sizedBox,
@@ -267,7 +273,6 @@ class MarketplaceItemContainer extends StatelessWidget {
               style: regular12TextStyle(cBlackColor),
             ),
           ),
-        
         ],
       ),
     );

@@ -148,13 +148,16 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                             content: marketPlaceController.allProductList[index]["isSelfPost"]
                                                 ? SelfPostBottomSheetContent(
                                                     viewListingOnPressed: () {
+                                                      Get.back();
                                                       Get.to(
                                                         () => MarketPlaceViewListingPage(
-                                                            productImage: marketPlaceController.allProductList[index]["productImage"],
-                                                            price: marketPlaceController.allProductList[index]["price"],
-                                                            location: marketPlaceController.allProductList[index]["location"],
-                                                            details: marketPlaceController.allProductList[index]["details"],
-                                                            isBiddingPost: marketPlaceController.allProductList[index]["isBiddingPost"]),
+                                                          productImage: marketPlaceController.allProductList[index]["productImage"],
+                                                          price: marketPlaceController.allProductList[index]["price"],
+                                                          location: marketPlaceController.allProductList[index]["location"],
+                                                          details: marketPlaceController.allProductList[index]["details"],
+                                                          isBiddingPost: marketPlaceController.allProductList[index]["isBiddingPost"],
+                                                          isSelfPost: marketPlaceController.allProductList[index]["isSelfPost"],
+                                                        ),
                                                       );
                                                     },
                                                   )
@@ -213,7 +216,21 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                                     ? height * 0.15
                                                     : height * 0.25,
                                             content: marketPlaceController.activeProductList[index]["isSelfPost"]
-                                                ? SelfPostBottomSheetContent()
+                                                ? SelfPostBottomSheetContent(
+                                                    viewListingOnPressed: () {
+                                                      Get.back();
+                                                      Get.to(
+                                                        () => MarketPlaceViewListingPage(
+                                                          productImage: marketPlaceController.activeProductList[index]["productImage"],
+                                                          price: marketPlaceController.activeProductList[index]["price"],
+                                                          location: marketPlaceController.activeProductList[index]["location"],
+                                                          details: marketPlaceController.activeProductList[index]["details"],
+                                                          isBiddingPost: marketPlaceController.activeProductList[index]["isBiddingPost"],
+                                                          isSelfPost: marketPlaceController.activeProductList[index]["isSelfPost"],
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
                                                 : MoreBottomSheetContent(),
                                           );
                                         });
@@ -268,7 +285,21 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                                     ? height * 0.15
                                                     : height * 0.25,
                                             content: marketPlaceController.soldProductList[index]["isSelfPost"]
-                                                ? SelfPostBottomSheetContent()
+                                                ? SelfPostBottomSheetContent(
+                                                    viewListingOnPressed: () {
+                                                      Get.back();
+                                                      Get.to(
+                                                        () => MarketPlaceViewListingPage(
+                                                          productImage: marketPlaceController.soldProductList[index]["productImage"],
+                                                          price: marketPlaceController.soldProductList[index]["price"],
+                                                          location: marketPlaceController.soldProductList[index]["location"],
+                                                          details: marketPlaceController.soldProductList[index]["details"],
+                                                          isBiddingPost: marketPlaceController.soldProductList[index]["isBiddingPost"],
+                                                          isSelfPost: marketPlaceController.soldProductList[index]["isSelfPost"],
+                                                        ),
+                                                      );
+                                                    },
+                                                  )
                                                 : MoreBottomSheetContent(),
                                           );
                                         });

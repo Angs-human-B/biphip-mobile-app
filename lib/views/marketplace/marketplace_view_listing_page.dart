@@ -1,11 +1,12 @@
 import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class MarketPlaceViewListingPage extends StatelessWidget {
-  MarketPlaceViewListingPage({super.key, this.productImage, this.price, this.location, this.details, this.isBiddingPost});
+  MarketPlaceViewListingPage({super.key, this.productImage, this.price, this.location, this.details, this.isBiddingPost, this.isSelfPost = false});
   final String? productImage, price, location, details;
-  final bool? isBiddingPost;
+  final bool? isBiddingPost, isSelfPost;
   final MarketPlaceController marketPlaceController = Get.find<MarketPlaceController>();
 
   @override
@@ -139,7 +140,29 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                             ContainerWithIcon(
                               icon: BipHip.bidding,
                               title: ksBid.tr,
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.find<GlobalController>().commonBottomSheet(
+                                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                                  context: context,
+                                  content: PlaceBidContent(
+                                    desiredAmount: '100',
+                                    minimumBiddingAmount: '50',
+                                  ),
+                                  onPressCloseButton: () {
+                                    Get.back();
+                                  },
+                                  onPressRightButton: () {
+                                    // marketPlaceController.yourBid.value = int.parse(marketPlaceController.bidingTextEditingController.text);
+                                    Get.back();
+                                  },
+                                  isBottomSheetRightButtonActive: marketPlaceController.isMarketPlaceBidRightButtonActive,
+                                  rightText: ksSubmit.tr,
+                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                  title: ksPlaceABid.tr,
+                                  isRightButtonShow: true,
+                                  isScrollControlled: true,
+                                );
+                              },
                             ),
                           if (isBiddingPost == false)
                             ContainerWithIcon(
@@ -159,7 +182,9 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                               Get.find<GlobalController>().blankBottomSheet(
                                 context: context,
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : height * 0.40,
-                                content: ShareBottomSheetContent(),
+                                content: ShareBottomSheetContent(
+                                  isSelfPost: isSelfPost,
+                                ),
                               );
                             },
                           ),
@@ -169,11 +194,16 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                               onPressed: () {
                                 Get.find<GlobalController>().blankBottomSheet(
                                   context: context,
-                                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
-                                  content: MoreBottomSheetContent(),
+                                  bottomSheetHeight: isSelfPost!
+                                      ? isDeviceScreenLarge()
+                                          ? height * 0.3
+                                          : height * 0.4
+                                      : isDeviceScreenLarge()
+                                          ? height * 0.15
+                                          : height * 0.25,
+                                  content: isSelfPost! ? const SelfPostMoreBottomSheetContent() : const MoreBottomSheetContent(),
                                 );
-                              }
-                              ),
+                              }),
                         ],
                       ),
                       kH16sizedBox,
@@ -370,8 +400,8 @@ class CircularContainer extends StatelessWidget {
 }
 
 class ShareBottomSheetContent extends StatelessWidget {
-  const ShareBottomSheetContent({super.key});
-
+  const ShareBottomSheetContent({super.key, this.isSelfPost});
+  final bool? isSelfPost;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -380,10 +410,11 @@ class ShareBottomSheetContent extends StatelessWidget {
           leading: const CircularContainer(icon: BipHip.world),
           title: ksShareToFeed.tr,
         ),
-        CustomListTile(
-          leading: const CircularContainer(icon: BipHip.shopFill),
-          title: ksSharetoYourStoreProfile.tr,
-        ),
+        if (isSelfPost == false)
+          CustomListTile(
+            leading: const CircularContainer(icon: BipHip.shopFill),
+            title: ksSharetoYourStoreProfile.tr,
+          ),
         CustomListTile(
           leading: const CircularContainer(icon: BipHip.chatFill),
           title: ksSendInMessenger.tr,
@@ -411,6 +442,35 @@ class MoreBottomSheetContent extends StatelessWidget {
         CustomListTile(
           leading: const CircularContainer(icon: BipHip.report),
           title: ksReportPost.tr,
+        ),
+      ],
+    );
+  }
+}
+
+class SelfPostMoreBottomSheetContent extends StatelessWidget {
+  const SelfPostMoreBottomSheetContent({super.key, this.isSelfPost});
+  final bool? isSelfPost;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.deleteNew),
+          title: ksDeleteListing.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.edit),
+          title: ksEditListing.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.checkbox),
+          title: ksMarkAsSold.tr,
+        ),
+        CustomListTile(
+          leading: const CircularContainer(icon: BipHip.share),
+          title: ksShareListing.tr,
         ),
       ],
     );

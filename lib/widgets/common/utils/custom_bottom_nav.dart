@@ -78,8 +78,8 @@ class CustomBottomNavBar extends StatelessWidget {
               _BottomNavbarItem(
                 width: _width,
                 isClicked: _isThirdButtonClicked,
-                title: "Badges",
-                icon: BipHip.badgesOutline,
+                title: "MarketPlace",
+                icon: BipHip.shopFill,
                 iconSelected: BipHip.badgesFill,
                 onPressed: () {
                   Get.toNamed(krMarketPlacePage);
