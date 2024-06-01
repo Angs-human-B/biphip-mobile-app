@@ -14,6 +14,7 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
 import 'package:bip_hip/views/marketplace/marketplace_bidding_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_buying/marketplace_buying_page.dart';
 import 'package:bip_hip/views/marketplace/marketplace_notification.dart';
 import 'package:bip_hip/views/marketplace/marketplace_account.dart';
 import 'package:bip_hip/views/marketplace/marketplace_page.dart';
@@ -252,6 +253,9 @@ const String krMarketPlaceBiddingPage = "/marketplace-bidding-page";
 const String krMarketPlaceSellingPage = "/marketplace-selling-page";
 const String krMarketPlaceYourListingPage = "/marketplace-your-listing-page";
 const String krMarketPlaceMarkSoldPage = "/marketplace-mark-sold-page";
+const String krMarketPlaceBuyingPage = "/marketplace-buying-page";
+
+//*chat
 const String krMessages = "/messages";
 
  //*Notification
@@ -393,6 +397,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krMarketPlaceSellingPage, page: () => MarketPlaceSellingPage(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceYourListingPage, page: () => MarketPlaceYourListingPage(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceMarkSoldPage, page: () => MarketPlaceMarkSoldPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceBuyingPage, page: () => MarketPlaceBuyingPage(), transition: Transition.noTransition),
 
   //*Notification
   GetPage(name: krNotificationPage, page: () => NotificationPage(), transition: Transition.noTransition),

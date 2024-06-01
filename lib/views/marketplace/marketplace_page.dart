@@ -57,7 +57,9 @@ class MarketplacePage extends StatelessWidget {
                       height: h36,
                       icon: BipHip.add,
                       text: ksBuying.tr,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(krMarketPlaceBuyingPage);
+                      },
                     ),
                     kW8sizedBox,
                     TopWidgetButton(
@@ -211,6 +213,7 @@ class MarketplaceItemContainer extends StatelessWidget {
         border: Border.all(width: 1, color: cLineColor),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             // width: 162,
