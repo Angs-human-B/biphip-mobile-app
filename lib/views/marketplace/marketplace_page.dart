@@ -267,6 +267,7 @@ class MarketplaceItemContainer extends StatelessWidget {
               style: regular12TextStyle(cBlackColor),
             ),
           ),
+        
         ],
       ),
     );

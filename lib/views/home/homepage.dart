@@ -92,7 +92,8 @@ class HomePage extends StatelessWidget {
                   isFifthButtonClicked: false,
                 ),
                 body: Obx(
-                  () => homeController.isHomePageLoading.value || Get.find<SelfieController>().isFriendSelfieListLoading.value
+                  () => homeController.isHomePageLoading
+                          .value //* Add this loading for api issue this time loading off (|| Get.find<SelfieController>().isFriendSelfieListLoading.value)
                       ? const HomePageShimmer()
                       : NotificationListener<ScrollNotification>(
                           onNotification: (scrollNotification) {

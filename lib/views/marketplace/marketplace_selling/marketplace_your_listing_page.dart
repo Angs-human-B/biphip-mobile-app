@@ -123,6 +123,7 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                         onPressed: () {},
                                         firstButtonOnPressed: () {
                                           if (marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing") {
+                                            marketPlaceController.resetMarketPlaceData();
                                             Get.toNamed(krMarketPlaceMarkSoldPage);
                                           }
                                         },
@@ -145,7 +146,18 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                                     ? height * 0.15
                                                     : height * 0.25,
                                             content: marketPlaceController.allProductList[index]["isSelfPost"]
-                                                ? SelfPostBottomSheetContent()
+                                                ? SelfPostBottomSheetContent(
+                                                    viewListingOnPressed: () {
+                                                      Get.to(
+                                                        () => MarketPlaceViewListingPage(
+                                                            productImage: marketPlaceController.allProductList[index]["productImage"],
+                                                            price: marketPlaceController.allProductList[index]["price"],
+                                                            location: marketPlaceController.allProductList[index]["location"],
+                                                            details: marketPlaceController.allProductList[index]["details"],
+                                                            isBiddingPost: marketPlaceController.allProductList[index]["isBiddingPost"]),
+                                                      );
+                                                    },
+                                                  )
                                                 : MoreBottomSheetContent(),
                                           );
                                         });
@@ -176,9 +188,7 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                         price: marketPlaceController.activeProductList[index]["price"],
                                         status: marketPlaceController.activeProductList[index]["status"],
                                         details: marketPlaceController.activeProductList[index]["details"],
-                                        firstButtonText: marketPlaceController.activeProductList[index]["status"].toString().toLowerCase() == "active listing"
-                                            ? ksMarkAsSold.tr
-                                            : ksMarkAsAvailable.tr,
+                                        firstButtonText: ksMarkAsAvailable.tr,
                                         secondButtonText: ksShare,
                                         onPressed: () {},
                                         firstButtonOnPressed: () {
@@ -240,7 +250,12 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                         secondButtonText: ksShare,
                                         secondButtonTextStyle: regular14TextStyle(cPlaceHolderColor),
                                         onPressed: () {},
-                                        firstButtonOnPressed: () {},
+                                        firstButtonOnPressed: () {
+                                          if (marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing") {
+                                            marketPlaceController.resetMarketPlaceData();
+                                            Get.toNamed(krMarketPlaceMarkSoldPage);
+                                          }
+                                        },
                                         secondButtonOnPressed: null,
                                         threeDotOnPressed: () {
                                           Get.find<GlobalController>().blankBottomSheet(
@@ -422,7 +437,8 @@ class ShareBottomSheetContent extends StatelessWidget {
 }
 
 class SelfPostBottomSheetContent extends StatelessWidget {
-  const SelfPostBottomSheetContent({super.key});
+  const SelfPostBottomSheetContent({super.key, this.viewListingOnPressed});
+  final VoidCallback? viewListingOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -431,6 +447,7 @@ class SelfPostBottomSheetContent extends StatelessWidget {
         CustomListTile(
           leading: const CircularContainer(icon: BipHip.openedEye),
           title: ksViewListing.tr,
+          onPressed: viewListingOnPressed,
         ),
         CustomListTile(
           leading: const CircularContainer(icon: BipHip.deleteNew),
