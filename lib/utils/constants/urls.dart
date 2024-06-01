@@ -149,6 +149,14 @@ const String kuGetAllPosts = '/mobile/user/get-all-posts';
 const String kuGetPostData = '/mobile/user/get-post';
 const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
 
+//*Selfie
+const String kuGetFriendSelfie = '/mobile/user/selfie/get-friend-selfies';
+const String kuStoreSelfie = '/mobile/user/selfie/store-selfie';
+const String kuDeleteSelfie = '/mobile/user/selfie/delete';
+const String kuReportSelfie = '/mobile/user/store-selfie-report';
+const String kuSelfieSendGift = '/mobile/user/selfie/send-gift';
+
+
 //* kids
 //---------------------------------------
 const String kuDeleteKids = '/mobile/user/delete-kid';
@@ -326,3 +334,4 @@ const String kiStarSvgImage = 'assets/svg/star.svg';
 const String kiNagadSvgImage = 'assets/svg/nagad.svg';
 const String kiPaypalSvgImage = 'assets/svg/paypal.svg';
 const String kiReviewSvgImage = 'assets/svg/review.svg';
+const String kiRightArrow = 'assets/svg/right_arrow.svg';

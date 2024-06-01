@@ -698,9 +698,7 @@ class SearchPage extends StatelessWidget {
                                           final item = allSearchController.videosList[index];
                                           return InkWell(
                                             onTap: () {
-                                              // Get.toNamed(krVideoDetails);
                                               allSearchController.videoUrl.value = item.fullPath.toString();
-                                              ll(allSearchController.videoUrl.value);
                                               allSearchController.customOnInit();
                                               Get.to(() => VideoPlayerWidget());
                                             },
@@ -708,9 +706,7 @@ class SearchPage extends StatelessWidget {
                                               image: item.fullPath.toString(),
                                               title: item.title ?? ksNA.tr,
                                               name: item.user?.fullName ?? ksNA.tr,
-                                              // date: item.imageTakenTime.toString(),
                                               totalView: item.totalViewCount.toString(),
-                                              // time: item.imageTakenTime.toString(),
                                               time: item.imageTakenTime.toString(),
                                             ),
                                           );

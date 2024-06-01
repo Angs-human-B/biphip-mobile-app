@@ -474,7 +474,6 @@ class EditProfileHelper {
     if (startDate != null && endDate != null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
     } else if (startDate == null && endDate != null) {
-      ll(endDate.year);
       return 'School year ${endDate.year}';
     } else if (startDate != null && endDate == null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';
@@ -566,7 +565,6 @@ class EditProfileHelper {
       onPressRightButton: () {
         if (profileController.temporaryRelationshipStatus.value != '') {
           profileController.relationshipStatus.value = profileController.temporaryRelationshipStatus.value;
-          ll(profileController.relationshipStatus.value);
           if (profileController.relationshipStatus.value == "Single" || profileController.relationshipStatus.value == "Separated") {
             profileController.relationshipPartnerID.value = -1;
             profileController.relationshipPartnerTextEditingController.clear();
@@ -1129,7 +1127,6 @@ class EditProfileHelper {
     profileController.userLanguages.removeAt(index);
     if (profileController.userLanguages.length == 1) {
       if (profileController.userLanguages[0] == "") {
-        ll("here");
         profileController.userLanguages.clear();
       }
     }

@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
@@ -91,7 +92,7 @@ class HomePage extends StatelessWidget {
                   isFifthButtonClicked: false,
                 ),
                 body: Obx(
-                  () => homeController.isHomePageLoading.value
+                  () => homeController.isHomePageLoading.value || Get.find<SelfieController>().isFriendSelfieListLoading.value
                       ? const HomePageShimmer()
                       : NotificationListener<ScrollNotification>(
                           onNotification: (scrollNotification) {
@@ -198,7 +199,7 @@ class HomePage extends StatelessWidget {
                                   Container(
                                     color: cWhiteColor,
                                     width: width,
-                                    child: const StoriesWidget(),
+                                    child: StoriesWidget(),
                                   ),
                                 if (homeController.homeTabIndex.value == 1)
                                   Container(

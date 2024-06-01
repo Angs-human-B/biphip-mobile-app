@@ -13,7 +13,6 @@ class EditBasicInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ll(profileController.userLanguages.length);
     return Container(
       color: cWhiteColor,
       child: Obx(

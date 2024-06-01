@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -32,10 +33,10 @@ class SplashScreenController extends GetxController {
       () async {
         if (rememberStatus) {
           await Get.find<GlobalController>().getUserInfo();
-          ll(Get.find<GlobalController>().userId);
           Get.find<HomeController>().homeTabIndex.value = 0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
+          await Get.find<SelfieController>().getFriendSelfieList();
           Get.find<CreatePostController>().getCreatePost();
         } else {
           await Get.find<GlobalController>().getUserInfo();
