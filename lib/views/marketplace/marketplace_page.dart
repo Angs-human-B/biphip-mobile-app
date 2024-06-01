@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/marketplace/marketplace_view_listing_page.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 
 class MarketplacePage extends StatelessWidget {
   MarketplacePage({super.key});
@@ -17,29 +18,31 @@ class MarketplacePage extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksMarketPlace.tr,
+              // title: ksMarketPlace.tr,
+              titleSpacing: 0,
+              title: CustomModifiedTextField(
+                controller: marketPlaceController.marketPlaceTextEditingController,
+                hint: ksSearchItem.tr,
+                contentPadding: const EdgeInsets.only(top: k12Padding, left: k8Padding),
+                prefixIcon: BipHip.search,
+              ),
               hasBackButton: true,
-              isCenterTitle: true,
+              isCenterTitle: false,
               onBack: () {
                 Get.back();
               },
               action: [
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(krMarketPlaceAccount);
-                  },
-                  child: const Icon(
-                    BipHip.user,
-                    color: cBlackColor,
-                    size: kIconSize20,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: k16Padding, right: k12Padding),
-                  child: Icon(
-                    BipHip.search,
-                    color: cBlackColor,
-                    size: kIconSize20,
+                Padding(
+                  padding: const EdgeInsets.only(right: k20Padding, left: k8Padding, bottom: k8Padding),
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed(krMarketPlaceAccount);
+                    },
+                    child: const Icon(
+                      BipHip.user,
+                      color: cBlackColor,
+                      size: kIconSize20,
+                    ),
                   ),
                 ),
               ],
@@ -52,18 +55,22 @@ class MarketplacePage extends StatelessWidget {
                 kH16sizedBox,
                 Row(
                   children: [
-                    TopWidgetButton(
-                      width: (width - 56) / 3,
-                      height: h36,
-                      icon: BipHip.add,
-                      text: ksBuying.tr,
-                      onPressed: () {
-                        Get.toNamed(krMarketPlaceBuyingPage);
-                      },
+                    Text(
+                      ksMarketPlace,
+                      style: semiBold24TextStyle(cBlackColor),
                     ),
-                    kW8sizedBox,
+                    // TopWidgetButton(
+                    //   width: (width - 56) / 3,
+                    //   height: h36,
+                    //   icon: BipHip.add,
+                    //   text: ksBuying.tr,
+                    //   onPressed: () {
+                    //     Get.toNamed(krMarketPlaceBuyingPage);
+                    //   },
+                    // ),
+                    kW20sizedBox,
                     TopWidgetButton(
-                      width: (width - 56) / 3,
+                      width: (width - 108) / 3,
                       height: h36,
                       icon: BipHip.add,
                       text: ksSelling.tr,
@@ -76,13 +83,15 @@ class MarketplacePage extends StatelessWidget {
                       onPressed: () {
                         Get.toNamed(krMarketPlaceCategoriesPage);
                       },
-                      width: (width - 56) / 3,
+                      width: (width - 108) / 3,
                       height: h36,
                       icon: BipHip.menuFill,
                       text: ksCategories.tr,
                     ),
                   ],
                 ),
+                kH12sizedBox,
+                const CustomDivider(),
                 kH16sizedBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

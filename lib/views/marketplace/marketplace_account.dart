@@ -93,6 +93,9 @@ class MarketPlaceAccount extends StatelessWidget {
                         title: marketPlaceController.buyingActionList[index]["title"],
                         onPressed: () {
                           ll(marketPlaceController.buyingActionList[index]["title"]);
+                          if (marketPlaceController.buyingActionList[index]["title"] == ksBidding.tr) {
+                            Get.toNamed(krMarketPlaceBiddingPage);
+                          }
                         },
                       );
                     }),

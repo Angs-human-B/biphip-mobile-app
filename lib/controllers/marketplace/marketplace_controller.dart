@@ -11,6 +11,7 @@ class MarketPlaceController extends GetxController {
   final RxString temporarySelectedProductCondition = RxString("");
   final RxString selectedProductCondition = RxString("");
   final TextEditingController sellertMessageTextEditingController = TextEditingController();
+  final TextEditingController marketPlaceTextEditingController = TextEditingController();
   final List topCategoriesList = [
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Vehicles"},
     {"image": "https://imgd.aeplcdn.com/1280x720/n/cw/ec/108385/ninja-zx-10r-2022-right-side-view.jpeg?isig=0", "title": "Rentals"},
