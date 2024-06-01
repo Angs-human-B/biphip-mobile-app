@@ -113,9 +113,10 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                         price: marketPlaceController.allProductList[index]["price"],
                                         status: marketPlaceController.allProductList[index]["status"],
                                         details: marketPlaceController.allProductList[index]["details"],
-                                        firstButtonText: marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing"
-                                            ? ksMarkAsSold.tr
-                                            : ksMarkAsAvailable.tr,
+                                        firstButtonText:
+                                            marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing".toLowerCase()
+                                                ? ksMarkAsSold.tr
+                                                : ksMarkAsAvailable.tr,
                                         secondButtonText: ksShare,
                                         secondButtonTextStyle: marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "sold"
                                             ? regular14TextStyle(cPlaceHolderColor)
@@ -191,13 +192,11 @@ class MarketPlaceYourListingPage extends StatelessWidget {
                                         price: marketPlaceController.activeProductList[index]["price"],
                                         status: marketPlaceController.activeProductList[index]["status"],
                                         details: marketPlaceController.activeProductList[index]["details"],
-                                        firstButtonText: ksMarkAsAvailable.tr,
+                                        firstButtonText: ksMarkAsSold.tr,
                                         secondButtonText: ksShare,
                                         onPressed: () {},
                                         firstButtonOnPressed: () {
-                                          if (marketPlaceController.allProductList[index]["status"].toString().toLowerCase() == "active listing") {
-                                            Get.toNamed(krMarketPlaceMarkSoldPage);
-                                          }
+                                          Get.toNamed(krMarketPlaceMarkSoldPage);
                                         },
                                         secondButtonOnPressed: () {
                                           globalController.blankBottomSheet(

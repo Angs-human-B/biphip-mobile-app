@@ -2,7 +2,9 @@ import 'dart:core';
 import 'dart:math';
 
 import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
+import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
 import 'package:bip_hip/views/marketplace/marketplace_view_listing_page.dart';
 
 class MarketPlaceBiddingPage extends StatelessWidget {
@@ -52,7 +54,49 @@ class MarketPlaceBiddingPage extends StatelessWidget {
                             price: marketPlaceController.marketplaceProductList[index]["price"],
                             location: marketPlaceController.marketplaceProductList[index]["location"],
                             details: marketPlaceController.marketplaceProductList[index]["details"],
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.find<GlobalController>().commonBottomSheet(
+                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                                context: context,
+                                content: BidAmount(
+                                  highestAmount: '350',
+                                  totalBid: '56',
+                                  desireAmount: '400',
+                                  yourBid: Get.find<PostReactionController>().yourBid.value.toString(),
+                                ),
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {
+                                  Get.back();
+                                  Get.find<GlobalController>().commonBottomSheet(
+                                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
+                                    context: context,
+                                    content: UpdateBidding(
+                                      yourBid: marketPlaceController.yourBid.value.toString(),
+                                    ),
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {
+                                      Get.back();
+                                    },
+                                    rightText: ksUpdate.tr,
+                                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                    title: ksUpdateBiddingAmount.tr,
+                                    isRightButtonShow: true,
+                                    isScrollControlled: true,
+                                    isBottomSheetRightButtonActive: true.obs,
+                                  );
+                                },
+                                rightText: ksEdit.tr,
+                                rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                title: ksYourBidAmount.tr,
+                                isRightButtonShow: true,
+                                isScrollControlled: true,
+                                isBottomSheetRightButtonActive: true.obs,
+                              );
+                            },
                             threeDotOnPressed: () {
                               Get.find<GlobalController>().blankBottomSheet(
                                 context: context,
@@ -93,19 +137,22 @@ class BiddingItemContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(
-                  productImage ?? "",
-                  width: 80,
-                  height: h60,
-                  fit: BoxFit.cover,
-                  loadingBuilder: imageLoadingBuilder,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      BipHip.imageFile,
-                      size: kIconSize60,
-                      color: cIconColor,
-                    );
-                  },
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                  child: Image.network(
+                    productImage ?? "",
+                    width: 80,
+                    height: h60,
+                    fit: BoxFit.cover,
+                    loadingBuilder: imageLoadingBuilder,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        BipHip.imageFile,
+                        size: kIconSize60,
+                        color: cIconColor,
+                      );
+                    },
+                  ),
                 ),
                 kW12sizedBox,
                 Expanded(

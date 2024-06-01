@@ -73,7 +73,7 @@ class MarketPlaceController extends GetxController {
       "isBiddingPost": false,
     },
     {
-      "productImage": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*iA0nFw7o8AucT6E7JawtqA.jpeg",
+      "productImage": "https://www.pastefile.com/download/ebe811",
       "price": "\$8",
       "location": "Dhaka",
       "details": "Ikigai",
@@ -185,7 +185,7 @@ class MarketPlaceController extends GetxController {
   final List soldPlaceList = ["Yes, sold on BipHip", "Yes, sold elsewhere", "No, haven't sold", "I'd rather not answer"];
   final RxInt selectedSoldPlaceIndex = RxInt(-1);
   final RxString selectedSoldPlaceValue = RxString("");
-  final Rx<int?> yourBid = Rx<int?>(null);
+  final RxInt yourBid = RxInt(10);
   final RxBool isMarketPlaceBidRightButtonActive = RxBool(false);
   void resetMarketPlaceData() {
     selectedSoldPlaceIndex.value = -1;

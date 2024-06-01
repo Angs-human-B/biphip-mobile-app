@@ -731,3 +731,4 @@ const String ksEditListing = "Edit listing";
 const String ksDidYouSellThisItem = "Did you sell this item";
 const String ksYourResponseWontBeSharedWithAnyoneOnBipHip = "Your response won't be shared with anyone on BipHip";
 const String ksShareListing = "Share listing";
+const String ksViewBid = "View Bid";

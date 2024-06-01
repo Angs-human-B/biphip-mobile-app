@@ -139,29 +139,39 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                           if (isBiddingPost == true)
                             ContainerWithIcon(
                               icon: BipHip.bidding,
-                              title: ksBid.tr,
+                              title: isSelfPost! ? ksViewBid.tr : ksBid.tr,
                               onPressed: () {
-                                Get.find<GlobalController>().commonBottomSheet(
-                                  bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
-                                  context: context,
-                                  content: PlaceBidContent(
-                                    desiredAmount: '100',
-                                    minimumBiddingAmount: '50',
-                                  ),
-                                  onPressCloseButton: () {
-                                    Get.back();
-                                  },
-                                  onPressRightButton: () {
-                                    // marketPlaceController.yourBid.value = int.parse(marketPlaceController.bidingTextEditingController.text);
-                                    Get.back();
-                                  },
-                                  isBottomSheetRightButtonActive: marketPlaceController.isMarketPlaceBidRightButtonActive,
-                                  rightText: ksSubmit.tr,
-                                  rightTextStyle: medium14TextStyle(cPrimaryColor),
-                                  title: ksPlaceABid.tr,
-                                  isRightButtonShow: true,
-                                  isScrollControlled: true,
-                                );
+                                if (isSelfPost!) {
+                                  Get.find<GlobalController>().blankBottomSheet(
+                                      context: context,
+                                      content: BiddingInsightsContent(
+                                        comment: bidingComments,
+                                      ),
+                                      isScrollControlled: true,
+                                      bottomSheetHeight: height * 0.7);
+                                } else {
+                                  Get.find<GlobalController>().commonBottomSheet(
+                                    bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
+                                    context: context,
+                                    content: PlaceBidContent(
+                                      desiredAmount: '100',
+                                      minimumBiddingAmount: '50',
+                                    ),
+                                    onPressCloseButton: () {
+                                      Get.back();
+                                    },
+                                    onPressRightButton: () {
+                                      // marketPlaceController.yourBid.value = int.parse(marketPlaceController.bidingTextEditingController.text);
+                                      Get.back();
+                                    },
+                                    isBottomSheetRightButtonActive: marketPlaceController.isMarketPlaceBidRightButtonActive,
+                                    rightText: ksSubmit.tr,
+                                    rightTextStyle: medium14TextStyle(cPrimaryColor),
+                                    title: ksPlaceABid.tr,
+                                    isRightButtonShow: true,
+                                    isScrollControlled: true,
+                                  );
+                                }
                               },
                             ),
                           if (isBiddingPost == false)
@@ -196,8 +206,8 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                                   context: context,
                                   bottomSheetHeight: isSelfPost!
                                       ? isDeviceScreenLarge()
-                                          ? height * 0.3
-                                          : height * 0.4
+                                          ? height * 0.25
+                                          : height * 0.35
                                       : isDeviceScreenLarge()
                                           ? height * 0.15
                                           : height * 0.25,
@@ -467,10 +477,6 @@ class SelfPostMoreBottomSheetContent extends StatelessWidget {
         CustomListTile(
           leading: const CircularContainer(icon: BipHip.checkbox),
           title: ksMarkAsSold.tr,
-        ),
-        CustomListTile(
-          leading: const CircularContainer(icon: BipHip.share),
-          title: ksShareListing.tr,
         ),
       ],
     );
