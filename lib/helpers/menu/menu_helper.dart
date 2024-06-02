@@ -82,6 +82,9 @@ class MenuHelper {
         Get.toNamed(krAwardsPage);
         break;
       case 12:
+        Get.find<QuizController>().resetQuizTapButtonData();
+        Get.find<QuizController>().resetQuizData();
+        await Get.find<QuizController>().getQuestionList();
         Get.toNamed(krDashboardPage);
         break;
     }
