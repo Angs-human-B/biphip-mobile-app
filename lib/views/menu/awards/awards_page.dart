@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
@@ -116,36 +117,46 @@ class AwardsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: awardController.myAwardList.length,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.75,
-                              crossAxisCount: 3,
-                              crossAxisSpacing: k16Padding,
-                              mainAxisSpacing: k16Padding,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                onTap: () {
-                                  awardController.isOthersWinner.value = false;
-                                  Get.to(() => AwardDetailsPage(
-                                        userImage: awardController.myAwardList[index].user!.profilePicture,
-                                        userName: awardController.myAwardList[index].user!.fullName,
-                                        ranking: awardController.myAwardList[index].rank.toString(),
-                                        certificateImage: "",
-                                        winningDate: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
-                                      ));
-                                },
-                                child: AwardView(
-                                  image: awardController.myAwardList[index].user?.profilePicture,
-                                  ranking: awardController.myAwardList[index].rank.toString(),
-                                  titleText: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
+                          if (awardController.myAwardList.isEmpty)
+                            Container(
+                                width: width - 40,
+                                height: height * 0.1,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                                  border: Border.all(width: 1, color: cLineColor),
                                 ),
-                              );
-                            },
-                          ),
+                                child: EmptyView(title: ksYouHaveNotWonAnyAwards.tr)),
+                          if (awardController.myAwardList.isNotEmpty)
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: awardController.myAwardList.length,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 0.75,
+                                crossAxisCount: 3,
+                                crossAxisSpacing: k16Padding,
+                                mainAxisSpacing: k16Padding,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return InkWell(
+                                  onTap: () {
+                                    awardController.isOthersWinner.value = false;
+                                    Get.to(() => AwardDetailsPage(
+                                          userImage: awardController.myAwardList[index].user!.profilePicture,
+                                          userName: awardController.myAwardList[index].user!.fullName,
+                                          ranking: awardController.myAwardList[index].rank.toString(),
+                                          certificateImage: "",
+                                          winningDate: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
+                                        ));
+                                  },
+                                  child: AwardView(
+                                    image: awardController.myAwardList[index].user?.profilePicture,
+                                    ranking: awardController.myAwardList[index].rank.toString(),
+                                    titleText: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
+                                  ),
+                                );
+                              },
+                            ),
                           kH16sizedBox,
                           Text(
                             ksOthersWinner.tr,

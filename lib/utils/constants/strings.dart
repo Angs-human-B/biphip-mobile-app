@@ -688,3 +688,4 @@ const String ksOnlyYourBipHipFriendsAndFamily = "Only your BipHip friends & fami
 const String ksCustom = "Custom";
 
 const String ksWinningDate = "Winning Date";
+const String ksYouHaveNotWonAnyAwards = "You haven't won any awards";
