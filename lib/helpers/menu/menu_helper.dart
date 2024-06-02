@@ -81,6 +81,9 @@ class MenuHelper {
         Get.find<AwardController>().resetAwardData();
         Get.toNamed(krAwardsPage);
         break;
+      case 12:
+        Get.toNamed(krDashboardPage);
+        break;
     }
   }
 

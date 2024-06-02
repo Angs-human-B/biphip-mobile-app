@@ -686,3 +686,7 @@ const String ksOnlyYourBipHipFriends = "Only your BipHip friends";
 const String ksOnlyYourBipHipFamily = "Only your BipHip family";
 const String ksOnlyYourBipHipFriendsAndFamily = "Only your BipHip friends & family";
 const String ksCustom = "Custom";
+
+
+//*DashBoard
+const String ksDashboard = "Dashboard";

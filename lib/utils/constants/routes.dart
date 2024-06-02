@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
@@ -236,6 +237,9 @@ const String krMessages = "/messages";
  //*Notification
  const String krNotificationPage = "/notification-page";
 
+ //*Dashboard
+ const String krDashboardPage = "/dashboard-page";
+
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -370,4 +374,8 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelfiePrivacyPage, page: () => SelfiePrivacyPage(), transition: Transition.noTransition),
   GetPage(name: krSelectPeoplePage, page: () => SelectPeoplePage(), transition: Transition.noTransition),
   GetPage(name: krSelfieViewPage, page: () => SelfieViewPage(), transition: Transition.noTransition),
+
+  //*Dashboard
+  GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
+
 ];
