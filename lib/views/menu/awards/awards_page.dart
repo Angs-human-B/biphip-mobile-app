@@ -121,7 +121,7 @@ class AwardsPage extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: awardController.myAwardList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.8,
+                              childAspectRatio: 0.75,
                               crossAxisCount: 3,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
@@ -132,6 +132,7 @@ class AwardsPage extends StatelessWidget {
                                   awardController.isOthersWinner.value = false;
                                   Get.to(() => AwardDetailsPage(
                                         userImage: awardController.myAwardList[index].user!.profilePicture,
+                                        userName: awardController.myAwardList[index].user!.fullName,
                                         ranking: awardController.myAwardList[index].rank.toString(),
                                         certificateImage: "",
                                         winningDate: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
@@ -157,7 +158,7 @@ class AwardsPage extends StatelessWidget {
                             itemCount: awardController.friendAwardList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
-                              childAspectRatio: 0.8,
+                              childAspectRatio: 0.75,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
                             ),
@@ -167,6 +168,7 @@ class AwardsPage extends StatelessWidget {
                                   awardController.isOthersWinner.value = true;
                                   Get.to(() => AwardDetailsPage(
                                         userImage: awardController.friendAwardList[index].user?.profilePicture,
+                                        userName: awardController.friendAwardList[index].user!.fullName,
                                         ranking: awardController.friendAwardList[index].rank.toString(),
                                         certificateImage: "",
                                         winningDate: DateFormat('d MMM, yyyy').format(awardController.friendAwardList[index].winDate!),
@@ -263,7 +265,7 @@ class AwardView extends StatelessWidget {
           ),
           Positioned(
             right: 6,
-            bottom: 6,
+            bottom: 10,
             child: SvgPicture.asset(kiAward),
           ),
         ],
