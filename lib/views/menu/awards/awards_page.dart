@@ -3,6 +3,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class AwardsPage extends StatelessWidget {
   AwardsPage({super.key});
@@ -118,9 +119,9 @@ class AwardsPage extends StatelessWidget {
                           GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: awardController.youWonAwardList.length,
+                            itemCount: awardController.myAwardList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              // childAspectRatio: 0.8,
+                              childAspectRatio: 0.8,
                               crossAxisCount: 3,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
@@ -130,16 +131,16 @@ class AwardsPage extends StatelessWidget {
                                 onTap: () {
                                   awardController.isOthersWinner.value = false;
                                   Get.to(() => AwardDetailsPage(
-                                        userImage: awardController.youWonAwardList[index]['image'],
-                                        ranking: awardController.youWonAwardList[index]['ranking'],
-                                        certificateImage: awardController.youWonAwardList[index]['certificate'],
-                                        winningDate: awardController.youWonAwardList[index]['WinningDate'],
+                                        userImage: awardController.myAwardList[index].user!.profilePicture,
+                                        ranking: awardController.myAwardList[index].rank.toString(),
+                                        certificateImage: "",
+                                        winningDate: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
                                       ));
                                 },
                                 child: AwardView(
-                                  image: awardController.youWonAwardList[index]['image'],
-                                  ranking: awardController.youWonAwardList[index]['ranking'],
-                                  titleText: awardController.youWonAwardList[index]['WinningDate'],
+                                  image: awardController.myAwardList[index].user?.profilePicture,
+                                  ranking: awardController.myAwardList[index].rank.toString(),
+                                  titleText: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
                                 ),
                               );
                             },
@@ -153,10 +154,10 @@ class AwardsPage extends StatelessWidget {
                           GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: awardController.othersWinnerAwardList.length,
+                            itemCount: awardController.friendAwardList.length,
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
-                              // childAspectRatio: 0.8,
+                              childAspectRatio: 0.8,
                               crossAxisSpacing: k16Padding,
                               mainAxisSpacing: k16Padding,
                             ),
@@ -165,16 +166,16 @@ class AwardsPage extends StatelessWidget {
                                 onTap: () {
                                   awardController.isOthersWinner.value = true;
                                   Get.to(() => AwardDetailsPage(
-                                        userImage: awardController.othersWinnerAwardList[index]['image'],
-                                        ranking: awardController.othersWinnerAwardList[index]['ranking'],
-                                        certificateImage: awardController.othersWinnerAwardList[index]['certificate'],
-                                        winningDate: awardController.othersWinnerAwardList[index]['WinningDate'],
+                                        userImage: awardController.friendAwardList[index].user?.profilePicture,
+                                        ranking: awardController.friendAwardList[index].rank.toString(),
+                                        certificateImage: "",
+                                        winningDate: DateFormat('d MMM, yyyy').format(awardController.friendAwardList[index].winDate!),
                                       ));
                                 },
                                 child: AwardView(
-                                  image: awardController.othersWinnerAwardList[index]['image'],
-                                  ranking: awardController.othersWinnerAwardList[index]['ranking'],
-                                  titleText: awardController.othersWinnerAwardList[index]['WinningDate'],
+                                  image: awardController.friendAwardList[index].user?.profilePicture,
+                                  ranking: awardController.friendAwardList[index].rank.toString(),
+                                  titleText: DateFormat('d MMM, yyyy').format(awardController.friendAwardList[index].winDate!),
                                 ),
                               );
                             },
@@ -210,15 +211,16 @@ class AwardView extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(k8BorderRadius),
             child: Image.network(
-              image!,
+              image ?? "",
               width: (width - 40) / 3,
               height: awardContainerHeight ?? 137,
               fit: BoxFit.cover,
               loadingBuilder: imageLoadingBuilder,
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                BipHip.imageFile,
-                size: kIconSize120,
-                color: cIconColor,
+              errorBuilder: (context, error, stackTrace) => Image.asset(
+                kiProfileDefaultImageUrl,
+                width: (width - 40) / 3,
+                height: awardContainerHeight ?? 137,
+                fit: BoxFit.cover,
               ),
             ),
           ),
@@ -254,7 +256,7 @@ class AwardView extends StatelessWidget {
             child: SizedBox(
               width: ((width - 40) / 3) / 1.5,
               child: Text(
-                titleText ?? "",
+                "$ksWinningDate: $titleText",
                 style: semiBold12TextStyle(cWhiteColor),
               ),
             ),
