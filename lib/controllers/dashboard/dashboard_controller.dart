@@ -58,5 +58,6 @@ class DashboardController extends GetxController {
   // }
   final RxList quizFilterText = RxList(["Inshights", "Today's Quiz", "Played", "Won Quiz"]);
   final RxInt selectedQuizFilterIndex = RxInt(0);
-  // final RxString selectedQuizFilterValue = RxString("");
+  final RxString selectedQuizTimeRangeValue = RxString("This Month");
+  final RxBool quizTimeRangeRightButtonState = RxBool(false);
 }
