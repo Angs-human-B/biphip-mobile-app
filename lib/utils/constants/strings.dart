@@ -691,3 +691,5 @@ const String ksCustom = "Custom";
 //*DashBoard
 const String ksDashboard = "Dashboard";
 const String ksAwardHistiry = "Award History";
+const String ksPerformance = "Performance";
+const String ksRecentAwards = "Recent Awards";
