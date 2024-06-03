@@ -14,6 +14,7 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
@@ -243,6 +244,7 @@ const String krMessages = "/messages";
  const String krDashboardPage = "/dashboard-page";
  const String krDashboardAward = "/dashboard-award";
  const String krDashboardAllAwards = "/dashboard-all-awards";
+ const String krDashboardPerformance = "/dashboard-performance";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -383,5 +385,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
   GetPage(name: krDashboardAward, page: () => DashboardAward(), transition: Transition.noTransition),
   GetPage(name: krDashboardAllAwards, page: () => DashboardAllAwards(), transition: Transition.noTransition),
+  GetPage(name: krDashboardPerformance, page: () => DashboardPerformance(), transition: Transition.noTransition),
 
 ];
