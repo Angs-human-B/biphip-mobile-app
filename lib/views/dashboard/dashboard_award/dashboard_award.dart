@@ -413,34 +413,37 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => kH12sizedBox,
-            itemCount: dashboardController.selectDateTimeFilterList.length,
-            itemBuilder: (context, index) {
-              return Obx(() => CustomListTile(
-                    borderColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                            dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                        ? cPrimaryColor
-                        : cLineColor,
-                    itemColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                            dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                        ? cPrimaryTint2Color
-                        : cWhiteColor,
-                    leading: Text(
-                      dashboardController.selectDateTimeFilterList[index],
-                      style: semiBold14TextStyle(cBlackColor),
-                    ),
-                    onPressed: () {
-                      dashboardController.selectedQuizTimeRangeValue.value = dashboardController.selectDateTimeFilterList[index];
-                      Get.back();
-                    },
-                  ));
-            }),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      child: Column(
+        children: [
+          ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) => kH12sizedBox,
+              itemCount: dashboardController.selectDateTimeFilterList.length,
+              itemBuilder: (context, index) {
+                return Obx(() => CustomListTile(
+                      borderColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
+                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
+                          ? cPrimaryColor
+                          : cLineColor,
+                      itemColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
+                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
+                          ? cPrimaryTint2Color
+                          : cWhiteColor,
+                      leading: Text(
+                        dashboardController.selectDateTimeFilterList[index],
+                        style: semiBold14TextStyle(cBlackColor),
+                      ),
+                      onPressed: () {
+                        dashboardController.selectedQuizTimeRangeValue.value = dashboardController.selectDateTimeFilterList[index];
+                        Get.back();
+                      },
+                    ));
+              }),
+        ],
+      ),
     );
   }
 }

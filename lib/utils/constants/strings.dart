@@ -694,3 +694,4 @@ const String ksAwardHistiry = "Award History";
 const String ksPerformance = "Performance";
 const String ksRecentAwards = "Recent Awards";
 const String ksAllAwards = "All Awards";
+const String ksYouHavenotWonAnyAward = "You haven't won any Award on this week";
