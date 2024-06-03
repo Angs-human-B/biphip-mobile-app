@@ -182,7 +182,9 @@ class DashboardAward extends StatelessWidget {
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(krDashboardAllAwards);
+                          },
                           child: Text(
                             ksSeeAll.tr,
                             style: regular16TextStyle(cPrimaryColor),

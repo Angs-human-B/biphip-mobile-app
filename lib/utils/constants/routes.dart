@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
@@ -241,6 +242,7 @@ const String krMessages = "/messages";
  //*Dashboard
  const String krDashboardPage = "/dashboard-page";
  const String krDashboardAward = "/dashboard-award";
+ const String krDashboardAllAwards = "/dashboard-all-awards";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -380,5 +382,6 @@ List<GetPage<dynamic>>? routes = [
   //*Dashboard
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
   GetPage(name: krDashboardAward, page: () => DashboardAward(), transition: Transition.noTransition),
+  GetPage(name: krDashboardAllAwards, page: () => DashboardAllAwards(), transition: Transition.noTransition),
 
 ];
