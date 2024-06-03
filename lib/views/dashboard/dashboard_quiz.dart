@@ -5,6 +5,7 @@ import 'package:bip_hip/views/home/quiz/my_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 // import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -74,6 +75,111 @@ class DashboardQuiz extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (dashboardController.selectedQuizFilterIndex.value == 0)
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kH20sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.find<GlobalController>().commonBottomSheet(
+                                        context: context,
+                                        content: const QuizTimeFilterBottomSheetContent(),
+                                        onPressCloseButton: () {
+                                          Get.back();
+                                        },
+                                        onPressRightButton: () {
+                                          dashboardController.selectedQuizTimeRangeValue.value = "This Month";
+                                        },
+                                        rightText: ksDone.tr,
+                                        rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                        title: ksTime.tr,
+                                        isRightButtonShow: true,
+                                        isBottomSheetRightButtonActive: dashboardController.quizTimeRangeRightButtonState);
+                                  },
+                                  child: Container(
+                                    height: h28,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(k4BorderRadius),
+                                      color: cNeutralColor,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k4Padding),
+                                          child: Text(
+                                            dashboardController.selectedQuizTimeRangeValue.value,
+                                            style: regular12TextStyle(cBlackColor),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(top: k4Padding, bottom: k4Padding, right: k8Padding),
+                                          child: Icon(
+                                            BipHip.downArrow,
+                                            size: kIconSize20,
+                                            color: cBlackColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Feb 4 - Mar 2",
+                                  style: semiBold14TextStyle(cBlackColor),
+                                ),
+                              ],
+                            ),
+                            kH20sizedBox,
+                            Text(
+                              ksPerformance.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
+                            kH16sizedBox,
+                            BarChartWidget(),
+                            kH16sizedBox,
+                            const LineChartWidget(
+                              titleText: "Win",
+                              filterDateTimeText: "From this month",
+                              totalValue: "5",
+                              percentText: "+2%",
+                              progressColor: cGreenColor,
+                              progressBottomColor: cGreenTintColor,
+                              percentTextColor: cGreenColor,
+                            ),
+                            kH16sizedBox,
+                            const LineChartWidget(
+                              titleText: "Lost",
+                              filterDateTimeText: "From this month",
+                              totalValue: "20",
+                              percentText: "-8%",
+                              progressColor: cRedColor,
+                              progressBottomColor: cRedTintColor,
+                              percentTextColor: cRedColor,
+                            ),
+                            kH16sizedBox,
+                            const LineChartWidget(
+                              titleText: "Winning Ratio",
+                              filterDateTimeText: "From this month",
+                              totalValue: "2",
+                              percentText: "-16%",
+                              progressColor: cPrimaryColor,
+                              progressBottomColor: cPrimaryTint2Color,
+                              percentTextColor: cRedColor,
+                            ),
+                            kH16sizedBox,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 if (dashboardController.selectedQuizFilterIndex.value == 1)
                   Padding(
                     padding: const EdgeInsets.only(top: k20Padding, bottom: k16Padding, left: k20Padding, right: k20Padding),
@@ -642,6 +748,408 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [],
+    );
+  }
+}
+
+// class LineChartWidget extends StatelessWidget {
+//   const LineChartWidget({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return AspectRatio(
+//       aspectRatio: 1,
+//       child: LineChart(
+//         LineChartData(
+//           lineBarsData: [
+//             LineChartBarData(
+//               spots: [
+//                 FlSpot(0, 3),
+//                 FlSpot(2.6, 2),
+//                 FlSpot(4.9, 5),
+//                 FlSpot(6.8, 2.5),
+//                 FlSpot(8, 4),
+//                 FlSpot(9.5, 3),
+//                 FlSpot(11, 4),
+//               ],
+//               isCurved: true,
+//               color: cGreenColor,
+//               // dotData: FlDotData(show: true),
+//               belowBarData: BarAreaData(show: true, color: cGreenTintColor),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class LineChartWidget extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return LineChart(
+//       LineChartData(
+//         gridData: FlGridData(show: false),
+//         titlesData: FlTitlesData(
+//           leftTitles: AxisTitles(
+//             sideTitles: SideTitles(showTitles: false),
+//           ),
+//           bottomTitles: AxisTitles(
+//             sideTitles: SideTitles(showTitles: false),
+//           ),
+//           topTitles: AxisTitles(
+//             sideTitles: SideTitles(showTitles: false),
+//           ),
+//           rightTitles: AxisTitles(
+//             sideTitles: SideTitles(showTitles: false),
+//           ),
+//         ),
+//         borderData: FlBorderData(show: false),
+//         lineBarsData: [
+//           LineChartBarData(
+//             spots: [
+//               FlSpot(0, 3),
+//               FlSpot(1, 3.5),
+//               FlSpot(2, 4),
+//               FlSpot(3, 4.5),
+//               FlSpot(4, 4),
+//               FlSpot(5, 5),
+//               FlSpot(6, 4.5),
+//             ],
+//             isCurved: true,
+//             // colors: [Colors.green],
+//             color: cGreenColor,
+//             barWidth: 4,
+//             isStrokeCapRound: true,
+//             belowBarData: BarAreaData(
+//               show: true,
+//               // colors: [Colors.green.withOpacity(0.3)],
+//               color: cGreenTintColor,
+//             ),
+//             dotData: FlDotData(show: false),
+//           ),
+//         ],
+//         minX: 0,
+//         maxX: 6,
+//         minY: 2,
+//         maxY: 6,
+//       ),
+//     );
+//   }
+// }
+
+class LineChartWidget extends StatelessWidget {
+  const LineChartWidget(
+      {super.key,
+      this.percentTextColor,
+      this.progressColor,
+      this.progressBottomColor,
+      required this.titleText,
+      required this.percentText,
+      required this.filterDateTimeText,
+      required this.totalValue});
+  final Color? percentTextColor, progressColor, progressBottomColor;
+  final String titleText, percentText, filterDateTimeText, totalValue;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 200,
+      decoration: BoxDecoration(
+        color: cWhiteColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        boxShadow: const [
+          BoxShadow(
+            color: cLineColor,
+            blurRadius: 4,
+            spreadRadius: 1.5,
+            offset: Offset(
+              0,
+              1,
+            ), // Shadow position
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: LineChart(
+              LineChartData(
+                gridData: const FlGridData(show: false),
+                titlesData: const FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                ),
+                borderData: FlBorderData(show: false),
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: const [
+                      FlSpot(0, 3),
+                      FlSpot(1, 3.5),
+                      FlSpot(2, 4),
+                      FlSpot(3, 4.5),
+                      FlSpot(4, 4),
+                      FlSpot(5, 5),
+                      FlSpot(6, 4.5),
+                    ],
+                    isCurved: true,
+                    // colors: [Colors.green],
+                    color: progressColor ?? cGreenColor,
+                    barWidth: 2,
+                    isStrokeCapRound: true,
+                    belowBarData: BarAreaData(
+                      show: true,
+                      // colors: [Colors.green.withOpacity(0.3)],
+                      color: progressBottomColor ?? cGreenTintColor,
+                    ),
+                    dotData: FlDotData(show: false),
+                  ),
+                ],
+                minX: 0,
+                maxX: 6,
+                minY: 2,
+                maxY: 6,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 16,
+            left: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  titleText,
+                  style: semiBold16TextStyle(cBlackColor),
+                ),
+                Text(
+                  filterDateTimeText,
+                  style: regular10TextStyle(cSmallBodyTextColor),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  totalValue,
+                  style: semiBold18TextStyle(cBlackColor),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: k4Padding, left: k4Padding),
+                  child: Text(
+                    percentText,
+                    style: regular12TextStyle(percentTextColor ?? cGreenColor),
+                    textAlign: TextAlign.end,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BarChartWidget extends StatelessWidget {
+  const BarChartWidget({super.key, this.barColor});
+  final Color? barColor;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 200,
+      decoration: BoxDecoration(
+        color: cWhiteColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        boxShadow: const [
+          BoxShadow(
+            color: cLineColor,
+            blurRadius: 4,
+            spreadRadius: 1.5,
+            offset: Offset(
+              0,
+              1,
+            ), // Shadow position
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: BarChart(
+              BarChartData(
+                gridData: const FlGridData(show: false),
+                titlesData: const FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                ),
+                borderData: FlBorderData(show: false),
+                barGroups: [
+                  BarChartGroupData(
+                    x: 0,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 8,
+
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(8), toY: 8,
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 1,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 4,
+                        // colors: [barColor],
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(8), toY: 4,
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 2,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 6,
+                        // colors: [barColor],
+                        // width: 16,
+                        // borderRadius: BorderRadius.circular(8),
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(8), toY: 6,
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 3,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 10,
+                        // colors: [barColor],
+                        // width: 16,
+                        // borderRadius: BorderRadius.circular(8),
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(8), toY: 10,
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 4,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 6,
+                        // colors: [barColor],
+                        // width: 16,
+                        // borderRadius: BorderRadius.circular(8),
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(k8BorderRadius), toY: 6,
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 5,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 8,
+                        // colors: [barColor],
+                        // width: 16,
+                        // borderRadius: BorderRadius.circular(8),
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(k8BorderRadius), toY: 8,
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 6,
+                    barRods: [
+                      BarChartRodData(
+                        // y: 4,
+                        // colors: [barColor],
+                        // width: 16,
+                        // borderRadius: BorderRadius.circular(8),
+                        color: barColor ?? cPurpleColor,
+                        width: 16,
+                        borderRadius: BorderRadius.circular(k8BorderRadius), toY: 4,
+                      ),
+                    ],
+                  ),
+                ],
+                alignment: BarChartAlignment.spaceAround,
+                maxY: 12,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 16,
+            left: 16,
+            child: Text(
+              'Total Play',
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '20,874',
+                      style: semiBold18TextStyle(cBlackColor),
+                    ),
+                    kW4sizedBox,
+                    Text(
+                      '+39%',
+                      style: regular14TextStyle(cGreenColor),
+                    ),
+                  ],
+                ),
+                SizedBox(width: 4),
+                Text(
+                  'From this month',
+                  style: regular10TextStyle(cSmallBodyTextColor),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
