@@ -752,92 +752,6 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
   }
 }
 
-// class LineChartWidget extends StatelessWidget {
-//   const LineChartWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AspectRatio(
-//       aspectRatio: 1,
-//       child: LineChart(
-//         LineChartData(
-//           lineBarsData: [
-//             LineChartBarData(
-//               spots: [
-//                 FlSpot(0, 3),
-//                 FlSpot(2.6, 2),
-//                 FlSpot(4.9, 5),
-//                 FlSpot(6.8, 2.5),
-//                 FlSpot(8, 4),
-//                 FlSpot(9.5, 3),
-//                 FlSpot(11, 4),
-//               ],
-//               isCurved: true,
-//               color: cGreenColor,
-//               // dotData: FlDotData(show: true),
-//               belowBarData: BarAreaData(show: true, color: cGreenTintColor),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class LineChartWidget extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return LineChart(
-//       LineChartData(
-//         gridData: FlGridData(show: false),
-//         titlesData: FlTitlesData(
-//           leftTitles: AxisTitles(
-//             sideTitles: SideTitles(showTitles: false),
-//           ),
-//           bottomTitles: AxisTitles(
-//             sideTitles: SideTitles(showTitles: false),
-//           ),
-//           topTitles: AxisTitles(
-//             sideTitles: SideTitles(showTitles: false),
-//           ),
-//           rightTitles: AxisTitles(
-//             sideTitles: SideTitles(showTitles: false),
-//           ),
-//         ),
-//         borderData: FlBorderData(show: false),
-//         lineBarsData: [
-//           LineChartBarData(
-//             spots: [
-//               FlSpot(0, 3),
-//               FlSpot(1, 3.5),
-//               FlSpot(2, 4),
-//               FlSpot(3, 4.5),
-//               FlSpot(4, 4),
-//               FlSpot(5, 5),
-//               FlSpot(6, 4.5),
-//             ],
-//             isCurved: true,
-//             // colors: [Colors.green],
-//             color: cGreenColor,
-//             barWidth: 4,
-//             isStrokeCapRound: true,
-//             belowBarData: BarAreaData(
-//               show: true,
-//               // colors: [Colors.green.withOpacity(0.3)],
-//               color: cGreenTintColor,
-//             ),
-//             dotData: FlDotData(show: false),
-//           ),
-//         ],
-//         minX: 0,
-//         maxX: 6,
-//         minY: 2,
-//         maxY: 6,
-//       ),
-//     );
-//   }
-// }
-
 class LineChartWidget extends StatelessWidget {
   const LineChartWidget(
       {super.key,
@@ -904,16 +818,14 @@ class LineChartWidget extends StatelessWidget {
                       FlSpot(6, 4.5),
                     ],
                     isCurved: true,
-                    // colors: [Colors.green],
                     color: progressColor ?? cGreenColor,
                     barWidth: 2,
                     isStrokeCapRound: true,
                     belowBarData: BarAreaData(
                       show: true,
-                      // colors: [Colors.green.withOpacity(0.3)],
                       color: progressBottomColor ?? cGreenTintColor,
                     ),
-                    dotData: FlDotData(show: false),
+                    dotData: const FlDotData(show: false),
                   ),
                 ],
                 minX: 0,
@@ -1055,13 +967,10 @@ class BarChartWidget extends StatelessWidget {
                     x: 3,
                     barRods: [
                       BarChartRodData(
-                        // y: 10,
-                        // colors: [barColor],
-                        // width: 16,
-                        // borderRadius: BorderRadius.circular(8),
                         color: barColor ?? cPurpleColor,
                         width: 16,
-                        borderRadius: BorderRadius.circular(8), toY: 10,
+                        borderRadius: BorderRadius.circular(8),
+                        toY: 10,
                       ),
                     ],
                   ),
@@ -1069,13 +978,10 @@ class BarChartWidget extends StatelessWidget {
                     x: 4,
                     barRods: [
                       BarChartRodData(
-                        // y: 6,
-                        // colors: [barColor],
-                        // width: 16,
-                        // borderRadius: BorderRadius.circular(8),
                         color: barColor ?? cPurpleColor,
                         width: 16,
-                        borderRadius: BorderRadius.circular(k8BorderRadius), toY: 6,
+                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                        toY: 6,
                       ),
                     ],
                   ),
@@ -1083,13 +989,10 @@ class BarChartWidget extends StatelessWidget {
                     x: 5,
                     barRods: [
                       BarChartRodData(
-                        // y: 8,
-                        // colors: [barColor],
-                        // width: 16,
-                        // borderRadius: BorderRadius.circular(8),
                         color: barColor ?? cPurpleColor,
                         width: 16,
-                        borderRadius: BorderRadius.circular(k8BorderRadius), toY: 8,
+                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                        toY: 8,
                       ),
                     ],
                   ),
@@ -1097,13 +1000,10 @@ class BarChartWidget extends StatelessWidget {
                     x: 6,
                     barRods: [
                       BarChartRodData(
-                        // y: 4,
-                        // colors: [barColor],
-                        // width: 16,
-                        // borderRadius: BorderRadius.circular(8),
                         color: barColor ?? cPurpleColor,
                         width: 16,
-                        borderRadius: BorderRadius.circular(k8BorderRadius), toY: 4,
+                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                        toY: 4,
                       ),
                     ],
                   ),
@@ -1140,7 +1040,7 @@ class BarChartWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: 4),
+                kW4sizedBox,
                 Text(
                   'From this month',
                   style: regular10TextStyle(cSmallBodyTextColor),
