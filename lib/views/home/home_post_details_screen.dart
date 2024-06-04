@@ -712,13 +712,9 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                                       ],
                                                     )
                                                   : SizedBox(
-                                                      // color: cRedColor,
                                                       height: Get.find<PostReactionController>().isKeyboardFocused.value
                                                           ? (height * .9) - 23 - 100 - globalController.keyboardHeight.value
                                                           : (height * .9) - 23 - 100,
-                                                      // height: MediaQuery.of(Get.context!).viewInsets.bottom > 0
-                                                      //     ? (height * .9) - 23 - 100 - MediaQuery.of(Get.context!).viewInsets.bottom
-                                                      //     : (height * .9) - 23 - 100,
 
                                                       child: SingleChildScrollView(
                                                         physics: const AlwaysScrollableScrollPhysics(),
@@ -788,6 +784,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                                         ),
                                                       ),
                                                     ),
+                                       
                                         ),
                                       );
                                       postReactionController.resetCommentAndReplyData();
