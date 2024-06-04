@@ -10,6 +10,29 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
+  final RxBool isKeyboardFocused = RxBool(false);
+  @override
+  void onInit() async {
+    commentFocusNode.addListener(() {
+      if (commentFocusNode.hasFocus) {
+        isKeyboardFocused.value = true;
+    ll("isKeyboardFocused: $isKeyboardFocused");
+      } else {
+        isKeyboardFocused.value = false;
+    ll("isKeyboardFocused: $isKeyboardFocused");
+      }
+    });
+    tabController = TabController(
+      length: 5,
+      animationDuration: Duration.zero,
+      vsync: this,
+    );
+    tabController.addListener(() {
+      giftFilter(tabController.index);
+    });
+    super.onInit();
+  }
+
   final RxInt selectedBidIndex = RxInt(-1);
   final RxInt selectedGiftIndex = RxInt(-1);
   final RxInt balance = RxInt(200);
@@ -36,18 +59,18 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxString totalStars = RxString('');
   final String perPageTake = "take=15";
 
-  @override
-  void onInit() {
-    super.onInit();
-    tabController = TabController(
-      length: 5,
-      animationDuration: Duration.zero,
-      vsync: this,
-    );
-    tabController.addListener(() {
-      giftFilter(tabController.index);
-    });
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   tabController = TabController(
+  //     length: 5,
+  //     animationDuration: Duration.zero,
+  //     vsync: this,
+  //   );
+  //   tabController.addListener(() {
+  //     giftFilter(tabController.index);
+  //   });
+  // }
 
   void clearBadgeCount() {
     badgeCount1.value = 0;

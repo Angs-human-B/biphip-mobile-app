@@ -436,7 +436,8 @@ class GlobalController extends GetxController {
 
   void blankBottomSheetForImageComment({
     required context,
-    required Widget content,action,
+    required Widget content,
+    action,
     double? bottomSheetHeight,
     bool? isScrollControlled,
   }) {
@@ -445,8 +446,10 @@ class GlobalController extends GetxController {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
       ),
-      context: context,
+      context: Get.context!,
       builder: (BuildContext context) {
+        keyboardHeight.value = MediaQuery.of(context).viewInsets.bottom;
+        ll(keyboardHeight.value);
         return Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -1195,5 +1198,7 @@ class GlobalController extends GetxController {
       ll('followUnfollowUser error: $e');
     }
   }
+
+  final RxDouble keyboardHeight = RxDouble(0.0);
   //! end
 }

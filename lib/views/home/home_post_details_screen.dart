@@ -229,7 +229,6 @@ class HomePostDetailsScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                           
                               ],
                             ),
                           ),
@@ -264,6 +263,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostDataRx postData = globalController.commonPostList[postIndex];
+    // ll(MediaQuery.of(Get.context!).viewInsets.bottom);
     return Obx(() => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -659,7 +659,7 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                         postReactionController.imageId.value = Get.find<GlobalController>().commonPostList[postIndex].images[index].id!;
                                       }
                                       globalController.blankBottomSheetForImageComment(
-                                        context: Get.context,
+                                        context: context,
                                         isScrollControlled: true,
                                         bottomSheetHeight: height * 0.9,
                                         action: CommentTextField(
@@ -689,100 +689,106 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                             }
                                           },
                                         ),
-                                        content: Obx(() => postReactionController.isCommentLoading.value
-                                            ? const CommentCommonShimmer()
-                                            : Column(
-                                                children: [
-                                                  if (postReactionController.commentList.isEmpty)
-                                                    SizedBox(
-                                                      height: height * 0.738,
-                                                      child: Column(
-                                                        children: [
-                                                          const Icon(
-                                                            BipHip.comment,
-                                                            color: cIconColor,
-                                                            size: 80,
-                                                          ),
-                                                          kH4sizedBox,
-                                                          Text(
-                                                            ksNoCommentsYet.tr,
-                                                            style: semiBold14TextStyle(cBlackColor),
-                                                          ),
-                                                          Text(
-                                                            ksBeTheFirstToComment.tr,
-                                                            style: regular12TextStyle(cSmallBodyTextColor),
-                                                          ),
-                                                        ],
+                                        content: Obx(
+                                          () => postReactionController.isCommentLoading.value
+                                              ? const CommentCommonShimmer()
+                                              : postReactionController.commentList.isEmpty
+                                                  ? Column(
+                                                      children: [
+                                                        const Icon(
+                                                          BipHip.comment,
+                                                          color: cIconColor,
+                                                          size: 80,
+                                                        ),
+                                                        kH4sizedBox,
+                                                        Text(
+                                                          ksNoCommentsYet.tr,
+                                                          style: semiBold14TextStyle(cBlackColor),
+                                                        ),
+                                                        Text(
+                                                          ksBeTheFirstToComment.tr,
+                                                          style: regular12TextStyle(cSmallBodyTextColor),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      // color: cRedColor,
+                                                      height: Get.find<PostReactionController>().isKeyboardFocused.value
+                                                          ? (height * .9) - 23 - 100 - globalController.keyboardHeight.value
+                                                          : (height * .9) - 23 - 100,
+                                                      // height: MediaQuery.of(Get.context!).viewInsets.bottom > 0
+                                                      //     ? (height * .9) - 23 - 100 - MediaQuery.of(Get.context!).viewInsets.bottom
+                                                      //     : (height * .9) - 23 - 100,
+
+                                                      child: SingleChildScrollView(
+                                                        physics: const AlwaysScrollableScrollPhysics(),
+                                                        child: Column(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            for (int index = 0; index < postReactionController.commentList.length; index++)
+                                                              Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                                                    child: CommentWidget(
+                                                                      postIndex: postIndex,
+                                                                      commentIndex: index,
+                                                                      isLikeButtonShown: true,
+                                                                      isReplyButtonShown: true,
+                                                                      isReactButtonShown: true,
+                                                                      isHideButtonShown: globalController.userId.value ==
+                                                                          globalController.commonPostList[postIndex].comments[index].user!.id,
+                                                                    ),
+                                                                  ),
+                                                                  kH8sizedBox,
+                                                                  if (!postReactionController.replyShow[index] &&
+                                                                      postReactionController.commentList[index].commentReplies.isNotEmpty)
+                                                                    Padding(
+                                                                      padding: const EdgeInsets.only(left: k60Padding, right: k60Padding, bottom: k10Padding),
+                                                                      child: Align(
+                                                                          alignment: Alignment.centerLeft,
+                                                                          child: InkWell(
+                                                                              onTap: () async {
+                                                                                // globalController.commonPostList[postIndex].comments[index].commentReplies.clear();
+                                                                                postReactionController.commentList[index].commentReplies.clear();
+                                                                                postReactionController.replyShow[index] = true;
+                                                                                // ll(postReactionController.commentList[index].commentReplies.length);
+                                                                                await postReactionController.getReplyList(
+                                                                                    postReactionController.commentList[index].id!, postIndex, index);
+                                                                              },
+                                                                              child: Text(
+                                                                                "View Replies",
+                                                                                style: semiBold14TextStyle(cSmallBodyTextColor),
+                                                                              ))),
+                                                                    ),
+                                                                  // if (postReactionController.isReplyLoading.value)
+                                                                  //   const Center(
+                                                                  //       child: SizedBox(
+                                                                  //           width: 20,
+                                                                  //           height: 20,
+                                                                  //           child: CircularProgressIndicator(
+                                                                  //             strokeWidth: 2,
+                                                                  //           ))),
+                                                                  if (postReactionController.replyShow[index])
+                                                                    for (int i = 0; i < postReactionController.commentList[index].commentReplies.length; i++)
+                                                                      Padding(
+                                                                        padding: const EdgeInsets.only(top: 0, right: kHorizontalPadding),
+                                                                        child: ReplyCommentWidget(
+                                                                          postIndex: postIndex,
+                                                                          commentIndex: index,
+                                                                          replyIndex: i,
+                                                                          isLikeButtonShown: true,
+                                                                          isReplyButtonShown: true,
+                                                                          isReactButtonShown: true,
+                                                                        ),
+                                                                      )
+                                                                ],
+                                                              ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  if (postReactionController.commentList.isNotEmpty)
-                                                    ListView.builder(
-                                                      shrinkWrap: true,
-                                                      physics: const NeverScrollableScrollPhysics(),
-                                                      itemCount: postReactionController.commentList.length,
-                                                      itemBuilder: (context, index) {
-                                                        return Obx(() => Column(
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                                                  child: CommentWidget(
-                                                                    postIndex: postIndex,
-                                                                    commentIndex: index,
-                                                                    isLikeButtonShown: true,
-                                                                    isReplyButtonShown: true,
-                                                                    isReactButtonShown: true,
-                                                                    isHideButtonShown: globalController.userId.value ==
-                                                                        globalController.commonPostList[postIndex].comments[index].user!.id,
-                                                                  ),
-                                                                ),
-                                                                kH8sizedBox,
-                                                                if (!postReactionController.replyShow[index] &&
-                                                                    postReactionController.commentList[index].commentReplies.isNotEmpty)
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.only(left: k60Padding, right: k60Padding, bottom: k10Padding),
-                                                                    child: Align(
-                                                                        alignment: Alignment.centerLeft,
-                                                                        child: InkWell(
-                                                                            onTap: () async {
-                                                                              // globalController.commonPostList[postIndex].comments[index].commentReplies.clear();
-                                                                              postReactionController.commentList[index].commentReplies.clear();
-                                                                              postReactionController.replyShow[index] = true;
-                                                                              // ll(postReactionController.commentList[index].commentReplies.length);
-                                                                              await postReactionController.getReplyList(
-                                                                                  postReactionController.commentList[index].id!, postIndex, index);
-                                                                            },
-                                                                            child: Text(
-                                                                              "View Replies",
-                                                                              style: semiBold14TextStyle(cSmallBodyTextColor),
-                                                                            ))),
-                                                                  ),
-                                                                // if (postReactionController.isReplyLoading.value)
-                                                                //   const Center(
-                                                                //       child: SizedBox(
-                                                                //           width: 20,
-                                                                //           height: 20,
-                                                                //           child: CircularProgressIndicator(
-                                                                //             strokeWidth: 2,
-                                                                //           ))),
-                                                                if (postReactionController.replyShow[index])
-                                                                  for (int i = 0; i < postReactionController.commentList[index].commentReplies.length; i++)
-                                                                    Padding(
-                                                                      padding: const EdgeInsets.only(top: 0, right: kHorizontalPadding),
-                                                                      child: ReplyCommentWidget(
-                                                                        postIndex: postIndex,
-                                                                        commentIndex: index,
-                                                                        replyIndex: i,
-                                                                        isLikeButtonShown: true,
-                                                                        isReplyButtonShown: true,
-                                                                        isReactButtonShown: true,
-                                                                      ),
-                                                                    )
-                                                              ],
-                                                            ));
-                                                      },
-                                                    ),
-                                                ],
-                                              )),
+                                        ),
                                       );
                                       postReactionController.resetCommentAndReplyData();
                                       await postReactionController.getCommentList(2, globalController.commonPostList[postIndex].images[index].id!, postIndex);
