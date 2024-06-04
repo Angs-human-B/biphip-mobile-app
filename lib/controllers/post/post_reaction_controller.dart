@@ -16,10 +16,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     commentFocusNode.addListener(() {
       if (commentFocusNode.hasFocus) {
         isKeyboardFocused.value = true;
-    ll("isKeyboardFocused: $isKeyboardFocused");
+        ll("isKeyboardFocused: $isKeyboardFocused");
       } else {
         isKeyboardFocused.value = false;
-    ll("isKeyboardFocused: $isKeyboardFocused");
+        ll("isKeyboardFocused: $isKeyboardFocused");
       }
     });
     tabController = TabController(
@@ -390,6 +390,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Get More Comment List for pagination
   Future<void> getMoreCommentList(take, int refType, int refId, int postIndex) async {
+    isCommentLoading.value = true;
     try {
       String? token = await spController.getBearerToken();
       dynamic commentListSub;
@@ -410,6 +411,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       if (response.success == true) {
         commentListData.value = PostCommentModel.fromJson(response.data);
+        commentList.addAll(commentListData.value!.comments!.data);
         globalController.commonPostList[postIndex].comments.addAll(commentListData.value!.comments!.data);
         replyShow.clear();
         for (int i = 0; i < globalController.commonPostList[postIndex].comments.length; i++) {
