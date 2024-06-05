@@ -117,7 +117,9 @@ class DashboardGift extends StatelessWidget {
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Get.toNamed(krDashboardGiftEarned);
+                        },
                         child: Text(
                           ksSeeAll.tr,
                           style: regular16TextStyle(cPrimaryColor),
@@ -188,19 +190,22 @@ class DashboardGiftContentContainer extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(
-                  productImage ?? "",
-                  fit: BoxFit.cover,
-                  width: 80,
-                  height: h60,
-                  loadingBuilder: imageLoadingBuilder,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      kiUploadImage,
-                      width: 80,
-                      height: h60,
-                    );
-                  },
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                  child: Image.network(
+                    productImage ?? "",
+                    fit: BoxFit.cover,
+                    width: 80,
+                    height: h60,
+                    loadingBuilder: imageLoadingBuilder,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        kiUploadImage,
+                        width: 80,
+                        height: h60,
+                      );
+                    },
+                  ),
                 ),
                 kW12sizedBox,
                 Expanded(
