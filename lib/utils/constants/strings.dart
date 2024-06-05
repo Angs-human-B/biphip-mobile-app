@@ -687,6 +687,9 @@ const String ksOnlyYourBipHipFamily = "Only your BipHip family";
 const String ksOnlyYourBipHipFriendsAndFamily = "Only your BipHip friends & family";
 const String ksCustom = "Custom";
 
-
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksPerformance = "Performance";
+const String ksTotalStar = "Total Star";
+const String ksStarPurchaseHistory = "Star Purchase History";
+const String ksStarGiftHistory = "Star Gift History";
