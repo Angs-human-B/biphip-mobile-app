@@ -151,9 +151,15 @@ class DashboardStar extends StatelessWidget {
                         ksStarPurchaseHistory.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      Text(
-                        ksSeeAll.tr,
-                        style: regular16TextStyle(cPrimaryColor),
+                      InkWell(
+                        onTap: () {
+                          dashboardController.selectedDashboardStarHistoryIndex.value = 0;
+                          Get.toNamed(krDashboardStarHistory);
+                        },
+                        child: Text(
+                          ksSeeAll.tr,
+                          style: regular16TextStyle(cPrimaryColor),
+                        ),
                       ),
                     ],
                   ),
@@ -181,9 +187,15 @@ class DashboardStar extends StatelessWidget {
                         ksStarGiftHistory.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
-                      Text(
-                        ksSeeAll.tr,
-                        style: regular16TextStyle(cPrimaryColor),
+                      InkWell(
+                        onTap: () {
+                          dashboardController.selectedDashboardStarHistoryIndex.value = 1;
+                          Get.toNamed(krDashboardStarHistory);
+                        },
+                        child: Text(
+                          ksSeeAll.tr,
+                          style: regular16TextStyle(cPrimaryColor),
+                        ),
                       ),
                     ],
                   ),
@@ -199,7 +211,8 @@ class DashboardStar extends StatelessWidget {
                         packageIcon: dashboardController.starGiftHistoryList[index]["packageIcon"],
                         packageName: dashboardController.starGiftHistoryList[index]["packageName"],
                         packageAmount: dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
-                        price: dashboardController.starGiftHistoryList[index]["price"].toString(),
+                        price: ksView.tr,
+                        lastTextColor: cPrimaryColor,
                       );
                     },
                   ),
@@ -440,9 +453,16 @@ class StarGiftReport extends StatelessWidget {
 
 class StarPurchaseAndGiftContent extends StatelessWidget {
   const StarPurchaseAndGiftContent(
-      {super.key, required this.date, required this.packageName, required this.packageAmount, required this.price, required this.packageIcon});
+      {super.key,
+      required this.date,
+      required this.packageName,
+      required this.packageAmount,
+      required this.price,
+      required this.packageIcon,
+      this.lastTextColor});
   final String date, packageName, packageAmount, price;
   final IconData packageIcon;
+  final Color? lastTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -473,7 +493,7 @@ class StarPurchaseAndGiftContent extends StatelessWidget {
         ),
         Text(
           price,
-          style: regular12TextStyle(cBlackColor),
+          style: regular12TextStyle(lastTextColor ?? cBlackColor),
         ),
       ],
     );

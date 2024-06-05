@@ -693,3 +693,6 @@ const String ksPerformance = "Performance";
 const String ksTotalStar = "Total Star";
 const String ksStarPurchaseHistory = "Star Purchase History";
 const String ksStarGiftHistory = "Star Gift History";
+const String ksView = "View";
+const String ksPackage = "Package";
+const String ksStarAmount = "Star Amount";
