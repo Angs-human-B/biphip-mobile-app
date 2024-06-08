@@ -690,3 +690,5 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksDonation = "Donation";
+const String ksYouHaveNothingInDonation = "You have nothing in donation!";
