@@ -72,9 +72,14 @@ class DashboardDonation extends StatelessWidget {
                                 ksDonationPosts.tr,
                                 style: semiBold18TextStyle(cBlackColor),
                               ),
-                              Text(
-                                ksSeeAll.tr,
-                                style: regular16TextStyle(cPrimaryColor),
+                              InkWell(
+                                onTap: () {
+                                  Get.toNamed(krDashboardDonatedPost);
+                                },
+                                child: Text(
+                                  ksSeeAll.tr,
+                                  style: regular16TextStyle(cPrimaryColor),
+                                ),
                               ),
                             ],
                           ),

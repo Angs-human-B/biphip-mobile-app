@@ -41,7 +41,7 @@ class DashboardController extends GetxController {
       "postCount": "0",
       "engagementCount": "0",
       "giftCount": "0",
-       "amount": "\$20"
+      "amount": "\$20"
     },
     {
       "productImage": "https://www.otocapital.in/_next/image?url=https%3A%2F%2Fassets.otocapital.in%2Fproduction%2Fsports-bike-in-india.png&w=1024&q=75",
@@ -50,7 +50,7 @@ class DashboardController extends GetxController {
       "postCount": "0",
       "engagementCount": "0",
       "giftCount": "0",
-       "amount": "\$30"
+      "amount": "\$30"
     },
     {
       "productImage": "https://media.e-valy.com/cms/products/images/b71f027e-9793-4dc2-8d26-1111cbba1c81",
@@ -59,7 +59,16 @@ class DashboardController extends GetxController {
       "postCount": "0",
       "engagementCount": "0",
       "giftCount": "0",
-       "amount": "\$40"
+      "amount": "\$40"
+    },
+    {
+      "productImage": "https://imgd.aeplcdn.com/642x361/n/cw/ec/126607/honda-cbr500r-right-side-view0.jpeg?isig=0&q=80",
+      "productTitle": "Honda CBR150R Repsol Edition",
+      "postDate": "10Feb, 2024",
+      "postCount": "0",
+      "engagementCount": "0",
+      "giftCount": "0",
+      "amount": "\$50"
     },
   ]);
 }
