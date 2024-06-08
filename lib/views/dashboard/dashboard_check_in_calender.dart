@@ -160,23 +160,28 @@ class CalendarView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          DateFormat('MMM, yyyy').format(dashboardController.today),
+          DateFormat("MMMM, yyyy").format(dashboardController.days.value),
           style: semiBold16TextStyle(cBlackColor),
         ),
         kH8sizedBox,
         TableCalendar(
           firstDay: DateTime.utc(2024, 01, 01),
-          lastDay: DateTime.utc(2024, 06, 31),
-          focusedDay: dashboardController.today,
+          lastDay: DateTime.utc(2024, 6, 30),
+          focusedDay: dashboardController.focuseDay.value,
+          onDaySelected: (selectedDay, focusedDay) {
+            dashboardController.focuseDay.value = focusedDay;
+            ll(dashboardController.focuseDay.value);
+          },
           startingDayOfWeek: StartingDayOfWeek.monday,
           headerVisible: false,
-          calendarStyle: const CalendarStyle(
+          calendarStyle: CalendarStyle(
             outsideDaysVisible: false,
-            defaultTextStyle: TextStyle(fontWeight: FontWeight.bold),
-            holidayTextStyle: TextStyle(color: Colors.red),
+            defaultTextStyle: semiBold14TextStyle(cBlackColor),
+            holidayTextStyle: semiBold14TextStyle(cRedColor),
           ),
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, day, focusedDay) {
+              dashboardController.days.value = day;
               return Stack(
                 children: [
                   Container(
