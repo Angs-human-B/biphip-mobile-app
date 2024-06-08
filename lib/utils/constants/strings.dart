@@ -698,3 +698,4 @@ const String ksDonate = "Donate";
 const String ksDonationStatics = "Donation Statics";
 const String ksDonationPosts = "Donation posts";
 const String ksDonatedPost = "Donated post";
+const String ksYouHaveNothingIAApplication = "You have nothing in application!";

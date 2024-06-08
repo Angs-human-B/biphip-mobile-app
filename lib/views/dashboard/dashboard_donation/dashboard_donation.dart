@@ -28,87 +28,153 @@ class DashboardDonation extends StatelessWidget {
               },
             ),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Obx(
-                () => Column(
-                  children: [
-                    TapAbleButtonContainer(
-                      buttonText: dashboardController.donationTapButtonText,
-                      buttonState: dashboardController.donationTapButtonState,
-                      buttonPress: RxList([
-                        () {
-                          unFocus(context);
-                          dashboardController.dashboardIDonatedTapableButtonOnPressed();
-                        },
-                        () {
-                          unFocus(context);
-                          dashboardController.dashboardMyDonationTapableButtonOnPressed();
-                        },
-                      ]),
-                    ),
-                    kH16sizedBox,
-                    if (dashboardController.donationTapButtonState[0] && dashboardController.dashboardDonationPost.isEmpty)
-                      Container(
-                          width: width - 40,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: cLineColor2),
-                            borderRadius: BorderRadius.circular(k8BorderRadius),
-                          ),
-                          child: EmptyView(title: ksYouHaveNothingInDonation.tr)),
-                    if (dashboardController.donationTapButtonState[0] && dashboardController.dashboardDonationPost.isNotEmpty)
-                      Column(
-                        children: [
-                          DonationStatics(
-                            topText: ksDonationStatics.tr,
-                          ),
-                          kH16sizedBox,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                ksDonationPosts.tr,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed(krDashboardDonatedPost);
-                                },
-                                child: Text(
-                                  ksSeeAll.tr,
-                                  style: regular16TextStyle(cPrimaryColor),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Obx(
+              () => Column(
+                children: [
+                  TapAbleButtonContainer(
+                    buttonText: dashboardController.donationTapButtonText,
+                    buttonState: dashboardController.donationTapButtonState,
+                    buttonPress: RxList([
+                      () {
+                        unFocus(context);
+                        dashboardController.dashboardIDonatedTapableButtonOnPressed();
+                      },
+                      () {
+                        unFocus(context);
+                        dashboardController.dashboardMyDonationTapableButtonOnPressed();
+                      },
+                    ]),
+                  ),
+                  kH16sizedBox,
+                  if (dashboardController.donationTapButtonState[0] && dashboardController.dashboardDonationPost.isEmpty)
+                    Container(
+                        width: width - 40,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: cLineColor2),
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                        ),
+                        child: EmptyView(title: ksYouHaveNothingInDonation.tr)),
+                  if (dashboardController.donationTapButtonState[0] && dashboardController.dashboardDonationPost.isNotEmpty)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            DonationStatics(
+                              topTitleText: ksDonationStatics.tr,
+                              topSubtitleText: "The statics of how much you have donated",
+                            ),
+                            kH16sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ksDonationPosts.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
                                 ),
-                              ),
-                            ],
-                          ),
-                          kH16sizedBox,
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: dashboardController.dashboardDonationPost.length > 3 ? 3 : dashboardController.dashboardDonationPost.length,
-                            separatorBuilder: (context, index) => kH16sizedBox,
-                            itemBuilder: (context, index) {
-                              return DashboardDonationContent(
-                                width: width - 40,
-                                height: 146,
-                                productImage: dashboardController.dashboardDonationPost[index]["productImage"],
-                                productTitle: dashboardController.dashboardDonationPost[index]["productTitle"],
-                                postDate: dashboardController.dashboardDonationPost[index]["postDate"],
-                                postCount: dashboardController.dashboardDonationPost[index]["postCount"],
-                                engagementCount: dashboardController.dashboardDonationPost[index]["engagementCount"],
-                                giftCount: dashboardController.dashboardDonationPost[index]["giftCount"],
-                                donateAmount: dashboardController.dashboardDonationPost[index]["amount"],
-                                donateText: ksDonate.tr,
-                              );
-                            },
-                          ),
-                          kH16sizedBox,
-                        ],
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(krDashboardDonatedPost);
+                                  },
+                                  child: Text(
+                                    ksSeeAll.tr,
+                                    style: regular16TextStyle(cPrimaryColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kH16sizedBox,
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: dashboardController.dashboardDonationPost.length > 3 ? 3 : dashboardController.dashboardDonationPost.length,
+                              separatorBuilder: (context, index) => kH16sizedBox,
+                              itemBuilder: (context, index) {
+                                return DashboardDonationContent(
+                                  width: width - 40,
+                                  height: 146,
+                                  productImage: dashboardController.dashboardDonationPost[index]["productImage"],
+                                  productTitle: dashboardController.dashboardDonationPost[index]["productTitle"],
+                                  postDate: dashboardController.dashboardDonationPost[index]["postDate"],
+                                  postCount: dashboardController.dashboardDonationPost[index]["postCount"],
+                                  engagementCount: dashboardController.dashboardDonationPost[index]["engagementCount"],
+                                  giftCount: dashboardController.dashboardDonationPost[index]["giftCount"],
+                                  donateAmount: dashboardController.dashboardDonationPost[index]["amount"],
+                                  donateText: ksDonate.tr,
+                                );
+                              },
+                            ),
+                            kH16sizedBox,
+                          ],
+                        ),
                       ),
-                  ],
-                ),
+                    ),
+                  if (dashboardController.donationTapButtonState[1] && dashboardController.dashboardDonationPost.isEmpty)
+                    Container(
+                        width: width - 40,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: cLineColor2),
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                        ),
+                        child: EmptyView(title: ksYouHaveNothingIAApplication.tr)),
+                  if (dashboardController.donationTapButtonState[1] && dashboardController.dashboardDonationPost.isNotEmpty)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            DonationStatics(
+                              topTitleText: ksDonationStatics.tr,
+                              topSubtitleText: "The statics of how much you have application",
+                            ),
+                            kH16sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ksDonationPosts.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(krDashboardDonatedPost);
+                                  },
+                                  child: Text(
+                                    ksSeeAll.tr,
+                                    style: regular16TextStyle(cPrimaryColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kH16sizedBox,
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: dashboardController.dashboardDonationPost.length > 3 ? 3 : dashboardController.dashboardDonationPost.length,
+                              separatorBuilder: (context, index) => kH16sizedBox,
+                              itemBuilder: (context, index) {
+                                return DashboardDonationContent(
+                                  width: width - 40,
+                                  height: 146,
+                                  productImage: dashboardController.dashboardDonationPost[index]["productImage"],
+                                  productTitle: dashboardController.dashboardDonationPost[index]["productTitle"],
+                                  postDate: dashboardController.dashboardDonationPost[index]["postDate"],
+                                  postCount: dashboardController.dashboardDonationPost[index]["postCount"],
+                                  engagementCount: dashboardController.dashboardDonationPost[index]["engagementCount"],
+                                  giftCount: dashboardController.dashboardDonationPost[index]["giftCount"],
+                                  donateAmount: dashboardController.dashboardDonationPost[index]["amount"],
+                                  donateText: ksDonate.tr,
+                                );
+                              },
+                            ),
+                            kH16sizedBox,
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
@@ -147,10 +213,7 @@ class DashboardDonationContent extends StatelessWidget {
             color: cLineColor,
             blurRadius: 3,
             spreadRadius: 0,
-            offset: Offset(
-              0,
-              1,
-            ),
+            offset: Offset(0, 1),
           ),
         ],
       ),
@@ -263,8 +326,8 @@ class DashboardDonationContent extends StatelessWidget {
 }
 
 class DonationStatics extends StatelessWidget {
-  const DonationStatics({super.key, required this.topText});
-  final String topText;
+  const DonationStatics({super.key, required this.topTitleText, required this.topSubtitleText});
+  final String topTitleText, topSubtitleText;
 
   @override
   Widget build(BuildContext context) {
@@ -296,7 +359,7 @@ class DonationStatics extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  topText,
+                  topTitleText,
                   style: semiBold16TextStyle(cBlackColor),
                 ),
                 Container(
@@ -316,10 +379,10 @@ class DonationStatics extends StatelessWidget {
               ],
             ),
             Text(
-              'From this year',
+              topSubtitleText,
               style: regular10TextStyle(cSmallBodyTextColor),
             ),
-            SizedBox(height: 20),
+            kH20sizedBox,
             AspectRatio(
               aspectRatio: 1.7,
               child: BarChart(
@@ -434,17 +497,17 @@ class DonationStatics extends StatelessWidget {
                         interval: 100,
                       ),
                     ),
-                    topTitles: AxisTitles(
+                    topTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
-                    rightTitles: AxisTitles(
+                    rightTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
                   ),
                   borderData: FlBorderData(
                     show: false,
                   ),
-                  gridData: FlGridData(
+                  gridData: const FlGridData(
                     show: false,
                   ),
                 ),
