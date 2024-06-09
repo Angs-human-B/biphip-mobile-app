@@ -52,6 +52,8 @@ class DashboardDonatedPost extends StatelessWidget {
                       );
                     },
                   ),
+                  kH16sizedBox,
+                 
                 ],
               ),
             ),
