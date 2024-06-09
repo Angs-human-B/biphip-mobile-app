@@ -57,7 +57,9 @@ class DashboardFundTransfer extends StatelessWidget {
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(krDashboardFundTransferDetails);
+                      },
                       child: Text(
                         ksSeeAll.tr,
                         style: regular16TextStyle(cPrimaryColor),
@@ -106,7 +108,7 @@ class DashboardFundTransfer extends StatelessWidget {
                                       width: h12,
                                       height: h12,
                                       fit: BoxFit.cover,
-                                      loadingBuilder: smallImageLoadingBuilder,
+                                      // loadingBuilder: smallImageLoadingBuilder,
                                       errorBuilder: (context, error, stackTrace) {
                                         return Image.asset(
                                           kiProfileDefaultImageUrl,
