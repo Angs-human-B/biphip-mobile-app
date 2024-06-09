@@ -690,3 +690,12 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksFundTransfer = "Fund Transfer";
+const String ksTransferStar = "Transfer Star";
+const String ksAvailableStars = "Available stars";
+const String ksAvailableAmount = "Available amount";
+const String ksTransferBalance = "Transfer Balance";
+const String ksFundTransferHistory = "Fund Transfer History";
+const String ksTransferOf = "Transfer of";
+const String ksReceiver = "Receiver";
+const String ksAmount = "Amount";
