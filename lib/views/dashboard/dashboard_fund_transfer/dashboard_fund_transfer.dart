@@ -1,9 +1,11 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
+import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardFundTransfer extends StatelessWidget {
   DashboardFundTransfer({super.key});
   final DashboardController dashboardController = Get.find<DashboardController>();
+  final FriendController friendController = Get.find<FriendController>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +39,20 @@ class DashboardFundTransfer extends StatelessWidget {
                       icon: BipHip.giftNew,
                       amountText: "468",
                       buttonText: ksTransferStar,
-                      buttonOnPressed: () {},
+                      buttonOnPressed: () async {
+                        Get.toNamed(krDashboardSelectPeople);
+                        await Get.find<FriendController>().getFriendList();
+                      },
                     ),
                     kW8sizedBox,
                     FundTransferTopContainer(
                       titleText: ksAvailableAmount.tr,
                       amountText: "\$365",
                       buttonText: ksTransferBalance.tr,
-                      buttonOnPressed: () {},
+                      buttonOnPressed: () async {
+                        Get.toNamed(krDashboardSelectPeople);
+                        await Get.find<FriendController>().getFriendList();
+                      },
                     ),
                   ],
                 ),

@@ -5,7 +5,14 @@ class DashboardController extends GetxController {
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
   final RxString selectedQuizTimeRangeValue = RxString("This Month");
+  // final RxBool selectPeopleBottomSheetRightButtonState = RxBool(false);
+  //  final RxList<bool> isPeopleSelected = RxList<bool>([]);
   final List selectDateTimeFilterList = ["Today", "Yesterday", "This Week", "This Month", "This Year", "Custom"];
+  final TextEditingController selectPeopleTextEditingController = TextEditingController();
+  final TextEditingController fundTransferTextEditingController = TextEditingController();
+  final TextEditingController dashboardOtpTextEditingController = TextEditingController();
+  final RxBool canOTPVerifyNow = RxBool(false);
+  final RxBool isOTPResendClick = RxBool(false);
   final RxList fundTransferHistoryList = RxList([
     {
       "date": "17/01/2024",
@@ -158,7 +165,7 @@ class DashboardController extends GetxController {
       "amount": "\$100",
     },
   ]);
-    final RxList fundTransferStarHistoryList = RxList([
+  final RxList fundTransferStarHistoryList = RxList([
     {
       "date": "17/01/2024",
       "transferOf": "Star",
@@ -267,6 +274,48 @@ class DashboardController extends GetxController {
       "icon": BipHip.giftNew,
       "amount": "120",
     },
-
   ]);
+  final RxBool isConfirmButtonEnabled = RxBool(false);
+  void checkConfirmButtonEnable() {
+    if (fundTransferTextEditingController.text.toString().trim() == '') {
+      isConfirmButtonEnabled.value = false;
+    } else if (fundTransferTextEditingController.text.toString().trim() != '' && double.parse(fundTransferTextEditingController.text.toString()) < 20.00 ||
+        double.parse(fundTransferTextEditingController.text.toString()) > 2000) {
+      isConfirmButtonEnabled.value = false;
+    } else {
+      isConfirmButtonEnabled.value = true;
+    }
+  }
+
+  final Rx<String?> fundTransferErrorText = Rx<String?>(null);
+  void dashboardFundTransferOnChanged() {
+    checkConfirmButtonEnable();
+    if (fundTransferTextEditingController.text.toString().trim() == '') {
+      fundTransferErrorText.value = ksEmptyFundTransferErrorText.tr;
+    } else if (fundTransferTextEditingController.text.toString().trim() != '' && double.parse(fundTransferTextEditingController.text.toString()) < 20.00 ||
+        double.parse(fundTransferTextEditingController.text.toString()) > 2000) {
+      fundTransferErrorText.value = ksFundTranferLimit.tr;
+    } else {
+      fundTransferErrorText.value = null;
+    }
+  }
+
+  void resetDashboardFundTransferData() {
+    fundTransferTextEditingController.clear();
+    selectPeopleTextEditingController.clear();
+    fundTransferTextEditingController.clear();
+    dashboardOtpTextEditingController.clear();
+    canOTPVerifyNow.value = false;
+    isOTPResendClick.value = false;
+    isConfirmButtonEnabled.value = false;
+    fundTransferErrorText.value = null;
+  }
+
+  void checkCanOTPVerifyNow() {
+    if (dashboardOtpTextEditingController.text.length == kOTPLength) {
+      canOTPVerifyNow.value = true;
+    } else {
+      canOTPVerifyNow.value = false;
+    }
+  }
 }

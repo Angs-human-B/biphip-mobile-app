@@ -14,6 +14,8 @@ import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_details.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_otp.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_select_people.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
@@ -243,6 +245,8 @@ const String krMessages = "/messages";
  const String krDashboardPage = "/dashboard-page";
  const String krDashboardFundTransfer = "/dashboard-fund-transfer";
  const String krDashboardFundTransferDetails = "/dashboard-fund-transfer-details";
+ const String krDashboardSelectPeople = "/dashboard-select-people";
+ const String krDashboardFundTransferOtp = "/dashboard-fund-transfer-otp";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -383,5 +387,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
   GetPage(name: krDashboardFundTransfer, page: () => DashboardFundTransfer(), transition: Transition.noTransition),
   GetPage(name: krDashboardFundTransferDetails, page: () => DashboardFundTransferDetails(), transition: Transition.noTransition),
+  GetPage(name: krDashboardSelectPeople, page: () => DashboardSelectPeople(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransferOtp, page: () => DashboardFundTransferOtp(), transition: Transition.noTransition),
 
 ];
