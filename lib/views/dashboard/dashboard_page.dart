@@ -50,6 +50,32 @@ class DashBoardPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                kH12sizedBox,
+                Row(
+                  children: [
+                    CustomElevatedButton(
+                      label: ksDashboard.tr,
+                      onPressed: () {
+                        Get.toNamed(krDashboardOverview);
+                      },
+                      buttonColor: cWhiteColor,
+                      borderColor: cLineColor,
+                      buttonWidth: (width - 48) / 2,
+                      buttonHeight: h60,
+                      textStyle: semiBold16TextStyle(cBlackColor),
+                    ),
+                    kW8sizedBox,
+                    CustomElevatedButton(
+                      label: "",
+                      onPressed: () {},
+                      buttonColor: cWhiteColor,
+                      borderColor: cLineColor,
+                      buttonWidth: (width - 48) / 2,
+                      buttonHeight: h60,
+                      textStyle: semiBold16TextStyle(cBlackColor),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

@@ -687,6 +687,14 @@ const String ksOnlyYourBipHipFamily = "Only your BipHip family";
 const String ksOnlyYourBipHipFriendsAndFamily = "Only your BipHip friends & family";
 const String ksCustom = "Custom";
 
-
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksOverview = "Overview";
+const String ksPerformance = "Performance";
+const String ksFollowers = "Followers";
+const String ksLast28Days = "Last 28 days";
+const String ksReach = "Reach";
+const String ksContentPublished = "Content published";
+const String ksEngagement = "Engagement";
+const String ksNetFollowers = "Net followers";
+const String ksRecentContent = "Recent content";
