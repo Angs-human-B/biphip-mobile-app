@@ -123,17 +123,25 @@ class DashboardOverviewContent extends StatelessWidget {
                               itemCount: dashboardController.dashboardEarnedGiftPostList.length,
                               separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return DashboardGiftContentContainer(
-                                  width: width - 40,
-                                  height: 150,
-                                  productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
-                                  productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                                  postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
-                                  postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
-                                  engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
-                                  giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
-                                  isVideoContent: dashboardController.dashboardEarnedGiftPostList[index]["isVideoContent"],
-                                  isOnlyTextContent: dashboardController.dashboardEarnedGiftPostList[index]["isTextOnly"],
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(() => DashboardOverviewPostInsights(
+                                          postContent: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
+                                          postImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
+                                        ));
+                                  },
+                                  child: DashboardGiftContentContainer(
+                                    width: width - 40,
+                                    height: 150,
+                                    productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
+                                    productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
+                                    postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
+                                    postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
+                                    engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
+                                    giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
+                                    isVideoContent: dashboardController.dashboardEarnedGiftPostList[index]["isVideoContent"],
+                                    isOnlyTextContent: dashboardController.dashboardEarnedGiftPostList[index]["isTextOnly"],
+                                  ),
                                 );
                               },
                             ),
@@ -154,7 +162,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                     Get.to(() => DashboardOverviewPostInsights(
                                           postContent: dashboardController.dashboardEarnedGiftPhotosPostList[index]["productTitle"],
                                           postImage: dashboardController.dashboardEarnedGiftPhotosPostList[index]["productImage"],
-                                          
                                         ));
                                   },
                                   child: DashboardGiftContentContainer(
@@ -184,17 +191,25 @@ class DashboardOverviewContent extends StatelessWidget {
                               itemCount: dashboardController.dashboardEarnedGiftVideosPostList.length,
                               separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return DashboardGiftContentContainer(
-                                  width: width - 40,
-                                  height: 150,
-                                  productImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
-                                  productTitle: dashboardController.dashboardEarnedGiftVideosPostList[index]["productTitle"],
-                                  postDate: dashboardController.dashboardEarnedGiftVideosPostList[index]["postDate"],
-                                  postCount: dashboardController.dashboardEarnedGiftVideosPostList[index]["postCount"],
-                                  engagementCount: dashboardController.dashboardEarnedGiftVideosPostList[index]["engagementCount"],
-                                  giftCount: dashboardController.dashboardEarnedGiftVideosPostList[index]["giftCount"],
-                                  isVideoContent: dashboardController.dashboardEarnedGiftVideosPostList[index]["isVideoContent"],
-                                  isOnlyTextContent: dashboardController.dashboardEarnedGiftVideosPostList[index]["isTextOnly"],
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(() => DashboardOverviewPostInsights(
+                                          postContent: dashboardController.dashboardEarnedGiftVideosPostList[index]["productTitle"],
+                                          postImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
+                                        ));
+                                  },
+                                  child: DashboardGiftContentContainer(
+                                    width: width - 40,
+                                    height: 150,
+                                    productImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
+                                    productTitle: dashboardController.dashboardEarnedGiftVideosPostList[index]["productTitle"],
+                                    postDate: dashboardController.dashboardEarnedGiftVideosPostList[index]["postDate"],
+                                    postCount: dashboardController.dashboardEarnedGiftVideosPostList[index]["postCount"],
+                                    engagementCount: dashboardController.dashboardEarnedGiftVideosPostList[index]["engagementCount"],
+                                    giftCount: dashboardController.dashboardEarnedGiftVideosPostList[index]["giftCount"],
+                                    isVideoContent: dashboardController.dashboardEarnedGiftVideosPostList[index]["isVideoContent"],
+                                    isOnlyTextContent: dashboardController.dashboardEarnedGiftVideosPostList[index]["isTextOnly"],
+                                  ),
                                 );
                               },
                             ),
@@ -210,17 +225,25 @@ class DashboardOverviewContent extends StatelessWidget {
                               itemCount: dashboardController.dashboardEarnedGiftTextPostList.length,
                               separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
-                                return DashboardGiftContentContainer(
-                                  width: width - 40,
-                                  height: 150,
-                                  productImage: dashboardController.dashboardEarnedGiftTextPostList[index]["productImage"],
-                                  productTitle: dashboardController.dashboardEarnedGiftTextPostList[index]["productTitle"],
-                                  postDate: dashboardController.dashboardEarnedGiftTextPostList[index]["postDate"],
-                                  postCount: dashboardController.dashboardEarnedGiftTextPostList[index]["postCount"],
-                                  engagementCount: dashboardController.dashboardEarnedGiftTextPostList[index]["engagementCount"],
-                                  giftCount: dashboardController.dashboardEarnedGiftTextPostList[index]["giftCount"],
-                                  isVideoContent: dashboardController.dashboardEarnedGiftTextPostList[index]["isVideoContent"],
-                                  isOnlyTextContent: dashboardController.dashboardEarnedGiftTextPostList[index]["isTextOnly"],
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(() => DashboardOverviewPostInsights(
+                                          postContent: dashboardController.dashboardEarnedGiftTextPostList[index]["productTitle"],
+                                          postImage: dashboardController.dashboardEarnedGiftTextPostList[index]["productImage"],
+                                        ));
+                                  },
+                                  child: DashboardGiftContentContainer(
+                                    width: width - 40,
+                                    height: 150,
+                                    productImage: dashboardController.dashboardEarnedGiftTextPostList[index]["productImage"],
+                                    productTitle: dashboardController.dashboardEarnedGiftTextPostList[index]["productTitle"],
+                                    postDate: dashboardController.dashboardEarnedGiftTextPostList[index]["postDate"],
+                                    postCount: dashboardController.dashboardEarnedGiftTextPostList[index]["postCount"],
+                                    engagementCount: dashboardController.dashboardEarnedGiftTextPostList[index]["engagementCount"],
+                                    giftCount: dashboardController.dashboardEarnedGiftTextPostList[index]["giftCount"],
+                                    isVideoContent: dashboardController.dashboardEarnedGiftTextPostList[index]["isVideoContent"],
+                                    isOnlyTextContent: dashboardController.dashboardEarnedGiftTextPostList[index]["isTextOnly"],
+                                  ),
                                 );
                               },
                             ),
