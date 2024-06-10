@@ -144,7 +144,7 @@ class DashboardController extends GetxController {
       "isTextOnly": false,
     },
   ]);
-  
+
   final RxList dashboardEarnedGiftTextPostList = RxList([
     {
       "productImage": "https://5.imimg.com/data5/XL/EN/MY-70607897/selection_941-500x500.png",
@@ -157,7 +157,7 @@ class DashboardController extends GetxController {
       "isTextOnly": true,
     },
   ]);
-  
+
   String bashboardOverviewAppbarTitle(int index) {
     if (index == 0) {
       return ksOverview.tr;

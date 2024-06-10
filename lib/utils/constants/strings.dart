@@ -731,3 +731,5 @@ const String ksContent = "Content";
 const String ksContentUnavailable = "Content Unavailable";
 const String ksYouDontHaveAnyTopPostsToBoostWithinTheTimeRange = "You don't have any top posts to boost within the time range selected.";
 const String ksAllContent = "All Content";
+const String ksPostInsights = "Post Insights";
+const String ksImpression = "Impression";
