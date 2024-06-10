@@ -20,7 +20,7 @@ class DashboardOverview extends StatelessWidget {
               //* info:: appBar
               child: CustomAppBar(
                 appBarColor: cWhiteColor,
-                title: dashboardController.bashboardOverviewAppbarTitle(dashboardController.dashboardOverviewSelectedFilterIndex.value),
+                title: dashboardController.dashboardOverviewAppbarTitle(dashboardController.dashboardOverviewSelectedFilterIndex.value),
                 hasBackButton: true,
                 isCenterTitle: true,
                 onBack: () {

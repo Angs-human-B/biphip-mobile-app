@@ -158,7 +158,7 @@ class DashboardController extends GetxController {
     },
   ]);
 
-  String bashboardOverviewAppbarTitle(int index) {
+  String dashboardOverviewAppbarTitle(int index) {
     if (index == 0) {
       return ksOverview.tr;
     } else if (index == 1) {
