@@ -727,3 +727,7 @@ const String ksCheckInCalender = "Check In Calendar";
 const String ksPayouts = "Payouts";
 const String ksFundTransfer = "Fund Transfer";
 const String ksDonation = "Donation";
+const String ksContent = "Content";
+const String ksContentUnavailable = "Content Unavailable";
+const String ksYouDontHaveAnyTopPostsToBoostWithinTheTimeRange = "You don't have any top posts to boost within the time range selected.";
+const String ksAllContent = "All Content";

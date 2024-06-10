@@ -191,7 +191,9 @@ class DashboardOverview extends StatelessWidget {
                                   style: semiBold18TextStyle(cBlackColor),
                                 ),
                                 InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Get.toNamed(krDashboardOverviewContent);
+                                    },
                                     child: Text(
                                       ksSeeAll.tr,
                                       style: regular16TextStyle(cPrimaryColor),
@@ -855,9 +857,20 @@ class DashboardCommonContainer extends StatelessWidget {
 
 class DashboardGiftContentContainer extends StatelessWidget {
   const DashboardGiftContentContainer(
-      {super.key, this.width, this.height, this.productImage, this.productTitle, this.postDate, this.postCount, this.engagementCount, this.giftCount});
+      {super.key,
+      this.width,
+      this.height,
+      this.productImage,
+      this.productTitle,
+      this.postDate,
+      this.postCount,
+      this.engagementCount,
+      this.giftCount,
+      this.isVideoContent = false,
+      this.isOnlyTextContent = false});
   final double? width, height;
   final String? productImage, productTitle, postDate, postCount, engagementCount, giftCount;
+  final bool isVideoContent, isOnlyTextContent;
 
   @override
   Widget build(BuildContext context) {
@@ -882,27 +895,45 @@ class DashboardGiftContentContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(k12Padding),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(k4BorderRadius),
-                  child: Image.network(
-                    productImage ?? "",
-                    fit: BoxFit.cover,
-                    width: 80,
-                    height: h60,
-                    loadingBuilder: imageLoadingBuilder,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        kiUploadImage,
-                        width: 80,
-                        height: h60,
-                      );
-                    },
+                if (isOnlyTextContent == false)
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(k4BorderRadius),
+                        child: Image.network(
+                          productImage ?? "",
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: h60,
+                          loadingBuilder: imageLoadingBuilder,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              kiUploadImage,
+                              width: 80,
+                              height: h60,
+                            );
+                          },
+                        ),
+                      ),
+                      if (isVideoContent)
+                        const Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          top: 0,
+                          child: Icon(
+                            BipHip.play,
+                            color: cWhiteColor,
+                            size: kIconSize24,
+                          ),
+                        ),
+                    ],
                   ),
-                ),
                 kW12sizedBox,
                 Expanded(
                   child: Column(
