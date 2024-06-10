@@ -80,7 +80,9 @@ class DashboardOverview extends StatelessWidget {
                                   ],
                                 ),
                                 InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      dashboardController.dashboardOverviewSelectedFilterIndex.value = 1;
+                                    },
                                     child: Text(
                                       ksSeeAll.tr,
                                       style: regular16TextStyle(cPrimaryColor),
