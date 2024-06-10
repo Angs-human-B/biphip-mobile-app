@@ -192,6 +192,7 @@ class DashboardOverview extends StatelessWidget {
                                 ),
                                 InkWell(
                                     onTap: () {
+                                      dashboardController.dashboardOverviewSelectedContentFilterIndex.value = 0;
                                       Get.toNamed(krDashboardOverviewContent);
                                     },
                                     child: Text(
