@@ -688,8 +688,12 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
-const String ksQuizHistory = "Quiz History";
+const String ksAwardHistiry = "Award History";
 const String ksPerformance = "Performance";
+const String ksRecentAwards = "Recent Awards";
+const String ksAllAwards = "All Awards";
+const String ksYouHavenotWonAnyAward = "You haven't won any Award on this week";
+const String ksQuizHistory = "Quiz History";
 const String ksWinningDate = "Winning Date";
 const String ksYouHaveNotWonAnyAwards = "You haven't won any awards";
 const String ksNotification = "Notification";
