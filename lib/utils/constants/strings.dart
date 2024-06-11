@@ -687,6 +687,10 @@ const String ksOnlyYourBipHipFamily = "Only your BipHip family";
 const String ksOnlyYourBipHipFriendsAndFamily = "Only your BipHip friends & family";
 const String ksCustom = "Custom";
 
-
 //*DashBoard
 const String ksDashboard = "Dashboard";
+
+//*Dashboard Payout
+const String ksPayouts = "Payouts";
+const String ksTotalEarning = "Total Earning";
+const String ksTotalWithdraw = "Total Withdraw";
