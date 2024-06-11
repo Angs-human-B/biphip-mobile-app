@@ -694,3 +694,5 @@ const String ksDashboard = "Dashboard";
 const String ksPayouts = "Payouts";
 const String ksTotalEarning = "Total Earning";
 const String ksTotalWithdraw = "Total Withdraw";
+const String ksEarningReport = "Earning Report";
+const String ksWithdrawReport = "Withdraw Report";
