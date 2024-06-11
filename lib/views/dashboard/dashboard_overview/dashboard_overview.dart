@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 class DashboardOverview extends StatelessWidget {
@@ -59,26 +60,18 @@ class DashboardOverview extends StatelessWidget {
                     ),
                     kH20sizedBox,
                     if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: Row(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      ksPerformance.tr,
-                                      style: semiBold18TextStyle(cBlackColor),
-                                    ),
-                                    kW8sizedBox,
-                                    const Icon(
-                                      BipHip.info,
-                                      size: kIconSize14,
-                                      color: cIconColor,
-                                    ),
-                                  ],
+                                DashboardOverviewCommonRowTextIcon(
+                                  titleText: ksPerformance.tr,
+                                  icon: BipHip.info,
+                                  iconOnPressed: null,
                                 ),
                                 InkWell(
                                     onTap: () {
@@ -90,101 +83,83 @@ class DashboardOverview extends StatelessWidget {
                                     )),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            kH4sizedBox,
+                            Row(
                               children: [
-                                kH4sizedBox,
-                                Row(
-                                  children: [
-                                    Text(
-                                      "750",
-                                      style: regular14TextStyle(cBlackColor),
-                                    ),
-                                    kW4sizedBox,
-                                    Text(
-                                      ksFollowers,
-                                      style: regular10TextStyle(cSmallBodyTextColor),
-                                    ),
-                                  ],
-                                ),
-                                kH4sizedBox,
                                 Text(
-                                  ksLast28Days.tr,
+                                  "750",
+                                  style: regular14TextStyle(cBlackColor),
+                                ),
+                                kW4sizedBox,
+                                Text(
+                                  ksFollowers,
                                   style: regular10TextStyle(cSmallBodyTextColor),
                                 ),
                               ],
                             ),
-                          ),
-                          kH16sizedBox,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: Column(
+                            kH4sizedBox,
+                            Text(
+                              ksLast28Days.tr,
+                              style: regular10TextStyle(cSmallBodyTextColor),
+                            ),
+                            kH16sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    DashboardCommonContainer(
-                                      width: (width - 48) / 2,
-                                      height: 88,
-                                      titleText: ksReach.tr,
-                                      totalValue: "20,874",
-                                      percentValue: "+39%",
-                                      filterText: dashboardController.dashboardOverviewTime.value,
-                                      percentTextColor: cGreenColor,
-                                    ),
-                                    kW8sizedBox,
-                                    DashboardCommonContainer(
-                                      width: (width - 48) / 2,
-                                      height: 88,
-                                      titleText: ksContentPublished.tr,
-                                      totalValue: "0",
-                                      percentValue: "+0%",
-                                      filterText: dashboardController.dashboardOverviewTime.value,
-                                      percentTextColor: cGreenColor,
-                                    ),
-                                  ],
+                                DashboardCommonContainer(
+                                  width: (width - 48) / 2,
+                                  height: 88,
+                                  titleText: ksReach.tr,
+                                  totalValue: "20,874",
+                                  percentValue: "+39%",
+                                  filterText: dashboardController.dashboardOverviewTime.value,
+                                  percentTextColor: cGreenColor,
                                 ),
-                                kH8sizedBox,
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    DashboardCommonContainer(
-                                      width: (width - 48) / 2,
-                                      height: 88,
-                                      titleText: ksEngagement.tr,
-                                      totalValue: "1,250",
-                                      percentValue: "+350%",
-                                      filterText: dashboardController.dashboardOverviewTime.value,
-                                      percentTextColor: cGreenColor,
-                                    ),
-                                    kW8sizedBox,
-                                    DashboardCommonContainer(
-                                      width: (width - 48) / 2,
-                                      height: 88,
-                                      titleText: ksNetFollowers.tr,
-                                      totalValue: "874",
-                                      percentValue: "+12%",
-                                      filterText: dashboardController.dashboardOverviewTime.value,
-                                      percentTextColor: cGreenColor,
-                                    ),
-                                  ],
+                                kW8sizedBox,
+                                DashboardCommonContainer(
+                                  width: (width - 48) / 2,
+                                  height: 88,
+                                  titleText: ksContentPublished.tr,
+                                  totalValue: "0",
+                                  percentValue: "+0%",
+                                  filterText: dashboardController.dashboardOverviewTime.value,
+                                  percentTextColor: cGreenColor,
                                 ),
                               ],
                             ),
-                          ),
-                          kH16sizedBox,
-                          Container(
-                            height: h8,
-                            width: width,
-                            color: cBackgroundColor,
-                          ),
-                          kH16sizedBox,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: Row(
+                            kH8sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                DashboardCommonContainer(
+                                  width: (width - 48) / 2,
+                                  height: 88,
+                                  titleText: ksEngagement.tr,
+                                  totalValue: "1,250",
+                                  percentValue: "+350%",
+                                  filterText: dashboardController.dashboardOverviewTime.value,
+                                  percentTextColor: cGreenColor,
+                                ),
+                                kW8sizedBox,
+                                DashboardCommonContainer(
+                                  width: (width - 48) / 2,
+                                  height: 88,
+                                  titleText: ksNetFollowers.tr,
+                                  totalValue: "874",
+                                  percentValue: "+12%",
+                                  filterText: dashboardController.dashboardOverviewTime.value,
+                                  percentTextColor: cGreenColor,
+                                ),
+                              ],
+                            ),
+                            kH16sizedBox,
+                            Container(
+                              height: h8,
+                              width: width,
+                              color: cBackgroundColor,
+                            ),
+                            kH16sizedBox,
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
@@ -202,11 +177,8 @@ class DashboardOverview extends StatelessWidget {
                                     )),
                               ],
                             ),
-                          ),
-                          kH16sizedBox,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: ListView.separated(
+                            kH16sizedBox,
+                            ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount:
@@ -225,35 +197,23 @@ class DashboardOverview extends StatelessWidget {
                                 );
                               },
                             ),
-                          ),
-                          kH16sizedBox,
-                          Container(
-                            height: h8,
-                            width: width,
-                            color: cBackgroundColor,
-                          ),
-                          kH16sizedBox,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                            child: Column(
+                            kH16sizedBox,
+                            Container(
+                              height: h8,
+                              width: width,
+                              color: cBackgroundColor,
+                            ),
+                            kH16sizedBox,
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          ksAudiences.tr,
-                                          style: semiBold18TextStyle(cBlackColor),
-                                        ),
-                                        kW8sizedBox,
-                                        const Icon(
-                                          BipHip.info,
-                                          size: kIconSize14,
-                                          color: cIconColor,
-                                        ),
-                                      ],
+                                    DashboardOverviewCommonRowTextIcon(
+                                      titleText: ksAudiences.tr,
+                                      icon: BipHip.info,
+                                      iconOnPressed: null,
                                     ),
                                     InkWell(
                                         onTap: () {
@@ -272,77 +232,78 @@ class DashboardOverview extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          ),
-                          kH16sizedBox,
-                          SingleChildScrollView(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: k20Padding),
-                                      child: Container(
-                                          width: (width - 40) / 1.2,
-                                          height: 264,
-                                          decoration: BoxDecoration(
-                                            color: cWhiteColor,
-                                            borderRadius: BorderRadius.circular(k8BorderRadius),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: cLineColor,
-                                                blurRadius: 3,
-                                                spreadRadius: 0,
-                                                offset: Offset(
-                                                  0,
-                                                  1,
-                                                ), // Shadow position
-                                              ),
-                                            ],
+                            kH16sizedBox,
+                          ],
+                        ),
+                      ),
+                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
+                      SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: k20Padding),
+                          child: Row(
+                            children: [
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Container(
+                                      width: (width - 40) / 1.2,
+                                      height: 264,
+                                      decoration: BoxDecoration(
+                                        color: cWhiteColor,
+                                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: cLineColor,
+                                            blurRadius: 3,
+                                            spreadRadius: 0,
+                                            offset: Offset(
+                                              0,
+                                              1,
+                                            ), // Shadow position
                                           ),
-                                          child: const DashboardAgeGenderChart()),
-                                    )),
-                                kW8sizedBox,
-                                Container(
-                                    width: (width - 40) / 1.2,
-                                    height: 264,
-                                    decoration: BoxDecoration(
-                                      color: cWhiteColor,
-                                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: cLineColor,
-                                          blurRadius: 3,
-                                          spreadRadius: 0,
-                                          offset: Offset(
-                                            0,
-                                            1,
-                                          ), // Shadow position
+                                        ],
+                                      ),
+                                      child: const DashboardAgeGenderChart())),
+                              kW8sizedBox,
+                              Container(
+                                  width: (width - 40) / 1.2,
+                                  height: 264,
+                                  decoration: BoxDecoration(
+                                    color: cWhiteColor,
+                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: cLineColor,
+                                        blurRadius: 3,
+                                        spreadRadius: 0,
+                                        offset: Offset(
+                                          0,
+                                          1,
+                                        ), // Shadow position
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
+                                        child: Text(
+                                          ksTopCities.tr,
+                                          style: semiBold16TextStyle(cBlackColor),
                                         ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
-                                          child: Text(
-                                            ksTopCities.tr,
-                                            style: semiBold16TextStyle(cBlackColor),
-                                          ),
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(left: k12Padding),
-                                          child: DashboardTopCitiesChart(),
-                                        ),
-                                      ],
-                                    )),
-                                kW8sizedBox,
-                              ],
-                            ),
+                                      ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: k12Padding, right: k12Padding),
+                                        child: DashboardTopCitiesChart(),
+                                      ),
+                                    ],
+                                  )),
+                              kW8sizedBox,
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1)
                       Padding(
@@ -545,94 +506,97 @@ class DashboardOverview extends StatelessWidget {
                       ),
                     if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 3)
                       SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            DashboardToolsContainer(
-                              icon: BipHip.giftNew,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksStarSmall.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.gift,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksGift.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.badgesFill,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksPendent.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH20sizedBox,
-                            Text(
-                              ksAchievements.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.activity,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksQuizHistory.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.circlePlus,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksAwardHistory.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH20sizedBox,
-                            Text(
-                              ksGrowYourAudience.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.shopFill,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksAdCenter.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH20sizedBox,
-                            Text(
-                              ksYourTools.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.calendarFill,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksCheckInCalender.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.addImage,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksPayouts.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.spend,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksFundTransfer.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                            kH12sizedBox,
-                            DashboardToolsContainer(
-                              icon: BipHip.donationFill,
-                              iconColor: cAmberAccentColor,
-                              titleText: ksDonation.tr,
-                              subTitleText: ksLearnAboutTheAward.tr,
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DashboardToolsContainer(
+                                icon: BipHip.giftNew,
+                                iconColor: cAmberAccentColor,
+                                titleText: ksStarSmall.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.gift,
+                                iconColor: cAmberAccentColor,
+                                titleText: ksGift.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.badgesFill,
+                                iconColor: cPrimaryColor,
+                                titleText: ksPendent.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH20sizedBox,
+                              Text(
+                                ksAchievements.tr,
+                                style: semiBold18TextStyle(cBlackColor),
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.activity,
+                                iconColor: cPrimaryColor,
+                                titleText: ksQuizHistory.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.circlePlus,
+                                iconColor: cPrimaryColor,
+                                titleText: ksAwardHistory.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH20sizedBox,
+                              Text(
+                                ksGrowYourAudience.tr,
+                                style: semiBold18TextStyle(cBlackColor),
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.shopFill,
+                                iconColor: cPrimaryColor,
+                                titleText: ksAdCenter.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH20sizedBox,
+                              Text(
+                                ksYourTools.tr,
+                                style: semiBold18TextStyle(cBlackColor),
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.calendarFill,
+                                iconColor: cPrimaryColor,
+                                titleText: ksCheckInCalender.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.addImage,
+                                iconColor: cPrimaryColor,
+                                titleText: ksPayouts.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.spend,
+                                iconColor: cPrimaryColor,
+                                titleText: ksFundTransfer.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                              kH12sizedBox,
+                              DashboardToolsContainer(
+                                icon: BipHip.donationFill,
+                                iconColor: cPrimaryColor,
+                                titleText: ksDonation.tr,
+                                subTitleText: ksLearnAboutTheAward.tr,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                   ],
