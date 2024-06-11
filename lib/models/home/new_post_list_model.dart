@@ -89,6 +89,7 @@ class PostDataRx {
   int? sellPostConditionId;
   int? price;
   int? discount;
+  int? isBidding;
   String? description;
   int? sellPostAvailabilty;
   String? productTags;
@@ -147,6 +148,7 @@ bool? hasReport;
     required this.sellPostCategoryId,
     required this.sellPostConditionId,
     required this.price,
+    this.isBidding,
     required this.discount,
     required this.description,
     required this.sellPostAvailabilty,
@@ -202,6 +204,7 @@ bool? hasReport;
         sellPostConditionId: json["sell_post_condition_id"],
         price: json["price"],
         discount: json["discount"],
+        isBidding: json["is_bidding"],
         description: json["description"],
         sellPostAvailabilty: json["sell_post_availabilty"],
         productTags: json["product_tags"],

@@ -157,6 +157,7 @@ class BadgePageShimmer extends StatelessWidget {
             },
           ),
         ),
+       
         kH20sizedBox,
         Align(
           alignment: Alignment.center,

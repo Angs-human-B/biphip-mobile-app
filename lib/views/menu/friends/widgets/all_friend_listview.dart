@@ -139,6 +139,7 @@ class AllFriendListView extends StatelessWidget {
                       ),
                     ),
                   ),
+               
                 )
               : Expanded(
                   child: Container(
