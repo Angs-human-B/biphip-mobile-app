@@ -52,5 +52,6 @@ class DatePostedContent extends StatelessWidget {
         ),
       ],
     );
+ 
   }
 }

@@ -165,8 +165,7 @@ class MyQuiz extends StatelessWidget {
                                                   ranking: quizController.myQuizWinnerList[index].obtainedMarks.toString(),
                                                   correctAnswer: quizController.myQuizWinnerList[index].countRightAnswer.toString(),
                                                   totalQuestions: quizController.myQuizWinnerList[index].totalMarks.toString(),
-                                                  totalTime:
-                                                      double.parse(quizController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
+                                                  totalTime: double.parse(quizController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
                                                 );
                                               },
                                             ),
@@ -261,8 +260,7 @@ class MyPlayedQuiz extends StatelessWidget {
                                 totalTime:
                                     "Taken Time: ${double.parse(quizController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)} sec",
                                 actionText: "Score: ${quizController.myAllPlayedQuizList[index].obtainedMarks}",
-                                actionTextStyle:
-                                    semiBold14TextStyle(quizController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
+                                actionTextStyle: semiBold14TextStyle(quizController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
                               );
                             },
                           ),
@@ -467,7 +465,7 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
                                       child: Image.network(
                                         imageList![i].profilePicture ?? "",
                                         fit: BoxFit.cover,
-                                        loadingBuilder: imageLoadingBuilder,
+                                        loadingBuilder: smallImageLoadingBuilder,
                                         errorBuilder: (context, error, stackTrace) {
                                           return Image.asset(
                                             kiProfileDefaultImageUrl,

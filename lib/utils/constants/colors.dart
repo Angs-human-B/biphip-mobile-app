@@ -53,6 +53,7 @@ const Color cCategoryColor = Color(0xFF314579);
 const Color cDarkRedColor = Color(0xFFE92121);
 const Color cPinkColor = Color(0xFFE8246A);
 const Color cAmberAccentColor = Color(0xFFE4A90F);
+const Color cPurpleColor = Color(0xFF7367F0);
 
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xff59d3fc), Color(0xff554dde)],

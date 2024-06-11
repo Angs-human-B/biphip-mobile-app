@@ -22,10 +22,10 @@ class AwardsWidget extends StatelessWidget {
             separatorBuilder: (context, index) => kW12sizedBox,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              if (index < 6 && index < awardController.othersWinnerAwardList.length) {
+              if (index < 6 && index < awardController.friendAwardList.length) {
                 return AwardView(
-                  image: awardController.othersWinnerAwardList[index]['image'],
-                  ranking: awardController.othersWinnerAwardList[index]['ranking'],
+                  image: awardController.friendAwardList[index].user?.profilePicture,
+                  ranking: awardController.friendAwardList[index].rank.toString(),
                   titleText: 'Wahid Murad',
                   awardContainerHeight: 137,
                 );

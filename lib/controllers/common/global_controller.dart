@@ -434,6 +434,55 @@ class GlobalController extends GetxController {
     );
   }
 
+  void blankBottomSheetForImageComment({
+    required context,
+    required Widget content,
+    action,
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: Get.context!,
+      builder: (BuildContext context) {
+        keyboardHeight.value = MediaQuery.of(context).viewInsets.bottom;
+        ll(keyboardHeight.value);
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              width: width,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cLineColor,
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH10sizedBox,
+                  content,
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+            if (action != null) Positioned(bottom: MediaQuery.of(context).viewInsets.bottom, left: 0, right: 0, child: action),
+          ],
+        );
+      },
+    );
+  }
+
   final searchController = TextEditingController();
   final recentSearch = RxList();
 
@@ -1149,5 +1198,7 @@ class GlobalController extends GetxController {
       ll('followUnfollowUser error: $e');
     }
   }
+
+  final RxDouble keyboardHeight = RxDouble(0.0);
   //! end
 }

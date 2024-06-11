@@ -261,6 +261,9 @@ const String kuPostReport = '/mobile/user/store-post-report';
 const String kuUndoPostReport = '/mobile/user/remove-post-report';
 const String kuUpdatePost = '/mobile/user/update-post';
 
+//* Awards
+const String kuGetMyAward = "/mobile/user/get-my-awards";
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

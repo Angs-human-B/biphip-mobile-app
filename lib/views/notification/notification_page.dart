@@ -209,7 +209,7 @@ class AllNotification extends StatelessWidget {
                     width: h44,
                     height: h44,
                     fit: BoxFit.cover,
-                    loadingBuilder: smallImageLoadingBuilder,
+                    loadingBuilder: mediumImageLoadingBuilder,
                     errorBuilder: (context, error, stackTrace) => Image.asset(
                       kiProfileDefaultImageUrl,
                       fit: BoxFit.cover,
