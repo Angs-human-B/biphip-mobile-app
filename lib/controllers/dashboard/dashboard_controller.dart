@@ -22,6 +22,12 @@ class DashboardController extends GetxController {
     {'cityName': "Rajshahi, Bangladesh", 'percent': 25},
     {'cityName': "Gazipur, Bangladesh", 'percent': 5},
   ]);
+  final RxList topCountriesList = RxList([
+    {'countryName': "Bangladesh", 'percent': 50},
+    {'countryName': "India", 'percent': 20},
+    {'countryName': "USA", 'percent': 25},
+    {'countryName': "Pakistan", 'percent': 25},
+  ]);
   final RxList dashboardEarnedGiftPostList = RxList([
     {
       "productImage": "https://5.imimg.com/data5/XL/EN/MY-70607897/selection_941-500x500.png",

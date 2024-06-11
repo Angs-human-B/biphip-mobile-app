@@ -255,7 +255,9 @@ class DashboardOverview extends StatelessWidget {
                                       ],
                                     ),
                                     InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.toNamed(krDashboardOverviewAudience);
+                                        },
                                         child: Text(
                                           ksSeeAll.tr,
                                           style: regular16TextStyle(cPrimaryColor),
@@ -319,7 +321,22 @@ class DashboardOverview extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    child: const DashboardTopCitiesChart()),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
+                                          child: Text(
+                                            ksTopCities.tr,
+                                            style: semiBold16TextStyle(cBlackColor),
+                                          ),
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: k12Padding),
+                                          child: DashboardTopCitiesChart(),
+                                        ),
+                                      ],
+                                    )),
                                 kW8sizedBox,
                               ],
                             ),
@@ -1131,73 +1148,122 @@ class DashboardAgeGenderChart extends StatelessWidget {
 }
 
 class DashboardTopCitiesChart extends StatelessWidget {
-  const DashboardTopCitiesChart({super.key});
+  const DashboardTopCitiesChart({super.key, this.percentWidth, this.percentColor});
+  final double? percentWidth;
+  final Color? percentColor;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(k12Padding),
-      child: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              ksTopCities.tr,
-              style: semiBold16TextStyle(cBlackColor),
-            ),
-            Column(
-              children: Get.find<DashboardController>().topCitiesList.map((data) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+    return Obx(
+      () => Column(
+        children: Get.find<DashboardController>().topCitiesList.map((data) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    kH12sizedBox,
+                    Text(
+                      data['cityName'],
+                      style: regular12TextStyle(cBlackColor),
+                    ),
+                    kH4sizedBox,
+                    SizedBox(
+                      width: percentWidth ?? 100,
+                      child: Row(
                         children: [
-                          kH12sizedBox,
-                          Text(
-                            data['cityName'],
-                            style: regular12TextStyle(cBlackColor),
-                          ),
-                          kH4sizedBox,
-                          SizedBox(
-                            width: 100,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: (data['percent'] * 10).toInt(),
-                                  child: Container(
-                                    height: h8,
-                                    decoration: BoxDecoration(
-                                      color: cPrimaryColor,
-                                      borderRadius: BorderRadius.circular(k20BorderRadius),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          Expanded(
+                            flex: (data['percent'] * 10).toInt(),
+                            child: Container(
+                              height: h8,
+                              decoration: BoxDecoration(
+                                color: percentColor ?? cPrimaryColor,
+                                borderRadius: BorderRadius.circular(k20BorderRadius),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: k20Padding),
-                      child: Text(
-                        "${data["percent"].toString()}%",
-                        style: regular12TextStyle(cBlackColor),
-                      ),
-                    ),
                   ],
-                );
-              }).toList(),
-            ),
-          ],
-        ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: k20Padding),
+                child: Text(
+                  "${data["percent"].toString()}%",
+                  style: regular12TextStyle(cBlackColor),
+                ),
+              ),
+            ],
+          );
+        }).toList(),
       ),
     );
   }
 }
 
+class DashboardTopCountriesChart extends StatelessWidget {
+  const DashboardTopCountriesChart({super.key, this.percentWidth, this.percentColor});
+  final double? percentWidth;
+  final Color? percentColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Column(
+        children: Get.find<DashboardController>().topCountriesList.map((data) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kH12sizedBox,
+                    Text(
+                      data['countryName'],
+                      style: regular12TextStyle(cBlackColor),
+                    ),
+                    kH4sizedBox,
+                    SizedBox(
+                      width: percentWidth ?? 100,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: (data['percent'] * 10).toInt(),
+                            child: Container(
+                              height: h8,
+                              decoration: BoxDecoration(
+                                color: percentColor ?? cPrimaryColor,
+                                borderRadius: BorderRadius.circular(k20BorderRadius),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: k20Padding),
+                child: Text(
+                  "${data["percent"].toString()}%",
+                  style: regular12TextStyle(cBlackColor),
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+//!This content is removed after code merge
 class QuizTimeFilterBottomSheetContent extends StatelessWidget {
   QuizTimeFilterBottomSheetContent({super.key});
   final DashboardController dashboardController = Get.find<DashboardController>();

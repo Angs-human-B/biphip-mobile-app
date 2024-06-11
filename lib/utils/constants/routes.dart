@@ -13,6 +13,7 @@ import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_content.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
@@ -243,6 +244,7 @@ const String krMessages = "/messages";
  const String krDashboardPage = "/dashboard-page";
  const String krDashboardOverview = "/dashboard-overview";
  const String krDashboardOverviewContent = "/dashboard-overview-content";
+ const String krDashboardOverviewAudience = "/dashboard-overview-audience";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -383,5 +385,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverview, page: () => DashboardOverview(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverviewContent, page: () => DashboardOverviewContent(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverviewAudience, page: () => DashboardOverviewAudience(), transition: Transition.noTransition),
 
 ];

@@ -733,3 +733,5 @@ const String ksYouDontHaveAnyTopPostsToBoostWithinTheTimeRange = "You don't have
 const String ksAllContent = "All Content";
 const String ksPostInsights = "Post Insights";
 const String ksImpression = "Impression";
+const String ksAudience = "Audience";
+const String ksTopCountries = "Top Countries";
