@@ -14,6 +14,7 @@ class CustomAppBar extends StatelessWidget {
     this.systemUiOverlayStyle,
     this.leadingWidget,
     this.leadingWidth,
+    this.titleSpacing,
   }) : super(key: key);
 
   final dynamic title;
@@ -26,7 +27,7 @@ class CustomAppBar extends StatelessWidget {
   final Color? appBarColor;
   final SystemUiOverlayStyle? systemUiOverlayStyle;
   final Widget? leadingWidget;
-  final double? leadingWidth;
+  final double? leadingWidth, titleSpacing;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class CustomAppBar extends StatelessWidget {
       elevation: kCommonElevation,
       backgroundColor: appBarColor ?? cWhiteColor,
       leadingWidth: leadingWidth ?? kCommonBackSpace,
+      titleSpacing: titleSpacing ?? h16,
       title: (title is String)
           ? Text(
               title.toString(),

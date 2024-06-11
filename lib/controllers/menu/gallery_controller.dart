@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -310,7 +311,7 @@ class GalleryController extends GetxController {
   final RxString previousImageDescription = RxString('');
   final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
-  Rx<ImageList?> imageData = Rx<ImageList?>(null);
+  Rx<ImageElement?> imageData = Rx<ImageElement?>(null);
 
   Future<void> imageDescriptionUpdate() async {
     try {
@@ -327,7 +328,7 @@ class GalleryController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        imageData.value = ImageList.fromJson(response.data);
+        imageData.value = ImageElement.fromJson(response.data);
         isImageDescriptionUpdateLoading.value = false;
         Get.back();
         if (!Get.isSnackbarOpen) {

@@ -58,8 +58,8 @@ class GalleryPhotoHelper {
         galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
         galleryController.previousImageDescription.value = galleryController.imageDetailsData.value!.image!.description;
       } else if (galleryController.imageData.value?.description != null) {
-        galleryController.imageDescriptionUpdateController.text = galleryController.imageData.value!.description;
-        galleryController.previousImageDescription.value = galleryController.imageData.value!.description;
+        galleryController.imageDescriptionUpdateController.text = galleryController.imageData.value!.description ?? "";
+        galleryController.previousImageDescription.value = galleryController.imageData.value!.description ?? "";
       } else {
         galleryController.imageDescriptionUpdateController.text = '';
         galleryController.previousImageDescription.value = '';
