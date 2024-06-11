@@ -31,7 +31,9 @@ class DashBoardPage extends StatelessWidget {
                   children: [
                     CustomElevatedButton(
                       label: ksQuiz.tr,
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(krDashboardQuiz);
+                      },
                       buttonColor: cWhiteColor,
                       borderColor: cLineColor,
                       buttonWidth: (width - 48) / 2,
@@ -41,6 +43,34 @@ class DashBoardPage extends StatelessWidget {
                     kW8sizedBox,
                     CustomElevatedButton(
                       label: ksAwards.tr,
+                      onPressed: () {
+                        Get.toNamed(krDashboardAward);
+                      },
+                      buttonColor: cWhiteColor,
+                      borderColor: cLineColor,
+                      buttonWidth: (width - 48) / 2,
+                      buttonHeight: h60,
+                      textStyle: semiBold16TextStyle(cBlackColor),
+                    ),
+                  ],
+                ),
+                kH16sizedBox,
+                Row(
+                  children: [
+                    CustomElevatedButton(
+                      label: ksStar.tr,
+                      onPressed: () {
+                        Get.toNamed(krDashboardStar);
+                      },
+                      buttonColor: cWhiteColor,
+                      borderColor: cLineColor,
+                      buttonWidth: (width - 48) / 2,
+                      buttonHeight: h60,
+                      textStyle: semiBold16TextStyle(cBlackColor),
+                    ),
+                    kW8sizedBox,
+                    CustomElevatedButton(
+                      label: ksGift.tr,
                       onPressed: () {},
                       buttonColor: cWhiteColor,
                       borderColor: cLineColor,
