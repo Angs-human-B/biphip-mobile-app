@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
 import 'package:bip_hip/controllers/home/selfie_controller.dart';
@@ -46,5 +47,6 @@ class BinderController implements Bindings {
     Get.put<QuizController>(QuizController());
     Get.put<MenuSectionController>(MenuSectionController());
     Get.put<MessengerController>(MessengerController());
+    Get.put<DashboardController>(DashboardController());
   }
 }

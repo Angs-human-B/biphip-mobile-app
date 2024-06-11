@@ -12,6 +12,25 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_content.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_details.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_otp.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_select_people.dart';
+import 'package:bip_hip/views/dashboard/dashboard_donation/dashboard_donated_post.dart';
+import 'package:bip_hip/views/dashboard/dashboard_donation/dashboard_donation.dart';
+import 'package:bip_hip/views/dashboard/dashboard_check_in_calender.dart';
+import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift.dart';
+import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift_earned.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
+import 'package:bip_hip/views/dashboard/dashboard_page.dart';
+import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
+import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
 import 'package:bip_hip/views/marketplace/marketplace_bidding_page.dart';
 import 'package:bip_hip/views/marketplace/marketplace_buying/marketplace_buying_page.dart';
@@ -261,6 +280,27 @@ const String krMessages = "/messages";
  //*Notification
  const String krNotificationPage = "/notification-page";
 
+ //*Dashboard
+ const String krDashboardPage = "/dashboard-page";
+ const String krDashboardOverview = "/dashboard-overview";
+ const String krDashboardOverviewContent = "/dashboard-overview-content";
+ const String krDashboardOverviewAudience = "/dashboard-overview-audience";
+ const String krDashboardFundTransfer = "/dashboard-fund-transfer";
+ const String krDashboardFundTransferDetails = "/dashboard-fund-transfer-details";
+ const String krDashboardSelectPeople = "/dashboard-select-people";
+ const String krDashboardFundTransferOtp = "/dashboard-fund-transfer-otp";
+ const String krDashboardDonation = "/dashboard-donation";
+ const String krDashboardDonatedPost = "/dashboard-donated-post";
+ const String krDashboardCheckInCalender = "/dashboard-check-in-calender";
+ const String krDashboardGift = "/dashboard-gift";
+ const String krDashboardGiftEarned = "/dashboard-gift-earned";
+ const String krDashboardStar = "/dashboard-star";
+ const String krDashboardStarHistory = "/dashboard-star-history";
+ const String krDashboardAward = "/dashboard-award";
+ const String krDashboardAllAwards = "/dashboard-all-awards";
+ const String krDashboardPerformance = "/dashboard-performance";
+ const String krDashboardQuiz = "/dashboard-quiz";
+
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -407,4 +447,26 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelfiePrivacyPage, page: () => SelfiePrivacyPage(), transition: Transition.noTransition),
   GetPage(name: krSelectPeoplePage, page: () => SelectPeoplePage(), transition: Transition.noTransition),
   GetPage(name: krSelfieViewPage, page: () => SelfieViewPage(), transition: Transition.noTransition),
+
+  //*Dashboard
+  GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverview, page: () => DashboardOverview(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverviewContent, page: () => DashboardOverviewContent(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverviewAudience, page: () => DashboardOverviewAudience(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransfer, page: () => DashboardFundTransfer(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransferDetails, page: () => DashboardFundTransferDetails(), transition: Transition.noTransition),
+  GetPage(name: krDashboardSelectPeople, page: () => DashboardSelectPeople(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransferOtp, page: () => DashboardFundTransferOtp(), transition: Transition.noTransition),
+  GetPage(name: krDashboardDonation, page: () => DashboardDonation(), transition: Transition.noTransition),
+  GetPage(name: krDashboardDonatedPost, page: () => DashboardDonatedPost(), transition: Transition.noTransition),
+  GetPage(name: krDashboardCheckInCalender, page: () => DashboardCheckInCalender(), transition: Transition.noTransition),
+  GetPage(name: krDashboardGift, page: () => DashboardGift(), transition: Transition.noTransition),
+  GetPage(name: krDashboardGiftEarned, page: () => DashboardGiftEarned(), transition: Transition.noTransition),
+  GetPage(name: krDashboardStar, page: () => DashboardStar(), transition: Transition.noTransition),
+  GetPage(name: krDashboardStarHistory, page: () => DashboardStarHistory(), transition: Transition.noTransition),
+  GetPage(name: krDashboardAward, page: () => DashboardAward(), transition: Transition.noTransition),
+  GetPage(name: krDashboardAllAwards, page: () => DashboardAllAwards(), transition: Transition.noTransition),
+  GetPage(name: krDashboardPerformance, page: () => DashboardPerformance(), transition: Transition.noTransition),
+  GetPage(name: krDashboardQuiz, page: () => DashboardQuiz(), transition: Transition.noTransition),
+
 ];
