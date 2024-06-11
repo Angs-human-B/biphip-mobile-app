@@ -685,6 +685,9 @@ const String ksOnlyYourBipHipFriends = "Only your BipHip friends";
 const String ksOnlyYourBipHipFamily = "Only your BipHip family";
 const String ksOnlyYourBipHipFriendsAndFamily = "Only your BipHip friends & family";
 const String ksCustom = "Custom";
+
+const String ksWinningDate = "Winning Date";
+const String ksYouHaveNotWonAnyAwards = "You haven't won any awards";
 const String ksNotification = "Notification";
 const String ksNoNotificationAvailable = "No notification available";
 const String ksYouDontHaveAnyNotification = "You don't have any notification";

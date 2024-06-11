@@ -80,6 +80,7 @@ class MenuHelper {
       case 11:
         Get.find<AwardController>().resetAwardData();
         Get.toNamed(krAwardsPage);
+        await Get.find<AwardController>().getAwardList();
         break;
     }
   }
