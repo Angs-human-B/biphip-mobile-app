@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/common/common_link_model.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 
 class AlbumListModel {
   ImageAlbums imageAlbums;
@@ -72,7 +73,7 @@ class AlbumData {
   String? type;
   int? totalImage;
   List<String> preview;
-  List<ImageList> imageList;
+  List<ImageElement> imageList;
 
   AlbumData({
     required this.id,
@@ -101,104 +102,105 @@ class AlbumData {
         type: json["type"],
         totalImage: json["total_image"],
         preview: List<String>.from(json["preview"].map((x) => x)),
-        imageList: List<ImageList>.from(json["image_list"].map((x) => ImageList.fromJson(x))),
+        imageList: List<ImageElement>.from(json["image_list"].map((x) => ImageElement.fromJson(x))),
       );
 }
 
-class ImageList {
-  int? id;
-  int? userId;
-  dynamic postId;
-  String? fileType;
-  int? imageAlbumId;
-  dynamic imageType;
-  String? storageType;
-  dynamic mimeType;
-  String? title;
-  String? storagePath;
-  String? path;
-  int? filesize;
-  dynamic description;
-  dynamic imageTakenTime;
-  dynamic imageTakenLocation;
-  int? countView;
-  int? countShare;
-  int? countComment;
-  int? countStar;
-  dynamic countReactions;
-  String? fullPath;
-  List<dynamic> taggedFriends;
-  // int? totalReactions;
-  List<String> reactingPersons;
-  // MostlyReactedReactions mostlyReactedReactions;
-  int? totalViewCount;
+// class ImageList {
+//   int? id;
+//   int? userId;
+//   dynamic postId;
+//   String? fileType;
+//   int? imageAlbumId;
+//   dynamic imageType;
+//   String? storageType;
+//   dynamic mimeType;
+//   String? title;
+//   String? storagePath;
+//   String? path;
+//   int? filesize;
+//   dynamic description;
+//   dynamic imageTakenTime;
+//   dynamic imageTakenLocation;
+//   int? countView;
+//   int? countShare;
+//   int? countComment;
+//   int? countStar;
+//   dynamic countReactions;
+//   String? fullPath;
+//   List<dynamic> taggedFriends;
+//   // int? totalReactions;
+//   List<String> reactingPersons;
+//   // MostlyReactedReactions mostlyReactedReactions;
+//   int? totalViewCount;
 
-  ImageList({
-    required this.id,
-    required this.userId,
-    required this.postId,
-    required this.fileType,
-    required this.imageAlbumId,
-    required this.imageType,
-    required this.storageType,
-    required this.mimeType,
-    required this.title,
-    required this.storagePath,
-    required this.path,
-    required this.filesize,
-    required this.description,
-    required this.imageTakenTime,
-    required this.imageTakenLocation,
-    required this.countView,
-    required this.countShare,
-    required this.countComment,
-    required this.countStar,
-    required this.countReactions,
-    required this.fullPath,
-    required this.taggedFriends,
-    required this.reactingPersons,
-    required this.totalViewCount,
-  });
+//   ImageList({
+//     required this.id,
+//     required this.userId,
+//     required this.postId,
+//     required this.fileType,
+//     required this.imageAlbumId,
+//     required this.imageType,
+//     required this.storageType,
+//     required this.mimeType,
+//     required this.title,
+//     required this.storagePath,
+//     required this.path,
+//     required this.filesize,
+//     required this.description,
+//     required this.imageTakenTime,
+//     required this.imageTakenLocation,
+//     required this.countView,
+//     required this.countShare,
+//     required this.countComment,
+//     required this.countStar,
+//     required this.countReactions,
+//     required this.fullPath,
+//     required this.taggedFriends,
+//     required this.reactingPersons,
+//     required this.totalViewCount,
+//   });
 
-  factory ImageList.fromJson(Map<String, dynamic> json) => ImageList(
-        id: json["id"],
-        userId: json["user_id"],
-        postId: json["post_id"],
-        fileType: json["file_type"],
-        imageAlbumId: json["image_album_id"],
-        imageType: json["image_type"],
-        storageType: json["storage_type"],
-        mimeType: json["mime_type"],
-        title: json["title"],
-        storagePath: json["storage_path"],
-        path: json["path"],
-        filesize: json["filesize"],
-        description: json["description"],
-        imageTakenTime: json["image_taken_time"] == null ? null : DateTime.parse(json["image_taken_time"]),
-        imageTakenLocation: json["image_taken_location"],
-        countView: json["count_view"],
-        countShare: json["count_share"],
-        countComment: json["count_comment"],
-        countStar: json["count_star"],
-        countReactions: json["count_reactions"],
-        fullPath: json["full_path"],
-        taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
-        reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
-        totalViewCount: json["total_view_count"],
-      );
-}
+//   factory ImageList.fromJson(Map<String, dynamic> json) => ImageList(
+//         id: json["id"],
+//         userId: json["user_id"],
+//         postId: json["post_id"],
+//         fileType: json["file_type"],
+//         imageAlbumId: json["image_album_id"],
+//         imageType: json["image_type"],
+//         storageType: json["storage_type"],
+//         mimeType: json["mime_type"],
+//         title: json["title"],
+//         storagePath: json["storage_path"],
+//         path: json["path"],
+//         filesize: json["filesize"],
+//         description: json["description"],
+//         imageTakenTime: json["image_taken_time"] == null ? null : DateTime.parse(json["image_taken_time"]),
+//         imageTakenLocation: json["image_taken_location"],
+//         countView: json["count_view"],
+//         countShare: json["count_share"],
+//         countComment: json["count_comment"],
+//         countStar: json["count_star"],
+//         countReactions: json["count_reactions"],
+//         fullPath: json["full_path"],
+//         taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
+//         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
+//         totalViewCount: json["total_view_count"],
+//       );
+// }
 
-class MostlyReactedReactions {
-  int? love;
-  int? like;
 
-  MostlyReactedReactions({
-    required this.love,
-    required this.like,
-  });
+// class MostlyReactedReactions {
+//   int? love;
+//   int? like;
 
-  factory MostlyReactedReactions.fromJson(Map<String, dynamic> json) => MostlyReactedReactions(
-        love: json["love"],
-        like: json["like"],
-      );
-}
+//   MostlyReactedReactions({
+//     required this.love,
+//     required this.like,
+//   });
+
+//   factory MostlyReactedReactions.fromJson(Map<String, dynamic> json) => MostlyReactedReactions(
+//         love: json["love"],
+//         like: json["like"],
+//       );
+// }
