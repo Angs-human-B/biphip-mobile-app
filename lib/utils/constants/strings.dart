@@ -688,8 +688,14 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
-const String ksAwardHistiry = "Award History";
 const String ksPerformance = "Performance";
+const String ksTotalStar = "Total Star";
+const String ksStarPurchaseHistory = "Star Purchase History";
+const String ksStarGiftHistory = "Star Gift History";
+const String ksView = "View";
+const String ksPackage = "Package";
+const String ksStarAmount = "Star Amount";
+const String ksAwardHistiry = "Award History";
 const String ksRecentAwards = "Recent Awards";
 const String ksAllAwards = "All Awards";
 const String ksYouHavenotWonAnyAward = "You haven't won any Award on this week";
