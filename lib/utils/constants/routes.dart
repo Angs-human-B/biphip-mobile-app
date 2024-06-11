@@ -12,6 +12,9 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_content.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_details.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_otp.dart';
@@ -279,6 +282,9 @@ const String krMessages = "/messages";
 
  //*Dashboard
  const String krDashboardPage = "/dashboard-page";
+ const String krDashboardOverview = "/dashboard-overview";
+ const String krDashboardOverviewContent = "/dashboard-overview-content";
+ const String krDashboardOverviewAudience = "/dashboard-overview-audience";
  const String krDashboardFundTransfer = "/dashboard-fund-transfer";
  const String krDashboardFundTransferDetails = "/dashboard-fund-transfer-details";
  const String krDashboardSelectPeople = "/dashboard-select-people";
@@ -444,6 +450,9 @@ List<GetPage<dynamic>>? routes = [
 
   //*Dashboard
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverview, page: () => DashboardOverview(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverviewContent, page: () => DashboardOverviewContent(), transition: Transition.noTransition),
+  GetPage(name: krDashboardOverviewAudience, page: () => DashboardOverviewAudience(), transition: Transition.noTransition),
   GetPage(name: krDashboardFundTransfer, page: () => DashboardFundTransfer(), transition: Transition.noTransition),
   GetPage(name: krDashboardFundTransferDetails, page: () => DashboardFundTransferDetails(), transition: Transition.noTransition),
   GetPage(name: krDashboardSelectPeople, page: () => DashboardSelectPeople(), transition: Transition.noTransition),

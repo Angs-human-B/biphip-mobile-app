@@ -1,6 +1,4 @@
-import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:flutter/foundation.dart';
 
 class DashBoardPage extends StatelessWidget {
   const DashBoardPage({super.key});
@@ -86,10 +84,9 @@ class DashBoardPage extends StatelessWidget {
                 Row(
                   children: [
                     CustomElevatedButton(
-                      label: ksFundTransfer.tr,
+                      label: ksDashboard.tr,
                       onPressed: () {
-                        Get.find<DashboardController>().resetDashboardFundTransferData();
-                        Get.toNamed(krDashboardFundTransfer);
+                        Get.toNamed(krDashboardOverview);
                       },
                       buttonColor: cWhiteColor,
                       borderColor: cLineColor,
