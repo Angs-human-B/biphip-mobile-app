@@ -16,8 +16,30 @@ import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_t
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_details.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_otp.dart';
 import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_select_people.dart';
+import 'package:bip_hip/views/dashboard/dashboard_donation/dashboard_donated_post.dart';
+import 'package:bip_hip/views/dashboard/dashboard_donation/dashboard_donation.dart';
+import 'package:bip_hip/views/dashboard/dashboard_check_in_calender.dart';
+import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift.dart';
+import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift_earned.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
+import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
+import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
+import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/views/home/common_gift_view_screen.dart';
+import 'package:bip_hip/views/marketplace/marketplace_bidding_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_buying/marketplace_buying_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_notification.dart';
+import 'package:bip_hip/views/marketplace/marketplace_account.dart';
+import 'package:bip_hip/views/marketplace/marketplace_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_categories_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_recent_activity.dart';
+import 'package:bip_hip/views/marketplace/marketplace_selling/marketplace_mark_sold_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_selling/marketplace_selling_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_selling/marketplace_your_listing_page.dart';
+import 'package:bip_hip/views/marketplace/marketplace_view_listing_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
 import 'package:bip_hip/views/menu/badges/all_badges.dart';
@@ -236,6 +258,20 @@ const String krSelfieViewPage = "/selfie-view-page";
 
 //* Messenger
 const String krInbox = "/inbox";
+//*Marketplace
+const String krMarketPlacePage = "/marketplace-page";
+const String krMarketPlaceCategoriesPage = "/marketplace-categories-page";
+const String krMarketPlaceViewListingPage = "/marketplace-view-listing-page";
+const String krMarketPlaceAccount = "/marketplace-account";
+const String krMarketPlaceNotification = "/marketplace-notification";
+const String krMarketPlaceRecentActivity = "/marketplace-recent-activity";
+const String krMarketPlaceBiddingPage = "/marketplace-bidding-page";
+const String krMarketPlaceSellingPage = "/marketplace-selling-page";
+const String krMarketPlaceYourListingPage = "/marketplace-your-listing-page";
+const String krMarketPlaceMarkSoldPage = "/marketplace-mark-sold-page";
+const String krMarketPlaceBuyingPage = "/marketplace-buying-page";
+
+//*chat
 const String krMessages = "/messages";
 
  //*Notification
@@ -247,6 +283,17 @@ const String krMessages = "/messages";
  const String krDashboardFundTransferDetails = "/dashboard-fund-transfer-details";
  const String krDashboardSelectPeople = "/dashboard-select-people";
  const String krDashboardFundTransferOtp = "/dashboard-fund-transfer-otp";
+ const String krDashboardDonation = "/dashboard-donation";
+ const String krDashboardDonatedPost = "/dashboard-donated-post";
+ const String krDashboardCheckInCalender = "/dashboard-check-in-calender";
+ const String krDashboardGift = "/dashboard-gift";
+ const String krDashboardGiftEarned = "/dashboard-gift-earned";
+ const String krDashboardStar = "/dashboard-star";
+ const String krDashboardStarHistory = "/dashboard-star-history";
+ const String krDashboardAward = "/dashboard-award";
+ const String krDashboardAllAwards = "/dashboard-all-awards";
+ const String krDashboardPerformance = "/dashboard-performance";
+ const String krDashboardQuiz = "/dashboard-quiz";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -373,6 +420,18 @@ List<GetPage<dynamic>>? routes = [
 
   //* Messenger
   GetPage(name: krInbox, page: () => Inbox(), transition: Transition.rightToLeft),
+  //*Marketplace
+  GetPage(name: krMarketPlacePage, page: () => MarketplacePage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceCategoriesPage, page: () => MarketPlaceCategoriesPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceViewListingPage, page: () => MarketPlaceViewListingPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceAccount, page: () => MarketPlaceAccount(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceNotification, page: () => MarketPlaceNotification(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceRecentActivity, page: () => MarketPlaceRecentActivity(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceBiddingPage, page: () => MarketPlaceBiddingPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceSellingPage, page: () => MarketPlaceSellingPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceYourListingPage, page: () => MarketPlaceYourListingPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceMarkSoldPage, page: () => MarketPlaceMarkSoldPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceBuyingPage, page: () => MarketPlaceBuyingPage(), transition: Transition.noTransition),
 
   //*Notification
   GetPage(name: krNotificationPage, page: () => NotificationPage(), transition: Transition.noTransition),
@@ -389,5 +448,16 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardFundTransferDetails, page: () => DashboardFundTransferDetails(), transition: Transition.noTransition),
   GetPage(name: krDashboardSelectPeople, page: () => DashboardSelectPeople(), transition: Transition.noTransition),
   GetPage(name: krDashboardFundTransferOtp, page: () => DashboardFundTransferOtp(), transition: Transition.noTransition),
+  GetPage(name: krDashboardDonation, page: () => DashboardDonation(), transition: Transition.noTransition),
+  GetPage(name: krDashboardDonatedPost, page: () => DashboardDonatedPost(), transition: Transition.noTransition),
+  GetPage(name: krDashboardCheckInCalender, page: () => DashboardCheckInCalender(), transition: Transition.noTransition),
+  GetPage(name: krDashboardGift, page: () => DashboardGift(), transition: Transition.noTransition),
+  GetPage(name: krDashboardGiftEarned, page: () => DashboardGiftEarned(), transition: Transition.noTransition),
+  GetPage(name: krDashboardStar, page: () => DashboardStar(), transition: Transition.noTransition),
+  GetPage(name: krDashboardStarHistory, page: () => DashboardStarHistory(), transition: Transition.noTransition),
+  GetPage(name: krDashboardAward, page: () => DashboardAward(), transition: Transition.noTransition),
+  GetPage(name: krDashboardAllAwards, page: () => DashboardAllAwards(), transition: Transition.noTransition),
+  GetPage(name: krDashboardPerformance, page: () => DashboardPerformance(), transition: Transition.noTransition),
+  GetPage(name: krDashboardQuiz, page: () => DashboardQuiz(), transition: Transition.noTransition),
 
 ];
