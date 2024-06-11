@@ -31,6 +31,7 @@ class DashboardOverviewAudience extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: Column(
                 children: [
+                  kH16sizedBox,
                   DashboardOverviewCommonRowTextIcon(
                     titleText: ksAgeAndGender.tr,
                     icon: BipHip.info,
