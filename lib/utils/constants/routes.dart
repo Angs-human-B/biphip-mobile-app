@@ -12,6 +12,7 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/dashboard/dashboard_check_in_calender.dart';
 import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift.dart';
 import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift_earned.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
@@ -272,6 +273,7 @@ const String krMessages = "/messages";
 
  //*Dashboard
  const String krDashboardPage = "/dashboard-page";
+ const String krDashboardCheckInCalender = "/dashboard-check-in-calender";
  const String krDashboardGift = "/dashboard-gift";
  const String krDashboardGiftEarned = "/dashboard-gift-earned";
  const String krDashboardStar = "/dashboard-star";
@@ -430,6 +432,7 @@ List<GetPage<dynamic>>? routes = [
 
   //*Dashboard
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
+  GetPage(name: krDashboardCheckInCalender, page: () => DashboardCheckInCalender(), transition: Transition.noTransition),
   GetPage(name: krDashboardGift, page: () => DashboardGift(), transition: Transition.noTransition),
   GetPage(name: krDashboardGiftEarned, page: () => DashboardGiftEarned(), transition: Transition.noTransition),
   GetPage(name: krDashboardStar, page: () => DashboardStar(), transition: Transition.noTransition),

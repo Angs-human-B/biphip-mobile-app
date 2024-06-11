@@ -84,8 +84,10 @@ class DashBoardPage extends StatelessWidget {
                 Row(
                   children: [
                     CustomElevatedButton(
-                      label: ksStar.tr,
-                      onPressed: () {},
+                      label: ksDailyCheckIn.tr,
+                      onPressed: () {
+                        Get.toNamed(krDashboardCheckInCalender);
+                      },
                       buttonColor: cWhiteColor,
                       borderColor: cLineColor,
                       buttonWidth: (width - 48) / 2,

@@ -688,6 +688,11 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksDailyCheckIn = "Daily Check-In";
+const String ksCheckBonus = "Check Bonus";
+const String ksMysteryGiftBox = "Mystery Gift Box";
+const String ksClaim = "Claim";
+const String ksLoginEverydayAndEarnNiceGift = "Login everyday & earn nice gift. Each milestone offers nice gift box. If you complete all the milestone, you will have a nice mystery gift box which is really fun!";
 const String ksPerformance = "Performance";
 const String ksMyGiftBalance = "My gift balance";
 const String ksGrowthStatics = "Growth statics";
