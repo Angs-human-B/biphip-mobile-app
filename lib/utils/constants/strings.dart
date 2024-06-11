@@ -688,6 +688,15 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksDonation = "Donation";
+const String ksYouHaveNothingInDonation = "You have nothing in donation!";
+const String ksPostView = "Post View";
+const String ksEngagement = "Engagement";
+const String ksDonate = "Donate";
+const String ksDonationStatics = "Donation Statics";
+const String ksDonationPosts = "Donation posts";
+const String ksDonatedPost = "Donated post";
+const String ksYouHaveNothingIAApplication = "You have nothing in application!";
 const String ksDailyCheckIn = "Daily Check-In";
 const String ksCheckBonus = "Check Bonus";
 const String ksMysteryGiftBox = "Mystery Gift Box";
@@ -697,8 +706,6 @@ const String ksPerformance = "Performance";
 const String ksMyGiftBalance = "My gift balance";
 const String ksGrowthStatics = "Growth statics";
 const String ksGiftEarnedPost = "Gift Earned Post";
-const String ksPostView = "Post view";
-const String ksEngagement = "Engagement";
 const String ksTotalStar = "Total Star";
 const String ksStarPurchaseHistory = "Star Purchase History";
 const String ksStarGiftHistory = "Star Gift History";

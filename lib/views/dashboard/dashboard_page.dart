@@ -96,9 +96,9 @@ class DashBoardPage extends StatelessWidget {
                     ),
                     kW8sizedBox,
                     CustomElevatedButton(
-                      label: ksGift.tr,
+                      label: ksDonation.tr,
                       onPressed: () {
-                        Get.toNamed(krDashboardGift);
+                        Get.toNamed(krDashboardDonation);
                       },
                       buttonColor: cWhiteColor,
                       borderColor: cLineColor,
