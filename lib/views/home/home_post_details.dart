@@ -127,6 +127,7 @@ class HomePostDetails extends StatelessWidget {
                               )),
                         ),
                       ),
+                   
                     ],
                   ),
                 ),
