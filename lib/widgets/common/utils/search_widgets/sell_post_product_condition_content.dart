@@ -60,5 +60,6 @@ class SellPostProductCategoryContent extends StatelessWidget {
         ),
       ],
     );
+  
   }
 }
