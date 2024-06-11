@@ -271,36 +271,34 @@ class CommonPostWidget extends StatelessWidget {
           //         ),
           //       )),
           if (globalController.commonPostList[postIndex].type == 3)
-          
-
-          if (globalController.commonPostList[postIndex].sharePosts != null)
-            Padding(
-              padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: k8CircularBorderRadius,
-                    border: Border.all(color: cLineColor),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: CommonSharedPostWidget(
-                      postIndex: postIndex,
-                      postUpperContainerOnPressed: () async {
-                        Get.to(() => SharePostDetails());
-                        await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
-                        await Get.find<HomeController>().getPostCommentList(1, globalController.commonPostList[postIndex].sharePosts!.id!);
-                        await Get.find<FriendController>().getFriendList();
-                        if (Get.find<HomeController>().postData.value!.post.countReactions?.value == null ||
-                            Get.find<HomeController>().postData.value!.post.countReactions?.value.all?.value == 0) {
-                          Get.find<HomeController>().sharePostCountReaction.value = null;
-                        } else {
-                          Get.find<HomeController>().sharePostCountReaction.value = Get.find<HomeController>().postData.value!.post.countReactions!.value;
-                        }
-                        Get.find<HomeController>().sharedPostMyReaction.value = Get.find<HomeController>().postData.value!.post.myReaction?.value ?? "";
-                      },
+            if (globalController.commonPostList[postIndex].sharePosts != null)
+              Padding(
+                padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
+                child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: k8CircularBorderRadius,
+                      border: Border.all(color: cLineColor),
                     ),
-                  )),
-            ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: CommonSharedPostWidget(
+                        postIndex: postIndex,
+                        postUpperContainerOnPressed: () async {
+                          Get.to(() => SharePostDetails());
+                          await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
+                          await Get.find<HomeController>().getPostCommentList(1, globalController.commonPostList[postIndex].sharePosts!.id!);
+                          await Get.find<FriendController>().getFriendList();
+                          if (Get.find<HomeController>().postData.value!.post.countReactions?.value == null ||
+                              Get.find<HomeController>().postData.value!.post.countReactions?.value.all?.value == 0) {
+                            Get.find<HomeController>().sharePostCountReaction.value = null;
+                          } else {
+                            Get.find<HomeController>().sharePostCountReaction.value = Get.find<HomeController>().postData.value!.post.countReactions!.value;
+                          }
+                          Get.find<HomeController>().sharedPostMyReaction.value = Get.find<HomeController>().postData.value!.post.myReaction?.value ?? "";
+                        },
+                      ),
+                    )),
+              ),
           if (globalController.commonPostList[postIndex].images.isNotEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -787,6 +785,15 @@ class BiddingInsightsContent extends StatelessWidget {
               ksBids.tr,
               style: semiBold16TextStyle(cBlackColor),
             ),
+            kH12sizedBox,
+            ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                separatorBuilder: (context, index) => kH16sizedBox,
+                itemBuilder: (context, index) {
+                  return BiddingInsightCommentSection();
+                }),
             kH8sizedBox,
             // ListView.builder(
             //     physics: const NeverScrollableScrollPhysics(),
@@ -824,6 +831,86 @@ class BiddingInsightsContent extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class BiddingInsightCommentSection extends StatelessWidget {
+  const BiddingInsightCommentSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipOval(
+          child: Image.network(
+            "https://img.freepik.com/free-photo/cheerfulcharming-young-woman-wearing-blue-sweater-with-fair-straight-hair-smiling-happily-while-receiving-some-positive-news-pretty-girl-dressed-blue-looking-with-joyful-smile_176420-13443.jpg?t=st=1716184855~exp=1716188455~hmac=3187e1f0fa9ac6cc47c866c84b9485fe2131f8f9772932cb39ed2f4aae7cac54&w=1060",
+            width: h32,
+            height: h32,
+            fit: BoxFit.cover,
+            loadingBuilder: smallImageLoadingBuilder,
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                kiProfileDefaultImageUrl,
+                width: h32,
+                height: h32,
+                fit: BoxFit.cover,
+              );
+            },
+          ),
+        ),
+        kW8sizedBox,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: width - 80,
+              decoration: BoxDecoration(
+                color: cNeutralColor,
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Wahid Murad",
+                      style: semiBold14TextStyle(cBlackColor),
+                    ),
+                    kH4sizedBox,
+                    Text(
+                      "\$800",
+                      style: regular14TextStyle(cBlackColor),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            kH4sizedBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  ksLike.tr,
+                  style: semiBold12TextStyle(cIconColor),
+                ),
+                kW12sizedBox,
+                Text(
+                  ksSendMessage.tr,
+                  style: semiBold12TextStyle(cIconColor),
+                ),
+                kW12sizedBox,
+                Text(
+                  "5m",
+                  style: semiBold12TextStyle(cIconColor),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
