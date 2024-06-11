@@ -10,6 +10,29 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
+  final RxBool isKeyboardFocused = RxBool(false);
+  @override
+  void onInit() async {
+    commentFocusNode.addListener(() {
+      if (commentFocusNode.hasFocus) {
+        isKeyboardFocused.value = true;
+        ll("isKeyboardFocused: $isKeyboardFocused");
+      } else {
+        isKeyboardFocused.value = false;
+        ll("isKeyboardFocused: $isKeyboardFocused");
+      }
+    });
+    tabController = TabController(
+      length: 5,
+      animationDuration: Duration.zero,
+      vsync: this,
+    );
+    tabController.addListener(() {
+      giftFilter(tabController.index);
+    });
+    super.onInit();
+  }
+
   final RxInt selectedBidIndex = RxInt(-1);
   final RxInt selectedGiftIndex = RxInt(-1);
   final RxInt balance = RxInt(200);
@@ -36,18 +59,18 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxString totalStars = RxString('');
   final String perPageTake = "take=15";
 
-  @override
-  void onInit() {
-    super.onInit();
-    tabController = TabController(
-      length: 5,
-      animationDuration: Duration.zero,
-      vsync: this,
-    );
-    tabController.addListener(() {
-      giftFilter(tabController.index);
-    });
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   tabController = TabController(
+  //     length: 5,
+  //     animationDuration: Duration.zero,
+  //     vsync: this,
+  //   );
+  //   tabController.addListener(() {
+  //     giftFilter(tabController.index);
+  //   });
+  // }
 
   void clearBadgeCount() {
     badgeCount1.value = 0;
@@ -220,7 +243,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (commentOrReply == "comment") 'ref_id': refId.toString(),
         if (commentOrReply == "comment") 'comment': commentTextEditingController.text.toString().trim(),
         if (commentOrReply == "reply") 'reply': commentTextEditingController.text.toString().trim(),
-        if (commentOrReply == "reply") 'comment_id': commentId.toString(),
+        if (commentOrReply == "reply") 'comment_id': commentId.value.toString(),
         'mention_user_ids': commentMentionList.join(','),
       };
       var response;
@@ -254,7 +277,13 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(refType, Get.find<HomeController>().postData.value!.post.id!);
         } else {
-          await getCommentList(1, globalController.commonPostList[postIndex].id!, postIndex);
+          // await getCommentList(refType, refId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(refType, refId, postIndex);
+          }
         }
         isCommentPostLoading.value = false;
       } else {
@@ -361,6 +390,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Get More Comment List for pagination
   Future<void> getMoreCommentList(take, int refType, int refId, int postIndex) async {
+    isCommentLoading.value = true;
     try {
       String? token = await spController.getBearerToken();
       dynamic commentListSub;
@@ -381,6 +411,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       if (response.success == true) {
         commentListData.value = PostCommentModel.fromJson(response.data);
+        commentList.addAll(commentListData.value!.comments!.data);
         globalController.commonPostList[postIndex].comments.addAll(commentListData.value!.comments!.data);
         replyShow.clear();
         for (int i = 0; i < globalController.commonPostList[postIndex].comments.length; i++) {
@@ -431,6 +462,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     giftAgreeCheckBox.value = false;
   }
 
+  //! Comment & Reply Section
   final RxList commentActionList = RxList([
     {
       'icon': BipHip.edit,
@@ -565,6 +597,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Delete Comment Api Call
   final RxBool isCommentDeleteLoading = RxBool(false);
+  final RxInt imageId = RxInt(-1);
+  final RxBool isRouteFromHomePage = RxBool(false);
   Future<void> deleteComment(postId, [postIndex]) async {
     try {
       isCommentDeleteLoading.value = true;
@@ -577,10 +611,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-         if (isFromSharePage.value) {
+        if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-          await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isCommentDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -613,12 +652,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        // for (int index = 0; index <= commentList.length; index++) {
-        //   if (commentId.value == commentList[index].id) {
-        //     commentList.removeAt(index);
-        //   }
-        // }
-        // await getCommentList(1, refId.value);
         isCommentHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -669,7 +702,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isUpdateComment.value = false;
         commentTextEditingController.clear();
@@ -714,10 +752,16 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-         if (isFromSharePage.value) {
+        if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          // await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isReplyDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -753,7 +797,12 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isReplyHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -802,10 +851,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
       if (response.success == true) {
         unFocus(context);
-         if (isFromSharePage.value) {
+        if (isFromSharePage.value) {
           await Get.find<HomeController>().getPostCommentList(1, postId);
         } else {
-        await getCommentList(1, postId, postIndex);
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
         }
         isUpdateReply.value = false;
         replyTextEditingController.clear();
@@ -942,7 +996,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     } catch (e) {
       isGiftStarLoading.value = false;
-      ll('postReply error: $e');
+      ll('giftStar error: $e');
     }
   }
 
