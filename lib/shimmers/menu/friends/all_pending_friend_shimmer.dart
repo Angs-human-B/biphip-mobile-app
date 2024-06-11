@@ -1,7 +1,8 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class AllPendingFriendShimmer extends StatelessWidget {
-  const AllPendingFriendShimmer({super.key});
+  const AllPendingFriendShimmer({super.key, this.isBottomSheetShimmer = false});
+  final bool isBottomSheetShimmer;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class AllPendingFriendShimmer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              padding: isBottomSheetShimmer ? const EdgeInsets.all(k0Padding) : const EdgeInsets.symmetric(horizontal: k20Padding),
               child: ListView.builder(
                 itemCount: 20,
                 shrinkWrap: true,
@@ -37,13 +38,24 @@ class AllPendingFriendShimmer extends StatelessWidget {
                             width: 80,
                           ),
                         ),
-                        trailing: ShimmerCommon(
-                          widget: Container(
-                            decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
-                            height: 20,
-                            width: 12,
-                          ),
-                        ),
+                        subtitle: isBottomSheetShimmer
+                            ? ShimmerCommon(
+                                widget: Container(
+                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                  height: 12,
+                                  width: h40,
+                                ),
+                              )
+                            : const SizedBox(),
+                        trailing: isBottomSheetShimmer
+                            ? const SizedBox()
+                            : ShimmerCommon(
+                                widget: Container(
+                                  decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                                  height: 20,
+                                  width: 12,
+                                ),
+                              ),
                       ),
                     ),
                   );
@@ -56,4 +68,3 @@ class AllPendingFriendShimmer extends StatelessWidget {
     );
   }
 }
-

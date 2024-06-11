@@ -688,6 +688,20 @@ const String ksCustom = "Custom";
 
 //*DashBoard
 const String ksDashboard = "Dashboard";
+const String ksFundTransfer = "Fund Transfer";
+const String ksTransferStar = "Transfer Star";
+const String ksAvailableStars = "Available stars";
+const String ksAvailableAmount = "Available amount";
+const String ksTransferBalance = "Transfer Balance";
+const String ksFundTransferHistory = "Fund Transfer History";
+const String ksTransferOf = "Transfer of";
+const String ksReceiver = "Receiver";
+const String ksAmount = "Amount";
+const String ksFriend = "Friend";
+const String ksEmptyFundTransferErrorText = "Transfer fund amount can't be empty";
+const String ksFundTranferLimit = "Transfer amount must be 20 to 2000";
+const String ksWhichAmountYouCanSend = "which amount you can send";
+const String ksEnterTheVerificationCode = "Enter the verification code. We just sent a code to your email address";
 const String ksDonation = "Donation";
 const String ksYouHaveNothingInDonation = "You have nothing in donation!";
 const String ksPostView = "Post View";

@@ -12,6 +12,10 @@ import 'package:bip_hip/views/auth/login/saved_user_login.dart';
 import 'package:bip_hip/views/auth/register/select_birthday.dart';
 import 'package:bip_hip/views/auth/register/select_gender.dart';
 import 'package:bip_hip/views/auth/register/set_email.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_details.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_fund_transfer_otp.dart';
+import 'package:bip_hip/views/dashboard/dashboard_fund_transfer/dashboard_select_people.dart';
 import 'package:bip_hip/views/dashboard/dashboard_donation/dashboard_donated_post.dart';
 import 'package:bip_hip/views/dashboard/dashboard_donation/dashboard_donation.dart';
 import 'package:bip_hip/views/dashboard/dashboard_check_in_calender.dart';
@@ -275,6 +279,10 @@ const String krMessages = "/messages";
 
  //*Dashboard
  const String krDashboardPage = "/dashboard-page";
+ const String krDashboardFundTransfer = "/dashboard-fund-transfer";
+ const String krDashboardFundTransferDetails = "/dashboard-fund-transfer-details";
+ const String krDashboardSelectPeople = "/dashboard-select-people";
+ const String krDashboardFundTransferOtp = "/dashboard-fund-transfer-otp";
  const String krDashboardDonation = "/dashboard-donation";
  const String krDashboardDonatedPost = "/dashboard-donated-post";
  const String krDashboardCheckInCalender = "/dashboard-check-in-calender";
@@ -436,6 +444,10 @@ List<GetPage<dynamic>>? routes = [
 
   //*Dashboard
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransfer, page: () => DashboardFundTransfer(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransferDetails, page: () => DashboardFundTransferDetails(), transition: Transition.noTransition),
+  GetPage(name: krDashboardSelectPeople, page: () => DashboardSelectPeople(), transition: Transition.noTransition),
+  GetPage(name: krDashboardFundTransferOtp, page: () => DashboardFundTransferOtp(), transition: Transition.noTransition),
   GetPage(name: krDashboardDonation, page: () => DashboardDonation(), transition: Transition.noTransition),
   GetPage(name: krDashboardDonatedPost, page: () => DashboardDonatedPost(), transition: Transition.noTransition),
   GetPage(name: krDashboardCheckInCalender, page: () => DashboardCheckInCalender(), transition: Transition.noTransition),
