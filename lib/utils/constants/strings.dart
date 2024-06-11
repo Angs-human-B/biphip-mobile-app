@@ -689,6 +689,11 @@ const String ksCustom = "Custom";
 //*DashBoard
 const String ksDashboard = "Dashboard";
 const String ksPerformance = "Performance";
+const String ksMyGiftBalance = "My gift balance";
+const String ksGrowthStatics = "Growth statics";
+const String ksGiftEarnedPost = "Gift Earned Post";
+const String ksPostView = "Post view";
+const String ksEngagement = "Engagement";
 const String ksTotalStar = "Total Star";
 const String ksStarPurchaseHistory = "Star Purchase History";
 const String ksStarGiftHistory = "Star Gift History";
