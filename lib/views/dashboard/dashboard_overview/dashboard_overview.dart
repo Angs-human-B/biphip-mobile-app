@@ -31,6 +31,7 @@ class DashboardOverview extends StatelessWidget {
             body: Obx(
               () => SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kH16sizedBox,
                     SizedBox(
@@ -462,6 +463,82 @@ class DashboardOverview extends StatelessWidget {
                               photoViewCount: "45",
                               linkClickCount: "67",
                               othersCount: "64",
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 2)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              ksNotYetEligible.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
+                            kH4sizedBox,
+                            Text(
+                              ksAsYouGrowYourAudience.tr,
+                              style: regular12TextStyle(cSmallBodyTextColor),
+                            ),
+                            kH20sizedBox,
+                            Text(
+                              ksGrowYourAudience.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
+                            kH16sizedBox,
+                            ProgressItem(
+                              title: ksFamilies.tr,
+                              progressValue: 0.96,
+                              progressColor: cPrimaryColor,
+                              currentValue: "19/20",
+                              percentage: "96%",
+                            ),
+                            kH16sizedBox,
+                            ProgressItem(
+                              title: ksFriendsToFriends.tr,
+                              progressValue: 0.33,
+                              progressColor: cRedColor,
+                              currentValue: "33/100",
+                              percentage: "33%",
+                            ),
+                            kH16sizedBox,
+                            ProgressItem(
+                              title: ksFamiliesToFamilies.tr,
+                              progressValue: 0.54,
+                              progressColor: cPrimaryColor,
+                              currentValue: "54/100",
+                              percentage: "54%",
+                            ),
+                            kH20sizedBox,
+                            Text(
+                              ksGrowYourEngagements.tr,
+                              style: semiBold18TextStyle(cBlackColor),
+                            ),
+                            kH16sizedBox,
+                            ProgressItem(
+                              title: ksReact.tr,
+                              progressValue: 0.80,
+                              progressColor: cPrimaryColor,
+                              currentValue: "80/100",
+                              percentage: "80%",
+                            ),
+                            kH16sizedBox,
+                            ProgressItem(
+                              title: ksPostShare.tr,
+                              progressValue: 0.9,
+                              progressColor: cPrimaryColor,
+                              currentValue: "90/100",
+                              percentage: "90%",
+                            ),
+                            kH16sizedBox,
+                            ProgressItem(
+                              title: ksSelfieShare.tr,
+                              progressValue: 0.33,
+                              progressColor: cRedColor,
+                              currentValue: '33/100',
+                              percentage: '33%',
                             ),
                           ],
                         ),
@@ -1301,6 +1378,68 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
               );
             }),
       ],
+    );
+  }
+}
+
+class ProgressItem extends StatelessWidget {
+  final String title;
+  final double progressValue;
+  final Color progressColor;
+  final String currentValue;
+  final String percentage;
+
+  const ProgressItem({
+    Key? key,
+    required this.title,
+    required this.progressValue,
+    required this.progressColor,
+    required this.currentValue,
+    required this.percentage,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: regular12TextStyle(cBlackColor),
+          ),
+          kH4sizedBox,
+          Row(
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(k20BorderRadius),
+                  child: LinearProgressIndicator(
+                    value: progressValue,
+                    backgroundColor: cNeutralColor,
+                    color: progressColor,
+                    minHeight: h8,
+                    borderRadius: BorderRadius.circular(k20BorderRadius),
+                  ),
+                ),
+              ),
+              kW8sizedBox,
+              Text(
+                percentage,
+                style: regular12TextStyle(cBlackColor),
+              ),
+            ],
+          ),
+          kH4sizedBox,
+          Text(
+            currentValue,
+            style: regular12TextStyle(cBlackColor),
+          ),
+        ],
+      ),
     );
   }
 }

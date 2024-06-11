@@ -735,3 +735,13 @@ const String ksPostInsights = "Post Insights";
 const String ksImpression = "Impression";
 const String ksAudience = "Audience";
 const String ksTopCountries = "Top Countries";
+const String ksNotYetEligible = "Not Yet Eligible";
+const String ksAsYouGrowYourAudience = "As you grow your audience, you'll unlock more ways to make monye";
+const String ksGrowYourEngagements = "Grow Your Engagements";
+const String ksFamilies = "Families";
+const String ksFriendsToFriends = "Friends to Friends";
+const String ksFamiliesToFamilies = "Families to Families";
+const String ksReact = "React";
+const String ksPostShare = "Post Share";
+const String ksSelfieShare = "Selfie Share";
+
