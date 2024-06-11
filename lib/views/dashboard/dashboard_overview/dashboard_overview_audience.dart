@@ -37,7 +37,7 @@ class DashboardOverviewAudience extends StatelessWidget {
                     iconOnPressed: null,
                   ),
                   kH16sizedBox,
-                  Container(width: 100, height: 100, child: AgeGenderPieChart()),
+                  const SizedBox(width: 100, height: 100, child: AgeGenderPieChart()),
                   kH16sizedBox,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
