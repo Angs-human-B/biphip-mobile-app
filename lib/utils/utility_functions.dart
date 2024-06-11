@@ -76,6 +76,16 @@ Widget smallImageLoadingBuilder(context, child, loadingProgress) {
     return child;
   }
   return const CustomLoadingAnimation(
+    radius: 9,
+    isTextVisible: false,
+  );
+}
+
+Widget mediumImageLoadingBuilder(context, child, loadingProgress) {
+  if (loadingProgress == null) {
+    return child;
+  }
+  return const CustomLoadingAnimation(
     radius: 16,
     isTextVisible: false,
   );
