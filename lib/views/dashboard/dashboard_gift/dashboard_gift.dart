@@ -356,44 +356,6 @@ class DashboardCommonContainer extends StatelessWidget {
   }
 }
 
-// class GiftTopContainerWidget extends StatelessWidget {
-//   const GiftTopContainerWidget({super.key, this.percentValue, required this.titleText, required this.giftAmount, required this.timeRangeValue});
-//   final String titleText,giftAmount,timeRangeValue;
-//   final String ? percentValue;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return  Container(
-//                   width: (width - 48) / 2,
-//                   height: 88,
-//                   decoration: BoxDecoration(
-//                     color: cWhiteColor,
-//                     border: Border.all(width: 1, color: cLineColor),
-//                     borderRadius: BorderRadius.circular(k8BorderRadius),
-//                     boxShadow: const [
-//                       BoxShadow(
-//                         color: cLineColor,
-//                         blurRadius: 4,
-//                         spreadRadius: 1.5,
-//                         offset: Offset(
-//                           0,
-//                           1,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   child: Padding(
-//                     padding: const EdgeInsets.all(k12Padding),
-//                     child: Column(
-//                       children: [
-//                         Text(titleText,style: ,),
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//   }
-// }
-
 class QuizTimeFilterBottomSheetContent extends StatelessWidget {
   QuizTimeFilterBottomSheetContent({super.key});
   final DashboardController dashboardController = Get.find<DashboardController>();
@@ -607,17 +569,17 @@ class GiftEaringReport extends StatelessWidget {
                         interval: 100,
                       ),
                     ),
-                    topTitles: AxisTitles(
+                    topTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
-                    rightTitles: AxisTitles(
+                    rightTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
                     ),
                   ),
                   borderData: FlBorderData(
                     show: false,
                   ),
-                  gridData: FlGridData(
+                  gridData: const FlGridData(
                     show: false,
                   ),
                 ),
