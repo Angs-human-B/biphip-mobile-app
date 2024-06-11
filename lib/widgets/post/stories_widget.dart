@@ -190,7 +190,7 @@ class StoryCard extends StatelessWidget {
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(kiDummyImage1ImageUrl);
                         },
-                        loadingBuilder: smallImageLoadingBuilder,
+                        loadingBuilder: mediumImageLoadingBuilder,
                       ),
                     ),
                   ),

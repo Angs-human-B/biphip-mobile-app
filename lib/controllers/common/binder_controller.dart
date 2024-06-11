@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
+import 'package:bip_hip/controllers/marketplace/marketplace_controller.dart';
 import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
@@ -29,6 +30,7 @@ class BinderController implements Bindings {
     Get.put<AuthenticationController>(AuthenticationController());
     Get.put<SocialLogInController>(SocialLogInController());
     Get.put<HomeController>(HomeController());
+    Get.put<MarketPlaceController>(MarketPlaceController());
     Get.put<NotificationController>(NotificationController());
     Get.put<SelfieController>(SelfieController());
     Get.put<AllSearchController>(AllSearchController());
