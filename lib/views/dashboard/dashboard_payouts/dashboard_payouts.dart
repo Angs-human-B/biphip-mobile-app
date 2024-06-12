@@ -1,5 +1,7 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class DashboardPayouts extends StatelessWidget {
@@ -26,51 +28,237 @@ class DashboardPayouts extends StatelessWidget {
               },
             ),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Column(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Obx(
+              () => Column(
                 children: [
                   kH16sizedBox,
-                  kH16sizedBox,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      DashboardCommonContainer(
-                        width: (width - 48) / 2,
-                        height: 88,
-                        titleText: ksTotalEarning.tr,
-                        totalValue: "\$365",
-                        percentTextColor: cGreenColor,
+                  TapAbleButtonContainer(
+                    buttonText: dashboardController.payoutsTapButtonText,
+                    buttonState: dashboardController.payoutsTapButtonState,
+                    buttonPress: RxList([
+                      () {
+                        dashboardController.payoutsOverviewTapableButtonOnPressed();
+                      },
+                      () async {
+                        dashboardController.payoutsTransectionsTapableButtonOnPressed();
+                      },
+                      () {
+                        dashboardController.payoutsSettingsTapableButtonOnPressed();
+                      },
+                    ]),
+                  ),
+                  if (dashboardController.payoutsTapButtonState[0])
+                    SizedBox(
+                      height: height - (kAppBarSize + 30 + 16 + MediaQuery.of(context).padding.top),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            kH16sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                DashboardCommonContainer(
+                                  width: (width - 48) / 2,
+                                  height: 88,
+                                  titleText: ksTotalEarning.tr,
+                                  totalValue: dashboardController.isEarningReportAvailable.value ? "\$365" : "\$0",
+                                  percentTextColor: cGreenColor,
+                                ),
+                                kW8sizedBox,
+                                DashboardCommonContainer(
+                                  width: (width - 48) / 2,
+                                  height: 88,
+                                  titleText: ksTotalWithdraw.tr,
+                                  totalValue: dashboardController.isEarningReportAvailable.value ? "\$170" : "\$0",
+                                ),
+                              ],
+                            ),
+                            kH20sizedBox,
+                            dashboardController.isEarningReportAvailable.value
+                                ? PayoutsEarningReport(
+                                    titleText: ksEarningReport.tr,
+                                    subTitleText: "From last 12 Months",
+                                    amount: "\$365",
+                                  )
+                                : const PayoutOverviewEmptyView(),
+                            kH16sizedBox,
+                            dashboardController.isWithdrawReportAvailable.value
+                                ? PayoutsEarningReport(
+                                    titleText: ksWithdrawReport.tr,
+                                    subTitleText: "From last 12 Months",
+                                    amount: "\$170",
+                                    barChartColor: cOrangeColor,
+                                  )
+                                : EmptyViewContainer(
+                                    titleText: ksNoWithdrawAvailable.tr,
+                                    titleTextStyle: semiBold16TextStyle(cBlackColor),
+                                  ),
+                          ],
+                        ),
                       ),
-                      kW8sizedBox,
-                      DashboardCommonContainer(
-                        width: (width - 48) / 2,
-                        height: 88,
-                        titleText: ksTotalWithdraw.tr,
-                        totalValue: "\$170",
-                      ),
-                    ],
-                  ),
-                  kH20sizedBox,
-                  PayoutsEarningReport(
-                    titleText: ksEarningReport.tr,
-                    subTitleText: "From last 12 Months",
-                    amount: "\$365",
-                  ),
-                  kH16sizedBox,
-                  PayoutsEarningReport(
-                    titleText: ksWithdrawReport.tr,
-                    subTitleText: "From last 12 Months",
-                    amount: "\$170",
-                    barChartColor: cOrangeColor,
-                  ),
-                  kH16sizedBox,
+                    ),
+                  if (dashboardController.payoutsTapButtonState[1])
+                    Column(
+                      children: [
+                        kH16sizedBox,
+                        PayoutTransectionTopContainer(
+                          title: ksAvailableAmount.tr,
+                          amount: "\$370",
+                          buttonText: ksVerify.tr,
+                          buttonOnPressed: () {},
+                        ),
+                        kH16sizedBox,
+                        EmptyViewContainer(
+                          titleText: ksNoWithdrawAvailable.tr,
+                          titleTextStyle: semiBold16TextStyle(cBlackColor),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PayoutTransectionTopContainer extends StatelessWidget {
+  const PayoutTransectionTopContainer({super.key, this.title, this.amount, this.buttonText, this.buttonOnPressed});
+  final String? title, amount, buttonText;
+  final VoidCallback? buttonOnPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 76,
+      decoration: BoxDecoration(
+        color: cWhiteColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        boxShadow: const [
+          BoxShadow(
+            color: cLineColor,
+            blurRadius: 3,
+            spreadRadius: 0,
+            offset: Offset(
+              0,
+              1,
+            ),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(k12Padding),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title ?? "",
+                  style: regular14TextStyle(cBlackColor),
+                ),
+                kH8sizedBox,
+                Text(
+                  amount ?? "",
+                  style: semiBold18TextStyle(cBlackColor),
+                ),
+              ],
+            ),
+            CustomElevatedButton(
+              label: buttonText ?? "",
+              onPressed: buttonOnPressed,
+              buttonColor: cPrimaryColor,
+              textStyle: regular14TextStyle(cWhiteColor),
+              buttonWidth: 80,
+              buttonHeight: h32,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PayoutOverviewEmptyView extends StatelessWidget {
+  const PayoutOverviewEmptyView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 190,
+      decoration: BoxDecoration(
+        color: cWhiteColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        boxShadow: const [
+          BoxShadow(
+            color: cLineColor,
+            blurRadius: 3,
+            spreadRadius: 0,
+            offset: Offset(
+              0,
+              1,
+            ),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "${ksYouHavenotEarned.tr}.",
+            style: semiBold16TextStyle(cBlackColor),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: k20Padding, right: k20Padding, top: k4Padding),
+            child: Text(
+              ksPleaseBeActiveInPostingAndEarnEveryday.tr,
+              style: regular14TextStyle(cSmallBodyTextColor),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EmptyViewContainer extends StatelessWidget {
+  const EmptyViewContainer({super.key, required this.titleText, this.titleTextStyle});
+  final String titleText;
+  final TextStyle? titleTextStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      height: 190,
+      decoration: BoxDecoration(
+        color: cWhiteColor,
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        boxShadow: const [
+          BoxShadow(
+            color: cLineColor,
+            blurRadius: 3,
+            spreadRadius: 0,
+            offset: Offset(
+              0,
+              1,
+            ),
+          ),
+        ],
+      ),
+      child: EmptyView(
+        title: titleText,
+        titleTextStyle: titleTextStyle ?? semiBold16TextStyle(cBlackColor),
       ),
     );
   }
@@ -148,8 +336,9 @@ class PayoutsEarningReport extends StatelessWidget {
       height: 280,
       decoration: BoxDecoration(
         color: cWhiteColor,
-        border: Border.all(width: 1, color: cLineColor),
         borderRadius: BorderRadius.circular(k8BorderRadius),
+        // border: Border.all(width: 1, color: cLineColor),
+
         boxShadow: const [
           BoxShadow(
             color: cLineColor,

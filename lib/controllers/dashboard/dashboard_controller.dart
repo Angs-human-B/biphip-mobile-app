@@ -1,8 +1,48 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
+  //* Payouts
   final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
   final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
+  final RxList payoutsTapButtonState = RxList([true, false, false]);
+  final RxList payoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
+  void payoutsOverviewTapableButtonOnPressed() async {
+    payoutsToggleType(0);
+    // await getQuestionList();
+  }
+
+  void payoutsTransectionsTapableButtonOnPressed() async {
+    payoutsToggleType(1);
+    // await getPlayedQuizesList();
+  }
+
+  void payoutsSettingsTapableButtonOnPressed() async {
+    payoutsToggleType(2);
+    // await getmyQuizWinnerList();
+  }
+
+  final RxBool isWithdrawReportAvailable = RxBool(true);
+  final RxBool isEarningReportAvailable = RxBool(true);
+
+  void payoutsToggleType(int index) {
+    switch (index) {
+      case 0:
+        payoutsTapButtonState[0] = true;
+        payoutsTapButtonState[1] = false;
+        payoutsTapButtonState[2] = false;
+        break;
+      case 1:
+        payoutsTapButtonState[0] = false;
+        payoutsTapButtonState[1] = true;
+        payoutsTapButtonState[2] = false;
+        break;
+      case 2:
+        payoutsTapButtonState[0] = false;
+        payoutsTapButtonState[1] = false;
+        payoutsTapButtonState[2] = true;
+        break;
+    }
+  }
 
   final fundTransferFilterList = RxList(["All", "Amount", "Star"]);
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
