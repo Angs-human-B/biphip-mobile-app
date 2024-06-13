@@ -86,7 +86,7 @@ class MenuHelper {
         Get.find<QuizController>().resetQuizTapButtonData();
         Get.find<QuizController>().resetQuizData();
         await Get.find<QuizController>().getQuestionList();
-        Get.toNamed(krDashboardPage);
+        Get.toNamed(krDashboardOverview);
         break;
     }
   }

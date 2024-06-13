@@ -516,6 +516,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cAmberAccentColor,
                                 titleText: ksStarSmall.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardStar);
+                                },
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
@@ -523,6 +526,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cAmberAccentColor,
                                 titleText: ksGift.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardGift);
+                                },
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
@@ -530,6 +536,7 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksPendent.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {},
                               ),
                               kH20sizedBox,
                               Text(
@@ -542,6 +549,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksQuizHistory.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardQuiz);
+                                },
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
@@ -549,6 +559,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksAwardHistory.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardAward);
+                                },
                               ),
                               kH20sizedBox,
                               Text(
@@ -561,6 +574,7 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksAdCenter.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {},
                               ),
                               kH20sizedBox,
                               Text(
@@ -573,6 +587,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksCheckInCalender.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardCheckInCalender);
+                                },
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
@@ -580,6 +597,7 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksPayouts.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {},
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
@@ -587,6 +605,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksFundTransfer.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardFundTransfer);
+                                },
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
@@ -594,6 +615,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksDonation.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardDonation);
+                                },
                               ),
                             ],
                           ),
@@ -611,56 +635,60 @@ class DashboardOverview extends StatelessWidget {
 }
 
 class DashboardToolsContainer extends StatelessWidget {
-  const DashboardToolsContainer({super.key, required this.icon, required this.iconColor, this.titleText, this.subTitleText});
+  const DashboardToolsContainer({super.key, required this.icon, required this.iconColor, this.titleText, this.subTitleText, this.toolsOnPressed});
   final IconData icon;
   final Color iconColor;
   final String? titleText, subTitleText;
+  final VoidCallback? toolsOnPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width - 40,
-      height: 64,
-      decoration: BoxDecoration(
-        color: cWhiteColor,
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        boxShadow: const [
-          BoxShadow(
-            color: cLineColor,
-            blurRadius: 3,
-            spreadRadius: 0,
-            offset: Offset(
-              0,
-              1,
-            ), // Shadow position
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(k12Padding),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: kIconSize30,
-              color: iconColor,
-            ),
-            kW12sizedBox,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  titleText ?? ksNA.tr,
-                  style: semiBold16TextStyle(cBlackColor),
-                ),
-                kH4sizedBox,
-                Text(
-                  subTitleText ?? ksNA.tr,
-                  style: regular12TextStyle(cSmallBodyTextColor),
-                ),
-              ],
+    return InkWell(
+      onTap: toolsOnPressed,
+      child: Container(
+        width: width - 40,
+        height: 64,
+        decoration: BoxDecoration(
+          color: cWhiteColor,
+          borderRadius: BorderRadius.circular(k8BorderRadius),
+          boxShadow: const [
+            BoxShadow(
+              color: cLineColor,
+              blurRadius: 3,
+              spreadRadius: 0,
+              offset: Offset(
+                0,
+                1,
+              ), // Shadow position
             ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(k12Padding),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: kIconSize30,
+                color: iconColor,
+              ),
+              kW12sizedBox,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    titleText ?? ksNA.tr,
+                    style: semiBold16TextStyle(cBlackColor),
+                  ),
+                  kH4sizedBox,
+                  Text(
+                    subTitleText ?? ksNA.tr,
+                    style: regular12TextStyle(cSmallBodyTextColor),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

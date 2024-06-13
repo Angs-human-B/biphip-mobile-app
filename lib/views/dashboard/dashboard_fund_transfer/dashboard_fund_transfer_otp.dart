@@ -73,8 +73,6 @@ class DashboardFundTransferOtp extends StatelessWidget {
                           label: ksConfirm.tr,
                           onPressed: dashboardController.canOTPVerifyNow.value
                               ? () {
-                                  // registrationHelper.onPressedVerifyOTP();
-                                  Get.toNamed(krDashboardPage);
                                 }
                               : null,
                           buttonWidth: width - 40,
