@@ -7,11 +7,10 @@ import 'package:intl/intl.dart';
 
 class DashboardOverview extends StatelessWidget {
   DashboardOverview({super.key});
-  final DashboardController dashboardController = DashboardController();
+  final DashboardController dashboardController = Get.find<DashboardController>();
 
   @override
   Widget build(BuildContext context) {
-    ll("dashboard contentList length ${dashboardController.contentList.length}");
     return Container(
       color: cWhiteColor,
       child: Obx(
@@ -116,7 +115,7 @@ class DashboardOverview extends StatelessWidget {
                                         width: (width - 48) / 2,
                                         height: 88,
                                         titleText: ksReach.tr,
-                                        totalValue: dashboardController.postReachCount.value.toString(),
+                                        totalValue: dashboardController.dashboardProfileOverviewData.value!.postReach.toString(),
                                         percentValue: "+39%",
                                         filterText: dashboardController.dashboardOverviewTime.value,
                                         percentTextColor: cGreenColor,
@@ -126,7 +125,8 @@ class DashboardOverview extends StatelessWidget {
                                         width: (width - 48) / 2,
                                         height: 88,
                                         titleText: ksContentPublished.tr,
-                                        totalValue: "0",
+                                        totalValue:
+                                            dashboardController.dashboardProfileOverviewData.value!.gifts.toString(), //!published content data missing in api
                                         percentValue: "+0%",
                                         filterText: dashboardController.dashboardOverviewTime.value,
                                         percentTextColor: cGreenColor,
@@ -141,7 +141,7 @@ class DashboardOverview extends StatelessWidget {
                                         width: (width - 48) / 2,
                                         height: 88,
                                         titleText: ksEngagement.tr,
-                                        totalValue: "1,250",
+                                        totalValue: dashboardController.dashboardProfileOverviewData.value!.postEngagement.toString(),
                                         percentValue: "+350%",
                                         filterText: dashboardController.dashboardOverviewTime.value,
                                         percentTextColor: cGreenColor,
@@ -151,7 +151,7 @@ class DashboardOverview extends StatelessWidget {
                                         width: (width - 48) / 2,
                                         height: 88,
                                         titleText: ksNetFollowers.tr,
-                                        totalValue: "874",
+                                        totalValue: dashboardController.dashboardProfileOverviewData.value!.newProfileFollowers.toString(),
                                         percentValue: "+12%",
                                         filterText: dashboardController.dashboardOverviewTime.value,
                                         percentTextColor: cGreenColor,
@@ -375,7 +375,7 @@ class DashboardOverview extends StatelessWidget {
                                           width: (width - 48) / 2,
                                           height: 88,
                                           titleText: ksReach.tr,
-                                          totalValue: "20,874",
+                                          totalValue: dashboardController.dashboardProfileOverviewData.value!.postReach.toString(),
                                           percentValue: "+39%",
                                           filterText: dashboardController.dashboardOverviewTime.value,
                                           percentTextColor: cGreenColor,
@@ -387,7 +387,8 @@ class DashboardOverview extends StatelessWidget {
                                           titleText: ksContentPublished.tr,
                                           totalValue: "0",
                                           percentValue: "+0%",
-                                          filterText: dashboardController.dashboardOverviewTime.value,
+                                          filterText:
+                                              dashboardController.dashboardProfileOverviewData.value!.gifts.toString(), //!published content data missing in api
                                           percentTextColor: cGreenColor,
                                         ),
                                         kW8sizedBox,
@@ -397,7 +398,7 @@ class DashboardOverview extends StatelessWidget {
                                           titleText: ksEngagement.tr,
                                           totalValue: "1,250",
                                           percentValue: "+350%",
-                                          filterText: dashboardController.dashboardOverviewTime.value,
+                                          filterText: dashboardController.dashboardProfileOverviewData.value!.postEngagement.toString(),
                                           percentTextColor: cGreenColor,
                                         ),
                                         kW8sizedBox,
@@ -405,7 +406,7 @@ class DashboardOverview extends StatelessWidget {
                                           width: (width - 48) / 2,
                                           height: 88,
                                           titleText: ksNetFollowers.tr,
-                                          totalValue: "874",
+                                          totalValue: dashboardController.dashboardProfileOverviewData.value!.newProfileFollowers.toString(),
                                           percentValue: "+12%",
                                           filterText: dashboardController.dashboardOverviewTime.value,
                                           percentTextColor: cGreenColor,
@@ -419,16 +420,16 @@ class DashboardOverview extends StatelessWidget {
                                     style: semiBold18TextStyle(cBlackColor),
                                   ),
                                   kH16sizedBox,
-                                  const DashboardInsightsInteractionContent(
-                                    reactionsCount: "21252",
-                                    giftCount: "453",
-                                    starCount: "54",
-                                    pendentValue: "King Pendent",
-                                    commentCount: "114",
-                                    shareCount: "25",
-                                    photoViewCount: "45",
-                                    linkClickCount: "67",
-                                    othersCount: "64",
+                                  DashboardInsightsInteractionContent(
+                                    reactionsCount: dashboardController.dashboardProfileOverviewData.value?.reactions.toString(),
+                                    giftCount: dashboardController.dashboardProfileOverviewData.value?.gifts.toString(),
+                                    starCount: dashboardController.dashboardProfileOverviewData.value?.stars.toString(),
+                                    pendentValue: dashboardController.dashboardProfileOverviewData.value?.pendents.toString(),
+                                    commentCount: dashboardController.dashboardProfileOverviewData.value?.comments.toString(),
+                                    shareCount: dashboardController.dashboardProfileOverviewData.value?.shares.toString(),
+                                    photoViewCount: dashboardController.dashboardProfileOverviewData.value?.photoViews.toString(),
+                                    linkClickCount: dashboardController.dashboardProfileOverviewData.value?.linkClicks.toString(),
+                                    // othersCount: dashboardController.dashboardProfileOverviewData.value!..toString(),
                                   ),
                                 ],
                               ),
@@ -521,7 +522,8 @@ class DashboardOverview extends StatelessWidget {
                                       iconColor: cAmberAccentColor,
                                       titleText: ksStarSmall.tr,
                                       subTitleText: ksLearnAboutTheAward.tr,
-                                      toolsOnPressed: () {
+                                      toolsOnPressed: () async {
+                                        await dashboardController.getDashboardStarInsight();
                                         Get.toNamed(krDashboardStar);
                                       },
                                     ),
@@ -984,39 +986,40 @@ class DashboardGiftContentContainer extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(k4BorderRadius),
-                      child: Image.network(
-                        productImage ?? "",
-                        fit: BoxFit.cover,
-                        width: 80,
-                        height: h60,
-                        loadingBuilder: imageLoadingBuilder,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            kiUploadImage,
-                            width: 80,
-                            height: h60,
-                          );
-                        },
-                      ),
-                    ),
-                    if (isVideoContent)
-                      const Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        top: 0,
-                        child: Icon(
-                          BipHip.play,
-                          color: cWhiteColor,
-                          size: kIconSize24,
+                if (productImage != null)
+                  Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(k4BorderRadius),
+                        child: Image.network(
+                          productImage ?? "",
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: h60,
+                          loadingBuilder: imageLoadingBuilder,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              kiUploadImage,
+                              width: 80,
+                              height: h60,
+                            );
+                          },
                         ),
                       ),
-                  ],
-                ),
+                      if (isVideoContent)
+                        const Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          top: 0,
+                          child: Icon(
+                            BipHip.play,
+                            color: cWhiteColor,
+                            size: kIconSize24,
+                          ),
+                        ),
+                    ],
+                  ),
                 kW12sizedBox,
                 Expanded(
                   child: Column(

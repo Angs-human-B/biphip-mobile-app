@@ -18,7 +18,7 @@ class DashboardStar extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksStar.tr,
+              title: ksStarSmall.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {
@@ -112,7 +112,7 @@ class DashboardStar extends StatelessWidget {
                           ),
                           kH8sizedBox,
                           Text(
-                            "14,29",
+                            dashboardController.dashboardStarInsightData.value!.myStarBalance.toString(),
                             style: semiBold18TextStyle(cBlackColor),
                           ),
                         ],
@@ -135,11 +135,11 @@ class DashboardStar extends StatelessWidget {
                             offset: Offset(
                               0,
                               1,
-                            ), // Shadow position
+                            ),
                           ),
                         ],
                       ),
-                      child: Padding(
+                      child:  Padding(
                         padding: const EdgeInsets.all(k12Padding),
                         child: StarGiftReport(),
                       )),
@@ -269,6 +269,8 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
 }
 
 class StarGiftReport extends StatelessWidget {
+  const StarGiftReport({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

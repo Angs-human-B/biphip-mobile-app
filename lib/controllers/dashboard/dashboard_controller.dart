@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
@@ -702,7 +703,6 @@ class DashboardController extends GetxController {
   }
 
   //*Dashboard profile overview Api Call
-  final RxInt postReachCount = RxInt(0);
   final Rx<DashboardProfileOverviewModel?> dashboardProfileOverviewData = Rx<DashboardProfileOverviewModel?>(null);
   final RxBool dashboardProfileOverviewLoading = RxBool(false);
   Future<void> getDashboardProfileOverview() async {
@@ -716,8 +716,6 @@ class DashboardController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         dashboardProfileOverviewData.value = DashboardProfileOverviewModel.fromJson(response.data);
-        postReachCount.value = dashboardProfileOverviewData.value!.postReach!;
-        ll("post reach count ${postReachCount.value}");
         dashboardProfileOverviewLoading.value = false;
       } else {
         dashboardProfileOverviewLoading.value = true;
@@ -768,7 +766,39 @@ class DashboardController extends GetxController {
       }
     } catch (e) {
       isDashboardContentsLoading.value = true;
-      ll('getProfileOverview error: $e');
+      ll('getDashboardContents error: $e');
+    }
+  }
+
+  //*Dashboard star insights Api Call
+  final Rx<DashboardStarInsightModel?> dashboardStarInsightData = Rx<DashboardStarInsightModel?>(null);
+  final RxBool isDashboardStarInsightLoading = RxBool(false);
+  // final RxInt totalStar = RxInt(0);
+  Future<void> getDashboardStarInsight() async {
+    try {
+      isDashboardStarInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardStarInsight?year=2024",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardStarInsightData.value = DashboardStarInsightModel.fromJson(response.data);
+        // ll("Star insights all value ${dashboardStarInsightData.value!.starPurchaseReport}");
+        isDashboardStarInsightLoading.value = false;
+      } else {
+        isDashboardStarInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightLoading.value = true;
+      ll('getDashboardStarInsight error: $e');
     }
   }
 }
