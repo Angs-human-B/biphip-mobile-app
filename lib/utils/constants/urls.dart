@@ -266,6 +266,7 @@ const String kuGetMyAward = "/mobile/user/get-my-awards";
 
 //* Dashboard
 const String kuGetProfileOverview = "/mobile/dashboard/profile-overview";
+const String kuDashboardContents = "/mobile/dashboard/contents";
 
 /*
 |--------------------------------------------------------------------------

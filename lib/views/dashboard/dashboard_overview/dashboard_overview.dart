@@ -1,8 +1,9 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
-import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
+import 'package:bip_hip/shimmers/menu/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:intl/intl.dart';
 
 class DashboardOverview extends StatelessWidget {
   DashboardOverview({super.key});
@@ -10,7 +11,7 @@ class DashboardOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ll("1234 ${dashboardController.postReachCount.value}");
+    ll("dashboard contentList length ${dashboardController.contentList.length}");
     return Container(
       color: cWhiteColor,
       child: Obx(
@@ -32,39 +33,40 @@ class DashboardOverview extends StatelessWidget {
               ),
             ),
             body: Obx(
-              () => SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kH16sizedBox,
-                    SizedBox(
-                      width: width,
-                      height: 50,
-                      child: ListView.separated(
-                        itemCount: dashboardController.dashboardOverviewFilterList.length,
-                        shrinkWrap: true,
-                        separatorBuilder: (context, index) => kW8sizedBox,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (BuildContext context, index) {
-                          return Obx(() => Padding(
-                                padding: index == 0 ? const EdgeInsets.only(left: k20Padding) : const EdgeInsets.only(left: k0Padding),
-                                child: CustomChoiceChips(
-                                  label: dashboardController.dashboardOverviewFilterList[index],
-                                  isSelected: (dashboardController.dashboardOverviewSelectedFilterIndex.value == index),
-                                  onSelected: (value) async {
-                                    dashboardController.dashboardOverviewSelectedFilterIndex.value = index;
-                                    dashboardController.dashboardOverviewSelectedFilterValue.value = dashboardController.dashboardOverviewFilterList[index];
-                                  },
-                                ),
-                              ));
-                        },
-                      ),
-                    ),
-                    kH20sizedBox,
-                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
-                      dashboardController.dashboardProfileOverviewLoading.value
-                          ? const StoreKidsShimmer()
-                          : Padding(
+              () => dashboardController.isDashboardContentsLoading.value
+                  ? const AllPendingFriendShimmer()
+                  : SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kH16sizedBox,
+                          SizedBox(
+                            width: width,
+                            height: 50,
+                            child: ListView.separated(
+                              itemCount: dashboardController.dashboardOverviewFilterList.length,
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) => kW8sizedBox,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, index) {
+                                return Obx(() => Padding(
+                                      padding: index == 0 ? const EdgeInsets.only(left: k20Padding) : const EdgeInsets.only(left: k0Padding),
+                                      child: CustomChoiceChips(
+                                        label: dashboardController.dashboardOverviewFilterList[index],
+                                        isSelected: (dashboardController.dashboardOverviewSelectedFilterIndex.value == index),
+                                        onSelected: (value) async {
+                                          dashboardController.dashboardOverviewSelectedFilterIndex.value = index;
+                                          dashboardController.dashboardOverviewSelectedFilterValue.value =
+                                              dashboardController.dashboardOverviewFilterList[index];
+                                        },
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                          kH20sizedBox,
+                          if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
+                            Padding(
                               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,19 +187,18 @@ class DashboardOverview extends StatelessWidget {
                                   ListView.separated(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        dashboardController.dashboardEarnedGiftPostList.length > 1 ? 1 : dashboardController.dashboardEarnedGiftPostList.length,
+                                    itemCount: dashboardController.contentList.length > 1 ? 1 : dashboardController.contentList.length,
                                     separatorBuilder: (context, index) => kH16sizedBox,
                                     itemBuilder: (context, index) {
                                       return DashboardGiftContentContainer(
                                         width: width - 40,
                                         height: 150,
-                                        productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
-                                        productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                                        postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
-                                        postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
-                                        engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
-                                        giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
+                                        // productImage: dashboardController.contentList[index].details.,
+                                        productTitle: dashboardController.contentList[index].details?.content ?? "",
+                                        postDate: DateFormat("dMMM, yyyy").format(dashboardController.contentList[index].details!.dateTime!),
+                                        postCount: dashboardController.contentList[index].details?.countComment.toString(),
+                                        engagementCount: dashboardController.contentList[index].engagement.toString(),
+                                        giftCount: dashboardController.contentList[index].details?.countStar.toString(),
                                       );
                                     },
                                   ),
@@ -240,396 +241,396 @@ class DashboardOverview extends StatelessWidget {
                                 ],
                               ),
                             ),
-                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
-                      SingleChildScrollView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: k20Padding),
-                          child: Row(
-                            children: [
-                              Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Container(
-                                      width: (width - 40) / 1.2,
-                                      height: 264,
-                                      decoration: BoxDecoration(
-                                        color: cWhiteColor,
-                                        borderRadius: BorderRadius.circular(k8BorderRadius),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: cLineColor,
-                                            blurRadius: 3,
-                                            spreadRadius: 0,
-                                            offset: Offset(
-                                              0,
-                                              1,
-                                            ), // Shadow position
+                          if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
+                            SingleChildScrollView(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: k20Padding),
+                                child: Row(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                            width: (width - 40) / 1.2,
+                                            height: 264,
+                                            decoration: BoxDecoration(
+                                              color: cWhiteColor,
+                                              borderRadius: BorderRadius.circular(k8BorderRadius),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: cLineColor,
+                                                  blurRadius: 3,
+                                                  spreadRadius: 0,
+                                                  offset: Offset(
+                                                    0,
+                                                    1,
+                                                  ), // Shadow position
+                                                ),
+                                              ],
+                                            ),
+                                            child: const DashboardAgeGenderChart())),
+                                    kW8sizedBox,
+                                    Container(
+                                        width: (width - 40) / 1.2,
+                                        height: 264,
+                                        decoration: BoxDecoration(
+                                          color: cWhiteColor,
+                                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: cLineColor,
+                                              blurRadius: 3,
+                                              spreadRadius: 0,
+                                              offset: Offset(
+                                                0,
+                                                1,
+                                              ), // Shadow position
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
+                                              child: Text(
+                                                ksTopCities.tr,
+                                                style: semiBold16TextStyle(cBlackColor),
+                                              ),
+                                            ),
+                                            const Padding(
+                                              padding: EdgeInsets.only(left: k12Padding, right: k12Padding),
+                                              child: DashboardTopCitiesChart(),
+                                            ),
+                                          ],
+                                        )),
+                                    kW8sizedBox,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Get.find<GlobalController>().blankBottomSheet(
+                                            context: context,
+                                            bottomSheetHeight: height * 0.5,
+                                            content: QuizTimeFilterBottomSheetContent(),
+                                          );
+                                        },
+                                        child: Container(
+                                          height: h28,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(k4BorderRadius),
+                                            color: cNeutralColor,
                                           ),
-                                        ],
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k4Padding),
+                                                child: Text(
+                                                  dashboardController.selectedQuizTimeRangeValue.value,
+                                                  style: regular12TextStyle(cBlackColor),
+                                                ),
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.only(top: k4Padding, bottom: k4Padding, right: k8Padding),
+                                                child: Icon(
+                                                  BipHip.downArrow,
+                                                  size: kIconSize20,
+                                                  color: cBlackColor,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      child: const DashboardAgeGenderChart())),
-                              kW8sizedBox,
-                              Container(
-                                  width: (width - 40) / 1.2,
-                                  height: 264,
-                                  decoration: BoxDecoration(
-                                    color: cWhiteColor,
-                                    borderRadius: BorderRadius.circular(k8BorderRadius),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: cLineColor,
-                                        blurRadius: 3,
-                                        spreadRadius: 0,
-                                        offset: Offset(
-                                          0,
-                                          1,
-                                        ), // Shadow position
+                                      Text(
+                                        "Feb 4 - Mar 2",
+                                        style: semiBold14TextStyle(cBlackColor),
                                       ),
                                     ],
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
-                                        child: Text(
-                                          ksTopCities.tr,
-                                          style: semiBold16TextStyle(cBlackColor),
-                                        ),
-                                      ),
-                                      const Padding(
-                                        padding: EdgeInsets.only(left: k12Padding, right: k12Padding),
-                                        child: DashboardTopCitiesChart(),
-                                      ),
-                                    ],
-                                  )),
-                              kW8sizedBox,
-                            ],
-                          ),
-                        ),
-                      ),
-                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Get.find<GlobalController>().blankBottomSheet(
-                                      context: context,
-                                      bottomSheetHeight: height * 0.5,
-                                      content: QuizTimeFilterBottomSheetContent(),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: h28,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(k4BorderRadius),
-                                      color: cNeutralColor,
-                                    ),
+                                  kH20sizedBox,
+                                  Text(
+                                    ksPerformance.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
+                                  ),
+                                  kH16sizedBox,
+                                  SingleChildScrollView(
+                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
                                     child: Row(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k4Padding),
-                                          child: Text(
-                                            dashboardController.selectedQuizTimeRangeValue.value,
-                                            style: regular12TextStyle(cBlackColor),
-                                          ),
+                                        DashboardCommonContainer(
+                                          width: (width - 48) / 2,
+                                          height: 88,
+                                          titleText: ksReach.tr,
+                                          totalValue: "20,874",
+                                          percentValue: "+39%",
+                                          filterText: dashboardController.dashboardOverviewTime.value,
+                                          percentTextColor: cGreenColor,
                                         ),
-                                        const Padding(
-                                          padding: EdgeInsets.only(top: k4Padding, bottom: k4Padding, right: k8Padding),
-                                          child: Icon(
-                                            BipHip.downArrow,
-                                            size: kIconSize20,
-                                            color: cBlackColor,
-                                          ),
+                                        kW8sizedBox,
+                                        DashboardCommonContainer(
+                                          width: (width - 48) / 2,
+                                          height: 88,
+                                          titleText: ksContentPublished.tr,
+                                          totalValue: "0",
+                                          percentValue: "+0%",
+                                          filterText: dashboardController.dashboardOverviewTime.value,
+                                          percentTextColor: cGreenColor,
+                                        ),
+                                        kW8sizedBox,
+                                        DashboardCommonContainer(
+                                          width: (width - 48) / 2,
+                                          height: 88,
+                                          titleText: ksEngagement.tr,
+                                          totalValue: "1,250",
+                                          percentValue: "+350%",
+                                          filterText: dashboardController.dashboardOverviewTime.value,
+                                          percentTextColor: cGreenColor,
+                                        ),
+                                        kW8sizedBox,
+                                        DashboardCommonContainer(
+                                          width: (width - 48) / 2,
+                                          height: 88,
+                                          titleText: ksNetFollowers.tr,
+                                          totalValue: "874",
+                                          percentValue: "+12%",
+                                          filterText: dashboardController.dashboardOverviewTime.value,
+                                          percentTextColor: cGreenColor,
                                         ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  "Feb 4 - Mar 2",
-                                  style: semiBold14TextStyle(cBlackColor),
-                                ),
-                              ],
-                            ),
-                            kH20sizedBox,
-                            Text(
-                              ksPerformance.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH16sizedBox,
-                            SingleChildScrollView(
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  DashboardCommonContainer(
-                                    width: (width - 48) / 2,
-                                    height: 88,
-                                    titleText: ksReach.tr,
-                                    totalValue: "20,874",
-                                    percentValue: "+39%",
-                                    filterText: dashboardController.dashboardOverviewTime.value,
-                                    percentTextColor: cGreenColor,
+                                  kH20sizedBox,
+                                  Text(
+                                    ksInteractions.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
                                   ),
-                                  kW8sizedBox,
-                                  DashboardCommonContainer(
-                                    width: (width - 48) / 2,
-                                    height: 88,
-                                    titleText: ksContentPublished.tr,
-                                    totalValue: "0",
-                                    percentValue: "+0%",
-                                    filterText: dashboardController.dashboardOverviewTime.value,
-                                    percentTextColor: cGreenColor,
-                                  ),
-                                  kW8sizedBox,
-                                  DashboardCommonContainer(
-                                    width: (width - 48) / 2,
-                                    height: 88,
-                                    titleText: ksEngagement.tr,
-                                    totalValue: "1,250",
-                                    percentValue: "+350%",
-                                    filterText: dashboardController.dashboardOverviewTime.value,
-                                    percentTextColor: cGreenColor,
-                                  ),
-                                  kW8sizedBox,
-                                  DashboardCommonContainer(
-                                    width: (width - 48) / 2,
-                                    height: 88,
-                                    titleText: ksNetFollowers.tr,
-                                    totalValue: "874",
-                                    percentValue: "+12%",
-                                    filterText: dashboardController.dashboardOverviewTime.value,
-                                    percentTextColor: cGreenColor,
+                                  kH16sizedBox,
+                                  const DashboardInsightsInteractionContent(
+                                    reactionsCount: "21252",
+                                    giftCount: "453",
+                                    starCount: "54",
+                                    pendentValue: "King Pendent",
+                                    commentCount: "114",
+                                    shareCount: "25",
+                                    photoViewCount: "45",
+                                    linkClickCount: "67",
+                                    othersCount: "64",
                                   ),
                                 ],
                               ),
                             ),
-                            kH20sizedBox,
-                            Text(
-                              ksInteractions.tr,
-                              style: semiBold18TextStyle(cBlackColor),
+                          if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 2)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ksNotYetEligible.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
+                                  ),
+                                  kH4sizedBox,
+                                  Text(
+                                    ksAsYouGrowYourAudience.tr,
+                                    style: regular12TextStyle(cSmallBodyTextColor),
+                                  ),
+                                  kH20sizedBox,
+                                  Text(
+                                    ksGrowYourAudience.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
+                                  ),
+                                  kH16sizedBox,
+                                  ProgressItem(
+                                    title: ksFamilies.tr,
+                                    progressValue: 0.96,
+                                    progressColor: cPrimaryColor,
+                                    currentValue: "19/20",
+                                    percentage: "96%",
+                                  ),
+                                  kH16sizedBox,
+                                  ProgressItem(
+                                    title: ksFriendsToFriends.tr,
+                                    progressValue: 0.33,
+                                    progressColor: cRedColor,
+                                    currentValue: "33/100",
+                                    percentage: "33%",
+                                  ),
+                                  kH16sizedBox,
+                                  ProgressItem(
+                                    title: ksFamiliesToFamilies.tr,
+                                    progressValue: 0.54,
+                                    progressColor: cPrimaryColor,
+                                    currentValue: "54/100",
+                                    percentage: "54%",
+                                  ),
+                                  kH20sizedBox,
+                                  Text(
+                                    ksGrowYourEngagements.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
+                                  ),
+                                  kH16sizedBox,
+                                  ProgressItem(
+                                    title: ksReact.tr,
+                                    progressValue: 0.80,
+                                    progressColor: cPrimaryColor,
+                                    currentValue: "80/100",
+                                    percentage: "80%",
+                                  ),
+                                  kH16sizedBox,
+                                  ProgressItem(
+                                    title: ksPostShare.tr,
+                                    progressValue: 0.9,
+                                    progressColor: cPrimaryColor,
+                                    currentValue: "90/100",
+                                    percentage: "90%",
+                                  ),
+                                  kH16sizedBox,
+                                  ProgressItem(
+                                    title: ksSelfieShare.tr,
+                                    progressValue: 0.33,
+                                    progressColor: cRedColor,
+                                    currentValue: '33/100',
+                                    percentage: '33%',
+                                  ),
+                                ],
+                              ),
                             ),
-                            kH16sizedBox,
-                            const DashboardInsightsInteractionContent(
-                              reactionsCount: "21252",
-                              giftCount: "453",
-                              starCount: "54",
-                              pendentValue: "King Pendent",
-                              commentCount: "114",
-                              shareCount: "25",
-                              photoViewCount: "45",
-                              linkClickCount: "67",
-                              othersCount: "64",
+                          if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 3)
+                            SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    DashboardToolsContainer(
+                                      icon: BipHip.giftNew,
+                                      iconColor: cAmberAccentColor,
+                                      titleText: ksStarSmall.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardStar);
+                                      },
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.gift,
+                                      iconColor: cAmberAccentColor,
+                                      titleText: ksGift.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardGift);
+                                      },
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.badgesFill,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksPendent.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {},
+                                    ),
+                                    kH20sizedBox,
+                                    Text(
+                                      ksAchievements.tr,
+                                      style: semiBold18TextStyle(cBlackColor),
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.activity,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksQuizHistory.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardQuiz);
+                                      },
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.circlePlus,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksAwardHistory.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardAward);
+                                      },
+                                    ),
+                                    kH20sizedBox,
+                                    Text(
+                                      ksGrowYourAudience.tr,
+                                      style: semiBold18TextStyle(cBlackColor),
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.shopFill,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksAdCenter.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {},
+                                    ),
+                                    kH20sizedBox,
+                                    Text(
+                                      ksYourTools.tr,
+                                      style: semiBold18TextStyle(cBlackColor),
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.calendarFill,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksCheckInCalender.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardCheckInCalender);
+                                      },
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.addImage,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksPayouts.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {},
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.spend,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksFundTransfer.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardFundTransfer);
+                                      },
+                                    ),
+                                    kH12sizedBox,
+                                    DashboardToolsContainer(
+                                      icon: BipHip.donationFill,
+                                      iconColor: cPrimaryColor,
+                                      titleText: ksDonation.tr,
+                                      subTitleText: ksLearnAboutTheAward.tr,
+                                      toolsOnPressed: () {
+                                        Get.toNamed(krDashboardDonation);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
+                        ],
                       ),
-                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 2)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ksNotYetEligible.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH4sizedBox,
-                            Text(
-                              ksAsYouGrowYourAudience.tr,
-                              style: regular12TextStyle(cSmallBodyTextColor),
-                            ),
-                            kH20sizedBox,
-                            Text(
-                              ksGrowYourAudience.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH16sizedBox,
-                            ProgressItem(
-                              title: ksFamilies.tr,
-                              progressValue: 0.96,
-                              progressColor: cPrimaryColor,
-                              currentValue: "19/20",
-                              percentage: "96%",
-                            ),
-                            kH16sizedBox,
-                            ProgressItem(
-                              title: ksFriendsToFriends.tr,
-                              progressValue: 0.33,
-                              progressColor: cRedColor,
-                              currentValue: "33/100",
-                              percentage: "33%",
-                            ),
-                            kH16sizedBox,
-                            ProgressItem(
-                              title: ksFamiliesToFamilies.tr,
-                              progressValue: 0.54,
-                              progressColor: cPrimaryColor,
-                              currentValue: "54/100",
-                              percentage: "54%",
-                            ),
-                            kH20sizedBox,
-                            Text(
-                              ksGrowYourEngagements.tr,
-                              style: semiBold18TextStyle(cBlackColor),
-                            ),
-                            kH16sizedBox,
-                            ProgressItem(
-                              title: ksReact.tr,
-                              progressValue: 0.80,
-                              progressColor: cPrimaryColor,
-                              currentValue: "80/100",
-                              percentage: "80%",
-                            ),
-                            kH16sizedBox,
-                            ProgressItem(
-                              title: ksPostShare.tr,
-                              progressValue: 0.9,
-                              progressColor: cPrimaryColor,
-                              currentValue: "90/100",
-                              percentage: "90%",
-                            ),
-                            kH16sizedBox,
-                            ProgressItem(
-                              title: ksSelfieShare.tr,
-                              progressValue: 0.33,
-                              progressColor: cRedColor,
-                              currentValue: '33/100',
-                              percentage: '33%',
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 3)
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              DashboardToolsContainer(
-                                icon: BipHip.giftNew,
-                                iconColor: cAmberAccentColor,
-                                titleText: ksStarSmall.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardStar);
-                                },
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.gift,
-                                iconColor: cAmberAccentColor,
-                                titleText: ksGift.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardGift);
-                                },
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.badgesFill,
-                                iconColor: cPrimaryColor,
-                                titleText: ksPendent.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {},
-                              ),
-                              kH20sizedBox,
-                              Text(
-                                ksAchievements.tr,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.activity,
-                                iconColor: cPrimaryColor,
-                                titleText: ksQuizHistory.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardQuiz);
-                                },
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.circlePlus,
-                                iconColor: cPrimaryColor,
-                                titleText: ksAwardHistory.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardAward);
-                                },
-                              ),
-                              kH20sizedBox,
-                              Text(
-                                ksGrowYourAudience.tr,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.shopFill,
-                                iconColor: cPrimaryColor,
-                                titleText: ksAdCenter.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {},
-                              ),
-                              kH20sizedBox,
-                              Text(
-                                ksYourTools.tr,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.calendarFill,
-                                iconColor: cPrimaryColor,
-                                titleText: ksCheckInCalender.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardCheckInCalender);
-                                },
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.addImage,
-                                iconColor: cPrimaryColor,
-                                titleText: ksPayouts.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {},
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.spend,
-                                iconColor: cPrimaryColor,
-                                titleText: ksFundTransfer.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardFundTransfer);
-                                },
-                              ),
-                              kH12sizedBox,
-                              DashboardToolsContainer(
-                                icon: BipHip.donationFill,
-                                iconColor: cPrimaryColor,
-                                titleText: ksDonation.tr,
-                                subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {
-                                  Get.toNamed(krDashboardDonation);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+                    ),
             ),
           ),
         ),
@@ -983,40 +984,39 @@ class DashboardGiftContentContainer extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (isOnlyTextContent == false)
-                  Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(k4BorderRadius),
-                        child: Image.network(
-                          productImage ?? "",
-                          fit: BoxFit.cover,
-                          width: 80,
-                          height: h60,
-                          loadingBuilder: imageLoadingBuilder,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              kiUploadImage,
-                              width: 80,
-                              height: h60,
-                            );
-                          },
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(k4BorderRadius),
+                      child: Image.network(
+                        productImage ?? "",
+                        fit: BoxFit.cover,
+                        width: 80,
+                        height: h60,
+                        loadingBuilder: imageLoadingBuilder,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            kiUploadImage,
+                            width: 80,
+                            height: h60,
+                          );
+                        },
+                      ),
+                    ),
+                    if (isVideoContent)
+                      const Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        top: 0,
+                        child: Icon(
+                          BipHip.play,
+                          color: cWhiteColor,
+                          size: kIconSize24,
                         ),
                       ),
-                      if (isVideoContent)
-                        const Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          top: 0,
-                          child: Icon(
-                            BipHip.play,
-                            color: cWhiteColor,
-                            size: kIconSize24,
-                          ),
-                        ),
-                    ],
-                  ),
+                  ],
+                ),
                 kW12sizedBox,
                 Expanded(
                   child: Column(

@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -729,6 +730,44 @@ class DashboardController extends GetxController {
       }
     } catch (e) {
       dashboardProfileOverviewLoading.value = true;
+      ll('getProfileOverview error: $e');
+    }
+  }
+
+  //*Dashboard Content Api Call
+  final Rx<DashboardContentsModel?> dashboardContentData = Rx<DashboardContentsModel?>(null);
+  final RxList<ContentData> contentList = RxList<ContentData>([]);
+  final RxBool isDashboardContentsLoading = RxBool(false);
+  Future<void> getDashboardContents() async {
+    try {
+      isDashboardContentsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardContents?take=10&start_date=2024-01-01&end_date=2024-04-21",
+      ) as CommonDM;
+      if (response.success == true) {
+        contentList.clear();
+        dashboardContentData.value = DashboardContentsModel.fromJson(response.data);
+        contentList.addAll(dashboardContentData.value!.contents!.data!);
+        isDashboardContentsLoading.value = false;
+        ll("dashboard contentList length in api call ${contentList.length}");
+        // dashboardProfileOverviewData.value = DashboardProfileOverviewModel.fromJson(response.data);
+        // postReachCount.value = dashboardProfileOverviewData.value!.postReach!;
+        // ll("post reach count ${postReachCount.value}");
+        // dashboardProfileOverviewLoading.value = false;
+      } else {
+        isDashboardContentsLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardContentsLoading.value = true;
       ll('getProfileOverview error: $e');
     }
   }
