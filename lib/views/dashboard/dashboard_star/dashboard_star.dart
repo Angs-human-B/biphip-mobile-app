@@ -139,9 +139,11 @@ class DashboardStar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child:  Padding(
+                      child: Padding(
                         padding: const EdgeInsets.all(k12Padding),
-                        child: StarGiftReport(),
+                        child: StarGiftReport(
+                          apiData: dashboardController.dashboardStarInsightData.value!.starPurchaseReport!,
+                        ),
                       )),
                   kH20sizedBox,
                   Row(
@@ -269,10 +271,14 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
 }
 
 class StarGiftReport extends StatelessWidget {
-  const StarGiftReport({super.key});
+  const StarGiftReport({Key? key, required this.apiData}) : super(key: key);
+  final Map<String, int> apiData;
 
   @override
   Widget build(BuildContext context) {
+    // Convert API data to list of BarChartGroupData
+    final barGroups = _convertApiDataToBarGroups(apiData);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -303,27 +309,14 @@ class StarGiftReport extends StatelessWidget {
           'From this year',
           style: regular10TextStyle(cSmallBodyTextColor),
         ),
-        SizedBox(height: 20),
+        kH20sizedBox,
         AspectRatio(
           aspectRatio: 1.7,
           child: BarChart(
             BarChartData(
               alignment: BarChartAlignment.spaceAround,
-              maxY: 400,
-              barGroups: [
-                makeGroupData(0, 200),
-                makeGroupData(1, 100),
-                makeGroupData(2, 200),
-                makeGroupData(3, 300),
-                makeGroupData(4, 200),
-                makeGroupData(5, 100),
-                makeGroupData(6, 100),
-                makeGroupData(7, 200),
-                makeGroupData(8, 150),
-                makeGroupData(9, 200),
-                makeGroupData(10, 250),
-                makeGroupData(11, 100),
-              ],
+              maxY: 10000, // Adjust this based on the maximum value in your data
+              barGroups: barGroups,
               titlesData: FlTitlesData(
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
@@ -395,19 +388,22 @@ class StarGiftReport extends StatelessWidget {
                       String text;
                       switch (value.toInt()) {
                         case 0:
-                          text = '0k';
+                          text = '0';
                           break;
-                        case 100:
-                          text = '100k';
+                        case 2000:
+                          text = '2k';
                           break;
-                        case 200:
-                          text = '200k';
+                        case 4000:
+                          text = '4k';
                           break;
-                        case 300:
-                          text = '300k';
+                        case 6000:
+                          text = '6k';
                           break;
-                        case 400:
-                          text = '400k';
+                        case 8000:
+                          text = '8k';
+                          break;
+                        case 10000:
+                          text = '10k';
                           break;
                         default:
                           return Container();
@@ -415,7 +411,7 @@ class StarGiftReport extends StatelessWidget {
                       return Text(text, style: style);
                     },
                     reservedSize: 40,
-                    interval: 100,
+                    interval: 2000,
                   ),
                 ),
                 topTitles: AxisTitles(
@@ -436,6 +432,16 @@ class StarGiftReport extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  List<BarChartGroupData> _convertApiDataToBarGroups(Map<String, int> data) {
+    final monthKeys = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+    return List.generate(monthKeys.length, (index) {
+      final monthKey = monthKeys[index];
+      final monthValue = data[monthKey]!.toDouble(); // Convert int to double
+      return makeGroupData(index, monthValue);
+    });
   }
 
   BarChartGroupData makeGroupData(int x, double y) {

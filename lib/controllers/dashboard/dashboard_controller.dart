@@ -773,7 +773,6 @@ class DashboardController extends GetxController {
   //*Dashboard star insights Api Call
   final Rx<DashboardStarInsightModel?> dashboardStarInsightData = Rx<DashboardStarInsightModel?>(null);
   final RxBool isDashboardStarInsightLoading = RxBool(false);
-  // final RxInt totalStar = RxInt(0);
   Future<void> getDashboardStarInsight() async {
     try {
       isDashboardStarInsightLoading.value = true;
@@ -785,7 +784,6 @@ class DashboardController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         dashboardStarInsightData.value = DashboardStarInsightModel.fromJson(response.data);
-        // ll("Star insights all value ${dashboardStarInsightData.value!.starPurchaseReport}");
         isDashboardStarInsightLoading.value = false;
       } else {
         isDashboardStarInsightLoading.value = true;
