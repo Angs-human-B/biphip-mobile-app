@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
+import 'package:intl/intl.dart';
 
 class DashboardGift extends StatelessWidget {
   DashboardGift({super.key});
@@ -156,18 +157,18 @@ class DashboardGift extends StatelessWidget {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: dashboardController.dashboardEarnedGiftPostList.length > 2 ? 2 : dashboardController.dashboardEarnedGiftPostList.length,
+                    itemCount: dashboardController.dashboardGiftEarnedPostList.length > 2 ? 2 : dashboardController.dashboardGiftEarnedPostList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
                       return DashboardGiftContentContainer(
                         width: width - 40,
                         height: 150,
-                        productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
-                        productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                        postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
-                        postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
-                        engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
-                        giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
+                        // productImage: dashboardController.dashboardGiftEarnedPostList[index].,
+                        productTitle: dashboardController.dashboardGiftEarnedPostList[index].content,
+                        postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardGiftEarnedPostList[index].dateTime!),
+                        postCount: dashboardController.dashboardGiftEarnedPostList[index].countComment.toString(), //!post count data not available from api
+                        engagementCount: dashboardController.dashboardGiftEarnedPostList[index].engagements.toString(),
+                        giftCount: dashboardController.dashboardGiftEarnedPostList[index].countStar.toString(), //!Gift data needed
                       );
                     },
                   ),
@@ -215,30 +216,31 @@ class DashboardGiftContentContainer extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(k4BorderRadius),
-                  child: Image.network(
-                    productImage ?? "",
-                    fit: BoxFit.cover,
-                    width: 80,
-                    height: h60,
-                    loadingBuilder: imageLoadingBuilder,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        kiUploadImage,
-                        width: 80,
-                        height: h60,
-                      );
-                    },
+                if (productImage != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(k4BorderRadius),
+                    child: Image.network(
+                      productImage ?? "",
+                      fit: BoxFit.cover,
+                      width: 80,
+                      height: h60,
+                      loadingBuilder: imageLoadingBuilder,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          kiUploadImage,
+                          width: 80,
+                          height: h60,
+                        );
+                      },
+                    ),
                   ),
-                ),
                 kW12sizedBox,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        productTitle ?? ksNA,
+                        productTitle ?? "",
                         style: regular14TextStyle(cBlackColor),
                         overflow: TextOverflow.clip,
                       ),

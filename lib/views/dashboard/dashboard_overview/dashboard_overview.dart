@@ -196,7 +196,7 @@ class DashboardOverview extends StatelessWidget {
                                         // productImage: dashboardController.contentList[index].details.,
                                         productTitle: dashboardController.contentList[index].details?.content ?? "",
                                         postDate: DateFormat("dMMM, yyyy").format(dashboardController.contentList[index].details!.dateTime!),
-                                        postCount: dashboardController.contentList[index].details?.countComment.toString(),
+                                        postCount: dashboardController.contentList[index].details?.countComment.toString(),//!post count data not available from api
                                         engagementCount: dashboardController.contentList[index].engagement.toString(),
                                         giftCount: dashboardController.contentList[index].details?.countStar.toString(),
                                       );
@@ -533,8 +533,9 @@ class DashboardOverview extends StatelessWidget {
                                       iconColor: cAmberAccentColor,
                                       titleText: ksGift.tr,
                                       subTitleText: ksLearnAboutTheAward.tr,
-                                      toolsOnPressed: () async{
+                                      toolsOnPressed: () async {
                                         await dashboardController.getDashboardGiftInsight();
+                                        await dashboardController.getGiftEarnedPost();
                                         Get.toNamed(krDashboardGift);
                                       },
                                     ),

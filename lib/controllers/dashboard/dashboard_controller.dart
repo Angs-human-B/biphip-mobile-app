@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
@@ -752,10 +753,6 @@ class DashboardController extends GetxController {
         contentList.addAll(dashboardContentData.value!.contents!.data!);
         isDashboardContentsLoading.value = false;
         ll("dashboard contentList length in api call ${contentList.length}");
-        // dashboardProfileOverviewData.value = DashboardProfileOverviewModel.fromJson(response.data);
-        // postReachCount.value = dashboardProfileOverviewData.value!.postReach!;
-        // ll("post reach count ${postReachCount.value}");
-        // dashboardProfileOverviewLoading.value = false;
       } else {
         isDashboardContentsLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -828,6 +825,40 @@ class DashboardController extends GetxController {
     } catch (e) {
       isDashboardGiftInsightLoading.value = true;
       ll('getDashboardStarInsight error: $e');
+    }
+  }
+
+
+  //*Dashboard Content Api Call
+  final Rx<DashboardGiftEarnedPostModel?> dashboardGiftEarnedPostData = Rx<DashboardGiftEarnedPostModel?>(null);
+  final RxList<PostData> dashboardGiftEarnedPostList = RxList<PostData>([]);
+  final RxBool isGiftEarnedPostLoading = RxBool(false);
+  Future<void> getGiftEarnedPost() async {
+    try {
+      isGiftEarnedPostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardGiftEarnedPost?take=10&start_date=2024-01-01&end_date=2024-04-21",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardGiftEarnedPostList.clear();
+        dashboardGiftEarnedPostData.value = DashboardGiftEarnedPostModel.fromJson(response.data);
+        dashboardGiftEarnedPostList.addAll(dashboardGiftEarnedPostData.value!.posts!.data!);
+        isGiftEarnedPostLoading.value = false;
+      } else {
+        isGiftEarnedPostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGiftEarnedPostLoading.value = true;
+      ll('getGiftEarnedPost error: $e');
     }
   }
 }
