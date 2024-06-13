@@ -533,7 +533,8 @@ class DashboardOverview extends StatelessWidget {
                                       iconColor: cAmberAccentColor,
                                       titleText: ksGift.tr,
                                       subTitleText: ksLearnAboutTheAward.tr,
-                                      toolsOnPressed: () {
+                                      toolsOnPressed: () async{
+                                        await dashboardController.getDashboardGiftInsight();
                                         Get.toNamed(krDashboardGift);
                                       },
                                     ),

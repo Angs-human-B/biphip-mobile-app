@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -796,6 +797,36 @@ class DashboardController extends GetxController {
       }
     } catch (e) {
       isDashboardStarInsightLoading.value = true;
+      ll('getDashboardStarInsight error: $e');
+    }
+  }
+
+  //*Dashboard star insights Api Call
+  final Rx<DashboardGiftInsightModel?> dashboardGiftInsightData = Rx<DashboardGiftInsightModel?>(null);
+  final RxBool isDashboardGiftInsightLoading = RxBool(false);
+  Future<void> getDashboardGiftInsight() async {
+    try {
+      isDashboardGiftInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardGiftInsight?year=2024",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardGiftInsightData.value = DashboardGiftInsightModel.fromJson(response.data);
+        isDashboardGiftInsightLoading.value = false;
+      } else {
+        isDashboardGiftInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardGiftInsightLoading.value = true;
       ll('getDashboardStarInsight error: $e');
     }
   }

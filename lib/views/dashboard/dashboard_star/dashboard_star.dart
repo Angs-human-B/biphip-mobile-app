@@ -142,6 +142,7 @@ class DashboardStar extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(k12Padding),
                         child: StarGiftReport(
+                          title: ksStarGiftReport.tr,
                           apiData: dashboardController.dashboardStarInsightData.value!.starPurchaseReport!,
                         ),
                       )),
@@ -271,8 +272,9 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
 }
 
 class StarGiftReport extends StatelessWidget {
-  const StarGiftReport({Key? key, required this.apiData}) : super(key: key);
+  const StarGiftReport({Key? key, required this.apiData, required this.title}) : super(key: key);
   final Map<String, int> apiData;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +288,7 @@ class StarGiftReport extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Star Gift Report',
+              title,
               style: semiBold16TextStyle(cBlackColor),
             ),
             Container(

@@ -832,3 +832,5 @@ const String ksYourResponseWontBeSharedWithAnyoneOnBipHip = "Your response won't
 const String ksShareListing = "Share listing";
 const String ksViewBid = "View Bid";
 const String ksSearchItem = "Search item";
+const String ksStarGiftReport = "Star Gift Report";
+const String ksGiftEarningReport = "Gift Earning Report";
