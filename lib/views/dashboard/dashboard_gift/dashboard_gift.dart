@@ -1,7 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class DashboardGift extends StatelessWidget {
   DashboardGift({super.key});
