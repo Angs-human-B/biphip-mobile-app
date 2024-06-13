@@ -1,6 +1,10 @@
+import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final fundTransferFilterList = RxList(["All", "Amount", "Star"]);
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
@@ -523,7 +527,7 @@ class DashboardController extends GetxController {
 
   final RxList quizFilterText = RxList(["Inshights", "Today's Quiz", "Played", "Won Quiz"]);
   final RxInt selectedQuizFilterIndex = RxInt(0);
-   final RxList dashboardOverviewContentFilterList = RxList(["All content", "Photos", "Videos", "Text"]);
+  final RxList dashboardOverviewContentFilterList = RxList(["All content", "Photos", "Videos", "Text"]);
   final RxInt dashboardOverviewSelectedContentFilterIndex = RxInt(0);
   final RxString dashboardOverviewSelectedContentFilterValue = RxString("All content");
   final RxList dashboardOverviewFilterList = RxList(["Overview", "Insights", "Profile Eligibility", "Tools"]);
@@ -693,6 +697,39 @@ class DashboardController extends GetxController {
       return ksProfileEligibility.tr;
     } else {
       return ksTools.tr;
+    }
+  }
+
+  //*Dashboard profile overview Api Call
+  final RxInt postReachCount = RxInt(0);
+  final Rx<DashboardProfileOverviewModel?> dashboardProfileOverviewData = Rx<DashboardProfileOverviewModel?>(null);
+  final RxBool dashboardProfileOverviewLoading = RxBool(false);
+  Future<void> getDashboardProfileOverview() async {
+    try {
+      dashboardProfileOverviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetProfileOverview,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardProfileOverviewData.value = DashboardProfileOverviewModel.fromJson(response.data);
+        postReachCount.value = dashboardProfileOverviewData.value!.postReach!;
+        ll("post reach count ${postReachCount.value}");
+        dashboardProfileOverviewLoading.value = false;
+      } else {
+        dashboardProfileOverviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      dashboardProfileOverviewLoading.value = true;
+      ll('getProfileOverview error: $e');
     }
   }
 }

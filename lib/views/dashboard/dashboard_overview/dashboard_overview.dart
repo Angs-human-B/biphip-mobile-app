@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
+import 'package:bip_hip/shimmers/menu/kids/kid_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -9,6 +10,7 @@ class DashboardOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ll("1234 ${dashboardController.postReachCount.value}");
     return Container(
       color: cWhiteColor,
       child: Obx(
@@ -60,182 +62,184 @@ class DashboardOverview extends StatelessWidget {
                     ),
                     kH20sizedBox,
                     if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                DashboardOverviewCommonRowTextIcon(
-                                  titleText: ksPerformance.tr,
-                                  icon: BipHip.info,
-                                  iconOnPressed: null,
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      dashboardController.dashboardOverviewSelectedFilterIndex.value = 1;
+                      dashboardController.dashboardProfileOverviewLoading.value
+                          ? const StoreKidsShimmer()
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      DashboardOverviewCommonRowTextIcon(
+                                        titleText: ksPerformance.tr,
+                                        icon: BipHip.info,
+                                        iconOnPressed: null,
+                                      ),
+                                      InkWell(
+                                          onTap: () {
+                                            dashboardController.dashboardOverviewSelectedFilterIndex.value = 1;
+                                          },
+                                          child: Text(
+                                            ksSeeAll.tr,
+                                            style: regular16TextStyle(cPrimaryColor),
+                                          )),
+                                    ],
+                                  ),
+                                  kH4sizedBox,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "750",
+                                        style: regular14TextStyle(cBlackColor),
+                                      ),
+                                      kW4sizedBox,
+                                      Text(
+                                        ksFollowers,
+                                        style: regular10TextStyle(cSmallBodyTextColor),
+                                      ),
+                                    ],
+                                  ),
+                                  kH4sizedBox,
+                                  Text(
+                                    ksLast28Days.tr,
+                                    style: regular10TextStyle(cSmallBodyTextColor),
+                                  ),
+                                  kH16sizedBox,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      DashboardCommonContainer(
+                                        width: (width - 48) / 2,
+                                        height: 88,
+                                        titleText: ksReach.tr,
+                                        totalValue: dashboardController.postReachCount.value.toString(),
+                                        percentValue: "+39%",
+                                        filterText: dashboardController.dashboardOverviewTime.value,
+                                        percentTextColor: cGreenColor,
+                                      ),
+                                      kW8sizedBox,
+                                      DashboardCommonContainer(
+                                        width: (width - 48) / 2,
+                                        height: 88,
+                                        titleText: ksContentPublished.tr,
+                                        totalValue: "0",
+                                        percentValue: "+0%",
+                                        filterText: dashboardController.dashboardOverviewTime.value,
+                                        percentTextColor: cGreenColor,
+                                      ),
+                                    ],
+                                  ),
+                                  kH8sizedBox,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      DashboardCommonContainer(
+                                        width: (width - 48) / 2,
+                                        height: 88,
+                                        titleText: ksEngagement.tr,
+                                        totalValue: "1,250",
+                                        percentValue: "+350%",
+                                        filterText: dashboardController.dashboardOverviewTime.value,
+                                        percentTextColor: cGreenColor,
+                                      ),
+                                      kW8sizedBox,
+                                      DashboardCommonContainer(
+                                        width: (width - 48) / 2,
+                                        height: 88,
+                                        titleText: ksNetFollowers.tr,
+                                        totalValue: "874",
+                                        percentValue: "+12%",
+                                        filterText: dashboardController.dashboardOverviewTime.value,
+                                        percentTextColor: cGreenColor,
+                                      ),
+                                    ],
+                                  ),
+                                  kH16sizedBox,
+                                  Container(
+                                    height: h8,
+                                    width: width,
+                                    color: cBackgroundColor,
+                                  ),
+                                  kH16sizedBox,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        ksRecentContent.tr,
+                                        style: semiBold18TextStyle(cBlackColor),
+                                      ),
+                                      InkWell(
+                                          onTap: () {
+                                            dashboardController.dashboardOverviewSelectedContentFilterIndex.value = 0;
+                                            Get.toNamed(krDashboardOverviewContent);
+                                          },
+                                          child: Text(
+                                            ksSeeAll.tr,
+                                            style: regular16TextStyle(cPrimaryColor),
+                                          )),
+                                    ],
+                                  ),
+                                  kH16sizedBox,
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        dashboardController.dashboardEarnedGiftPostList.length > 1 ? 1 : dashboardController.dashboardEarnedGiftPostList.length,
+                                    separatorBuilder: (context, index) => kH16sizedBox,
+                                    itemBuilder: (context, index) {
+                                      return DashboardGiftContentContainer(
+                                        width: width - 40,
+                                        height: 150,
+                                        productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
+                                        productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
+                                        postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
+                                        postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
+                                        engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
+                                        giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
+                                      );
                                     },
-                                    child: Text(
-                                      ksSeeAll.tr,
-                                      style: regular16TextStyle(cPrimaryColor),
-                                    )),
-                              ],
+                                  ),
+                                  kH16sizedBox,
+                                  Container(
+                                    height: h8,
+                                    width: width,
+                                    color: cBackgroundColor,
+                                  ),
+                                  kH16sizedBox,
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          DashboardOverviewCommonRowTextIcon(
+                                            titleText: ksAudiences.tr,
+                                            icon: BipHip.info,
+                                            iconOnPressed: null,
+                                          ),
+                                          InkWell(
+                                              onTap: () {
+                                                Get.toNamed(krDashboardOverviewAudience);
+                                              },
+                                              child: Text(
+                                                ksSeeAll.tr,
+                                                style: regular16TextStyle(cPrimaryColor),
+                                              )),
+                                        ],
+                                      ),
+                                      kH4sizedBox,
+                                      Text(
+                                        ksTheseValuesAreBasedOnTheFollowers.tr,
+                                        style: regular12TextStyle(cSmallBodyTextColor),
+                                      ),
+                                    ],
+                                  ),
+                                  kH16sizedBox,
+                                ],
+                              ),
                             ),
-                            kH4sizedBox,
-                            Row(
-                              children: [
-                                Text(
-                                  "750",
-                                  style: regular14TextStyle(cBlackColor),
-                                ),
-                                kW4sizedBox,
-                                Text(
-                                  ksFollowers,
-                                  style: regular10TextStyle(cSmallBodyTextColor),
-                                ),
-                              ],
-                            ),
-                            kH4sizedBox,
-                            Text(
-                              ksLast28Days.tr,
-                              style: regular10TextStyle(cSmallBodyTextColor),
-                            ),
-                            kH16sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksReach.tr,
-                                  totalValue: "20,874",
-                                  percentValue: "+39%",
-                                  filterText: dashboardController.dashboardOverviewTime.value,
-                                  percentTextColor: cGreenColor,
-                                ),
-                                kW8sizedBox,
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksContentPublished.tr,
-                                  totalValue: "0",
-                                  percentValue: "+0%",
-                                  filterText: dashboardController.dashboardOverviewTime.value,
-                                  percentTextColor: cGreenColor,
-                                ),
-                              ],
-                            ),
-                            kH8sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksEngagement.tr,
-                                  totalValue: "1,250",
-                                  percentValue: "+350%",
-                                  filterText: dashboardController.dashboardOverviewTime.value,
-                                  percentTextColor: cGreenColor,
-                                ),
-                                kW8sizedBox,
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksNetFollowers.tr,
-                                  totalValue: "874",
-                                  percentValue: "+12%",
-                                  filterText: dashboardController.dashboardOverviewTime.value,
-                                  percentTextColor: cGreenColor,
-                                ),
-                              ],
-                            ),
-                            kH16sizedBox,
-                            Container(
-                              height: h8,
-                              width: width,
-                              color: cBackgroundColor,
-                            ),
-                            kH16sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  ksRecentContent.tr,
-                                  style: semiBold18TextStyle(cBlackColor),
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      dashboardController.dashboardOverviewSelectedContentFilterIndex.value = 0;
-                                      Get.toNamed(krDashboardOverviewContent);
-                                    },
-                                    child: Text(
-                                      ksSeeAll.tr,
-                                      style: regular16TextStyle(cPrimaryColor),
-                                    )),
-                              ],
-                            ),
-                            kH16sizedBox,
-                            ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  dashboardController.dashboardEarnedGiftPostList.length > 1 ? 1 : dashboardController.dashboardEarnedGiftPostList.length,
-                              separatorBuilder: (context, index) => kH16sizedBox,
-                              itemBuilder: (context, index) {
-                                return DashboardGiftContentContainer(
-                                  width: width - 40,
-                                  height: 150,
-                                  productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
-                                  productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                                  postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
-                                  postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
-                                  engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
-                                  giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
-                                );
-                              },
-                            ),
-                            kH16sizedBox,
-                            Container(
-                              height: h8,
-                              width: width,
-                              color: cBackgroundColor,
-                            ),
-                            kH16sizedBox,
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    DashboardOverviewCommonRowTextIcon(
-                                      titleText: ksAudiences.tr,
-                                      icon: BipHip.info,
-                                      iconOnPressed: null,
-                                    ),
-                                    InkWell(
-                                        onTap: () {
-                                          Get.toNamed(krDashboardOverviewAudience);
-                                        },
-                                        child: Text(
-                                          ksSeeAll.tr,
-                                          style: regular16TextStyle(cPrimaryColor),
-                                        )),
-                                  ],
-                                ),
-                                kH4sizedBox,
-                                Text(
-                                  ksTheseValuesAreBasedOnTheFollowers.tr,
-                                  style: regular12TextStyle(cSmallBodyTextColor),
-                                ),
-                              ],
-                            ),
-                            kH16sizedBox,
-                          ],
-                        ),
-                      ),
                     if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
                       SingleChildScrollView(
                         physics: const AlwaysScrollableScrollPhysics(),
@@ -873,17 +877,9 @@ class DashboardInsightsInteractionContent extends StatelessWidget {
 
 class DashboardCommonContainer extends StatelessWidget {
   const DashboardCommonContainer(
-      {super.key,
-      this.width,
-      this.height,
-      required this.titleText,
-      required this.totalValue,
-      this.percentValue,
-      required this.filterText,
-      this.percentTextColor});
+      {super.key, this.width, this.height, this.titleText, this.totalValue, this.percentValue, this.filterText, this.percentTextColor});
   final double? width, height;
-  final String titleText, totalValue, filterText;
-  final String? percentValue;
+  final String? titleText, totalValue, filterText, percentValue;
   final Color? percentTextColor;
   @override
   Widget build(BuildContext context) {
@@ -911,7 +907,7 @@ class DashboardCommonContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              titleText,
+              titleText ?? ksNA.tr,
               style: regular14TextStyle(cBlackColor),
             ),
             kH4sizedBox,
@@ -919,7 +915,7 @@ class DashboardCommonContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  totalValue,
+                  totalValue ?? "0",
                   style: semiBold18TextStyle(cBlackColor),
                 ),
                 kW4sizedBox,
@@ -932,7 +928,7 @@ class DashboardCommonContainer extends StatelessWidget {
             ),
             kH4sizedBox,
             Text(
-              filterText,
+              filterText ?? ksNA.tr,
               style: regular10TextStyle(cSmallBodyTextColor),
             ),
           ],

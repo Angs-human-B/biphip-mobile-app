@@ -264,6 +264,9 @@ const String kuUpdatePost = '/mobile/user/update-post';
 //* Awards
 const String kuGetMyAward = "/mobile/user/get-my-awards";
 
+//* Dashboard
+const String kuGetProfileOverview = "/mobile/dashboard/profile-overview";
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls
