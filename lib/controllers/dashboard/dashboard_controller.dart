@@ -738,6 +738,8 @@ class DashboardController extends GetxController {
         break;
     }
   }
+  final TextEditingController payoutWithdrawTextEditingController = TextEditingController();
+  final RxBool isdashboardPayoutWithdraw = RxBool(false);
 
   final RxList withdrawHistoryList = RxList([
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},

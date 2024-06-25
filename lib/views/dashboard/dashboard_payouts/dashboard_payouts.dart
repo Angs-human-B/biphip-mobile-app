@@ -28,169 +28,175 @@ class DashboardPayouts extends StatelessWidget {
               },
             ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-            child: Obx(
-              () => Column(
-                children: [
-                  kH16sizedBox,
-                  TapAbleButtonContainer(
-                    buttonText: dashboardController.payoutsTapButtonText,
-                    buttonState: dashboardController.payoutsTapButtonState,
-                    buttonPress: RxList([
-                      () {
-                        dashboardController.payoutsOverviewTapableButtonOnPressed();
-                      },
-                      () async {
-                        dashboardController.payoutsTransectionsTapableButtonOnPressed();
-                      },
-                      () {
-                        dashboardController.payoutsSettingsTapableButtonOnPressed();
-                      },
-                    ]),
-                  ),
-                  if (dashboardController.payoutsTapButtonState[0])
-                    SizedBox(
-                      height: height - (kAppBarSize + 30 + 16 + MediaQuery.of(context).padding.top),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            kH16sizedBox,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksTotalEarning.tr,
-                                  totalValue: dashboardController.isEarningReportAvailable.value ? "\$365" : "\$0",
-                                  percentTextColor: cGreenColor,
-                                ),
-                                kW8sizedBox,
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksTotalWithdraw.tr,
-                                  totalValue: dashboardController.isEarningReportAvailable.value ? "\$170" : "\$0",
-                                ),
-                              ],
-                            ),
-                            kH20sizedBox,
-                            dashboardController.isEarningReportAvailable.value
-                                ? PayoutsEarningReport(
-                                    titleText: ksEarningReport.tr,
-                                    subTitleText: "From last 12 Months",
-                                    amount: "\$365",
-                                  )
-                                : const PayoutOverviewEmptyView(),
-                            kH16sizedBox,
-                            dashboardController.isWithdrawReportAvailable.value
-                                ? PayoutsEarningReport(
-                                    titleText: ksWithdrawReport.tr,
-                                    subTitleText: "From last 12 Months",
-                                    amount: "\$170",
-                                    barChartColor: cOrangeColor,
-                                  )
-                                : EmptyViewContainer(
-                                    titleText: ksNoWithdrawAvailable.tr,
-                                    titleTextStyle: semiBold16TextStyle(cBlackColor),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+              child: Obx(
+                () => Column(
+                  children: [
+                    kH16sizedBox,
+                    TapAbleButtonContainer(
+                      buttonText: dashboardController.payoutsTapButtonText,
+                      buttonState: dashboardController.payoutsTapButtonState,
+                      buttonPress: RxList([
+                        () {
+                          dashboardController.payoutsOverviewTapableButtonOnPressed();
+                        },
+                        () async {
+                          dashboardController.payoutsTransectionsTapableButtonOnPressed();
+                        },
+                        () {
+                          dashboardController.payoutsSettingsTapableButtonOnPressed();
+                        },
+                      ]),
+                    ),
+                    if (dashboardController.payoutsTapButtonState[0])
+                      SizedBox(
+                        height: height - (kAppBarSize + 30 + 16 + MediaQuery.of(context).padding.top),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              kH16sizedBox,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  DashboardCommonContainer(
+                                    width: (width - 48) / 2,
+                                    height: 88,
+                                    titleText: ksTotalEarning.tr,
+                                    totalValue: dashboardController.isEarningReportAvailable.value ? "\$365" : "\$0",
+                                    percentTextColor: cGreenColor,
                                   ),
-                          ],
+                                  kW8sizedBox,
+                                  DashboardCommonContainer(
+                                    width: (width - 48) / 2,
+                                    height: 88,
+                                    titleText: ksTotalWithdraw.tr,
+                                    totalValue: dashboardController.isEarningReportAvailable.value ? "\$170" : "\$0",
+                                  ),
+                                ],
+                              ),
+                              kH20sizedBox,
+                              dashboardController.isEarningReportAvailable.value
+                                  ? PayoutsEarningReport(
+                                      titleText: ksEarningReport.tr,
+                                      subTitleText: "From last 12 Months",
+                                      amount: "\$365",
+                                    )
+                                  : const PayoutOverviewEmptyView(),
+                              kH16sizedBox,
+                              dashboardController.isWithdrawReportAvailable.value
+                                  ? PayoutsEarningReport(
+                                      titleText: ksWithdrawReport.tr,
+                                      subTitleText: "From last 12 Months",
+                                      amount: "\$170",
+                                      barChartColor: cOrangeColor,
+                                    )
+                                  : EmptyViewContainer(
+                                      titleText: ksNoWithdrawAvailable.tr,
+                                      titleTextStyle: semiBold16TextStyle(cBlackColor),
+                                    ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  if (dashboardController.payoutsTapButtonState[1])
-                    Column(
-                      children: [
-                        kH16sizedBox,
-                        Obx(() => PayoutTransectionTopContainer(
-                              title: ksAvailableAmount.tr,
-                              amount: "\$370",
-                              buttonText: dashboardController.withdrawHistoryList.isEmpty ? ksVerify.tr : ksWithdraw.tr,
-                              buttonOnPressed: () {},
-                            )),
-                        kH16sizedBox,
-                        if (dashboardController.withdrawHistoryList.isEmpty)
-                          EmptyViewContainer(
-                            titleText: ksNoWithdrawAvailable.tr,
-                            titleTextStyle: semiBold16TextStyle(cBlackColor),
-                          ),
-                        if (dashboardController.withdrawHistoryList.isNotEmpty)
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    ksWithdrawHistory.tr,
-                                    style: semiBold18TextStyle(cBlackColor),
-                                  ),
-                                  InkWell(
-                                      child: Text(
-                                    ksSeeAll.tr,
-                                    style: regular16TextStyle(cPrimaryColor),
-                                  )),
-                                ],
-                              ),
-                              kH16sizedBox,
-                              Table(
-                                border: TableBorder.all(width: 0, color: cTransparentColor),
-                                children: [
-                                  TableRow(
-                                    children: [
-                                      Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
-                                      Text(ksPayment.tr, style: semiBold14TextStyle(cBlackColor)),
-                                      Text(ksWithdraeAmount.tr, style: semiBold14TextStyle(cBlackColor)),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Text(ksAvailable.tr, style: semiBold14TextStyle(cBlackColor)),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              kH16sizedBox,
-                              ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: dashboardController.withdrawHistoryList.length,
-                                  separatorBuilder: (context, index) => kH16sizedBox,
-                                  itemBuilder: (context, index) {
-                                    return Table(
-                                      border: TableBorder.all(width: 0, color: cTransparentColor),
+                    if (dashboardController.payoutsTapButtonState[1])
+                      Column(
+                        children: [
+                          kH16sizedBox,
+                          Obx(() => PayoutTransectionTopContainer(
+                                title: ksAvailableAmount.tr,
+                                amount: "\$370",
+                                buttonText: dashboardController.withdrawHistoryList.isEmpty ? ksVerify.tr : ksWithdraw.tr,
+                                buttonOnPressed: () {
+                                  dashboardController.payoutWithdrawTextEditingController.clear();
+                                  dashboardController.isdashboardPayoutWithdraw.value = false;
+                                  Get.toNamed(krDshboardPayoutWithdraw);
+                                },
+                              )),
+                          kH16sizedBox,
+                          if (dashboardController.withdrawHistoryList.isEmpty)
+                            EmptyViewContainer(
+                              titleText: ksNoWithdrawAvailable.tr,
+                              titleTextStyle: semiBold16TextStyle(cBlackColor),
+                            ),
+                          if (dashboardController.withdrawHistoryList.isNotEmpty)
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      ksWithdrawHistory.tr,
+                                      style: semiBold18TextStyle(cBlackColor),
+                                    ),
+                                    InkWell(
+                                        child: Text(
+                                      ksSeeAll.tr,
+                                      style: regular16TextStyle(cPrimaryColor),
+                                    )),
+                                  ],
+                                ),
+                                kH16sizedBox,
+                                Table(
+                                  border: TableBorder.all(width: 0, color: cTransparentColor),
+                                  children: [
+                                    TableRow(
                                       children: [
-                                        TableRow(
+                                        Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
+                                        Text(ksPayment.tr, style: semiBold14TextStyle(cBlackColor)),
+                                        Text(ksWithdraeAmount.tr, style: semiBold14TextStyle(cBlackColor)),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
-                                            Text(dashboardController.withdrawHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
-                                            Text(dashboardController.withdrawHistoryList[index]["payment"], style: regular12TextStyle(cBlackColor)),
-                                            // kW4sizedBox,
-                                            Text(
-                                              "\$${dashboardController.withdrawHistoryList[index]["withdrawAmount"]}",
-                                              style: regular12TextStyle(cBlackColor),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left: k8Padding),
-                                                  child: Text("\$${dashboardController.withdrawHistoryList[index]["availableAmount"]}",
-                                                      style: regular12TextStyle(cBlackColor)),
-                                                ),
-                                              ],
-                                            ),
+                                            Text(ksAvailable.tr, style: semiBold14TextStyle(cBlackColor)),
                                           ],
                                         ),
                                       ],
-                                    );
-                                  }),
-                            ],
-                          ),
-                      ],
-                    ),
-                ],
+                                    ),
+                                  ],
+                                ),
+                                kH16sizedBox,
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: dashboardController.withdrawHistoryList.length,
+                                    separatorBuilder: (context, index) => kH16sizedBox,
+                                    itemBuilder: (context, index) {
+                                      return Table(
+                                        border: TableBorder.all(width: 0, color: cTransparentColor),
+                                        children: [
+                                          TableRow(
+                                            children: [
+                                              Text(dashboardController.withdrawHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                                              Text(dashboardController.withdrawHistoryList[index]["payment"], style: regular12TextStyle(cBlackColor)),
+                                              // kW4sizedBox,
+                                              Text(
+                                                "\$${dashboardController.withdrawHistoryList[index]["withdrawAmount"]}",
+                                                style: regular12TextStyle(cBlackColor),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: k8Padding),
+                                                    child: Text("\$${dashboardController.withdrawHistoryList[index]["availableAmount"]}",
+                                                        style: regular12TextStyle(cBlackColor)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                              ],
+                            ),
+                        ],
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

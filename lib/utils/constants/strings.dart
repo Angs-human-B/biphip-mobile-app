@@ -847,3 +847,5 @@ const String ksWithdraeAmount = "W Amount";
 const String ksAvailable = "Available";
 const String ksWithdraw = "Withdraw";
 const String ksWithdrawHistory = "Withdraw History";
+const String ksWriteWithdrawlAmount = "Write Withdrawl Amount";
+const String ksWriteAmount = "Write amount";

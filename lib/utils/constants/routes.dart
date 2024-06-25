@@ -28,6 +28,7 @@ import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dar
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payout_withdraw.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payouts.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
@@ -283,7 +284,6 @@ const String krMessages = "/messages";
 
  //*Dashboard
  const String krDashboardPage = "/dashboard-page";
- const String krDashboardPayout = "/dashboard-payout";
  const String krDashboardOverview = "/dashboard-overview";
  const String krDashboardOverviewContent = "/dashboard-overview-content";
  const String krDashboardOverviewAudience = "/dashboard-overview-audience";
@@ -302,6 +302,8 @@ const String krMessages = "/messages";
  const String krDashboardAllAwards = "/dashboard-all-awards";
  const String krDashboardPerformance = "/dashboard-performance";
  const String krDashboardQuiz = "/dashboard-quiz";
+ const String krDashboardPayout = "/dashboard-payout";
+ const String krDshboardPayoutWithdraw = "/dashboard-payout-withdraw";
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -453,7 +455,6 @@ List<GetPage<dynamic>>? routes = [
   //*Dashboard
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
   //*Dashboard payouts
-  GetPage(name: krDashboardPayout, page: () => DashboardPayouts(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverview, page: () => DashboardOverview(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverviewContent, page: () => DashboardOverviewContent(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverviewAudience, page: () => DashboardOverviewAudience(), transition: Transition.noTransition),
@@ -472,5 +473,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardAllAwards, page: () => DashboardAllAwards(), transition: Transition.noTransition),
   GetPage(name: krDashboardPerformance, page: () => DashboardPerformance(), transition: Transition.noTransition),
   GetPage(name: krDashboardQuiz, page: () => DashboardQuiz(), transition: Transition.noTransition),
+  GetPage(name: krDashboardPayout, page: () => DashboardPayouts(), transition: Transition.noTransition),
+  GetPage(name: krDshboardPayoutWithdraw, page: () => DashboardPayoutWithdraw(), transition: Transition.noTransition),
 
 ];
