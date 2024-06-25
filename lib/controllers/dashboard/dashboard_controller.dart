@@ -1,49 +1,6 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
-  //* Payouts
-  final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
-  final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
-  final RxList payoutsTapButtonState = RxList([true, false, false]);
-  final RxList payoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
-  void payoutsOverviewTapableButtonOnPressed() async {
-    payoutsToggleType(0);
-    // await getQuestionList();
-  }
-
-  void payoutsTransectionsTapableButtonOnPressed() async {
-    payoutsToggleType(1);
-    // await getPlayedQuizesList();
-  }
-
-  void payoutsSettingsTapableButtonOnPressed() async {
-    payoutsToggleType(2);
-    // await getmyQuizWinnerList();
-  }
-
-  final RxBool isWithdrawReportAvailable = RxBool(true);
-  final RxBool isEarningReportAvailable = RxBool(true);
-
-  void payoutsToggleType(int index) {
-    switch (index) {
-      case 0:
-        payoutsTapButtonState[0] = true;
-        payoutsTapButtonState[1] = false;
-        payoutsTapButtonState[2] = false;
-        break;
-      case 1:
-        payoutsTapButtonState[0] = false;
-        payoutsTapButtonState[1] = true;
-        payoutsTapButtonState[2] = false;
-        break;
-      case 2:
-        payoutsTapButtonState[0] = false;
-        payoutsTapButtonState[1] = false;
-        payoutsTapButtonState[2] = true;
-        break;
-    }
-  }
-
   final fundTransferFilterList = RxList(["All", "Amount", "Star"]);
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
@@ -738,4 +695,59 @@ class DashboardController extends GetxController {
       return ksTools.tr;
     }
   }
+
+  //! Payouts
+  final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
+  final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
+  final RxList payoutsTapButtonState = RxList([true, false, false]);
+  final RxList payoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
+  void payoutsOverviewTapableButtonOnPressed() async {
+    payoutsToggleType(0);
+    // await getQuestionList();
+  }
+
+  void payoutsTransectionsTapableButtonOnPressed() async {
+    payoutsToggleType(1);
+    // await getPlayedQuizesList();
+  }
+
+  void payoutsSettingsTapableButtonOnPressed() async {
+    payoutsToggleType(2);
+    // await getmyQuizWinnerList();
+  }
+
+  final RxBool isWithdrawReportAvailable = RxBool(true);
+  final RxBool isEarningReportAvailable = RxBool(true);
+
+  void payoutsToggleType(int index) {
+    switch (index) {
+      case 0:
+        payoutsTapButtonState[0] = true;
+        payoutsTapButtonState[1] = false;
+        payoutsTapButtonState[2] = false;
+        break;
+      case 1:
+        payoutsTapButtonState[0] = false;
+        payoutsTapButtonState[1] = true;
+        payoutsTapButtonState[2] = false;
+        break;
+      case 2:
+        payoutsTapButtonState[0] = false;
+        payoutsTapButtonState[1] = false;
+        payoutsTapButtonState[2] = true;
+        break;
+    }
+  }
+
+  final RxList withdrawHistoryList = RxList([
+    {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},
+    {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 300, "availableAmount": 20},
+    {"date": "17/01/2024", "payment": "Cripto", "withdrawAmount": 400, "availableAmount": 30},
+    {"date": "17/01/2024", "payment": "Ab Bank", "withdrawAmount": 500, "availableAmount": 40},
+    {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 600, "availableAmount": 50},
+    {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 700, "availableAmount": 60},
+    {"date": "17/01/2024", "payment": "Ab Bank", "withdrawAmount": 800, "availableAmount": 70},
+    {"date": "17/01/2024", "payment": "Cripto", "withdrawAmount": 900, "availableAmount": 80},
+    {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 1000, "availableAmount": 90},
+  ]);
 }

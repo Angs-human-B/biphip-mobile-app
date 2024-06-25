@@ -838,7 +838,12 @@ const String ksYourResponseWontBeSharedWithAnyoneOnBipHip = "Your response won't
 const String ksShareListing = "Share listing";
 const String ksViewBid = "View Bid";
 const String ksSearchItem = "Search item";
+//* Payouts
 const String ksNoWithdrawAvailable = "No withdraw available";
 const String ksYouHavenotEarned = "You haven't earned";
 const String ksPleaseBeActiveInPostingAndEarnEveryday = "Please be active in posting and earn everyday like other creators!!!";
 const String ksVerify = "Verify";
+const String ksWithdraeAmount = "W Amount";
+const String ksAvailable = "Available";
+const String ksWithdraw = "Withdraw";
+const String ksWithdrawHistory = "Withdraw History";

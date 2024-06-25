@@ -103,17 +103,91 @@ class DashboardPayouts extends StatelessWidget {
                     Column(
                       children: [
                         kH16sizedBox,
-                        PayoutTransectionTopContainer(
-                          title: ksAvailableAmount.tr,
-                          amount: "\$370",
-                          buttonText: ksVerify.tr,
-                          buttonOnPressed: () {},
-                        ),
+                        Obx(() => PayoutTransectionTopContainer(
+                              title: ksAvailableAmount.tr,
+                              amount: "\$370",
+                              buttonText: dashboardController.withdrawHistoryList.isEmpty ? ksVerify.tr : ksWithdraw.tr,
+                              buttonOnPressed: () {},
+                            )),
                         kH16sizedBox,
-                        EmptyViewContainer(
-                          titleText: ksNoWithdrawAvailable.tr,
-                          titleTextStyle: semiBold16TextStyle(cBlackColor),
-                        ),
+                        if (dashboardController.withdrawHistoryList.isEmpty)
+                          EmptyViewContainer(
+                            titleText: ksNoWithdrawAvailable.tr,
+                            titleTextStyle: semiBold16TextStyle(cBlackColor),
+                          ),
+                        if (dashboardController.withdrawHistoryList.isNotEmpty)
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    ksWithdrawHistory.tr,
+                                    style: semiBold18TextStyle(cBlackColor),
+                                  ),
+                                  InkWell(
+                                      child: Text(
+                                    ksSeeAll.tr,
+                                    style: regular16TextStyle(cPrimaryColor),
+                                  )),
+                                ],
+                              ),
+                              kH16sizedBox,
+                              Table(
+                                border: TableBorder.all(width: 0, color: cTransparentColor),
+                                children: [
+                                  TableRow(
+                                    children: [
+                                      Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksPayment.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksWithdraeAmount.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Text(ksAvailable.tr, style: semiBold14TextStyle(cBlackColor)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              kH16sizedBox,
+                              ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: dashboardController.withdrawHistoryList.length,
+                                  separatorBuilder: (context, index) => kH16sizedBox,
+                                  itemBuilder: (context, index) {
+                                    return Table(
+                                      border: TableBorder.all(width: 0, color: cTransparentColor),
+                                      children: [
+                                        TableRow(
+                                          children: [
+                                            Text(dashboardController.withdrawHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                                            Text(dashboardController.withdrawHistoryList[index]["payment"], style: regular12TextStyle(cBlackColor)),
+                                            // kW4sizedBox,
+                                            Text(
+                                              "\$${dashboardController.withdrawHistoryList[index]["withdrawAmount"]}",
+                                              style: regular12TextStyle(cBlackColor),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: k8Padding),
+                                                  child: Text("\$${dashboardController.withdrawHistoryList[index]["availableAmount"]}",
+                                                      style: regular12TextStyle(cBlackColor)),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                            ],
+                          ),
                       ],
                     ),
                 ],
