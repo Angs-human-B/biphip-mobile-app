@@ -84,11 +84,8 @@ class MenuHelper {
         await Get.find<AwardController>().getAwardList();
         break;
       case 12:
-        // Get.find<QuizController>().resetQuizTapButtonData();
-        // Get.find<QuizController>().resetQuizData();
-        // await Get.find<QuizController>().getQuestionList();
-        await Get.find<DashboardController>().getDashboardContents();
-        await Get.find<DashboardController>().getDashboardProfileOverview();
+        Get.find<DashboardController>().dashboardOverviewSelectedFilterIndex.value = 0;
+        await Get.find<DashboardController>().getDashboardOverview();
         Get.toNamed(krDashboardOverview);
         break;
     }

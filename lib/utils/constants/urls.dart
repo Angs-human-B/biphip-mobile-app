@@ -156,7 +156,6 @@ const String kuDeleteSelfie = '/mobile/user/selfie/delete';
 const String kuReportSelfie = '/mobile/user/store-selfie-report';
 const String kuSelfieSendGift = '/mobile/user/selfie/send-gift';
 
-
 //* kids
 //---------------------------------------
 const String kuDeleteKids = '/mobile/user/delete-kid';
@@ -270,6 +269,7 @@ const String kuDashboardContents = "/mobile/dashboard/contents";
 const String kuDashboardStarInsight = "/mobile/dashboard/star-insight";
 const String kuDashboardGiftInsight = "/mobile/dashboard/gift-insight";
 const String kuDashboardGiftEarnedPost = "/mobile/dashboard/gift-earned-posts";
+const String kuDashboardOverview = "/mobile/dashboard/overview";
 
 /*
 |--------------------------------------------------------------------------

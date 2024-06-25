@@ -1,6 +1,7 @@
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -538,12 +539,6 @@ class DashboardController extends GetxController {
   final RxInt dashboardOverviewSelectedFilterIndex = RxInt(0);
   final RxString dashboardOverviewSelectedFilterValue = RxString("Overview");
   final RxString dashboardOverviewTime = RxString("From previous 28 days");
-  final RxList ageGenderDataList = RxList([
-    {'ageGroup': '18-24', 'men': 80, 'women': 20},
-    {'ageGroup': '25-34', 'men': 90, 'women': 10},
-    {'ageGroup': '35-44', 'men': 60, 'women': 40},
-    {'ageGroup': '45-54', 'men': 51.5, 'women': 48.5},
-  ]);
   final RxList topCitiesList = RxList([
     {'cityName': "Dhaka, Bangladesh", 'percent': 50},
     {'cityName': "Chapainawabganj, Bangladesh", 'percent': 20},
@@ -828,7 +823,6 @@ class DashboardController extends GetxController {
     }
   }
 
-
   //*Dashboard Content Api Call
   final Rx<DashboardGiftEarnedPostModel?> dashboardGiftEarnedPostData = Rx<DashboardGiftEarnedPostModel?>(null);
   final RxList<PostData> dashboardGiftEarnedPostList = RxList<PostData>([]);
@@ -859,6 +853,39 @@ class DashboardController extends GetxController {
     } catch (e) {
       isGiftEarnedPostLoading.value = true;
       ll('getGiftEarnedPost error: $e');
+    }
+  }
+
+  //*Dashboard Overview Api Call
+  final Rx<DashboardOverviewModel?> dashboardOverviewData = Rx<DashboardOverviewModel?>(null);
+  final RxList<OverviewContentData> dashboardOverviewContentList = RxList<OverviewContentData>([]);
+  final RxBool isDashboardOverviewLoading = RxBool(false);
+  Future<void> getDashboardOverview() async {
+    try {
+      isDashboardOverviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardOverview,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardOverviewContentList.clear();
+        dashboardOverviewData.value = DashboardOverviewModel.fromJson(response.data);
+        dashboardOverviewContentList.addAll(dashboardOverviewData.value!.contents!.data!);
+        isDashboardOverviewLoading.value = false;
+      } else {
+        isDashboardOverviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardOverviewLoading.value = true;
+      ll('getDashboardOverview error: $e');
     }
   }
 }
