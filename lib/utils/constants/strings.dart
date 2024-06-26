@@ -873,3 +873,7 @@ const String ksAddCrypto = "Add Crypto";
 const String ksToReceiveMoneyDirectlyToYourCryptoWallet = "To receive money directly to your Crypto Wallet";
 const String ksAddDebitOrCreditCard = "Add Debit/Credit Card";
 const String ksToReceiveMoneyDirectlyToYourDebitOrCreditCard = "To receive money directly to your Debit/Credit Card";
+const String ksAccountHolderName = "Account holder name";
+const String ksSWIFTCode = "SWIFT Code";
+const String ksAccountNumber = "Account Number";
+const String ksRoutingNumber = "Routing Number";

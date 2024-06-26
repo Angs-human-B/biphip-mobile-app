@@ -747,6 +747,10 @@ class DashboardController extends GetxController {
     {"accountName": "Wahid Murad", "bankName": "Brac Bank"},
     {"accountName": "Wahid Murad", "bankName": "Ab Bank"},
   ]);
+  final RxString temporarySelectedCountry = RxString("");
+  final RxString selectedCountry = RxString("");
+  final RxBool dashboardPayoutCountryRightButtonState = RxBool(false);
+  final RxList countryList = RxList(["Bangladesh","Argentina","Bhutan","Nepal","Japan","Chine","Palestine"]);
   final RxList withdrawHistoryList = RxList([
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},
     {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 300, "availableAmount": 20},
@@ -758,4 +762,8 @@ class DashboardController extends GetxController {
     {"date": "17/01/2024", "payment": "Cripto", "withdrawAmount": 900, "availableAmount": 80},
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 1000, "availableAmount": 90},
   ]);
+  final TextEditingController accountHolderNameTextEditingController = TextEditingController();
+  final TextEditingController swiftCodeTextEditingController = TextEditingController();
+  final TextEditingController accountNumberTextEditingController = TextEditingController();
+  final TextEditingController routingNumberTextEditingController = TextEditingController();
 }

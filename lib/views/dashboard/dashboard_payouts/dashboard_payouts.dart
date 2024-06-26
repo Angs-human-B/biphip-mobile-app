@@ -637,7 +637,10 @@ class AddPayoutMethodBottomSheetContent extends StatelessWidget {
         PayoutCommonContainer(
           titleText: ksManualLinkBankAccount.tr,
           subtitleText: ksEnterYourBankAccountInfo.tr,
-          containerOnPressed: () {},
+          containerOnPressed: () {
+            Get.back();
+            Get.toNamed(krPayoutManualLinkBankAccount);
+          },
         ),
         kH12sizedBox,
         PayoutCommonContainer(

@@ -30,6 +30,7 @@ import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.da
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payout_withdraw.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payouts.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_manual_link_bank_account.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
 import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
@@ -304,6 +305,9 @@ const String krMessages = "/messages";
  const String krDashboardQuiz = "/dashboard-quiz";
  const String krDashboardPayout = "/dashboard-payout";
  const String krDshboardPayoutWithdraw = "/dashboard-payout-withdraw";
+ //* payout settings
+ const String krPayoutManualLinkBankAccount = "/payout-manual-link-bank-account";
+
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -475,5 +479,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardQuiz, page: () => DashboardQuiz(), transition: Transition.noTransition),
   GetPage(name: krDashboardPayout, page: () => DashboardPayouts(), transition: Transition.noTransition),
   GetPage(name: krDshboardPayoutWithdraw, page: () => DashboardPayoutWithdraw(), transition: Transition.noTransition),
+  //* payout settings
+  GetPage(name: krPayoutManualLinkBankAccount, page: () => PayoutManualLinkBankAccount(), transition: Transition.noTransition),
 
 ];
