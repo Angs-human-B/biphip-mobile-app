@@ -31,6 +31,7 @@ import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payout_withdraw.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payouts.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_add_crypto.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_add_debit_card.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_manual_link_bank_account.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
@@ -309,6 +310,7 @@ const String krMessages = "/messages";
  //* payout settings
  const String krPayoutManualLinkBankAccount = "/payout-manual-link-bank-account";
  const String krPayoutAddCrypto = "/payout-add-crypto";
+ const String krPayoutAddDebitCard = "/payout-add-debit-card";
 
 
 List<GetPage<dynamic>>? routes = [
@@ -484,5 +486,6 @@ List<GetPage<dynamic>>? routes = [
   //* payout settings
   GetPage(name: krPayoutManualLinkBankAccount, page: () => PayoutManualLinkBankAccount(), transition: Transition.noTransition),
   GetPage(name: krPayoutAddCrypto, page: () => PayoutAddCrypto(), transition: Transition.noTransition),
+  GetPage(name: krPayoutAddDebitCard, page: () => PayoutAddDebitCard(), transition: Transition.noTransition),
 
 ];

@@ -667,7 +667,10 @@ class AddPayoutMethodBottomSheetContent extends StatelessWidget {
         PayoutCommonContainer(
           titleText: ksAddDebitOrCreditCard.tr,
           subtitleText: ksToReceiveMoneyDirectlyToYourDebitOrCreditCard.tr,
-          containerOnPressed: () {},
+          containerOnPressed: () {
+            Get.back();
+            Get.toNamed(krPayoutAddDebitCard);
+          },
         ),
       ],
     );

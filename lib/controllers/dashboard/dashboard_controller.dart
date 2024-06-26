@@ -762,10 +762,18 @@ class DashboardController extends GetxController {
     {"date": "17/01/2024", "payment": "Cripto", "withdrawAmount": 900, "availableAmount": 80},
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 1000, "availableAmount": 90},
   ]);
+  //*payout add manual link bank account
   final TextEditingController accountHolderNameTextEditingController = TextEditingController();
   final TextEditingController swiftCodeTextEditingController = TextEditingController();
   final TextEditingController accountNumberTextEditingController = TextEditingController();
   final TextEditingController routingNumberTextEditingController = TextEditingController();
+  //*payout crypto
   final TextEditingController cryptoAmountTextEditingController = TextEditingController();
   final TextEditingController cryptoAccountNumberTextEditingController = TextEditingController();
+  //*payout card
+  final TextEditingController cardNumberTextEditingController = TextEditingController();
+  final TextEditingController cardExpirationDateTextEditingController = TextEditingController();
+  final TextEditingController cardCVVTextEditingController = TextEditingController();
+  final TextEditingController billingAddressTextEditingController = TextEditingController();
+
 }
