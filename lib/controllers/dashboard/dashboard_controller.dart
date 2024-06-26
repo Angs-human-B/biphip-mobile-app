@@ -738,9 +738,15 @@ class DashboardController extends GetxController {
         break;
     }
   }
+
   final TextEditingController payoutWithdrawTextEditingController = TextEditingController();
   final RxBool isdashboardPayoutWithdraw = RxBool(false);
-
+  final RxString payoutTaxInformationStatus = RxString("");
+  final RxString payoutPassportStatus = RxString("");
+  final RxList payoutBankAccountList = RxList([
+    {"accountName": "Wahid Murad", "bankName": "Brac Bank"},
+    {"accountName": "Wahid Murad", "bankName": "Ab Bank"},
+  ]);
   final RxList withdrawHistoryList = RxList([
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},
     {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 300, "availableAmount": 20},

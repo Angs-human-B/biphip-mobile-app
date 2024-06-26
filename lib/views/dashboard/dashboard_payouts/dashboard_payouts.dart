@@ -101,100 +101,344 @@ class DashboardPayouts extends StatelessWidget {
                         ),
                       ),
                     if (dashboardController.payoutsTapButtonState[1])
-                      Column(
-                        children: [
-                          kH16sizedBox,
-                          Obx(() => PayoutTransectionTopContainer(
-                                title: ksAvailableAmount.tr,
-                                amount: "\$370",
-                                buttonText: dashboardController.withdrawHistoryList.isEmpty ? ksVerify.tr : ksWithdraw.tr,
-                                buttonOnPressed: () {
-                                  dashboardController.payoutWithdrawTextEditingController.clear();
-                                  dashboardController.isdashboardPayoutWithdraw.value = false;
-                                  Get.toNamed(krDshboardPayoutWithdraw);
-                                },
-                              )),
-                          kH16sizedBox,
-                          if (dashboardController.withdrawHistoryList.isEmpty)
-                            EmptyViewContainer(
-                              titleText: ksNoWithdrawAvailable.tr,
-                              titleTextStyle: semiBold16TextStyle(cBlackColor),
-                            ),
-                          if (dashboardController.withdrawHistoryList.isNotEmpty)
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      ksWithdrawHistory.tr,
-                                      style: semiBold18TextStyle(cBlackColor),
-                                    ),
-                                    InkWell(
-                                        child: Text(
-                                      ksSeeAll.tr,
-                                      style: regular16TextStyle(cPrimaryColor),
-                                    )),
-                                  ],
+                      SizedBox(
+                        height: height - (kAppBarSize + 30 + 16 + MediaQuery.of(context).padding.top),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              kH16sizedBox,
+                              Obx(() => PayoutTransectionTopContainer(
+                                    title: ksAvailableAmount.tr,
+                                    amount: "\$370",
+                                    buttonText: dashboardController.withdrawHistoryList.isEmpty ? ksVerify.tr : ksWithdraw.tr,
+                                    buttonOnPressed: () {
+                                      dashboardController.payoutWithdrawTextEditingController.clear();
+                                      dashboardController.isdashboardPayoutWithdraw.value = false;
+                                      Get.toNamed(krDshboardPayoutWithdraw);
+                                    },
+                                  )),
+                              kH16sizedBox,
+                              if (dashboardController.withdrawHistoryList.isEmpty)
+                                EmptyViewContainer(
+                                  titleText: ksNoWithdrawAvailable.tr,
+                                  titleTextStyle: semiBold16TextStyle(cBlackColor),
                                 ),
-                                kH16sizedBox,
-                                Table(
-                                  border: TableBorder.all(width: 0, color: cTransparentColor),
+                              if (dashboardController.withdrawHistoryList.isNotEmpty)
+                                Column(
                                   children: [
-                                    TableRow(
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
-                                        Text(ksPayment.tr, style: semiBold14TextStyle(cBlackColor)),
-                                        Text(ksWithdraeAmount.tr, style: semiBold14TextStyle(cBlackColor)),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                        Text(
+                                          ksWithdrawHistory.tr,
+                                          style: semiBold18TextStyle(cBlackColor),
+                                        ),
+                                        InkWell(
+                                            child: Text(
+                                          ksSeeAll.tr,
+                                          style: regular16TextStyle(cPrimaryColor),
+                                        )),
+                                      ],
+                                    ),
+                                    kH16sizedBox,
+                                    Table(
+                                      border: TableBorder.all(width: 0, color: cTransparentColor),
+                                      children: [
+                                        TableRow(
                                           children: [
-                                            Text(ksAvailable.tr, style: semiBold14TextStyle(cBlackColor)),
+                                            Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
+                                            Text(ksPayment.tr, style: semiBold14TextStyle(cBlackColor)),
+                                            Text(ksWithdraeAmount.tr, style: semiBold14TextStyle(cBlackColor)),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Text(ksAvailable.tr, style: semiBold14TextStyle(cBlackColor)),
+                                              ],
+                                            ),
                                           ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                                kH16sizedBox,
-                                ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: dashboardController.withdrawHistoryList.length,
-                                    separatorBuilder: (context, index) => kH16sizedBox,
-                                    itemBuilder: (context, index) {
-                                      return Table(
-                                        border: TableBorder.all(width: 0, color: cTransparentColor),
-                                        children: [
-                                          TableRow(
+                                    kH16sizedBox,
+                                    ListView.separated(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: dashboardController.withdrawHistoryList.length,
+                                        separatorBuilder: (context, index) => kH16sizedBox,
+                                        itemBuilder: (context, index) {
+                                          return Table(
+                                            border: TableBorder.all(width: 0, color: cTransparentColor),
                                             children: [
-                                              Text(dashboardController.withdrawHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
-                                              Text(dashboardController.withdrawHistoryList[index]["payment"], style: regular12TextStyle(cBlackColor)),
-                                              // kW4sizedBox,
-                                              Text(
-                                                "\$${dashboardController.withdrawHistoryList[index]["withdrawAmount"]}",
-                                                style: regular12TextStyle(cBlackColor),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                              TableRow(
                                                 children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: k8Padding),
-                                                    child: Text("\$${dashboardController.withdrawHistoryList[index]["availableAmount"]}",
-                                                        style: regular12TextStyle(cBlackColor)),
+                                                  Text(dashboardController.withdrawHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                                                  Text(dashboardController.withdrawHistoryList[index]["payment"], style: regular12TextStyle(cBlackColor)),
+                                                  // kW4sizedBox,
+                                                  Text(
+                                                    "\$${dashboardController.withdrawHistoryList[index]["withdrawAmount"]}",
+                                                    style: regular12TextStyle(cBlackColor),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: k8Padding),
+                                                        child: Text("\$${dashboardController.withdrawHistoryList[index]["availableAmount"]}",
+                                                            style: regular12TextStyle(cBlackColor)),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
                                             ],
+                                          );
+                                        }),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    if (dashboardController.payoutsTapButtonState[2])
+                      SizedBox(
+                        height: height - (kAppBarSize + 30 + 16 + MediaQuery.of(context).padding.top),
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: k20Padding),
+                            child: Column(
+                              children: [
+                                dashboardController.payoutBankAccountList.isEmpty
+                                    ? DashboardPayoutSettingCommonContainer(
+                                        prefixIcon: BipHip.add_1,
+                                        titleText: "$ksNoBankAccountInformationAddedYet!",
+                                        buttonOnPressed: () {
+                                          Get.find<GlobalController>().commonBottomSheet(
+                                              context: context,
+                                              content: Column(
+                                                children: [],
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "",
+                                              rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                              title: ksAddPayoutMethod.tr,
+                                              isRightButtonShow: false,
+                                              isBottomSheetRightButtonActive: false.obs);
+                                        },
+                                      )
+                                    : Container(
+                                        width: width - 40,
+                                        decoration: BoxDecoration(
+                                          color: cPrimaryTint4Color,
+                                          border: Border.all(color: cPrimaryTint1Color, width: 1),
+                                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(k16Padding),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                ksPayoutMethod,
+                                                style: semiBold16TextStyle(cBlackColor),
+                                              ),
+                                              kH12sizedBox,
+                                              ListView.separated(
+                                                separatorBuilder: (context, index) => kH12sizedBox,
+                                                shrinkWrap: true,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                itemCount: dashboardController.payoutBankAccountList.length,
+                                                itemBuilder: (context, index) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      color: cWhiteColor,
+                                                      borderRadius: BorderRadius.circular(k4BorderRadius),
+                                                      border: Border.all(color: cLineColor2, width: 1),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(k4Padding),
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                              width: h44,
+                                                              height: h44,
+                                                              decoration: const BoxDecoration(
+                                                                color: cGreyBoxColor,
+                                                                shape: BoxShape.circle,
+                                                              ),
+                                                              child: const Icon(
+                                                                BipHip.badgesOutline,
+                                                                size: kIconSize20,
+                                                                color: cIconColor,
+                                                              )),
+                                                          kW8sizedBox,
+                                                          Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(
+                                                                dashboardController.payoutBankAccountList[index]["accountName"],
+                                                                style: regular14TextStyle(cBlackColor),
+                                                              ),
+                                                              kH4sizedBox,
+                                                              Text(
+                                                                dashboardController.payoutBankAccountList[index]["bankName"],
+                                                                style: regular14TextStyle(cBlackColor),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              kH16sizedBox,
+                                              CustomElevatedButton(
+                                                  buttonWidth: 68,
+                                                  buttonHeight: h32,
+                                                  prefixIconSize: kIconSize16,
+                                                  label: ksAdd.tr,
+                                                  prefixIcon: BipHip.add_1,
+                                                  prefixIconColor: cWhiteColor,
+                                                  textStyle: semiBold12TextStyle(cWhiteColor),
+                                                  onPressed: () {
+                                                    Get.find<GlobalController>().commonBottomSheet(
+                                                        context: context,
+                                                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
+                                                        content: AddPayoutMethodBottomSheetContent(),
+                                                        onPressCloseButton: () {
+                                                          Get.back();
+                                                        },
+                                                        onPressRightButton: () {
+                                                          Get.back();
+                                                        },
+                                                        rightText: "",
+                                                        rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                                        title: ksAddPayoutMethod.tr,
+                                                        isRightButtonShow: false,
+                                                        isBottomSheetRightButtonActive: false.obs);
+                                                  }),
+                                            ],
                                           ),
-                                        ],
-                                      );
-                                    }),
+                                        ),
+                                      ),
+                                kH16sizedBox,
+                                dashboardController.payoutTaxInformationStatus.value == ""
+                                    ? DashboardPayoutSettingCommonContainer(
+                                        prefixIcon: BipHip.add_1,
+                                        titleText: "$ksNoTaxInformationAddedYet!",
+                                        buttonOnPressed: () {},
+                                      )
+                                    : DashboardPayoutSettingContentContainer(
+                                        icon: BipHip.badgesFill,
+                                        statusText: dashboardController.payoutTaxInformationStatus.value,
+                                        titleText: ksTaxInformation.tr,
+                                        dateText: "Updated 8 Aug 2023",
+                                        statusTextStyle: regular14TextStyle(cGreenColor),
+                                      ),
+                                kH16sizedBox,
+                                dashboardController.payoutPassportStatus.value == ""
+                                    ? DashboardPayoutSettingCommonContainer(
+                                        prefixIcon: BipHip.add_1,
+                                        titleText: "$ksNoPassportOrNidOrStudentIdAddedYet!",
+                                        buttonOnPressed: () {},
+                                      )
+                                    : DashboardPayoutSettingContentContainer(
+                                        icon: BipHip.badgesFill,
+                                        statusText: dashboardController.payoutPassportStatus.value,
+                                        titleText: ksPassportVerification.tr,
+                                        dateText: "Submitted on 8 Aug 2024.",
+                                        statusTextStyle: regular14TextStyle(cSecondaryColor),
+                                      ),
+                                kH16sizedBox,
+                                Container(
+                                  width: width - 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                                    color: cPrimaryTint4Color,
+                                    border: Border.all(width: 1, color: cPrimaryTint1Color),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(k16Padding),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          ksPayoutAccountInfo.tr,
+                                          style: semiBold16TextStyle(cBlackColor),
+                                        ),
+                                        kH12sizedBox,
+                                        Text(
+                                          ksCountry.tr,
+                                          style: semiBold14TextStyle(cBlackColor),
+                                        ),
+                                        kH4sizedBox,
+                                        Text(
+                                          "Bangladesh",
+                                          style: regular12TextStyle(cBlackColor),
+                                        ),
+                                        kH12sizedBox,
+                                        Text(
+                                          ksBusinessPhoneNumber.tr,
+                                          style: semiBold14TextStyle(cBlackColor),
+                                        ),
+                                        kH4sizedBox,
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "01642318836",
+                                              style: regular12TextStyle(cBlackColor),
+                                            ),
+                                            kW4sizedBox,
+                                            Container(
+                                              width: 4,
+                                              height: 4,
+                                              decoration: const BoxDecoration(
+                                                color: cIconColor,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                            kW4sizedBox,
+                                            Text(
+                                              ksVerified.tr,
+                                              style: regular14TextStyle(cGreenColor),
+                                            ),
+                                          ],
+                                        ),
+                                        kH12sizedBox,
+                                        Text(
+                                          ksEmailAddress.tr,
+                                          style: semiBold14TextStyle(cBlackColor),
+                                        ),
+                                        kH4sizedBox,
+                                        Text(
+                                          "genieuiux@gmail.com",
+                                          style: regular12TextStyle(cBlackColor),
+                                        ),
+                                        kH20sizedBox,
+                                        CustomElevatedButton(
+                                          buttonWidth: 80,
+                                          buttonHeight: h32,
+                                          label: ksUpdate.tr,
+                                          onPressed: () {},
+                                          prefixIcon: BipHip.edit,
+                                          prefixIconColor: cWhiteColor,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                        ],
+                          ),
+                        ),
                       ),
+                    kH20sizedBox,
                   ],
                 ),
               ),
@@ -339,6 +583,235 @@ class EmptyViewContainer extends StatelessWidget {
       child: EmptyView(
         title: titleText,
         titleTextStyle: titleTextStyle ?? semiBold16TextStyle(cBlackColor),
+      ),
+    );
+  }
+}
+
+class PayoutCommonContainer extends StatelessWidget {
+  const PayoutCommonContainer({super.key, this.containerWidth, required this.titleText, required this.subtitleText, this.containerOnPressed});
+  final double? containerWidth;
+  final String titleText, subtitleText;
+  final VoidCallback? containerOnPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: containerOnPressed,
+      child: Container(
+        width: containerWidth ?? width - 40,
+        decoration: BoxDecoration(
+          color: cPrimaryTint4Color,
+          border: Border.all(width: 1, color: cLineColor2),
+          borderRadius: BorderRadius.circular(k4BorderRadius),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(k8Padding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                titleText,
+                style: semiBold16TextStyle(cBlackColor),
+              ),
+              kH4sizedBox,
+              Text(
+                subtitleText,
+                style: regular12TextStyle(cPlaceHolderColor),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AddPayoutMethodBottomSheetContent extends StatelessWidget {
+  const AddPayoutMethodBottomSheetContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        PayoutCommonContainer(
+          titleText: ksManualLinkBankAccount.tr,
+          subtitleText: ksEnterYourBankAccountInfo.tr,
+          containerOnPressed: () {},
+        ),
+        kH12sizedBox,
+        PayoutCommonContainer(
+          titleText: ksLinkYourPaypalAccount.tr,
+          subtitleText: ksLinkYourPaypalAccountToReceiveMoney.tr,
+          containerOnPressed: () {},
+        ),
+        kH12sizedBox,
+        PayoutCommonContainer(
+          titleText: ksAddMobileBanking.tr,
+          subtitleText: ksAddYourAvailableMobileBanking.tr,
+          containerOnPressed: () {},
+        ),
+        kH12sizedBox,
+        PayoutCommonContainer(
+          titleText: ksAddCrypto.tr,
+          subtitleText: ksToReceiveMoneyDirectlyToYourCryptoWallet.tr,
+          containerOnPressed: () {},
+        ),
+        kH12sizedBox,
+        PayoutCommonContainer(
+          titleText: ksAddDebitOrCreditCard.tr,
+          subtitleText: ksToReceiveMoneyDirectlyToYourDebitOrCreditCard.tr,
+          containerOnPressed: () {},
+        ),
+      ],
+    );
+  }
+}
+
+class DashboardPayoutSettingContentContainer extends StatelessWidget {
+  const DashboardPayoutSettingContentContainer(
+      {super.key, required this.statusText, required this.icon, required this.titleText, required this.statusTextStyle, required this.dateText});
+  final String statusText, titleText, dateText;
+  final IconData icon;
+  final TextStyle statusTextStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        color: cPrimaryTint4Color,
+        border: Border.all(width: 1, color: cPrimaryTint1Color),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(k16Padding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              titleText,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH12sizedBox,
+            Container(
+              decoration: BoxDecoration(
+                color: cWhiteColor,
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+                border: Border.all(width: 1, color: cLineColor2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(k4Padding),
+                child: Row(
+                  children: [
+                    Container(
+                      width: h44,
+                      height: h44,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cGreyBoxColor,
+                      ),
+                      child: Icon(
+                        icon,
+                        color: cIconColor,
+                        size: kIconSize20,
+                      ),
+                    ),
+                    kW8sizedBox,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            statusText,
+                            style: statusTextStyle,
+                            overflow: TextOverflow.clip,
+                          ),
+                          kW4sizedBox,
+                          Container(
+                            width: 4,
+                            height: 4,
+                            decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
+                          ),
+                          kW4sizedBox,
+                          Expanded(
+                            child: Text(
+                              dateText,
+                              style: regular14TextStyle(cBlackColor),
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Expanded(
+                    //   child: Row(
+                    //     children: [
+                    //       Text(
+                    //         statusText,
+                    //         style: statusTextStyle,
+                    //       ),
+                    //       kW4sizedBox,
+                    //       Container(
+                    //         width: 4,
+                    //         height: 4,
+                    //         decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
+                    //       ),
+                    //       kW4sizedBox,
+                    //       Text(
+                    //         dateText,
+                    //         style: regular14TextStyle(cBlackColor),
+                    //         overflow: TextOverflow.clip,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class DashboardPayoutSettingCommonContainer extends StatelessWidget {
+  const DashboardPayoutSettingCommonContainer({super.key, required this.prefixIcon, required this.titleText, this.buttonOnPressed});
+  final IconData prefixIcon;
+  final String titleText;
+  final VoidCallback? buttonOnPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(k8BorderRadius),
+        color: cPrimaryTint4Color,
+        border: Border.all(width: 1, color: cPrimaryTint1Color),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: k16Padding),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              titleText,
+              style: semiBold16TextStyle(cBlackColor),
+            ),
+            kH16sizedBox,
+            CustomElevatedButton(
+                buttonWidth: 68,
+                buttonHeight: h32,
+                prefixIconSize: kIconSize16,
+                label: ksAdd.tr,
+                prefixIcon: prefixIcon,
+                prefixIconColor: cWhiteColor,
+                textStyle: semiBold12TextStyle(cWhiteColor),
+                onPressed: buttonOnPressed),
+          ],
+        ),
       ),
     );
   }
