@@ -658,7 +658,10 @@ class AddPayoutMethodBottomSheetContent extends StatelessWidget {
         PayoutCommonContainer(
           titleText: ksAddCrypto.tr,
           subtitleText: ksToReceiveMoneyDirectlyToYourCryptoWallet.tr,
-          containerOnPressed: () {},
+          containerOnPressed: () {
+            Get.back();
+            Get.toNamed(krPayoutAddCrypto);
+          },
         ),
         kH12sizedBox,
         PayoutCommonContainer(

@@ -766,4 +766,6 @@ class DashboardController extends GetxController {
   final TextEditingController swiftCodeTextEditingController = TextEditingController();
   final TextEditingController accountNumberTextEditingController = TextEditingController();
   final TextEditingController routingNumberTextEditingController = TextEditingController();
+  final TextEditingController cryptoAmountTextEditingController = TextEditingController();
+  final TextEditingController cryptoAccountNumberTextEditingController = TextEditingController();
 }

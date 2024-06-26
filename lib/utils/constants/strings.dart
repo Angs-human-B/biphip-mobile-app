@@ -877,3 +877,4 @@ const String ksAccountHolderName = "Account holder name";
 const String ksSWIFTCode = "SWIFT Code";
 const String ksAccountNumber = "Account Number";
 const String ksRoutingNumber = "Routing Number";
+const String ksWriteCryptoAccountInfo = "Write crypto account info";
