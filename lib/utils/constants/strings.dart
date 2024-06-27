@@ -904,3 +904,6 @@ const String ksStudentIdBackPage = "Student Id Back Page";
 const String ksStudentIdVerification = "Student Id Verification";
 const String ksName = "Name";
 const String ksStudentIdFrontPage = "Student Id Front Page";
+const String ksTaxInfo = "Tax Info";
+const String ksStatus = "Status";
+const String ksBankAccount = "Bank account";

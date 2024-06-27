@@ -743,8 +743,8 @@ class DashboardController extends GetxController {
 
   final TextEditingController payoutWithdrawTextEditingController = TextEditingController();
   final RxBool isdashboardPayoutWithdraw = RxBool(false);
-  final RxString payoutTaxInformationStatus = RxString("");
-  final RxString payoutPassportStatus = RxString("");
+  final RxString payoutTaxInformationStatus = RxString("Verified");
+  final RxString payoutPassportStatus = RxString("Verified");
   final RxList payoutBankAccountList = RxList([
     {"accountName": "Wahid Murad", "bankName": "Brac Bank"},
     {"accountName": "Wahid Murad", "bankName": "Ab Bank"},
@@ -812,6 +812,7 @@ class DashboardController extends GetxController {
   final RxString temporarySelectedSchool = RxString("");
   final RxString selectedSchool = RxString("");
   final RxBool payoutStudentSchoolRightButtonState = RxBool(false);
+  final RxString payoutTypeView = RxString("");
   final RxList schoolList =
       RxList(["RAJUK Uttara Model College", "Stride International School", "LORDS-An English Medium School, Dhaka", "BAF Shaheen College Dhaka"]);
 }

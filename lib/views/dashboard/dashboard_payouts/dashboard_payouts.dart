@@ -254,44 +254,50 @@ class DashboardPayouts extends StatelessWidget {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 itemCount: dashboardController.payoutBankAccountList.length,
                                                 itemBuilder: (context, index) {
-                                                  return Container(
-                                                    decoration: BoxDecoration(
-                                                      color: cWhiteColor,
-                                                      borderRadius: BorderRadius.circular(k4BorderRadius),
-                                                      border: Border.all(color: cLineColor2, width: 1),
-                                                    ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(k4Padding),
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                              width: h44,
-                                                              height: h44,
-                                                              decoration: const BoxDecoration(
-                                                                color: cGreyBoxColor,
-                                                                shape: BoxShape.circle,
-                                                              ),
-                                                              child: const Icon(
-                                                                BipHip.badgesOutline,
-                                                                size: kIconSize20,
-                                                                color: cIconColor,
-                                                              )),
-                                                          kW8sizedBox,
-                                                          Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                dashboardController.payoutBankAccountList[index]["accountName"],
-                                                                style: regular14TextStyle(cBlackColor),
-                                                              ),
-                                                              kH4sizedBox,
-                                                              Text(
-                                                                dashboardController.payoutBankAccountList[index]["bankName"],
-                                                                style: regular14TextStyle(cBlackColor),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      dashboardController.payoutTypeView.value = "Bank Account";
+                                                      Get.toNamed(krPayoutBankAccountTaxPassportInfoView);
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: cWhiteColor,
+                                                        borderRadius: BorderRadius.circular(k4BorderRadius),
+                                                        border: Border.all(color: cLineColor2, width: 1),
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.all(k4Padding),
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                                width: h44,
+                                                                height: h44,
+                                                                decoration: const BoxDecoration(
+                                                                  color: cGreyBoxColor,
+                                                                  shape: BoxShape.circle,
+                                                                ),
+                                                                child: const Icon(
+                                                                  BipHip.badgesOutline,
+                                                                  size: kIconSize20,
+                                                                  color: cIconColor,
+                                                                )),
+                                                            kW8sizedBox,
+                                                            Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                  dashboardController.payoutBankAccountList[index]["accountName"],
+                                                                  style: regular14TextStyle(cBlackColor),
+                                                                ),
+                                                                kH4sizedBox,
+                                                                Text(
+                                                                  dashboardController.payoutBankAccountList[index]["bankName"],
+                                                                  style: regular14TextStyle(cBlackColor),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   );
@@ -310,7 +316,7 @@ class DashboardPayouts extends StatelessWidget {
                                                     Get.find<GlobalController>().commonBottomSheet(
                                                         context: context,
                                                         bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
-                                                        content: AddPayoutMethodBottomSheetContent(),
+                                                        content: const AddPayoutMethodBottomSheetContent(),
                                                         onPressCloseButton: () {
                                                           Get.back();
                                                         },
@@ -342,6 +348,10 @@ class DashboardPayouts extends StatelessWidget {
                                         titleText: ksTaxInformation.tr,
                                         dateText: "Updated 8 Aug 2023",
                                         statusTextStyle: regular14TextStyle(cGreenColor),
+                                        containerOnPressed: () {
+                                          dashboardController.payoutTypeView.value = "Tax";
+                                          Get.toNamed(krPayoutBankAccountTaxPassportInfoView);
+                                        },
                                       ),
                                 kH16sizedBox,
                                 dashboardController.payoutPassportStatus.value == ""
@@ -372,6 +382,10 @@ class DashboardPayouts extends StatelessWidget {
                                         titleText: ksPassportVerification.tr,
                                         dateText: "Submitted on 8 Aug 2024.",
                                         statusTextStyle: regular14TextStyle(cSecondaryColor),
+                                        containerOnPressed: () {
+                                          dashboardController.payoutTypeView.value = "Passport"; //*Passport,NID, Student Id
+                                          Get.toNamed(krPayoutBankAccountTaxPassportInfoView);
+                                        },
                                       ),
                                 kH16sizedBox,
                                 Container(
@@ -735,106 +749,116 @@ class AddPassportNidStudentIdBottomSheetContent extends StatelessWidget {
 
 class DashboardPayoutSettingContentContainer extends StatelessWidget {
   const DashboardPayoutSettingContentContainer(
-      {super.key, required this.statusText, required this.icon, required this.titleText, required this.statusTextStyle, required this.dateText});
+      {super.key,
+      required this.statusText,
+      required this.icon,
+      required this.titleText,
+      required this.statusTextStyle,
+      required this.dateText,
+      this.containerOnPressed});
   final String statusText, titleText, dateText;
   final IconData icon;
   final TextStyle statusTextStyle;
+  final VoidCallback? containerOnPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width - 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        color: cPrimaryTint4Color,
-        border: Border.all(width: 1, color: cPrimaryTint1Color),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(k16Padding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              titleText,
-              style: semiBold16TextStyle(cBlackColor),
-            ),
-            kH12sizedBox,
-            Container(
-              decoration: BoxDecoration(
-                color: cWhiteColor,
-                borderRadius: BorderRadius.circular(k4BorderRadius),
-                border: Border.all(width: 1, color: cLineColor2),
+    return InkWell(
+      onTap: containerOnPressed,
+      child: Container(
+        width: width - 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(k8BorderRadius),
+          color: cPrimaryTint4Color,
+          border: Border.all(width: 1, color: cPrimaryTint1Color),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(k16Padding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                titleText,
+                style: semiBold16TextStyle(cBlackColor),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(k4Padding),
-                child: Row(
-                  children: [
-                    Container(
-                      width: h44,
-                      height: h44,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cGreyBoxColor,
+              kH12sizedBox,
+              Container(
+                decoration: BoxDecoration(
+                  color: cWhiteColor,
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                  border: Border.all(width: 1, color: cLineColor2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(k4Padding),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: h44,
+                        height: h44,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cGreyBoxColor,
+                        ),
+                        child: Icon(
+                          icon,
+                          color: cIconColor,
+                          size: kIconSize20,
+                        ),
                       ),
-                      child: Icon(
-                        icon,
-                        color: cIconColor,
-                        size: kIconSize20,
-                      ),
-                    ),
-                    kW8sizedBox,
-                    Expanded(
-                      child: Row(
-                        children: [
-                          Text(
-                            statusText,
-                            style: statusTextStyle,
-                            overflow: TextOverflow.clip,
-                          ),
-                          kW4sizedBox,
-                          Container(
-                            width: 4,
-                            height: 4,
-                            decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
-                          ),
-                          kW4sizedBox,
-                          Expanded(
-                            child: Text(
-                              dateText,
-                              style: regular14TextStyle(cBlackColor),
+                      kW8sizedBox,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              statusText,
+                              style: statusTextStyle,
                               overflow: TextOverflow.clip,
                             ),
-                          ),
-                        ],
+                            kW4sizedBox,
+                            Container(
+                              width: 4,
+                              height: 4,
+                              decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
+                            ),
+                            kW4sizedBox,
+                            Expanded(
+                              child: Text(
+                                dateText,
+                                style: regular14TextStyle(cBlackColor),
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    // Expanded(
-                    //   child: Row(
-                    //     children: [
-                    //       Text(
-                    //         statusText,
-                    //         style: statusTextStyle,
-                    //       ),
-                    //       kW4sizedBox,
-                    //       Container(
-                    //         width: 4,
-                    //         height: 4,
-                    //         decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
-                    //       ),
-                    //       kW4sizedBox,
-                    //       Text(
-                    //         dateText,
-                    //         style: regular14TextStyle(cBlackColor),
-                    //         overflow: TextOverflow.clip,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                  ],
+                      // Expanded(
+                      //   child: Row(
+                      //     children: [
+                      //       Text(
+                      //         statusText,
+                      //         style: statusTextStyle,
+                      //       ),
+                      //       kW4sizedBox,
+                      //       Container(
+                      //         width: 4,
+                      //         height: 4,
+                      //         decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
+                      //       ),
+                      //       kW4sizedBox,
+                      //       Text(
+                      //         dateText,
+                      //         style: regular14TextStyle(cBlackColor),
+                      //         overflow: TextOverflow.clip,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
