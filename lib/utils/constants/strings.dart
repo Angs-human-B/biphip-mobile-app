@@ -907,3 +907,7 @@ const String ksStudentIdFrontPage = "Student Id Front Page";
 const String ksTaxInfo = "Tax Info";
 const String ksStatus = "Status";
 const String ksBankAccount = "Bank account";
+const String ksEnterBusinessInfo = "Enter business info";
+const String ksUpdateYourBusinessInformationToVerify = "Update your business information to verify your payouts section on your account";
+const String ksPhoneNumber = "Phone number";
+const String ksVatOrGstRegistrationNumber = "VAT/GST registration number (Optional)";

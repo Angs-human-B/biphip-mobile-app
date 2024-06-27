@@ -815,4 +815,11 @@ class DashboardController extends GetxController {
   final RxString payoutTypeView = RxString("");
   final RxList schoolList =
       RxList(["RAJUK Uttara Model College", "Stride International School", "LORDS-An English Medium School, Dhaka", "BAF Shaheen College Dhaka"]);
+  final RxList businessTypeList = RxList(["Electronics", "Gadget", "Cloth", "Shoe"]);
+    final RxString temporarySelectedBusinessType = RxString("");
+  final RxString selectedBusinessType= RxString("");
+    final RxBool payoutBusinessTypeRightButtonState = RxBool(false);
+    final TextEditingController payoutBusinessPhoneNumberTextEditingController = TextEditingController();
+    final TextEditingController payoutBusinessEmailTextEditingController = TextEditingController();
+    final TextEditingController payoutBusinessVatGstTextEditingController = TextEditingController();
 }

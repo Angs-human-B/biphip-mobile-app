@@ -179,6 +179,7 @@ class PayoutStudentIdVerification extends StatelessWidget {
                           borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
                         ),
                       ),
+                      
                       kH8sizedBox,
                       Text(
                         ksUploadStudentIdFrontAndBackImage.tr,
