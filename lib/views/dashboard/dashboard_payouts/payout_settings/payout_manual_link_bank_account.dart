@@ -97,7 +97,8 @@ class PayoutManualLinkBankAccount extends StatelessWidget {
                         ),
                       ),
                     ),
-                    kH16sizedBox,
+                   
+                   kH16sizedBox,
                     CustomModifiedTextField(
                       hint: ksAccountHolderName.tr,
                       fillColor: cWhiteColor,

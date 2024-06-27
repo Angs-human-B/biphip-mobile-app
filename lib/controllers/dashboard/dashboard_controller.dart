@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
@@ -775,5 +777,12 @@ class DashboardController extends GetxController {
   final TextEditingController cardExpirationDateTextEditingController = TextEditingController();
   final TextEditingController cardCVVTextEditingController = TextEditingController();
   final TextEditingController billingAddressTextEditingController = TextEditingController();
+
+  final TextEditingController nameTextEditingController = TextEditingController();
+  final TextEditingController taxIdTextEditingController = TextEditingController();
+
+    final RxString tinImageLink = RxString('');
+  final Rx<File> tinImageFile = File('').obs;
+  final RxBool isTinImageChanged = RxBool(false);
 
 }

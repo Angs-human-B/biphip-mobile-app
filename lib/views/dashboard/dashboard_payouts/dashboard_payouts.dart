@@ -332,7 +332,9 @@ class DashboardPayouts extends StatelessWidget {
                                     ? DashboardPayoutSettingCommonContainer(
                                         prefixIcon: BipHip.add_1,
                                         titleText: "$ksNoTaxInformationAddedYet!",
-                                        buttonOnPressed: () {},
+                                        buttonOnPressed: () {
+                                          Get.toNamed(krPayoutTaxInfo);
+                                        },
                                       )
                                     : DashboardPayoutSettingContentContainer(
                                         icon: BipHip.badgesFill,
@@ -340,6 +342,7 @@ class DashboardPayouts extends StatelessWidget {
                                         titleText: ksTaxInformation.tr,
                                         dateText: "Updated 8 Aug 2023",
                                         statusTextStyle: regular14TextStyle(cGreenColor),
+                                        
                                       ),
                                 kH16sizedBox,
                                 dashboardController.payoutPassportStatus.value == ""
