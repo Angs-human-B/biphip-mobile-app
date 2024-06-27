@@ -276,6 +276,7 @@ class PayoutPassportVerification extends StatelessWidget {
                         label: ksAdd.tr,
                         onPressed: () {
                           unFocus(context);
+                          Get.back();
                         },
                         textStyle: semiBold16TextStyle(cWhiteColor),
                       ),
@@ -287,7 +288,6 @@ class PayoutPassportVerification extends StatelessWidget {
             ),
           ),
         ),
-     
       ),
     );
   }

@@ -752,7 +752,7 @@ class DashboardController extends GetxController {
   final RxString temporarySelectedCountry = RxString("");
   final RxString selectedCountry = RxString("");
   final RxBool dashboardPayoutCountryRightButtonState = RxBool(false);
-  final RxList countryList = RxList(["Bangladesh", "Argentina", "Bhutan", "Nepal", "Japan", "Chine", "Palestine"]);
+  final RxList countryList = RxList(["Bangladesh", "Argentina", "Bhutan", "Nepal", "Japan", "China", "Palestine"]);
   final RxList withdrawHistoryList = RxList([
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},
     {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 300, "availableAmount": 20},
@@ -801,4 +801,17 @@ class DashboardController extends GetxController {
   final RxString nidBackImageLink = RxString('');
   final Rx<File> nidBackImageFile = File('').obs;
   final RxBool isNidBackImageChanged = RxBool(false);
+  //*Student Id
+  final TextEditingController studentIdTextEditingController = TextEditingController();
+  final RxString studentIdFrontImageLink = RxString('');
+  final Rx<File> studentIdFrontImageFile = File('').obs;
+  final RxBool isStudentIdFrontImageChanged = RxBool(false);
+  final RxString studentIdBackImageLink = RxString('');
+  final Rx<File> studentIdBackImageFile = File('').obs;
+  final RxBool isStudentIdBackImageChanged = RxBool(false);
+  final RxString temporarySelectedSchool = RxString("");
+  final RxString selectedSchool = RxString("");
+  final RxBool payoutStudentSchoolRightButtonState = RxBool(false);
+  final RxList schoolList =
+      RxList(["RAJUK Uttara Model College", "Stride International School", "LORDS-An English Medium School, Dhaka", "BAF Shaheen College Dhaka"]);
 }

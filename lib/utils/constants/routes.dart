@@ -35,6 +35,7 @@ import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_manual_link_bank_account.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_nid_verification.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_passport_verification.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_student_id_verification.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_tax_info.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
@@ -317,6 +318,7 @@ const String krMessages = "/messages";
  const String krPayoutTaxInfo = "/payout-tax-info";
  const String krPayoutPassportVerification = "/payout-passport-verification";
  const String krPayoutNidVerification = "/payout-nid-verification";
+ const String krPayoutStudentIdVerification = "/payout-student-id-verification";
 
 
 List<GetPage<dynamic>>? routes = [
@@ -496,5 +498,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krPayoutTaxInfo, page: () => PayoutTaxInfo(), transition: Transition.noTransition),
   GetPage(name: krPayoutPassportVerification, page: () => PayoutPassportVerification(), transition: Transition.noTransition),
   GetPage(name: krPayoutNidVerification, page: () => PayoutNidVerification(), transition: Transition.noTransition),
+  GetPage(name: krPayoutStudentIdVerification, page: () => PayoutStudentIdVerification(), transition: Transition.noTransition),
 
 ];
