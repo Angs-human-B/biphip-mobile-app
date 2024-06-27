@@ -28,6 +28,17 @@ import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dar
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
 import 'package:bip_hip/views/dashboard/dashboard_page.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payout_withdraw.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payouts.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_add_crypto.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_add_debit_card.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_business_info.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_manual_link_bank_account.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_nid_verification.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_passport_verification.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_student_id_verification.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_tax_info.dart';
+import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_bankaccount_tax_passport_info_view.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star_history.dart';
 import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
@@ -300,6 +311,19 @@ const String krMessages = "/messages";
  const String krDashboardAllAwards = "/dashboard-all-awards";
  const String krDashboardPerformance = "/dashboard-performance";
  const String krDashboardQuiz = "/dashboard-quiz";
+ const String krDashboardPayout = "/dashboard-payout";
+ const String krDshboardPayoutWithdraw = "/dashboard-payout-withdraw";
+ //* payout settings
+ const String krPayoutManualLinkBankAccount = "/payout-manual-link-bank-account";
+ const String krPayoutAddCrypto = "/payout-add-crypto";
+ const String krPayoutAddDebitCard = "/payout-add-debit-card";
+ const String krPayoutTaxInfo = "/payout-tax-info";
+ const String krPayoutPassportVerification = "/payout-passport-verification";
+ const String krPayoutNidVerification = "/payout-nid-verification";
+ const String krPayoutStudentIdVerification = "/payout-student-id-verification";
+ const String krPayoutBankAccountTaxPassportInfoView = "/payout-tax-info-view";
+ const String krPayoutBusinessInfo = "/payout-business-info";
+
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -450,6 +474,7 @@ List<GetPage<dynamic>>? routes = [
 
   //*Dashboard
   GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
+  //*Dashboard payouts
   GetPage(name: krDashboardOverview, page: () => DashboardOverview(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverviewContent, page: () => DashboardOverviewContent(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverviewAudience, page: () => DashboardOverviewAudience(), transition: Transition.noTransition),
@@ -468,5 +493,17 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDashboardAllAwards, page: () => DashboardAllAwards(), transition: Transition.noTransition),
   GetPage(name: krDashboardPerformance, page: () => DashboardPerformance(), transition: Transition.noTransition),
   GetPage(name: krDashboardQuiz, page: () => DashboardQuiz(), transition: Transition.noTransition),
+  GetPage(name: krDashboardPayout, page: () => DashboardPayouts(), transition: Transition.noTransition),
+  GetPage(name: krDshboardPayoutWithdraw, page: () => DashboardPayoutWithdraw(), transition: Transition.noTransition),
+  //* payout settings
+  GetPage(name: krPayoutManualLinkBankAccount, page: () => PayoutManualLinkBankAccount(), transition: Transition.noTransition),
+  GetPage(name: krPayoutAddCrypto, page: () => PayoutAddCrypto(), transition: Transition.noTransition),
+  GetPage(name: krPayoutAddDebitCard, page: () => PayoutAddDebitCard(), transition: Transition.noTransition),
+  GetPage(name: krPayoutTaxInfo, page: () => PayoutTaxInfo(), transition: Transition.noTransition),
+  GetPage(name: krPayoutPassportVerification, page: () => PayoutPassportVerification(), transition: Transition.noTransition),
+  GetPage(name: krPayoutNidVerification, page: () => PayoutNidVerification(), transition: Transition.noTransition),
+  GetPage(name: krPayoutStudentIdVerification, page: () => PayoutStudentIdVerification(), transition: Transition.noTransition),
+  GetPage(name: krPayoutBankAccountTaxPassportInfoView, page: () => PayoutBankAccountTaxPassportInfoView(), transition: Transition.noTransition),
+  GetPage(name: krPayoutBusinessInfo, page: () => PayoutBusinessInfo(), transition: Transition.noTransition),
 
 ];

@@ -84,9 +84,9 @@ class DashBoardPage extends StatelessWidget {
                 Row(
                   children: [
                     CustomElevatedButton(
-                      label: ksDashboard.tr,
+                      label: ksPayouts.tr,
                       onPressed: () {
-                        Get.toNamed(krDashboardOverview);
+                        Get.toNamed(krDashboardPayout);
                       },
                       buttonColor: cWhiteColor,
                       borderColor: cLineColor,
