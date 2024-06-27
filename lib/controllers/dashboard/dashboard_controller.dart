@@ -793,4 +793,12 @@ class DashboardController extends GetxController {
   final RxString passportImageLink = RxString('');
   final Rx<File> passportImageFile = File('').obs;
   final RxBool isPassportImageChanged = RxBool(false);
+  //*Nid
+  final TextEditingController nidNumberTextEditingController = TextEditingController();
+  final RxString nidFrontImageLink = RxString('');
+  final Rx<File> nidFrontImageFile = File('').obs;
+  final RxBool isNidFrontImageChanged = RxBool(false);
+  final RxString nidBackImageLink = RxString('');
+  final Rx<File> nidBackImageFile = File('').obs;
+  final RxBool isNidBackImageChanged = RxBool(false);
 }

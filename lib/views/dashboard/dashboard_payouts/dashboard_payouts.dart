@@ -714,7 +714,10 @@ class AddPassportNidStudentIdBottomSheetContent extends StatelessWidget {
         PayoutCommonContainer(
           titleText: ksNID.tr,
           subtitleText: "${ksAddYourNIDInformation.tr}.",
-          containerOnPressed: () {},
+          containerOnPressed: () {
+            Get.back();
+             Get.toNamed(krPayoutNidVerification);
+          },
         ),
         kH12sizedBox,
         PayoutCommonContainer(
