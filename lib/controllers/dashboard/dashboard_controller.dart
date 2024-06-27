@@ -780,9 +780,17 @@ class DashboardController extends GetxController {
 
   final TextEditingController nameTextEditingController = TextEditingController();
   final TextEditingController taxIdTextEditingController = TextEditingController();
+  final TextEditingController firstNameTextEditingController = TextEditingController();
+  final TextEditingController lastNameTextEditingController = TextEditingController();
+  final TextEditingController passportNumberTextEditingController = TextEditingController();
+  final TextEditingController passportIssueDateTextEditingController = TextEditingController();
+  final TextEditingController passportEndDateTextEditingController = TextEditingController();
 
     final RxString tinImageLink = RxString('');
   final Rx<File> tinImageFile = File('').obs;
   final RxBool isTinImageChanged = RxBool(false);
+    final RxString passportImageLink = RxString('');
+  final Rx<File> passportImageFile = File('').obs;
+  final RxBool isPassportImageChanged = RxBool(false);
 
 }

@@ -342,14 +342,29 @@ class DashboardPayouts extends StatelessWidget {
                                         titleText: ksTaxInformation.tr,
                                         dateText: "Updated 8 Aug 2023",
                                         statusTextStyle: regular14TextStyle(cGreenColor),
-                                        
                                       ),
                                 kH16sizedBox,
                                 dashboardController.payoutPassportStatus.value == ""
                                     ? DashboardPayoutSettingCommonContainer(
                                         prefixIcon: BipHip.add_1,
                                         titleText: "$ksNoPassportOrNidOrStudentIdAddedYet!",
-                                        buttonOnPressed: () {},
+                                        buttonOnPressed: () {
+                                          Get.find<GlobalController>().commonBottomSheet(
+                                              context: context,
+                                              bottomSheetHeight: isDeviceScreenLarge() ? height * 0.35 : height * 0.45,
+                                              content: const AddPassportNidStudentIdBottomSheetContent(),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "",
+                                              rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+                                              title: ksAddPayoutMethod.tr,
+                                              isRightButtonShow: false,
+                                              isBottomSheetRightButtonActive: false.obs);
+                                        },
                                       )
                                     : DashboardPayoutSettingContentContainer(
                                         icon: BipHip.badgesFill,
@@ -674,6 +689,38 @@ class AddPayoutMethodBottomSheetContent extends StatelessWidget {
             Get.back();
             Get.toNamed(krPayoutAddDebitCard);
           },
+        ),
+      ],
+    );
+  }
+}
+
+class AddPassportNidStudentIdBottomSheetContent extends StatelessWidget {
+  const AddPassportNidStudentIdBottomSheetContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        PayoutCommonContainer(
+          titleText: ksPassport.tr,
+          subtitleText: "${ksAddYourPassportInformation.tr}.",
+          containerOnPressed: () {
+            Get.back();
+            Get.toNamed(krPayoutPassportVerification);
+          },
+        ),
+        kH12sizedBox,
+        PayoutCommonContainer(
+          titleText: ksNID.tr,
+          subtitleText: "${ksAddYourNIDInformation.tr}.",
+          containerOnPressed: () {},
+        ),
+        kH12sizedBox,
+        PayoutCommonContainer(
+          titleText: ksStudentId.tr,
+          subtitleText: "${ksAddYourStudentIdInformation.tr}.",
+          containerOnPressed: () {},
         ),
       ],
     );
