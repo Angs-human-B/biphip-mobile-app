@@ -200,7 +200,7 @@ class DashboardOverview extends StatelessWidget {
                                 postCount: dashboardController.dashboardOverviewContentList[index].details?.countComment
                                     .toString(), //!post count data not available from api
                                 engagementCount: dashboardController.dashboardOverviewContentList[index].engagement.toString(),
-                                giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(),
+                                giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(),//!Gift count missing
                               );
                             },
                           ),
