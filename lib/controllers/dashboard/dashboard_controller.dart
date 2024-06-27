@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/dashboard/dashboard_audience_insight_bt_city_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_audience_insight_by_country_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
@@ -920,6 +921,39 @@ class DashboardController extends GetxController {
     } catch (e) {
       isDashboardAudienceInsightsByCountryLoading.value = true;
       ll('getDashboardAudienceInsightByCountry error: $e');
+    }
+  }
+
+  //*Dashboard Audience Insights by country Api Call
+  final Rx<DashboardAudienceInsightByCityModel?> dashboardAudienceInsightByCityData = Rx<DashboardAudienceInsightByCityModel?>(null);
+  final RxList<City> dashboardAudienceInsightByCotyList = RxList<City>([]);
+  final RxBool isDashboardAudienceInsightsByCityLoading = RxBool(false);
+  Future<void> getDashboardAudienceInsightByCity() async {
+    try {
+      isDashboardAudienceInsightsByCityLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardAudienceInsightByCity,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardAudienceInsightByCotyList.clear();
+        dashboardAudienceInsightByCityData.value = DashboardAudienceInsightByCityModel.fromJson(response.data);
+        dashboardAudienceInsightByCotyList.addAll(dashboardAudienceInsightByCityData.value!.cities!);
+        isDashboardAudienceInsightsByCityLoading.value = false;
+      } else {
+        isDashboardAudienceInsightsByCityLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardAudienceInsightsByCityLoading.value = true;
+      ll('getDashboardAudienceInsightByCity error: $e');
     }
   }
 }

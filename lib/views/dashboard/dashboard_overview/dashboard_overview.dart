@@ -225,6 +225,7 @@ class DashboardOverview extends StatelessWidget {
                                   InkWell(
                                       onTap: () async {
                                         await dashboardController.getDashboardAudienceInsightByCountry();
+                                        await dashboardController.getDashboardAudienceInsightByCity();
                                         Get.toNamed(krDashboardOverviewAudience);
                                       },
                                       child: Text(
@@ -245,74 +246,65 @@ class DashboardOverview extends StatelessWidget {
                       ),
                     ),
                   if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
-                    SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: k20Padding),
-                        child: Row(
-                          children: [
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Container(
-                                    width: (width - 40) / 1.2,
-                                    height: 264,
-                                    decoration: BoxDecoration(
-                                      color: cWhiteColor,
-                                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: cLineColor,
-                                          blurRadius: 3,
-                                          spreadRadius: 0,
-                                          offset: Offset(
-                                            0,
-                                            1,
-                                          ), // Shadow position
-                                        ),
-                                      ],
-                                    ),
-                                    child: const DashboardAgeGenderChart())),
-                            kW8sizedBox,
-                            Container(
-                                width: (width - 40) / 1.2,
-                                height: 264,
-                                decoration: BoxDecoration(
-                                  color: cWhiteColor,
-                                  borderRadius: BorderRadius.circular(k8BorderRadius),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: cLineColor,
-                                      blurRadius: 3,
-                                      spreadRadius: 0,
-                                      offset: Offset(
-                                        0,
-                                        1,
-                                      ), // Shadow position
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
-                                      child: Text(
-                                        ksTopCities.tr,
-                                        style: semiBold16TextStyle(cBlackColor),
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: k12Padding, right: k12Padding),
-                                      child: DashboardTopCitiesChart(),
-                                    ),
-                                  ],
-                                )),
-                            kW8sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Container(
+                          width: width - 40,
+                          decoration: BoxDecoration(
+                            color: cWhiteColor,
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: cLineColor,
+                                blurRadius: 3,
+                                spreadRadius: 0,
+                                offset: Offset(
+                                  0,
+                                  1,
+                                ), // Shadow position
+                              ),
+                            ],
+                          ),
+                          child: const DashboardAgeGenderChart()),
+                    ),
+                  kH16sizedBox,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                    child: Container(
+                        width: width - 40,
+                        decoration: BoxDecoration(
+                          color: cWhiteColor,
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: cLineColor,
+                              blurRadius: 3,
+                              spreadRadius: 0,
+                              offset: Offset(
+                                0,
+                                1,
+                              ), // Shadow position
+                            ),
                           ],
                         ),
-                      ),
-                    ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
+                              child: Text(
+                                ksTopCities.tr,
+                                style: semiBold16TextStyle(cBlackColor),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(k12Padding),
+                              child: DashboardTopCitiesChart(),
+                            ),
+                          ],
+                        )),
+                  ),
+                  kH20sizedBox,
                   if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -1221,13 +1213,15 @@ class DashboardAgeGenderChart extends StatelessWidget {
 }
 
 class DashboardTopCitiesChart extends StatelessWidget {
-  const DashboardTopCitiesChart({super.key,});
+  const DashboardTopCitiesChart({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () {
-        var topCitiesList = Get.find<DashboardController>().topCitiesList;
+        var topCitiesList = Get.find<DashboardController>().dashboardAudienceInsightByCotyList;
         return Column(
           children: topCitiesList.map((data) {
             return Row(
@@ -1239,7 +1233,7 @@ class DashboardTopCitiesChart extends StatelessWidget {
                     children: [
                       kH12sizedBox,
                       Text(
-                        data.country!,
+                        data.city!,
                         style: regular12TextStyle(cBlackColor),
                       ),
                       kH4sizedBox,
@@ -1271,13 +1265,8 @@ class DashboardTopCitiesChart extends StatelessWidget {
         );
       },
     );
-  
   }
 }
-
-
-
-
 
 // class DashboardTopCountriesChart extends StatelessWidget {
 //   const DashboardTopCountriesChart({super.key, this.percentWidth, this.percentColor});
