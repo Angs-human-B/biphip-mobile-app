@@ -27,58 +27,60 @@ class PayoutAddCrypto extends StatelessWidget {
             ),
           ),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-              child: Column(
-                children: [
-                  kH16sizedBox,
-                  Text(
-                    ksAddCrypto.tr,
-                    style: semiBold18TextStyle(cBlackColor),
-                  ),
-                  kH4sizedBox,
-                  Text(
-                    ksToReceiveMoneyDirectlyToYourCryptoWallet.tr,
-                    style: regular14TextStyle(cSmallBodyTextColor),
-                  ),
-                  kH16sizedBox,
-                  const CustomDivider(),
-                  kH16sizedBox,
-                  CustomModifiedTextField(
-                    hint: "USDT (BEP20)", //!Change it
-                    fillColor: cWhiteColor,
-                    controller: dashboardController.cryptoAmountTextEditingController,
-                    inputType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    contentPadding: const EdgeInsets.all(k12Padding),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(k4BorderRadius),
-                      borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
+            child: SizedBox(
+              height: height - (kAppBarSize + MediaQuery.of(context).padding.top + MediaQuery.of(context).padding.bottom),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                child: Column(
+                  children: [
+                    kH16sizedBox,
+                    Text(
+                      ksAddCrypto.tr,
+                      style: semiBold18TextStyle(cBlackColor),
                     ),
-                  ),
-                  kH8sizedBox,
-                  CustomModifiedTextField(
-                    hint: ksWriteCryptoAccountInfo.tr, //!Change it
-                    fillColor: cWhiteColor,
-                    controller: dashboardController.cryptoAccountNumberTextEditingController,
-                    inputType: TextInputType.text,
-                    contentPadding: const EdgeInsets.all(k12Padding),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(k4BorderRadius),
-                      borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
+                    kH4sizedBox,
+                    Text(
+                      ksToReceiveMoneyDirectlyToYourCryptoWallet.tr,
+                      style: regular14TextStyle(cSmallBodyTextColor),
                     ),
-                  ),
-                  // const Spacer(),
-                  kH100sizedBox,
-                  CustomElevatedButton(
-                      buttonWidth: width - 40,
-                      buttonHeight: h32,
-                      buttonColor: cPrimaryColor,
-                      textStyle: semiBold16TextStyle(cWhiteColor),
-                      label: ksAdd,
-                      onPressed: () {}),
-                  kH20sizedBox,
-                ],
+                    kH16sizedBox,
+                    const CustomDivider(),
+                    kH16sizedBox,
+                    CustomModifiedTextField(
+                      hint: "USDT (BEP20)", //!Change it
+                      fillColor: cWhiteColor,
+                      controller: dashboardController.cryptoAmountTextEditingController,
+                      inputType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      contentPadding: const EdgeInsets.all(k12Padding),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(k4BorderRadius),
+                        borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
+                      ),
+                    ),
+                    kH8sizedBox,
+                    CustomModifiedTextField(
+                      hint: ksWriteCryptoAccountInfo.tr, //!Change it
+                      fillColor: cWhiteColor,
+                      controller: dashboardController.cryptoAccountNumberTextEditingController,
+                      inputType: TextInputType.text,
+                      contentPadding: const EdgeInsets.all(k12Padding),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(k4BorderRadius),
+                        borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
+                      ),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    CustomElevatedButton(
+                        buttonWidth: width - 40,
+                        buttonHeight: h32,
+                        buttonColor: cPrimaryColor,
+                        textStyle: semiBold16TextStyle(cWhiteColor),
+                        label: ksAdd,
+                        onPressed: () {}),
+                    kH20sizedBox,
+                  ],
+                ),
               ),
             ),
           ),
