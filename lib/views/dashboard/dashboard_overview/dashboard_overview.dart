@@ -51,10 +51,10 @@ class DashboardOverview extends StatelessWidget {
                                 isSelected: (dashboardController.dashboardOverviewSelectedFilterIndex.value == index),
                                 onSelected: (value) async {
                                   dashboardController.dashboardOverviewSelectedFilterIndex.value = index;
-                                  if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1) {
-                                    // await Get.find<DashboardController>().getDashboardContents();
-                                    await Get.find<DashboardController>().getDashboardProfileOverview();
-                                  }
+                                  // if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1) {
+                                  //   // await Get.find<DashboardController>().getDashboardContents();
+                                  //   await Get.find<DashboardController>().getDashboardProfileOverview();
+                                  // }
                                   dashboardController.dashboardOverviewSelectedFilterValue.value = dashboardController.dashboardOverviewFilterList[index];
                                 },
                               ),
@@ -200,7 +200,7 @@ class DashboardOverview extends StatelessWidget {
                                 postCount: dashboardController.dashboardOverviewContentList[index].details?.countComment
                                     .toString(), //!post count data not available from api
                                 engagementCount: dashboardController.dashboardOverviewContentList[index].engagement.toString(),
-                                giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(),//!Gift count missing
+                                giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(), //!Gift count missing
                               );
                             },
                           ),
@@ -223,7 +223,8 @@ class DashboardOverview extends StatelessWidget {
                                     iconOnPressed: null,
                                   ),
                                   InkWell(
-                                      onTap: () {
+                                      onTap: () async {
+                                        await dashboardController.getDashboardAudienceInsightByCountry();
                                         Get.toNamed(krDashboardOverviewAudience);
                                       },
                                       child: Text(
@@ -378,7 +379,7 @@ class DashboardOverview extends StatelessWidget {
                                   height: 88,
                                   titleText: ksReach.tr,
                                   totalValue: dashboardController.dashboardProfileOverviewData.value!.postReach.toString(),
-                                  percentValue: "+39%",
+                                  percentValue: "+39%", //! post reachPercent value missing
                                   filterText: dashboardController.dashboardOverviewTime.value,
                                   percentTextColor: cGreenColor,
                                 ),
@@ -387,9 +388,9 @@ class DashboardOverview extends StatelessWidget {
                                   width: (width - 48) / 2,
                                   height: 88,
                                   titleText: ksContentPublished.tr,
-                                  totalValue: "0",
+                                  totalValue: dashboardController.dashboardProfileOverviewData.value!.gifts.toString(), //!published content data missing in api
                                   percentValue: "+0%",
-                                  filterText: dashboardController.dashboardProfileOverviewData.value!.gifts.toString(), //!published content data missing in api
+                                  filterText: ksLast28Days.tr,
                                   percentTextColor: cGreenColor,
                                 ),
                                 kW8sizedBox,
@@ -397,9 +398,9 @@ class DashboardOverview extends StatelessWidget {
                                   width: (width - 48) / 2,
                                   height: 88,
                                   titleText: ksEngagement.tr,
-                                  totalValue: "1,250",
-                                  percentValue: "+350%",
-                                  filterText: dashboardController.dashboardProfileOverviewData.value!.postEngagement.toString(),
+                                  totalValue: dashboardController.dashboardProfileOverviewData.value!.postEngagement.toString(),
+                                  percentValue: "+350%", //!percent value missing
+                                  filterText: ksLast28Days.tr,
                                   percentTextColor: cGreenColor,
                                 ),
                                 kW8sizedBox,
@@ -1220,117 +1221,174 @@ class DashboardAgeGenderChart extends StatelessWidget {
 }
 
 class DashboardTopCitiesChart extends StatelessWidget {
-  const DashboardTopCitiesChart({super.key, this.percentWidth, this.percentColor});
-  final double? percentWidth;
-  final Color? percentColor;
+  const DashboardTopCitiesChart({super.key,});
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Column(
-        children: Get.find<DashboardController>().topCitiesList.map((data) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kH12sizedBox,
-                    Text(
-                      data['cityName'],
-                      style: regular12TextStyle(cBlackColor),
-                    ),
-                    kH4sizedBox,
-                    SizedBox(
-                      width: percentWidth ?? 100,
-                      child: Row(
+      () {
+        var topCitiesList = Get.find<DashboardController>().topCitiesList;
+        return Column(
+          children: topCitiesList.map((data) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kH12sizedBox,
+                      Text(
+                        data.country!,
+                        style: regular12TextStyle(cBlackColor),
+                      ),
+                      kH4sizedBox,
+                      Row(
                         children: [
-                          Expanded(
-                            flex: (data['percent'] * 10).toInt(),
-                            child: Container(
-                              height: h8,
-                              decoration: BoxDecoration(
-                                color: percentColor ?? cPrimaryColor,
-                                borderRadius: BorderRadius.circular(k20BorderRadius),
-                              ),
+                          Container(
+                            height: h8,
+                            width: (width - 75) * (data.audience! / 100).toDouble(),
+                            decoration: BoxDecoration(
+                              color: cPrimaryColor,
+                              borderRadius: BorderRadius.circular(k20BorderRadius),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: k20Padding),
-                child: Text(
-                  "${data["percent"].toString()}%",
-                  style: regular12TextStyle(cBlackColor),
+                Padding(
+                  padding: const EdgeInsets.only(top: k20Padding),
+                  child: Text(
+                    "${data.audience.toString()}%",
+                    style: regular12TextStyle(cBlackColor),
+                  ),
                 ),
-              ),
-            ],
-          );
-        }).toList(),
-      ),
+              ],
+            );
+          }).toList(),
+        );
+      },
     );
+  
   }
 }
 
+
+
+
+
+// class DashboardTopCountriesChart extends StatelessWidget {
+//   const DashboardTopCountriesChart({super.key, this.percentWidth, this.percentColor});
+//   final double? percentWidth;
+//   final Color? percentColor;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(
+//       () => Column(
+//         children: Get.find<DashboardController>().topCountriesList.map((data) {
+//           return Row(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             children: [
+//               Expanded(
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     kH12sizedBox,
+//                     Text(
+//                       data['countryName'],
+//                       style: regular12TextStyle(cBlackColor),
+//                     ),
+//                     kH4sizedBox,
+//                     SizedBox(
+//                       width: percentWidth ?? 100,
+//                       child: Row(
+//                         children: [
+//                           Expanded(
+//                             flex: (data['percent'] * 10).toInt(),
+//                             child: Container(
+//                               height: h8,
+//                               decoration: BoxDecoration(
+//                                 color: percentColor ?? cPrimaryColor,
+//                                 borderRadius: BorderRadius.circular(k20BorderRadius),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.only(top: k20Padding),
+//                 child: Text(
+//                   "${data["percent"].toString()}%",
+//                   style: regular12TextStyle(cBlackColor),
+//                 ),
+//               ),
+//             ],
+//           );
+//         }).toList(),
+//       ),
+//     );
+//   }
+// }
+
 class DashboardTopCountriesChart extends StatelessWidget {
-  const DashboardTopCountriesChart({super.key, this.percentWidth, this.percentColor});
-  final double? percentWidth;
-  final Color? percentColor;
+  const DashboardTopCountriesChart({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Column(
-        children: Get.find<DashboardController>().topCountriesList.map((data) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    kH12sizedBox,
-                    Text(
-                      data['countryName'],
-                      style: regular12TextStyle(cBlackColor),
-                    ),
-                    kH4sizedBox,
-                    SizedBox(
-                      width: percentWidth ?? 100,
-                      child: Row(
+      () {
+        var topCountriesList = Get.find<DashboardController>().dashboardAudienceInsightByCountryList;
+        return Column(
+          children: topCountriesList.map((data) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      kH12sizedBox,
+                      Text(
+                        data.country!,
+                        style: regular12TextStyle(cBlackColor),
+                      ),
+                      kH4sizedBox,
+                      Row(
                         children: [
-                          Expanded(
-                            flex: (data['percent'] * 10).toInt(),
-                            child: Container(
-                              height: h8,
-                              decoration: BoxDecoration(
-                                color: percentColor ?? cPrimaryColor,
-                                borderRadius: BorderRadius.circular(k20BorderRadius),
-                              ),
+                          Container(
+                            height: h8,
+                            width: (width - 75) * (data.audience! / 100).toDouble(),
+                            decoration: BoxDecoration(
+                              color: cPrimaryColor,
+                              borderRadius: BorderRadius.circular(k20BorderRadius),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: k20Padding),
-                child: Text(
-                  "${data["percent"].toString()}%",
-                  style: regular12TextStyle(cBlackColor),
+                Padding(
+                  padding: const EdgeInsets.only(top: k20Padding),
+                  child: Text(
+                    "${data.audience.toString()}%",
+                    style: regular12TextStyle(cBlackColor),
+                  ),
                 ),
-              ),
-            ],
-          );
-        }).toList(),
-      ),
+              ],
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

@@ -94,10 +94,7 @@ class DashboardOverviewAudience extends StatelessWidget {
                       decoration: const BoxDecoration(
                         color: cWhiteColor,
                       ),
-                      child: const DashboardTopCountriesChart(
-                        percentColor: cPrimaryColor,
-                        percentWidth: 70,
-                      )),
+                      child: const DashboardTopCountriesChart()),
                   kH40sizedBox,
                   DashboardOverviewCommonRowTextIcon(
                     titleText: ksTopCities.tr,
@@ -110,8 +107,6 @@ class DashboardOverviewAudience extends StatelessWidget {
                         color: cWhiteColor,
                       ),
                       child: const DashboardTopCitiesChart(
-                        percentColor: cPrimaryColor,
-                        percentWidth: 70,
                       )),
                   kH16sizedBox,
                 ],

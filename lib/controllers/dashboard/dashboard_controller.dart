@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/dashboard/dashboard_audience_insight_by_country_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
@@ -886,6 +887,39 @@ class DashboardController extends GetxController {
     } catch (e) {
       isDashboardOverviewLoading.value = true;
       ll('getDashboardOverview error: $e');
+    }
+  }
+
+  //*Dashboard Audience Insights by country Api Call
+  final Rx<DashboardAudienceInsightByCountriesModel?> dashboardAudienceInsightByCountryData = Rx<DashboardAudienceInsightByCountriesModel?>(null);
+  final RxList<Country> dashboardAudienceInsightByCountryList = RxList<Country>([]);
+  final RxBool isDashboardAudienceInsightsByCountryLoading = RxBool(false);
+  Future<void> getDashboardAudienceInsightByCountry() async {
+    try {
+      isDashboardAudienceInsightsByCountryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardAudienceInsightByCountry,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardAudienceInsightByCountryList.clear();
+        dashboardAudienceInsightByCountryData.value = DashboardAudienceInsightByCountriesModel.fromJson(response.data);
+        dashboardAudienceInsightByCountryList.addAll(dashboardAudienceInsightByCountryData.value!.countries!);
+        isDashboardAudienceInsightsByCountryLoading.value = false;
+      } else {
+        isDashboardAudienceInsightsByCountryLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardAudienceInsightsByCountryLoading.value = true;
+      ll('getDashboardAudienceInsightByCountry error: $e');
     }
   }
 }

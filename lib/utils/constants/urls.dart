@@ -270,6 +270,7 @@ const String kuDashboardStarInsight = "/mobile/dashboard/star-insight";
 const String kuDashboardGiftInsight = "/mobile/dashboard/gift-insight";
 const String kuDashboardGiftEarnedPost = "/mobile/dashboard/gift-earned-posts";
 const String kuDashboardOverview = "/mobile/dashboard/overview";
+const String kuDashboardAudienceInsightByCountry = "/mobile/dashboard/audience-insight-by-country";
 
 /*
 |--------------------------------------------------------------------------
