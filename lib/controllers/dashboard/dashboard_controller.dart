@@ -752,7 +752,7 @@ class DashboardController extends GetxController {
   final RxString temporarySelectedCountry = RxString("");
   final RxString selectedCountry = RxString("");
   final RxBool dashboardPayoutCountryRightButtonState = RxBool(false);
-  final RxList countryList = RxList(["Bangladesh","Argentina","Bhutan","Nepal","Japan","Chine","Palestine"]);
+  final RxList countryList = RxList(["Bangladesh", "Argentina", "Bhutan", "Nepal", "Japan", "Chine", "Palestine"]);
   final RxList withdrawHistoryList = RxList([
     {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},
     {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 300, "availableAmount": 20},
@@ -777,20 +777,20 @@ class DashboardController extends GetxController {
   final TextEditingController cardExpirationDateTextEditingController = TextEditingController();
   final TextEditingController cardCVVTextEditingController = TextEditingController();
   final TextEditingController billingAddressTextEditingController = TextEditingController();
-
+  //*Tax
   final TextEditingController nameTextEditingController = TextEditingController();
   final TextEditingController taxIdTextEditingController = TextEditingController();
+
+  final RxString tinImageLink = RxString('');
+  final Rx<File> tinImageFile = File('').obs;
+  final RxBool isTinImageChanged = RxBool(false);
+  //*Passport
   final TextEditingController firstNameTextEditingController = TextEditingController();
   final TextEditingController lastNameTextEditingController = TextEditingController();
   final TextEditingController passportNumberTextEditingController = TextEditingController();
   final TextEditingController passportIssueDateTextEditingController = TextEditingController();
   final TextEditingController passportEndDateTextEditingController = TextEditingController();
-
-    final RxString tinImageLink = RxString('');
-  final Rx<File> tinImageFile = File('').obs;
-  final RxBool isTinImageChanged = RxBool(false);
-    final RxString passportImageLink = RxString('');
+  final RxString passportImageLink = RxString('');
   final Rx<File> passportImageFile = File('').obs;
   final RxBool isPassportImageChanged = RxBool(false);
-
 }

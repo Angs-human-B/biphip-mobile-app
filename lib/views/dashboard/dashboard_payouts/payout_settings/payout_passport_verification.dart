@@ -261,6 +261,10 @@ class PayoutPassportVerification extends StatelessWidget {
                                       ksUploadImage,
                                       style: semiBold16TextStyle(cPrimaryColor),
                                     ),
+                                    Text(
+                                      ksFileSize10MBLimit,
+                                      style: regular12TextStyle(cSmallBodyTextColor),
+                                    ),
                                   ],
                                 ),
                               ),
