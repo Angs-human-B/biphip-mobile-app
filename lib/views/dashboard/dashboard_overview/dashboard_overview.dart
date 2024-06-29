@@ -597,7 +597,9 @@ class DashboardOverview extends StatelessWidget {
                                 iconColor: cPrimaryColor,
                                 titleText: ksPayouts.tr,
                                 subTitleText: ksLearnAboutTheAward.tr,
-                                toolsOnPressed: () {},
+                                toolsOnPressed: () {
+                                  Get.toNamed(krDashboardPayout);
+                                },
                               ),
                               kH12sizedBox,
                               DashboardToolsContainer(
