@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:intl/intl.dart';
 
@@ -89,7 +90,6 @@ class DashboardGift extends StatelessWidget {
                     children: [
                       DashboardCommonContainer(
                         width: (width - 48) / 2,
-                        height: 88,
                         titleText: ksMyGiftBalance.tr,
                         totalValue: dashboardController.dashboardGiftInsightData.value!.myGiftBalance.toString(),
                         filterText: dashboardController.selectedQuizTimeRangeValue.value,
@@ -98,7 +98,6 @@ class DashboardGift extends StatelessWidget {
                       kW8sizedBox,
                       DashboardCommonContainer(
                         width: (width - 48) / 2,
-                        height: 88,
                         titleText: ksGrowthStatics.tr,
                         totalValue: dashboardController.dashboardGiftInsightData.value!.growthStatics!.amount.toString(),
                         percentValue: dashboardController.dashboardGiftInsightData.value!.growthStatics!.incdec.toString(),
@@ -311,77 +310,6 @@ class DashboardGiftContentContainer extends StatelessWidget {
     );
   }
 }
-
-class DashboardCommonContainer extends StatelessWidget {
-  const DashboardCommonContainer(
-      {super.key,
-      this.width,
-      this.height,
-      required this.titleText,
-      required this.totalValue,
-      this.percentValue,
-      required this.filterText,
-      this.percentTextColor});
-  final double? width, height;
-  final String titleText, totalValue, filterText;
-  final String? percentValue;
-  final Color? percentTextColor;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: cWhiteColor,
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        boxShadow: const [
-          BoxShadow(
-            color: cLineColor,
-            blurRadius: 3,
-            spreadRadius: 0,
-            offset: Offset(
-              0,
-              1,
-            ), // Shadow position
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(k12Padding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              titleText,
-              style: regular14TextStyle(cBlackColor),
-            ),
-            kH4sizedBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  totalValue,
-                  style: semiBold18TextStyle(cBlackColor),
-                ),
-                kW4sizedBox,
-                if (percentValue != null)
-                  Text(
-                    "${percentValue!}%",
-                    style: regular14TextStyle(percentTextColor ?? cBlackColor),
-                  ),
-              ],
-            ),
-            Text(
-              filterText,
-              style: regular10TextStyle(cSmallBodyTextColor),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class QuizTimeFilterBottomSheetContent extends StatelessWidget {
   QuizTimeFilterBottomSheetContent({super.key});
   final DashboardController dashboardController = Get.find<DashboardController>();

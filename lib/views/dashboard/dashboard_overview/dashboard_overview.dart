@@ -112,7 +112,6 @@ class DashboardOverview extends StatelessWidget {
                             children: [
                               DashboardCommonContainer(
                                 width: (width - 48) / 2,
-                                height: 88,
                                 titleText: ksReach.tr,
                                 totalValue: dashboardController.dashboardOverviewData.value?.postReach.toString() ?? ksNA.tr,
                                 percentValue: "+39%", //!Percent value missing from api
@@ -122,7 +121,6 @@ class DashboardOverview extends StatelessWidget {
                               kW8sizedBox,
                               DashboardCommonContainer(
                                 width: (width - 48) / 2,
-                                height: 88,
                                 titleText: ksContentPublished.tr,
                                 totalValue: dashboardController.dashboardOverviewData.value?.postEngagement.toString() ??
                                     ksNA.tr, //!published content count value missing in api
@@ -138,7 +136,6 @@ class DashboardOverview extends StatelessWidget {
                             children: [
                               DashboardCommonContainer(
                                 width: (width - 48) / 2,
-                                height: 88,
                                 titleText: ksEngagement.tr,
                                 totalValue: dashboardController.dashboardOverviewData.value?.postEngagement.toString() ?? ksNA.tr,
                                 percentValue: "+350%", //!Percent value missing from api
@@ -148,7 +145,6 @@ class DashboardOverview extends StatelessWidget {
                               kW8sizedBox,
                               DashboardCommonContainer(
                                 width: (width - 48) / 2,
-                                height: 88,
                                 titleText: ksNetFollowers.tr,
                                 totalValue: dashboardController.dashboardOverviewData.value?.newFollowers.toString() ?? ksNA.tr,
                                 percentValue: "+12%", //!Percent value missing from api
@@ -911,7 +907,7 @@ class DashboardCommonContainer extends StatelessWidget {
               titleText ?? ksNA.tr,
               style: regular14TextStyle(cBlackColor),
             ),
-            kH4sizedBox,
+            kH8sizedBox,
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
