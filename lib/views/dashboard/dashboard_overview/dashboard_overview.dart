@@ -246,65 +246,69 @@ class DashboardOverview extends StatelessWidget {
                       ),
                     ),
                   if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 0)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                      child: Container(
-                          width: width - 40,
-                          decoration: BoxDecoration(
-                            color: cWhiteColor,
-                            borderRadius: BorderRadius.circular(k8BorderRadius),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: cLineColor,
-                                blurRadius: 3,
-                                spreadRadius: 0,
-                                offset: Offset(
-                                  0,
-                                  1,
-                                ), // Shadow position
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: Container(
+                              width: width - 40,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor,
+                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: cLineColor,
+                                    blurRadius: 3,
+                                    spreadRadius: 0,
+                                    offset: Offset(
+                                      0,
+                                      1,
+                                    ), // Shadow position
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          child: const DashboardAgeGenderChart()),
-                    ),
-                  kH16sizedBox,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Container(
-                        width: width - 40,
-                        decoration: BoxDecoration(
-                          color: cWhiteColor,
-                          borderRadius: BorderRadius.circular(k8BorderRadius),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: cLineColor,
-                              blurRadius: 3,
-                              spreadRadius: 0,
-                              offset: Offset(
-                                0,
-                                1,
-                              ), // Shadow position
-                            ),
-                          ],
+                              child: const DashboardAgeGenderChart()),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
-                              child: Text(
-                                ksTopCities.tr,
-                                style: semiBold16TextStyle(cBlackColor),
+                        kH16sizedBox,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                          child: Container(
+                              width: width - 40,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor,
+                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: cLineColor,
+                                    blurRadius: 3,
+                                    spreadRadius: 0,
+                                    offset: Offset(
+                                      0,
+                                      1,
+                                    ), // Shadow position
+                                  ),
+                                ],
                               ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(k12Padding),
-                              child: DashboardTopCitiesChart(),
-                            ),
-                          ],
-                        )),
-                  ),
-                  kH20sizedBox,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: k12Padding, top: k12Padding),
+                                    child: Text(
+                                      ksTopCities.tr,
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.all(k12Padding),
+                                    child: DashboardTopCitiesChart(),
+                                  ),
+                                ],
+                              )),
+                        ),
+                        kH20sizedBox,
+                      ],
+                    ),
                   if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
