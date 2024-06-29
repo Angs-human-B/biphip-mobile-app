@@ -51,10 +51,10 @@ class DashboardOverview extends StatelessWidget {
                                 isSelected: (dashboardController.dashboardOverviewSelectedFilterIndex.value == index),
                                 onSelected: (value) async {
                                   dashboardController.dashboardOverviewSelectedFilterIndex.value = index;
-                                  // if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1) {
-                                  //   // await Get.find<DashboardController>().getDashboardContents();
-                                  //   await Get.find<DashboardController>().getDashboardProfileOverview();
-                                  // }
+                                  if (dashboardController.dashboardOverviewSelectedFilterIndex.value == 1) {
+                                    //   // await Get.find<DashboardController>().getDashboardContents();
+                                    await dashboardController.getDashboardProfileOverview();
+                                  }
                                   dashboardController.dashboardOverviewSelectedFilterValue.value = dashboardController.dashboardOverviewFilterList[index];
                                 },
                               ),
@@ -369,7 +369,7 @@ class DashboardOverview extends StatelessWidget {
                                   width: (width - 48) / 2,
                                   height: 88,
                                   titleText: ksReach.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value!.postReach.toString(),
+                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.postReach.toString(),
                                   percentValue: "+39%", //! post reachPercent value missing
                                   filterText: dashboardController.dashboardOverviewTime.value,
                                   percentTextColor: cGreenColor,
@@ -379,7 +379,7 @@ class DashboardOverview extends StatelessWidget {
                                   width: (width - 48) / 2,
                                   height: 88,
                                   titleText: ksContentPublished.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value!.gifts.toString(), //!published content data missing in api
+                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.gifts.toString(), //!published content data missing in api
                                   percentValue: "+0%",
                                   filterText: ksLast28Days.tr,
                                   percentTextColor: cGreenColor,
@@ -389,7 +389,7 @@ class DashboardOverview extends StatelessWidget {
                                   width: (width - 48) / 2,
                                   height: 88,
                                   titleText: ksEngagement.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value!.postEngagement.toString(),
+                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.postEngagement.toString(),
                                   percentValue: "+350%", //!percent value missing
                                   filterText: ksLast28Days.tr,
                                   percentTextColor: cGreenColor,
@@ -399,7 +399,7 @@ class DashboardOverview extends StatelessWidget {
                                   width: (width - 48) / 2,
                                   height: 88,
                                   titleText: ksNetFollowers.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value!.newProfileFollowers.toString(),
+                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.newProfileFollowers.toString(),
                                   percentValue: "+12%",
                                   filterText: dashboardController.dashboardOverviewTime.value,
                                   percentTextColor: cGreenColor,

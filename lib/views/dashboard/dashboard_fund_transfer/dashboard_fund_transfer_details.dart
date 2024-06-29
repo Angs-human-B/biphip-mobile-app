@@ -353,6 +353,7 @@ class DashboardFundTransferDetails extends StatelessWidget {
                                   ),
                                 ],
                               );
+                          
                             }),
                       ],
                     ),

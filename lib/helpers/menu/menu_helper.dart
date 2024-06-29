@@ -86,7 +86,7 @@ class MenuHelper {
       case 12:
         Get.find<DashboardController>().dashboardOverviewSelectedFilterIndex.value = 0;
         await Get.find<DashboardController>().getDashboardOverview();
-        await Get.find<DashboardController>().getDashboardProfileOverview();
+        // await Get.find<DashboardController>().getDashboardProfileOverview();
         await Get.find<DashboardController>().getDashboardAudienceInsightByCity();
         Get.toNamed(krDashboardOverview);
         break;

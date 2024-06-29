@@ -110,31 +110,51 @@ class DashboardStarHistory extends StatelessWidget {
                                 style: semiBold18TextStyle(cBlackColor),
                               ),
                               kH16sizedBox,
-                              Row(
-                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // Row(
+                              //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       ksDate.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 100,
+                              //     ),
+                              //     Text(
+                              //       ksPackage.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     const SizedBox(
+                              //       width: 48,
+                              //     ),
+                              //     Text(
+                              //       ksStarAmount.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     kW8sizedBox,
+                              //     Text(
+                              //       ksPrice.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //   ],
+                              // ),
+
+                              Table(
+                                border: TableBorder.all(width: 0, color: cTransparentColor),
+                                columnWidths: const {
+                                  0: FlexColumnWidth(2.5),
+                                  1: FlexColumnWidth(2.5),
+                                  2: FlexColumnWidth(2.5),
+                                  3: FlexColumnWidth(1),
+                                },
                                 children: [
-                                  Text(
-                                    ksDate.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  const SizedBox(
-                                    width: 100,
-                                  ),
-                                  Text(
-                                    ksPackage.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  const SizedBox(
-                                    width: 48,
-                                  ),
-                                  Text(
-                                    ksStarAmount.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  kW8sizedBox,
-                                  Text(
-                                    ksPrice.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
+                                  TableRow(
+                                    children: [
+                                      Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksPackage.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksStarAmount.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksPrice.tr, style: semiBold14TextStyle(cBlackColor)),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -145,12 +165,53 @@ class DashboardStarHistory extends StatelessWidget {
                                 itemCount: dashboardController.starPurchaseHistoryList.length,
                                 separatorBuilder: (context, index) => kH16sizedBox,
                                 itemBuilder: (context, index) {
-                                  return StarPurchaseAndGiftContent(
-                                    date: dashboardController.starPurchaseHistoryList[index]["date"],
-                                    packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                                    packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
-                                    packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
-                                    price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                                  // return StarPurchaseAndGiftContent(
+                                  //   date: dashboardController.starPurchaseHistoryList[index]["date"],
+                                  //   packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
+                                  //   packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
+                                  //   packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
+                                  //   price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                                  // );
+                                  return Table(
+                                    // defaultVerticalAlignment: ,
+                                    border: TableBorder.all(width: 0, color: cTransparentColor),
+                                    columnWidths: const {
+                                      0: FlexColumnWidth(2.5),
+                                      1: FlexColumnWidth(2.5),
+                                      2: FlexColumnWidth(2.5),
+                                      3: FlexColumnWidth(1),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          Text(dashboardController.starPurchaseHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                dashboardController.starPurchaseHistoryList[index]["packageIcon"],
+                                                size: kIconSize12,
+                                                color: cAmberColor,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  dashboardController.starPurchaseHistoryList[index]["packageName"],
+                                                  style: regular12TextStyle(cBlackColor),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
+                                            style: regular12TextStyle(cBlackColor),
+                                          ),
+                                          Text(
+                                            dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                                            style: regular12TextStyle(cBlackColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   );
                                 },
                               ),
@@ -165,29 +226,50 @@ class DashboardStarHistory extends StatelessWidget {
                                 style: semiBold18TextStyle(cBlackColor),
                               ),
                               kH16sizedBox,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       ksDate.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     kW20sizedBox,
+                              //     Text(
+                              //       ksPackage.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     Text(
+                              //       ksGift.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     Text(
+                              //       ksPrice.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //     Text(
+                              //       ksPost.tr,
+                              //       style: semiBold14TextStyle(cBlackColor),
+                              //     ),
+                              //   ],
+                              // ),
+                              Table(
+                                border: TableBorder.all(width: 0, color: cTransparentColor),
+                                columnWidths: const {
+                                  0: FlexColumnWidth(2.5),
+                                  1: FlexColumnWidth(2.5),
+                                  2: FlexColumnWidth(2),
+                                  3: FlexColumnWidth(1.5),
+                                  4: FlexColumnWidth(1),
+                                },
                                 children: [
-                                  Text(
-                                    ksDate.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  kW20sizedBox,
-                                  Text(
-                                    ksPackage.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  Text(
-                                    ksGift.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  Text(
-                                    ksPrice.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
-                                  ),
-                                  Text(
-                                    ksPost.tr,
-                                    style: semiBold14TextStyle(cBlackColor),
+                                  TableRow(
+                                    children: [
+                                      Text(ksDate.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksPackage.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksGift.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksPrice.tr, style: semiBold14TextStyle(cBlackColor)),
+                                      Text(ksPost.tr, style: semiBold14TextStyle(cBlackColor)),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -198,13 +280,50 @@ class DashboardStarHistory extends StatelessWidget {
                                 itemCount: dashboardController.starPurchaseHistoryList.length,
                                 separatorBuilder: (context, index) => kH16sizedBox,
                                 itemBuilder: (context, index) {
-                                  return StarPurchaseAndGiftDetailsContent(
-                                    date: dashboardController.starPurchaseHistoryList[index]["date"],
-                                    packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                                    packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
-                                    packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
-                                    price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
-                                    view: ksView.tr,
+                                  return Table(
+                                    border: TableBorder.all(width: 0, color: cTransparentColor),
+                                    columnWidths: const {
+                                      0: FlexColumnWidth(2.5),
+                                      1: FlexColumnWidth(2.5),
+                                      2: FlexColumnWidth(2),
+                                      3: FlexColumnWidth(1.5),
+                                      4: FlexColumnWidth(1),
+                                    },
+                                    children: [
+                                      TableRow(
+                                        children: [
+                                          Text(dashboardController.starGiftHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                dashboardController.starGiftHistoryList[index]["packageIcon"],
+                                                size: kIconSize12,
+                                                color: cAmberColor,
+                                              ),
+                                              Expanded(
+                                                child: Text(
+                                                  dashboardController.starGiftHistoryList[index]["packageName"],
+                                                  style: regular12TextStyle(cBlackColor),
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
+                                            style: regular12TextStyle(cBlackColor),
+                                          ),
+                                          Text(
+                                            dashboardController.starGiftHistoryList[index]["price"].toString(),
+                                            style: regular12TextStyle(cBlackColor),
+                                          ),
+                                          Text(
+                                            ksView.tr,
+                                            style: regular12TextStyle(cPrimaryColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   );
                                 },
                               ),

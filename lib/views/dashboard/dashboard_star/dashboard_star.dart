@@ -173,12 +173,58 @@ class DashboardStar extends StatelessWidget {
                     itemCount: dashboardController.starPurchaseHistoryList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
-                      return StarPurchaseAndGiftContent(
-                        date: dashboardController.starPurchaseHistoryList[index]["date"],
-                        packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                        packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
-                        packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
-                        price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                      // return StarPurchaseAndGiftContent(
+                      //   date: dashboardController.starPurchaseHistoryList[index]["date"],
+                      //   packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
+                      //   packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
+                      //   packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
+                      //   price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                      // );
+                      return Table(
+                        border: TableBorder.all(width: 0, color: cTransparentColor),
+                        columnWidths: const {
+                          0: FlexColumnWidth(2.3),
+                          1: FlexColumnWidth(0.5),
+                          2: FlexColumnWidth(3),
+                          3: FlexColumnWidth(2),
+                        },
+                        children: [
+                          TableRow(
+                            children: [
+                              Text(dashboardController.starPurchaseHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                              kW4sizedBox,
+                              Row(
+                                children: [
+                                  Icon(
+                                    dashboardController.starPurchaseHistoryList[index]["packageIcon"],
+                                    size: kIconSize12,
+                                    color: cAmberColor,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      dashboardController.starPurchaseHistoryList[index]["packageName"],
+                                      style: regular12TextStyle(cBlackColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
+                                style: regular12TextStyle(cBlackColor),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                                    style: regular12TextStyle(cBlackColor),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -209,13 +255,59 @@ class DashboardStar extends StatelessWidget {
                     itemCount: dashboardController.starGiftHistoryList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
-                      return StarPurchaseAndGiftContent(
-                        date: dashboardController.starGiftHistoryList[index]["date"],
-                        packageIcon: dashboardController.starGiftHistoryList[index]["packageIcon"],
-                        packageName: dashboardController.starGiftHistoryList[index]["packageName"],
-                        packageAmount: dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
-                        price: ksView.tr,
-                        lastTextColor: cPrimaryColor,
+                      // return StarPurchaseAndGiftContent(
+                      //   date: dashboardController.starGiftHistoryList[index]["date"],
+                      //   packageIcon: dashboardController.starGiftHistoryList[index]["packageIcon"],
+                      //   packageName: dashboardController.starGiftHistoryList[index]["packageName"],
+                      //   packageAmount: dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
+                      //   price: ksView.tr,
+                      //   lastTextColor: cPrimaryColor,
+                      // );
+                      return Table(
+                        border: TableBorder.all(width: 0, color: cTransparentColor),
+                        columnWidths: const {
+                          0: FlexColumnWidth(2.5),
+                          1: FlexColumnWidth(2.5),
+                          2: FlexColumnWidth(2),
+                          3: FlexColumnWidth(1.5),
+                          4: FlexColumnWidth(1),
+                        },
+                        children: [
+                          TableRow(
+                            children: [
+                              Text(dashboardController.starGiftHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                              Row(
+                                children: [
+                                  Icon(
+                                    dashboardController.starGiftHistoryList[index]["packageIcon"],
+                                    size: kIconSize12,
+                                    color: cAmberColor,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      dashboardController.starGiftHistoryList[index]["packageName"],
+                                      style: regular12TextStyle(cBlackColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
+                                style: regular12TextStyle(cBlackColor),
+                              ),
+                              Text(
+                                dashboardController.starGiftHistoryList[index]["price"].toString(),
+                                style: regular12TextStyle(cBlackColor),
+                              ),
+                              Text(
+                                ksView.tr,
+                                style: regular12TextStyle(cPrimaryColor),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -416,10 +508,10 @@ class StarGiftReport extends StatelessWidget {
                     interval: 2000,
                   ),
                 ),
-                topTitles: AxisTitles(
+                topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                rightTitles: AxisTitles(
+                rightTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
               ),
