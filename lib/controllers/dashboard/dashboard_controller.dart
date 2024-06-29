@@ -6,6 +6,8 @@ import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
+import 'dart:io';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
@@ -16,8 +18,8 @@ class DashboardController extends GetxController {
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
   final RxString selectedQuizTimeRangeValue = RxString("This Month");
-  // final RxBool selectPeopleBottomSheetRightButtonState = RxBool(false);
-  //  final RxList<bool> isPeopleSelected = RxList<bool>([]);
+// final RxBool selectPeopleBottomSheetRightButtonState = RxBool(false);
+//  final RxList<bool> isPeopleSelected = RxList<bool>([]);
   final List selectDateTimeFilterList = ["Today", "Yesterday", "This Week", "This Month", "This Year", "Custom"];
   final TextEditingController selectPeopleTextEditingController = TextEditingController();
   final TextEditingController fundTransferTextEditingController = TextEditingController();
@@ -513,7 +515,7 @@ class DashboardController extends GetxController {
     },
   ];
 
-  // List allAwardList = [];
+// List allAwardList = [];
   Color categoryIconColor(int index) {
     if (categoryFilterList[index]["id"] == 1) {
       return cPoetryColor;
@@ -956,4 +958,128 @@ class DashboardController extends GetxController {
       ll('getDashboardAudienceInsightByCity error: $e');
     }
   }
+  //! Payouts
+  final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
+  final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
+  final RxList payoutsTapButtonState = RxList([true, false, false]);
+  final RxList payoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
+  void payoutsOverviewTapableButtonOnPressed() async {
+    payoutsToggleType(0);
+    // await getQuestionList();
+  }
+
+  void payoutsTransectionsTapableButtonOnPressed() async {
+    payoutsToggleType(1);
+    // await getPlayedQuizesList();
+  }
+
+  void payoutsSettingsTapableButtonOnPressed() async {
+    payoutsToggleType(2);
+    // await getmyQuizWinnerList();
+  }
+
+  final RxBool isWithdrawReportAvailable = RxBool(true);
+  final RxBool isEarningReportAvailable = RxBool(true);
+
+  void payoutsToggleType(int index) {
+    switch (index) {
+      case 0:
+        payoutsTapButtonState[0] = true;
+        payoutsTapButtonState[1] = false;
+        payoutsTapButtonState[2] = false;
+        break;
+      case 1:
+        payoutsTapButtonState[0] = false;
+        payoutsTapButtonState[1] = true;
+        payoutsTapButtonState[2] = false;
+        break;
+      case 2:
+        payoutsTapButtonState[0] = false;
+        payoutsTapButtonState[1] = false;
+        payoutsTapButtonState[2] = true;
+        break;
+    }
+  }
+
+  final TextEditingController payoutWithdrawTextEditingController = TextEditingController();
+  final RxBool isdashboardPayoutWithdraw = RxBool(false);
+  final RxString payoutTaxInformationStatus = RxString("Verified");
+  final RxString payoutPassportStatus = RxString("Verified");
+  final RxList payoutBankAccountList = RxList([
+    {"accountName": "Wahid Murad", "bankName": "Brac Bank"},
+    {"accountName": "Wahid Murad", "bankName": "Ab Bank"},
+  ]);
+  final RxString temporarySelectedCountry = RxString("");
+  final RxString selectedCountry = RxString("");
+  final RxBool dashboardPayoutCountryRightButtonState = RxBool(false);
+  final RxList countryList = RxList(["Bangladesh", "Argentina", "Bhutan", "Nepal", "Japan", "China", "Palestine"]);
+  final RxList withdrawHistoryList = RxList([
+    {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 200, "availableAmount": 10},
+    {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 300, "availableAmount": 20},
+    {"date": "17/01/2024", "payment": "Cripto", "withdrawAmount": 400, "availableAmount": 30},
+    {"date": "17/01/2024", "payment": "Ab Bank", "withdrawAmount": 500, "availableAmount": 40},
+    {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 600, "availableAmount": 50},
+    {"date": "17/01/2024", "payment": "Brac Bank", "withdrawAmount": 700, "availableAmount": 60},
+    {"date": "17/01/2024", "payment": "Ab Bank", "withdrawAmount": 800, "availableAmount": 70},
+    {"date": "17/01/2024", "payment": "Cripto", "withdrawAmount": 900, "availableAmount": 80},
+    {"date": "17/01/2024", "payment": "Paypal", "withdrawAmount": 1000, "availableAmount": 90},
+  ]);
+  //*payout add manual link bank account
+  final TextEditingController accountHolderNameTextEditingController = TextEditingController();
+  final TextEditingController swiftCodeTextEditingController = TextEditingController();
+  final TextEditingController accountNumberTextEditingController = TextEditingController();
+  final TextEditingController routingNumberTextEditingController = TextEditingController();
+  //*payout crypto
+  final TextEditingController cryptoAmountTextEditingController = TextEditingController();
+  final TextEditingController cryptoAccountNumberTextEditingController = TextEditingController();
+  //*payout card
+  final TextEditingController cardNumberTextEditingController = TextEditingController();
+  final TextEditingController cardExpirationDateTextEditingController = TextEditingController();
+  final TextEditingController cardCVVTextEditingController = TextEditingController();
+  final TextEditingController billingAddressTextEditingController = TextEditingController();
+  //*Tax
+  final TextEditingController nameTextEditingController = TextEditingController();
+  final TextEditingController taxIdTextEditingController = TextEditingController();
+
+  final RxString tinImageLink = RxString('');
+  final Rx<File> tinImageFile = File('').obs;
+  final RxBool isTinImageChanged = RxBool(false);
+  //*Passport
+  final TextEditingController firstNameTextEditingController = TextEditingController();
+  final TextEditingController lastNameTextEditingController = TextEditingController();
+  final TextEditingController passportNumberTextEditingController = TextEditingController();
+  final TextEditingController passportIssueDateTextEditingController = TextEditingController();
+  final TextEditingController passportEndDateTextEditingController = TextEditingController();
+  final RxString passportImageLink = RxString('');
+  final Rx<File> passportImageFile = File('').obs;
+  final RxBool isPassportImageChanged = RxBool(false);
+  //*Nid
+  final TextEditingController nidNumberTextEditingController = TextEditingController();
+  final RxString nidFrontImageLink = RxString('');
+  final Rx<File> nidFrontImageFile = File('').obs;
+  final RxBool isNidFrontImageChanged = RxBool(false);
+  final RxString nidBackImageLink = RxString('');
+  final Rx<File> nidBackImageFile = File('').obs;
+  final RxBool isNidBackImageChanged = RxBool(false);
+  //*Student Id
+  final TextEditingController studentIdTextEditingController = TextEditingController();
+  final RxString studentIdFrontImageLink = RxString('');
+  final Rx<File> studentIdFrontImageFile = File('').obs;
+  final RxBool isStudentIdFrontImageChanged = RxBool(false);
+  final RxString studentIdBackImageLink = RxString('');
+  final Rx<File> studentIdBackImageFile = File('').obs;
+  final RxBool isStudentIdBackImageChanged = RxBool(false);
+  final RxString temporarySelectedSchool = RxString("");
+  final RxString selectedSchool = RxString("");
+  final RxBool payoutStudentSchoolRightButtonState = RxBool(false);
+  final RxString payoutTypeView = RxString("");
+  final RxList schoolList =
+      RxList(["RAJUK Uttara Model College", "Stride International School", "LORDS-An English Medium School, Dhaka", "BAF Shaheen College Dhaka"]);
+  final RxList businessTypeList = RxList(["Electronics", "Gadget", "Cloth", "Shoe"]);
+    final RxString temporarySelectedBusinessType = RxString("");
+  final RxString selectedBusinessType= RxString("");
+    final RxBool payoutBusinessTypeRightButtonState = RxBool(false);
+    final TextEditingController payoutBusinessPhoneNumberTextEditingController = TextEditingController();
+    final TextEditingController payoutBusinessEmailTextEditingController = TextEditingController();
+    final TextEditingController payoutBusinessVatGstTextEditingController = TextEditingController();
 }
