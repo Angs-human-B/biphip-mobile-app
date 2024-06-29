@@ -173,13 +173,6 @@ class DashboardStar extends StatelessWidget {
                     itemCount: dashboardController.starPurchaseHistoryList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
-                      // return StarPurchaseAndGiftContent(
-                      //   date: dashboardController.starPurchaseHistoryList[index]["date"],
-                      //   packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                      //   packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
-                      //   packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
-                      //   price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
-                      // );
                       return Table(
                         border: TableBorder.all(width: 0, color: cTransparentColor),
                         columnWidths: const {
@@ -255,14 +248,6 @@ class DashboardStar extends StatelessWidget {
                     itemCount: dashboardController.starGiftHistoryList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
-                      // return StarPurchaseAndGiftContent(
-                      //   date: dashboardController.starGiftHistoryList[index]["date"],
-                      //   packageIcon: dashboardController.starGiftHistoryList[index]["packageIcon"],
-                      //   packageName: dashboardController.starGiftHistoryList[index]["packageName"],
-                      //   packageAmount: dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
-                      //   price: ksView.tr,
-                      //   lastTextColor: cPrimaryColor,
-                      // );
                       return Table(
                         border: TableBorder.all(width: 0, color: cTransparentColor),
                         columnWidths: const {
@@ -547,55 +532,6 @@ class StarGiftReport extends StatelessWidget {
           color: cPrimaryTint1Color,
           width: 16,
           borderRadius: BorderRadius.circular(k20BorderRadius),
-        ),
-      ],
-    );
-  }
-}
-
-class StarPurchaseAndGiftContent extends StatelessWidget {
-  const StarPurchaseAndGiftContent(
-      {super.key,
-      required this.date,
-      required this.packageName,
-      required this.packageAmount,
-      required this.price,
-      required this.packageIcon,
-      this.lastTextColor});
-  final String date, packageName, packageAmount, price;
-  final IconData packageIcon;
-  final Color? lastTextColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          date,
-          style: regular12TextStyle(cBlackColor),
-        ),
-        Row(
-          children: [
-            Icon(
-              packageIcon,
-              size: kIconSize12,
-              color: cAmberColor,
-            ),
-            kW4sizedBox,
-            Text(
-              packageName,
-              style: regular12TextStyle(cBlackColor),
-            ),
-          ],
-        ),
-        Text(
-          packageAmount,
-          style: regular12TextStyle(cBlackColor),
-        ),
-        Text(
-          price,
-          style: regular12TextStyle(lastTextColor ?? cBlackColor),
         ),
       ],
     );

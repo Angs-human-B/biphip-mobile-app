@@ -165,15 +165,7 @@ class DashboardStarHistory extends StatelessWidget {
                                 itemCount: dashboardController.starPurchaseHistoryList.length,
                                 separatorBuilder: (context, index) => kH16sizedBox,
                                 itemBuilder: (context, index) {
-                                  // return StarPurchaseAndGiftContent(
-                                  //   date: dashboardController.starPurchaseHistoryList[index]["date"],
-                                  //   packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                                  //   packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
-                                  //   packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
-                                  //   price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
-                                  // );
                                   return Table(
-                                    // defaultVerticalAlignment: ,
                                     border: TableBorder.all(width: 0, color: cTransparentColor),
                                     columnWidths: const {
                                       0: FlexColumnWidth(2.5),
@@ -226,32 +218,6 @@ class DashboardStarHistory extends StatelessWidget {
                                 style: semiBold18TextStyle(cBlackColor),
                               ),
                               kH16sizedBox,
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     Text(
-                              //       ksDate.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     kW20sizedBox,
-                              //     Text(
-                              //       ksPackage.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     Text(
-                              //       ksGift.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     Text(
-                              //       ksPrice.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     Text(
-                              //       ksPost.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //   ],
-                              // ),
                               Table(
                                 border: TableBorder.all(width: 0, color: cTransparentColor),
                                 columnWidths: const {
