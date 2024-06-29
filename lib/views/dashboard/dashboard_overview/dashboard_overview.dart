@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_post_insights.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:intl/intl.dart';
 
@@ -187,15 +188,26 @@ class DashboardOverview extends StatelessWidget {
                                 dashboardController.dashboardOverviewContentList.length > 1 ? 1 : dashboardController.dashboardOverviewContentList.length,
                             separatorBuilder: (context, index) => kH16sizedBox,
                             itemBuilder: (context, index) {
-                              return DashboardGiftContentContainer(
-                                width: width - 40,
-                                // productImage: dashboardController.contentList[index].details.,
-                                productTitle: dashboardController.dashboardOverviewContentList[index].details?.content ?? "",
-                                postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardOverviewContentList[index].details!.dateTime!),
-                                postCount: dashboardController.dashboardOverviewContentList[index].details?.countComment
-                                    .toString(), //!post count data not available from api
-                                engagementCount: dashboardController.dashboardOverviewContentList[index].engagement.toString(),
-                                giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(), //!Gift count missing
+                              return InkWell(
+                                onTap: () async {
+                                  await dashboardController.getDashboardPostInsight(
+                                      contentId: dashboardController.dashboardOverviewContentList[index].details!.id!, contentType: "post");
+                                  ll(dashboardController.dashboardOverviewContentList[index].details?.id);
+                                  Get.to(() => DashboardOverviewPostInsights(
+                                        postContent: dashboardController.dashboardOverviewContentList[index].details?.content,
+                                        // postImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
+                                      ));
+                                },
+                                child: DashboardGiftContentContainer(
+                                  width: width - 40,
+                                  // productImage: dashboardController.contentList[index].details.,
+                                  productTitle: dashboardController.dashboardOverviewContentList[index].details?.content ?? "",
+                                  postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardOverviewContentList[index].details!.dateTime!),
+                                  postCount: dashboardController.dashboardOverviewContentList[index].details?.countComment
+                                      .toString(), //!post count data not available from api
+                                  engagementCount: dashboardController.dashboardOverviewContentList[index].engagement.toString(),
+                                  giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(), //!Gift count missing
+                                ),
                               );
                             },
                           ),

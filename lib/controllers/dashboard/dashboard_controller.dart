@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/dashboard/dashboard_audience_insight_bt_city_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_audience_insight_by_country_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_content_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
@@ -926,7 +927,7 @@ class DashboardController extends GetxController {
     }
   }
 
-  //*Dashboard Audience Insights by country Api Call
+  //*Dashboard Audience Insights by city Api Call
   final Rx<DashboardAudienceInsightByCityModel?> dashboardAudienceInsightByCityData = Rx<DashboardAudienceInsightByCityModel?>(null);
   final RxList<City> dashboardAudienceInsightByCotyList = RxList<City>([]);
   final RxBool isDashboardAudienceInsightsByCityLoading = RxBool(false);
@@ -958,6 +959,39 @@ class DashboardController extends GetxController {
       ll('getDashboardAudienceInsightByCity error: $e');
     }
   }
+
+
+  //*Dashboard Post insights Api Call
+  final Rx<DashboardContentInsightModel?> dashboardPostInsightData = Rx<DashboardContentInsightModel?>(null);
+  final RxBool isDashboardPostInsightLoading = RxBool(false);
+  Future<void> getDashboardPostInsight({required int contentId,required String contentType}) async {
+    try {
+      isDashboardPostInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardContentInsights?content_id=${contentId.toString()}&content_type=$contentType",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardPostInsightData.value = DashboardContentInsightModel.fromJson(response.data);
+        isDashboardPostInsightLoading.value = false;
+      } else {
+        isDashboardPostInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardPostInsightLoading.value = true;
+      ll('getDashboardPostInsight error: $e');
+    }
+  }
+
+
   //! Payouts
   final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
   final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);

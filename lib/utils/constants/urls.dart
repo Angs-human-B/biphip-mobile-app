@@ -272,6 +272,7 @@ const String kuDashboardGiftEarnedPost = "/mobile/dashboard/gift-earned-posts";
 const String kuDashboardOverview = "/mobile/dashboard/overview";
 const String kuDashboardAudienceInsightByCountry = "/mobile/dashboard/audience-insight-by-country";
 const String kuDashboardAudienceInsightByCity = "/mobile/dashboard/audience-insight-by-city";
+const String kuDashboardContentInsights = "/mobile/dashboard/content-insights";
 
 /*
 |--------------------------------------------------------------------------
