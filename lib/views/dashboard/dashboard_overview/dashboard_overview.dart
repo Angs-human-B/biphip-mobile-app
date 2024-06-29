@@ -193,7 +193,6 @@ class DashboardOverview extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return DashboardGiftContentContainer(
                                 width: width - 40,
-                                height: 150,
                                 // productImage: dashboardController.contentList[index].details.,
                                 productTitle: dashboardController.dashboardOverviewContentList[index].details?.content ?? "",
                                 postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardOverviewContentList[index].details!.dateTime!),

@@ -91,7 +91,6 @@ class DashboardGiftEarned extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                         child: DashboardGiftContentContainer(
                           width: width - 40,
-                          height: 150,
                           productTitle: dashboardController.dashboardGiftEarnedPostList[index].content,
                           postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardGiftEarnedPostList[index].dateTime!),
                           postCount: dashboardController.dashboardGiftEarnedPostList[index].countComment.toString(), //!post count data not available from api

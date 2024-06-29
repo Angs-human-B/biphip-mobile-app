@@ -162,7 +162,6 @@ class DashboardGift extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return DashboardGiftContentContainer(
                         width: width - 40,
-                        height: 150,
                         // productImage: dashboardController.dashboardGiftEarnedPostList[index].,
                         productTitle: dashboardController.dashboardGiftEarnedPostList[index].content,
                         postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardGiftEarnedPostList[index].dateTime!),

@@ -133,7 +133,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     // productImage: dashboardController.contentList[index].details.,
                                     productTitle: dashboardController.contentList[index].details?.content ?? "",
                                     postDate: DateFormat("dMMM, yyyy").format(dashboardController.contentList[index].details!.dateTime!),
@@ -166,7 +165,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     productImage: dashboardController.dashboardEarnedGiftPhotosPostList[index]["productImage"],
                                     productTitle: dashboardController.dashboardEarnedGiftPhotosPostList[index]["productTitle"],
                                     postDate: dashboardController.dashboardEarnedGiftPhotosPostList[index]["postDate"],
@@ -200,7 +198,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     productImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
                                     productTitle: dashboardController.dashboardEarnedGiftVideosPostList[index]["productTitle"],
                                     postDate: dashboardController.dashboardEarnedGiftVideosPostList[index]["postDate"],
@@ -234,7 +231,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     productImage: dashboardController.dashboardEarnedGiftTextPostList[index]["productImage"],
                                     productTitle: dashboardController.dashboardEarnedGiftTextPostList[index]["productTitle"],
                                     postDate: dashboardController.dashboardEarnedGiftTextPostList[index]["postDate"],
