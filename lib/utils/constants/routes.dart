@@ -27,7 +27,6 @@ import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift_earned.dar
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
-import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payout_withdraw.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payouts.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_add_crypto.dart';
