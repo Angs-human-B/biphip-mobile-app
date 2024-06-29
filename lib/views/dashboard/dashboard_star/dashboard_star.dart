@@ -217,14 +217,10 @@ class DashboardStar extends StatelessWidget {
                                 dashboardController.dashboardStarPurchaseList[index].star.toString(),
                                 style: regular12TextStyle(cBlackColor),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    dashboardController.dashboardStarPurchaseList[index].price.toString(),
-                                    style: regular12TextStyle(cBlackColor),
-                                  ),
-                                ],
+                              Text(
+                                "\$${dashboardController.dashboardStarPurchaseList[index].price.toString()}",
+                                style: regular12TextStyle(cBlackColor),
+                                textAlign: TextAlign.end,
                               ),
                             ],
                           ),
@@ -256,7 +252,7 @@ class DashboardStar extends StatelessWidget {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: dashboardController.starGiftHistoryList.length,
+                    itemCount: dashboardController.dashboardStarGiftList.length > 3 ? 3 : dashboardController.dashboardStarGiftList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
                       return Table(
@@ -271,17 +267,30 @@ class DashboardStar extends StatelessWidget {
                         children: [
                           TableRow(
                             children: [
-                              Text(dashboardController.starGiftHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                              Text(
+                                  DateFormat('dd/MM/yyyy')
+                                      .format(dashboardController.dashboardStarGiftList[index].createdAt ?? DateTime.now()), //!datetime data missing
+                                  style: regular12TextStyle(cBlackColor)),
                               Row(
                                 children: [
-                                  Icon(
-                                    dashboardController.starGiftHistoryList[index]["packageIcon"],
-                                    size: kIconSize12,
-                                    color: cAmberColor,
+                                  Image.network(
+                                    dashboardController.dashboardStarGiftList[index].badge?.icon ?? "",
+                                    width: h12,
+                                    height: h12,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(
+                                        BipHip.imageFile,
+                                        size: kIconSize12,
+                                        color: cIconColor,
+                                      );
+                                    },
+                                    loadingBuilder: imageLoadingBuilder,
                                   ),
+                                  kW4sizedBox,
                                   Expanded(
                                     child: Text(
-                                      dashboardController.starGiftHistoryList[index]["packageName"],
+                                      dashboardController.dashboardStarGiftList[index].badge?.name ?? ksNA.tr,
                                       style: regular12TextStyle(cBlackColor),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -289,11 +298,11 @@ class DashboardStar extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
+                                dashboardController.dashboardStarGiftList[index].star.toString(),
                                 style: regular12TextStyle(cBlackColor),
                               ),
                               Text(
-                                dashboardController.starGiftHistoryList[index]["price"].toString(),
+                                "\$${dashboardController.dashboardStarGiftList[index].badge?.price.toString()}",
                                 style: regular12TextStyle(cBlackColor),
                               ),
                               Text(
@@ -303,6 +312,7 @@ class DashboardStar extends StatelessWidget {
                               ),
                             ],
                           ),
+                       
                         ],
                       );
                     },

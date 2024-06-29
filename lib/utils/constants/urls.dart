@@ -274,6 +274,7 @@ const String kuDashboardAudienceInsightByCountry = "/mobile/dashboard/audience-i
 const String kuDashboardAudienceInsightByCity = "/mobile/dashboard/audience-insight-by-city";
 const String kuDashboardContentInsights = "/mobile/dashboard/content-insights";
 const String kuDashboardStarInsightPurchase = "/mobile/dashboard/star-insight-purchase";
+const String kuDashboardStarInsightGift = "/mobile/dashboard/star-insight-gift";
 
 /*
 |--------------------------------------------------------------------------

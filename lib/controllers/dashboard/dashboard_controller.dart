@@ -6,6 +6,7 @@ import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_star_insight_gift_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_purchase_model.dart';
 import 'dart:io';
@@ -961,11 +962,10 @@ class DashboardController extends GetxController {
     }
   }
 
-
   //*Dashboard Post insights Api Call
   final Rx<DashboardContentInsightModel?> dashboardPostInsightData = Rx<DashboardContentInsightModel?>(null);
   final RxBool isDashboardPostInsightLoading = RxBool(false);
-  Future<void> getDashboardPostInsight({required int contentId,required String contentType}) async {
+  Future<void> getDashboardPostInsight({required int contentId, required String contentType}) async {
     try {
       isDashboardPostInsightLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -992,10 +992,9 @@ class DashboardController extends GetxController {
     }
   }
 
-
   //*Dashboard Star insight purchase  Api Call
   final Rx<DashboardStarInsightPurchaseModel?> dashboardStarInsightPurchaseData = Rx<DashboardStarInsightPurchaseModel?>(null);
-    final RxList<PurchaseData> dashboardStarPurchaseList = RxList<PurchaseData>([]);
+  final RxList<PurchaseData> dashboardStarPurchaseList = RxList<PurchaseData>([]);
   final RxBool isDashboardStarInsightPurchaseLoading = RxBool(false);
   Future<void> getDashboardStarInsightPurchase() async {
     try {
@@ -1009,7 +1008,7 @@ class DashboardController extends GetxController {
       if (response.success == true) {
         dashboardStarPurchaseList.clear();
         dashboardStarInsightPurchaseData.value = DashboardStarInsightPurchaseModel.fromJson(response.data);
-         dashboardStarPurchaseList.addAll(dashboardStarInsightPurchaseData.value!.purchases!.data!);
+        dashboardStarPurchaseList.addAll(dashboardStarInsightPurchaseData.value!.purchases!.data!);
         isDashboardStarInsightPurchaseLoading.value = false;
       } else {
         isDashboardStarInsightPurchaseLoading.value = true;
@@ -1026,6 +1025,38 @@ class DashboardController extends GetxController {
     }
   }
 
+  //*Dashboard Star insight Gift  Api Call
+  final Rx<DashboardStarInsightGiftModel?> dashboardStarInsightGiftData = Rx<DashboardStarInsightGiftModel?>(null);
+  final RxList<PostsData> dashboardStarGiftList = RxList<PostsData>([]);
+  final RxBool isDashboardStarInsightGiftLoading = RxBool(false);
+  Future<void> getDashboardStarInsightGift() async {
+    try {
+      isDashboardStarInsightGiftLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardStarInsightGift?start_date=2024-05-01&end_date=2024-05-30",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardStarGiftList.clear();
+        dashboardStarInsightGiftData.value = DashboardStarInsightGiftModel.fromJson(response.data);
+        dashboardStarGiftList.addAll(dashboardStarInsightGiftData.value!.posts!.data!);
+        isDashboardStarInsightGiftLoading.value = false;
+      } else {
+        isDashboardStarInsightGiftLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightGiftLoading.value = true;
+      ll('getDashboardStarInsightPurchase error: $e');
+    }
+  }
 
   //! Payouts
   final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
@@ -1145,10 +1176,10 @@ class DashboardController extends GetxController {
   final RxList schoolList =
       RxList(["RAJUK Uttara Model College", "Stride International School", "LORDS-An English Medium School, Dhaka", "BAF Shaheen College Dhaka"]);
   final RxList businessTypeList = RxList(["Electronics", "Gadget", "Cloth", "Shoe"]);
-    final RxString temporarySelectedBusinessType = RxString("");
-  final RxString selectedBusinessType= RxString("");
-    final RxBool payoutBusinessTypeRightButtonState = RxBool(false);
-    final TextEditingController payoutBusinessPhoneNumberTextEditingController = TextEditingController();
-    final TextEditingController payoutBusinessEmailTextEditingController = TextEditingController();
-    final TextEditingController payoutBusinessVatGstTextEditingController = TextEditingController();
+  final RxString temporarySelectedBusinessType = RxString("");
+  final RxString selectedBusinessType = RxString("");
+  final RxBool payoutBusinessTypeRightButtonState = RxBool(false);
+  final TextEditingController payoutBusinessPhoneNumberTextEditingController = TextEditingController();
+  final TextEditingController payoutBusinessEmailTextEditingController = TextEditingController();
+  final TextEditingController payoutBusinessVatGstTextEditingController = TextEditingController();
 }
