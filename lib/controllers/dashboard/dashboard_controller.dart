@@ -7,6 +7,7 @@ import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_star_insight_purchase_model.dart';
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -988,6 +989,40 @@ class DashboardController extends GetxController {
     } catch (e) {
       isDashboardPostInsightLoading.value = true;
       ll('getDashboardPostInsight error: $e');
+    }
+  }
+
+
+  //*Dashboard Star insight purchase  Api Call
+  final Rx<DashboardStarInsightPurchaseModel?> dashboardStarInsightPurchaseData = Rx<DashboardStarInsightPurchaseModel?>(null);
+    final RxList<PurchaseData> dashboardStarPurchaseList = RxList<PurchaseData>([]);
+  final RxBool isDashboardStarInsightPurchaseLoading = RxBool(false);
+  Future<void> getDashboardStarInsightPurchase() async {
+    try {
+      isDashboardStarInsightPurchaseLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardStarInsightPurchase?start_date=2024-05-01&end_date=2024-05-30",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardStarPurchaseList.clear();
+        dashboardStarInsightPurchaseData.value = DashboardStarInsightPurchaseModel.fromJson(response.data);
+         dashboardStarPurchaseList.addAll(dashboardStarInsightPurchaseData.value!.purchases!.data!);
+        isDashboardStarInsightPurchaseLoading.value = false;
+      } else {
+        isDashboardStarInsightPurchaseLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightPurchaseLoading.value = true;
+      ll('getDashboardStarInsightPurchase error: $e');
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:intl/intl.dart';
 
 class DashboardStarHistory extends StatelessWidget {
   DashboardStarHistory({super.key});
@@ -110,35 +111,6 @@ class DashboardStarHistory extends StatelessWidget {
                                 style: semiBold18TextStyle(cBlackColor),
                               ),
                               kH16sizedBox,
-                              // Row(
-                              //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              //   children: [
-                              //     Text(
-                              //       ksDate.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 100,
-                              //     ),
-                              //     Text(
-                              //       ksPackage.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     const SizedBox(
-                              //       width: 48,
-                              //     ),
-                              //     Text(
-                              //       ksStarAmount.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //     kW8sizedBox,
-                              //     Text(
-                              //       ksPrice.tr,
-                              //       style: semiBold14TextStyle(cBlackColor),
-                              //     ),
-                              //   ],
-                              // ),
-
                               Table(
                                 border: TableBorder.all(width: 0, color: cTransparentColor),
                                 columnWidths: const {
@@ -162,7 +134,7 @@ class DashboardStarHistory extends StatelessWidget {
                               ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: dashboardController.starPurchaseHistoryList.length,
+                                itemCount: dashboardController.dashboardStarPurchaseList.length,
                                 separatorBuilder: (context, index) => kH16sizedBox,
                                 itemBuilder: (context, index) {
                                   return Table(
@@ -176,17 +148,28 @@ class DashboardStarHistory extends StatelessWidget {
                                     children: [
                                       TableRow(
                                         children: [
-                                          Text(dashboardController.starPurchaseHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
+                                          Text(DateFormat('dd/MM/yyyy').format(dashboardController.dashboardStarPurchaseList[index].dateTime ?? DateTime.now()),
+                                              style: regular12TextStyle(cBlackColor)),
                                           Row(
                                             children: [
-                                              Icon(
-                                                dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                                                size: kIconSize12,
-                                                color: cAmberColor,
+                                              Image.network(
+                                                dashboardController.dashboardStarPurchaseList[index].badge?.icon ?? "",
+                                                width: h12,
+                                                height: h12,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  return const Icon(
+                                                    BipHip.imageFile,
+                                                    size: kIconSize12,
+                                                    color: cIconColor,
+                                                  );
+                                                },
+                                                loadingBuilder: imageLoadingBuilder,
                                               ),
+                                              kW4sizedBox,
                                               Expanded(
                                                 child: Text(
-                                                  dashboardController.starPurchaseHistoryList[index]["packageName"],
+                                                  dashboardController.dashboardStarPurchaseList[index].badge?.name ?? ksNA.tr,
                                                   style: regular12TextStyle(cBlackColor),
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -194,12 +177,17 @@ class DashboardStarHistory extends StatelessWidget {
                                             ],
                                           ),
                                           Text(
-                                            dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
+                                            dashboardController.dashboardStarPurchaseList[index].star.toString(),
                                             style: regular12TextStyle(cBlackColor),
                                           ),
-                                          Text(
-                                            dashboardController.starPurchaseHistoryList[index]["price"].toString(),
-                                            style: regular12TextStyle(cBlackColor),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                dashboardController.dashboardStarPurchaseList[index].price.toString(),
+                                                style: regular12TextStyle(cBlackColor),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),

@@ -529,6 +529,7 @@ class DashboardOverview extends StatelessWidget {
                               subTitleText: ksLearnAboutTheAward.tr,
                               toolsOnPressed: () async {
                                 await dashboardController.getDashboardStarInsight();
+                                await dashboardController.getDashboardStarInsightPurchase();
                                 Get.toNamed(krDashboardStar);
                               },
                             ),
