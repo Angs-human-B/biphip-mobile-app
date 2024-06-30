@@ -5,6 +5,7 @@ import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_overview_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_payout_earning_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_gift_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
@@ -1002,7 +1003,7 @@ class DashboardController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuDashboardStarInsightPurchase?start_date=2024-05-01&end_date=2024-05-30",
+        url: "$kuDashboardStarInsightPurchase?start_date=2024-05-01&end_date=2024-05-30",//!Remove start and end date from api
       ) as CommonDM;
       if (response.success == true) {
         dashboardStarPurchaseList.clear();
@@ -1035,7 +1036,7 @@ class DashboardController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuDashboardStarInsightGift?start_date=2024-05-01&end_date=2024-05-30",
+        url: "$kuDashboardStarInsightGift?start_date=2024-05-01&end_date=2024-05-30",//!Remove start and end date from api
       ) as CommonDM;
       if (response.success == true) {
         dashboardStarGiftList.clear();
@@ -1054,6 +1055,36 @@ class DashboardController extends GetxController {
     } catch (e) {
       isDashboardStarInsightGiftLoading.value = true;
       ll('getDashboardStarInsightPurchase error: $e');
+    }
+  }
+  //!Payouts api
+  //*Dashboard Payout earning insight Api Call
+  final Rx<DashboardPayoutEaringInsightModel?> dashboardPayoutEarningInsightData = Rx<DashboardPayoutEaringInsightModel?>(null);
+  final RxBool isDashboardPayoutEarningInsightLoading = RxBool(false);
+  Future<void> getDashboardEarningInsight({required int year}) async {
+    try {
+      isDashboardStarInsightGiftLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardPayoutEarningInsight?year=${year.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardPayoutEarningInsightData.value = DashboardPayoutEaringInsightModel.fromJson(response.data);
+        isDashboardStarInsightGiftLoading.value = false;
+      } else {
+        isDashboardStarInsightGiftLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightGiftLoading.value = true;
+      ll('getDashboardEarningInsight error: $e');
     }
   }
 

@@ -109,7 +109,6 @@ class DashboardGift extends StatelessWidget {
                   kH16sizedBox,
                   Container(
                       width: width - 40,
-                      height: 280,
                       decoration: BoxDecoration(
                         color: cWhiteColor,
                         border: Border.all(width: 1, color: cLineColor),

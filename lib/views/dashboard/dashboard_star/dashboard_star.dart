@@ -140,11 +140,49 @@ class DashboardStar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(k12Padding),
-                        child: StarGiftReport(
-                          title: ksStarGiftReport.tr,
-                          apiData: dashboardController.dashboardStarInsightData.value!.starPurchaseReport!,
+                      child: Container(
+                        width: width - 40,
+                        decoration: BoxDecoration(
+                          color: cWhiteColor,
+                          border: Border.all(width: 1, color: cLineColor),
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: cLineColor,
+                              blurRadius: 4,
+                              spreadRadius: 1.5,
+                              offset: Offset(
+                                0,
+                                1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          width: width - 40,
+                          decoration: BoxDecoration(
+                            color: cWhiteColor,
+                            border: Border.all(width: 1, color: cLineColor),
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: cLineColor,
+                                blurRadius: 4,
+                                spreadRadius: 1.5,
+                                offset: Offset(
+                                  0,
+                                  1,
+                                ),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(k12Padding),
+                            child: StarGiftReport(
+                              title: ksStarGiftReport.tr,
+                              apiData: dashboardController.dashboardStarInsightData.value!.starPurchaseReport!,
+                            ),
+                          ),
                         ),
                       )),
                   kH20sizedBox,
@@ -312,7 +350,6 @@ class DashboardStar extends StatelessWidget {
                               ),
                             ],
                           ),
-                       
                         ],
                       );
                     },
@@ -370,9 +407,10 @@ class QuizTimeFilterBottomSheetContent extends StatelessWidget {
 }
 
 class StarGiftReport extends StatelessWidget {
-  const StarGiftReport({Key? key, required this.apiData, required this.title}) : super(key: key);
+  const StarGiftReport({Key? key, required this.apiData, required this.title, this.containerRightText}) : super(key: key);
   final Map<String, int> apiData;
   final String title;
+  final String? containerRightText;
 
   @override
   Widget build(BuildContext context) {
@@ -389,20 +427,26 @@ class StarGiftReport extends StatelessWidget {
               title,
               style: semiBold16TextStyle(cBlackColor),
             ),
-            Container(
-              width: 80,
-              height: h28,
-              decoration: BoxDecoration(
-                color: cNeutralColor,
-                borderRadius: BorderRadius.circular(k4BorderRadius),
-              ),
-              child: Center(
-                child: Text(
-                  "Last year",
-                  style: regular12TextStyle(cBlackColor),
+            if (containerRightText == null)
+              Container(
+                width: 80,
+                height: h28,
+                decoration: BoxDecoration(
+                  color: cNeutralColor,
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                ),
+                child: Center(
+                  child: Text(
+                    "Last year",
+                    style: regular12TextStyle(cBlackColor),
+                  ),
                 ),
               ),
-            ),
+            if (containerRightText != null)
+              Text(
+                containerRightText!,
+                style: semiBold18TextStyle(cBlackColor),
+              ),
           ],
         ),
         Text(
