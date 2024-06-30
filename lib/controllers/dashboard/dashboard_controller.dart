@@ -754,7 +754,6 @@ class DashboardController extends GetxController {
         dashboardContentData.value = DashboardContentsModel.fromJson(response.data);
         contentList.addAll(dashboardContentData.value!.contents!.data!);
         isDashboardContentsLoading.value = false;
-        ll("dashboard contentList length in api call ${contentList.length}");
       } else {
         isDashboardContentsLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
