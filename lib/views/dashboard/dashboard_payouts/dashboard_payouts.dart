@@ -61,17 +61,20 @@ class DashboardPayouts extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
                                   DashboardCommonContainer(
-                                    width: (width - 48) / 2,
+                                    width: (width - 52) / 2,
                                     titleText: ksTotalEarning.tr,
-                                    totalValue: dashboardController.dashboardPayoutEarningInsightData.value?.totalEarning.toString() ?? "\$0",
+                                    totalValue: "\$${dashboardController.dashboardPayoutEarningInsightData.value?.totalEarning.toString()}",
                                     percentTextColor: cGreenColor,
                                   ),
                                   kW8sizedBox,
                                   DashboardCommonContainer(
-                                    width: (width - 48) / 2,
+                                    width: (width - 52) / 2,
                                     titleText: ksTotalWithdraw.tr,
-                                    totalValue: dashboardController.dashboardPayoutEarningInsightData.value?.totalWithdraw.toString() ?? "\$0",
+                                    totalValue: "\$${dashboardController.dashboardPayoutEarningInsightData.value?.totalWithdraw.toString()}",
                                   ),
                                 ],
                               ),
