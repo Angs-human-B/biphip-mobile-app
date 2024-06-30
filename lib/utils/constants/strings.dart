@@ -841,6 +841,7 @@ const String ksViewBid = "View Bid";
 const String ksSearchItem = "Search item";
 const String ksStarGiftReport = "Star Gift Report";
 const String ksGiftEarningReport = "Gift Earning Report";
+const String ksTotalPlay = "Total play";
 //* Payouts
 const String ksNoWithdrawAvailable = "No withdraw available";
 const String ksYouHavenotEarned = "You haven't earned";

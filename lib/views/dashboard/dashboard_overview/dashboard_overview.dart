@@ -565,7 +565,8 @@ class DashboardOverview extends StatelessWidget {
                               iconColor: cPrimaryColor,
                               titleText: ksQuizHistory.tr,
                               subTitleText: ksLearnAboutTheAward.tr,
-                              toolsOnPressed: () {
+                              toolsOnPressed: () async{
+                                await dashboardController.getDashboardQuizInsight();
                                 Get.toNamed(krDashboardQuiz);
                               },
                             ),
@@ -614,7 +615,7 @@ class DashboardOverview extends StatelessWidget {
                               titleText: ksPayouts.tr,
                               subTitleText: ksLearnAboutTheAward.tr,
                               toolsOnPressed: () async {
-                                await dashboardController.getDashboardEarningInsight(year: 2024);
+                                await dashboardController.getDashboardPayoutEarningInsight(year: 2024);
                                 Get.toNamed(krDashboardPayout);
                               },
                             ),
