@@ -270,7 +270,6 @@ class AddBrandPage extends StatelessWidget {
                               AddLinkTextFields(
                                 textEditingController: createPostController.brandInstagramTextEditingController,
                                 iconImage: kiInstagramSvgUrl,
-                                // iconImage: kiFacebookImageUrl,
                                 hintText: 'instagram.com/',
                               ),
                               kH8sizedBox,
@@ -283,7 +282,6 @@ class AddBrandPage extends StatelessWidget {
                               AddLinkTextFields(
                                 textEditingController: createPostController.brandTwitterTextEditingController,
                                 iconImage: kiTwitterX2SvgUrl,
-                                // iconImage: kiFacebookImageUrl,
                                 hintText: 'twitter.com/',
                               ),
                               kH8sizedBox,
@@ -357,8 +355,6 @@ class AddLinkTextFields extends StatelessWidget {
                 child: SvgPicture.asset(
                   iconImage,
                   fit: BoxFit.fill,
-                  // height: h28,
-                  // width: h28,
                 ),
               ),
             ),

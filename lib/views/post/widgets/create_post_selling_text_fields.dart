@@ -29,16 +29,6 @@ class SellingNewsTextfield extends StatelessWidget {
           maxLength: 100,
         ),
         if (createPostController.category.value == "Selling") kH8sizedBox,
-        // if (createPostController.category.value == "Selling")
-        //   CustomModifiedTextField(
-        //     controller: createPostController.newsDescriptionTextEditingController,
-        //     hint: ksPrice.tr,
-        //     onChanged: (text) {},
-        //     onSubmit: (text) {},
-        //     inputAction: TextInputAction.next,
-        //     inputType: TextInputType.text,
-        //     maxLength: 10,
-        //   ),
         kH8sizedBox,
         CustomModifiedTextField(
           controller: createPostController.newsDescriptionTextEditingController,

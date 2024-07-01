@@ -128,12 +128,8 @@ class NotificationPage extends StatelessWidget {
                                       firstButtonText: ksConfirm.tr,
                                       secondButtonText: ksCancel.tr,
                                       firstButtonOnPressed: () async {
-                                        // familyController.userId.value = familyController.receivedFamilyList[index].id!;
-                                        // await familyController.acceptFamilyRequest();
                                       },
                                       secondButtonOnPressed: () async {
-                                        // familyController.userId.value = familyController.receivedFamilyList[index].id!;
-                                        // await familyController.rejectFamilyRequest();
                                       },
                                     ),
                                   ),
