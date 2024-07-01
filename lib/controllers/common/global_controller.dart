@@ -1153,12 +1153,12 @@ class GlobalController extends GetxController {
 
   RxList<Map<String, dynamic>> allConnectedPeers = RxList<Map<String, dynamic>>([]);
   void socketInit() {
-    ll("Connecting...");
+    ll("Connecting...GC");
 
     socket.connect();
 
     socket.on('connect', (_) {
-      ll('Connected: ${socket.id}');
+      ll('Connected GController: ${socket.id}');
     });
 
     socket.on('mobile-chat-channel', (data) {
@@ -1186,6 +1186,12 @@ class GlobalController extends GetxController {
     socket.on('error', (error) {
       ll('Socket error: $error');
     });
+  }
+
+  void disconnectSocket(){
+    socket.clearListeners();
+    socket.disconnect();
+    socket.dispose();
   }
 
   void populatePeerList(Map<String, dynamic> newUserData) {

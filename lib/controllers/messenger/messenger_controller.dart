@@ -151,8 +151,13 @@ class MessengerController extends GetxController {
     });
   }
 
+  void disconnectPeer() {
+    peer.dispose();
+    // peer.disconnect();
+  }
+
   void socketConnect(peerID) {
-    ll("Connecting...");
+    ll("Connecting...MC");
 
     socket.on('connect', (_) {
       ll('Connected: ${socket.id}');

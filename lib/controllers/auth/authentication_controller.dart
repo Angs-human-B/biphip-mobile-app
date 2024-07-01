@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
@@ -113,8 +114,10 @@ class AuthenticationController extends GetxController {
         await globalController.getUserInfo();
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
+        globalController.socketInit();
+        Get.find<MessengerController>().connectPeer();
         Get.offAllNamed(krHome);
-        Get.find<HomeController>().homeTabIndex.value=0;
+        Get.find<HomeController>().homeTabIndex.value = 0;
         await Get.find<HomeController>().getPostList();
         Get.find<CreatePostController>().getCreatePost();
         // final HomeController homeController = Get.find<HomeController>();
@@ -386,7 +389,7 @@ class AuthenticationController extends GetxController {
         await spController.saveUserEmail(otpData.user.email.toString());
         await spController.saveUserId(otpData.user.id);
         await spController.saveUserList({
-           "id": otpData.user.id,
+          "id": otpData.user.id,
           "email": otpData.user.email.toString(),
           "name": otpData.user.fullName.toString(),
           "first_name": otpData.user.firstName.toString(),
@@ -400,7 +403,7 @@ class AuthenticationController extends GetxController {
         // await homeController.getUserHome();
         if (parentRoute.value == "login") {
           isOTPLoading.value = false;
-          Get.find<HomeController>().homeTabIndex.value=0;
+          Get.find<HomeController>().homeTabIndex.value = 0;
           Get.offAllNamed(krHome);
           await Get.find<HomeController>().getPostList();
           Get.find<CreatePostController>().getCreatePost();
@@ -523,6 +526,8 @@ class AuthenticationController extends GetxController {
         isLogoutLoading.value = false;
         Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
         Get.find<MenuSectionController>().isSettingButtonPressed.value = false;
+        Get.find<MessengerController>().disconnectPeer();
+        globalController.disconnectSocket();
         Get.offAllNamed(krLogin);
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {

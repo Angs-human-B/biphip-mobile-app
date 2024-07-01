@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
+import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/helpers/auth/login_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/auth/logo_and_text_widget.dart';
@@ -104,10 +105,14 @@ class CustomUserListContainer extends StatelessWidget {
       borderColor: cLineColor2,
       onPressed: () async {
         loginHelper.getSaveUserDetails(item);
+        if (socket.connected) {
+          Get.find<GlobalController>().socketInit();
+          Get.find<MessengerController>().connectPeer();
+        }
       },
       leading: ClipOval(
         child: Image.network(
-           item['image_url'].toString(),
+          item['image_url'].toString(),
           fit: BoxFit.cover,
           height: h40,
           width: h40,
