@@ -116,7 +116,6 @@ class PhotoPreview extends StatelessWidget {
                               ],
                             ),
                           ),
-                          // const Spacer(),
                           kH24sizedBox,
                           CustomElevatedButton(
                             buttonWidth: width - 40,

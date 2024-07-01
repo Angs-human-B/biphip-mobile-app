@@ -58,7 +58,6 @@ class Profile extends StatelessWidget {
                           }
                           return true;
                         }
-                        // homeController.timelinePostListScrolled.value = false;
                         return false;
                       },
                       child: SingleChildScrollView(

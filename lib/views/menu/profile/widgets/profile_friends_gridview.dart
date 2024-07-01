@@ -30,7 +30,6 @@ class FriendFamilyTab extends StatelessWidget {
                   ),
           ),
           kH12sizedBox,
-          // if (familyController.familyList.isNotEmpty)
           familyController.isFamilyListLoading.value
               ? const FriendFamilyGridViewShimmer()
               : Container(
