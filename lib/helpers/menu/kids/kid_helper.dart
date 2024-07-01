@@ -89,7 +89,6 @@ class KidHelper {
   //*Edit kid cover bottom sheet content
   void kidCoverPhotoUploadBottomSheet(context) {
     kidsController.isKidProfilePicEditor.value = false;
-    // kidsController.kidViewOptionEnabled.value = false;
     resetKidImage();
     globalController.commonBottomSheet(
       context: context,
@@ -213,7 +212,7 @@ class KidHelper {
       kidsController.kidBioEditingController.text = '';
       kidsController.kidBio.value = null;
     } else {
-      //!Api Data
+      //*Api Data
       kidsController.kidBio.value = kidsController.kidsData.value!.bio;
       kidsController.bioCount.value = kidsController.kidsData.value!.bio.length;
       kidsController.kidBioEditingController.text = kidsController.kidsData.value!.bio;
@@ -352,7 +351,6 @@ class KidHelper {
     } else if (methodID == 3) {
       setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, kidsController.kidPhoneNumberTextEditingController, false,
           kidsController.kidPhoneNumberTextEditingController, ksEditPhone.tr, false, true, false, false, '', 'EDIT PHONE', '', '');
-      // Get.back();
     } else if (methodID == 4) {
       setEditPageValue(ksAddEmail.tr, false, BipHip.mail, kidsController.kidEmailTextEditingController, false, kidsController.kidEmailTextEditingController,
           ksEmail.tr, false, true, false, false, '', 'ADD EMAIL', '', '');
@@ -547,7 +545,7 @@ class KidHelper {
   void addKidEducationBackground() {
     resetTextEditor();
     getMethod(0);
-    kidsController.getSchoolList(); //!Api call here
+    kidsController.getSchoolList();
   }
 
   void saveHobbies() async {
