@@ -18,7 +18,6 @@ class MarketplacePage extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              // title: ksMarketPlace.tr,
               titleSpacing: 0,
               title: CustomModifiedTextField(
                 controller: marketPlaceController.marketPlaceTextEditingController,
@@ -59,15 +58,6 @@ class MarketplacePage extends StatelessWidget {
                       ksMarketPlace,
                       style: semiBold24TextStyle(cBlackColor),
                     ),
-                    // TopWidgetButton(
-                    //   width: (width - 56) / 3,
-                    //   height: h36,
-                    //   icon: BipHip.add,
-                    //   text: ksBuying.tr,
-                    //   onPressed: () {
-                    //     Get.toNamed(krMarketPlaceBuyingPage);
-                    //   },
-                    // ),
                     kW20sizedBox,
                     TopWidgetButton(
                       width: (width - 108) / 3,
@@ -225,7 +215,6 @@ class MarketplaceItemContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            // width: 162,
             height: 100,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(k8BorderRadius), topRight: Radius.circular(k8BorderRadius)),
@@ -235,7 +224,6 @@ class MarketplaceItemContainer extends StatelessWidget {
               child: Image.network(
                 productImage ?? "",
                 width: width,
-                // height: 100,
                 fit: BoxFit.cover,
                 loadingBuilder: imageLoadingBuilder,
                 errorBuilder: (context, error, stackTrace) {
