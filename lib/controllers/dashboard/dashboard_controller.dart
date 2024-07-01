@@ -7,8 +7,6 @@ class DashboardController extends GetxController {
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
   final RxString selectedQuizTimeRangeValue = RxString("This Month");
-// final RxBool selectPeopleBottomSheetRightButtonState = RxBool(false);
-//  final RxList<bool> isPeopleSelected = RxList<bool>([]);
   final List selectDateTimeFilterList = ["Today", "Yesterday", "This Week", "This Month", "This Year", "Custom"];
   final TextEditingController selectPeopleTextEditingController = TextEditingController();
   final TextEditingController fundTransferTextEditingController = TextEditingController();
@@ -503,8 +501,6 @@ class DashboardController extends GetxController {
           "https://img.freepik.com/free-vector/certificate-achievement-template_1198-354.jpg?w=826&t=st=1709447459~exp=1709448059~hmac=68f0d8517275781aebdaa0dc721fafe662ed1909bb4e47ece91c5d1b304e93f9"
     },
   ];
-
-// List allAwardList = [];
   Color categoryIconColor(int index) {
     if (categoryFilterList[index]["id"] == 1) {
       return cPoetryColor;
@@ -705,17 +701,14 @@ class DashboardController extends GetxController {
   final RxList payoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
   void payoutsOverviewTapableButtonOnPressed() async {
     payoutsToggleType(0);
-    // await getQuestionList();
   }
 
   void payoutsTransectionsTapableButtonOnPressed() async {
     payoutsToggleType(1);
-    // await getPlayedQuizesList();
   }
 
   void payoutsSettingsTapableButtonOnPressed() async {
     payoutsToggleType(2);
-    // await getmyQuizWinnerList();
   }
 
   final RxBool isWithdrawReportAvailable = RxBool(true);

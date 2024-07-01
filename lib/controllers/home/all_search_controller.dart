@@ -5,7 +5,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:video_player/video_player.dart';
 
 class AllSearchController extends GetxController {
-  
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -115,6 +114,7 @@ class AllSearchController extends GetxController {
       isSellPostBottomSheetResetOrShowResult.value = false;
     }
   }
+
   void resetSearchData() {
     searchTextEditingController.clear();
     isSearchSuffixIconVisible.value = false;
@@ -161,7 +161,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Search History List Api Call
+  //*Search History List Api Call
   final Rx<SearchHistoryModel?> searchHistoryData = Rx<SearchHistoryModel?>(null);
   final RxList<SearchHistoryListData> searchHistoryList = RxList<SearchHistoryListData>([]);
   final RxBool isSearchHistoryLoading = RxBool(false);
@@ -262,7 +262,7 @@ class AllSearchController extends GetxController {
     }
   }
 
-  //   //*Search Filter data Api Call
+  //*Search Filter data Api Call
   final RxList filterTypeList = RxList([]);
   final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
   final Rx<All?> allFilterData = Rx<All?>(null);
@@ -326,7 +326,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Search History List Api Call
+  //*Search History List Api Call
   final Rx<SearchModel?> searchData = Rx<SearchModel?>(null);
   final Rx<Users?> userData = Rx<Users?>(null);
   final Rx<Posts?> postData = Rx<Posts?>(null);
@@ -366,11 +366,9 @@ class AllSearchController extends GetxController {
           kidPostList.clear();
         } else if (selectedFilterValue.value.toString() == "News") {
           newsPostList.clear();
-        } 
-      else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
+        } else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
           sellPostList.clear();
-        }
-        else {
+        } else {
           userList.clear();
           postsList.clear();
           photosList.clear();
@@ -398,11 +396,9 @@ class AllSearchController extends GetxController {
           kidPostList.addAll(searchData.value!.kidposts!.data);
         } else if (selectedFilterValue.value.toString() == "News") {
           newsPostList.addAll(searchData.value!.newsposts!.data);
-        }
-        else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
+        } else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
           sellPostList.addAll(searchData.value!.sellposts!.data);
-        }
-         else {
+        } else {
           userList.addAll(searchData.value!.users!.data);
           postsList.addAll(searchData.value!.posts!.data);
           photosList.addAll(searchData.value!.photos!.data);
@@ -429,7 +425,6 @@ class AllSearchController extends GetxController {
   }
 
   String getUrlLink() {
-    //  "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString().trim()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&posted_by=${selectedPostedBy.value.toString()}&posted_date=${selectedDatePosted.value.toString()}&sell_post_type=${selectedSellPostTypeIndex.value.toString()}&take=20",
     String finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
     if (selectedFilterValue.value.toString() == "All") {
       finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
@@ -448,7 +443,6 @@ class AllSearchController extends GetxController {
       }
       return finalLink;
     } else if (selectedFilterValue.value.toString() == "People") {
-      // finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
       if (selectedPostedBy.value.toString() != "") {
         int peopleTypeValue = -1;
         if (selectedPostedBy.value.toString().toLowerCase() == "all") {
@@ -495,14 +489,15 @@ class AllSearchController extends GetxController {
 
   late VideoPlayerController videoPlayerController;
   late Future<void> initializedVideoPlayerFuture;
-    final RxString videoUrl = RxString("");
-    void customOnInit() {
+  final RxString videoUrl = RxString("");
+  void customOnInit() {
     videoPlayerController = VideoPlayerController.network(videoUrl.value);
     initializedVideoPlayerFuture = videoPlayerController.initialize().then((value) {
       videoPlayerController.play();
       videoPlayerController.setLooping(false);
     });
   }
+
   @override
   void dispose() {
     videoPlayerController.dispose();
