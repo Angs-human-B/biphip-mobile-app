@@ -32,7 +32,7 @@ bool commonValidUrlCheck(regexValue, urlValue) {
   return (RegExp(pattern1).hasMatch(urlValue) || RegExp(pattern2).hasMatch(urlValue));
 }
 
-//! show alert dialog
+//* show alert dialog
 Future<dynamic> showAlertDialog({context, child}) {
   return showDialog(
     barrierDismissible: false,
