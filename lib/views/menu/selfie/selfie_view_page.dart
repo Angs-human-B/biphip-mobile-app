@@ -44,11 +44,9 @@ class SelfieViewPage extends StatelessWidget {
                         },
                         onComplete: () {
                           ll("user index : ${selfieController.allSelfieListIndex.value}");
-                          // selfieController.storyController.playbackNotifier.add(PlaybackState.play);
                           int currentIndex = selfieController.allSelfieListIndex.value;
                           if (currentIndex < selfieController.allSelfieList.length - 1) {
                             selfieController.allSelfieListIndex.value++;
-                            // selfieController.storyController.playbackNotifier.add(PlaybackState.next);
                             selfieController.currentSelfieIndex.value = 0;
                             selfieController.storyController.previous();
                           } else {
@@ -65,10 +63,6 @@ class SelfieViewPage extends StatelessWidget {
                             userImage: selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["userImage"].toString(),
                             userName: selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["userName"].toString(),
                             storyUploadTime: "1 hr",
-                            // privacyIcon:
-                            //     (Get.find<GlobalController>().userId.value == selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["userId"])
-                            //         ? selfieController.privacyIcon(selfieController.allSelfieList[selfieController.allSelfieListIndex.value])
-                            //         : null,
                           )),
                       if (Get.find<GlobalController>().userId.value == selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["userId"])
                         Positioned(
@@ -245,13 +239,6 @@ class SelfSelfieActionBottomSheetContent extends StatelessWidget {
           actionOnPressed: () async {
             Get.back();
             await Get.find<SelfieController>().deleteSelfie(selfieId: Get.find<SelfieController>().selfieId.value);
-            // Get.back();
-            // globalController.postSelectedAction.value = "Copy Link";
-            // if (globalController.postSelectedAction.value == "Copy Link") {
-            //   String baseUrl = "bip-hip-dev.vercel.app/posts";
-            //   Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-            //   Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
-            // }
           },
         ),
         IconWithTextRow(
@@ -279,8 +266,6 @@ class OthersSelfieActionBottomSheetContent extends StatelessWidget {
     return Column(
       children: [
         Obx(() => IconWithTextRow(
-              // actionIcon: BipHip.unFollow,
-              // actionText: "Unfollow ${Get.find<SelfieController>().allSelfieList[Get.find<SelfieController>().allSelfieListIndex.value]["userName"]}",
               actionIcon: selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["followStatus"] == 0 ? BipHip.follow : BipHip.unFollow,
               actionText: selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["followStatus"] == 0
                   ? "Follow ${selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["userName"]}"
@@ -288,11 +273,6 @@ class OthersSelfieActionBottomSheetContent extends StatelessWidget {
               actionOnPressed: () async {
                 Get.back();
                 ll(selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["followStatus"]);
-                // if (selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["followStatus"] == 0) {
-                //     globalController.postSelectedAction.value = "Follow ${postData.user!.fullName}";
-                //   } else {
-                //     globalController.postSelectedAction.value = "UnFollow ${postData.user!.fullName}";
-                //   }
                 if (selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["followStatus"] == 0) {
                   await selfieController.followUnfollowUser(
                       userId: selfieController.allSelfieList[selfieController.allSelfieListIndex.value]["userId"], followOrUnfollow: "Follow");
@@ -396,8 +376,6 @@ class SelfieReportBottomSheetContent extends StatelessWidget {
                             title: "Report".tr,
                             isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
                             isRightButtonShow: false);
-
-                        // homeController.temporaryselectedAudienceId.value = homeController.privacyList[index]['id'];
                       },
                     ),
                   ),
@@ -441,7 +419,6 @@ class SelfieReportDescriptionBottomSheetContent extends StatelessWidget {
 class GiftContent extends StatelessWidget {
   GiftContent({super.key});
 
-  // final PostReactionController postReactionController = Get.find<PostReactionController>();
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
   final GlobalController globalController = Get.find<GlobalController>();
 
@@ -491,8 +468,6 @@ class GiftContent extends StatelessWidget {
                     pendentBadgesController.badgesCardNumberTextEditingController.clear();
                     pendentBadgesController.badgesMMYYTextEditingController.clear();
                     pendentBadgesController.badgesCvvTextEditingController.clear();
-
-                    // Get.toNamed(krPurchaseStar);
                   },
                   child: BadgesGridViewContainer(
                     index: index,
@@ -732,7 +707,6 @@ class PurchaseStarContent extends StatelessWidget {
                       child: Obx(() => CustomListTile(
                             onPressed: () {
                               Get.find<SelfieController>().selectedBadgeId.value = pendentBadgesController.popularBadgesList[index].id!;
-                              // pendentBadgesController.selectedPackage.value = packages[index];
                               pendentBadgesController.selectedBadgeIndex.value = index;
                               pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
                               pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
@@ -903,9 +877,6 @@ class PurchaseStarContent extends StatelessWidget {
                           Get.back();
                           Get.back();
                           selfieController.sendGiftSelfie();
-                          // Get.find<PostReactionController>().giftStar(pendentBadgesController.totalStars.value == ""
-                          //     ? pendentBadgesController.selectedBadgeStar.value
-                          //     : pendentBadgesController.totalStars.value);
                         } else {
                           Get.find<GlobalController>().commonBottomSheet(
                               context: context,
@@ -1033,7 +1004,6 @@ class PurchaseCustomStarContent extends StatelessWidget {
                           pendentBadgesController.selectedBadgeIndex.value = -1;
                           pendentBadgesController.isPackageSelected.value = false;
                           pendentBadgesController.selectedBadgeDescription.value = "";
-                          // pendentBadgesController.badgeId.value = -1;
                           pendentBadgesController.badgeStar.value = pendentBadgesController.totalStars.value;
                           pendentBadgesController.badgePrice.value = pendentBadgesController.totalStarBuyAmount.value.toString();
                           pendentBadgesController.badgesCheckBox.value = false;
@@ -1215,11 +1185,6 @@ class GiftPurchasePaymentContent extends StatelessWidget {
                     Get.back();
                     await pendentBadgesController.buyBadge();
                     pendentBadgesController.resetBadgesData();
-                    // if (pendentBadgesController.totalStars.value == "" && Get.find<SelfieController>().selectedBadgeId.value != -1) {
-                    //   Get.back();
-                    //   Get.back();
-                    //   Get.find<SelfieController>().sendGiftSelfie();
-                    // }
                   }
                 : null)),
       ],

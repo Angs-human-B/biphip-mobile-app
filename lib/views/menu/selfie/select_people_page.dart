@@ -25,21 +25,6 @@ class SelectPeoplePage extends StatelessWidget {
             ll(selfieController.customPeopleNames);
             ll(selfieController.customPeopleIds);
           },
-          // action: [
-          //   Padding(
-          //     padding: const EdgeInsets.only(right: k20Padding),
-          //     child: TextButton(
-          //       style: kTextButtonStyle,
-          //       onPressed: () {
-          //         Get.back();
-          //       },
-          //       child: Text(
-          //         ksDone.tr,
-          //         style: semiBold16TextStyle(cPrimaryColor),
-          //       ),
-          //     ),
-          //   ),
-          // ],
         ),
       ),
       body: Obx(
@@ -117,8 +102,6 @@ class SelectPeoplePage extends StatelessWidget {
                                             }
                                           },
                                           child: CustomListTile(
-                                            // padding: const EdgeInsets.only(left: k8Padding, top: k8Padding, bottom: k8Padding),
-                                            // borderColor: cLineColor,
                                             leading: Container(
                                               height: h40,
                                               width: h40,
