@@ -24,7 +24,6 @@ class PostsCategoryContent extends StatelessWidget {
                   onPressed: () {
                     allSearchController.temporarySelectedCategory.value = allSearchController.postsFilterData.value!.postCategory[index].value!;
                     allSearchController.temporarySelectedCategoryId.value = allSearchController.postsFilterData.value!.postCategory[index].key!;
-                    // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                     if (allSearchController.temporarySelectedCategory.value == '') {
                       allSearchController.isCategoryBottomSheetState.value = false;
                     } else {

@@ -63,7 +63,6 @@ class SearchVideosContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // kH8sizedBox,
                 Text(
                   title,
                   style: semiBold18TextStyle(cBlackColor),

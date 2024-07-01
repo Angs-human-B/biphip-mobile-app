@@ -36,7 +36,6 @@ class DatePostedContent extends StatelessWidget {
                   trailing: CustomRadioButton(
                     onChanged: () {
                       allSearchController.temporarySelectedDatePosted.value = allSearchController.datePostedList[index].value.toString();
-                      // kidsController.temporaryKidRelationId.value = kidsController.kidRelationMap[index]['relation_id']!;
                       if (allSearchController.temporarySelectedDatePosted.value == "") {
                         allSearchController.isDatePostedBottomSheetState.value = false;
                       } else {

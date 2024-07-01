@@ -5,7 +5,7 @@ import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditKidProfile extends StatelessWidget {

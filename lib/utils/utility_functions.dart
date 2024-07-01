@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 void heightWidthKeyboardValue(context) {
   height = MediaQuery.of(context).size.height;

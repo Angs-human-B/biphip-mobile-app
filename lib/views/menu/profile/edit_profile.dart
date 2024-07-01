@@ -5,7 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
