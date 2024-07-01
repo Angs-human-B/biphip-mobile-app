@@ -14,9 +14,6 @@ class SelectHobbiesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
     return SizedBox(
-      // decoration: !profileController.isRouteFromAboutInfo.value
-      //     ? const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover))
-      //     : null,
       child: SafeArea(
         top: false,
         child: Scaffold(
@@ -31,18 +28,6 @@ class SelectHobbiesPage extends StatelessWidget {
               onBack: () {
                 Get.back();
               },
-              // action: [
-              //   if (!profileController.isRouteFromAboutInfo.value)
-              //     Padding(
-              //       padding: const EdgeInsets.only(right: 16.0),
-              //       child: CustomTextButton(
-              //           onPressed: () {
-              //             Get.toNamed(krUploadPicture);
-              //           },
-              //           text: ksSkip.tr,
-              //           textStyle: regular14TextStyle(cPrimaryColor)),
-              //     )
-              // ],
             ),
           ),
           backgroundColor: cWhiteColor,

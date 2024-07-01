@@ -91,7 +91,6 @@ class AllBadges extends StatelessWidget {
                               return InkWell(
                                 onTap: () {
                                   pendentBadgesController.isPackageSelected.value = true;
-                                  // pendentBadgesController.selectedBadgeIndex.value = index;
                                   pendentBadgesController.selectedBadgeIndex.value = -1;
                                   pendentBadgesController.badgesCheckBox.value = false;
                                   pendentBadgesController.badgesPaymentCheckBox.value = false;

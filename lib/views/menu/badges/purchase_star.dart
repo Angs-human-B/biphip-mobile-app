@@ -148,31 +148,6 @@ class PurchaseStar extends StatelessWidget {
                         pendentBadgesController.selectedBadgeDescription.value,
                         style: regular14TextStyle(cBlackColor),
                       ),
-                      //*Not need now.
-                      // kH16sizedBox,
-                      // for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
-                      //   Padding(
-                      //     padding: const EdgeInsets.only(top: k4Padding),
-                      //     child: Row(
-                      //       children: [
-                      //         Container(
-                      //           width: 4,
-                      //           height: 4,
-                      //           decoration: const BoxDecoration(
-                      //             shape: BoxShape.circle,
-                      //             color: cBlackColor,
-                      //           ),
-                      //         ),
-                      //         kW8sizedBox,
-                      //         Text(
-                      //           pendentBadgesController.benefitsList[i],
-                      //           style: regular12TextStyle(cBlackColor),
-                      //           overflow: TextOverflow.clip,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-
                       kH16sizedBox,
                       RichText(
                         text: TextSpan(
@@ -246,7 +221,6 @@ class PurchaseStar extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: k8Padding),
                                 child: Obx(() => CustomListTile(
                                       onPressed: () {
-                                        // pendentBadgesController.selectedPackage.value = packages[index];
                                         pendentBadgesController.selectedBadgeIndex.value = index;
                                         pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
                                         pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();

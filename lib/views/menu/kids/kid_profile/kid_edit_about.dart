@@ -45,24 +45,6 @@ class KidEditAboutInfo extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // kH8sizedBox,
-                      // InfoContainer(
-                      //   suffixText: ksRelation.tr,
-                      //   isAddButton: true,
-                      //   suffixOnPressed: null,
-                      // ),
-                      // InfoContainer(
-                      //   // suffixText: profileController.userData.value!.gender == null
-                      //   //     ? ksGender.tr
-                      //   //     : checkNullOrStringNull(profileController.userData.value!.gender.toString().trim()),
-                      //   suffixText: kidsController.kidRelation.value == null ? ksRelation.tr : checkNullOrStringNull(kidsController.kidRelation.value),
-                      //   // subtitlePrefixText: ksRelation.tr,
-                      //   suffixTextStyle: ,
-                      //   isAddButton: false,
-                      //   suffixOnPressed: () {
-                      //     Get.toNamed(krEditBasicInfo);
-                      //   },
-                      // ),
                       kH8sizedBox,
                       const KidRelationContent(),
                       kH8sizedBox,
@@ -71,14 +53,6 @@ class KidEditAboutInfo extends StatelessWidget {
                       KidSelectHobbies(),
                       kH8sizedBox,
                       KidBasicInfoSection(),
-                      // RelationshipSection(),
-                      //!Need to solve these
-                      // if (profileController.showAllEditOption.value) kH8sizedBox,
-                      // if (profileController.showAllEditOption.value) EditInfoSection(),
-                      // if (profileController.showAllEditOption.value) kH8sizedBox,
-                      // if (profileController.showAllEditOption.value) ProfessionSection(),
-                      // if (profileController.showAllEditOption.value) kH8sizedBox,
-                      // if (profileController.showAllEditOption.value) InterestSection(),
                       kH8sizedBox,
                       KidContactSection(),
                       kH8sizedBox,
@@ -140,29 +114,12 @@ class KidEditAboutInfo extends StatelessWidget {
                           ),
                         ),
                       ),
-                      //!Need to solve these
-                      // if (profileController.showAllEditOption.value) ContactSection(),
-                      // if (profileController.showAllEditOption.value) kH8sizedBox,
-                      // if (profileController.showAllEditOption.value) WebsiteSection(),
-                      // if (profileController.showAllEditOption.value) kH8sizedBox
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          //!Loading for api call
-          // if (profileController.isEditProfileLoading.value == true)
-          //   Positioned(
-          //     child: CommonLoadingAnimation(
-          //       onWillPop: () async {
-          //         if (profileController.isEditProfileLoading.value) {
-          //           return false;
-          //         }
-          //         return true;
-          //       },
-          //     ),
-          //   )
         ],
       ),
     );
@@ -397,7 +354,6 @@ class KidEditRelationPage extends StatelessWidget {
                                   buttonHeight: h50,
                                   onPressed: () async {
                                     unFocus(context);
-                                    // editProfileHelper.setRelationshipStatus(context);
                                     kidHelper.kidRelationButtonOnPressed(context);
                                     await kidsController.getKidRelationList();
                                   },
