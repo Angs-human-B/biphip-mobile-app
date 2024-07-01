@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class DashboardGift extends StatelessWidget {
@@ -316,7 +317,7 @@ class DashboardCommonContainer extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -356,48 +357,6 @@ class DashboardCommonContainer extends StatelessWidget {
   }
 }
 
-class QuizTimeFilterBottomSheetContent extends StatelessWidget {
-  QuizTimeFilterBottomSheetContent({super.key});
-  final DashboardController dashboardController = Get.find<DashboardController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => kH12sizedBox,
-            itemCount: dashboardController.selectDateTimeFilterList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Obx(() => CustomListTile(
-                      borderColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryColor
-                          : cLineColor,
-                      itemColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryTint2Color
-                          : cWhiteColor,
-                      leading: Text(
-                        dashboardController.selectDateTimeFilterList[index],
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-                      onPressed: () {
-                        dashboardController.selectedQuizTimeRangeValue.value = dashboardController.selectDateTimeFilterList[index];
-                        Get.back();
-                      },
-                    )),
-              );
-            }),
-      ],
-    );
-  }
-}
-
-//! This is removed when dashboard star is merged in main branch
 class GiftEaringReport extends StatelessWidget {
   const GiftEaringReport({super.key});
 

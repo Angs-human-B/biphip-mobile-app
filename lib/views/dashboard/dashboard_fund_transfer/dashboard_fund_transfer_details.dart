@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 class DashboardFundTransferDetails extends StatelessWidget {
@@ -137,7 +138,6 @@ class DashboardFundTransferDetails extends StatelessWidget {
                                               width: h12,
                                               height: h12,
                                               fit: BoxFit.cover,
-                                              // loadingBuilder: smallImageLoadingBuilder,
                                               errorBuilder: (context, error, stackTrace) {
                                                 return Image.asset(
                                                   kiProfileDefaultImageUrl,
@@ -228,7 +228,6 @@ class DashboardFundTransferDetails extends StatelessWidget {
                                               width: h12,
                                               height: h12,
                                               fit: BoxFit.cover,
-                                              // loadingBuilder: smallImageLoadingBuilder,
                                               errorBuilder: (context, error, stackTrace) {
                                                 return Image.asset(
                                                   kiProfileDefaultImageUrl,
@@ -310,7 +309,6 @@ class DashboardFundTransferDetails extends StatelessWidget {
                                               width: h12,
                                               height: h12,
                                               fit: BoxFit.cover,
-                                              // loadingBuilder: smallImageLoadingBuilder,
                                               errorBuilder: (context, error, stackTrace) {
                                                 return Image.asset(
                                                   kiProfileDefaultImageUrl,
@@ -362,49 +360,6 @@ class DashboardFundTransferDetails extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-//! This class is removed when code merge
-
-class QuizTimeFilterBottomSheetContent extends StatelessWidget {
-  QuizTimeFilterBottomSheetContent({super.key});
-  final DashboardController dashboardController = Get.find<DashboardController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => kH12sizedBox,
-            itemCount: dashboardController.selectDateTimeFilterList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Obx(() => CustomListTile(
-                      borderColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryColor
-                          : cLineColor,
-                      itemColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryTint2Color
-                          : cWhiteColor,
-                      leading: Text(
-                        dashboardController.selectDateTimeFilterList[index],
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-                      onPressed: () {
-                        dashboardController.selectedQuizTimeRangeValue.value = dashboardController.selectDateTimeFilterList[index];
-                        Get.back();
-                      },
-                    )),
-              );
-            }),
-      ],
     );
   }
 }

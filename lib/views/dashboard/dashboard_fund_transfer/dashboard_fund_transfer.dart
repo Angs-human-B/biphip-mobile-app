@@ -116,7 +116,6 @@ class DashboardFundTransfer extends StatelessWidget {
                                       width: h12,
                                       height: h12,
                                       fit: BoxFit.cover,
-                                      // loadingBuilder: smallImageLoadingBuilder,
                                       errorBuilder: (context, error, stackTrace) {
                                         return Image.asset(
                                           kiProfileDefaultImageUrl,

@@ -51,7 +51,6 @@ class DashboardSelectPeople extends StatelessWidget {
                         )
                       : Expanded(
                           child: SingleChildScrollView(
-                            // controller: friendController.friendListScrollController,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -118,16 +117,10 @@ class DashboardSelectPeople extends StatelessWidget {
                                     );
                                   },
                                 ),
-                                //   if (friendController.friendList.isNotEmpty &&
-                                //       friendController.friendListScrolled.value &&
-                                //       friendController.friendListSubLink.value != null)
-                                //     const Center(child: CircularProgressIndicator()),
                               ],
                             ),
                           ),
                         ),
-
-                  // ],
                 ),
               ],
             ),
