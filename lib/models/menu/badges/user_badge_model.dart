@@ -3,14 +3,12 @@ class UserBadgesModel {
   List<Badges> recommendedBadges;
   List<Badges> allBadges;
   List<Badges> popularBadges;
-  // LastPurchase? lastPurchase;
 
   UserBadgesModel({
     required this.starBalance,
     required this.recommendedBadges,
     required this.allBadges,
     required this.popularBadges,
-    // required this.lastPurchase,
   });
 
   factory UserBadgesModel.fromJson(Map<String, dynamic> json) => UserBadgesModel(
@@ -18,7 +16,6 @@ class UserBadgesModel {
         recommendedBadges: List<Badges>.from(json["recommended_badges"].map((x) => Badges.fromJson(x))),
         allBadges: List<Badges>.from(json["all_badges"].map((x) => Badges.fromJson(x))),
         popularBadges: List<Badges>.from(json["popular_badges"].map((x) => Badges.fromJson(x))),
-        // lastPurchase: json["last_purchase"] == null ? null : LastPurchase.fromJson(json["last_purchase"]),
       );
 }
 
@@ -48,37 +45,6 @@ class Badges {
         icon: json["icon"],
       );
 }
-
-// class LastPurchase {
-//   int? id;
-//   int? userId;
-//   int? badgeId;
-//   double ? price;
-//   int? star;
-//   DateTime dateTime;
-//   BadgeClass badge;
-
-//   LastPurchase({
-//     required this.id,
-//     required this.userId,
-//     required this.badgeId,
-//     required this.price,
-//     required this.star,
-//     required this.dateTime,
-//     required this.badge,
-//   });
-
-//   factory LastPurchase.fromJson(Map<String, dynamic> json) => LastPurchase(
-//         id: json["id"],
-//         userId: json["user_id"],
-//         badgeId: json["badge_id"],
-//         price: json["price"],
-//         star: json["star"],
-//         dateTime: DateTime.parse(json["date_time"]),
-//         badge: BadgeClass.fromJson(json["badge"]),
-//       );
-// }
-
 class BadgeClass {
   int? id;
   String? name;

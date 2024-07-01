@@ -272,7 +272,6 @@ class MyReportClass {
   int? reportId;
   String? description;
   DateTime? createdAt;
-  // DateTime updatedAt;
   Report? report;
 
   MyReportClass({
@@ -282,7 +281,6 @@ class MyReportClass {
     required this.reportId,
     required this.description,
     required this.createdAt,
-    // required this.updatedAt,
     required this.report,
   });
 
@@ -293,7 +291,6 @@ class MyReportClass {
         reportId: json["report_id"],
         description: json["description"],
         createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
         report: json["report"] == null ? null : Report.fromJson(json["report"]),
       );
 }

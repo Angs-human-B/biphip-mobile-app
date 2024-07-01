@@ -137,7 +137,6 @@ class Post {
     int? countShare;
     int? countComment;
     int? countStar;
-    // CountReactions? countReactions;
     int? postSubCategoryId;
     dynamic timelineId;
     int? type;
@@ -190,7 +189,6 @@ class Post {
         this.countShare,
         this.countComment,
         this.countStar,
-        // this.countReactions,
         this.postSubCategoryId,
         this.timelineId,
         this.type,
@@ -244,7 +242,6 @@ class Post {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        // countReactions: json["count_reactions"] == null ? null : CountReactions.fromJson(json["count_reactions"]),
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -265,41 +262,6 @@ class Post {
     );
 }
 
-// class CountReactions {
-//     int? all;
-//     int? haha;
-//     int? like;
-//     int? love;
-//     int? sad;
-//     int? wow;
-
-//     CountReactions({
-//         this.all,
-//         this.haha,
-//         this.like,
-//         this.love,
-//         this.sad,
-//         this.wow,
-//     });
-
-//     factory CountReactions.fromJson(Map<String, dynamic> json) => CountReactions(
-//         all: json["All"],
-//         haha: json["haha"],
-//         like: json["like"],
-//         love: json["love"],
-//         sad: json["sad"],
-//         wow: json["wow"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "All": all,
-//         "haha": haha,
-//         "like": like,
-//         "love": love,
-//         "sad": sad,
-//         "wow": wow,
-//     };
-// }
 
 class PostCategory {
   int? id;
