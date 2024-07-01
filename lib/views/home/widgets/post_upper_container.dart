@@ -60,17 +60,6 @@ class PostUpperContainer extends StatelessWidget {
                           width: width - 120,
                           child: Row(
                             children: [
-                              // Text(
-                              //   globalController.commonPostList[postIndex].user!.fullName ?? "",
-                              //   style: semiBold16TextStyle(cBlackColor),
-                              // ),
-                              // kW4sizedBox,
-                              // SvgPicture.asset(
-                              //   kiRightArrow,
-                              //   width: h16,
-                              //   height: h16,
-                              //   color: cBlackColor,
-                              // ),
                               Expanded(
                                 child: RichText(
                                   textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
@@ -79,7 +68,6 @@ class PostUpperContainer extends StatelessWidget {
                                   maxLines: 3,
                                   softWrap: true,
                                   text: TextSpan(
-                                    // style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
                                     children: [
                                       TextSpan(
                                         text: globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
@@ -106,13 +94,6 @@ class PostUpperContainer extends StatelessWidget {
                                   ),
                                 ),
                               ),
-
-                              // kW4sizedBox,
-                              // Text(
-                              //   globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
-                              //   // overflow: TextOverflow.clip,
-                              //   style: semiBold16TextStyle(cBlackColor),
-                              // ),
                             ],
                           ),
                         ),
@@ -272,19 +253,6 @@ class PostUpperContainer extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-
-                              //* For post subcategory
-                              // if (subCategory != null)
-                              //   TextSpan(
-                              //     text: ' ${ksAt.tr} ',
-                              //     style: regular16TextStyle(cSmallBodyTextColor),
-                              //   ),
-                              // if (subCategory != null)
-                              //   TextSpan(
-                              //     text: '($subCategory)',
-                              //     style: semiBold16TextStyle(cBlackColor),
-                              //   ),
-
                               if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
                                 TextSpan(
                                   text: ' ${ksWith.tr} ',
@@ -424,7 +392,6 @@ class TaggedFriendContent extends StatelessWidget {
                         size: kIconSize24,
                         color: cIconColor,
                       ),
-                      // loadingBuilder: imageLoadingBuilder,
                     ),
                   ),
                 ),
@@ -561,19 +528,6 @@ class SharePostUpperContainer extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-
-                              //* For post subcategory
-                              // if (subCategory != null)
-                              //   TextSpan(
-                              //     text: ' ${ksAt.tr} ',
-                              //     style: regular16TextStyle(cSmallBodyTextColor),
-                              //   ),
-                              // if (subCategory != null)
-                              //   TextSpan(
-                              //     text: '($subCategory)',
-                              //     style: semiBold16TextStyle(cBlackColor),
-                              //   ),
-
                               if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty)
                                 TextSpan(
                                   text: ' ${ksWith.tr} ',
@@ -730,7 +684,6 @@ class SelfPostActionContent extends StatelessWidget {
                     } else {
                       createPostController.sellingPostType.value = ksBiddingPost.tr;
                     }
-                    // createPostController.sellingPostType.value = postData.sellPostType.toString();
                   }
                   createPostController.selectedBrandName.value = postData.store?.name ?? "";
                   createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
@@ -966,8 +919,6 @@ class ReportBottomSheetContent extends StatelessWidget {
                             title: "Report".tr,
                             isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
                             isRightButtonShow: false);
-
-                        // homeController.temporaryselectedAudienceId.value = homeController.privacyList[index]['id'];
                       },
                     ),
                   ),
