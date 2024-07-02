@@ -27,7 +27,6 @@ import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift_earned.dar
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_all_awards.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
 import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_performance.dart';
-import 'package:bip_hip/views/dashboard/dashboard_page.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payout_withdraw.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/dashboard_payouts.dart';
 import 'package:bip_hip/views/dashboard/dashboard_payouts/payout_settings/payout_add_crypto.dart';
@@ -290,7 +289,6 @@ const String krMessages = "/messages";
  const String krNotificationPage = "/notification-page";
 
  //*Dashboard
- const String krDashboardPage = "/dashboard-page";
  const String krDashboardOverview = "/dashboard-overview";
  const String krDashboardOverviewContent = "/dashboard-overview-content";
  const String krDashboardOverviewAudience = "/dashboard-overview-audience";
@@ -468,7 +466,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelfieViewPage, page: () => SelfieViewPage(), transition: Transition.noTransition),
 
   //*Dashboard
-  GetPage(name: krDashboardPage, page: () => DashBoardPage(), transition: Transition.noTransition),
   //*Dashboard payouts
   GetPage(name: krDashboardOverview, page: () => DashboardOverview(), transition: Transition.noTransition),
   GetPage(name: krDashboardOverviewContent, page: () => DashboardOverviewContent(), transition: Transition.noTransition),

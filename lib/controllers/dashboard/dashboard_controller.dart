@@ -1,13 +1,29 @@
+import 'package:bip_hip/models/dashboard/dashboard_audience_insight_bt_city_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_audience_insight_by_country_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_content_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_contents_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_gift_earned_post_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_gift_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_overview_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_payout_earning_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_profile_overview_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_quiz_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_star_insight_gift_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
+import 'package:bip_hip/models/dashboard/dashboard_star_insight_purchase_model.dart';
 import 'dart:io';
 
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class DashboardController extends GetxController {
+  final ApiController apiController = ApiController();
+  final SpController spController = SpController();
+  final GlobalController globalController = Get.find<GlobalController>();
   final fundTransferFilterList = RxList(["All", "Amount", "Star"]);
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
-  final RxString selectedQuizTimeRangeValue = RxString("This Month");
-  final List selectDateTimeFilterList = ["Today", "Yesterday", "This Week", "This Month", "This Year", "Custom"];
+  final RxString selectedQuizTimeRangeValue = RxString("Today");
+  final List selectDateTimeFilterList = ["Today", "Last 7 days", "Last 14 days", "Last 30 days", "Last 60 days", "last 90 days", "Custom"];
   final TextEditingController selectPeopleTextEditingController = TextEditingController();
   final TextEditingController fundTransferTextEditingController = TextEditingController();
   final TextEditingController dashboardOtpTextEditingController = TextEditingController();
@@ -528,12 +544,6 @@ class DashboardController extends GetxController {
   final RxInt dashboardOverviewSelectedFilterIndex = RxInt(0);
   final RxString dashboardOverviewSelectedFilterValue = RxString("Overview");
   final RxString dashboardOverviewTime = RxString("From previous 28 days");
-  final RxList ageGenderDataList = RxList([
-    {'ageGroup': '18-24', 'men': 80, 'women': 20},
-    {'ageGroup': '25-34', 'men': 90, 'women': 10},
-    {'ageGroup': '35-44', 'men': 60, 'women': 40},
-    {'ageGroup': '45-54', 'men': 51.5, 'women': 48.5},
-  ]);
   final RxList topCitiesList = RxList([
     {'cityName': "Dhaka, Bangladesh", 'percent': 50},
     {'cityName': "Chapainawabganj, Bangladesh", 'percent': 20},
@@ -694,6 +704,456 @@ class DashboardController extends GetxController {
     }
   }
 
+  //*Dashboard profile overview Api Call
+  final Rx<DashboardProfileOverviewModel?> dashboardProfileOverviewData = Rx<DashboardProfileOverviewModel?>(null);
+  final RxBool dashboardProfileOverviewLoading = RxBool(false);
+  Future<void> getDashboardProfileOverview() async {
+    try {
+      dashboardProfileOverviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetProfileOverview,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardProfileOverviewData.value = DashboardProfileOverviewModel.fromJson(response.data);
+        dashboardProfileOverviewLoading.value = false;
+      } else {
+        dashboardProfileOverviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      dashboardProfileOverviewLoading.value = true;
+      ll('getProfileOverview error: $e');
+    }
+  }
+
+  //*Dashboard Content Api Call
+  final Rx<DashboardContentsModel?> dashboardContentData = Rx<DashboardContentsModel?>(null);
+  final RxList<ContentData> contentList = RxList<ContentData>([]);
+  final RxBool isDashboardContentsLoading = RxBool(false);
+  Future<void> getDashboardContents() async {
+    try {
+      isDashboardContentsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardContents?take=10&start_date=2024-01-01&end_date=2024-04-21",
+      ) as CommonDM;
+      if (response.success == true) {
+        contentList.clear();
+        dashboardContentData.value = DashboardContentsModel.fromJson(response.data);
+        contentList.addAll(dashboardContentData.value!.contents!.data!);
+        isDashboardContentsLoading.value = false;
+      } else {
+        isDashboardContentsLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardContentsLoading.value = true;
+      ll('getDashboardContents error: $e');
+    }
+  }
+
+  //*Dashboard star insights Api Call
+  final Rx<DashboardStarInsightModel?> dashboardStarInsightData = Rx<DashboardStarInsightModel?>(null);
+  final RxBool isDashboardStarInsightLoading = RxBool(false);
+  Future<void> getDashboardStarInsight() async {
+    try {
+      isDashboardStarInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardStarInsight?year=2024",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardStarInsightData.value = DashboardStarInsightModel.fromJson(response.data);
+        isDashboardStarInsightLoading.value = false;
+      } else {
+        isDashboardStarInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightLoading.value = true;
+      ll('getDashboardStarInsight error: $e');
+    }
+  }
+
+  //*Dashboard star insights Api Call
+  final Rx<DashboardGiftInsightModel?> dashboardGiftInsightData = Rx<DashboardGiftInsightModel?>(null);
+  final RxBool isDashboardGiftInsightLoading = RxBool(false);
+  Future<void> getDashboardGiftInsight() async {
+    try {
+      isDashboardGiftInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardGiftInsight?year=2024",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardGiftInsightData.value = DashboardGiftInsightModel.fromJson(response.data);
+        isDashboardGiftInsightLoading.value = false;
+      } else {
+        isDashboardGiftInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardGiftInsightLoading.value = true;
+      ll('getDashboardStarInsight error: $e');
+    }
+  }
+
+  //*Dashboard Content Api Call
+  final Rx<DashboardGiftEarnedPostModel?> dashboardGiftEarnedPostData = Rx<DashboardGiftEarnedPostModel?>(null);
+  final RxList<PostData> dashboardGiftEarnedPostList = RxList<PostData>([]);
+  final RxBool isGiftEarnedPostLoading = RxBool(false);
+  Future<void> getGiftEarnedPost() async {
+    try {
+      isGiftEarnedPostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardGiftEarnedPost?take=10&start_date=2024-01-01&end_date=2024-04-21",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardGiftEarnedPostList.clear();
+        dashboardGiftEarnedPostData.value = DashboardGiftEarnedPostModel.fromJson(response.data);
+        dashboardGiftEarnedPostList.addAll(dashboardGiftEarnedPostData.value!.posts!.data!);
+        isGiftEarnedPostLoading.value = false;
+      } else {
+        isGiftEarnedPostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGiftEarnedPostLoading.value = true;
+      ll('getGiftEarnedPost error: $e');
+    }
+  }
+
+  //*Dashboard Overview Api Call
+  final Rx<DashboardOverviewModel?> dashboardOverviewData = Rx<DashboardOverviewModel?>(null);
+  final RxList<OverviewContentData> dashboardOverviewContentList = RxList<OverviewContentData>([]);
+  final RxBool isDashboardOverviewLoading = RxBool(false);
+  Future<void> getDashboardOverview() async {
+    try {
+      isDashboardOverviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardOverview,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardOverviewContentList.clear();
+        dashboardOverviewData.value = DashboardOverviewModel.fromJson(response.data);
+        dashboardOverviewContentList.addAll(dashboardOverviewData.value!.contents!.data!);
+        isDashboardOverviewLoading.value = false;
+      } else {
+        isDashboardOverviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardOverviewLoading.value = true;
+      ll('getDashboardOverview error: $e');
+    }
+  }
+
+  //*Dashboard Audience Insights by country Api Call
+  final Rx<DashboardAudienceInsightByCountriesModel?> dashboardAudienceInsightByCountryData = Rx<DashboardAudienceInsightByCountriesModel?>(null);
+  final RxList<Country> dashboardAudienceInsightByCountryList = RxList<Country>([]);
+  final RxBool isDashboardAudienceInsightsByCountryLoading = RxBool(false);
+  Future<void> getDashboardAudienceInsightByCountry() async {
+    try {
+      isDashboardAudienceInsightsByCountryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardAudienceInsightByCountry,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardAudienceInsightByCountryList.clear();
+        dashboardAudienceInsightByCountryData.value = DashboardAudienceInsightByCountriesModel.fromJson(response.data);
+        dashboardAudienceInsightByCountryList.addAll(dashboardAudienceInsightByCountryData.value!.countries!);
+        isDashboardAudienceInsightsByCountryLoading.value = false;
+      } else {
+        isDashboardAudienceInsightsByCountryLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardAudienceInsightsByCountryLoading.value = true;
+      ll('getDashboardAudienceInsightByCountry error: $e');
+    }
+  }
+
+  //*Dashboard Audience Insights by city Api Call
+  final Rx<DashboardAudienceInsightByCityModel?> dashboardAudienceInsightByCityData = Rx<DashboardAudienceInsightByCityModel?>(null);
+  final RxList<City> dashboardAudienceInsightByCotyList = RxList<City>([]);
+  final RxBool isDashboardAudienceInsightsByCityLoading = RxBool(false);
+  Future<void> getDashboardAudienceInsightByCity() async {
+    try {
+      isDashboardAudienceInsightsByCityLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardAudienceInsightByCity,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardAudienceInsightByCotyList.clear();
+        dashboardAudienceInsightByCityData.value = DashboardAudienceInsightByCityModel.fromJson(response.data);
+        dashboardAudienceInsightByCotyList.addAll(dashboardAudienceInsightByCityData.value!.cities!);
+        isDashboardAudienceInsightsByCityLoading.value = false;
+      } else {
+        isDashboardAudienceInsightsByCityLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardAudienceInsightsByCityLoading.value = true;
+      ll('getDashboardAudienceInsightByCity error: $e');
+    }
+  }
+
+  //*Dashboard Post insights Api Call
+  final Rx<DashboardContentInsightModel?> dashboardPostInsightData = Rx<DashboardContentInsightModel?>(null);
+  final RxBool isDashboardPostInsightLoading = RxBool(false);
+  Future<void> getDashboardPostInsight({required int contentId, required String contentType}) async {
+    try {
+      isDashboardPostInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardContentInsights?content_id=${contentId.toString()}&content_type=$contentType",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardPostInsightData.value = DashboardContentInsightModel.fromJson(response.data);
+        isDashboardPostInsightLoading.value = false;
+      } else {
+        isDashboardPostInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardPostInsightLoading.value = true;
+      ll('getDashboardPostInsight error: $e');
+    }
+  }
+
+  //*Dashboard Star insight purchase  Api Call
+  final Rx<DashboardStarInsightPurchaseModel?> dashboardStarInsightPurchaseData = Rx<DashboardStarInsightPurchaseModel?>(null);
+  final RxList<PurchaseData> dashboardStarPurchaseList = RxList<PurchaseData>([]);
+  final RxBool isDashboardStarInsightPurchaseLoading = RxBool(false);
+  Future<void> getDashboardStarInsightPurchase() async {
+    try {
+      isDashboardStarInsightPurchaseLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardStarInsightPurchase?start_date=2024-05-01&end_date=2024-05-30", //!Remove start and end date from api
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardStarPurchaseList.clear();
+        dashboardStarInsightPurchaseData.value = DashboardStarInsightPurchaseModel.fromJson(response.data);
+        dashboardStarPurchaseList.addAll(dashboardStarInsightPurchaseData.value!.purchases!.data!);
+        isDashboardStarInsightPurchaseLoading.value = false;
+      } else {
+        isDashboardStarInsightPurchaseLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightPurchaseLoading.value = true;
+      ll('getDashboardStarInsightPurchase error: $e');
+    }
+  }
+
+  //*Dashboard Star insight Gift  Api Call
+  final Rx<DashboardStarInsightGiftModel?> dashboardStarInsightGiftData = Rx<DashboardStarInsightGiftModel?>(null);
+  final RxList<PostsData> dashboardStarGiftList = RxList<PostsData>([]);
+  final RxBool isDashboardStarInsightGiftLoading = RxBool(false);
+  Future<void> getDashboardStarInsightGift() async {
+    try {
+      isDashboardStarInsightGiftLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardStarInsightGift?start_date=2024-05-01&end_date=2024-05-30", //!Remove start and end date from api
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardStarGiftList.clear();
+        dashboardStarInsightGiftData.value = DashboardStarInsightGiftModel.fromJson(response.data);
+        dashboardStarGiftList.addAll(dashboardStarInsightGiftData.value!.posts!.data!);
+        isDashboardStarInsightGiftLoading.value = false;
+      } else {
+        isDashboardStarInsightGiftLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardStarInsightGiftLoading.value = true;
+      ll('getDashboardStarInsightPurchase error: $e');
+    }
+  }
+
+  //*Dashboard Quiz insight Api Call
+  final Rx<DashboardQuizInsightModel?> dashboardQuizInsightData = Rx<DashboardQuizInsightModel?>(null);
+  final RxBool isDashboardQuizInsightLoading = RxBool(false);
+  Future<void> getDashboardQuizInsight() async {
+    try {
+      isDashboardQuizInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuDashboardQuizInsight,
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardQuizInsightData.value = DashboardQuizInsightModel.fromJson(response.data);
+        isDashboardQuizInsightLoading.value = false;
+      } else {
+        isDashboardQuizInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardQuizInsightLoading.value = true;
+      ll('getDashboardQuizInsight error: $e');
+    }
+  }
+
+  //!Payouts api
+  //*Dashboard Payout earning insight Api Call
+  final Rx<DashboardPayoutEaringInsightModel?> dashboardPayoutEarningInsightData = Rx<DashboardPayoutEaringInsightModel?>(null);
+  final RxBool isDashboardPayoutEarningInsightLoading = RxBool(false);
+  Future<void> getDashboardPayoutEarningInsight({required int year}) async {
+    try {
+      isDashboardPayoutEarningInsightLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDashboardPayoutEarningInsight?year=${year.toString()}",
+      ) as CommonDM;
+      if (response.success == true) {
+        dashboardPayoutEarningInsightData.value = DashboardPayoutEaringInsightModel.fromJson(response.data);
+        isDashboardPayoutEarningInsightLoading.value = false;
+      } else {
+        isDashboardPayoutEarningInsightLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardPayoutEarningInsightLoading.value = true;
+      ll('getDashboardPayoutEarningInsight error: $e');
+    }
+  }
+
+  //* Dashboard overview percentage color
+  Color getOverviewPercentValueColor(int? percentValue) {
+    if (percentValue != null) {
+      if (percentValue < 0) {
+        return cRedColor;
+      }
+      if (percentValue == 0) {
+        return cSmallBodyTextColor;
+      }
+      if (percentValue > 0) {
+        return cGreenColor;
+      }
+    }
+    return cGreenColor;
+  }
+
+  String getOverviewPercentPositiveNegativeValue(int? percentValue) {
+    if (percentValue != null) {
+      if (percentValue < 0) {
+        return "$percentValue%";
+      }
+      if (percentValue > 0) {
+        return "+$percentValue%";
+      }
+      if (percentValue == 0) {
+        return "+$percentValue%";
+      }
+    }
+    return "+$percentValue%";
+  }
+
+  String getProfileOverviewOthersValue(int? othersValue) {
+    if (othersValue != null) {
+      return "$othersValue";
+    }
+    return "0";
+  }
+
   //! Payouts
   final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
   final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);
@@ -809,10 +1269,10 @@ class DashboardController extends GetxController {
   final RxList schoolList =
       RxList(["RAJUK Uttara Model College", "Stride International School", "LORDS-An English Medium School, Dhaka", "BAF Shaheen College Dhaka"]);
   final RxList businessTypeList = RxList(["Electronics", "Gadget", "Cloth", "Shoe"]);
-    final RxString temporarySelectedBusinessType = RxString("");
-  final RxString selectedBusinessType= RxString("");
-    final RxBool payoutBusinessTypeRightButtonState = RxBool(false);
-    final TextEditingController payoutBusinessPhoneNumberTextEditingController = TextEditingController();
-    final TextEditingController payoutBusinessEmailTextEditingController = TextEditingController();
-    final TextEditingController payoutBusinessVatGstTextEditingController = TextEditingController();
+  final RxString temporarySelectedBusinessType = RxString("");
+  final RxString selectedBusinessType = RxString("");
+  final RxBool payoutBusinessTypeRightButtonState = RxBool(false);
+  final TextEditingController payoutBusinessPhoneNumberTextEditingController = TextEditingController();
+  final TextEditingController payoutBusinessEmailTextEditingController = TextEditingController();
+  final TextEditingController payoutBusinessVatGstTextEditingController = TextEditingController();
 }

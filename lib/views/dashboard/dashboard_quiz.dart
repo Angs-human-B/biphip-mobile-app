@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/my_quiz.dart';
+import 'package:bip_hip/views/home/quiz/quiz_page.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -59,6 +60,9 @@ class DashboardQuiz extends StatelessWidget {
                                     isSelected: (dashboardController.selectedQuizFilterIndex.value == index),
                                     onSelected: (value) async {
                                       dashboardController.selectedQuizFilterIndex.value = index;
+                                      if (dashboardController.selectedQuizFilterIndex.value == 1) {
+                                        await Get.find<QuizController>().getQuestionList();
+                                      }
                                       if (dashboardController.selectedQuizFilterIndex.value == 2) {
                                         await Get.find<QuizController>().getPlayedQuizesList();
                                       }
@@ -133,33 +137,37 @@ class DashboardQuiz extends StatelessWidget {
                               style: semiBold18TextStyle(cBlackColor),
                             ),
                             kH16sizedBox,
-                            BarChartWidget(),
+                            BarChartWidget(
+                              titleText: ksTotalPlay.tr,
+                              totalValue: dashboardController.dashboardQuizInsightData.value?.totalPlay.toString(),
+                              percentValue: "+${dashboardController.dashboardQuizInsightData.value?.totalPlayPercentage.toString()}%", //! + and % extra added
+                            ),
                             kH16sizedBox,
-                            const LineChartWidget(
+                            LineChartWidget(
                               titleText: "Win",
                               filterDateTimeText: "From this month",
-                              totalValue: "5",
-                              percentText: "+2%",
+                              totalValue: dashboardController.dashboardQuizInsightData.value?.win.toString(),
+                              percentText: "+${dashboardController.dashboardQuizInsightData.value?.winPercentage.toString()}%",
                               progressColor: cGreenColor,
                               progressBottomColor: cGreenTintColor,
                               percentTextColor: cGreenColor,
                             ),
                             kH16sizedBox,
-                            const LineChartWidget(
+                            LineChartWidget(
                               titleText: "Lost",
                               filterDateTimeText: "From this month",
-                              totalValue: "20",
-                              percentText: "-8%",
+                              totalValue: dashboardController.dashboardQuizInsightData.value?.lost.toString(),
+                              percentText: "-${dashboardController.dashboardQuizInsightData.value?.lostPercentage.toString()}%",
                               progressColor: cRedColor,
                               progressBottomColor: cRedTintColor,
                               percentTextColor: cRedColor,
                             ),
                             kH16sizedBox,
-                            const LineChartWidget(
+                            LineChartWidget(
                               titleText: "Winning Ratio",
                               filterDateTimeText: "From this month",
-                              totalValue: "2",
-                              percentText: "-16%",
+                              totalValue: dashboardController.dashboardQuizInsightData.value?.winRatio.toString(),
+                              percentText: "-${dashboardController.dashboardQuizInsightData.value?.winRatioPercentage.toString()}%",
                               progressColor: cPrimaryColor,
                               progressBottomColor: cPrimaryTint2Color,
                               percentTextColor: cRedColor,
@@ -178,11 +186,7 @@ class DashboardQuiz extends StatelessWidget {
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                   ),
-                if (dashboardController.selectedQuizFilterIndex.value == 1)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: MyDailyQuiz(),
-                  ),
+                if (dashboardController.selectedQuizFilterIndex.value == 1) MyDailyQuiz(),
                 if (dashboardController.selectedQuizFilterIndex.value == 2)
                   Padding(
                     padding: const EdgeInsets.only(left: k20Padding, right: k20Padding, top: k20Padding),
@@ -375,6 +379,62 @@ class DashboardQuiz extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class MyDailyQuiz extends StatelessWidget {
+  MyDailyQuiz({super.key});
+  final QuizController quizController = Get.find<QuizController>();
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => quizController.isQuestionLoading.value
+        ? const PlayedQuizShimmer()
+        : Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonDailyAndPlayedQuiz(
+                  image: quizController.questionList.isNotEmpty
+                      ? quizController.questionListData.value?.quiz?.media.toString()
+                      : quizController.questionListData.value?.result?.quiz?.media.toString(),
+                  title: quizController.questionList.isNotEmpty
+                      ? "${quizController.questionListData.value?.quiz?.title}"
+                      : "${quizController.questionListData.value?.result?.quiz?.title.toString()}",
+                  noOfQuestions: quizController.questionList.isNotEmpty
+                      ? "${quizController.questionListData.value?.quiz?.noOfQuestions.toString()} questions"
+                      : "${quizController.questionListData.value?.result?.quiz?.noOfQuestions.toString()} questions",
+                  totalTime: quizController.questionList.isNotEmpty
+                      ? "Duration: ${quizController.questionListData.value?.quiz?.playingDuration} sec"
+                      : "Duration: ${quizController.questionListData.value?.result?.quiz?.playingDuration.toString()} sec",
+                  actionText: quizController.questionList.isNotEmpty ? ksTapToPlay.tr : ksAlreadyPlayed.tr,
+                  icon: quizController.questionList.isNotEmpty ? BipHip.rightArrow : null,
+                  actionTextStyle: semiBold14TextStyle(quizController.questionList.isNotEmpty ? cPrimaryColor : cRedColor),
+                  imageList: quizController.questionList.isNotEmpty
+                      ? quizController.questionListData.value?.quiz?.participants
+                      : quizController.questionListData.value?.result?.quiz?.participants,
+                  onPressed: () {
+                    if (quizController.questionList.isNotEmpty) {
+                      quizController.totalTimeCalculation();
+                      quizController.timerStartFunction();
+                      Get.toNamed(krQuizPage);
+                    } else {
+                      quizController.timer?.cancel();
+                      Get.toNamed(krQuizPage);
+                      if (quizController.questionListData.value!.result!.countRightAnswer == 0) {
+                        quizZeroScoreAlertDialog(context: context, content: QuizZeroScoreContent());
+                      } else {
+                        quizCongratulationsAlertDialog(
+                          context: context,
+                          content: QuizCongratulationContent(),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+          ));
   }
 }
 
@@ -760,12 +820,12 @@ class LineChartWidget extends StatelessWidget {
       this.percentTextColor,
       this.progressColor,
       this.progressBottomColor,
-      required this.titleText,
-      required this.percentText,
-      required this.filterDateTimeText,
-      required this.totalValue});
+      this.titleText,
+      this.percentText,
+      this.filterDateTimeText,
+      this.totalValue});
   final Color? percentTextColor, progressColor, progressBottomColor;
-  final String titleText, percentText, filterDateTimeText, totalValue;
+  final String? titleText, percentText, filterDateTimeText, totalValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -844,11 +904,11 @@ class LineChartWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  titleText,
+                  titleText ?? ksNA.tr,
                   style: semiBold16TextStyle(cBlackColor),
                 ),
                 Text(
-                  filterDateTimeText,
+                  filterDateTimeText ?? ksNA.tr,
                   style: regular10TextStyle(cSmallBodyTextColor),
                 ),
               ],
@@ -861,13 +921,13 @@ class LineChartWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  totalValue,
+                  totalValue ?? ksNA.tr,
                   style: semiBold18TextStyle(cBlackColor),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: k4Padding, left: k4Padding),
                   child: Text(
-                    percentText,
+                    percentText ?? ksNA.tr,
                     style: regular12TextStyle(percentTextColor ?? cGreenColor),
                     textAlign: TextAlign.end,
                   ),
@@ -882,8 +942,9 @@ class LineChartWidget extends StatelessWidget {
 }
 
 class BarChartWidget extends StatelessWidget {
-  const BarChartWidget({super.key, this.barColor});
+  const BarChartWidget({super.key, this.barColor, this.titleText, this.totalValue, this.percentValue});
   final Color? barColor;
+  final String? titleText, totalValue, percentValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1011,7 +1072,7 @@ class BarChartWidget extends StatelessWidget {
             top: 16,
             left: 16,
             child: Text(
-              'Total Play',
+              titleText ?? "",
               style: semiBold16TextStyle(cBlackColor),
             ),
           ),
@@ -1024,12 +1085,12 @@ class BarChartWidget extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '20,874',
+                      totalValue ?? "0",
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kW4sizedBox,
                     Text(
-                      '+39%',
+                      percentValue ?? "0%",
                       style: regular14TextStyle(cGreenColor),
                     ),
                   ],

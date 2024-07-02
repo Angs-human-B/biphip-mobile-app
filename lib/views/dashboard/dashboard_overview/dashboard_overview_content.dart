@@ -4,6 +4,7 @@ import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.da
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_post_insights.dart';
 import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
+import 'package:intl/intl.dart';
 
 class DashboardOverviewContent extends StatelessWidget {
   DashboardOverviewContent({super.key});
@@ -121,27 +122,30 @@ class DashboardOverviewContent extends StatelessWidget {
                             child: ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: dashboardController.dashboardEarnedGiftPostList.length,
+                              itemCount: dashboardController.contentList.length,
                               separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    await dashboardController.getDashboardPostInsight(
+                                        contentId: dashboardController.contentList[index].details!.id!, contentType: "post");
                                     Get.to(() => DashboardOverviewPostInsights(
-                                          postContent: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                                          postImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
+                                          postContent: dashboardController.contentList[index].details?.content,
+                                          postImage: dashboardController.contentList[index].details!.images!.isNotEmpty
+                                              ? dashboardController.contentList[index].details!.images![0].fullPath
+                                              : null,
                                         ));
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
-                                    productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
-                                    productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                                    postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
-                                    postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
-                                    engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
-                                    giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
-                                    isVideoContent: dashboardController.dashboardEarnedGiftPostList[index]["isVideoContent"],
-                                    isOnlyTextContent: dashboardController.dashboardEarnedGiftPostList[index]["isTextOnly"],
+                                    productImage: dashboardController.contentList[index].details!.images!.isNotEmpty
+                                        ? dashboardController.contentList[index].details!.images![0].fullPath
+                                        : null,
+                                    productTitle: dashboardController.contentList[index].details?.content ?? "",
+                                    postDate: DateFormat("dMMM, yyyy").format(dashboardController.contentList[index].details!.dateTime!),
+                                    postCount: dashboardController.contentList[index].details?.countView.toString(),
+                                    engagementCount: dashboardController.contentList[index].engagement.toString(),
+                                    giftCount: dashboardController.contentList[index].details?.countStar.toString(),
                                   ),
                                 );
                               },
@@ -167,7 +171,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     productImage: dashboardController.dashboardEarnedGiftPhotosPostList[index]["productImage"],
                                     productTitle: dashboardController.dashboardEarnedGiftPhotosPostList[index]["productTitle"],
                                     postDate: dashboardController.dashboardEarnedGiftPhotosPostList[index]["postDate"],
@@ -201,7 +204,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     productImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
                                     productTitle: dashboardController.dashboardEarnedGiftVideosPostList[index]["productTitle"],
                                     postDate: dashboardController.dashboardEarnedGiftVideosPostList[index]["postDate"],
@@ -235,7 +237,6 @@ class DashboardOverviewContent extends StatelessWidget {
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    height: 150,
                                     productImage: dashboardController.dashboardEarnedGiftTextPostList[index]["productImage"],
                                     productTitle: dashboardController.dashboardEarnedGiftTextPostList[index]["productTitle"],
                                     postDate: dashboardController.dashboardEarnedGiftTextPostList[index]["postDate"],

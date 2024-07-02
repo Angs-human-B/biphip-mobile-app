@@ -156,7 +156,6 @@ const String kuDeleteSelfie = '/mobile/user/selfie/delete';
 const String kuReportSelfie = '/mobile/user/store-selfie-report';
 const String kuSelfieSendGift = '/mobile/user/selfie/send-gift';
 
-
 //* kids
 //---------------------------------------
 const String kuDeleteKids = '/mobile/user/delete-kid';
@@ -263,6 +262,21 @@ const String kuUpdatePost = '/mobile/user/update-post';
 
 //* Awards
 const String kuGetMyAward = "/mobile/user/get-my-awards";
+
+//* Dashboard
+const String kuGetProfileOverview = "/mobile/dashboard/profile-overview";
+const String kuDashboardContents = "/mobile/dashboard/contents";
+const String kuDashboardStarInsight = "/mobile/dashboard/star-insight";
+const String kuDashboardGiftInsight = "/mobile/dashboard/gift-insight";
+const String kuDashboardGiftEarnedPost = "/mobile/dashboard/gift-earned-posts";
+const String kuDashboardOverview = "/mobile/dashboard/overview";
+const String kuDashboardAudienceInsightByCountry = "/mobile/dashboard/audience-insight-by-country";
+const String kuDashboardAudienceInsightByCity = "/mobile/dashboard/audience-insight-by-city";
+const String kuDashboardContentInsights = "/mobile/dashboard/content-insights";
+const String kuDashboardStarInsightPurchase = "/mobile/dashboard/star-insight-purchase";
+const String kuDashboardStarInsightGift = "/mobile/dashboard/star-insight-gift";
+const String kuDashboardQuizInsight = "/mobile/dashboard/quiz-insight";
+const String kuDashboardPayoutEarningInsight = "/mobile/dashboard/earning-insight";
 
 /*
 |--------------------------------------------------------------------------

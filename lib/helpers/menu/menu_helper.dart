@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
@@ -83,10 +84,11 @@ class MenuHelper {
         await Get.find<AwardController>().getAwardList();
         break;
       case 12:
-        Get.find<QuizController>().resetQuizTapButtonData();
-        Get.find<QuizController>().resetQuizData();
-        await Get.find<QuizController>().getQuestionList();
-        Get.toNamed(krDashboardPage);
+        Get.find<DashboardController>().dashboardOverviewSelectedFilterIndex.value = 0;
+        await Get.find<DashboardController>().getDashboardOverview();
+        // await Get.find<DashboardController>().getDashboardProfileOverview();
+        await Get.find<DashboardController>().getDashboardAudienceInsightByCity();
+        Get.toNamed(krDashboardOverview);
         break;
     }
   }

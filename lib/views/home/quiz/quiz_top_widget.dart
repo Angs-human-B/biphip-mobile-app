@@ -40,7 +40,7 @@ class QuizTopWidget extends StatelessWidget {
                 child: Image.network(
                   quizController.questionList.isNotEmpty
                       ? "${quizController.questionListData.value?.quiz?.media}"
-                      : "${quizController.questionListData.value!.result!.quiz?.media}", 
+                      : "${quizController.questionListData.value!.result?.quiz?.media}",
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
                       kiDummyImage1ImageUrl,
@@ -59,7 +59,7 @@ class QuizTopWidget extends StatelessWidget {
                 child: Text(
                   quizController.questionList.isNotEmpty
                       ? "${quizController.questionListData.value?.quiz?.title}"
-                      : "${quizController.questionListData.value!.result!.quiz?.title.toString()}",
+                      : "${quizController.questionListData.value?.result!.quiz?.title.toString()}",
                   style: semiBold12TextStyle(cWhiteColor),
                   textAlign: TextAlign.center,
                 ),
@@ -113,8 +113,8 @@ class QuizFirstBottomSheetContent extends StatelessWidget {
                 borderRadius: BorderRadius.circular(k8BorderRadius),
                 child: Image.network(
                   quizController.questionList.isNotEmpty
-                      ? quizController.questionListData.value?.quiz?.media
-                      : quizController.questionListData.value!.result?.quiz!.media,
+                      ? (quizController.questionListData.value?.quiz?.media ?? "")
+                      : (quizController.questionListData.value!.result?.quiz?.media ?? ""),
                   width: width - 40,
                   height: 150,
                   fit: BoxFit.cover,

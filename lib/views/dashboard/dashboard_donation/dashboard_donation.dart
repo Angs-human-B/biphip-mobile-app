@@ -58,55 +58,57 @@ class DashboardDonation extends StatelessWidget {
                         ),
                         child: EmptyView(title: ksYouHaveNothingInDonation.tr)),
                   if (dashboardController.donationTapButtonState[0] && dashboardController.dashboardDonationPost.isNotEmpty)
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          DonationStatics(
-                            topTitleText: ksDonationStatics.tr,
-                            topSubtitleText: "The statics of how much you have donated",
-                          ),
-                          kH16sizedBox,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                ksDonationPosts.tr,
-                                style: semiBold18TextStyle(cBlackColor),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed(krDashboardDonatedPost);
-                                },
-                                child: Text(
-                                  ksSeeAll.tr,
-                                  style: regular16TextStyle(cPrimaryColor),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            DonationStatics(
+                              topTitleText: ksDonationStatics.tr,
+                              topSubtitleText: "The statics of how much you have donated",
+                            ),
+                            kH16sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ksDonationPosts.tr,
+                                  style: semiBold18TextStyle(cBlackColor),
                                 ),
-                              ),
-                            ],
-                          ),
-                          kH16sizedBox,
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: dashboardController.dashboardDonationPost.length > 3 ? 3 : dashboardController.dashboardDonationPost.length,
-                            separatorBuilder: (context, index) => kH16sizedBox,
-                            itemBuilder: (context, index) {
-                              return DashboardDonationContent(
-                                width: width - 40,
-                                height: 146,
-                                productImage: dashboardController.dashboardDonationPost[index]["productImage"],
-                                productTitle: dashboardController.dashboardDonationPost[index]["productTitle"],
-                                postDate: dashboardController.dashboardDonationPost[index]["postDate"],
-                                postCount: dashboardController.dashboardDonationPost[index]["postCount"],
-                                engagementCount: dashboardController.dashboardDonationPost[index]["engagementCount"],
-                                giftCount: dashboardController.dashboardDonationPost[index]["giftCount"],
-                                donateAmount: dashboardController.dashboardDonationPost[index]["amount"],
-                                donateText: ksDonate.tr,
-                              );
-                            },
-                          ),
-                          kH16sizedBox,
-                        ],
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(krDashboardDonatedPost);
+                                  },
+                                  child: Text(
+                                    ksSeeAll.tr,
+                                    style: regular16TextStyle(cPrimaryColor),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kH16sizedBox,
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: dashboardController.dashboardDonationPost.length > 3 ? 3 : dashboardController.dashboardDonationPost.length,
+                              separatorBuilder: (context, index) => kH16sizedBox,
+                              itemBuilder: (context, index) {
+                                return DashboardDonationContent(
+                                  width: width - 40,
+                                  height: 146,
+                                  productImage: dashboardController.dashboardDonationPost[index]["productImage"],
+                                  productTitle: dashboardController.dashboardDonationPost[index]["productTitle"],
+                                  postDate: dashboardController.dashboardDonationPost[index]["postDate"],
+                                  postCount: dashboardController.dashboardDonationPost[index]["postCount"],
+                                  engagementCount: dashboardController.dashboardDonationPost[index]["engagementCount"],
+                                  giftCount: dashboardController.dashboardDonationPost[index]["giftCount"],
+                                  donateAmount: dashboardController.dashboardDonationPost[index]["amount"],
+                                  donateText: ksDonate.tr,
+                                );
+                              },
+                            ),
+                            kH16sizedBox,
+                          ],
+                        ),
                       ),
                     ),
                   if (dashboardController.donationTapButtonState[1] && dashboardController.dashboardDonationPost.isEmpty)

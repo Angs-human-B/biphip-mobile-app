@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
 
 class DashboardStar extends StatelessWidget {
   DashboardStar({super.key});
@@ -113,7 +114,7 @@ class DashboardStar extends StatelessWidget {
                           ),
                           kH8sizedBox,
                           Text(
-                            "14,29",
+                            dashboardController.dashboardStarInsightData.value!.myStarBalance.toString(),
                             style: semiBold18TextStyle(cBlackColor),
                           ),
                         ],
@@ -140,9 +141,50 @@ class DashboardStar extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(k12Padding),
-                        child: StarGiftReport(),
+                      child: Container(
+                        width: width - 40,
+                        decoration: BoxDecoration(
+                          color: cWhiteColor,
+                          border: Border.all(width: 1, color: cLineColor),
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: cLineColor,
+                              blurRadius: 4,
+                              spreadRadius: 1.5,
+                              offset: Offset(
+                                0,
+                                1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          width: width - 40,
+                          decoration: BoxDecoration(
+                            color: cWhiteColor,
+                            border: Border.all(width: 1, color: cLineColor),
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: cLineColor,
+                                blurRadius: 4,
+                                spreadRadius: 1.5,
+                                offset: Offset(
+                                  0,
+                                  1,
+                                ),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(k12Padding),
+                            child: StarGiftReport(
+                              title: ksStarGiftReport.tr,
+                              apiData: dashboardController.dashboardStarInsightData.value!.starPurchaseReport!,
+                            ),
+                          ),
+                        ),
                       )),
                   kH20sizedBox,
                   Row(
@@ -168,15 +210,60 @@ class DashboardStar extends StatelessWidget {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: dashboardController.starPurchaseHistoryList.length,
+                    itemCount: dashboardController.dashboardStarPurchaseList.length > 3 ? 3 : dashboardController.dashboardStarPurchaseList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
-                      return StarPurchaseAndGiftContent(
-                        date: dashboardController.starPurchaseHistoryList[index]["date"],
-                        packageIcon: dashboardController.starPurchaseHistoryList[index]["packageIcon"],
-                        packageName: dashboardController.starPurchaseHistoryList[index]["packageName"],
-                        packageAmount: dashboardController.starPurchaseHistoryList[index]["starAmount"].toString(),
-                        price: dashboardController.starPurchaseHistoryList[index]["price"].toString(),
+                      return Table(
+                        border: TableBorder.all(width: 0, color: cTransparentColor),
+                        columnWidths: const {
+                          0: FlexColumnWidth(2.5),
+                          1: FlexColumnWidth(2.5),
+                          2: FlexColumnWidth(2.5),
+                          3: FlexColumnWidth(1),
+                        },
+                        children: [
+                          TableRow(
+                            children: [
+                              Text(DateFormat('dd/MM/yyyy').format(dashboardController.dashboardStarPurchaseList[index].dateTime ?? DateTime.now()),
+                                  style: regular12TextStyle(cBlackColor)),
+                              Row(
+                                children: [
+                                  Image.network(
+                                    dashboardController.dashboardStarPurchaseList[index].badge?.icon ?? "",
+                                    width: h12,
+                                    height: h12,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(
+                                        BipHip.imageFile,
+                                        size: kIconSize12,
+                                        color: cIconColor,
+                                      );
+                                    },
+                                    loadingBuilder: imageLoadingBuilder,
+                                  ),
+                                  kW4sizedBox,
+                                  Expanded(
+                                    child: Text(
+                                      dashboardController.dashboardStarPurchaseList[index].badge?.name ?? ksNA.tr,
+                                      style: regular12TextStyle(cBlackColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                dashboardController.dashboardStarPurchaseList[index].star.toString(),
+                                style: regular12TextStyle(cBlackColor),
+                              ),
+                              Text(
+                                "\$${dashboardController.dashboardStarPurchaseList[index].price.toString()}",
+                                style: regular12TextStyle(cBlackColor),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -204,16 +291,67 @@ class DashboardStar extends StatelessWidget {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: dashboardController.starGiftHistoryList.length,
+                    itemCount: dashboardController.dashboardStarGiftList.length > 3 ? 3 : dashboardController.dashboardStarGiftList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
-                      return StarPurchaseAndGiftContent(
-                        date: dashboardController.starGiftHistoryList[index]["date"],
-                        packageIcon: dashboardController.starGiftHistoryList[index]["packageIcon"],
-                        packageName: dashboardController.starGiftHistoryList[index]["packageName"],
-                        packageAmount: dashboardController.starGiftHistoryList[index]["starAmount"].toString(),
-                        price: ksView.tr,
-                        lastTextColor: cPrimaryColor,
+                      return Table(
+                        border: TableBorder.all(width: 0, color: cTransparentColor),
+                        columnWidths: const {
+                          0: FlexColumnWidth(2.5),
+                          1: FlexColumnWidth(2.5),
+                          2: FlexColumnWidth(2),
+                          3: FlexColumnWidth(1.5),
+                          4: FlexColumnWidth(1),
+                        },
+                        children: [
+                          TableRow(
+                            children: [
+                              Text(
+                                  DateFormat('dd/MM/yyyy')
+                                      .format(dashboardController.dashboardStarGiftList[index].createdAt ?? DateTime.now()), //!datetime data missing
+                                  style: regular12TextStyle(cBlackColor)),
+                              Row(
+                                children: [
+                                  Image.network(
+                                    dashboardController.dashboardStarGiftList[index].badge?.icon ?? "",
+                                    width: h12,
+                                    height: h12,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(
+                                        BipHip.imageFile,
+                                        size: kIconSize12,
+                                        color: cIconColor,
+                                      );
+                                    },
+                                    loadingBuilder: imageLoadingBuilder,
+                                  ),
+                                  kW4sizedBox,
+                                  Expanded(
+                                    child: Text(
+                                      dashboardController.dashboardStarGiftList[index].badge?.name ?? ksNA.tr,
+                                      style: regular12TextStyle(cBlackColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                dashboardController.dashboardStarGiftList[index].star.toString(),
+                                style: regular12TextStyle(cBlackColor),
+                              ),
+                              Text(
+                                "\$${dashboardController.dashboardStarGiftList[index].badge?.price.toString()}",
+                                style: regular12TextStyle(cBlackColor),
+                              ),
+                              Text(
+                                ksView.tr,
+                                style: regular12TextStyle(cPrimaryColor),
+                                textAlign: TextAlign.end,
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -229,8 +367,16 @@ class DashboardStar extends StatelessWidget {
 }
 
 class StarGiftReport extends StatelessWidget {
+  const StarGiftReport({Key? key, required this.apiData, required this.title, this.containerRightText}) : super(key: key);
+  final Map<String, int> apiData;
+  final String title;
+  final String? containerRightText;
+
   @override
   Widget build(BuildContext context) {
+    // Convert API data to list of BarChartGroupData
+    final barGroups = _convertApiDataToBarGroups(apiData);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -238,50 +384,43 @@ class StarGiftReport extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Star Gift Report',
+              title,
               style: semiBold16TextStyle(cBlackColor),
             ),
-            Container(
-              width: 80,
-              height: h28,
-              decoration: BoxDecoration(
-                color: cNeutralColor,
-                borderRadius: BorderRadius.circular(k4BorderRadius),
-              ),
-              child: Center(
-                child: Text(
-                  "Last year",
-                  style: regular12TextStyle(cBlackColor),
+            if (containerRightText == null)
+              Container(
+                width: 80,
+                height: h28,
+                decoration: BoxDecoration(
+                  color: cNeutralColor,
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                ),
+                child: Center(
+                  child: Text(
+                    "Last year",
+                    style: regular12TextStyle(cBlackColor),
+                  ),
                 ),
               ),
-            ),
+            if (containerRightText != null)
+              Text(
+                containerRightText!,
+                style: semiBold18TextStyle(cBlackColor),
+              ),
           ],
         ),
         Text(
           'From this year',
           style: regular10TextStyle(cSmallBodyTextColor),
         ),
-        SizedBox(height: 20),
+        kH20sizedBox,
         AspectRatio(
           aspectRatio: 1.7,
           child: BarChart(
             BarChartData(
               alignment: BarChartAlignment.spaceAround,
-              maxY: 400,
-              barGroups: [
-                makeGroupData(0, 200),
-                makeGroupData(1, 100),
-                makeGroupData(2, 200),
-                makeGroupData(3, 300),
-                makeGroupData(4, 200),
-                makeGroupData(5, 100),
-                makeGroupData(6, 100),
-                makeGroupData(7, 200),
-                makeGroupData(8, 150),
-                makeGroupData(9, 200),
-                makeGroupData(10, 250),
-                makeGroupData(11, 100),
-              ],
+              maxY: 10000, // Adjust this based on the maximum value in your data
+              barGroups: barGroups,
               titlesData: FlTitlesData(
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
@@ -353,19 +492,22 @@ class StarGiftReport extends StatelessWidget {
                       String text;
                       switch (value.toInt()) {
                         case 0:
-                          text = '0k';
+                          text = '0';
                           break;
-                        case 100:
-                          text = '100k';
+                        case 2000:
+                          text = '2k';
                           break;
-                        case 200:
-                          text = '200k';
+                        case 4000:
+                          text = '4k';
                           break;
-                        case 300:
-                          text = '300k';
+                        case 6000:
+                          text = '6k';
                           break;
-                        case 400:
-                          text = '400k';
+                        case 8000:
+                          text = '8k';
+                          break;
+                        case 10000:
+                          text = '10k';
                           break;
                         default:
                           return Container();
@@ -373,13 +515,13 @@ class StarGiftReport extends StatelessWidget {
                       return Text(text, style: style);
                     },
                     reservedSize: 40,
-                    interval: 100,
+                    interval: 2000,
                   ),
                 ),
-                topTitles: AxisTitles(
+                topTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
-                rightTitles: AxisTitles(
+                rightTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
                 ),
               ),
@@ -396,6 +538,16 @@ class StarGiftReport extends StatelessWidget {
     );
   }
 
+  List<BarChartGroupData> _convertApiDataToBarGroups(Map<String, int> data) {
+    final monthKeys = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+    return List.generate(monthKeys.length, (index) {
+      final monthKey = monthKeys[index];
+      final monthValue = data[monthKey]!.toDouble(); // Convert int to double
+      return makeGroupData(index, monthValue);
+    });
+  }
+
   BarChartGroupData makeGroupData(int x, double y) {
     return BarChartGroupData(
       x: x,
@@ -405,55 +557,6 @@ class StarGiftReport extends StatelessWidget {
           color: cPrimaryTint1Color,
           width: 16,
           borderRadius: BorderRadius.circular(k20BorderRadius),
-        ),
-      ],
-    );
-  }
-}
-
-class StarPurchaseAndGiftContent extends StatelessWidget {
-  const StarPurchaseAndGiftContent(
-      {super.key,
-      required this.date,
-      required this.packageName,
-      required this.packageAmount,
-      required this.price,
-      required this.packageIcon,
-      this.lastTextColor});
-  final String date, packageName, packageAmount, price;
-  final IconData packageIcon;
-  final Color? lastTextColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          date,
-          style: regular12TextStyle(cBlackColor),
-        ),
-        Row(
-          children: [
-            Icon(
-              packageIcon,
-              size: kIconSize12,
-              color: cAmberColor,
-            ),
-            kW4sizedBox,
-            Text(
-              packageName,
-              style: regular12TextStyle(cBlackColor),
-            ),
-          ],
-        ),
-        Text(
-          packageAmount,
-          style: regular12TextStyle(cBlackColor),
-        ),
-        Text(
-          price,
-          style: regular12TextStyle(lastTextColor ?? cBlackColor),
         ),
       ],
     );

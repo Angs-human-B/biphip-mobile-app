@@ -1,9 +1,11 @@
+import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class DashboardOverviewAudience extends StatelessWidget {
-  const DashboardOverviewAudience({super.key});
+  DashboardOverviewAudience({super.key});
+  final DashboardController dashboardController = Get.find<DashboardController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,13 @@ class DashboardOverviewAudience extends StatelessWidget {
                     iconOnPressed: null,
                   ),
                   kH16sizedBox,
-                  const SizedBox(width: 100, height: 100, child: AgeGenderPieChart()),
+                  SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: AgeGenderPieChart(
+                        men: double.parse(dashboardController.dashboardOverviewData.value!.audience!.men.toString()),
+                        women: double.parse(dashboardController.dashboardOverviewData.value!.audience!.women.toString()),
+                      )),
                   kH16sizedBox,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +61,7 @@ class DashboardOverviewAudience extends StatelessWidget {
                       ),
                       kW4sizedBox,
                       Text(
-                        "87.5%Men",
+                        "${dashboardController.dashboardOverviewData.value?.audience?.men.toString()}%Men",
                         style: regular12TextStyle(cBlackColor),
                       ),
                       kW24sizedBox,
@@ -67,14 +75,14 @@ class DashboardOverviewAudience extends StatelessWidget {
                       ),
                       kW4sizedBox,
                       Text(
-                        "12.5%Women",
+                        "${dashboardController.dashboardOverviewData.value?.audience?.women.toString()}%Women",
                         style: regular12TextStyle(cBlackColor),
                       ),
                     ],
                   ),
                   kH40sizedBox,
                   //* barchart
-                  SizedBox(width: width - 40, height: 200, child: const AgeGenderBarChart()),
+                  SizedBox(width: width - 40, height: 200, child: AgeGenderBarChart()),
                   kH40sizedBox,
                   DashboardOverviewCommonRowTextIcon(
                     titleText: ksTopCountries.tr,
@@ -86,10 +94,7 @@ class DashboardOverviewAudience extends StatelessWidget {
                       decoration: const BoxDecoration(
                         color: cWhiteColor,
                       ),
-                      child: const DashboardTopCountriesChart(
-                        percentColor: cPrimaryColor,
-                        percentWidth: 70,
-                      )),
+                      child: const DashboardTopCountriesChart()),
                   kH40sizedBox,
                   DashboardOverviewCommonRowTextIcon(
                     titleText: ksTopCities.tr,
@@ -102,8 +107,6 @@ class DashboardOverviewAudience extends StatelessWidget {
                         color: cWhiteColor,
                       ),
                       child: const DashboardTopCitiesChart(
-                        percentColor: cPrimaryColor,
-                        percentWidth: 70,
                       )),
                   kH16sizedBox,
                 ],
@@ -145,7 +148,8 @@ class DashboardOverviewCommonRowTextIcon extends StatelessWidget {
 }
 
 class AgeGenderPieChart extends StatelessWidget {
-  const AgeGenderPieChart({super.key});
+  const AgeGenderPieChart({super.key, required this.men, required this.women});
+  final double men, women;
 
   @override
   Widget build(BuildContext context) {
@@ -154,9 +158,9 @@ class AgeGenderPieChart extends StatelessWidget {
         child: PieChart(
           PieChartData(
             sections: [
-              PieChartSectionData(value: 85.7, color: cPrimaryColor, radius: 15, showTitle: false),
+              PieChartSectionData(value: men, color: cPrimaryColor, radius: 15, showTitle: false),
               PieChartSectionData(
-                value: 14.3,
+                value: women,
                 color: cOrangeColor,
                 radius: 15,
                 showTitle: false,
@@ -172,14 +176,44 @@ class AgeGenderPieChart extends StatelessWidget {
 }
 
 class AgeGenderBarChart extends StatelessWidget {
-  const AgeGenderBarChart({super.key});
+  AgeGenderBarChart({
+    super.key,
+  });
+  final audience = Get.find<DashboardController>().dashboardOverviewData.value!.audience;
+  List<BarChartGroupData> _generateBarGroups() {
+    final ageGroups = audience!.ageGroup!.entries.toList();
+
+    return ageGroups.asMap().entries.map((entry) {
+      int index = entry.key;
+      // String ageGroup = entry.value.key;
+
+      int menCount = entry.value.value.men ?? 0;
+      int womenCount = entry.value.value.women ?? 0;
+
+      return BarChartGroupData(
+        x: index,
+        barRods: [
+          BarChartRodData(
+            toY: menCount.toDouble(),
+            color: cPrimaryColor,
+            width: 16,
+          ),
+          BarChartRodData(
+            toY: womenCount.toDouble(),
+            color: cOrangeColor,
+            width: 16,
+          ),
+        ],
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BarChart(
       BarChartData(
         alignment: BarChartAlignment.spaceAround,
-        maxY: 50,
+        maxY: 100,
         barTouchData: BarTouchData(
           enabled: false,
         ),
@@ -198,49 +232,19 @@ class AgeGenderBarChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (value, meta) {
-                switch (value.toInt()) {
-                  case 0:
-                    return Padding(
-                      padding: const EdgeInsets.only(top: k8Padding),
-                      child: Text(
-                        '18-24',
-                        style: regular10TextStyle(cBlackColor),
-                      ),
-                    );
-                  case 1:
-                    return Padding(
-                      padding: const EdgeInsets.only(top: k8Padding),
-                      child: Text(
-                        '25-34',
-                        style: regular10TextStyle(cBlackColor),
-                      ),
-                    );
-                  case 2:
-                    return Padding(
-                      padding: const EdgeInsets.only(top: k8Padding),
-                      child: Text(
-                        '35-44',
-                        style: regular10TextStyle(cBlackColor),
-                      ),
-                    );
-                  case 3:
-                    return Padding(
-                      padding: const EdgeInsets.only(top: k8Padding),
-                      child: Text(
-                        '45-60',
-                        style: regular10TextStyle(cBlackColor),
-                      ),
-                    );
-                  case 4:
-                    return Padding(
-                      padding: const EdgeInsets.only(top: k8Padding),
-                      child: Text(
-                        '60+',
-                        style: regular10TextStyle(cBlackColor),
-                      ),
-                    );
-                  default:
-                    return Container();
+                int index = value.toInt();
+                if (index < audience!.ageGroup!.length) {
+                  final ageGroupKeys = audience!.ageGroup!.keys.toList();
+                  String label = ageGroupKeys[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: k8Padding),
+                    child: Text(
+                      label,
+                      style: regular10TextStyle(cBlackColor),
+                    ),
+                  );
+                } else {
+                  return Container();
                 }
               },
             ),
@@ -266,83 +270,7 @@ class AgeGenderBarChart extends StatelessWidget {
             );
           },
         ),
-        barGroups: [
-          BarChartGroupData(
-            x: 0,
-            barRods: [
-              BarChartRodData(
-                toY: 30,
-                color: cPrimaryColor,
-                width: 16,
-              ),
-              BarChartRodData(
-                toY: 10,
-                color: cOrangeColor,
-                width: 16,
-              ),
-            ],
-          ),
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(
-                toY: 50,
-                color: cPrimaryColor,
-                width: 16,
-              ),
-              BarChartRodData(
-                toY: 15,
-                color: cOrangeGradientColor,
-                width: 16,
-              ),
-            ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(
-                toY: 35,
-                color: cPrimaryColor,
-                width: 16,
-              ),
-              BarChartRodData(
-                toY: 10,
-                color: cOrangeColor,
-                width: 16,
-              ),
-            ],
-          ),
-          BarChartGroupData(
-            x: 3,
-            barRods: [
-              BarChartRodData(
-                toY: 35,
-                color: cPrimaryColor,
-                width: 16,
-              ),
-              BarChartRodData(
-                toY: 10,
-                color: cOrangeColor,
-                width: 16,
-              ),
-            ],
-          ),
-          BarChartGroupData(
-            x: 4,
-            barRods: [
-              BarChartRodData(
-                toY: 30,
-                color: cPrimaryColor,
-                width: 16,
-              ),
-              BarChartRodData(
-                toY: 10,
-                color: cOrangeColor,
-                width: 16,
-              ),
-            ],
-          ),
-        ],
+        barGroups: _generateBarGroups(),
       ),
     );
   }
