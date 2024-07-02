@@ -19,7 +19,7 @@ class DashboardStar extends StatelessWidget {
             preferredSize: const Size.fromHeight(kAppBarSize),
             //* info:: appBar
             child: CustomAppBar(
-              title: ksStarSmall.tr,
+              title: ksStar.tr,
               hasBackButton: true,
               isCenterTitle: true,
               onBack: () {

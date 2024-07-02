@@ -23,8 +23,6 @@ class DashboardController extends GetxController {
   final RxInt selectedFundTransferFilterIndex = RxInt(0);
   final RxString selectedFundTransferFilterValue = RxString("All");
   final RxString selectedQuizTimeRangeValue = RxString("Today");
-// final RxBool selectPeopleBottomSheetRightButtonState = RxBool(false);
-//  final RxList<bool> isPeopleSelected = RxList<bool>([]);
   final List selectDateTimeFilterList = ["Today", "Last 7 days", "Last 14 days", "Last 30 days", "Last 60 days", "last 90 days", "Custom"];
   final TextEditingController selectPeopleTextEditingController = TextEditingController();
   final TextEditingController fundTransferTextEditingController = TextEditingController();
@@ -1118,6 +1116,37 @@ class DashboardController extends GetxController {
       isDashboardPayoutEarningInsightLoading.value = true;
       ll('getDashboardPayoutEarningInsight error: $e');
     }
+  }
+
+  //* Dashboard overview percentage color
+  Color getOverviewPercentValueColor(int? percentValue) {
+    if (percentValue != null) {
+      if (percentValue < 0) {
+        return cRedColor;
+      }
+      if (percentValue == 0) {
+        return cSmallBodyTextColor;
+      }
+      if (percentValue > 0) {
+        return cGreenColor;
+      }
+    }
+    return cGreenColor;
+  }
+
+  String getOverviewPercentPositiveNegativeValue(int? percentValue) {
+    if (percentValue != null) {
+      if (percentValue < 0) {
+        return "$percentValue%";
+      }
+      if (percentValue > 0) {
+        return "+$percentValue%";
+      }
+      if (percentValue == 0) {
+        return "+$percentValue%";
+      }
+    }
+    return "+$percentValue%";
   }
 
   //! Payouts

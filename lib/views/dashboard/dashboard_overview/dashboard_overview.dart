@@ -115,44 +115,35 @@ class DashboardOverview extends StatelessWidget {
                                 width: (width - 48) / 2,
                                 titleText: ksReach.tr,
                                 totalValue: dashboardController.dashboardOverviewData.value?.postReach.toString() ?? ksNA.tr,
-                                percentValue: "+39%", //!Percent value missing from api
+                                percentValue: dashboardController
+                                    .getOverviewPercentPositiveNegativeValue(dashboardController.dashboardOverviewData.value?.postReachPercentage),
                                 filterText: dashboardController.dashboardOverviewTime.value,
-                                percentTextColor: cGreenColor,
+                                percentTextColor:
+                                    dashboardController.getOverviewPercentValueColor(dashboardController.dashboardOverviewData.value?.postReachPercentage),
                               ),
                               kW8sizedBox,
                               DashboardCommonContainer(
                                 width: (width - 48) / 2,
-                                titleText: ksContentPublished.tr,
-                                totalValue: dashboardController.dashboardOverviewData.value?.postEngagement.toString() ??
-                                    ksNA.tr, //!published content count value missing in api
-                                percentValue: "+0%", //!Percent value missing from api
+                                titleText: ksNewFollowers.tr,
+                                totalValue: dashboardController.dashboardOverviewData.value?.newFollowers.toString() ?? ksNA.tr,
+                                percentValue: dashboardController
+                                    .getOverviewPercentPositiveNegativeValue(dashboardController.dashboardOverviewData.value?.newFollowersPercentage),
                                 filterText: dashboardController.dashboardOverviewTime.value,
-                                percentTextColor: cGreenColor,
+                                percentTextColor:
+                                    dashboardController.getOverviewPercentValueColor(dashboardController.dashboardOverviewData.value?.newFollowersPercentage),
                               ),
                             ],
                           ),
                           kH8sizedBox,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              DashboardCommonContainer(
-                                width: (width - 48) / 2,
-                                titleText: ksEngagement.tr,
-                                totalValue: dashboardController.dashboardOverviewData.value?.postEngagement.toString() ?? ksNA.tr,
-                                percentValue: "+350%", //!Percent value missing from api
-                                filterText: dashboardController.dashboardOverviewTime.value,
-                                percentTextColor: cGreenColor,
-                              ),
-                              kW8sizedBox,
-                              DashboardCommonContainer(
-                                width: (width - 48) / 2,
-                                titleText: ksNetFollowers.tr,
-                                totalValue: dashboardController.dashboardOverviewData.value?.newFollowers.toString() ?? ksNA.tr,
-                                percentValue: "+12%", //!Percent value missing from api
-                                filterText: dashboardController.dashboardOverviewTime.value,
-                                percentTextColor: cGreenColor,
-                              ),
-                            ],
+                          DashboardCommonContainer(
+                            width: (width - 48) / 2,
+                            titleText: ksEngagement.tr,
+                            totalValue: dashboardController.dashboardOverviewData.value?.postEngagement.toString() ?? ksNA.tr,
+                            percentValue: dashboardController
+                                .getOverviewPercentPositiveNegativeValue(dashboardController.dashboardOverviewData.value?.postEngagementPercentage),
+                            filterText: dashboardController.dashboardOverviewTime.value,
+                            percentTextColor:
+                                dashboardController.getOverviewPercentValueColor(dashboardController.dashboardOverviewData.value?.postEngagementPercentage),
                           ),
                           kH16sizedBox,
                           Container(
@@ -203,10 +194,9 @@ class DashboardOverview extends StatelessWidget {
                                   // productImage: dashboardController.contentList[index].details.,
                                   productTitle: dashboardController.dashboardOverviewContentList[index].details?.content ?? "",
                                   postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardOverviewContentList[index].details!.dateTime!),
-                                  postCount: dashboardController.dashboardOverviewContentList[index].details?.countComment
-                                      .toString(), //!post count data not available from api
+                                  postCount: dashboardController.dashboardOverviewContentList[index].details?.countView.toString(),
                                   engagementCount: dashboardController.dashboardOverviewContentList[index].engagement.toString(),
-                                  giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(), //!Gift count missing
+                                  giftCount: dashboardController.dashboardOverviewContentList[index].details?.countStar.toString(),
                                 ),
                               );
                             },
@@ -371,55 +361,57 @@ class DashboardOverview extends StatelessWidget {
                             ksPerformance.tr,
                             style: semiBold18TextStyle(cBlackColor),
                           ),
-                          kH16sizedBox,
+                          kH12sizedBox, //* vertically 4 padding add in Dashboard common container row
                           SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksReach.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.postReach.toString(),
-                                  percentValue: "+39%", //! post reachPercent value missing
-                                  filterText: dashboardController.dashboardOverviewTime.value,
-                                  percentTextColor: cGreenColor,
-                                ),
-                                kW8sizedBox,
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksContentPublished.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.gifts.toString(), //!published content data missing in api
-                                  percentValue: "+0%",
-                                  filterText: ksLast28Days.tr,
-                                  percentTextColor: cGreenColor,
-                                ),
-                                kW8sizedBox,
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksEngagement.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.postEngagement.toString(),
-                                  percentValue: "+350%", //!percent value missing
-                                  filterText: ksLast28Days.tr,
-                                  percentTextColor: cGreenColor,
-                                ),
-                                kW8sizedBox,
-                                DashboardCommonContainer(
-                                  width: (width - 48) / 2,
-                                  height: 88,
-                                  titleText: ksNetFollowers.tr,
-                                  totalValue: dashboardController.dashboardProfileOverviewData.value?.newProfileFollowers.toString(),
-                                  percentValue: "+12%",
-                                  filterText: dashboardController.dashboardOverviewTime.value,
-                                  percentTextColor: cGreenColor,
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: k2Padding),
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 1,
+                                  ),
+                                  DashboardCommonContainer(
+                                    width: (width - 48) / 2,
+                                    titleText: ksReach.tr,
+                                    totalValue: dashboardController.dashboardOverviewData.value?.postReach.toString() ?? ksNA.tr,
+                                    percentValue: dashboardController
+                                        .getOverviewPercentPositiveNegativeValue(dashboardController.dashboardOverviewData.value?.postReachPercentage),
+                                    filterText: dashboardController.dashboardOverviewTime.value,
+                                    percentTextColor:
+                                        dashboardController.getOverviewPercentValueColor(dashboardController.dashboardOverviewData.value?.postReachPercentage),
+                                  ),
+                                  kW8sizedBox,
+                                  DashboardCommonContainer(
+                                    width: (width - 48) / 2,
+                                    titleText: ksNewFollowers.tr,
+                                    totalValue: dashboardController.dashboardOverviewData.value?.newFollowers.toString() ?? ksNA.tr,
+                                    percentValue: dashboardController
+                                        .getOverviewPercentPositiveNegativeValue(dashboardController.dashboardOverviewData.value?.newFollowersPercentage),
+                                    filterText: dashboardController.dashboardOverviewTime.value,
+                                    percentTextColor: dashboardController
+                                        .getOverviewPercentValueColor(dashboardController.dashboardOverviewData.value?.newFollowersPercentage),
+                                  ),
+                                  kW8sizedBox,
+                                  DashboardCommonContainer(
+                                    width: (width - 48) / 2,
+                                    titleText: ksEngagement.tr,
+                                    totalValue: dashboardController.dashboardOverviewData.value?.postEngagement.toString() ?? ksNA.tr,
+                                    percentValue: dashboardController
+                                        .getOverviewPercentPositiveNegativeValue(dashboardController.dashboardOverviewData.value?.postEngagementPercentage),
+                                    filterText: dashboardController.dashboardOverviewTime.value,
+                                    percentTextColor: dashboardController
+                                        .getOverviewPercentValueColor(dashboardController.dashboardOverviewData.value?.postEngagementPercentage),
+                                  ),
+                                  const SizedBox(
+                                    width: 1,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          kH20sizedBox,
+                          kH16sizedBox, //* vertically 4 padding add in Dashboard common container row
                           Text(
                             ksInteractions.tr,
                             style: semiBold18TextStyle(cBlackColor),
@@ -525,7 +517,7 @@ class DashboardOverview extends StatelessWidget {
                             DashboardToolsContainer(
                               icon: BipHip.giftNew,
                               iconColor: cAmberAccentColor,
-                              titleText: ksStarSmall.tr,
+                              titleText: ksStar.tr,
                               subTitleText: ksLearnAboutTheAward.tr,
                               toolsOnPressed: () async {
                                 await dashboardController.getDashboardStarInsight();
@@ -565,7 +557,7 @@ class DashboardOverview extends StatelessWidget {
                               iconColor: cPrimaryColor,
                               titleText: ksQuizHistory.tr,
                               subTitleText: ksLearnAboutTheAward.tr,
-                              toolsOnPressed: () async{
+                              toolsOnPressed: () async {
                                 await dashboardController.getDashboardQuizInsight();
                                 Get.toNamed(krDashboardQuiz);
                               },

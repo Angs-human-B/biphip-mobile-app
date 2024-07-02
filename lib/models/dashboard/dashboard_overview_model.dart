@@ -1,16 +1,22 @@
 class DashboardOverviewModel {
   int? followers;
   int? postReach;
+  int? postReachPercentage;
   int? postEngagement;
+  int? postEngagementPercentage;
   int? newFollowers;
+  int? newFollowersPercentage;
   Contents? contents;
   Audience? audience;
 
   DashboardOverviewModel({
     this.followers,
     this.postReach,
+    this.postReachPercentage,
     this.postEngagement,
+    this.postEngagementPercentage,
     this.newFollowers,
+    this.newFollowersPercentage,
     this.contents,
     this.audience,
   });
@@ -18,8 +24,11 @@ class DashboardOverviewModel {
   factory DashboardOverviewModel.fromJson(Map<String, dynamic> json) => DashboardOverviewModel(
         followers: json["followers"],
         postReach: json["post_reach"],
+        postReachPercentage: json["post_reach_percentage"],
         postEngagement: json["post_engagement"],
+        postEngagementPercentage: json["post_engagement_percentage"],
         newFollowers: json["new_followers"],
+        newFollowersPercentage: json["new_followers_percentage"],
         contents: json["contents"] == null ? null : Contents.fromJson(json["contents"]),
         audience: json["audience"] == null ? null : Audience.fromJson(json["audience"]),
       );
@@ -363,7 +372,6 @@ class Details {
         countMyStars: json["count_my_stars"],
       );
 }
-
 
 class CountReactions {
   int? all;
