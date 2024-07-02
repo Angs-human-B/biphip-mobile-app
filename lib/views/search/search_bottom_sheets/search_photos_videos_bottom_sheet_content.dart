@@ -1,46 +1,30 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/date_posted_content.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/posts_category_content.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/search_posted_by_content.dart';
+import 'package:bip_hip/views/search/search.dart';
+import 'package:bip_hip/views/search/search_widgets/date_posted_content.dart';
+import 'package:bip_hip/views/search/search_widgets/search_posted_by_content.dart';
 
-class SearchPostsBottomSheetContent extends StatelessWidget {
-  SearchPostsBottomSheetContent({super.key});
+class SearchPhotosVideosBottomSheetContent extends StatelessWidget {
+  SearchPhotosVideosBottomSheetContent({super.key});
   final AllSearchController allSearchController = Get.find<AllSearchController>();
   @override
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
             CustomListTile(
-              leading: const IconContainer(icon: Icons.timer), //!Icon must change
-              title: ksRecentPost.tr,
-              trailing: Obx(() => SizedBox(
-                    width: (width - 330) / 2,
-                    child: CustomCheckBox(
-                        value: allSearchController.isRecentPostCheckBoxSelected.value,
-                        label: "",
-                        onChanged: (v) {
-                          allSearchController.isRecentPostCheckBoxSelected.value = !allSearchController.isRecentPostCheckBoxSelected.value;
-                          allSearchController.postsBottomSheetState();
-                        },
-                        textStyle: regular14TextStyle(cBlackColor)),
-                  )),
-            ),
-            CustomListTile(
               leading: const IconContainer(icon: BipHip.world),
               title: ksPostedBy.tr,
               subtitle: allSearchController.selectedPostedBy.value,
-              trailing: allSearchController.selectedPostedBy.value != ""
-                  ? CustomIconButton(
+              trailing: allSearchController.selectedPostedBy.value == ""
+                  ? null
+                  : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedPostedBy.value = "";
-                        allSearchController.postsBottomSheetState();
+                        allSearchController.photosVideosBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
-                    )
-                  : null,
+                    ),
               onPressed: () {
                 allSearchController.temporarySelectedPostedBy.value = allSearchController.selectedPostedBy.value;
                 if (allSearchController.temporarySelectedPostedBy.value == '') {
@@ -57,7 +41,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedPostedBy.value = allSearchController.temporarySelectedPostedBy.value;
-                      allSearchController.postsBottomSheetState();
+                      allSearchController.photosVideosBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -76,7 +60,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                   : CustomIconButton(
                       onPress: () {
                         allSearchController.selectedDatePosted.value = "";
-                        allSearchController.postsBottomSheetState();
+                        allSearchController.photosVideosBottomSheetState();
                       },
                       icon: BipHip.circleCrossNew,
                       size: kIconSize20,
@@ -96,7 +80,7 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                     },
                     onPressRightButton: () {
                       allSearchController.selectedDatePosted.value = allSearchController.temporarySelectedDatePosted.value;
-                      allSearchController.postsBottomSheetState();
+                      allSearchController.photosVideosBottomSheetState();
                       Get.back();
                     },
                     rightText: ksDone.tr,
@@ -106,56 +90,14 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                     isBottomSheetRightButtonActive: allSearchController.isDatePostedBottomSheetState);
               },
             ),
-            CustomListTile(
-              leading: const IconContainer(icon: BipHip.menuFill),
-              title: ksCategory.tr,
-              subtitle: allSearchController.selectedCategory.value,
-              trailing: allSearchController.selectedCategory.value == ""
-                  ? null
-                  : CustomIconButton(
-                      onPress: () {
-                        allSearchController.selectedCategory.value = "";
-                        allSearchController.selectedCategoryId.value = -1;
-                        allSearchController.postsBottomSheetState();
-                      },
-                      icon: BipHip.circleCrossNew,
-                      size: kIconSize20,
-                    ),
-              onPressed: () {
-                allSearchController.temporarySelectedCategory.value = allSearchController.selectedCategory.value;
-                allSearchController.temporarySelectedCategoryId.value = allSearchController.selectedCategoryId.value;
-                if (allSearchController.temporarySelectedCategory.value == '') {
-                  allSearchController.isCategoryBottomSheetState.value = false;
-                } else {
-                  allSearchController.isCategoryBottomSheetState.value = true;
-                }
-                Get.find<GlobalController>().commonBottomSheet(
-                    context: context,
-                    content: PostsCategoryContent(),
-                    onPressCloseButton: () {
-                      Get.back();
-                    },
-                    onPressRightButton: () {
-                      allSearchController.selectedCategory.value = allSearchController.temporarySelectedCategory.value;
-                      allSearchController.selectedCategoryId.value = allSearchController.temporarySelectedCategoryId.value;
-                      allSearchController.postsBottomSheetState();
-                      Get.back();
-                    },
-                    rightText: ksDone.tr,
-                    rightTextStyle: semiBold14TextStyle(cPrimaryColor),
-                    title: ksCategory.tr,
-                    isRightButtonShow: true,
-                    isBottomSheetRightButtonActive: allSearchController.isCategoryBottomSheetState);
-              },
-            ),
             kH24sizedBox,
             CustomElevatedButton(
               label: ksShowResult.tr,
               buttonWidth: width - 40,
               buttonHeight: h32,
-              onPressed: allSearchController.isPostsBottomSheetResetOrShowResult.value
+              onPressed: allSearchController.isPhotosVideosBottomSheetResetOrShowResult.value
                   ? () async {
-                      Get.back();
+                    Get.back();
                       await allSearchController.getSearch();
                     }
                   : null,

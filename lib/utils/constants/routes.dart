@@ -140,7 +140,7 @@ import 'package:bip_hip/views/menu/videos/gallery_videos.dart';
 import 'package:bip_hip/views/menu/videos/video_details.dart';
 import 'package:bip_hip/views/menu/videos/videos.dart';
 import 'package:bip_hip/views/intro/splash_screen.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
+import 'package:bip_hip/views/search/search.dart';
 import 'package:get/get.dart';
 
 const String krSplashScreen = '/splash-screen';
