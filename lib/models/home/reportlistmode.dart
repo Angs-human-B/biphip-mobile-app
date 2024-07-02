@@ -16,8 +16,6 @@ class Report {
     String? description;
     int? isEditable;
     int? displayOrder;
-    // DateTime createdAt;
-    // DateTime updatedAt;
 
     Report({
         required this.id,
@@ -25,8 +23,6 @@ class Report {
         required this.description,
         required this.isEditable,
         required this.displayOrder,
-        // required this.createdAt,
-        // required this.updatedAt,
     });
 
     factory Report.fromJson(Map<String, dynamic> json) => Report(
@@ -35,7 +31,5 @@ class Report {
         description: json["description"],
         isEditable: json["is_editable"],
         displayOrder: json["display_order"],
-        // createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
     );
 }

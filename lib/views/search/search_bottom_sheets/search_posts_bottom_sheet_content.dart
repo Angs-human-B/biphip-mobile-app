@@ -83,7 +83,6 @@ class SearchPostsBottomSheetContent extends StatelessWidget {
                     ),
               onPressed: () {
                 allSearchController.temporarySelectedDatePosted.value = allSearchController.selectedDatePosted.value;
-                // kidsController.temporaryKidRelationId.value = kidsController.kidRelationId.value;
                 if (allSearchController.temporarySelectedDatePosted.value == "") {
                   allSearchController.isDatePostedBottomSheetState.value = false;
                 } else {

@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 
 class DashboardGiftEarned extends StatelessWidget {
   DashboardGiftEarned({super.key});

@@ -353,10 +353,6 @@ class GalleryController extends GetxController {
 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
-  // final RxList galleryPhotoActionList = RxList([
-  //   {'icon': BipHip.imageFile, 'action': 'Download album'},
-  //   {'icon': BipHip.editImage, 'action': 'Edit Album'},
-  // ]);
   final RxString photoActionSelect = RxString('');
   final RxList photoActionList = RxList([
     {'icon': BipHip.deleteNew, 'action': 'Delete photo'},
@@ -400,11 +396,6 @@ class GalleryController extends GetxController {
           }
         }
       }
-      // if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
-      //   isCreateAlbumPostButtonEnable.value = false;
-      // } else {
-      //   isCreateAlbumPostButtonEnable.value = true;
-      // }
     } else {
       if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
         isCreateAlbumPostButtonEnable.value = true;
@@ -437,7 +428,6 @@ class GalleryController extends GetxController {
   final RxBool isEditAlbum = RxBool(false);
 
   final RxList<dynamic> allMediaList = RxList<dynamic>([]);
-  // final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
   final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
   List imageDescriptionTextEditingController = [];
@@ -515,10 +505,6 @@ class GalleryController extends GetxController {
         uploadedImageList.add(allMediaList[i]);
       }
     }
-    // List tags = [];
-    // for (int i = 0; i < taggedFriends.length; i++) {
-    //   tags.add(taggedFriends[i].id);
-    // }
     try {
       isCreateAlbumLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -529,7 +515,6 @@ class GalleryController extends GetxController {
         "delete_image_ids": deleteImageIdList.join(','),
         if (uploadedImageList.isEmpty)
           for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
-        // 'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
         for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
         for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),

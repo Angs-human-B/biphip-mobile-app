@@ -3,7 +3,6 @@ import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/quiz/my_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
-// import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/rendering.dart';
@@ -783,7 +782,7 @@ class LineChartWidget extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -901,7 +900,7 @@ class BarChartWidget extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -932,8 +931,6 @@ class BarChartWidget extends StatelessWidget {
                     x: 0,
                     barRods: [
                       BarChartRodData(
-                        // y: 8,
-
                         color: barColor ?? cPurpleColor,
                         width: 16,
                         borderRadius: BorderRadius.circular(8), toY: 8,
@@ -944,8 +941,6 @@ class BarChartWidget extends StatelessWidget {
                     x: 1,
                     barRods: [
                       BarChartRodData(
-                        // y: 4,
-                        // colors: [barColor],
                         color: barColor ?? cPurpleColor,
                         width: 16,
                         borderRadius: BorderRadius.circular(8), toY: 4,
@@ -956,10 +951,6 @@ class BarChartWidget extends StatelessWidget {
                     x: 2,
                     barRods: [
                       BarChartRodData(
-                        // y: 6,
-                        // colors: [barColor],
-                        // width: 16,
-                        // borderRadius: BorderRadius.circular(8),
                         color: barColor ?? cPurpleColor,
                         width: 16,
                         borderRadius: BorderRadius.circular(8), toY: 6,

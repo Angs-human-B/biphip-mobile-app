@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 
 class DashboardPerformance extends StatelessWidget {
   DashboardPerformance({super.key});

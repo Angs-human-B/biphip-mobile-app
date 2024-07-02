@@ -243,7 +243,6 @@ class AgeGenderBarChart extends StatelessWidget {
                     return Container();
                 }
               },
-              // margin: 16,
             ),
           ),
           rightTitles: const AxisTitles(

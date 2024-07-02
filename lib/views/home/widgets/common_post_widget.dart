@@ -44,60 +44,6 @@ class CommonPostWidget extends StatelessWidget {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // if (isLiked)
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-          //   child: Row(
-          //     children: [
-          //       Stack(
-          //         children: [
-          //           const SizedBox(
-          //             width: 40,
-          //             height: 20,
-          //           ),
-          //           for (int index = 0; index < 3; index++)
-          //             Positioned(
-          //               left: index * 10,
-          //               child: Container(
-          //                 height: 20,
-          //                 width: 20,
-          //                 decoration: BoxDecoration(
-          //                   shape: BoxShape.circle,
-          //                   border: Border.all(color: cWhiteColor, width: 1),
-          //                 ),
-          //                 child: Image.asset(
-          //                   kiProfilePicImageUrl,
-          //                   fit: BoxFit.fill,
-          //                 ),
-          //               ),
-          //             ),
-          //         ],
-          //       ),
-          //       kW8sizedBox,
-          //       // RichText(
-          //       //     text: TextSpan(children: [
-          //       //   TextSpan(text: 'Aminul Islam Rana and 10 other ', style: semiBold14TextStyle(cBlackColor)),
-          //       //   TextSpan(text: 'liked it.', style: regular14TextStyle(cSmallBodyTextColor))
-          //       // ]))
-          //     ],
-          //   ),
-          // ),
-
-          // if (isCommented)
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k10Padding),
-          //   child: Row(
-          //     children: [
-          // kW8sizedBox,
-          // RichText(
-          //     text: TextSpan(children: [
-          //   TextSpan(text: 'Aminul Islam Rana ', style: semiBold14TextStyle(cBlackColor)),
-          //   TextSpan(text: 'commented.', style: regular14TextStyle(cSmallBodyTextColor))
-          // ])),
-          //     ],
-          //   ),
-          // ),
-          // if (isCommented || isLiked) const CustomDivider(thickness: 1),
           kH10sizedBox,
           InkWell(
             onTap: () async {
@@ -146,7 +92,6 @@ class CommonPostWidget extends StatelessWidget {
                 ]),
               ),
             ),
-          // check if it is selling post
           if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
               (globalController.userId.value == globalController.commonPostList[postIndex].user!.id))
             Padding(
@@ -256,20 +201,6 @@ class CommonPostWidget extends StatelessWidget {
                     ),
                   ),
                 )),
-          // if (globalController.commonPostList[postIndex].content!.length > 256)
-          //   Obx(() => Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          //         child: TextButton(
-          //           style: kTextButtonStyle,
-          //           onPressed: () {
-          //             Get.find<HomeController>().seeMore.value = !Get.find<HomeController>().seeMore.value;
-          //           },
-          //           child: Text(
-          //             Get.find<HomeController>().seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
-          //             style: semiBold14TextStyle(cPrimaryColor),
-          //           ),
-          //         ),
-          //       )),
           if (globalController.commonPostList[postIndex].type == 3)
             if (globalController.commonPostList[postIndex].sharePosts != null)
               Padding(
@@ -533,7 +464,6 @@ class CommonPostWidget extends StatelessWidget {
                                   child: TextButton(
                                     style: kTextButtonStyle,
                                     onPressed: () {
-                                      //Get.toNamed(krUploadedImageListPage);
                                     },
                                     child: Text(
                                       "${globalController.commonPostList[postIndex].images.length - 5} More",
@@ -550,7 +480,6 @@ class CommonPostWidget extends StatelessWidget {
               ),
             ),
           //* Bidding actions
-
           if (globalController.commonPostList[postIndex].countReactions != null ||
               globalController.commonPostList[postIndex].countComment!.value != 0 ||
               globalController.commonPostList[postIndex].countShare!.value != 0 ||
@@ -631,7 +560,6 @@ class CommonPostWidget extends StatelessWidget {
             child: CustomDivider(),
           ),
           kH12sizedBox,
-          // PostBottomSection(isSelfPost: isSelfPost, isCommentShown: isCommentShown)
         ],
       ),
     );
@@ -795,29 +723,6 @@ class BiddingInsightsContent extends StatelessWidget {
                   return BiddingInsightCommentSection();
                 }),
             kH8sizedBox,
-            // ListView.builder(
-            //     physics: const NeverScrollableScrollPhysics(),
-            //     shrinkWrap: true,
-            //     itemCount: postReactionController.showMoreBiddingInsights.value ? 4 : comment.length,
-            //     itemBuilder: (context, index) {
-            //       return CommentWidget(
-            //         profileImage: comment[index]['image'],
-            //         timePassed: '5',
-            //         isLikeButtonShown: true,
-            //         isReplyButtonShown: false,
-            //         isReactButtonShown: true,
-            //         comment: comment[index]['comment'],
-            //         isLink: false,
-            //         userName: comment[index]['userName'],
-            //         isImageComment: false,
-            //         isSendMessageShown: true,
-            //         isHideButtonShown: false,
-            //         replyList: const [],
-            //         refType: 1,
-            //         refId: 1,
-            //       );
-            //     }),
-            kH8sizedBox,
             if (postReactionController.showMoreBiddingInsights.value)
               SizedBox(
                 width: width - 40,
@@ -928,7 +833,6 @@ class PlaceBidContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          // height: h60,
           decoration: BoxDecoration(color: cPrimaryTint2Color, borderRadius: k8CircularBorderRadius),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: k20Padding),
@@ -937,7 +841,6 @@ class PlaceBidContent extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 110,
-                  // height: 46,
                   child: Column(
                     children: [
                       Text(
@@ -1123,21 +1026,6 @@ class UpdateBidding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // CommentWidget(
-        //   profileImage: kiProfileDefaultImageUrl,
-        //   isLikeButtonShown: false,
-        //   isReplyButtonShown: false,
-        //   isReactButtonShown: false,
-        //   comment: '\$$yourBid',
-        //   isLink: false,
-        //   userName: 'Omi',
-        //   isImageComment: false,
-        //   isSendMessageShown: false,
-        //   isHideButtonShown: false,
-        //   replyList: const [],
-        //   refType: 1,
-        //   refId: 1,
-        // ),
         kH4sizedBox,
         Wrap(
           alignment: WrapAlignment.start,
@@ -1155,8 +1043,6 @@ class UpdateBidding extends StatelessWidget {
 
 class GiftContent extends StatelessWidget {
   GiftContent({super.key});
-
-  // final PostReactionController postReactionController = Get.find<PostReactionController>();
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
   final GlobalController globalController = Get.find<GlobalController>();
 
@@ -1167,37 +1053,6 @@ class GiftContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           kH16sizedBox,
-          // Text(
-          //   ksAllStars.tr,
-          //   style: semiBold14TextStyle(cBlackColor),
-          // ),
-          // kH16sizedBox,
-          // SizedBox(
-          //   child: GridView.builder(
-          //     shrinkWrap: true,
-          //     physics: const NeverScrollableScrollPhysics(),
-          //     itemCount: giftPackages.length,
-          //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //       childAspectRatio: isDeviceScreenLarge() ? 0.9 : 1,
-          //       crossAxisCount: 3,
-          //       crossAxisSpacing: k16Padding,
-          //       mainAxisSpacing: k16Padding,
-          //     ),
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return InkWell(
-          //         onTap: () {
-          //           postReactionController.selectedPackage.value = giftPackages[index];
-          //           postReactionController.selectedGiftIndex.value = index;
-          //           postReactionController.isPackageSelected.value = true;
-          //         },
-          //         child: PackageGridViewContainer(
-          //           index: index,
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-
           Text(
             ksAllBadges.tr,
             style: semiBold16TextStyle(cBlackColor),
@@ -1237,8 +1092,6 @@ class GiftContent extends StatelessWidget {
                     pendentBadgesController.badgesCardNumberTextEditingController.clear();
                     pendentBadgesController.badgesMMYYTextEditingController.clear();
                     pendentBadgesController.badgesCvvTextEditingController.clear();
-
-                    // Get.toNamed(krPurchaseStar);
                   },
                   child: BadgesGridViewContainer(
                     index: index,
@@ -1468,31 +1321,6 @@ class PurchaseStarContent extends StatelessWidget {
               pendentBadgesController.selectedBadgeDescription.value,
               style: regular14TextStyle(cBlackColor),
             ),
-            //*Not need now.
-            // kH16sizedBox,
-            // for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
-            //   Padding(
-            //     padding: const EdgeInsets.only(top: k4Padding),
-            //     child: Row(
-            //       children: [
-            //         Container(
-            //           width: 4,
-            //           height: 4,
-            //           decoration: const BoxDecoration(
-            //             shape: BoxShape.circle,
-            //             color: cBlackColor,
-            //           ),
-            //         ),
-            //         kW8sizedBox,
-            //         Text(
-            //           pendentBadgesController.benefitsList[i],
-            //           style: regular12TextStyle(cBlackColor),
-            //           overflow: TextOverflow.clip,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-
             kH16sizedBox,
             RichText(
               text: TextSpan(
@@ -1566,7 +1394,6 @@ class PurchaseStarContent extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: k8Padding),
                       child: Obx(() => CustomListTile(
                             onPressed: () {
-                              // pendentBadgesController.selectedPackage.value = packages[index];
                               pendentBadgesController.selectedBadgeIndex.value = index;
                               pendentBadgesController.selectedBadgeIcon.value = pendentBadgesController.popularBadgesList[index].icon!;
                               pendentBadgesController.selectedBadgeStar.value = pendentBadgesController.popularBadgesList[index].star.toString();
@@ -2062,7 +1889,6 @@ class ShareBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
-            // kH16sizedBox,
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -2151,8 +1977,6 @@ class ShareBottomSheetContent extends StatelessWidget {
                           await createPostController.getKidList();
                         }
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Share to Your Store Profile".toLowerCase()) {
-                          // createPostController.tempSelectedBrandId.value = createPostController.selectedBrandId.value;
-
                           if (createPostController.tempSelectedBrandId.value == -1) {
                             createPostController.storeListBottomSheetRightButtonState.value = false;
                           } else {

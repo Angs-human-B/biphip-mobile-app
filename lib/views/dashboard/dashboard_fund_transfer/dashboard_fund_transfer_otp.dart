@@ -39,14 +39,6 @@ class DashboardFundTransferOtp extends StatelessWidget {
                     child: Column(
                       children: [
                         kH20sizedBox,
-                        // TopTitleAndSubtitle(
-                        //   title: ksOTPVerification.tr,
-                        //   subTitle: ksEnterCode.tr,
-                        // ),
-                        // Text(
-                        //   "Enter the verification code. We just sent a code to your email address",
-                        //   style: regular14TextStyle(cSmallBodyTextColor),
-                        // ),
                         RichText(
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
@@ -67,13 +59,11 @@ class DashboardFundTransferOtp extends StatelessWidget {
                             dashboardController.checkCanOTPVerifyNow();
                           },
                         ),
-                        // kH16sizedBox,
                         const Spacer(),
                         CustomElevatedButton(
                           label: ksConfirm.tr,
                           onPressed: dashboardController.canOTPVerifyNow.value
                               ? () {
-                                  // registrationHelper.onPressedVerifyOTP();
                                   Get.toNamed(krDashboardPage);
                                 }
                               : null,
@@ -88,7 +78,6 @@ class DashboardFundTransferOtp extends StatelessWidget {
                                 suffix: ksResend.tr,
                                 onPressed: () async {
                                   unfocus(context);
-                                  // await authenticationController.resendOTP();
                                 },
                               )
                             : CountDown(
@@ -104,16 +93,6 @@ class DashboardFundTransferOtp extends StatelessWidget {
                 ),
               ),
             ),
-            // if (dashboardController.isOTPLoading.value == true)
-            //   Positioned(
-            //     child: CommonLoadingAnimation(
-            //       onWillPop: () async {
-            //         if (authenticationController.isOTPLoading.value) {
-            //           return false;
-            //         }
-            //         return true;
-            //       },
-            //     ),
           ),
         ],
       ),

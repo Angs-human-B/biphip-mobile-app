@@ -300,28 +300,24 @@ class EditProfileHelper {
           'EDIT WORKPLACE',
           profileController.temporaryWorkplaceStartDate.value,
           profileController.temporaryWorkplaceEndDate.value);
-      // Get.back();
     } else if (methodID == 11) {
       setEditPageValue(ksAddPhoneNumber.tr, false, BipHip.phoneFill, profileController.phoneTextEditingController, false,
           profileController.phoneTextEditingController, ksPhone.tr, false, true, false, false, '', 'ADD PHONE', '', '');
     } else if (methodID == 12) {
       setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, profileController.phoneTextEditingController, false,
           profileController.phoneTextEditingController, ksEditPhone.tr, false, true, false, false, '', 'EDIT PHONE', '', '');
-      // Get.back();
     } else if (methodID == 13) {
       setEditPageValue(ksAddEmail.tr, false, BipHip.mail, profileController.emailTextEditingController, false, profileController.emailTextEditingController,
           ksEmail.tr, false, true, false, false, '', 'ADD EMAIL', '', '');
     } else if (methodID == 14) {
       setEditPageValue(ksEditEmail.tr, false, BipHip.mail, profileController.emailTextEditingController, false, profileController.emailTextEditingController,
           ksEditEmail.tr, false, true, false, false, '', 'EDIT EMAIL', '', '');
-      // Get.back();
     } else if (methodID == 15) {
       setEditPageValue(ksAddLink, true, BipHip.webLink, profileController.linkTextEditingController, false, profileController.emailTextEditingController,
           ksAddLink, false, true, false, false, '', 'ADD LINK', '', '');
     } else if (methodID == 16) {
       setEditPageValue(ksEditLink.tr, true, getLinkIcon(profileController.linkSource.value), profileController.linkTextEditingController, false,
           profileController.linkTextEditingController, ksEditLink.tr, false, true, false, false, '', 'EDIT LINK', '', '');
-      // Get.back();
     } else if (methodID == 17) {
       setEditPageValue(
           ksAddWorkplace.tr,
@@ -469,7 +465,6 @@ class EditProfileHelper {
   }
 
   //* Education Section
-
   String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
     if (startDate != null && endDate != null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
@@ -777,7 +772,6 @@ class EditProfileHelper {
 
   void editPhone(index) {
     resetTextEditor();
-    // profileController.enableSaveButton.value = true;
     profileController.phoneID.value = profileController.contactDataList[index].id!;
     profileController.phoneTextEditingController.text = profileController.contactDataList[index].value!;
     getMethod(12);

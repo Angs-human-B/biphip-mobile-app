@@ -298,7 +298,6 @@ class SharePosts {
   RxString? myReaction;
   List<String> viewers;
   bool? hasReport;
-  // bool? myReport;
   bool? isNotifaction;
   bool? isVisibleToMe;
   int? countReaction;
@@ -356,7 +355,6 @@ class SharePosts {
     required this.myReaction,
     required this.viewers,
     required this.hasReport,
-    // required this.myReport,
     required this.isNotifaction,
     required this.isVisibleToMe,
     required this.countReaction,
@@ -415,7 +413,6 @@ class SharePosts {
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
         viewers: List<String>.from(json["viewers"].map((x) => x)),
         hasReport: json["has_report"],
-        // myReport: json["my_report"],
         isNotifaction: json["is_notifaction"],
         isVisibleToMe: json["is_visible_to_me"],
         countReaction: json["count_reaction"],

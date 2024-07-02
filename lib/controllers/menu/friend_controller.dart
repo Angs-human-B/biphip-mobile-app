@@ -374,7 +374,6 @@ class FriendController extends GetxController {
   }
 
   //*Follow User
-
   Future<void> followUser() async {
     try {
       isFriendViewLoading.value = true;
@@ -788,7 +787,7 @@ class FriendController extends GetxController {
     }
   }
 
-  // //*Get More Friend Search List for pagination
+  //*Get More Friend Search List for pagination
   Future<void> getMoreFriendSearchList(take) async {
     try {
       String? token = await spController.getBearerToken();

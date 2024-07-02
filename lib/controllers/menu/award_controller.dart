@@ -21,7 +21,6 @@ class AwardController extends GetxController {
   }
 
   //*Award APi implement
-  //*Friend List Api Call
   final Rx<AwardModel?> awardListData = Rx<AwardModel?>(null);
   final RxList<AwardData> myAwardList = RxList<AwardData>([]);
   final RxList<AwardData> friendAwardList = RxList<AwardData>([]);

@@ -37,7 +37,6 @@ class FamilyHelper {
     familySearchFieldReset();
     familyController.clearAddFamilyData();
     Get.toNamed(krAddFamily);
-    // Get.find<FriendController>().getFriendList();
     Get.find<FriendController>().getFriendListForAddFamily();
   }
 

@@ -42,7 +42,6 @@ class KidProfilePostSection extends StatelessWidget {
                     prefixText: ksPage.tr,
                     suffixText: kidsController.kidOverviewData.value?.kids?.pageType ?? ksNA.tr,
                   ),
-                  // if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
                   KidStoreProfileLinkUpIconTextRow(
                     iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
                     prefixText: kidsController.kidOverviewData.value?.kids?.relation ?? ksNA,
@@ -68,8 +67,6 @@ class KidProfilePostSection extends StatelessWidget {
               name: kidsController.kidOverviewData.value?.kids?.name ?? ksNA,
               profilePic: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
               onPressed: () async {
-                // Get.find<CreatePostController>().isPostedFromProfile.value = true;
-                // CreatePostHelper().resetCreatePostData();
                 CreatePostHelper().resetCreatePostData();
                 Get.find<CreatePostController>().category.value = "Kids";
                 kidsController.isRouteFromKid.value = true;
@@ -164,20 +161,18 @@ class KidProfilePostSection extends StatelessWidget {
                                 userName: item.user!.fullName!,
                                 postTime: Get.find<GlobalController>().postTimeDifference(item.createdAt!),
                                 isCategorized: true,
-                                subCategory: null, //API
-                                category: item.postCategory == null ? null : item.postCategory!.name, //API
+                                subCategory: null, 
+                                category: item.postCategory == null ? null : item.postCategory!.name,
                                 categoryIcon:
-                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id),
                                 categoryIconColor:
-                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id),
                                 privacy: BipHip.world,
-                                // brandName: item.store == null ? null : item.store!.name, //API
-                                kidName: item.kid == null ? null : item.kid!.name, //API
-                                kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                title: item.title, //API
-                                postText: item.content ?? '', //API
-                                price: null, //API
-                                // mediaList: item.images,
+                                kidName: item.kid == null ? null : item.kid!.name, 
+                                kidAge: item.kid == null ? null : item.kid!.age.toString(),
+                                title: item.title, 
+                                postText: item.content ?? '',
+                                price: null, 
                                 mediaList: item.images,
                                 isSelfPost: true,
                                 isInStock: true,
@@ -185,7 +180,6 @@ class KidProfilePostSection extends StatelessWidget {
                                 postID: item.id!,
                                 userImage: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
                                 taggedFriends: const [],
-                                // reactCount: item.countReactions,
                               ),
                             );
                           },

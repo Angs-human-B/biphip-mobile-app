@@ -101,7 +101,6 @@ class Quiz {
         endTime: json["end_time"],
         playingDuration: json["playing_duration"],
         noOfQuestions: json["no_of_questions"],
-        // participants: List<Participant>.from(json["participants"].map((x) => Participant.fromJson(x))),
         participants: json["participants"] != null ? List<Participant>.from(json["participants"].map((x) => Participant.fromJson(x))) : [],
         mediaUrl: json["media_url"],
       );

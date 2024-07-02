@@ -118,7 +118,6 @@ class ApiController {
         log("Response : $prettyString");
         CommonDM cm = convertToCommonObject(jsonDecode(response.body));
         return cm;
-        // return jsonDecode(response.body);
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krLogin);
@@ -147,7 +146,7 @@ class ApiController {
     }
   }
 
-  // dio post type of request
+  //! dio post type of request
   Future<dynamic> commonPostDio({
     required String url,
     required String? token,
@@ -217,7 +216,6 @@ class ApiController {
           'content-Type': 'multipart/form-data',
         },
       );
-      // If image is a file on disk, use fromPath instead of fromBytes
       request.files.add(await http.MultipartFile.fromPath(key, value));
       request.fields.addAll(body ?? {});
 
@@ -269,7 +267,6 @@ class ApiController {
           'content-Type': 'multipart/form-data',
         },
       );
-      // If image is a file on disk, use fromPath instead of fromBytes
       for (var value in values) {
         request.files.add(await http.MultipartFile.fromPath(key, value.value.path));
       }
@@ -278,11 +275,6 @@ class ApiController {
       var response = await request.send();
       ll("response statusCode : ${response.statusCode}");
       if (response.statusCode == 200) {
-        // var res = (await response.stream.transform(utf8.decoder).first);
-        // Map<String, dynamic> de = jsonDecode(res);
-        // ll(de['data']);
-        // CommonDM cm = convertToCommonObject(de);
-        // return cm;
         String res = '';
         await for (var chunk in response.stream) {
           res += utf8.decode(chunk);
@@ -328,15 +320,9 @@ class ApiController {
           'content-Type': 'multipart/form-data',
         },
       );
-      // If image is a file on disk, use fromPath instead of fromBytes
-      // for (int i = 0; i < keyValue.length; i++) {
-      //   request.files.add(await http.MultipartFile.fromPath(keyValue[i].entries.fi));
-      // }
       for (int i = 0; i < keys.length; i++) {
         request.files.add(await http.MultipartFile.fromPath(keys[i], values[i]));
       }
-      // request.files.add(await http.MultipartFile.fromPath(key1, value1));
-      // request.files.add(await http.MultipartFile.fromPath(key2, value2));
       request.fields.addAll(body ?? {});
 
       var response = await request.send();

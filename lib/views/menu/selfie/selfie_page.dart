@@ -79,8 +79,6 @@ class SelfiePage extends StatelessWidget {
                                                     shape: BoxShape.circle,
                                                   ),
                                                 ),
-                                              // if (selfieController.textSelectedColor.value != selfieController.colorList[index]["colorCode"])
-                                              //   const SizedBox.shrink(), // Use an empty SizedBox to fill the space when the condition is false
                                             ],
                                           ),
                                         ),
@@ -115,7 +113,6 @@ class SelfiePage extends StatelessWidget {
                                       filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
                                       child: Container(
                                         width: width - 40,
-                                        // height: 140,
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: FileImage(selfieController.selfieImageFile.value),
@@ -229,76 +226,6 @@ class SelfiePage extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              // if (selfieController.isTextFieldShow.value && selfieController.isColorsShow.value)
-                              // Positioned(
-                              //   bottom: h20,
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.only(top: k50Padding, left: k20Padding),
-                              //     child: Row(
-                              //       children: [
-                              //         InkWell(
-                              //           onTap: () {
-                              //             selfieController.isColorsShow.value = false;
-                              //           },
-                              //           child: Container(
-                              //             width: h20,
-                              //             height: h20,
-                              //             decoration: BoxDecoration(
-                              //               border: Border.all(width: 2, color: cWhiteColor),
-                              //               shape: BoxShape.circle,
-                              //             ),
-                              //             child: const Icon(
-                              //               BipHip.cross,
-                              //               color: cWhiteColor,
-                              //               size: kIconSize16,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         kW12sizedBox,
-                              //         SizedBox(
-                              //           height: h60,
-                              //           child: ListView.separated(
-                              //               scrollDirection: Axis.horizontal,
-                              //               shrinkWrap: true,
-                              //               physics: const AlwaysScrollableScrollPhysics(),
-                              //               itemCount: 10,
-                              //               separatorBuilder: (context, index) => kW12sizedBox,
-                              //               itemBuilder: (context, index) {
-                              //                 return InkWell(
-                              //                   onTap: () {
-                              //                     selfieController.textSelectedColor.value = selfieController.colorList[index]["colorCode"];
-                              //                   },
-                              //                   child: Container(
-                              //                     width: h20,
-                              //                     height: h20,
-                              //                     decoration: BoxDecoration(
-                              //                       shape: BoxShape.circle,
-                              //                       color: selfieController.colorList[index]["colorCode"],
-                              //                       border: Border.all(width: 1, color: cWhiteColor),
-                              //                     ),
-                              //                     child: Stack(
-                              //                       alignment: Alignment.center,
-                              //                       children: [
-                              //                         if (selfieController.textSelectedColor.value == selfieController.colorList[index]["colorCode"])
-                              //                           Container(
-                              //                             width: 8,
-                              //                             height: 8,
-                              //                             decoration: const BoxDecoration(
-                              //                               color: cWhiteColor,
-                              //                               shape: BoxShape.circle,
-                              //                             ),
-                              //                           ),
-                              //                       ],
-                              //                     ),
-                              //                   ),
-                              //                 );
-                              //               }),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
-
                               if (!selfieController.isTextFieldShow.value)
                                 Positioned(
                                   left: 20,
@@ -310,7 +237,6 @@ class SelfiePage extends StatelessWidget {
                                       children: [
                                         CustomIconButton(
                                           onPress: () {
-                                            // Get.back();
                                             Get.find<GlobalController>().blankBottomSheet(
                                                 context: context,
                                                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.25 : height * 0.3,
@@ -443,7 +369,6 @@ class MySelfieWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(k8BorderRadius),
               child: Container(
                 width: width,
-                // height: 140,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: FileImage(selfieController.selfieImageFile.value),

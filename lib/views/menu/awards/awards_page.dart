@@ -332,18 +332,6 @@ class AwardViewShimmer extends StatelessWidget {
                       height: h24,
                       color: cWhiteColor,
                     ),
-                    // Positioned(
-                    //   top: 6,
-                    //   left: 6,
-                    //   child: ShimmerCommon(
-                    //       widget: Container(
-                    //           height: h8,
-                    //           width: 30,
-                    //           decoration: BoxDecoration(
-                    //             color: cWhiteColor,
-                    //             borderRadius: BorderRadius.circular(k8BorderRadius),
-                    //           ))),
-                    // ),
                   ],
                 ),
               ),

@@ -53,9 +53,6 @@ class KidsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kH8sizedBox,
-                    // const CustomDivider(
-                    //   thickness: 1,
-                    // ),
                     Obx(() => Padding(
                           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                           child: kidsController.isKidsListLoading.value

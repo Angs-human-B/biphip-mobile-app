@@ -161,7 +161,6 @@ class MarketPlaceViewListingPage extends StatelessWidget {
                                       Get.back();
                                     },
                                     onPressRightButton: () {
-                                      // marketPlaceController.yourBid.value = int.parse(marketPlaceController.bidingTextEditingController.text);
                                       Get.back();
                                     },
                                     isBottomSheetRightButtonActive: marketPlaceController.isMarketPlaceBidRightButtonActive,

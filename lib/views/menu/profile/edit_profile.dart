@@ -5,7 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/auth/onboarding/picture_upload_screen.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
@@ -184,7 +184,6 @@ class EditProfile extends StatelessWidget {
                                     profileController.showAllEditOption.value = true;
                                     editProfileHelper.resetEditAboutPage();
                                     Get.toNamed(krEditAboutInfo);
-                                    // await profileController.getPositionList();
                                   },
                                 ),
                                 kH20sizedBox
@@ -250,24 +249,18 @@ class IntroContents extends StatelessWidget {
                 onPressed: null,
               ),
             if (profileController.profileData.value!.school != null)
-              //  for (int i = 0; i < profileController.schoolDataList.length; i++)
               LinkUpIconTextRow(
                 icon: BipHip.school,
-                // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
-                // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                 suffixText: checkNullOrStringNull(profileController.profileData.value!.school!.school),
                 prefixText: profileController.profileData.value!.school!.graduated == 1 ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
 
                 onPressed: null,
               ),
             if (profileController.profileData.value!.college != null)
-              //  for (int i = 0; i < profileController.collegeDataList.length; i++)
               LinkUpIconTextRow(
                 icon: BipHip.school,
                 suffixText: checkNullOrStringNull(profileController.profileData.value!.college!.school),
                 prefixText: profileController.profileData.value!.college!.graduated == 1 ? '${ksStudiedAt.tr} ' : '${ksStudiesAt.tr} ',
-                // suffixText: checkNullOrStringNull(profileController.collegeDataList[i].school),
-                // prefixText: profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
                 onPressed: null,
               ),
             if (profileController.currentWorkplace.value != null)

@@ -164,7 +164,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Search History List Api Call
+  //*Search History List Api Call
   final Rx<SearchHistoryModel?> searchHistoryData = Rx<SearchHistoryModel?>(null);
   final RxList<SearchHistoryListData> searchHistoryList = RxList<SearchHistoryListData>([]);
   final RxBool isSearchHistoryLoading = RxBool(false);
@@ -265,7 +265,7 @@ class AllSearchController extends GetxController {
     }
   }
 
-  //   //*Search Filter data Api Call
+  //*Search Filter data Api Call
   final RxList filterTypeList = RxList([]);
   final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
   final Rx<All?> allFilterData = Rx<All?>(null);
@@ -329,7 +329,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Search History List Api Call
+  //*Search History List Api Call
   final Rx<SearchModel?> searchData = Rx<SearchModel?>(null);
   final Rx<Users?> userData = Rx<Users?>(null);
   final Rx<Posts?> postData = Rx<Posts?>(null);

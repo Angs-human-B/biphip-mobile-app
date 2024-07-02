@@ -89,21 +89,6 @@ class Photos extends StatelessWidget {
                               galleryController.imageId.value = imageList[index].id!;
                               await galleryController.getImageDetails();
                               galleryController.imageData.value?.description = null;
-                              // Get.to(() => CommonPhotoView(
-                              //       image: galleryController.imageDetailsData.value!.image!.fullPath.toString(),
-                              //       description: galleryController.imageDetailsData.value!.image!.description ?? '',
-                              //       onPressed: () {
-                              //         galleryController.photoActionSelect.value = '';
-                              //         Get.find<GlobalController>().blankBottomSheet(
-                              //           context: context,
-                              //           isScrollControlled: true,
-                              //           content: PhotoActionContent(),
-                              //           bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : height * 0.4,
-                              //         );
-                              //       },
-                              //     ));
-                              // ll(index);
-                              // ll(albumIndex);
                               Get.find<PostReactionController>().isRouteFromHomePage.value = false;
                               Get.to(() => GalleryWidget(
                                   urlImages: RxList(galleryController.imageDataList[albumIndex].imageList), imageIndex: index, postIndex: albumIndex));
@@ -199,7 +184,6 @@ class GalleryImageShareBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
-            // kH16sizedBox,
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -288,7 +272,6 @@ class GalleryImageShareBottomSheetContent extends StatelessWidget {
                           await createPostController.getKidList();
                         }
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Share to Your Store Profile".toLowerCase()) {
-                          // createPostController.tempSelectedBrandId.value = createPostController.selectedBrandId.value;
 
                           if (createPostController.tempSelectedBrandId.value == -1) {
                             createPostController.storeListBottomSheetRightButtonState.value = false;
@@ -305,7 +288,6 @@ class GalleryImageShareBottomSheetContent extends StatelessWidget {
                               Get.back();
                             },
                             onPressRightButton: () {
-                              // createPostHelper.selectBrandTextChange();
                               Get.find<CreatePostController>().isPostedFromProfile.value = false;
                               CreatePostHelper().resetCreatePostData();
                               createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
@@ -326,9 +308,6 @@ class GalleryImageShareBottomSheetContent extends StatelessWidget {
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
                                 isScrollControlled: true,
                                 context: context,
-                                // content: SharePostBottomSheetContent(
-                                //   postData: postData,
-                                // ),
                                 content: GallerySharePostImageBottomSheetContent(
                                   photoData: photoData,
                                   imageIndex: imageIndex,
@@ -345,8 +324,6 @@ class GalleryImageShareBottomSheetContent extends StatelessWidget {
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Copy Link".toLowerCase()) {
                           String baseUrl = "bip-hip-dev.vercel.app/posts";
                           Clipboard.setData(ClipboardData(text: "$baseUrl/image/${photoData.imageList[imageIndex].id}"));
-                          // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                          // ll(clipboardData!.text);
                           Get.find<GlobalController>()
                               .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
                         }
@@ -402,7 +379,6 @@ class GallerySharePostImageBottomSheetContent extends StatelessWidget {
                       label: ksShareNow.tr,
                       onPressed: () async {
                         Get.back();
-                        // await createPostController.sharePost(postData.id.toString());//!APi call
                       }),
                 ],
               )
@@ -425,7 +401,6 @@ class GallerySharePostImageBottomSheetContent extends StatelessWidget {
                       decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius, border: Border.all(color: cLineColor)),
                       child: Row(
                         children: [
-                          // if (postData.images.isNotEmpty && postData.sharePosts == null)
                           Container(
                             decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
@@ -448,35 +423,10 @@ class GallerySharePostImageBottomSheetContent extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // if (postData.sharePosts != null && postData.sharePosts!.images.isNotEmpty)
-                          // Container(
-                          //   decoration: const BoxDecoration(
-                          //       borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
-                          //   height: 70,
-                          //   width: 70,
-                          //   child: ClipRRect(
-                          //     borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
-                          //     child: Image.network(
-                          //       postData.sharePosts!.images[imageIndex].fullPath.toString(),
-                          //       fit: BoxFit.cover,
-                          //       errorBuilder: (context, error, stackTrace) => const Icon(
-                          //         BipHip.imageFile,
-                          //         size: kIconSize20,
-                          //         color: cIconColor,
-                          //       ),
-                          //       loadingBuilder: imageLoadingBuilder,
-                          //       frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
-                          //         return child;
-                          //       },
-                          //     ),
-                          //   ),
-                          // ),
-
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                // if (postData.images[imageIndex].description != null && postData.sharePosts == null)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 8.0),
                                   child: SizedBox(
@@ -488,19 +438,6 @@ class GallerySharePostImageBottomSheetContent extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                // if (postData.sharePosts != null && postData.sharePosts!.images[imageIndex].description != null)
-                                //   Padding(
-                                //     padding: const EdgeInsets.only(bottom: 8.0),
-                                //     child: SizedBox(
-                                //       width: width - 130,
-                                //       child: Text(
-                                //         postData.sharePosts!.images[imageIndex].description ?? ksNA,
-                                //         style: semiBold16TextStyle(cBlackColor),
-                                //         overflow: TextOverflow.ellipsis,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // if (postData.sharePosts == null)
                                 SizedBox(
                                   width: width - 130,
                                   child: Text(
@@ -509,15 +446,6 @@ class GallerySharePostImageBottomSheetContent extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                // if (postData.sharePosts != null)
-                                //   SizedBox(
-                                //     width: width - 130,
-                                //     child: Text(
-                                //       postData.sharePosts!.user!.fullName!,
-                                //       style: postData.sharePosts!.content != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
-                                //       overflow: TextOverflow.ellipsis,
-                                //     ),
-                                //   ),
                               ],
                             ),
                           )
@@ -548,8 +476,6 @@ class GallerySharePostImageBottomSheetContent extends StatelessWidget {
                           String baseUrl = "bip-hip-dev.vercel.app/posts";
                           if (createPostController.sharePostOthersList[index]["text"].toString().toLowerCase() == "Copy Link".toLowerCase()) {
                             Clipboard.setData(ClipboardData(text: "$baseUrl/${photoData.imageList[imageIndex].id}"));
-                            // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                            // ll(clipboardData!.text);
                             Get.back();
                             Get.find<GlobalController>()
                                 .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);

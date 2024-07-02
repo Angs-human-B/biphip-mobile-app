@@ -3,7 +3,6 @@ class KidOverviewModel {
   List<FeaturePost> featurePost;
   Parent? parent;
   dynamic school;
-  // List<dynamic> links;
   dynamic email;
   dynamic phone;
 
@@ -12,7 +11,6 @@ class KidOverviewModel {
     required this.featurePost,
     required this.parent,
     required this.school,
-    // required this.links,
     required this.email,
     required this.phone,
   });
@@ -22,7 +20,6 @@ class KidOverviewModel {
         featurePost: List<FeaturePost>.from(json["feature_post"].map((x) => FeaturePost.fromJson(x))),
         parent: json["parent"] == null ? null : Parent.fromJson(json["parent"]),
         school: json["school"],
-        // links: List<dynamic>.from(json["links"].map((x) => x)),
         email: json["email"],
         phone: json["phone"],
       );
@@ -62,7 +59,6 @@ class FeaturePost {
   int? countShare;
   int? countComment;
   int? countStar;
-  // dynamic countReactions;
   dynamic postSubCategoryId;
   dynamic timelineId;
   dynamic type;
@@ -122,7 +118,6 @@ class FeaturePost {
     required this.countShare,
     required this.countComment,
     required this.countStar,
-    // required this.countReactions,
     required this.postSubCategoryId,
     required this.timelineId,
     required this.type,
@@ -183,7 +178,6 @@ class FeaturePost {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        // countReactions: json["count_reactions"],
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -215,15 +209,9 @@ class Image {
   int? id;
   int? userId;
   int? postId;
-  // String? fileType;
   int? imageAlbumId;
   dynamic imageType;
-  // String? storageType;
   dynamic mimeType;
-  // String? title;
-  // String? storagePath;
-  // String? path;
-  // int? filesize;
   dynamic description;
   dynamic imageTakenTime;
   dynamic imageTakenLocation;
@@ -231,26 +219,15 @@ class Image {
   int? countShare;
   int? countComment;
   int? countStar;
-  // dynamic countReactions;
   String? fullPath;
-  // List<dynamic> taggedFriends;
-  // String? reactingPersons;
-  // int? totalViewCount;
-  // dynamic myReaction;
 
   Image({
     required this.id,
     required this.userId,
     required this.postId,
-    // required this.fileType,
     required this.imageAlbumId,
     required this.imageType,
-    // required this.storageType,
     required this.mimeType,
-    // required this.title,
-    // required this.storagePath,
-    // required this.path,
-    // required this.filesize,
     required this.description,
     required this.imageTakenTime,
     required this.imageTakenLocation,
@@ -258,27 +235,16 @@ class Image {
     required this.countShare,
     required this.countComment,
     required this.countStar,
-    // required this.countReactions,
     required this.fullPath,
-    // required this.taggedFriends,
-    // required this.reactingPersons,
-    // required this.totalViewCount,
-    // required this.myReaction,
   });
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
         id: json["id"],
         userId: json["user_id"],
         postId: json["post_id"],
-        // fileType: json["file_type"],
         imageAlbumId: json["image_album_id"],
         imageType: json["image_type"],
-        // storageType: json["storage_type"],
         mimeType: json["mime_type"],
-        // title: json["title"],
-        // storagePath: json["storage_path"],
-        // path: json["path"],
-        // filesize: json["filesize"],
         description: json["description"],
         imageTakenTime: json["image_taken_time"],
         imageTakenLocation: json["image_taken_location"],
@@ -286,25 +252,9 @@ class Image {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        // countReactions: json["count_reactions"],
         fullPath: json["full_path"],
-        // taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
-        // reactingPersons: json["reacting_persons"],
-        // totalViewCount: json["total_view_count"],
-        // myReaction: json["my_reaction"],
       );
 }
-
-// enum LastName {
-//     EMON,
-//     SAZID
-// }
-
-// final lastNameValues = EnumValues({
-//     "Emon": LastName.EMON,
-//     "Sazid": LastName.SAZID
-// });
-
 class Kids {
   int? id;
   String? pageType;
@@ -316,8 +266,6 @@ class Kids {
   dynamic dob;
   dynamic relationId;
   List<String> categories;
-  // String? image;
-  // dynamic cover;
   dynamic bin;
   dynamic country;
   int? rating;
@@ -358,8 +306,6 @@ class Kids {
     required this.dob,
     required this.relationId,
     required this.categories,
-    // required this.image,
-    // required this.cover,
     required this.bin,
     required this.country,
     required this.rating,
@@ -401,8 +347,6 @@ class Kids {
         dob: json["dob"],
         relationId: json["relation_id"],
         categories: List<String>.from(json["categories"].map((x) => x)),
-        // image: json["image"],
-        // cover: json["cover"],
         bin: json["bin"],
         country: json["country"],
         rating: json["rating"],
@@ -454,32 +398,20 @@ class PostCategory {
 
 class Parent {
   int? id;
-  // String? image;
   String? userName;
-  // String? referralCode;
   String? firstName;
-  // String? lastName;
   String? email;
   dynamic phone;
   String? gender;
   DateTime? dob;
-  // List<String> profession;
-  // List<String> interest;
-  // String? bio;
   List<String> languages;
-  // String? status;
-  // dynamic blockTill;
-  // String? otp;
-  // int? refId;
   String? relation;
   dynamic relationWithName;
   dynamic relationWithId;
   dynamic relationSince;
-  // String? cover;
   dynamic badge;
   int? starBalance;
   dynamic socialProvider;
-  // String? referralUrl;
   String? fullName;
   String? profilePicture;
   String? coverPhoto;
@@ -493,32 +425,20 @@ class Parent {
 
   Parent({
     required this.id,
-    // required this.image,
     required this.userName,
-    // required this.referralCode,
     required this.firstName,
-    // required this.lastName,
     required this.email,
     required this.phone,
     required this.gender,
     required this.dob,
-    // required this.profession,
-    // required this.interest,
-    // required this.bio,
     required this.languages,
-    // required this.status,
-    // required this.blockTill,
-    // required this.otp,
-    // required this.refId,
     required this.relation,
     required this.relationWithName,
     required this.relationWithId,
     required this.relationSince,
-    // required this.cover,
     required this.badge,
     required this.starBalance,
     required this.socialProvider,
-    // required this.referralUrl,
     required this.fullName,
     required this.profilePicture,
     required this.coverPhoto,
@@ -533,32 +453,20 @@ class Parent {
 
   factory Parent.fromJson(Map<String, dynamic> json) => Parent(
         id: json["id"],
-        // image: json["image"],
         userName: json["user_name"],
-        // referralCode: json["referral_code"],
         firstName: json["first_name"],
-        // lastName: json["last_name"],
         email: json["email"],
         phone: json["phone"],
         gender: json["gender"],
         dob: DateTime.parse(json["dob"]),
-        // profession: List<String>.from(json["profession"].map((x) => x)),
-        // interest: List<String>.from(json["interest"].map((x) => x)),
-        // bio: json["bio"],
         languages: List<String>.from(json["languages"].map((x) => x)),
-        // status: json["status"],
-        // blockTill: json["block_till"],
-        // otp: json["otp"],
-        // refId: json["ref_id"],
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
         relationWithId: json["relation_with_id"],
         relationSince: json["relation_since"],
-        // cover: json["cover"],
         badge: json["badge"],
         starBalance: json["star_balance"],
         socialProvider: json["social_provider"],
-        // referralUrl: json["referral_url"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
@@ -572,17 +480,6 @@ class Parent {
       );
 }
 
-// class EnumValues<T> {
-//     Map<String, T> map;
-//     late Map<T, String> reverseMap;
-
-//     EnumValues(this.map);
-
-//     Map<T, String> get reverse {
-//         reverseMap = map.map((k, v) => MapEntry(v, k));
-//         return reverseMap;
-//     }
-// }
 
 class KidContactModel {
   List<Contact> contacts;

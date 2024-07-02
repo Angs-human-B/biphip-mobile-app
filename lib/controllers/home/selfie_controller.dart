@@ -25,14 +25,10 @@ class SelfieController extends GetxController {
 
   final Rx<Color> textSelectedColor = Rx<Color>(cWhiteColor);
   void customOnInit() async {
-    // await getFriendSelfieList();
     allSelfieData();
     x.value = width * 0.4;
     y.value = height * 0.5;
     storyController.playbackNotifier.value = PlaybackState.play;
-    // final initialPage = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
-    // ll(initialPage);
-    // pageController = PageController(initialPage: 0);
     super.onInit();
   }
 
@@ -95,28 +91,7 @@ class SelfieController extends GetxController {
         "selfies": friendSelfiesList[i].currentSelfies
       });
     }
-
-    // for (int i = 0; i < allSelfieList.length; i++) {
-    //   for (int k = 0; k < allSelfieList[i]["selfies"].length; k++) {
-    //     ll(allSelfieList[i]["selfies"][k].fullPath);
-    //   }
-    // }
   }
-
-  // void handleCompleted() {
-  //   // ll(allSelfieListIndex.value);
-  //   int currentIndex = allSelfieList.indexOf(allSelfieList[allSelfieListIndex.value]);
-  //   addStoryItems(allSelfieList[allSelfieListIndex.value]["selfies"]);
-  //   pageController.nextPage(
-  //     duration: Duration(milliseconds: 300),
-  //     curve: Curves.easeIn,
-  //   );
-
-  //   final isLastPage = allSelfieList.length - 1 == currentIndex;
-  //   if (isLastPage) {
-  //     Get.back();
-  //   }
-  // }
 
   final RxInt selfieId = RxInt(-1);
   final RxInt currentSelfieIndex = RxInt(-1);
@@ -129,7 +104,6 @@ class SelfieController extends GetxController {
 
   List<StoryItem> addStoryItems(List<Selfy> selfieList, storyController) {
     List<StoryItem> storyItems = <StoryItem>[];
-    // StoryController storyController = StoryController();
     for (int i = 0; i < selfieList.length; i++) {
       storyItems.add(StoryItem.pageImage(
         url: selfieList[i].fullPath!,
@@ -138,7 +112,6 @@ class SelfieController extends GetxController {
         shown: false,
       ));
     }
-    // storyItems[0].shown = false;
     return storyItems;
   }
 
@@ -501,33 +474,3 @@ class SelfieController extends GetxController {
     }
   }
 }
-
-// class AllSelfieData {
-//   final int userId;
-//   final String userName;
-//   final String userImage;
-//   final List<Selfy> selfies;
-
-//   const AllSelfieData({
-//     required this.userId,
-//     required this.userName,
-//     required this.userImage,
-//     required this.selfies,
-//   });
-// }
-
-// class Story {
-//   final String url;
-//   final double duration;
-//   final String caption;
-//   final String date;
-//   final Color color;
-
-//   Story({
-//     required this.caption,
-//     required this.date,
-//     required this.url,
-//     this.duration = 5.0,
-//     this.color = Colors.grey,
-//   });
-// }
