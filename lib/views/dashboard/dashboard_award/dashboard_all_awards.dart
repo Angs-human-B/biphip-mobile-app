@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/dashboard/dashboard_award/dashboard_award.dart';
 import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
