@@ -1149,6 +1149,13 @@ class DashboardController extends GetxController {
     return "+$percentValue%";
   }
 
+  String getProfileOverviewOthersValue(int? othersValue) {
+    if (othersValue != null) {
+      return "$othersValue";
+    }
+    return "0";
+  }
+
   //! Payouts
   final RxList dashboardPayoutsTapButtonState = RxList([true, false, false]);
   final RxList dashboardPayoutsTapButtonText = RxList(["Overview", "Transections", "Settings"]);

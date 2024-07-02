@@ -79,7 +79,8 @@ class DashboardOverview extends StatelessWidget {
                                 iconOnPressed: null,
                               ),
                               InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    await dashboardController.getDashboardProfileOverview();
                                     dashboardController.dashboardOverviewSelectedFilterIndex.value = 1;
                                   },
                                   child: Text(
@@ -183,7 +184,6 @@ class DashboardOverview extends StatelessWidget {
                                 onTap: () async {
                                   await dashboardController.getDashboardPostInsight(
                                       contentId: dashboardController.dashboardOverviewContentList[index].details!.id!, contentType: "post");
-                                  ll(dashboardController.dashboardOverviewContentList[index].details?.id);
                                   Get.to(() => DashboardOverviewPostInsights(
                                         postContent: dashboardController.dashboardOverviewContentList[index].details?.content,
                                         // postImage: dashboardController.dashboardEarnedGiftVideosPostList[index]["productImage"],
@@ -426,7 +426,9 @@ class DashboardOverview extends StatelessWidget {
                             shareCount: dashboardController.dashboardProfileOverviewData.value?.shares.toString(),
                             photoViewCount: dashboardController.dashboardProfileOverviewData.value?.photoViews.toString(),
                             linkClickCount: dashboardController.dashboardProfileOverviewData.value?.linkClicks.toString(),
-                            // othersCount: dashboardController.dashboardProfileOverviewData.value!..toString(),
+                            othersCount: dashboardController.getProfileOverviewOthersValue(
+                                dashboardController.dashboardProfileOverviewData.value!.hideAllPosts! +
+                                    dashboardController.dashboardProfileOverviewData.value!.unfollows!),
                           ),
                         ],
                       ),
@@ -1034,6 +1036,7 @@ class DashboardGiftContentContainer extends StatelessWidget {
                         style: regular14TextStyle(cBlackColor),
                         overflow: TextOverflow.clip,
                       ),
+                      kH4sizedBox,
                       Text(
                         postDate ?? ksNA,
                         style: regular12TextStyle(cSmallBodyTextColor),
@@ -1108,7 +1111,7 @@ class DashboardAgeGenderChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final audience = Get.find<DashboardController>().dashboardOverviewData.value!.audience;
+    final audience = Get.find<DashboardController>().dashboardOverviewData.value?.audience;
 
     return Padding(
       padding: const EdgeInsets.all(k12Padding),

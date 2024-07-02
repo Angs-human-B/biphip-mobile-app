@@ -125,19 +125,24 @@ class DashboardOverviewContent extends StatelessWidget {
                               separatorBuilder: (context, index) => kH16sizedBox,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () {
+                                  onTap: () async {
+                                    await dashboardController.getDashboardPostInsight(
+                                        contentId: dashboardController.contentList[index].details!.id!, contentType: "post");
                                     Get.to(() => DashboardOverviewPostInsights(
-                                          postContent: dashboardController.contentList[index].details?.content ?? "",
-                                          // postImage: dashboardController.dashboardEarnedGiftPostList[index],
+                                          postContent: dashboardController.contentList[index].details?.content,
+                                          postImage: dashboardController.contentList[index].details!.images!.isNotEmpty
+                                              ? dashboardController.contentList[index].details!.images![0].fullPath
+                                              : null,
                                         ));
                                   },
                                   child: DashboardGiftContentContainer(
                                     width: width - 40,
-                                    // productImage: dashboardController.contentList[index].details.,
+                                    productImage: dashboardController.contentList[index].details!.images!.isNotEmpty
+                                        ? dashboardController.contentList[index].details!.images![0].fullPath
+                                        : null,
                                     productTitle: dashboardController.contentList[index].details?.content ?? "",
                                     postDate: DateFormat("dMMM, yyyy").format(dashboardController.contentList[index].details!.dateTime!),
-                                    postCount:
-                                        dashboardController.contentList[index].details?.countComment.toString(), //!post count data not available from api
+                                    postCount: dashboardController.contentList[index].details?.countView.toString(),
                                     engagementCount: dashboardController.contentList[index].engagement.toString(),
                                     giftCount: dashboardController.contentList[index].details?.countStar.toString(),
                                   ),

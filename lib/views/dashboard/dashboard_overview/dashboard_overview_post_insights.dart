@@ -41,13 +41,13 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       Container(
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
-                        // height: 70,
-                        // width: 70,
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
                           child: Image.network(
                             postImage ?? "",
                             fit: BoxFit.cover,
+                            height: 70,
+                            width: 70,
                             errorBuilder: (context, error, stackTrace) => const Icon(
                               BipHip.imageFile,
                               size: kIconSize20,
@@ -60,10 +60,10 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (postImage != null && postContent != null)
+                    if (postContent == null)
                       Container(
                         width: width - 110,
-                        // height: 70,
+                        height: 70,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(topRight: Radius.circular(k8BorderRadius), bottomRight: Radius.circular(k8BorderRadius)),
                           border: Border(
@@ -97,6 +97,68 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                           ),
                         ),
                       ),
+                    // if (postImage != null && postContent == null)
+                    //   Container(
+                    //     decoration: const BoxDecoration(
+                    //         borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                    //     child: ClipRRect(
+                    //       borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                    //       child: Image.network(
+                    //         postImage ?? "",
+                    //         fit: BoxFit.cover,
+                    //         height: 49,
+                    //         width: 70,
+                    //         errorBuilder: (context, error, stackTrace) => const Icon(
+                    //           BipHip.imageFile,
+                    //           size: kIconSize20,
+                    //           color: cIconColor,
+                    //         ),
+                    //         loadingBuilder: imageLoadingBuilder,
+                    //         frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                    //           return child;
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ),
+
+                    if (postImage != null && postContent != null)
+                      Container(
+                        width: width - 110,
+                        height: 70,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(k8BorderRadius), bottomRight: Radius.circular(k8BorderRadius)),
+                          border: Border(
+                            top: BorderSide(width: 1, color: cLineColor),
+                            right: BorderSide(width: 1, color: cLineColor),
+                            bottom: BorderSide(width: 1, color: cLineColor),
+                            left: BorderSide.none,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: k8Padding, left: k8Padding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (postContent != null)
+                                SizedBox(
+                                  width: width - 130,
+                                  child: Text(
+                                    postContent!,
+                                    style: semiBold16TextStyle(cBlackColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              kH4sizedBox,
+                              Text(
+                                Get.find<GlobalController>().userName.value ?? ksNA,
+                                style: postContent != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
                     if (postImage == null && postContent != null)
                       Padding(
                         padding: const EdgeInsets.all(k8Padding),
@@ -128,7 +190,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      Get.find<GlobalController>().postTimeDifference(dashboardController.dashboardPostInsightData.value!.post!.dateTime!),
+                      Get.find<GlobalController>().postTimeDifference(dashboardController.dashboardPostInsightData.value?.post?.dateTime ?? DateTime.now()),
                       style: regular12TextStyle(cSmallBodyTextColor),
                     ),
                     kW4sizedBox,
@@ -140,11 +202,6 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       ),
                     ),
                     kW4sizedBox,
-                    //  Icon(
-                    //   ,
-                    //   color: cIconColor,
-                    //   size: kIconSize12,
-                    // ),
                     Icon(
                       Get.find<GlobalController>().privacyIcon(dashboardController.dashboardPostInsightData.value?.post?.isPublic),
                       color: cIconColor,
@@ -214,8 +271,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      // dashboardController.dashboardPostInsightData.value?..toString()??ksNA.tr,
-                      ksNA.tr, //!Reach count data missing
+                      dashboardController.dashboardPostInsightData.value?.countView.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
@@ -229,8 +285,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      // dashboardController.dashboardPostInsightData.value?..toString()??ksNA.tr,//!Impresseion data missing
-                      ksNA.tr,
+                      dashboardController.dashboardPostInsightData.value?.countEngagement.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
