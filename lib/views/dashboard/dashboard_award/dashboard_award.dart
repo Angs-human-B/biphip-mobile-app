@@ -1,11 +1,12 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
 import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:intl/intl.dart';
 
 class DashboardAward extends StatelessWidget {
   DashboardAward({super.key});
@@ -77,61 +78,61 @@ class DashboardAward extends StatelessWidget {
                         ),
                       ),
                       kW12sizedBox,
-                      InkWell(
-                        onTap: () {
-                          dashboardController.temporarySelectedCategoryId.value = dashboardController.selectedCategoryId.value;
-                          dashboardController.temporarySelectedCategory.value = dashboardController.selectedCategory.value;
-                          if (dashboardController.temporarySelectedCategoryId.value == -1) {
-                            dashboardController.categoryRightButtonState.value = false;
-                          } else {
-                            dashboardController.categoryRightButtonState.value = true;
-                          }
-                          Get.find<GlobalController>().commonBottomSheet(
-                            context: context,
-                            bottomSheetHeight: height * 0.6,
-                            content: CategoryBottomSheetContent(),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: () {
-                              dashboardController.selectedCategoryId.value = dashboardController.temporarySelectedCategoryId.value;
-                              dashboardController.selectedCategory.value = dashboardController.temporarySelectedCategory.value;
-                              Get.back();
-                            },
-                            rightText: ksDone.tr,
-                            rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                            title: ksSelectCategory.tr,
-                            isRightButtonShow: true,
-                            isBottomSheetRightButtonActive: dashboardController.categoryRightButtonState,
-                          );
-                        },
-                        child: Container(
-                          height: h28,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(k4BorderRadius),
-                            color: cNeutralColor,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k4Padding),
-                                child: Text(
-                                  dashboardController.selectedCategory.value,
-                                  style: regular12TextStyle(cBlackColor),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: k4Padding, bottom: k4Padding, right: k8Padding),
-                                child: Icon(
-                                  BipHip.downArrow,
-                                  size: kIconSize20,
-                                  color: cBlackColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {
+                      //     dashboardController.temporarySelectedCategoryId.value = dashboardController.selectedCategoryId.value;
+                      //     dashboardController.temporarySelectedCategory.value = dashboardController.selectedCategory.value;
+                      //     if (dashboardController.temporarySelectedCategoryId.value == -1) {
+                      //       dashboardController.categoryRightButtonState.value = false;
+                      //     } else {
+                      //       dashboardController.categoryRightButtonState.value = true;
+                      //     }
+                      //     Get.find<GlobalController>().commonBottomSheet(
+                      //       context: context,
+                      //       bottomSheetHeight: height * 0.6,
+                      //       content: CategoryBottomSheetContent(),
+                      //       onPressCloseButton: () {
+                      //         Get.back();
+                      //       },
+                      //       onPressRightButton: () {
+                      //         dashboardController.selectedCategoryId.value = dashboardController.temporarySelectedCategoryId.value;
+                      //         dashboardController.selectedCategory.value = dashboardController.temporarySelectedCategory.value;
+                      //         Get.back();
+                      //       },
+                      //       rightText: ksDone.tr,
+                      //       rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                      //       title: ksSelectCategory.tr,
+                      //       isRightButtonShow: true,
+                      //       isBottomSheetRightButtonActive: dashboardController.categoryRightButtonState,
+                      //     );
+                      //   },
+                      //   child: Container(
+                      //     height: h28,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(k4BorderRadius),
+                      //       color: cNeutralColor,
+                      //     ),
+                      //     child: Row(
+                      //       children: [
+                      //         Padding(
+                      //           padding: const EdgeInsets.symmetric(horizontal: k8Padding, vertical: k4Padding),
+                      //           child: Text(
+                      //             dashboardController.selectedCategory.value,
+                      //             style: regular12TextStyle(cBlackColor),
+                      //           ),
+                      //         ),
+                      //         const Padding(
+                      //           padding: EdgeInsets.only(top: k4Padding, bottom: k4Padding, right: k8Padding),
+                      //           child: Icon(
+                      //             BipHip.downArrow,
+                      //             size: kIconSize20,
+                      //             color: cBlackColor,
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   kH20sizedBox,
@@ -158,7 +159,6 @@ class DashboardAward extends StatelessWidget {
                     children: [
                       DashboardCommonContainer(
                         width: (width - 48) / 2,
-                        height: 88,
                         titleText: "Total Win",
                         totalValue: "10",
                         percentValue: "+5%",
@@ -168,7 +168,6 @@ class DashboardAward extends StatelessWidget {
                       kW8sizedBox,
                       DashboardCommonContainer(
                         width: (width - 48) / 2,
-                        height: 88,
                         titleText: "Winning Ratio",
                         totalValue: "1.1",
                         percentValue: "-15.2",
@@ -196,46 +195,93 @@ class DashboardAward extends StatelessWidget {
                     ],
                   ),
                   kH16sizedBox,
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: awardController.myAwardList.length,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.75,
-                              crossAxisCount: 3,
-                              crossAxisSpacing: k16Padding,
-                              mainAxisSpacing: k16Padding,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              return InkWell(
-                                onTap: () {
-                                  awardController.isOthersWinner.value = false;
-                                  Get.to(() => AwardDetailsPage(
-                                        userImage: awardController.myAwardList[index].user!.profilePicture,
-                                        userName: awardController.myAwardList[index].user!.fullName,
-                                        ranking: awardController.myAwardList[index].rank.toString(),
-                                        certificateImage: "",
-                                        winningDate: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
-                                      ));
-                                },
-                                child: AwardView(
-                                  image: awardController.myAwardList[index].user?.profilePicture,
-                                  ranking: awardController.myAwardList[index].rank.toString(),
-                                  titleText: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
+                  // Expanded(
+                  //   child: SingleChildScrollView(
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         GridView.builder(
+                  //           shrinkWrap: true,
+                  //           physics: const NeverScrollableScrollPhysics(),
+                  //           itemCount: awardController.myAwardList.length,
+                  //           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //             childAspectRatio: 0.75,
+                  //             crossAxisCount: 3,
+                  //             crossAxisSpacing: k16Padding,
+                  //             mainAxisSpacing: k16Padding,
+                  //           ),
+                  //           itemBuilder: (BuildContext context, int index) {
+                  //             return InkWell(
+                  //               onTap: () {
+                  //                 awardController.isOthersWinner.value = false;
+                  //                 Get.to(() => AwardDetailsPage(
+                  //                       userImage: awardController.myAwardList[index].user!.profilePicture,
+                  //                       userName: awardController.myAwardList[index].user!.fullName,
+                  //                       ranking: awardController.myAwardList[index].rank.toString(),
+                  //                       certificateImage: "",
+                  //                       winningDate: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
+                  //                     ));
+                  //               },
+                  //               child: AwardView(
+                  //                 image: awardController.myAwardList[index].user?.profilePicture,
+                  //                 ranking: awardController.myAwardList[index].rank.toString(),
+                  //                 titleText: DateFormat('d MMM, yyyy').format(awardController.myAwardList[index].winDate!),
+                  //               ),
+                  //             );
+                  //           },
+                  //         ),
+                  //         kH16sizedBox,
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  dashboardController.allAwardList.isNotEmpty
+                      ? Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: dashboardController.allAwardList.length > 6 ? 6 : dashboardController.allAwardList.length,
+                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.75,
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: k16Padding,
+                                    mainAxisSpacing: k16Padding,
+                                  ),
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.to(() => AwardDetailsPage(
+                                              userImage: dashboardController.allAwardList[index]['image'],
+                                              ranking: dashboardController.allAwardList[index]['ranking'],
+                                              certificateImage: dashboardController.allAwardList[index]['certificate'],
+                                              winningDate: dashboardController.allAwardList[index]['WinningDate'],
+                                            ));
+                                      },
+                                      child: AwardView(
+                                        image: dashboardController.allAwardList[index]['image'],
+                                        ranking: dashboardController.allAwardList[index]['ranking'],
+                                        titleText: dashboardController.allAwardList[index]['WinningDate'],
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
+                                kH20sizedBox,
+                              ],
+                            ),
                           ),
-                          kH16sizedBox,
-                        ],
-                      ),
-                    ),
-                  ),
+                        )
+                      : Container(
+                          width: width - 40,
+                          height: 130,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            border: Border.all(width: 1, color: cLineColor),
+                          ),
+                          child: EmptyView(title: ksYouHavenotWonAnyAward.tr)),
                 ],
               ),
             ),
@@ -420,74 +466,6 @@ class CategoryBottomSheetContent extends StatelessWidget {
               );
             }),
       ],
-    );
-  }
-}
-
-class DashboardCommonContainer extends StatelessWidget {
-  const DashboardCommonContainer(
-      {super.key,
-      this.width,
-      this.height,
-      required this.titleText,
-      required this.totalValue,
-      required this.percentValue,
-      required this.filterText,
-      this.percentTextColor});
-  final double? width, height;
-  final String titleText, totalValue, percentValue, filterText;
-  final Color? percentTextColor;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: cWhiteColor,
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        boxShadow: const [
-          BoxShadow(
-            color: cLineColor,
-            blurRadius: 3,
-            spreadRadius: 0,
-            offset: Offset(
-              0,
-              1,
-            ),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(k12Padding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              titleText,
-              style: regular14TextStyle(cBlackColor),
-            ),
-            kH4sizedBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  totalValue,
-                  style: semiBold18TextStyle(cBlackColor),
-                ),
-                kW4sizedBox,
-                Text(
-                  percentValue,
-                  style: regular14TextStyle(percentTextColor ?? cBlackColor),
-                ),
-              ],
-            ),
-            Text(
-              filterText,
-              style: regular10TextStyle(cSmallBodyTextColor),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

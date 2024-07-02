@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
 import 'package:bip_hip/widgets/common/button/custom_tapable_container.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -60,28 +61,51 @@ class DashboardPayouts extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
                                   DashboardCommonContainer(
-                                    width: (width - 48) / 2,
-                                    height: 88,
+                                    width: (width - 52) / 2,
                                     titleText: ksTotalEarning.tr,
-                                    totalValue: dashboardController.isEarningReportAvailable.value ? "\$365" : "\$0",
+                                    totalValue: "\$${dashboardController.dashboardPayoutEarningInsightData.value?.totalEarning.toString()}",
                                     percentTextColor: cGreenColor,
                                   ),
                                   kW8sizedBox,
                                   DashboardCommonContainer(
-                                    width: (width - 48) / 2,
-                                    height: 88,
+                                    width: (width - 52) / 2,
                                     titleText: ksTotalWithdraw.tr,
-                                    totalValue: dashboardController.isEarningReportAvailable.value ? "\$170" : "\$0",
+                                    totalValue: "\$${dashboardController.dashboardPayoutEarningInsightData.value?.totalWithdraw.toString()}",
                                   ),
                                 ],
                               ),
                               kH20sizedBox,
                               dashboardController.isEarningReportAvailable.value
-                                  ? PayoutsEarningReport(
-                                      titleText: ksEarningReport.tr,
-                                      subTitleText: "From last 12 Months",
-                                      amount: "\$365",
+                                  ? Container(
+                                      width: width - 40,
+                                      decoration: BoxDecoration(
+                                        color: cWhiteColor,
+                                        border: Border.all(width: 1, color: cLineColor),
+                                        borderRadius: BorderRadius.circular(k8BorderRadius),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: cLineColor,
+                                            blurRadius: 4,
+                                            spreadRadius: 1.5,
+                                            offset: Offset(
+                                              0,
+                                              1,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(k12Padding),
+                                        child: StarGiftReport(
+                                          title: ksEarningReport.tr,
+                                          apiData: dashboardController.dashboardPayoutEarningInsightData.value!.earningReport!,
+                                          containerRightText: "\$${dashboardController.dashboardPayoutEarningInsightData.value?.totalEarning.toString()}",
+                                        ),
+                                      ),
                                     )
                                   : const PayoutOverviewEmptyView(),
                               kH16sizedBox,

@@ -1,7 +1,7 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_gift/dashboard_gift.dart';
-import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
+import 'package:intl/intl.dart';
 
 class DashboardGiftEarned extends StatelessWidget {
   DashboardGiftEarned({super.key});
@@ -84,20 +84,18 @@ class DashboardGiftEarned extends StatelessWidget {
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: dashboardController.dashboardEarnedGiftPostList.length,
+                    itemCount: dashboardController.dashboardGiftEarnedPostList.length,
                     separatorBuilder: (context, index) => kH16sizedBox,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                         child: DashboardGiftContentContainer(
                           width: width - 40,
-                          height: 150,
-                          productImage: dashboardController.dashboardEarnedGiftPostList[index]["productImage"],
-                          productTitle: dashboardController.dashboardEarnedGiftPostList[index]["productTitle"],
-                          postDate: dashboardController.dashboardEarnedGiftPostList[index]["postDate"],
-                          postCount: dashboardController.dashboardEarnedGiftPostList[index]["postCount"],
-                          engagementCount: dashboardController.dashboardEarnedGiftPostList[index]["engagementCount"],
-                          giftCount: dashboardController.dashboardEarnedGiftPostList[index]["giftCount"],
+                          productTitle: dashboardController.dashboardGiftEarnedPostList[index].content,
+                          postDate: DateFormat("dMMM, yyyy").format(dashboardController.dashboardGiftEarnedPostList[index].dateTime!),
+                          postCount: dashboardController.dashboardGiftEarnedPostList[index].countComment.toString(), //!post count data not available from api
+                          engagementCount: dashboardController.dashboardGiftEarnedPostList[index].engagements.toString(),
+                          giftCount: dashboardController.dashboardGiftEarnedPostList[index].countStar.toString(), //!Gift data needed
                         ),
                       );
                     },

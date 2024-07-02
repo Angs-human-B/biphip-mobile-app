@@ -1,9 +1,11 @@
+import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DashboardOverviewPostInsights extends StatelessWidget {
-  const DashboardOverviewPostInsights({super.key, this.postContent, this.postImage});
+  DashboardOverviewPostInsights({super.key, this.postContent, this.postImage});
   final String? postContent, postImage;
+  final DashboardController dashboardController = Get.find<DashboardController>();
   // final bool isVideoContent;
 
   @override
@@ -33,19 +35,19 @@ class DashboardOverviewPostInsights extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kH16sizedBox,
-                if (postImage != null)
-                  Row(
-                    children: [
+                Row(
+                  children: [
+                    if (postImage != null)
                       Container(
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
-                        height: 70,
-                        width: 70,
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
                           child: Image.network(
                             postImage ?? "",
                             fit: BoxFit.cover,
+                            height: 70,
+                            width: 70,
                             errorBuilder: (context, error, stackTrace) => const Icon(
                               BipHip.imageFile,
                               size: kIconSize20,
@@ -58,6 +60,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                           ),
                         ),
                       ),
+                    if (postContent == null)
                       Container(
                         width: width - 110,
                         height: 70,
@@ -94,14 +97,100 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    // if (postImage != null && postContent == null)
+                    //   Container(
+                    //     decoration: const BoxDecoration(
+                    //         borderRadius: BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)), color: cWhiteColor),
+                    //     child: ClipRRect(
+                    //       borderRadius: const BorderRadius.only(topLeft: Radius.circular(h8), bottomLeft: Radius.circular(h8)),
+                    //       child: Image.network(
+                    //         postImage ?? "",
+                    //         fit: BoxFit.cover,
+                    //         height: 49,
+                    //         width: 70,
+                    //         errorBuilder: (context, error, stackTrace) => const Icon(
+                    //           BipHip.imageFile,
+                    //           size: kIconSize20,
+                    //           color: cIconColor,
+                    //         ),
+                    //         loadingBuilder: imageLoadingBuilder,
+                    //         frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+                    //           return child;
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ),
+
+                    if (postImage != null && postContent != null)
+                      Container(
+                        width: width - 110,
+                        height: 70,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(k8BorderRadius), bottomRight: Radius.circular(k8BorderRadius)),
+                          border: Border(
+                            top: BorderSide(width: 1, color: cLineColor),
+                            right: BorderSide(width: 1, color: cLineColor),
+                            bottom: BorderSide(width: 1, color: cLineColor),
+                            left: BorderSide.none,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: k8Padding, left: k8Padding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (postContent != null)
+                                SizedBox(
+                                  width: width - 130,
+                                  child: Text(
+                                    postContent!,
+                                    style: semiBold16TextStyle(cBlackColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              kH4sizedBox,
+                              Text(
+                                Get.find<GlobalController>().userName.value ?? ksNA,
+                                style: postContent != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                    if (postImage == null && postContent != null)
+                      Padding(
+                        padding: const EdgeInsets.all(k8Padding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (postContent != null)
+                              SizedBox(
+                                width: width - 56,
+                                child: Text(
+                                  postContent!,
+                                  style: semiBold16TextStyle(cBlackColor),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            kH4sizedBox,
+                            Text(
+                              Get.find<GlobalController>().userName.value ?? ksNA,
+                              style: postContent != null ? regular14TextStyle(cSmallBodyTextColor) : semiBold16TextStyle(cBlackColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
                 kH8sizedBox,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Saturday, 6.57pm",
+                      Get.find<GlobalController>().postTimeDifference(dashboardController.dashboardPostInsightData.value?.post?.dateTime ?? DateTime.now()),
                       style: regular12TextStyle(cSmallBodyTextColor),
                     ),
                     kW4sizedBox,
@@ -113,8 +202,8 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       ),
                     ),
                     kW4sizedBox,
-                    const Icon(
-                      BipHip.lock,
+                    Icon(
+                      Get.find<GlobalController>().privacyIcon(dashboardController.dashboardPostInsightData.value?.post?.isPublic),
                       color: cIconColor,
                       size: kIconSize12,
                     ),
@@ -133,7 +222,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH4sizedBox,
                         Text(
-                          "0",
+                          dashboardController.dashboardPostInsightData.value?.countView.toString() ?? ksNA.tr,
                           style: semiBold16TextStyle(cBlackColor),
                         ),
                       ],
@@ -147,7 +236,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH4sizedBox,
                         Text(
-                          "0",
+                          dashboardController.dashboardPostInsightData.value?.countEngagement.toString() ?? ksNA.tr,
                           style: semiBold16TextStyle(cBlackColor),
                         ),
                       ],
@@ -161,7 +250,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH4sizedBox,
                         Text(
-                          "0",
+                          dashboardController.dashboardPostInsightData.value?.countGift.toString() ?? ksNA.tr,
                           style: semiBold16TextStyle(cBlackColor),
                         ),
                       ],
@@ -182,7 +271,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      "21252",
+                      dashboardController.dashboardPostInsightData.value?.countView.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
@@ -196,7 +285,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      "453",
+                      dashboardController.dashboardPostInsightData.value?.countEngagement.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
@@ -219,7 +308,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         Text(
-                          "440",
+                          dashboardController.dashboardPostInsightData.value?.countReactionLike.toString() ?? ksNA.tr,
                           style: regular12TextStyle(cBlackColor),
                         ),
                       ],
@@ -233,7 +322,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         Text(
-                          "430",
+                          dashboardController.dashboardPostInsightData.value?.countReactionLove.toString() ?? ksNA.tr,
                           style: regular12TextStyle(cBlackColor),
                         ),
                       ],
@@ -247,7 +336,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         Text(
-                          "420",
+                          dashboardController.dashboardPostInsightData.value?.countReactionHaha.toString() ?? ksNA.tr,
                           style: regular12TextStyle(cBlackColor),
                         ),
                       ],
@@ -261,7 +350,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         Text(
-                          "410",
+                          dashboardController.dashboardPostInsightData.value?.countReactionWow.toString() ?? ksNA.tr,
                           style: regular12TextStyle(cBlackColor),
                         ),
                       ],
@@ -275,7 +364,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         Text(
-                          "400",
+                          dashboardController.dashboardPostInsightData.value?.countReactionLike.toString() ?? ksNA.tr,
                           style: regular12TextStyle(cBlackColor),
                         ),
                       ],
@@ -289,7 +378,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                         ),
                         kH8sizedBox,
                         Text(
-                          "300",
+                          dashboardController.dashboardPostInsightData.value?.countReactionAngry.toString() ?? ksNA.tr,
                           style: regular12TextStyle(cBlackColor),
                         ),
                       ],
@@ -305,7 +394,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      "21252",
+                      dashboardController.dashboardPostInsightData.value?.countReaction.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
@@ -319,7 +408,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      "235",
+                      dashboardController.dashboardPostInsightData.value?.countComment.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
@@ -333,7 +422,7 @@ class DashboardOverviewPostInsights extends StatelessWidget {
                       style: regular12TextStyle(cBlackColor),
                     ),
                     Text(
-                      "124",
+                      dashboardController.dashboardPostInsightData.value?.countShare.toString() ?? ksNA.tr,
                       style: regular12TextStyle(cBlackColor),
                     ),
                   ],
