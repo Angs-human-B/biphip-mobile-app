@@ -236,14 +236,14 @@ bool? hasReport;
         countBids: RxInt(json["count_bids"]),
         type: json["type"],
         taggedFriends: json["tagged_friends"] == null ? [] : List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => FriendFamilyUserData.fromJson(x))),
-        user:  User.fromJson(json["user"]),
+        user:  json["user"] ==null? null:User.fromJson(json["user"]),
         kid: json["kid"] == null ? null : Brand.fromJson(json["kid"]),
         store: json["store"] == null ? null : Brand.fromJson(json["store"]),
         postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
         postSubCategory: json["post_sub_category"],
-        postTags: List<dynamic>.from(json["post_tags"].map((x) => x)),
-        images: RxList<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
-        comments: RxList<CommentDataRx>.from(json["comments"].map((x) => CommentDataRx.fromJson(x))),
+        postTags: json["post_tags"]==null?[]:List<dynamic>.from(json["post_tags"].map((x) => x)),
+        images: json["images"]==null?RxList<ImageElement>([]):RxList<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
+        comments:json["comments"]==null?  RxList<CommentDataRx>([]):RxList<CommentDataRx>.from(json["comments"].map((x) => CommentDataRx.fromJson(x))),
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
         sharePosts: json["share_posts"] == null ? null : SharePosts.fromJson(json["share_posts"]),
         isNotifaction: json["is_notifaction"],
@@ -298,7 +298,6 @@ class SharePosts {
   RxString? myReaction;
   List<String> viewers;
   bool? hasReport;
-  // bool? myReport;
   bool? isNotifaction;
   bool? isVisibleToMe;
   int? countReaction;
@@ -356,7 +355,6 @@ class SharePosts {
     required this.myReaction,
     required this.viewers,
     required this.hasReport,
-    // required this.myReport,
     required this.isNotifaction,
     required this.isVisibleToMe,
     required this.countReaction,
@@ -415,7 +413,6 @@ class SharePosts {
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
         viewers: List<String>.from(json["viewers"].map((x) => x)),
         hasReport: json["has_report"],
-        // myReport: json["my_report"],
         isNotifaction: json["is_notifaction"],
         isVisibleToMe: json["is_visible_to_me"],
         countReaction: json["count_reaction"],

@@ -31,7 +31,6 @@ class StoreListView extends StatelessWidget {
                                 Get.toNamed(krStoreProfile);
                                 await storeController.getStoreOverview();
                                 await storeController.getPostList();
-                                //  await Get.find<HomeController>().getTimelinePostList();//!Remove this api call
                               },
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(k8BorderRadius),

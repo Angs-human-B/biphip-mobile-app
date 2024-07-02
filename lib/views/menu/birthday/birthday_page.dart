@@ -73,7 +73,6 @@ class BirthdayPage extends StatelessWidget {
                                               isBirthdaySendButtonEnabled: pendentBadgesController.todayBirthdaySendButtonEnabled[index],
                                               isAlreadyWished: pendentBadgesController.todayBirthdayList[index].myWish == null ? true : false,
                                               userId: pendentBadgesController.todayBirthdayList[index].id,
-                                              // isTimelinePostEnabled: todayBirthdays[index]['isAlreadyWished'],
                                             );
                                           },
                                         ),
@@ -104,7 +103,6 @@ class BirthdayPage extends StatelessWidget {
                                               isBirthdaySendButtonEnabled: pendentBadgesController.inTwoDaysBirthdaySendButtonEnabled[index],
                                               isAlreadyWished: pendentBadgesController.inTwoDaysBirthdayList[index].myWish == null ? true : false,
                                               userId: pendentBadgesController.inTwoDaysBirthdayList[index].id,
-                                              // isTimelinePostEnabled: inTwoDaysBirthdays[index]['isAlreadyWished'],
                                             );
                                           },
                                         ),
@@ -135,7 +133,6 @@ class BirthdayPage extends StatelessWidget {
                                               birthdayTextEditingControllerValue: pendentBadgesController.upcomingBirthdayTimelineTextEditingController[index],
                                               isAlreadyWished: pendentBadgesController.upcomingsBirthdayList[index].myWish == null ? true : false,
                                               userId: pendentBadgesController.upcomingsBirthdayList[index].id,
-                                              // isTimelinePostEnabled: upcomingBirthdays[index]['isAlreadyWished'],
                                             );
                                           },
                                         ),
@@ -178,7 +175,6 @@ class BirthdayCommonView extends StatelessWidget {
       this.age,
       this.isTodayOrIn2DaysBirthday = true,
       required this.birthdayTextEditingControllerValue,
-      // this.isTimelinePostEnabled,
       this.isAlreadyWished,
       this.isBirthdaySendButtonEnabled,
       this.userId});
@@ -190,7 +186,6 @@ class BirthdayCommonView extends StatelessWidget {
   final bool? isTodayOrIn2DaysBirthday;
   final TextEditingController birthdayTextEditingControllerValue;
   final RxBool? isBirthdaySendButtonEnabled;
-  // final bool? isTimelinePostEnabled;
   final bool? isAlreadyWished;
   final int? userId;
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
@@ -264,7 +259,6 @@ class BirthdayCommonView extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false)
                 if (isTodayOrIn2DaysBirthday == true)
                   Padding(
                     padding: const EdgeInsets.only(right: k16Padding),
@@ -288,7 +282,6 @@ class BirthdayCommonView extends StatelessWidget {
             ),
           ),
           kH20sizedBox,
-          // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false && isAlreadyWished == true)
           if (isTodayOrIn2DaysBirthday == true && isAlreadyWished == true)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -366,22 +359,6 @@ class BirthdayCommonView extends StatelessWidget {
                 },
               ),
             ),
-          //*Timeline post disable option api have no prameter for differenciate this
-          // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == true)
-          // if (isTodayOrIn2DaysBirthday == true)
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          //   child: CustomElevatedButton(
-          //       buttonWidth: width - 82,
-          //       buttonHeight: h32,
-          //       buttonColor: cPrimaryTint2Color,
-          //       borderColor: cPrimaryColor,
-          //       textStyle: regular12TextStyle(cBlackColor),
-          //       label: ksWishInChat.tr,
-          //       suffixIcon: BipHip.chatFill,
-          //       suffixIconColor: cPrimaryColor,
-          //       onPressed: () {}),
-          // ),
         ],
       ),
     );

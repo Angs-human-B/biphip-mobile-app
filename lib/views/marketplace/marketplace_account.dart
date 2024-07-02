@@ -115,7 +115,6 @@ class MarketPlaceAccount extends StatelessWidget {
                         icon: marketPlaceController.moreActionList[index]["icon"],
                         title: marketPlaceController.moreActionList[index]["title"],
                         onPressed: () {
-                          // ll(marketPlaceController.moreActionList[index]["title"]);
                           if (index == 1) {
                             Get.toNamed(krMarketPlaceNotification);
                           }

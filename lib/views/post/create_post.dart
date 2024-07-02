@@ -222,10 +222,6 @@ class CreatePost extends StatelessWidget {
                                                                 width: (width - 40) / 3,
                                                                 fit: BoxFit.cover,
                                                               )),
-
-                                                        //     //*Add Photo container
-                                                        // if (createPostController.sellingAllMediaFileList.length>)
-                                                        // if (createPostController.seelingImageLength.value > createPostController.sellingAllMediaFileList.length)
                                                         if (index + 1 > createPostController.sellingAllMediaFileList.length &&
                                                             createPostController.sellingAllMediaFileList.length <= 9)
                                                           InkWell(
@@ -407,13 +403,6 @@ class CreatePost extends StatelessWidget {
                                           maxLength: 10,
                                         ),
                                         if (createPostController.isRegularPost.value)
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(bottom: k8Padding),
-                                          //   child: Text(
-                                          //     'The Price now is 40',
-                                          //     style: regular12TextStyle(cSmallBodyTextColor),
-                                          //   ),
-                                          // ),
                                           kH4sizedBox,
                                         CustomModifiedTextField(
                                           controller: createPostController.isRegularPost.value
@@ -502,15 +491,6 @@ class CreatePost extends StatelessWidget {
                                           maxLength: 10,
                                         ),
                                         kH4sizedBox,
-                                        // CustomModifiedTextField(
-                                        //   controller: createPostController.sellingLocationTextEditingController,
-                                        //   hint: ksLocation.tr,
-                                        //   onChanged: (text) {},
-                                        //   onSubmit: (text) {},
-                                        //   inputAction: TextInputAction.next,
-                                        //   maxLength: 10,
-                                        // ),
-
                                         RawAutocomplete(
                                           textEditingController: createPostController.sellingLocationTextEditingController,
                                           focusNode: sellingLocationFocusNode,

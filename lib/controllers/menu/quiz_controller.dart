@@ -30,7 +30,6 @@ class QuizController extends GetxController{
   final RxInt totalTime = RxInt(30);
   final RxBool isLastQuestion = RxBool(false);
   void timerStartFunction() {
-    // startTimer(int.parse(questionListData.value?.result!.elapsedTime.toString()));
     startTimer(getTotalTime());
   }
 

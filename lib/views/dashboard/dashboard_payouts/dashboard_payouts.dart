@@ -173,7 +173,6 @@ class DashboardPayouts extends StatelessWidget {
                                                 children: [
                                                   Text(dashboardController.withdrawHistoryList[index]["date"], style: regular12TextStyle(cBlackColor)),
                                                   Text(dashboardController.withdrawHistoryList[index]["payment"], style: regular12TextStyle(cBlackColor)),
-                                                  // kW4sizedBox,
                                                   Text(
                                                     "\$${dashboardController.withdrawHistoryList[index]["withdrawAmount"]}",
                                                     style: regular12TextStyle(cBlackColor),
@@ -833,28 +832,6 @@ class DashboardPayoutSettingContentContainer extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Expanded(
-                      //   child: Row(
-                      //     children: [
-                      //       Text(
-                      //         statusText,
-                      //         style: statusTextStyle,
-                      //       ),
-                      //       kW4sizedBox,
-                      //       Container(
-                      //         width: 4,
-                      //         height: 4,
-                      //         decoration: const BoxDecoration(color: cIconColor, shape: BoxShape.circle),
-                      //       ),
-                      //       kW4sizedBox,
-                      //       Text(
-                      //         dateText,
-                      //         style: regular14TextStyle(cBlackColor),
-                      //         overflow: TextOverflow.clip,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),
@@ -931,7 +908,7 @@ class DashboardCommonContainer extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -981,8 +958,6 @@ class PayoutsEarningReport extends StatelessWidget {
       decoration: BoxDecoration(
         color: cWhiteColor,
         borderRadius: BorderRadius.circular(k8BorderRadius),
-        // border: Border.all(width: 1, color: cLineColor),
-
         boxShadow: const [
           BoxShadow(
             color: cLineColor,

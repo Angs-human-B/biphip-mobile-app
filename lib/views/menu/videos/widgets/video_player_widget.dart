@@ -6,10 +6,7 @@ class VideoPlayerWidget extends StatelessWidget {
   VideoPlayerWidget({
     super.key,
   });
-  // final String videoUrl;
   final AllSearchController allSearchController = Get.find<AllSearchController>();
-  //   late VideoPlayerController videoPlayerController;
-  // late Future<void> initializedVideoPlayerFuture;
 
   @override
   Widget build(BuildContext context) {

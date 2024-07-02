@@ -244,7 +244,6 @@ class FamilyController extends GetxController {
   }
 
   //*Reject Family Request
-
   final RxInt receivedRequestCount = RxInt(0);
   Future<void> rejectFamilyRequest() async {
     try {

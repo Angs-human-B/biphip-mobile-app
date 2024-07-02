@@ -52,11 +52,6 @@ class MarketPlaceRecentActivity extends StatelessWidget {
                           mainAxisSpacing: k16Padding,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          // return MarketplaceItemContainer(
-                          //     productImage: marketPlaceController.marketplaceProductList[index]["productImage"],
-                          //     price: marketPlaceController.marketplaceProductList[index]["price"],
-                          //     location: marketPlaceController.marketplaceProductList[index]["location"],
-                          //     details: marketPlaceController.marketplaceProductList[index]["details"]);
                           return InkWell(
                             onTap: () {
                               Get.to(

@@ -82,11 +82,6 @@ class BadgeTabViewContent extends StatelessWidget {
                     reactionImage: kiBadge4SvgImageUrl,
                     text: postReactionController.badgeCount4.value.toString(),
                   ),
-                  // ReactionBottomSheetTab(
-                  //   isReactionImageShown: true,
-                  //   reactionImage: kiAngrySvgImageUrl,
-                  //   text: postReactionController.badgeCount4.value.toString(),
-                  // ),
                 ],
               ),
             ),
@@ -147,7 +142,6 @@ class ReactionTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         separatorBuilder: (context, index) => kH8sizedBox,
-        // physics: const NeverScrollableScrollPhysics(),
         itemCount: list.length,
         itemBuilder: (context, index) {
           var item = list[index];

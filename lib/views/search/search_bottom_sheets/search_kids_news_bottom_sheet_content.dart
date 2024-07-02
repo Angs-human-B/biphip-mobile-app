@@ -1,10 +1,10 @@
 
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/date_posted_content.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/kids_news_subcategory_content.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/search_posted_by_content.dart';
+import 'package:bip_hip/views/search/search.dart';
+import 'package:bip_hip/views/search/search_widgets/date_posted_content.dart';
+import 'package:bip_hip/views/search/search_widgets/kids_news_subcategory_content.dart';
+import 'package:bip_hip/views/search/search_widgets/search_posted_by_content.dart';
 
 class SearchKidsNewsBottomSheetContent extends StatelessWidget {
   SearchKidsNewsBottomSheetContent({super.key});

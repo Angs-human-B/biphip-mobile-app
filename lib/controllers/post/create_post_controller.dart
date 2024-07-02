@@ -30,7 +30,7 @@ class CreatePostController extends GetxController {
   final RxBool isEditPost = RxBool(false);
   final RxBool isImageChanged = RxBool(false);
 
-  // image and video picker variables
+  //* image and video picker variables
   final RxString createPostImageLink = RxString('');
   final RxList<Rx<File>> createPostImageFile = RxList<Rx<File>>([]);
   final RxBool isCreatePostImageChanged = RxBool(false);
@@ -91,37 +91,10 @@ class CreatePostController extends GetxController {
   final RxList<FriendFamilyUserData> removedTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
   final RxList tempTagIndex = RxList([]);
-
-  // final List tagFiendList = [
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  // ];
-
-  final List brandList = [
-    {"name": "Takin Ahmed 1", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 2", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 3", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 4", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 5", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 6", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 7", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 8", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 9", "image_url": kiLogoImageUrl},
-  ];
-
   final RxList<dynamic> allMediaList = RxList<dynamic>([]);
   final RxInt previousPostImageLength = RxInt(-1);
   final RxString previousPostContent = RxString("");
   final RxString previousNewsTitle = RxString("");
-  // final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
-
   final List platformList = [
     {"id": '', "name": 'Facebook', "title": "Facebook", "image": kiFacebookSvgImageUrl},
     {"id": '', "name": 'Website', "title": "Website", "image": kiWebSvgImageUrl},
@@ -143,7 +116,6 @@ class CreatePostController extends GetxController {
 //! important:: create post API
 //------------------------------
 
-  //Get all post catagories API implementation
   Rx<PostCategoryListModel?> postCategoryData = Rx<PostCategoryListModel?>(null);
   final RxBool isAddKidPageLoading = RxBool(false);
   final RxBool isPostCategoryListLoading = RxBool(false);
@@ -184,7 +156,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  //Add kid
+  //!Add kid
   final RxBool saveKidInfo = RxBool(false);
   final RxString kidImageLink = RxString('');
   final Rx<File> kidImageFile = File('').obs;
@@ -217,7 +189,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  //Add kid API Implementation
+  //*Add kid API Implementation
   Rx<KidModel?> kidData = Rx<KidModel?>(null);
   RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
   Future<void> addKid() async {
@@ -257,7 +229,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  //Get Kid List API Implementation
+  //*Get Kid List API Implementation
   Rx<KidListModel?> kidListData = Rx<KidListModel?>(null);
   RxList<Kid> kidList = RxList<Kid>([]);
   Rx<Kid?> selectedKid = Rx<Kid?>(null);
@@ -299,7 +271,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  // Add Brand API Implementation
+  //* Add Brand API Implementation
   final RxString brandImageLink = RxString('');
   final Rx<File> brandImageFile = File('').obs;
   final RxBool isBrandImageChanged = RxBool(false);
@@ -416,7 +388,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  // Create post API Implementation
+  //! Create post API Implementation
   final RxBool isCreatePostLoading = RxBool(false);
   final RxBool isPostedFromProfile = RxBool(false);
 
@@ -616,7 +588,6 @@ class CreatePostController extends GetxController {
   final RxBool sellingPostTypeBottomSheetRightButtonState = RxBool(false);
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final List<String> businessTypeLists = ['electronic', 'food', 'clothing'];
-  // final RxList businessTypeList = RxList([]);
   final RxList filteredBusinessTypeList = RxList([]);
   final RxInt businessTypeIndex = RxInt(-1);
 
@@ -658,7 +629,7 @@ class CreatePostController extends GetxController {
   final RxString selectedProductCategoryID = RxString('');
   final RxBool productCategoryBottomSheetRightButton = RxBool(false);
 
-  //   //*Get Create Post List Api Call
+  //*Get Create Post List Api Call
   final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
   final RxList<PostCategory> createPostCategoryList = RxList<PostCategory>([]);
   final RxList<PostCategory> createPostSubCategoryList = RxList<PostCategory>([]);
@@ -763,7 +734,6 @@ class CreatePostController extends GetxController {
         "id": postId.toString(),
         "content": createPostTextEditingController.text.toString().trim(),
         if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
-        // if (subCategoryIndex.value != -1) "post_sub_category_id": subCategoryIndex.value.toString(),
         'post_tag_friend_id': tags.join(','),
         'post_tag_remove_friend_ids': removedTags.join(','),
         "is_public": privacyId.value.toString(),

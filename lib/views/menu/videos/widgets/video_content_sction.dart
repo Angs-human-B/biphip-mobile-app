@@ -83,24 +83,6 @@ class VideoContentSection extends StatelessWidget {
             style: regular12TextStyle(cSmallBodyTextColor),
           ),
           kH16sizedBox,
-          // PostActivityStatusWidget(
-          //   // reactCount: 440,
-          //   reactionOnPressed: () {
-          //   },
-          //   giftCount: 50,
-          //   commentCount: 200,
-          //   shareCount: 340,
-          //   isGiftShown: true,
-          //   giftOnPressed: () {
-          //   },
-          // ),
-          // LikeSectionWidget(
-          //   isGiftShown: true,
-          //   giftOnPressed: () {
-          //   },
-          //   commentOnPressed: () {
-          //   },
-          // ),
           const CustomDivider(),
         ],
       ),

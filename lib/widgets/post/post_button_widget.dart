@@ -1,5 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class CustomPostButton extends StatelessWidget {
   const CustomPostButton({super.key, this.onPressed, required this.name, required this.profilePic, this.prefixWidget});

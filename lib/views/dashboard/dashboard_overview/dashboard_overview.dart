@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_audience.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 class DashboardOverview extends StatelessWidget {
@@ -260,7 +261,7 @@ class DashboardOverview extends StatelessWidget {
                                             offset: Offset(
                                               0,
                                               1,
-                                            ), // Shadow position
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -280,7 +281,7 @@ class DashboardOverview extends StatelessWidget {
                                         offset: Offset(
                                           0,
                                           1,
-                                        ), // Shadow position
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -727,7 +728,7 @@ class DashboardInsightsInteractionContent extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -903,7 +904,7 @@ class DashboardCommonContainer extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -1330,48 +1331,6 @@ class DashboardTopCountriesChart extends StatelessWidget {
           );
         }).toList(),
       ),
-    );
-  }
-}
-
-//!This content is removed after code merge
-class QuizTimeFilterBottomSheetContent extends StatelessWidget {
-  QuizTimeFilterBottomSheetContent({super.key});
-  final DashboardController dashboardController = Get.find<DashboardController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => kH12sizedBox,
-            itemCount: dashboardController.selectDateTimeFilterList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: Obx(() => CustomListTile(
-                      borderColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryColor
-                          : cLineColor,
-                      itemColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryTint2Color
-                          : cWhiteColor,
-                      leading: Text(
-                        dashboardController.selectDateTimeFilterList[index],
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-                      onPressed: () {
-                        dashboardController.selectedQuizTimeRangeValue.value = dashboardController.selectDateTimeFilterList[index];
-                        Get.back();
-                      },
-                    )),
-              );
-            }),
-      ],
     );
   }
 }

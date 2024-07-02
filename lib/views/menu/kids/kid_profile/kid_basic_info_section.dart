@@ -29,9 +29,6 @@ class KidBasicInfoSection extends StatelessWidget {
               ),
               kH16sizedBox,
               InfoContainer(
-                // suffixText: profileController.userData.value!.gender == null
-                //     ? ksGender.tr
-                //     : checkNullOrStringNull(profileController.userData.value!.gender.toString().trim()),
                 suffixText: kidsController.kidGender.value == '' ? ksGender.tr : checkNullOrStringNull(kidsController.kidGender.value),
                 subtitlePrefixText: ksGender,
                 isAddButton: false,
@@ -41,26 +38,18 @@ class KidBasicInfoSection extends StatelessWidget {
               ),
               kH16sizedBox,
               InfoContainer(
-                // suffixText:
-                //     profileController.userData.value!.dob == null ? ksDateOfBirth.tr : DateFormat("yyyy-MM-dd").format(profileController.userData.value!.dob!),
                 suffixText: kidsController.kidDob.value == null ? ksDateOfBirth.tr : DateFormat("yyyy-MM-dd").format(kidsController.kidDob.value!),
                 subtitlePrefixText: ksDateOfBirth.tr,
                 isAddButton: null,
                 suffixOnPressed: null,
-                // suffixOnPressed: () {
-                //   // editProfileHelper.editBirthday();
-                // },
               ),
               kH16sizedBox,
               InfoContainer(
                 suffixOnPressed: () {
-                  // Get.toNamed(krEditBasicInfo);
                   Get.to(() => EditKidLanguageSection());
                 },
                 suffixText:
                     kidsController.kidsData.value!.languages.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.kidsData.value!.languages),
-                // suffixText: kidsController.userLanguages.isEmpty ? ksLanguage.tr : kidHelper.languageSorting(kidsController.kidLanguageList),
-                // isAddButton: profileController.userData.value!.languages.isEmpty ? true : false,
                 isAddButton: kidsController.userLanguages.isEmpty ? true : false,
                 subtitlePrefixText: kidsController.userLanguages.isEmpty ? null : ksLanguages.tr,
               ),

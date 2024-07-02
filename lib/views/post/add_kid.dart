@@ -202,7 +202,6 @@ class AddKidPage extends StatelessWidget {
                                 hintText: ksSelectGender.tr,
                               ),
                               kH16sizedBox,
-                              // kH8sizedBox,
                               CustomModifiedTextField(
                                 controller: createPostController.kidSchoolNameTextEditingController,
                                 hint: ksWriteSchoolName.tr,

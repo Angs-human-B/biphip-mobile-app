@@ -21,7 +21,6 @@ class EditStoreBIN extends StatelessWidget {
                   //* info:: appBar
                   child: CustomAppBar(
                     appBarColor: cWhiteColor,
-                    // title: '${profileController.commonEditPageTitle}'.tr,
                     title: storeController.storeBIN.value == "" ? ksAddBIN.tr : ksEditBIN.tr,
                     hasBackButton: true,
                     isCenterTitle: true,
@@ -39,13 +38,10 @@ class EditStoreBIN extends StatelessWidget {
                                     content: DeletePopupContent(
                                         text: ksDeleteConfirmation.tr,
                                         deleteOnPressed: () {
-                                          // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
                                           Get.back();
                                           Get.back();
                                         }),
                                     title: ksConfirmation.tr);
-                                // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                // Get.back();
                               },
                               text: ksDelete,
                               textStyle: semiBold14TextStyle(cRedColor)),

@@ -35,7 +35,6 @@ class KidContactSection extends StatelessWidget {
                 ),
               ),
               for (int i = 0; i < kidsController.contactList.length; i++)
-                // if (kidsController.phoneNumberList[i].type == 'phone')//!Use it when api call
                 if (kidsController.contactList[i].type == "phone")
                   Padding(
                     padding: const EdgeInsets.only(bottom: k12Padding),
@@ -59,7 +58,6 @@ class KidContactSection extends StatelessWidget {
                 ),
               ),
               for (int i = 0; i < kidsController.contactList.length; i++)
-                // if (profileController.contactDataList[i].type == 'email')
                 if (kidsController.contactList[i].type == "email")
                   Padding(
                     padding: const EdgeInsets.only(bottom: k12Padding),

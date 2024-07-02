@@ -257,8 +257,6 @@ class PendentBadgesController extends GetxController {
   }
 
   //!Birthday
-  // List birthday = [];
-  // final TextEditingController birthdayTimelineTextEditingController = TextEditingController();
   List todayBirthdayTimelineTextEditingController = [];
   List inTwoDaysBirthdayTimelineTextEditingController = [];
   List upcomingBirthdayTimelineTextEditingController = [];

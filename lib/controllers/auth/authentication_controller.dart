@@ -112,16 +112,13 @@ class AuthenticationController extends GetxController {
           });
         }
         await globalController.getUserInfo();
-        // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
         Get.offAllNamed(krHome);
         Get.find<HomeController>().homeTabIndex.value=0;
         await Get.find<HomeController>().getPostList();
         await Get.find<SelfieController>().getFriendSelfieList();
         Get.find<CreatePostController>().getCreatePost();
-        // final HomeController homeController = Get.find<HomeController>();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-        // await homeController.getUserHome();
       } else {
         if (response.code == 410) {
           CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
@@ -363,8 +360,6 @@ class AuthenticationController extends GetxController {
     try {
       isOTPLoading.value = true;
       String? token = verificationToken.value;
-      // log("token : $token");
-
       Map<String, dynamic> body = {
         'otp': otpTextEditingController.text.toString(),
       };
@@ -397,9 +392,6 @@ class AuthenticationController extends GetxController {
           "token": otpData.token.toString(),
         });
         await globalController.getUserInfo();
-        // await setDeviceID(otpData.user.id);
-        // final HomeController homeController = Get.find<HomeController>();
-        // await homeController.getUserHome();
         if (parentRoute.value == "login") {
           isOTPLoading.value = false;
           Get.find<HomeController>().homeTabIndex.value=0;
@@ -543,7 +535,7 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  //*newly added confetti controller
+  //!newly added confetti controller
   final ConfettiController confettiController1 = ConfettiController();
   final ConfettiController confettiController2 = ConfettiController();
   final ConfettiController confettiController3 = ConfettiController();

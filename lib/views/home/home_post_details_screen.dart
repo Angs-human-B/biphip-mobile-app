@@ -263,7 +263,6 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostDataRx postData = globalController.commonPostList[postIndex];
-    // ll(MediaQuery.of(Get.context!).viewInsets.bottom);
     return Obx(() => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -297,14 +296,9 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
               child: PostActivityStatusWidget(
                 postIndex: postIndex,
                 reactionOnPressed: () {
-                  //globalController.blankBottomSheet(
-                  // context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
                 isGiftShown: true,
                 giftOnPressed: () {
-                  // postReactionController.giftFilter(0);
-                  // globalController.blankBottomSheet(
-                  //     context: context, content: BadgeTabViewContent(), isScrollControlled: true, bottomSheetHeight: height * .9);
                 },
               ),
             ),
@@ -313,9 +307,6 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
               isGiftShown: globalController.userId.value == globalController.commonPostList[postIndex].user!.id! ? false : true,
               giftOnPressed: () {},
               commentOnPressed: () async {
-                // postReactionController.commentMentionKey.currentState?.controller?.text = "";
-                // postReactionController.commentId.value = -1;
-                // showComment.value = !showComment.value;
               },
               shareOnPressed: () {
                 Get.find<GlobalController>().blankBottomSheet(
@@ -689,10 +680,6 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                             }
                                           },
                                         ),
-                                        //                                 if (postReactionController.isCommentPostLoading.value) const SingleCommentShimmer(),
-                                        // (postReactionController.isCommentLoading.value && !postReactionController.isCommentPostLoading.value)
-                                        //     ? const CommentCommonShimmer()
-                                        //     :
                                         content: Obx(
                                           () => (postReactionController.isCommentLoading.value && !postReactionController.isCommentPostLoading.value)
                                               ? const CommentCommonShimmer()
@@ -769,10 +756,8 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                                                                   alignment: Alignment.centerLeft,
                                                                                   child: InkWell(
                                                                                       onTap: () async {
-                                                                                        // globalController.commonPostList[postIndex].comments[index].commentReplies.clear();
                                                                                         postReactionController.commentList[index].commentReplies.clear();
                                                                                         postReactionController.replyShow[index] = true;
-                                                                                        // ll(postReactionController.commentList[index].commentReplies.length);
                                                                                         await postReactionController.getReplyList(
                                                                                             postReactionController.commentList[index].id!, postIndex, index);
                                                                                       },
@@ -781,14 +766,6 @@ class CommonPostDetailsScreenWidget extends StatelessWidget {
                                                                                         style: semiBold14TextStyle(cSmallBodyTextColor),
                                                                                       ))),
                                                                             ),
-                                                                          // if (postReactionController.isReplyLoading.value)
-                                                                          //   const Center(
-                                                                          //       child: SizedBox(
-                                                                          //           width: 20,
-                                                                          //           height: 20,
-                                                                          //           child: CircularProgressIndicator(
-                                                                          //             strokeWidth: 2,
-                                                                          //           ))),
                                                                           if (postReactionController.replyShow[index])
                                                                             for (int i = 0;
                                                                                 i < postReactionController.commentList[index].commentReplies.length;
@@ -897,7 +874,6 @@ class ImageShareBottomSheetContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
-            // kH16sizedBox,
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -990,8 +966,6 @@ class ImageShareBottomSheetContent extends StatelessWidget {
                           await createPostController.getKidList();
                         }
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Share to Your Store Profile".toLowerCase()) {
-                          // createPostController.tempSelectedBrandId.value = createPostController.selectedBrandId.value;
-
                           if (createPostController.tempSelectedBrandId.value == -1) {
                             createPostController.storeListBottomSheetRightButtonState.value = false;
                           } else {
@@ -1007,7 +981,6 @@ class ImageShareBottomSheetContent extends StatelessWidget {
                               Get.back();
                             },
                             onPressRightButton: () {
-                              // createPostHelper.selectBrandTextChange();
                               Get.find<CreatePostController>().isPostedFromProfile.value = false;
                               CreatePostHelper().resetCreatePostData();
                               createPostController.selectedBrandId.value = createPostController.tempSelectedBrandId.value;
@@ -1028,9 +1001,6 @@ class ImageShareBottomSheetContent extends StatelessWidget {
                                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.6 : height * 0.7,
                                 isScrollControlled: true,
                                 context: context,
-                                // content: SharePostBottomSheetContent(
-                                //   postData: postData,
-                                // ),
                                 content: SharePostImageBottomSheetContent(
                                   postData: postData,
                                   imageIndex: imageIndex,
@@ -1047,8 +1017,6 @@ class ImageShareBottomSheetContent extends StatelessWidget {
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Copy Link".toLowerCase()) {
                           String baseUrl = "bip-hip-dev.vercel.app/posts";
                           Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}/image/${postData.images[imageIndex].id}"));
-                          // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                          // ll(clipboardData!.text);
                           Get.find<GlobalController>()
                               .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
                         }
@@ -1189,18 +1157,6 @@ class SharePostImageBottomSheetContent extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                // if (postData.sharePosts != null && postData.sharePosts!.images[imageIndex].description != null)
-                                //   Padding(
-                                //     padding: const EdgeInsets.only(bottom: 8.0),
-                                //     child: SizedBox(
-                                //       width: width - 130,
-                                //       child: Text(
-                                //         postData.sharePosts!.images[imageIndex].description ?? ksNA,
-                                //         style: semiBold16TextStyle(cBlackColor),
-                                //         overflow: TextOverflow.ellipsis,
-                                //       ),
-                                //     ),
-                                //   ),
                                 if (postData.sharePosts == null)
                                   SizedBox(
                                     width: width - 130,
@@ -1249,8 +1205,6 @@ class SharePostImageBottomSheetContent extends StatelessWidget {
                           String baseUrl = "bip-hip-dev.vercel.app/posts";
                           if (createPostController.sharePostOthersList[index]["text"].toString().toLowerCase() == "Copy Link".toLowerCase()) {
                             Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-                            // ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                            // ll(clipboardData!.text);
                             Get.back();
                             Get.find<GlobalController>()
                                 .showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);

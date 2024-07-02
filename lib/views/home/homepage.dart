@@ -221,7 +221,6 @@ class HomePage extends StatelessWidget {
                                       title: ksNoDataAvailable.tr,
                                     ),
                                   ),
-                                // ),
                                 if (globalController.commonPostList.isNotEmpty)
                                   ListView.separated(
                                       shrinkWrap: true,

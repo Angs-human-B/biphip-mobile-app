@@ -2,7 +2,7 @@ import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class FriendFamilyTab extends StatelessWidget {
   FriendFamilyTab({super.key});
@@ -30,7 +30,6 @@ class FriendFamilyTab extends StatelessWidget {
                   ),
           ),
           kH12sizedBox,
-          // if (familyController.familyList.isNotEmpty)
           familyController.isFamilyListLoading.value
               ? const FriendFamilyGridViewShimmer()
               : Container(

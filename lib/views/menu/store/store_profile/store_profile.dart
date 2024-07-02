@@ -64,7 +64,6 @@ class StoreProfile extends StatelessWidget {
                             }
                             return true;
                           }
-                          // homeController.timelinePostListScrolled.value = false;
                           return false;
                         },
                         child: SingleChildScrollView(
@@ -368,10 +367,6 @@ class StoreProfile extends StatelessWidget {
                                                                     );
                                                                   },
                                                                   onPressed: () {
-                                                                    // Get.to(() => Photos(
-                                                                    //       imageList: galleryController.imageDataList[index].imageList,
-                                                                    //       imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
-                                                                    //     ));
                                                                   },
                                                                 ),
                                                               ],
@@ -529,13 +524,6 @@ class StoreProfilePostTab extends StatelessWidget {
                           },
                         ),
                       )),
-                  // CustomTextButton(
-                  //   text: ksSeeYourAboutInfo.tr,
-                  //   textStyle: medium16TextStyle(cPrimaryColor),
-                  //   onPressed: seeAllAboutOnPressed,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   padding: EdgeInsets.zero,
-                  // ),
                   kH16sizedBox,
                 ],
               ),
@@ -597,26 +585,21 @@ class StoreProfilePostTab extends StatelessWidget {
                                 isCommented: false,
                                 isLiked: false,
                                 isSharedPost: false,
-                                // userName: item.user?.fullName??"",
                                 userName: item.user?.fullName ?? ksNA,
                                 postTime: Get.find<GlobalController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                                 isCategorized: true,
-                                subCategory: null, //API
+                                subCategory: null,
 
-                                category: item.postCategory == null ? null : item.postCategory?.name ?? "", //API
+                                category: item.postCategory == null ? null : item.postCategory?.name ?? "", 
                                 categoryIcon:
-                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id), // need change API
+                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id),
                                 categoryIconColor:
-                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id), // Based on API
+                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id),
                                 privacy: BipHip.world,
                                 brandName: item.stores?.name ?? "",
-                                // brandName: item.store == null ? null : item.store!.name, //API
-                                // kidName: item.kid == null ? null : item.kid!.name, //API
-                                // kidAge: item.kid == null ? null : item.kid!.age.toString(), //API
-                                title: item.title, //API
-                                postText: item.content ?? '', //API
-                                price: null, //API
-                                // mediaList: item.images,
+                                title: item.title,
+                                postText: item.content ?? '',
+                                price: null, 
                                 mediaList: item.images,
                                 isSelfPost: true,
                                 isInStock: true,
@@ -625,7 +608,6 @@ class StoreProfilePostTab extends StatelessWidget {
                                 postID: item.id!,
                                 userImage: storeController.storeProfilePicture.value,
                                 taggedFriends: const [],
-                                // reactCount: item.countReactions,
                               ),
                             );
                           },

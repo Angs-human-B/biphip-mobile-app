@@ -158,7 +158,6 @@ class KidCategoryContent extends StatelessWidget {
                       size: kIconSize120,
                       color: cIconColor,
                     ),
-                    // loadingBuilder: imageLoadingBuilder,
                   ),
                 ),
               ),
@@ -307,13 +306,11 @@ class KidListBottomSheetContent extends StatelessWidget {
                                     size: kIconSize120,
                                     color: cIconColor,
                                   ),
-                                  // loadingBuilder: imageLoadingBuilder,
                                 ),
                               ),
                             ),
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                // selectKidStatusChange(i);
                                 createPostController.tempKidID.value = createPostController.kidList[i].id!;
                                 createPostController.tempSelectedKid.value = createPostController.kidList[i];
                                 if (createPostController.tempSelectedKid.value == null) {
@@ -658,7 +655,6 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                         size: kIconSize16,
                                         color: cIconColor,
                                       ),
-                                      // loadingBuilder: imageLoadingBuilder,
                                     ),
                                   ),
                                 ),

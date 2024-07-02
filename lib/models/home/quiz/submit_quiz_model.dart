@@ -1,4 +1,3 @@
-// import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
 
 class SubmitQuizModel {
@@ -23,7 +22,6 @@ class Result {
   int? userId;
   int? id;
   Quiz? quiz;
-  // User? user;
 
   Result({
     required this.elapsedTime,
@@ -35,7 +33,6 @@ class Result {
     required this.userId,
     required this.id,
     required this.quiz,
-    // required this.user,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
@@ -48,6 +45,5 @@ class Result {
         userId: json["user_id"],
         id: json["id"],
         quiz: Quiz.fromJson(json["quiz"]),
-        // user: User.fromJson(json["user"]),
       );
 }
