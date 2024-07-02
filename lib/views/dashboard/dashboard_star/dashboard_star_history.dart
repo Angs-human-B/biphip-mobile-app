@@ -1,6 +1,6 @@
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/dashboard/dashboard_star/dashboard_star.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:intl/intl.dart';
 

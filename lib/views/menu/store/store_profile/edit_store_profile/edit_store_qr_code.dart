@@ -20,7 +20,6 @@ class EditStoreQrCode extends StatelessWidget {
                       //* info:: appBar
                       child: CustomAppBar(
                         appBarColor: cWhiteColor,
-                        // title: '${profileController.commonEditPageTitle}'.tr,
                       title: storeController.qrCode.value == ""? ksAddQrCode : ksEditQrCode.tr,
                   hasBackButton: true,
                   isCenterTitle: true,
@@ -28,7 +27,6 @@ class EditStoreQrCode extends StatelessWidget {
                     Get.back();
                   },
                   action: [
-                    // if (profileController.functionFlag.contains('EDIT'))
                     if(storeController.qrCode.value != "")
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),

@@ -35,8 +35,6 @@ class ProfileCoverPictureUpdateModel {
     int ?countPageRating;
     int ?countPageReviews;
     dynamic relation;
-    // Image ?proImage;
-    // Image ?coverImage;
 
     ProfileCoverPictureUpdateModel({
         required this.id,
@@ -75,8 +73,6 @@ class ProfileCoverPictureUpdateModel {
         required this.countPageRating,
         required this.countPageReviews,
         required this.relation,
-        // required this.proImage,
-        // required this.coverImage,
     });
 
     factory ProfileCoverPictureUpdateModel.fromJson(Map<String, dynamic> json) => ProfileCoverPictureUpdateModel(
@@ -116,127 +112,5 @@ class ProfileCoverPictureUpdateModel {
         countPageRating: json["count_page_rating"],
         countPageReviews: json["count_page_reviews"],
         relation: json["relation"],
-        // proImage: Image.fromJson(json["pro_image"]),
-        // coverImage: Image.fromJson(json["cover_image"]),
     );
 }
-
-// class Image {
-//     int ?id;
-//     int ?userId;
-//     dynamic postId;
-//     String? fileType;
-//     int ?imageAlbumId;
-//     dynamic imageType;
-//     String storageType;
-//     dynamic mimeType;
-//     String title;
-//     String storagePath;
-//     String path;
-//     int filesize;
-//     dynamic description;
-//     dynamic imageTakenTime;
-//     dynamic imageTakenLocation;
-//     int countView;
-//     int countShare;
-//     int countComment;
-//     int countStar;
-//     dynamic countReactions;
-//     DateTime createdAt;
-//     DateTime updatedAt;
-//     String fullPath;
-//     List<dynamic> taggedFriends;
-//     List<String> reactingPersons;
-//     int totalViewCount;
-//     dynamic myReaction;
-
-//     Image({
-//         required this.id,
-//         required this.userId,
-//         required this.postId,
-//         required this.fileType,
-//         required this.imageAlbumId,
-//         required this.imageType,
-//         required this.storageType,
-//         required this.mimeType,
-//         required this.title,
-//         required this.storagePath,
-//         required this.path,
-//         required this.filesize,
-//         required this.description,
-//         required this.imageTakenTime,
-//         required this.imageTakenLocation,
-//         required this.countView,
-//         required this.countShare,
-//         required this.countComment,
-//         required this.countStar,
-//         required this.countReactions,
-//         required this.createdAt,
-//         required this.updatedAt,
-//         required this.fullPath,
-//         required this.taggedFriends,
-//         required this.reactingPersons,
-//         required this.totalViewCount,
-//         required this.myReaction,
-//     });
-
-//     factory Image.fromJson(Map<String, dynamic> json) => Image(
-//         id: json["id"],
-//         userId: json["user_id"],
-//         postId: json["post_id"],
-//         fileType: json["file_type"],
-//         imageAlbumId: json["image_album_id"],
-//         imageType: json["image_type"],
-//         storageType: json["storage_type"],
-//         mimeType: json["mime_type"],
-//         title: json["title"],
-//         storagePath: json["storage_path"],
-//         path: json["path"],
-//         filesize: json["filesize"],
-//         description: json["description"],
-//         imageTakenTime: json["image_taken_time"],
-//         imageTakenLocation: json["image_taken_location"],
-//         countView: json["count_view"],
-//         countShare: json["count_share"],
-//         countComment: json["count_comment"],
-//         countStar: json["count_star"],
-//         countReactions: json["count_reactions"],
-//         createdAt: DateTime.parse(json["created_at"]),
-//         updatedAt: DateTime.parse(json["updated_at"]),
-//         fullPath: json["full_path"],
-//         taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
-//         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
-//         totalViewCount: json["total_view_count"],
-//         myReaction: json["my_reaction"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "user_id": userId,
-//         "post_id": postId,
-//         "file_type": fileType,
-//         "image_album_id": imageAlbumId,
-//         "image_type": imageType,
-//         "storage_type": storageType,
-//         "mime_type": mimeType,
-//         "title": title,
-//         "storage_path": storagePath,
-//         "path": path,
-//         "filesize": filesize,
-//         "description": description,
-//         "image_taken_time": imageTakenTime,
-//         "image_taken_location": imageTakenLocation,
-//         "count_view": countView,
-//         "count_share": countShare,
-//         "count_comment": countComment,
-//         "count_star": countStar,
-//         "count_reactions": countReactions,
-//         "created_at": createdAt.toIso8601String(),
-//         "updated_at": updatedAt.toIso8601String(),
-//         "full_path": fullPath,
-//         "tagged_friends": List<dynamic>.from(taggedFriends.map((x) => x)),
-//         "reacting_persons": List<dynamic>.from(reactingPersons.map((x) => x)),
-//         "total_view_count": totalViewCount,
-//         "my_reaction": myReaction,
-//     };
-// }

@@ -77,7 +77,6 @@ class FriendSelfieData {
     String ?bio;
     List<String> languages;
     String ?status;
-    // DateTime createdAt;
     int? refId;
     String? relation;
     dynamic relationWithName;
@@ -186,8 +185,6 @@ class Selfy {
     String? path;
     int? privacy;
     dynamic visibleUserIds;
-    // DateTime createdAt;
-    // DateTime updatedAt;
     String? fullPath;
     int? countViews;
     List<dynamic> viewerImages;
@@ -206,8 +203,6 @@ class Selfy {
         required this.path,
         required this.privacy,
         required this.visibleUserIds,
-        // required this.createdAt,
-        // required this.updatedAt,
         required this.fullPath,
         required this.countViews,
         required this.viewerImages,
@@ -245,8 +240,6 @@ class SelfieText {
     String? color;
     String? positionX;
     String? positionY;
-    // DateTime createdAt;
-    // DateTime updatedAt;
 
     SelfieText({
         required this.id,
@@ -256,8 +249,6 @@ class SelfieText {
         required this.color,
         required this.positionX,
         required this.positionY,
-        // required this.createdAt,
-        // required this.updatedAt,
     });
 
     factory SelfieText.fromJson(Map<String, dynamic> json) => SelfieText(
@@ -268,8 +259,6 @@ class SelfieText {
         color: json["color"],
         positionX: json["position_x"],
         positionY: json["position_y"],
-        // createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
     );
 }
 

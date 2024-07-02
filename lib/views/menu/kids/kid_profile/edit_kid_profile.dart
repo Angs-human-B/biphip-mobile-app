@@ -5,7 +5,7 @@ import 'package:bip_hip/views/menu/kids/kid_profile/kid_profile.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditKidProfile extends StatelessWidget {
@@ -56,7 +56,7 @@ class EditKidProfile extends StatelessWidget {
                                 prefix: ksProfilePicture.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  kidHelper.kidProfilePicUploadBottomSheet(context); //!1
+                                  kidHelper.kidProfilePicUploadBottomSheet(context); 
                                 },
                               ),
                               kH12sizedBox,
@@ -77,7 +77,6 @@ class EditKidProfile extends StatelessWidget {
                                       child: ClipOval(
                                         child: Image.network(
                                           kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
-                                          // profileController.userData.value!.profilePicture.toString(),
                                           fit: BoxFit.cover,
                                           errorBuilder: (context, error, stackTrace) => const Icon(
                                             BipHip.user,
@@ -100,13 +99,12 @@ class EditKidProfile extends StatelessWidget {
                                 prefix: ksCoverPhoto.tr,
                                 suffix: ksEdit.tr,
                                 onEditPressed: () {
-                                  kidHelper.kidCoverPhotoUploadBottomSheet(context); //!2
+                                  kidHelper.kidCoverPhotoUploadBottomSheet(context);
                                 },
                               ),
                               kH12sizedBox,
                               InkWell(
                                 onTap: () {
-                                  // profileHelper.viewCoverPhoto();//!Change it
                                   kidHelper.viewKidCoverPhoto();
                                 },
                                 child: Container(
@@ -119,7 +117,6 @@ class EditKidProfile extends StatelessWidget {
                                     borderRadius: k8CircularBorderRadius,
                                     child: Image.network(
                                       kidsController.kidOverviewData.value?.kids?.coverPhoto ?? '',
-                                      // profileController.userData.value!.coverPhoto.toString(),
                                       height: 150,
                                       width: width,
                                       fit: BoxFit.cover,
@@ -149,13 +146,11 @@ class EditKidProfile extends StatelessWidget {
                                   kidHelper.kidEditBio();
                                 },
                               ),
-                              // if (profileController.userData.value!.bio != null)//!change the condition
                               if (kidsController.kidBio.value != null)
                                 Padding(
                                   padding: const EdgeInsets.only(top: k16Padding),
                                   child: Text(
-                                    // profileController.userData.value!.bio ?? '',//!Change it using api
-                                    kidsController.kidBio.value ?? '', //!change
+                                    kidsController.kidBio.value ?? '', 
                                     style: regular14TextStyle(cIconColor),
                                   ),
                                 ),
@@ -170,13 +165,10 @@ class EditKidProfile extends StatelessWidget {
                                 onEditPressed: () async{
                                   await kidsController.getKidAllSchoolList();
                                   await kidsController.getKidContacts();
-                                  // editProfileHelper.resetEditAboutPage();//!function write
-                                  // profileController.showAllEditOption.value = false;//!Change
                                   Get.toNamed(krKidEditAboutInfo);
                                 },
                               ),
                               kH16sizedBox,
-                              // IntroContents(),
                               KidIntroContents(),
                               kH16sizedBox,
                               CustomElevatedButton(
@@ -188,10 +180,7 @@ class EditKidProfile extends StatelessWidget {
                                 onPressed: () async {
                                   await kidsController.getKidAllSchoolList();
                                    await kidsController.getKidContacts();
-                                  // profileController.showAllEditOption.value = true;//!variable define
-                                  // editProfileHelper.resetEditAboutPage();//!Function write
                                   Get.toNamed(krKidEditAboutInfo);
-                                  // await profileController.getPositionList();//!Write this function
                                 },
                               ),
                               kH20sizedBox
@@ -210,17 +199,6 @@ class EditKidProfile extends StatelessWidget {
                 ),
               ),
             ),
-            // if (profileController.isBioLoading.value == true)//!Condition required
-            // Positioned(
-            //   child: CommonLoadingAnimation(
-            //     onWillPop: () async {
-            //       if (profileController.isBioLoading.value) {
-            //         return false;
-            //       }
-            //       return true;
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -230,14 +208,12 @@ class EditKidProfile extends StatelessWidget {
 
 class KidIntroContents extends StatelessWidget {
   KidIntroContents({super.key});
-  // final ProfileController profileController = Get.find<ProfileController>();
   final KidsController kidsController = Get.find<KidsController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // if (profileController.currentityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)//!Condition must use in future
         KidStoreProfileLinkUpIconTextRow(
           iconOrSvg: const Icon(
             BipHip.info,
@@ -248,41 +224,28 @@ class KidIntroContents extends StatelessWidget {
           suffixText: kidsController.kidOverviewData.value?.kids?.pageType ?? ksNA,
           onPressed: null,
         ),
-        // if (profileController.hometownData.value != null)//!Condition must use in future
         KidStoreProfileLinkUpIconTextRow(
           iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
           prefixText: kidsController.kidOverviewData.value?.kids?.relation ?? ksNA,
           suffixText: kidsController.kidOverviewData.value?.parent?.fullName ?? ksNA,
           onPressed: null,
         ),
-        // if (profileController.profileData.value!.school != null)//!Condition must use in future
-        //  for (int i = 0; i < profileController.schoolDataList.length; i++)
         LinkUpIconTextRow(
           icon: BipHip.school,
-          // suffixText: checkNullOrStringNull(profileController.schoolDataList[i].school),
-          // prefixText: profileController.schoolDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
-          // suffixText: checkNullOrStringNull(profileController.profileData.value!.school!.school),//!Change using api
           suffixText: "",
           prefixText: kidsController.kidOverviewData.value?.school ?? ksNA,
           onPressed: null,
         ),
-        // if (profileController.profileData.value!.college != null)//!Condition must use in future
-        //  for (int i = 0; i < profileController.collegeDataList.length; i++)
         LinkUpIconTextRow(
           icon: BipHip.mail,
-          // suffixText: checkNullOrStringNull(profileController.profileData.value!.college!.school),//!Change it using api data
           suffixText: "",
           prefixText: kidsController.kidOverviewData.value?.email ?? ksNA,
-          // suffixText: checkNullOrStringNull(profileController.collegeDataList[i].school),
-          // prefixText: profileController.collegeDataList[i].ended != null ? ksStudiedAt.tr : ksStudiesAt.tr,
           onPressed: null,
         ),
         LinkUpIconTextRow(
           icon: BipHip.phoneFill,
-          // suffixText: checkNullOrStringNull(profileController.currentWorkplace.value!.company),
           suffixText: "",
           prefixText: kidsController.kidOverviewData.value?.phone ?? ksNA,
-          // prefixText: profileController.currentWorkplace.value!.position == null ? '' : '${profileController.currentWorkplace.value!.position} at ',//!if needed use it in future
           onPressed: null,
         ),
       ],

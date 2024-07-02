@@ -101,9 +101,6 @@ class StoreAddLegalDocument extends StatelessWidget {
                                       builder: (BuildContext context, BoxConstraints constraints) {
                                         String fileName = storeController.selectedImages[i].name;
                                         String fileExtension = '';
-                                        // if (constraints.maxWidth < fileName.length * 10) {
-                                        // fileExtension = '.${fileName.split('.').last}';
-                                        // }
                                         return Column(
                                           children: [
                                             if (storeController.progress.value > 0 && storeController.progress.value < 1)

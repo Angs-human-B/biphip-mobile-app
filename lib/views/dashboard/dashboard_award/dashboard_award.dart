@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
@@ -291,8 +292,6 @@ class DashboardAward extends StatelessWidget {
   }
 }
 
-//!This LineChartWidget remove after code merge(it exists in dashboard_quiz.dart file)
-
 class LineChartWidget extends StatelessWidget {
   const LineChartWidget(
       {super.key,
@@ -321,7 +320,7 @@ class LineChartWidget extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -419,50 +418,6 @@ class LineChartWidget extends StatelessWidget {
     );
   }
 }
-
-//!This QuizTimeFilterBottomSheetContent remove after code merge(it exists in dashboard_quiz.dart file)
-
-class QuizTimeFilterBottomSheetContent extends StatelessWidget {
-  QuizTimeFilterBottomSheetContent({super.key});
-  final DashboardController dashboardController = Get.find<DashboardController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-      child: Column(
-        children: [
-          ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => kH12sizedBox,
-              itemCount: dashboardController.selectDateTimeFilterList.length,
-              itemBuilder: (context, index) {
-                return Obx(() => CustomListTile(
-                      borderColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryColor
-                          : cLineColor,
-                      itemColor: dashboardController.selectedQuizTimeRangeValue.value.toLowerCase() ==
-                              dashboardController.selectDateTimeFilterList[index].toString().toLowerCase()
-                          ? cPrimaryTint2Color
-                          : cWhiteColor,
-                      leading: Text(
-                        dashboardController.selectDateTimeFilterList[index],
-                        style: semiBold14TextStyle(cBlackColor),
-                      ),
-                      onPressed: () {
-                        dashboardController.selectedQuizTimeRangeValue.value = dashboardController.selectDateTimeFilterList[index];
-                        Get.back();
-                      },
-                    ));
-              }),
-        ],
-      ),
-    );
-  }
-}
-
 class CategoryBottomSheetContent extends StatelessWidget {
   CategoryBottomSheetContent({super.key});
   final DashboardController dashboardController = Get.find<DashboardController>();

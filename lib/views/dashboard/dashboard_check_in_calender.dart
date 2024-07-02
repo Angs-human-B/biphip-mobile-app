@@ -3,7 +3,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-// import 'package:timeline_tile/timeline_tile.dart';
 
 class DashboardCheckInCalender extends StatelessWidget {
   DashboardCheckInCalender({super.key});
@@ -79,7 +78,6 @@ class DashboardCheckInCalender extends StatelessWidget {
                   kH16sizedBox,
                   Container(
                     width: width - 40,
-                    // height: 116,
                     decoration: BoxDecoration(
                       color: cWhiteColor,
                       borderRadius: BorderRadius.circular(k8BorderRadius),
@@ -253,12 +251,6 @@ class Timeline extends StatelessWidget {
                       size: kIconSize14,
                     ),
                   ),
-                  // if (index != 7)
-                  //   Container(
-                  //     width: h28,
-                  //     height: h8,
-                  //     color: cNeutralColor,
-                  //   ),
                 ],
               ),
               kH8sizedBox,

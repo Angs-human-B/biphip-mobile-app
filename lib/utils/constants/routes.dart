@@ -139,7 +139,7 @@ import 'package:bip_hip/views/menu/videos/gallery_videos.dart';
 import 'package:bip_hip/views/menu/videos/video_details.dart';
 import 'package:bip_hip/views/menu/videos/videos.dart';
 import 'package:bip_hip/views/intro/splash_screen.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
+import 'package:bip_hip/views/search/search.dart';
 import 'package:get/get.dart';
 
 const String krSplashScreen = '/splash-screen';
@@ -160,7 +160,6 @@ const String krSetNewPass = '/set-new-pass';
 const String krOTP = '/otp-verify';
 
 const String krHome = '/home';
-// const String krNotification = '/notification';
 const String krChangePassword = '/change-password';
 const String krChangeLanguage = '/change-language';
 const String krHomePostDetails = '/home-post-details';
@@ -237,7 +236,6 @@ const String krSelectHobbiesPage = '/select-hobbies-page';
 const String krKidEditPage = '/kid-edit-page';
 const String krKidEditRelation = '/kid-edit-relation';
 const String krKidAddLanguage = '/kid-add-language';
-// const String krKidCreatePost = '/kid-create-post';
 //*Awards
 const String krAwardsPage = '/awards-page';
 const String krAwardDetailsPage = '/award-details-page';
@@ -324,7 +322,7 @@ const String krMessages = "/messages";
 
 
 List<GetPage<dynamic>>? routes = [
-  // //* info:: auth screens
+  //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
   GetPage(name: krSavedUserLogin, page: () => SavedUserLogin(), transition: Transition.noTransition),
   GetPage(name: krRegister, page: () => Register(), transition: Transition.noTransition),
@@ -339,8 +337,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krResetPass, page: () => ResetPasswordScreen(), transition: Transition.noTransition),
   GetPage(name: krOTP, page: () => OTPVerifyScreen(), transition: Transition.noTransition),
 
-  // //* introduction screen
-  // GetPage(name: krIntroductionScreen, page: () => IntroductionPage()),
+  //* introduction screen
 
   //* menu screen
   GetPage(name: krMenu, page: () => Menu(), transition: Transition.noTransition),
@@ -349,7 +346,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krFamily, page: () => Family(), transition: Transition.noTransition),
   GetPage(name: krEditProfile, page: () => EditProfile(), transition: Transition.noTransition),
   GetPage(name: krEditBio, page: () => EditBio(), transition: Transition.noTransition),
-  // GetPage(name: krPhotos, page: () => Photos(), transition: Transition.noTransition),
   GetPage(name: krPhotoDetails, page: () => PhotoDetails(), transition: Transition.noTransition),
   GetPage(name: krVideos, page: () => Videos(), transition: Transition.noTransition),
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
@@ -420,7 +416,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krKidEditPage, page: () => KidEditPage(), transition: Transition.noTransition),
   GetPage(name: krKidEditRelation, page: () => KidEditRelationPage(), transition: Transition.noTransition),
   GetPage(name: krKidAddLanguage, page: () => KidAddLanguagePage(), transition: Transition.noTransition),
-  // GetPage(name: krKidCreatePost, page: () => KidCreatePost(), transition: Transition.noTransition),
   //* Awards
   GetPage(name: krAwardsPage, page: () => AwardsPage(), transition: Transition.noTransition),
   GetPage(name: krAwardDetailsPage, page: () => AwardDetailsPage(), transition: Transition.noTransition),

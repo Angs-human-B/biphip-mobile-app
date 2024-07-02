@@ -39,31 +39,6 @@ class StoreReview extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             kH16sizedBox,
-                            // Text(
-                            //   "Do you recommend Genie InfoTech?",
-                            //   style: regular20TextStyle(cBlackColor),
-                            // ),
-                            // kH24sizedBox,
-                            // Row(
-                            //   children: [
-                            //     CustomElevatedButton(
-                            //       label: ksYes.tr,
-                            //       buttonWidth: (width - 56) / 2,
-                            //       onPressed: () {},
-                            //       buttonColor: cPrimaryColor,
-                            //       textStyle: semiBold14TextStyle(cWhiteColor),
-                            //     ),
-                            //     kW16sizedBox,
-                            //     CustomElevatedButton(
-                            //       label: ksNo.tr,
-                            //       buttonWidth: (width - 56) / 2,
-                            //       onPressed: () {},
-                            //       buttonColor: cWhiteColor,
-                            //       borderColor: cPrimaryColor,
-                            //       textStyle: semiBold14TextStyle(cPrimaryColor),
-                            //     ),
-                            //   ],
-                            // ),
                             if (storeController.storeReviewList.isEmpty)
                               SizedBox(
                                 height: height * 0.725,
@@ -115,26 +90,7 @@ class StoreReview extends StatelessWidget {
                                 ],
                               ),
                             kH16sizedBox,
-                            // if (storeController.storeReviewList.isNotEmpty)
-                            //   Expanded(
-                            //     child: SingleChildScrollView(
-                            //       child: Column(
-                            //         children: [
-                            //           ListView.separated(
-                            //               shrinkWrap: true,
-                            //               physics: const NeverScrollableScrollPhysics(),
-                            //               itemBuilder: (context, index) {
-                            //                 return StoreReviewPostView(
-                            //                   userImage: storeController.storeReviewList[index]["userImage"],
-                            //                   userName: storeController.storeReviewList[index]["userName"],
-                            //                 );
-                            //               },
-                            //               separatorBuilder: (context, index) => kH8sizedBox,
-                            //               itemCount: storeController.storeReviewList.length),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
+      
                           ],
                         ),
                       ),
@@ -144,7 +100,6 @@ class StoreReview extends StatelessWidget {
           ),
         ],
       ),
-      // ),
     );
   }
 }
@@ -179,49 +134,6 @@ class StoreReviewPostView extends StatelessWidget {
               ),
             ),
             kW12sizedBox,
-            // Padding(
-            //   padding: const EdgeInsets.only(top: k4Padding),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       Row(
-            //         children: [
-            //           Text(
-            //             "Wahid Murad",
-            //             style: semiBold16TextStyle(cBlackColor),
-            //           ),
-            //           kW4sizedBox,
-            //           const Icon(
-            //             BipHip.rightArrowOutline,
-            //             size: kIconSize12,
-            //             color: cIconColor,
-            //           ),
-            //           kW4sizedBox,
-            //           Text(
-            //             "Wahid Murad",
-            //             style: semiBold16TextStyle(cBlackColor),
-            //           ),
-            //         ],
-            //       ),
-            //       kH4sizedBox,
-            //       Row(
-            //         children: [
-            //           const Icon(
-            //             BipHip.world,
-            //             size: kIconSize14,
-            //             color: cIconColor,
-            //           ),
-            //           kW4sizedBox,
-            //           Text(
-            //             '1 hour ago',
-            //             style: regular12TextStyle(cSmallBodyTextColor),
-            //           ),
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
-
             Column(
               children: [
                 Padding(

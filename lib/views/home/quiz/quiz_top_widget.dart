@@ -29,7 +29,6 @@ class QuizTopWidget extends StatelessWidget {
               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
               title: ksQuiz.tr,
               isRightButtonShow: false);
-          // await postReactionController.getQuestionList();
         },
         child: SizedBox(
           width: width,

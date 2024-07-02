@@ -93,7 +93,6 @@ class RelationshipStatusListContent extends StatelessWidget {
                             },
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                // profileController.tempRelationshipStatus.value = profileController.relationshipStatusList[index];
                                 editProfileHelper.selectBottomSheetRelationshipContent(index);
                               },
                               isSelected: profileController.temporaryRelationshipStatus.value == profileController.relationshipStatusList[index],

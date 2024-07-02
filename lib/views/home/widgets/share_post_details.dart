@@ -351,7 +351,6 @@ class SharePostDetails extends StatelessWidget {
                                                           TextButton(
                                                             style: kTextButtonStyle,
                                                             onPressed: () {
-                                                              // Get.toNamed(krHomePostDetailsScreen);
                                                               //! need to create for shared post
                                                             },
                                                             child: Container(
@@ -389,7 +388,6 @@ class SharePostDetails extends StatelessWidget {
                                                           TextButton(
                                                             style: kTextButtonStyle,
                                                             onPressed: () {
-                                                              // Get.toNamed(krHomePostDetailsScreen);
                                                               //! need to create for shared post
                                                             },
                                                             child: Container(
@@ -423,7 +421,6 @@ class SharePostDetails extends StatelessWidget {
                                                           TextButton(
                                                             style: kTextButtonStyle,
                                                             onPressed: () {
-                                                              // Get.toNamed(krHomePostDetailsScreen);
                                                               //! need to create for shared post
                                                             },
                                                             child: Container(
@@ -457,7 +454,6 @@ class SharePostDetails extends StatelessWidget {
                                                           TextButton(
                                                             style: kTextButtonStyle,
                                                             onPressed: () {
-                                                              // Get.toNamed(krHomePostDetailsScreen);
                                                               //! need to create for shared post
                                                             },
                                                             child: Container(
@@ -494,7 +490,6 @@ class SharePostDetails extends StatelessWidget {
                                                               TextButton(
                                                                 style: kTextButtonStyle,
                                                                 onPressed: () {
-                                                                  // Get.toNamed(krHomePostDetailsScreen);
                                                                   //! need to create for shared post
                                                                 },
                                                                 child: Container(
@@ -530,7 +525,6 @@ class SharePostDetails extends StatelessWidget {
                                                                   child: TextButton(
                                                                     style: kTextButtonStyle,
                                                                     onPressed: () {
-                                                                      // Get.toNamed(krHomePostDetailsScreen);
                                                                     },
                                                                     child: Text(
                                                                       "${homeController.postData.value!.post.images.length - 5} More",
@@ -615,7 +609,6 @@ class SharePostDetails extends StatelessWidget {
                                                                       homeController.postData.value!.post.id!);
                                                                   homeController.sharedPostMyReaction.value =
                                                                       homeController.postData.value!.post.myReaction?.value ?? "";
-                                                                  // globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                                                                 },
                                                                 reactions: <Reaction<String>>[
                                                                   Reaction<String>(
@@ -659,7 +652,6 @@ class SharePostDetails extends StatelessWidget {
                                                                       homeController.postData.value!.post.id!);
                                                                   homeController.sharedPostMyReaction.value =
                                                                       homeController.postData.value!.post.myReaction?.value ?? "";
-                                                                  // globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                                                                 },
                                                                 reactions: <Reaction<String>>[
                                                                   Reaction<String>(
@@ -700,7 +692,6 @@ class SharePostDetails extends StatelessWidget {
                                                                       homeController.postData.value!.post.id!);
                                                                   homeController.sharedPostMyReaction.value =
                                                                       homeController.postData.value!.post.myReaction?.value ?? "";
-                                                                  // globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                                                                 },
                                                                 reactions: <Reaction<String>>[
                                                                   Reaction<String>(
@@ -741,7 +732,6 @@ class SharePostDetails extends StatelessWidget {
                                                                       homeController.postData.value!.post.id!);
                                                                   homeController.sharedPostMyReaction.value =
                                                                       homeController.postData.value!.post.myReaction?.value ?? "";
-                                                                  // globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                                                                 },
                                                                 reactions: <Reaction<String>>[
                                                                   Reaction<String>(
@@ -782,7 +772,6 @@ class SharePostDetails extends StatelessWidget {
                                                                       homeController.postData.value!.post.id!);
                                                                   homeController.sharedPostMyReaction.value =
                                                                       homeController.postData.value!.post.myReaction?.value ?? "";
-                                                                  // globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                                                                 },
                                                                 reactions: <Reaction<String>>[
                                                                   Reaction<String>(
@@ -823,7 +812,6 @@ class SharePostDetails extends StatelessWidget {
                                                                       homeController.postData.value!.post.id!);
                                                                   homeController.sharedPostMyReaction.value =
                                                                       homeController.postData.value!.post.myReaction?.value ?? "";
-                                                                  // globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
                                                                 },
                                                                 reactions: <Reaction<String>>[
                                                                   Reaction<String>(
@@ -863,7 +851,6 @@ class SharePostDetails extends StatelessWidget {
                                                 ),
                                               ),
                                               InkWell(
-                                                // onTap: commentOnPressed,
                                                 child: SizedBox(
                                                   width: !(globalController.userId.value == homeController.postData.value!.post.user!.id)
                                                       ? (width - 40) / 4
@@ -1167,13 +1154,6 @@ class SharedPostCommentWidget extends StatelessWidget {
                       kH8sizedBox,
                       if (sharedPostData.comments[commentIndex].comment != null)
                         Get.find<PostReactionController>().formatMentions(sharedPostData.comments[commentIndex].comment, context),
-
-                      // if (isLink)
-                      //   Text(
-                      //     commentLink ?? '',
-                      //     overflow: TextOverflow.clip,
-                      //     style: regular14TextStyle(isLink ? cPrimaryColor : cBlackColor),
-                      //   )
                     ],
                   ),
                 ),
@@ -1191,12 +1171,6 @@ class SharedPostCommentWidget extends StatelessWidget {
                     child: Image.network(
                       sharedPostData.comments[commentIndex].image!,
                       fit: BoxFit.cover,
-                      // errorBuilder: (context, error, stackTrace) => const Icon(
-                      //   BipHip.user,
-                      //   size: kIconSize16,
-                      //   color: cIconColor,
-                      // ),
-                      // loadingBuilder: imageLoadingBuilder,
                     ),
                   ),
                 ),

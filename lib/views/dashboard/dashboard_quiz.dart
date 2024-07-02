@@ -842,7 +842,7 @@ class LineChartWidget extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -961,7 +961,7 @@ class BarChartWidget extends StatelessWidget {
             offset: Offset(
               0,
               1,
-            ), // Shadow position
+            ),
           ),
         ],
       ),
@@ -992,8 +992,6 @@ class BarChartWidget extends StatelessWidget {
                     x: 0,
                     barRods: [
                       BarChartRodData(
-                        // y: 8,
-
                         color: barColor ?? cPurpleColor,
                         width: 16,
                         borderRadius: BorderRadius.circular(8), toY: 8,
@@ -1004,8 +1002,6 @@ class BarChartWidget extends StatelessWidget {
                     x: 1,
                     barRods: [
                       BarChartRodData(
-                        // y: 4,
-                        // colors: [barColor],
                         color: barColor ?? cPurpleColor,
                         width: 16,
                         borderRadius: BorderRadius.circular(8), toY: 4,
@@ -1016,10 +1012,6 @@ class BarChartWidget extends StatelessWidget {
                     x: 2,
                     barRods: [
                       BarChartRodData(
-                        // y: 6,
-                        // colors: [barColor],
-                        // width: 16,
-                        // borderRadius: BorderRadius.circular(8),
                         color: barColor ?? cPurpleColor,
                         width: 16,
                         borderRadius: BorderRadius.circular(8), toY: 6,

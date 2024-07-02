@@ -601,7 +601,6 @@ class GalleryWidget extends StatelessWidget {
                                                   if (globalController.commonPostList[postIndex].comments.isNotEmpty) {
                                                     postReactionController.getMoreCommentList(
                                                         null, 2, globalController.commonPostList[postIndex].images[temporaryImageIndex].id!, postIndex);
-                                                    // Get.find<GalleryController>().imageDataList[postIndex].imageList[temporaryImageIndex].id!, postIndex);
                                                   }
                                                   return true;
                                                 }
@@ -644,10 +643,8 @@ class GalleryWidget extends StatelessWidget {
                                                                           alignment: Alignment.centerLeft,
                                                                           child: InkWell(
                                                                               onTap: () async {
-                                                                                // globalController.commonPostList[postIndex].comments[index].commentReplies.clear();
                                                                                 postReactionController.commentList[index].commentReplies.clear();
                                                                                 postReactionController.replyShow[index] = true;
-                                                                                // ll(postReactionController.commentList[index].commentReplies.length);
                                                                                 await postReactionController.getReplyList(
                                                                                     postReactionController.commentList[index].id!, postIndex, index);
                                                                               },
@@ -656,14 +653,6 @@ class GalleryWidget extends StatelessWidget {
                                                                                 style: semiBold14TextStyle(cSmallBodyTextColor),
                                                                               ))),
                                                                     ),
-                                                                  // if (postReactionController.isReplyLoading.value)
-                                                                  //   const Center(
-                                                                  //       child: SizedBox(
-                                                                  //           width: 20,
-                                                                  //           height: 20,
-                                                                  //           child: CircularProgressIndicator(
-                                                                  //             strokeWidth: 2,
-                                                                  //           ))),
                                                                   if (postReactionController.replyShow[index])
                                                                     for (int i = 0; i < postReactionController.commentList[index].commentReplies.length; i++)
                                                                       Padding(
@@ -716,27 +705,6 @@ class GalleryWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // InkWell(
-                          //   child: SizedBox(
-                          //     width: (width - 40) / 3,
-                          //     height: 44,
-                          //     child: Row(
-                          //       mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: [
-                          //         Text(
-                          //           ksShare.tr,
-                          //           style: semiBold12TextStyle(cIconColor),
-                          //         ),
-                          //         kW4sizedBox,
-                          //         const Icon(
-                          //           BipHip.shareOutline,
-                          //           color: cIconColor,
-                          //           size: kIconSize20,
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
                           InkWell(
                             onTap: () {
                               if (!postReactionController.isRouteFromHomePage.value) {

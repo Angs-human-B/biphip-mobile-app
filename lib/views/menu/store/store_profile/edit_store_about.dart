@@ -124,7 +124,7 @@ class StoreLocationContent extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: k12Padding),
                     child: InfoContainer(
                       suffixText: '',
-                      prefixText: checkNullOrStringNull(storeController.storeLocationList[i].location), //*Use here api
+                      prefixText: checkNullOrStringNull(storeController.storeLocationList[i].location),
                       isAddButton: false,
                       suffixOnPressed: () async {
                         storeController.isEditOrAdd.value = true;
@@ -336,13 +336,13 @@ class StorePaymentContent extends StatelessWidget {
               },
             ),
             kH12sizedBox,
-            for (int i = 0; i < storeController.paymentMethodList.length; i++) //! using api
+            for (int i = 0; i < storeController.paymentMethodList.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['payment']), //*Use here api
-                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentMethod']), //*Use here api
+                  prefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['payment']), //!Use here api
+                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentMethod']), //!Use here api
                   isAddButton: false,
                   suffixOnPressed: () async {
                     storeController.isEditOrAdd.value = true;
@@ -457,10 +457,9 @@ class StoreLegalPaperContent extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.legalPaperAllInfoList[i]['fileName']), //*Use here api
+                  prefixText: checkNullOrStringNull(storeController.legalPaperAllInfoList[i]['fileName']), //!Use here api
                   subtitlePrefixText: checkNullOrStringNull(storeController.legalPaperAllInfoList[i]['fileSize']),
                   suffixOnPressed: () async {
-                    // kidHelper.editKidSchool(i);
                   },
                 ),
               ),

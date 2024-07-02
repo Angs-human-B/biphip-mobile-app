@@ -82,7 +82,6 @@ class CommentDataRx {
   RxString? myReaction;
   int? countReply;
   bool? hasReport;
-  // bool? myReport;
   int? countStar;
   RxList<CommentReply> commentReplies;
   User? user;
@@ -106,7 +105,6 @@ class CommentDataRx {
     required this.myReaction,
     required this.countReply,
     required this.hasReport,
-    // required this.myReport,
     required this.countStar,
     required this.commentReplies,
     required this.user,
@@ -131,7 +129,6 @@ class CommentDataRx {
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
         countReply: json["count_reply"],
         hasReport: json["has_report"],
-        // myReport: json["my_report"],
         countStar: json["count_star"],
         commentReplies: RxList<CommentReply>.from(json["comment_replies"].map((x) => CommentReply.fromJson(x))),
         user: json["user"] == null ? null : User.fromJson(json["user"]),
@@ -263,14 +260,9 @@ class RefRelationData {
   int? storeId;
   dynamic reviewRating;
   dynamic imageAlbumId;
-  //!problem
-  // List<TaggedFriend> taggedFriends;
   int? countBids;
   dynamic myReaction;
-  //!problem
-  // List<String> viewers;
   bool? hasReport;
-  // bool? myReport;
   bool? isNotifaction;
   bool? isVisibleToMe;
   int? countReaction;
@@ -326,12 +318,9 @@ class RefRelationData {
     required this.storeId,
     required this.reviewRating,
     required this.imageAlbumId,
-    // required this.taggedFriends,
     required this.countBids,
     required this.myReaction,
-    // required this.viewers,
     required this.hasReport,
-    // required this.myReport,
     required this.isNotifaction,
     required this.isVisibleToMe,
     required this.countReaction,
@@ -388,12 +377,9 @@ class RefRelationData {
         storeId: json["store_id"],
         reviewRating: json["review_rating"],
         imageAlbumId: json["image_album_id"],
-        // taggedFriends: json["tagged_friends"] == null ? [] : List<TaggedFriend>.from(json["tagged_friends"].map((x) => x)),
         countBids: json["count_bids"],
         myReaction: json["my_reaction"],
-        // viewers: List<String>.from(json["viewers"].map((x) => x)),
         hasReport: json["has_report"],
-        // myReport: json["my_report"],
         isNotifaction: json["is_notifaction"],
         isVisibleToMe: json["is_visible_to_me"],
         countReaction: json["count_reaction"],

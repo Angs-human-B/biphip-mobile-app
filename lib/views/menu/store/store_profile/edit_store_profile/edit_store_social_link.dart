@@ -25,7 +25,6 @@ class EditStoreSocialLink extends StatelessWidget {
                   child: Obx(
                     () => CustomAppBar(
                       appBarColor: cWhiteColor,
-                      // title: '${profileController.commonEditPageTitle}'.tr,
                       title: storeController.isEditOrAdd.value ? ksEditSocialLink.tr : ksAddSocialLink.tr,
                       hasBackButton: true,
                       isCenterTitle: true,

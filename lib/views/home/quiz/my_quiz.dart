@@ -76,7 +76,6 @@ class MyQuiz extends StatelessWidget {
                           ),
                         ),
                       if (quizController.quizTapButtonState[1]) MyPlayedQuiz(),
-                      // postReactionController.isMyQuizesLoading.value ? const PlayedQuizShimmer() : MyPlayedQuiz(),
                       if (quizController.quizTapButtonState[2])
                         Padding(
                           padding: const EdgeInsets.only(top: k16Padding),
@@ -746,7 +745,6 @@ class QuizWinner extends StatelessWidget {
                     ],
                   ),
                   kH12sizedBox,
-                  // fit: FlexFit.loose,
                   Text(
                     quizTitle!,
                     style: semiBold14TextStyle(cBlackColor),

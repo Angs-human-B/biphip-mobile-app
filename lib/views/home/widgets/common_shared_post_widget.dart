@@ -59,7 +59,7 @@ class CommonSharedPostWidget extends StatelessWidget {
               ]),
             ),
           ),
-        // check if it is selling post
+        //! check if it is selling post
         if (globalController.commonPostList[postIndex].sharePosts?.postCategory?.name == 'Selling')
           Padding(
             padding: const EdgeInsets.only(bottom: k8Padding, left: kHorizontalPadding, right: kHorizontalPadding),
@@ -166,20 +166,6 @@ class CommonSharedPostWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        // if (globalController.commonPostList[postIndex].sharePosts?.content != null && globalController.commonPostList[postIndex].sharePosts!.content!.length > 256)
-        //   Obx(() => Padding(
-        //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        //         child: TextButton(
-        //           style: kTextButtonStyle,
-        //           onPressed: () {
-        //             homeController.seeMore.value = !homeController.seeMore.value;
-        //           },
-        //           child: Text(
-        //             homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
-        //             style: semiBold14TextStyle(cPrimaryColor),
-        //           ),
-        //         ),
-        //       )),
         if (globalController.commonPostList[postIndex].sharePosts!.images.isNotEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -189,7 +175,6 @@ class CommonSharedPostWidget extends StatelessWidget {
               width: width - 82,
               child: Column(
                 children: [
-                  // if (mediaList.length > 0 )
                   Row(
                     children: [
                       TextButton(
@@ -198,7 +183,6 @@ class CommonSharedPostWidget extends StatelessWidget {
                           if ((globalController.commonPostList[postIndex].sharePosts!.content != null &&
                                   globalController.commonPostList[postIndex].sharePosts!.content!.trim() != '') ||
                               globalController.commonPostList[postIndex].sharePosts!.images.length > 1) {
-                            // Get.toNamed(krHomePostDetailsScreen);
                             //! need to create for shared post
                             await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           } else {
@@ -349,7 +333,6 @@ class CommonSharedPostWidget extends StatelessWidget {
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            // Get.toNamed(krHomePostDetailsScreen);
                             //! need to create for shared post
                             await Get.find<HomeController>().getPostData(globalController.commonPostList[postIndex].sharePosts!.id);
                           },
@@ -419,7 +402,6 @@ class CommonSharedPostWidget extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    //Get.toNamed(krUploadedImageListPage);
                                   },
                                   child: Text(
                                     "${globalController.commonPostList[postIndex].sharePosts!.images.length - 5} More",

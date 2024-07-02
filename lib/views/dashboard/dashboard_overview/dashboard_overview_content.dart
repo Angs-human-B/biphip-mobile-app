@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview.dart';
 import 'package:bip_hip/views/dashboard/dashboard_overview/dashboard_overview_post_insights.dart';
+import 'package:bip_hip/views/dashboard/dashboard_quiz.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 import 'package:intl/intl.dart';
 

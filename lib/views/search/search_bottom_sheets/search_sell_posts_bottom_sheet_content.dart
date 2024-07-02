@@ -1,10 +1,10 @@
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/search.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/search_posted_by_content.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/sell_post_post_type_content.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/sell_post_product_condition.dart';
-import 'package:bip_hip/widgets/common/utils/search_widgets/sell_post_product_condition_content.dart';
+import 'package:bip_hip/views/search/search.dart';
+import 'package:bip_hip/views/search/search_widgets/search_posted_by_content.dart';
+import 'package:bip_hip/views/search/search_widgets/sell_post_post_type_content.dart';
+import 'package:bip_hip/views/search/search_widgets/sell_post_product_condition.dart';
+import 'package:bip_hip/views/search/search_widgets/sell_post_product_condition_content.dart';
 
 class SearchSellPostsBottomSheetContent extends StatelessWidget {
   SearchSellPostsBottomSheetContent({super.key});
