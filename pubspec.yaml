@@ -48,7 +48,7 @@ dependencies:
   flutter_mentions: ^2.0.1
   linkfy_text: ^1.1.5
   story_view: ^0.16.5
-  screenshot: ^2.3.0
+  screenshot: ^3.0.0
   image_gallery_saver: ^2.0.3
   permission_handler: ^11.3.1
   path_provider: ^2.1.3
