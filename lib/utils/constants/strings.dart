@@ -913,3 +913,7 @@ const String ksEnterBusinessInfo = "Enter business info";
 const String ksUpdateYourBusinessInformationToVerify = "Update your business information to verify your payouts section on your account";
 const String ksPhoneNumber = "Phone number";
 const String ksVatOrGstRegistrationNumber = "VAT/GST registration number (Optional)";
+
+//* Profile view
+const String ksPhotosAndVideos = "Photos & Videos";
+

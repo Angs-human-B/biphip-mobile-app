@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
 import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
@@ -9,11 +10,15 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile_view/profile_view.dart';
 
 class MenuHelper {
   final SpController spController = SpController();
@@ -89,6 +94,15 @@ class MenuHelper {
         // await Get.find<DashboardController>().getDashboardProfileOverview();
         await Get.find<DashboardController>().getDashboardAudienceInsightByCity();
         Get.toNamed(krDashboardOverview);
+        break;
+      case 13:
+       await Get.find<FriendController>().getFriendList();
+       await Get.find<FamilyController>().getFamilyList();
+        Get.to(() => ProfileView());
+        Get.find<ProfileViewController>().interestCatagoriesIndex.value = 0;
+        await Get.find<ProfileController>().getProfileOverview();
+        await Get.find<CreatePostController>().getCreatePost();
+        await Get.find<HomeController>().getTimelinePostList();
         break;
     }
   }
