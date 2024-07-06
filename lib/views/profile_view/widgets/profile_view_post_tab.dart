@@ -51,7 +51,7 @@ class ProfileViewPostTab extends StatelessWidget {
                       text: "See ${profileController.userData.value?.lastName} about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () {
-                        Get.toNamed(krEditProfile);
+                        //! Route about page
                       },
                       mainAxisAlignment: MainAxisAlignment.start,
                       padding: EdgeInsets.zero,

@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/profile_view/bottom_sheet_content/user_profile_action_bottom_sheet_content.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_top_tab_widget.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_post_tab.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_profile_cover_photo_widget.dart';
@@ -56,7 +57,20 @@ class ProfileView extends StatelessWidget {
                           buttonIcon: BipHip.friends,
                           buttonOnPressed: () {},
                           messageButtonOnPressed: () {},
-                          profileActionButtonOnPressed: () {},
+                          profileActionButtonOnPressed: () {
+                            Get.find<GlobalController>().commonBottomSheet(
+                                context: context,
+                                content: UserProfileActionBottomSheetContent(),
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: "",
+                                rightTextStyle: semiBold16TextStyle(cPrimaryColor),
+                                title: ksAction.tr,
+                                isRightButtonShow: false,
+                                isBottomSheetRightButtonActive: false.obs);
+                          },
                         ),
                         kH16sizedBox,
                         Container(

@@ -2,10 +2,18 @@ import 'dart:math';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class ProfileViewTopRowWidget extends StatelessWidget {
-  const ProfileViewTopRowWidget({super.key, required this.buttonText, required this.messageButtonText, required this.buttonIcon, required this.messageIcon, this.buttonOnPressed, this.messageButtonOnPressed, this.profileActionButtonOnPressed});
+  const ProfileViewTopRowWidget(
+      {super.key,
+      required this.buttonText,
+      required this.messageButtonText,
+      required this.buttonIcon,
+      required this.messageIcon,
+      this.buttonOnPressed,
+      this.messageButtonOnPressed,
+      this.profileActionButtonOnPressed});
   final String buttonText, messageButtonText;
   final IconData buttonIcon, messageIcon;
-  final VoidCallback ? buttonOnPressed, messageButtonOnPressed, profileActionButtonOnPressed;
+  final VoidCallback? buttonOnPressed, messageButtonOnPressed, profileActionButtonOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +38,7 @@ class ProfileViewTopRowWidget extends StatelessWidget {
             buttonColor: cWhiteColor,
             borderColor: cPrimaryColor,
             prefixIcon: messageIcon,
-            prefixIconColor: cWhiteColor,
+            prefixIconColor: cPrimaryColor,
             textStyle: semiBold14TextStyle(cPrimaryColor),
           ),
           kW12sizedBox,

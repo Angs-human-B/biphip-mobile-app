@@ -916,4 +916,11 @@ const String ksVatOrGstRegistrationNumber = "VAT/GST registration number (Option
 
 //* Profile view
 const String ksPhotosAndVideos = "Photos & Videos";
-
+const String ksUnfollow = "Unfollow";
+const String ksUnfollowFromYourFollowersList = "Unfollow from your follower list";
+const String ksUnFriend = "Unfriend";
+const String ksRemoveFromYourFriendList = "Remove from your friend list";
+const String ksReportProfile = "Report profile";
+const String ksReportThisProfile = "Report this profile";
+const String ksBlockFromYourFriendList = "Block from your friend list";
+const String ksCopyThisProfileLink = "Copy this profile link";
