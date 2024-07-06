@@ -34,9 +34,9 @@ class ProfileViewAbout extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                ProileViewAboutPlaceLived(),
+                const ProileViewAboutPlaceLived(),
                 kH12sizedBox,
-                ProileViewAboutBasicInfo(),
+                const ProileViewAboutBasicInfo(),
                 kH12sizedBox,
                 ProfileViewAbotRelationProfessionInterestContent(
                   title: ksRelationshipStatus.tr,
@@ -53,13 +53,13 @@ class ProfileViewAbout extends StatelessWidget {
                   subTitle: "Photography",
                 ),
                 kH12sizedBox,
-                ProileViewAboutEducationBackground(),
+                const ProileViewAboutEducationBackground(),
                 kH12sizedBox,
-                ProileViewAboutWork(),
+                const ProileViewAboutWork(),
                 kH12sizedBox,
-                ProileViewAboutContactInfo(),
+                const ProileViewAboutContactInfo(),
                 kH12sizedBox,
-                ProileViewAboutSocialLinks(),
+                const ProileViewAboutSocialLinks(),
               ],
             ),
           ),
