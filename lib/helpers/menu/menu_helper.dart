@@ -18,7 +18,6 @@ import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/profile_view/profile_view.dart';
 
 class MenuHelper {
   final SpController spController = SpController();
@@ -98,7 +97,8 @@ class MenuHelper {
       case 13:
        await Get.find<FriendController>().getFriendList();
        await Get.find<FamilyController>().getFamilyList();
-        Get.to(() => ProfileView());
+        // Get.to(() => ProfileView());
+        Get.toNamed(krProfileView);
         Get.find<ProfileViewController>().interestCatagoriesIndex.value = 0;
         await Get.find<ProfileController>().getProfileOverview();
         await Get.find<CreatePostController>().getCreatePost();

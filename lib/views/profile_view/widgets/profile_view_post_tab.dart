@@ -48,7 +48,7 @@ class ProfileViewPostTab extends StatelessWidget {
                         onPressed: null,
                       ),
                     CustomTextButton(
-                      text: "See ${profileController.userData.value?.lastName} about info",
+                      text: "See ${profileController.userData.value?.lastName}'s about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () {
                         //! Route about page
