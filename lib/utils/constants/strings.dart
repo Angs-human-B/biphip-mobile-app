@@ -924,3 +924,5 @@ const String ksReportProfile = "Report profile";
 const String ksReportThisProfile = "Report this profile";
 const String ksBlockFromYourFriendList = "Block from your friend list";
 const String ksCopyThisProfileLink = "Copy this profile link";
+const String ksPlaceLived = "Place Lived";
+const String ksEducationBackground = "Education Background";

@@ -140,6 +140,7 @@ import 'package:bip_hip/views/menu/videos/video_details.dart';
 import 'package:bip_hip/views/menu/videos/videos.dart';
 import 'package:bip_hip/views/intro/splash_screen.dart';
 import 'package:bip_hip/views/profile_view/profile_view.dart';
+import 'package:bip_hip/views/profile_view/profile_view_about.dart';
 import 'package:bip_hip/views/search/search.dart';
 import 'package:get/get.dart';
 
@@ -323,6 +324,7 @@ const String krMessages = "/messages";
  
  //* Profile view
  const String krProfileView = "/profile-view";
+ const String krProfileViewAbout = "/profile-view-about";
 
 
 List<GetPage<dynamic>>? routes = [
@@ -503,5 +505,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krPayoutBusinessInfo, page: () => PayoutBusinessInfo(), transition: Transition.noTransition),
   //* Profile view
   GetPage(name: krProfileView, page: () => ProfileView(), transition: Transition.noTransition),
+  GetPage(name: krProfileViewAbout, page: () => ProfileViewAbout(), transition: Transition.noTransition),
 
 ];
