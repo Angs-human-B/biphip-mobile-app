@@ -90,9 +90,15 @@ class ProfileViewGalleryPhoto extends StatelessWidget {
                       // },
 
                       onPressed: () {
+                        //!Route needed(after api call route the photos page)
                         // Get.to(() => Photos(
                         //       imageList: galleryController.imageDataList[index].imageList,
                         //       imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
+                        //       albumIndex: index,
+                        //     ));
+                        // Get.to(() => Photos(
+                        //       imageList: profileViewController.photoAlbumList[index]["image"],
+                        //       imageListTitle: profileViewController.photoAlbumList[index]["title"],
                         //       albumIndex: index,
                         //     ));
                       },
