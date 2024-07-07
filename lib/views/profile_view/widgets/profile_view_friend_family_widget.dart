@@ -33,8 +33,8 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                       count: friendController.allFriendCount.toString(),
                       friendList: friendController.friendList,
                       isFriendFamilySeeAllShowHide: friendController.friendList.length > 3 ? true : false,
-                      seeAll: () {
-                        Get.toNamed(krFriends);
+                      seeAllOnPressed: () {
+                        Get.toNamed(krProfileViewFriend);
                       },
                     ),
           kH16sizedBox,
@@ -57,8 +57,8 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                       count: familyController.allFamilyCount.toString(),
                       friendList: familyController.familyList,
                       isFriendFamilySeeAllShowHide: familyController.familyList.length > 3 ? true : false,
-                      seeAll: () {
-                        Get.toNamed(krFamily);
+                      seeAllOnPressed: () {
+
                       },
                     ),
         ],
@@ -69,11 +69,11 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
 
 class FriendsFamilyGridView extends StatelessWidget {
   const FriendsFamilyGridView(
-      {super.key, required this.header, required this.count, this.seeAll, required this.friendList, required this.isFriendFamilySeeAllShowHide});
+      {super.key, required this.header, required this.count, this.seeAllOnPressed, required this.friendList, required this.isFriendFamilySeeAllShowHide});
 
   final String header;
   final String count;
-  final VoidCallback? seeAll;
+  final VoidCallback? seeAllOnPressed;
   final List<FriendFamilyUserData> friendList;
   final bool isFriendFamilySeeAllShowHide;
 
@@ -102,7 +102,7 @@ class FriendsFamilyGridView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (isFriendFamilySeeAllShowHide) CustomTextButton(onPressed: seeAll, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
+                  if (isFriendFamilySeeAllShowHide) CustomTextButton(onPressed: seeAllOnPressed, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
                 ],
               ),
               kH12sizedBox,

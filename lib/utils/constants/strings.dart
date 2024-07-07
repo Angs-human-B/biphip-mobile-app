@@ -926,3 +926,5 @@ const String ksBlockFromYourFriendList = "Block from your friend list";
 const String ksCopyThisProfileLink = "Copy this profile link";
 const String ksPlaceLived = "Place Lived";
 const String ksEducationBackground = "Education Background";
+const String ksMutualFriend = "Mutual Friend";
+const String ksAllFriend = "All Friend";

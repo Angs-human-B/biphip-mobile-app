@@ -115,4 +115,5 @@ class ProfileViewController extends GetxController {
       ],
     },
   ]);
+  final TextEditingController friendSearchController = TextEditingController(); 
 }
