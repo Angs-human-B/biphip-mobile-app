@@ -136,12 +136,6 @@ class ProfileViewFriend extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // Column(
-                    //   children: [
-
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
