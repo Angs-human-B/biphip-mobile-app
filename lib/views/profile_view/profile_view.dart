@@ -5,6 +5,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/bottom_sheet_content/user_profile_action_bottom_sheet_content.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_top_tab_widget.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_award_tab.dart';
+import 'package:bip_hip/views/profile_view/widgets/profile_view_photo_tab.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_post_tab.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_profile_cover_photo_widget.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_top_row_widget.dart';
@@ -82,6 +83,7 @@ class ProfileView extends StatelessWidget {
                         const ProfileTopTabWidget(),
                         kH16sizedBox,
                         if (profileViewController.profileSelectedTabIndex.value == 0) ProfileViewPostTab(),
+                        if (profileViewController.profileSelectedTabIndex.value == 1) ProfileViewPhotoTab(),
                         if (profileViewController.profileSelectedTabIndex.value == 2) ProfileViewVideoTab(),
                         if (profileViewController.profileSelectedTabIndex.value == 3) ProfileViewAwardTab(),
                       ],

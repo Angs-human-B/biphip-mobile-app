@@ -7,7 +7,7 @@ class ProfileViewController extends GetxController {
 
   final RxInt interestCatagoriesIndex = RxInt(0);
   final RxInt profileSelectedTabIndex = RxInt(0);
-
+  //* Videos
   final RxList videoContentList = RxList(
     [
       {
@@ -48,4 +48,71 @@ class ProfileViewController extends GetxController {
       },
     ],
   );
+  //* Photos
+  final RxList photoTapAbleButtonState = RxList([true, false]);
+  final RxList photoTapAbleButtonText = RxList(["All Photos", "Albums"]);
+  //*For tapAble button
+  void photoToggleType(int index) {
+    switch (index) {
+      case 0:
+        photoTapAbleButtonState[0] = true;
+        photoTapAbleButtonState[1] = false;
+        break;
+      case 1:
+        photoTapAbleButtonState[0] = false;
+        photoTapAbleButtonState[1] = true;
+        break;
+    }
+  }
+
+  final RxList allPhotoList = RxList([
+    "https://images.pexels.com/photos/390574/pexels-photo-390574.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3750893/pexels-photo-3750893.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/271795/pexels-photo-271795.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/2679542/pexels-photo-2679542.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/373578/pexels-photo-373578.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/2510067/pexels-photo-2510067.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/2440471/pexels-photo-2440471.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/4210778/pexels-photo-4210778.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/2332909/pexels-photo-2332909.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/4207788/pexels-photo-4207788.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/4010464/pexels-photo-4010464.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/6446708/pexels-photo-6446708.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/6177609/pexels-photo-6177609.jpeg?auto=compress&cs=tinysrgb&w=800",
+  ]);
+  final RxList photoAlbumList = RxList([
+    {
+      "title": "Photography",
+      "subTitle": "5",
+      "image": [
+        "https://images.pexels.com/photos/390574/pexels-photo-390574.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/4210778/pexels-photo-4210778.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+    },
+    {
+      "title": "Poetry",
+      "subTitle": "3",
+      "image": [
+        "https://images.pexels.com/photos/6177609/pexels-photo-6177609.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/4210778/pexels-photo-4210778.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+    },
+    {
+      "title": "News",
+      "subTitle": "1",
+      "image": [
+        "https://images.pexels.com/photos/4207788/pexels-photo-4207788.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/4210778/pexels-photo-4210778.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+    },
+    {
+      "title": "Storytelling",
+      "subTitle": "4",
+      "image": [
+        "https://images.pexels.com/photos/2679542/pexels-photo-2679542.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/4210778/pexels-photo-4210778.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+    },
+  ]);
 }

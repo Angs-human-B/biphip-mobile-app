@@ -1,4 +1,5 @@
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/post/like_section_widget.dart';
 import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
@@ -50,12 +51,17 @@ class VideoContentListWidget extends StatelessWidget {
           videoPublishedDate,
           style: regular10TextStyle(cSmallBodyTextColor),
         ),
-        kH35sizedBox,
+        kH20sizedBox,
         PostActivityStatusWidget(
           postIndex: 1,
           isGiftShown: true,
         ),
         LikeSectionWidget(isGiftShown: true, postIndex: 1),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: CustomDivider(),
+        ),
+        kH16sizedBox,
       ],
     );
   }
