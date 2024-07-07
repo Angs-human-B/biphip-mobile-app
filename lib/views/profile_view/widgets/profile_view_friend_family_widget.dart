@@ -58,7 +58,7 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                       friendList: familyController.familyList,
                       isFriendFamilySeeAllShowHide: familyController.familyList.length > 3 ? true : false,
                       seeAllOnPressed: () {
-
+                        Get.toNamed(krProfileViewFamily);
                       },
                     ),
         ],

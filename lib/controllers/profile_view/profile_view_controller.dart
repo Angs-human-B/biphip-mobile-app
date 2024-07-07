@@ -116,4 +116,5 @@ class ProfileViewController extends GetxController {
     },
   ]);
   final TextEditingController friendSearchController = TextEditingController(); 
+  final TextEditingController familySearchController = TextEditingController(); 
 }
