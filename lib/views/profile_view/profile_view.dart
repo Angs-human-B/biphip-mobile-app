@@ -62,7 +62,7 @@ class ProfileView extends StatelessWidget {
                           profileActionButtonOnPressed: () {
                             Get.find<GlobalController>().commonBottomSheet(
                                 context: context,
-                                content: UserProfileActionBottomSheetContent(),
+                                content: const UserProfileActionBottomSheetContent(),
                                 onPressCloseButton: () {
                                   Get.back();
                                 },
@@ -79,8 +79,7 @@ class ProfileView extends StatelessWidget {
                           height: h8,
                           color: cBackgroundColor,
                         ),
-                        // kH8sizedBox,
-                        ProfileTopTabWidget(),
+                        const ProfileTopTabWidget(),
                         kH16sizedBox,
                         if (profileViewController.profileSelectedTabIndex.value == 0) ProfileViewPostTab(),
                         if (profileViewController.profileSelectedTabIndex.value == 2) ProfileViewVideoTab(),
