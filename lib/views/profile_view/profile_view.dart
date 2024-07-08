@@ -56,9 +56,14 @@ class ProfileView extends StatelessWidget {
                         if (profileViewController.isKidOrStoreProfile.value)
                           Padding(
                             padding: const EdgeInsets.only(top: k4Padding, left: k20Padding, right: k20Padding),
-                            child: Text(
-                              "500 Followers",
-                              style: semiBold14TextStyle(cPrimaryColor),
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(krProfileViewFollower);
+                              },
+                              child: Text(
+                                "500 Followers",
+                                style: semiBold14TextStyle(cPrimaryColor),
+                              ),
                             ),
                           ),
                         profileViewController.isKidOrStoreProfile.value ? kH12sizedBox : kH20sizedBox,

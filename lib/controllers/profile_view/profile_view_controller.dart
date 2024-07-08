@@ -117,5 +117,6 @@ class ProfileViewController extends GetxController {
   ]);
   final TextEditingController friendSearchController = TextEditingController(); 
   final TextEditingController familySearchController = TextEditingController(); 
+  final TextEditingController followerSearchController = TextEditingController(); 
   final RxBool isKidOrStoreProfile = RxBool(false);
 }
