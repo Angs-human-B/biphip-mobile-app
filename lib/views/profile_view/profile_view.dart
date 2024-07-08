@@ -58,7 +58,7 @@ class ProfileView extends StatelessWidget {
                             padding: const EdgeInsets.only(top: k4Padding, left: k20Padding, right: k20Padding),
                             child: Text(
                               "500 Followers",
-                              style: semiBold14TextStyle(cSmallBodyTextColor),
+                              style: semiBold14TextStyle(cPrimaryColor),
                             ),
                           ),
                         profileViewController.isKidOrStoreProfile.value ? kH12sizedBox : kH20sizedBox,
@@ -66,7 +66,7 @@ class ProfileView extends StatelessWidget {
                           buttonText: profileViewController.isKidOrStoreProfile.value ? ksFollow.tr : ksFriend.tr,
                           messageButtonText: ksMessage.tr,
                           messageIcon: BipHip.chatFill,
-                          buttonIcon: BipHip.friends,
+                          buttonIcon: profileViewController.isKidOrStoreProfile.value ? BipHip.follow : BipHip.friends,
                           buttonOnPressed: () {},
                           messageButtonOnPressed: () {},
                           profileActionButtonOnPressed: () {
