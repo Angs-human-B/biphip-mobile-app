@@ -47,14 +47,23 @@ class ProfileView extends StatelessWidget {
                       children: [
                         const ProfileViewProfileCoverPhotoWidget(),
                         Padding(
-                          padding: const EdgeInsets.only(left: k20Padding, top: k8Padding, right: k20Padding, bottom: k20Padding),
+                          padding: const EdgeInsets.only(left: k20Padding, top: k8Padding, right: k20Padding),
                           child: Text(
                             "Wahid Murad", //!User name from api
                             style: semiBold24TextStyle(cBlackColor),
                           ),
                         ),
+                        if (profileViewController.isKidOrStoreProfile.value)
+                          Padding(
+                            padding: const EdgeInsets.only(top: k4Padding, left: k20Padding, right: k20Padding),
+                            child: Text(
+                              "500 Followers",
+                              style: semiBold14TextStyle(cSmallBodyTextColor),
+                            ),
+                          ),
+                        profileViewController.isKidOrStoreProfile.value ? kH12sizedBox : kH20sizedBox,
                         ProfileViewTopRowWidget(
-                          buttonText: ksFriend.tr,
+                          buttonText: profileViewController.isKidOrStoreProfile.value ? ksFollow.tr : ksFriend.tr,
                           messageButtonText: ksMessage.tr,
                           messageIcon: BipHip.chatFill,
                           buttonIcon: BipHip.friends,
@@ -63,6 +72,7 @@ class ProfileView extends StatelessWidget {
                           profileActionButtonOnPressed: () {
                             Get.find<GlobalController>().commonBottomSheet(
                                 context: context,
+                                bottomSheetHeight: profileViewController.isKidOrStoreProfile.value ? height * 0.35 : 0.5,
                                 content: const UserProfileActionBottomSheetContent(),
                                 onPressCloseButton: () {
                                   Get.back();

@@ -257,8 +257,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
             child: TextButton(
               style: kTextButtonStyle,
-              onPressed: () {
-              },
+              onPressed: () {},
               child: Text(
                 ksSeeMore.tr,
                 style: semiBold14TextStyle(cPrimaryColor),
@@ -348,8 +347,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () async {
-                          },
+                          onPressed: () async {},
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 125,
@@ -383,8 +381,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                       if (mediaList.length < 4 && mediaList.length > 1)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () async {
-                          },
+                          onPressed: () async {},
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 125,
@@ -414,8 +411,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                       if (mediaList.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () async {
-                          },
+                          onPressed: () async {},
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 125,
@@ -445,8 +441,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                       if (mediaList.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
-                          onPressed: () async {
-                          },
+                          onPressed: () async {},
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 125,
@@ -479,8 +474,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
-                              onPressed: () async {
-                              },
+                              onPressed: () async {},
                               child: Container(
                                   decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                                   height: 125,
@@ -508,8 +502,7 @@ class CommonFeaturePostWidget extends StatelessWidget {
                               Positioned(
                                 child: TextButton(
                                   style: kTextButtonStyle,
-                                  onPressed: () {
-                                  },
+                                  onPressed: () {},
                                   child: Text(
                                     "${mediaList.length - 5} More",
                                     style: semiBold16TextStyle(cWhiteColor),
@@ -528,4 +521,3 @@ class CommonFeaturePostWidget extends StatelessWidget {
     );
   }
 }
-

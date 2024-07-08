@@ -95,9 +95,15 @@ class MenuHelper {
         Get.toNamed(krDashboardOverview);
         break;
       case 13:
+      Get.find<ProfileViewController>().isKidOrStoreProfile.value = true;
+       if(Get.find<ProfileViewController>().isKidOrStoreProfile.value){
+        Get.find<KidsController>().selectedKidId.value=118;//!Its temporary set for show data, please must remove it
+        Get.find<KidsController>().getKidOverview();
+       }
+       if(Get.find<ProfileViewController>().isKidOrStoreProfile.value==false){
        await Get.find<FriendController>().getFriendList();
        await Get.find<FamilyController>().getFamilyList();
-        // Get.to(() => ProfileView());
+       }
         Get.toNamed(krProfileView);
         Get.find<ProfileViewController>().interestCatagoriesIndex.value = 0;
         await Get.find<ProfileController>().getProfileOverview();

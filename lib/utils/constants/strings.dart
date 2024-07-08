@@ -928,3 +928,4 @@ const String ksPlaceLived = "Place Lived";
 const String ksEducationBackground = "Education Background";
 const String ksMutualFriend = "Mutual Friend";
 const String ksAllFriend = "All Friend";
+const String ksFollow = "Follow";
