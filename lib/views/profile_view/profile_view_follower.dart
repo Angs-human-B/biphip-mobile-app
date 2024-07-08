@@ -71,12 +71,7 @@ class ProfileViewFollower extends StatelessWidget {
                                 imageSize: h45,
                                 name: friendController.friendList[index].fullName ?? ksNA.tr,
                                 buttonText: friendController.friendList[index].followStatus == 0 ? ksFollow.tr : ksFollowing.tr,
-                                buttonOnPressed: friendController.friendList[index].followStatus == 0
-                                    ? null
-                                    : () async {
-                                        // familyController.userId.value = familyController.sendFamilyRequestList[index].id!;
-                                        // await familyController.cancelFamilyRequest();
-                                      },
+                                buttonOnPressed: friendController.friendList[index].followStatus == 0 ? null : () async {},
                                 buttonColor: cPrimaryColor,
                                 textStyle: semiBold12TextStyle(cWhiteColor),
                               ),
