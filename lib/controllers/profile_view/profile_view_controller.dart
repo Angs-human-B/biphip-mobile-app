@@ -1,3 +1,5 @@
+import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class ProfileViewController extends GetxController {
@@ -115,6 +117,51 @@ class ProfileViewController extends GetxController {
       ],
     },
   ]);
-  final TextEditingController friendSearchController = TextEditingController(); 
-  final TextEditingController familySearchController = TextEditingController(); 
+  final TextEditingController friendSearchController = TextEditingController();
+  final TextEditingController familySearchController = TextEditingController();
+
+  //!Profile view api implement
+  //* Profile overview API Implementation
+  Rx<UserProfileViewOverviewModel?> userProfileViewData = Rx<UserProfileViewOverviewModel?>(null);
+  Rx<User?> userProfileData = Rx<User?>(null);
+  Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
+  Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
+  Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
+  RxBool isUserProfileViewLoading = RxBool(false);
+  Future<void> getProfileOverview(String userName) async {
+    try {
+      isUserProfileViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/$userName/overview",
+      ) as CommonDM;
+      if (response.success == true) {
+        userProfileViewData.value = UserProfileViewOverviewModel.fromJson(response.data);
+        userProfileData.value = userProfileViewData.value!.user;
+        hometownData.value = userProfileViewData.value!.hometown;
+        currentCityData.value = userProfileViewData.value!.currentCity;
+        userCurrentWorkplace.value = userProfileViewData.value!.works;
+        // schoolDataList.addAll(profileData.value!.schools);
+        // collegeDataList.addAll(profileData.value!.colleges);
+        // contactDataList.addAll(profileData.value!.contacts);
+        // linkDataList.addAll(profileData.value!.links);
+        // workplaceDataList.addAll(profileData.value!.workplaces);
+        // otherCityList.addAll(profileData.value!.cities);
+        isUserProfileViewLoading.value = false;
+      } else {
+        isUserProfileViewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUserProfileViewLoading.value = true;
+      ll('getProfileOverview error: $e');
+    }
+  }
 }

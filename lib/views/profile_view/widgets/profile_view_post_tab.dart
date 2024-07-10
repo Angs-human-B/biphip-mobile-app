@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
@@ -12,7 +11,6 @@ import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
 
 class ProfileViewPostTab extends StatelessWidget {
   ProfileViewPostTab({super.key});
-  final ProfileController profileController = Get.find<ProfileController>();
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
   final HomeController homeController = Get.find<HomeController>();
 
@@ -33,22 +31,23 @@ class ProfileViewPostTab extends StatelessWidget {
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kH12sizedBox,
-                    LinkUpIconTextRow(
-                      icon: BipHip.address,
-                      onPressed: null,
-                      prefixText: '${ksLivesIn.tr} ',
-                      // suffixText: DateFormat("MMMM dd, yyyy").format(profileController.userData.value!.dob!),
-                      suffixText: '${profileController.currentCityData.value?.city}',
-                    ),
-                    if (profileController.currentCityData.value?.city != null && profileController.currentCityData.value?.isCurrent == 1)
+                    if (profileViewController.userProfileViewData.value!.currentCity?.city != null)
+                      LinkUpIconTextRow(
+                        icon: BipHip.address,
+                        onPressed: null,
+                        prefixText: '${ksLivesIn.tr} ',
+                        suffixText: profileViewController.userProfileViewData.value!.currentCity?.city ?? ksNA.tr,
+                      ),
+                    if (profileViewController.userProfileViewData.value!.currentCity?.city != null &&
+                        profileViewController.userProfileViewData.value?.currentCity?.isCurrent == 1)
                       LinkUpIconTextRow(
                         icon: BipHip.location,
-                        prefixText: '${ksLivesIn.tr} ',
-                        suffixText: '${profileController.currentCityData.value?.city}',
+                        prefixText: '${ksFrom.tr} ',
+                        suffixText: profileViewController.userProfileViewData.value?.currentCity?.city ?? ksNA.tr,
                         onPressed: null,
                       ),
                     CustomTextButton(
-                      text: "See ${profileController.userData.value?.lastName}'s about info",
+                      text: "See ${profileViewController.userProfileData.value?.lastName}'s about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () {
                         Get.toNamed(krProfileViewAbout);

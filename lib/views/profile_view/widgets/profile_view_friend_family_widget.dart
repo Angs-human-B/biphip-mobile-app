@@ -42,7 +42,7 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
             height: h8,
             color: cBackgroundColor,
           ),
-          kH16sizedBox,
+          // kH16sizedBox,
           familyController.isFamilyListLoading.value
               ? const FriendFamilyGridViewShimmer()
               : familyController.familyList.isEmpty
@@ -102,7 +102,8 @@ class FriendsFamilyGridView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (isFriendFamilySeeAllShowHide) CustomTextButton(onPressed: seeAllOnPressed, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
+                  if (isFriendFamilySeeAllShowHide)
+                    CustomTextButton(onPressed: seeAllOnPressed, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
                 ],
               ),
               kH12sizedBox,

@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -13,16 +12,14 @@ import 'package:bip_hip/views/profile_view/widgets/profile_view_video_tab.dart';
 
 class ProfileView extends StatelessWidget {
   ProfileView({super.key});
-  final ProfileController profileController = Get.find<ProfileController>(); //!Remove this profile controller and replace here profile_view_controller
-  final ProfileViewController profileViewController =
-      Get.find<ProfileViewController>(); //!Remove this profile controller and replace here profile_view_controller
+  final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => profileController.isProfileLoading.value
+        () => profileViewController.isUserProfileViewLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,
@@ -33,7 +30,7 @@ class ProfileView extends StatelessWidget {
                     //* info:: appBar
                     child: CustomAppBar(
                       appBarColor: cWhiteColor,
-                      title: "Wahid Murad",
+                      title: profileViewController.userProfileData.value?.fullName ?? ksNA.tr,
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
@@ -45,16 +42,16 @@ class ProfileView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const ProfileViewProfileCoverPhotoWidget(),
+                        ProfileViewProfileCoverPhotoWidget(),
                         Padding(
                           padding: const EdgeInsets.only(left: k20Padding, top: k8Padding, right: k20Padding, bottom: k20Padding),
                           child: Text(
-                            "Wahid Murad", //!User name from api
+                            profileViewController.userProfileData.value?.fullName ?? ksNA.tr,
                             style: semiBold24TextStyle(cBlackColor),
                           ),
                         ),
                         ProfileViewTopRowWidget(
-                          buttonText: ksFriend.tr,
+                          buttonText: profileViewController.userProfileViewData.value!.user?.friendStatus == 1 ? ksFriend.tr : ksAddFriend.tr,
                           messageButtonText: ksMessage.tr,
                           messageIcon: BipHip.chatFill,
                           buttonIcon: BipHip.friends,
