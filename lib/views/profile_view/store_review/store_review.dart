@@ -33,7 +33,9 @@ class StoreReview extends StatelessWidget {
                   buttonColor: cPrimaryColor,
                   textStyle: semiBold16TextStyle(cWhiteColor),
                   label: ksYes.tr,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(krProfileViewCreateReview);
+                  },
                 ),
                 kW16sizedBox,
                 CustomElevatedButton(
@@ -111,10 +113,6 @@ class StoreReview extends StatelessWidget {
                               shrinkWrap: true,
                               physics: const AlwaysScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                // return StoreReviewPostWidget(
-                                //   userName: profileViewController.storeReviewList[index]["userName"],
-                                //   postText: profileViewController.storeReviewList[index]["postText"],
-                                // );
                                 return SizedBox(
                                     width: width,
                                     height: height * 0.11,
@@ -157,7 +155,6 @@ class StoreReviewPostWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
                       children: [
