@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -143,12 +144,6 @@ class ProfileViewController extends GetxController {
         hometownData.value = userProfileViewData.value!.hometown;
         currentCityData.value = userProfileViewData.value!.currentCity;
         userCurrentWorkplace.value = userProfileViewData.value!.works;
-        // schoolDataList.addAll(profileData.value!.schools);
-        // collegeDataList.addAll(profileData.value!.colleges);
-        // contactDataList.addAll(profileData.value!.contacts);
-        // linkDataList.addAll(profileData.value!.links);
-        // workplaceDataList.addAll(profileData.value!.workplaces);
-        // otherCityList.addAll(profileData.value!.cities);
         isUserProfileViewLoading.value = false;
       } else {
         isUserProfileViewLoading.value = true;
@@ -162,6 +157,37 @@ class ProfileViewController extends GetxController {
     } catch (e) {
       isUserProfileViewLoading.value = true;
       ll('getProfileOverview error: $e');
+    }
+  }
+
+  //* Profile view Contact info api
+  Rx<UserProfileViewBasicInfoModel?> userProfileBasicData = Rx<UserProfileViewBasicInfoModel?>(null);
+  RxList<Contact?> userBasicData = RxList<Contact?>([]);
+  RxBool isUserBasicInfoLoading = RxBool(false);
+  Future<void> getProfileContact(String userName) async {
+    try {
+      isUserBasicInfoLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/$userName/basic-info",
+      ) as CommonDM;
+      if (response.success == true) {
+        userProfileBasicData.value = UserProfileViewBasicInfoModel.fromJson(response.data);
+        isUserBasicInfoLoading.value = false;
+      } else {
+        isUserBasicInfoLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUserBasicInfoLoading.value = true;
+      ll('getProfileContact error: $e');
     }
   }
 }
