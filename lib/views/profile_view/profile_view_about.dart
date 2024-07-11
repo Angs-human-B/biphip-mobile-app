@@ -70,9 +70,14 @@ class ProfileViewAbout extends StatelessWidget {
                     ),
                   ),
                 kH12sizedBox,
-                const ProileViewAboutEducationBackground(),
+                 ProileViewAboutEducationBackground(
+                  collegeList: profileViewController.collegeDataList,
+                  schoolList: profileViewController.schoolDataList,
+                ),
                 kH12sizedBox,
-                const ProileViewAboutWork(),
+                 ProileViewAboutWork(
+                  workplaceList: profileViewController.workPlaceList,
+                ),
                 kH12sizedBox,
                 ProileViewAboutContactInfo(
                   title: profileViewController.userBasicData,

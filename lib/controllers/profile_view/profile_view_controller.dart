@@ -1,7 +1,9 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:intl/intl.dart';
 
 class ProfileViewController extends GetxController {
   final ApiController apiController = ApiController();
@@ -193,6 +195,74 @@ class ProfileViewController extends GetxController {
     } catch (e) {
       isUserBasicInfoLoading.value = true;
       ll('getProfileBasicInfo error: $e');
+    }
+  }
+
+  //* Profile view Work and Education info api
+  Rx<ProfileViewWorkEducationModel?> profileViewWorkEducationData = Rx<ProfileViewWorkEducationModel?>(null);
+  RxList<Work?> workPlaceList = RxList<Work?>([]);
+  RxList<College?> collegeDataList = RxList<College?>([]);
+  RxList<College?> schoolDataList = RxList<College?>([]);
+  RxBool isProfileViewWorkEducationLoading = RxBool(false);
+  Future<void> getProfileViewWorkEducation() async {
+    try {
+      isProfileViewWorkEducationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/work-education",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewWorkEducationData.value = ProfileViewWorkEducationModel.fromJson(response.data);
+        workPlaceList.addAll(profileViewWorkEducationData.value!.works!);
+        collegeDataList.addAll(profileViewWorkEducationData.value!.colleges!);
+        schoolDataList.addAll(profileViewWorkEducationData.value!.schools!);
+        isProfileViewWorkEducationLoading.value = false;
+      } else {
+        isProfileViewWorkEducationLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewWorkEducationLoading.value = true;
+      ll('getProfileViewWorkEducation error: $e');
+    }
+  }
+
+//   String formatEndDate(DateTime? ended) {
+//   if (ended == null) {
+//     return 'Present';
+//   } else {
+//     return DateFormat('MMMM d, yyyy').format(ended);
+//   }
+// }
+  //* Education Section
+  String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
+    if (startDate != null && endDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)}- $endDate';
+    } else if (startDate == null && endDate != null) {
+      return DateFormat("dd MMMM, yyyy").format(endDate);
+    } else if (startDate != null && endDate == null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - present';
+    } else {
+      return "";
+    }
+  }
+
+  String? schoolSubtitleText(DateTime? startDate, DateTime? endDate) {
+    if (startDate != null && endDate != null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
+    } else if (startDate == null && endDate != null) {
+      return 'School year ${endDate.year}';
+    } else if (startDate != null && endDate == null) {
+      return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';
+    } else {
+      return "";
     }
   }
 }

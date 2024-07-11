@@ -51,6 +51,7 @@ class ProfileViewPostTab extends StatelessWidget {
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () async{
                         await profileViewController.getProfileBasicInfo();
+                        await profileViewController.getProfileViewWorkEducation();
                         Get.toNamed(krProfileViewAbout);
                       },
                       mainAxisAlignment: MainAxisAlignment.start,
