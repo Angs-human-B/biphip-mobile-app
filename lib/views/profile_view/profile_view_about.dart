@@ -8,6 +8,7 @@ import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_rela
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_social_links.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_work.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_interest_widget.dart';
+import 'package:intl/intl.dart';
 
 class ProfileViewAbout extends StatelessWidget {
   ProfileViewAbout({super.key});
@@ -39,7 +40,11 @@ class ProfileViewAbout extends StatelessWidget {
               children: [
                 const ProileViewAboutPlaceLived(),
                 kH12sizedBox,
-                const ProileViewAboutBasicInfo(),
+                 ProileViewAboutBasicInfo(
+                  gender: profileViewController.userProfileBasicData.value?.gender??"",
+                  dateOfBirth:  DateFormat('MMMM d, yyyy').format(profileViewController.userProfileBasicData.value?.dateOfBirth??DateTime.now()),
+                  languages: profileViewController.userProfileBasicData.value!.languages!,
+                 ),
                 if (profileViewController.userProfileData.value!.relation != null)
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
@@ -69,9 +74,13 @@ class ProfileViewAbout extends StatelessWidget {
                 kH12sizedBox,
                 const ProileViewAboutWork(),
                 kH12sizedBox,
-                const ProileViewAboutContactInfo(),
+                ProileViewAboutContactInfo(
+                  title: profileViewController.userBasicData,
+                ),
                 kH12sizedBox,
-                const ProileViewAboutSocialLinks(),
+                 ProileViewAboutSocialLinks(
+                  title: profileViewController.userLinkData,
+                ),
               ],
             ),
           ),

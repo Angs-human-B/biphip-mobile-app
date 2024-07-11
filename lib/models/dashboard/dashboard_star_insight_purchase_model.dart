@@ -1,4 +1,3 @@
-
 import 'package:bip_hip/models/common/common_link_model.dart';
 
 class DashboardStarInsightPurchaseModel {

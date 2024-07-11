@@ -121,6 +121,8 @@ class ProfileViewController extends GetxController {
   final TextEditingController friendSearchController = TextEditingController();
   final TextEditingController familySearchController = TextEditingController();
 
+  final RxString userName = RxString("");
+
   //!Profile view api implement
   //* Profile overview API Implementation
   Rx<UserProfileViewOverviewModel?> userProfileViewData = Rx<UserProfileViewOverviewModel?>(null);
@@ -129,14 +131,14 @@ class ProfileViewController extends GetxController {
   Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
   Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
   RxBool isUserProfileViewLoading = RxBool(false);
-  Future<void> getProfileOverview(String userName) async {
+  Future<void> getProfileOverview() async {
     try {
       isUserProfileViewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "/mobile/user/user-profile/$userName/overview",
+        url: "/mobile/user/user-profile/${userName.value}/overview",
       ) as CommonDM;
       if (response.success == true) {
         userProfileViewData.value = UserProfileViewOverviewModel.fromJson(response.data);
@@ -163,18 +165,21 @@ class ProfileViewController extends GetxController {
   //* Profile view Contact info api
   Rx<UserProfileViewBasicInfoModel?> userProfileBasicData = Rx<UserProfileViewBasicInfoModel?>(null);
   RxList<Contact?> userBasicData = RxList<Contact?>([]);
+  RxList<Link?> userLinkData = RxList<Link?>([]);
   RxBool isUserBasicInfoLoading = RxBool(false);
-  Future<void> getProfileContact(String userName) async {
+  Future<void> getProfileBasicInfo() async {
     try {
       isUserBasicInfoLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "/mobile/user/user-profile/$userName/basic-info",
+        url: "/mobile/user/user-profile/${userName.value}/basic-info",
       ) as CommonDM;
       if (response.success == true) {
         userProfileBasicData.value = UserProfileViewBasicInfoModel.fromJson(response.data);
+        userBasicData.value = userProfileBasicData.value!.contacts!;
+        userLinkData.value = userProfileBasicData.value!.links!;
         isUserBasicInfoLoading.value = false;
       } else {
         isUserBasicInfoLoading.value = true;
@@ -187,7 +192,7 @@ class ProfileViewController extends GetxController {
       }
     } catch (e) {
       isUserBasicInfoLoading.value = true;
-      ll('getProfileContact error: $e');
+      ll('getProfileBasicInfo error: $e');
     }
   }
 }

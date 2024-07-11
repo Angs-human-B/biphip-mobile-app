@@ -49,7 +49,8 @@ class ProfileViewPostTab extends StatelessWidget {
                     CustomTextButton(
                       text: "See ${profileViewController.userProfileData.value?.lastName}'s about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
-                      onPressed: () {
+                      onPressed: () async{
+                        await profileViewController.getProfileBasicInfo();
                         Get.toNamed(krProfileViewAbout);
                       },
                       mainAxisAlignment: MainAxisAlignment.start,

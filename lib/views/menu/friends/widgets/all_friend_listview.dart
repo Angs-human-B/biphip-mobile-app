@@ -51,7 +51,8 @@ class AllFriendListView extends StatelessWidget {
                                 return InkWell(
                                   onTap: () async {
                                     Get.toNamed(krProfileView);
-                                    await Get.find<ProfileViewController>().getProfileOverview(friendController.friendList[index].userName!);
+                                    Get.find<ProfileViewController>().userName.value = friendController.friendList[index].userName!;
+                                    await Get.find<ProfileViewController>().getProfileOverview();
                                     await Get.find<FriendController>().getFriendList();
                                     await Get.find<FamilyController>().getFamilyList();
                                   },
