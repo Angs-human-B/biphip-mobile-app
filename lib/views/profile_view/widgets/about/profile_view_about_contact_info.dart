@@ -29,12 +29,12 @@ class ProileViewAboutContactInfo extends StatelessWidget {
                 ProfileViewAboutTitleSubtitleText(
                   title: title[i]?.value ?? ksNA.tr,
                 ),
-            kH4sizedBox,
+            // kH4sizedBox,
             Text(
               ksPhone.tr,
               style: regular12TextStyle(cSmallBodyTextColor),
             ),
-            // kH16sizedBox,
+            kH16sizedBox,
             for (int i = 0; i < title.length; i++)
               if (title[i]?.type.toString().toLowerCase() == "email")
                 ProfileViewAboutTitleSubtitleText(

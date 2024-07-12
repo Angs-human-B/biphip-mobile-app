@@ -3,7 +3,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/prfole_view_about_education_background.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_basic_info.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_contact_info.dart';
-import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_place_lived.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_relation_profession_interest_content.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_social_links.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_work.dart';
@@ -38,13 +37,21 @@ class ProfileViewAbout extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                const ProileViewAboutPlaceLived(),
+                //  ProileViewAboutPlaceLived(
+                //   homeTown: profileViewController.profileViewHometownData!,
+                //  ),
+
+                // ProileViewAboutPlaceLived(
+                //   homeTown: profileViewController.profileViewHometownData.value,
+                //   currentCity: profileViewController.profileViewCurrentCityData.value,
+                //   placesList: profileViewController.profileViewPlacesList.value,
+                // ),
                 kH12sizedBox,
-                 ProileViewAboutBasicInfo(
-                  gender: profileViewController.userProfileBasicData.value?.gender??"",
-                  dateOfBirth:  DateFormat('MMMM d, yyyy').format(profileViewController.userProfileBasicData.value?.dateOfBirth??DateTime.now()),
+                ProileViewAboutBasicInfo(
+                  gender: profileViewController.userProfileBasicData.value?.gender ?? "",
+                  dateOfBirth: DateFormat('MMMM d, yyyy').format(profileViewController.userProfileBasicData.value?.dateOfBirth ?? DateTime.now()),
                   languages: profileViewController.userProfileBasicData.value!.languages!,
-                 ),
+                ),
                 if (profileViewController.userProfileData.value!.relation != null)
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
@@ -70,12 +77,12 @@ class ProfileViewAbout extends StatelessWidget {
                     ),
                   ),
                 kH12sizedBox,
-                 ProileViewAboutEducationBackground(
+                ProileViewAboutEducationBackground(
                   collegeList: profileViewController.collegeDataList,
                   schoolList: profileViewController.schoolDataList,
                 ),
                 kH12sizedBox,
-                 ProileViewAboutWork(
+                ProileViewAboutWork(
                   workplaceList: profileViewController.workPlaceList,
                 ),
                 kH12sizedBox,
@@ -83,7 +90,7 @@ class ProfileViewAbout extends StatelessWidget {
                   title: profileViewController.userBasicData,
                 ),
                 kH12sizedBox,
-                 ProileViewAboutSocialLinks(
+                ProileViewAboutSocialLinks(
                   title: profileViewController.userLinkData,
                 ),
               ],

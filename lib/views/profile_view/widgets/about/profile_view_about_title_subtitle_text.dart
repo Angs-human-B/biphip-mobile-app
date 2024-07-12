@@ -15,10 +15,11 @@ class ProfileViewAboutTitleSubtitleText extends StatelessWidget {
           style: regular16TextStyle(cBlackColor),
         ),
         kH4sizedBox,
-        Text(
-          subTitle ?? "",
-          style: regular12TextStyle(cSmallBodyTextColor),
-        ),
+        if (subTitle != null)
+          Text(
+            subTitle!,
+            style: regular12TextStyle(cSmallBodyTextColor),
+          ),
       ],
     );
   }

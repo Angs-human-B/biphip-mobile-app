@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
@@ -129,9 +130,9 @@ class ProfileViewController extends GetxController {
   //* Profile overview API Implementation
   Rx<UserProfileViewOverviewModel?> userProfileViewData = Rx<UserProfileViewOverviewModel?>(null);
   Rx<User?> userProfileData = Rx<User?>(null);
-  Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
-  Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
-  Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
+  // Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
+  // Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
+  // Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
   RxBool isUserProfileViewLoading = RxBool(false);
   Future<void> getProfileOverview() async {
     try {
@@ -145,9 +146,9 @@ class ProfileViewController extends GetxController {
       if (response.success == true) {
         userProfileViewData.value = UserProfileViewOverviewModel.fromJson(response.data);
         userProfileData.value = userProfileViewData.value!.user;
-        hometownData.value = userProfileViewData.value!.hometown;
-        currentCityData.value = userProfileViewData.value!.currentCity;
-        userCurrentWorkplace.value = userProfileViewData.value!.works;
+        // hometownData.value = userProfileViewData.value!.hometown;
+        // currentCityData.value = userProfileViewData.value!.currentCity;
+        // userCurrentWorkplace.value = userProfileViewData.value!.works;
         isUserProfileViewLoading.value = false;
       } else {
         isUserProfileViewLoading.value = true;
@@ -233,14 +234,44 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewWorkEducation error: $e');
     }
   }
+  //* Profile view Place Live info api
+  Rx<ProfileViewPlaceLiveModel?> profileViewPlaceLiveData = Rx<ProfileViewPlaceLiveModel?>(null);
+  Rx<CurrentCity?> profileViewHometownData = Rx<CurrentCity?>(null);
+  Rx<CurrentCity?> profileViewCurrentCityData = Rx<CurrentCity?>(null);
+  RxList<CurrentCity?> profileViewPlacesList = RxList<CurrentCity?>([]);
+  RxBool isProfileViewPlaceLiveLoading = RxBool(false);
+  Future<void> getProfileViewPlaceLived() async {
+    try {
+      isProfileViewPlaceLiveLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/places",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewPlaceLiveData.value = ProfileViewPlaceLiveModel.fromJson(response.data);
+        profileViewHometownData.value = profileViewPlaceLiveData.value!.hometown;
+        profileViewCurrentCityData.value = profileViewPlaceLiveData.value!.currentCity;
+        profileViewPlacesList.addAll(profileViewPlaceLiveData.value!.places!);
+        isProfileViewPlaceLiveLoading.value = false;
+      } else {
+        isProfileViewPlaceLiveLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewPlaceLiveLoading.value = true;
+      ll('getProfileViewWorkEducation error: $e');
+    }
+  }
 
-//   String formatEndDate(DateTime? ended) {
-//   if (ended == null) {
-//     return 'Present';
-//   } else {
-//     return DateFormat('MMMM d, yyyy').format(ended);
-//   }
-// }
+
+
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
     if (startDate != null && endDate != null) {
