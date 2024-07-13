@@ -37,9 +37,9 @@ class ProfileViewAllPhotoGridView extends StatelessWidget {
                 ],
               ),
               childrenDelegate: SliverChildBuilderDelegate(
-                childCount: profileViewController.allPhotoList.length,
+                childCount: profileViewController.allImageList.length,
                 (context, index) {
-                  String imageUrl = profileViewController.allPhotoList[index];
+                  String imageUrl = profileViewController.allImageList[index].fullPath ?? "";
                   return InkWell(
                     onTap: () async {
                       // galleryController.imageId.value = imageList[index].id!;

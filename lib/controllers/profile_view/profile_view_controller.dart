@@ -1,6 +1,7 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_image_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
@@ -346,6 +347,48 @@ class ProfileViewController extends GetxController {
     } catch (e) {
       isawardListLoading.value = true;
       ll('getProfileViewAwardList error: $e');
+    }
+  }
+
+  //*Award APi implement
+  final Rx<ProfileViewImageModel?> profileViewImageData = Rx<ProfileViewImageModel?>(null);
+  final RxList<ImageData> allImageList = RxList<ImageData>([]);
+    final Rx<String?> allImageListSubLink = Rx<String?>(null);
+  final RxBool allImageListScrolled = RxBool(false);
+  final RxBool isAllImageListLoading = RxBool(false);
+  Future<void> getAllImage() async {
+    try {
+      isAllImageListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/images?take=20",
+      ) as CommonDM;
+      if (response.success == true) {
+        allImageList.clear();
+        allImageListScrolled.value = false;
+        profileViewImageData.value = ProfileViewImageModel.fromJson(response.data);
+        allImageList.addAll(profileViewImageData.value!.images!.data!);
+        allImageListSubLink.value = profileViewImageData.value!.images!.nextPageUrl;
+        if (allImageListSubLink.value != null) {
+          allImageListScrolled.value = false;
+        } else {
+          allImageListScrolled.value = true;
+        }
+        isAllImageListLoading.value = false;
+      } else {
+        isAllImageListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAllImageListLoading.value = true;
+      ll('getAllImage error: $e');
     }
   }
 

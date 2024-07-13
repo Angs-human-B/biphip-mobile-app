@@ -9,6 +9,7 @@ class ProfileViewHelper {
       profileViewController.profileSelectedTabIndex.value = 0;
     } else if (index == 1) {
       profileViewController.profileSelectedTabIndex.value = 1;
+      await profileViewController.getAllImage();
     } else if (index == 2) {
       profileViewController.profileSelectedTabIndex.value = 2;
     } else if (index == 3) {
