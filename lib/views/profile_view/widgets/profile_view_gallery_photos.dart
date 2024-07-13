@@ -13,7 +13,7 @@ class ProfileViewGalleryPhoto extends StatelessWidget {
         child: GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: profileViewController.photoAlbumList.length,
+          itemCount: profileViewController.imageAlbumList.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: k4Padding + k2Padding,
             crossAxisCount: 2,
@@ -24,37 +24,16 @@ class ProfileViewGalleryPhoto extends StatelessWidget {
                 Row(
                   children: [
                     GalleryPhotoContainer(
-                      title: profileViewController.photoAlbumList[index]["title"] ?? ksNA.tr,
-                      subTitle: profileViewController.photoAlbumList[index]["subTitle"].toString(),
-                      image: profileViewController.photoAlbumList[index]["image"],
-                      // threeDotOnPressed: () {
-                      //   // galleryController.galleryPhotoActionSelect.value = '';
-                      //   // galleryController.galleryPhotoBottomSheetRightButtonState.value = false;
-                      //   Get.find<GlobalController>().commonBottomSheet(
-                      //     context: context,
-                      //     isBottomSheetRightButtonActive: galleryController.galleryPhotoBottomSheetRightButtonState,
-                      //     isScrollControlled: true,
-                      //     content: GalleryPhotoActionContent(
-                      //       defaultValue: galleryController.imageDataList[index].isDefault,
-                      //       selectedIndex: index,
-                      //     ),
-                      //     onPressCloseButton: () {
-                      //       Get.back();
-                      //     },
-                      //     onPressRightButton: () {},
-                      //     rightText: ksDone.tr,
-                      //     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                      //     title: ksAction.tr,
-                      //     isRightButtonShow: false,
-                      //     bottomSheetHeight: galleryController.imageDataList[index].isDefault == 0 ? 180 : 120,
-                      //   );
-                      // },
-
-                      onPressed: () {
-                        //!Route needed(after api call route the photos page)
+                      title: profileViewController.imageAlbumList[index].title ?? ksNA.tr,
+                      subTitle: profileViewController.imageAlbumList[index].totalImage.toString(),
+                      image: profileViewController.imageAlbumList[index].preview!,
+                      isThreeDotButtonShow: false,
+                      onPressed: () async{
+                        await 
+                        Get.toNamed(krPhotos);
                         // Get.to(() => Photos(
-                        //       imageList: galleryController.imageDataList[index].imageList,
-                        //       imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
+                        //       imageList: profileViewController.imageAlbumList[index].imageList[0].f,
+                        //       imageListTitle: profileViewController.imageAlbumList[index].title ?? ksNA,
                         //       albumIndex: index,
                         //     ));
                         // Get.to(() => Photos(
@@ -74,4 +53,3 @@ class ProfileViewGalleryPhoto extends StatelessWidget {
     );
   }
 }
-

@@ -1,12 +1,13 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class GalleryPhotoContainer extends StatelessWidget {
-  const GalleryPhotoContainer({super.key, this.title, required this.subTitle, this.onPressed, required this.image, this.threeDotOnPressed});
+  const GalleryPhotoContainer({super.key, this.title, required this.subTitle, this.onPressed, required this.image, this.threeDotOnPressed, this.isThreeDotButtonShow=true});
   final String? title;
   final String subTitle;
   final List image;
   final VoidCallback? onPressed;
   final VoidCallback? threeDotOnPressed;
+  final bool? isThreeDotButtonShow;
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -133,6 +134,7 @@ class GalleryPhotoContainer extends StatelessWidget {
                         ],
                       ),
                     ),
+                    if(isThreeDotButtonShow==true)
                     CustomIconButton(
                       onPress: threeDotOnPressed,
                       icon: BipHip.system,
