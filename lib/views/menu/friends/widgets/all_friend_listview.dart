@@ -53,7 +53,7 @@ class AllFriendListView extends StatelessWidget {
                                     Get.toNamed(krProfileView);
                                     Get.find<ProfileViewController>().userName.value = friendController.friendList[index].userName!;
                                     await Get.find<ProfileViewController>().getProfileOverview();
-                                    await Get.find<FriendController>().getFriendList();
+                                    await Get.find<ProfileViewController>().getProfileViewFriend();
                                     await Get.find<FamilyController>().getFamilyList();
                                   },
                                   child: ClipRRect(

@@ -1,14 +1,17 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_friends_gridview.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class ProfileViewFriendFamilyWidget extends StatelessWidget {
   ProfileViewFriendFamilyWidget({super.key});
   final FriendController friendController = Get.find<FriendController>();
   final FamilyController familyController = Get.find<FamilyController>();
+  final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +19,9 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
       () => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          friendController.isFriendListLoading.value
+          profileViewController.isProfileViewFriendLoading.value
               ? const FriendFamilyGridViewShimmer()
-              : friendController.friendList.isEmpty
+              : profileViewController.profileMutualFriendList.isEmpty && profileViewController.profileFriendList.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: k16Padding),
                       child: Container(
@@ -30,9 +33,9 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                     )
                   : FriendsFamilyGridView(
                       header: ksFriends.tr,
-                      count: friendController.allFriendCount.toString(),
-                      friendList: friendController.friendList,
-                      isFriendFamilySeeAllShowHide: friendController.friendList.length > 3 ? true : false,
+                      count: profileViewController.profileFriendData.value!.mutualFriendsCount.toString(),
+                      friendList: profileViewController.profileFriendList,
+                      isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
                       seeAllOnPressed: () {
                         Get.toNamed(krProfileViewFriend);
                       },
@@ -55,8 +58,8 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                   : FriendsFamilyGridView(
                       header: ksFamily.tr,
                       count: familyController.allFamilyCount.toString(),
-                      friendList: familyController.familyList,
-                      isFriendFamilySeeAllShowHide: familyController.familyList.length > 3 ? true : false,
+                      friendList: profileViewController.profileFriendList,
+                      isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
                       seeAllOnPressed: () {
                         Get.toNamed(krProfileViewFamily);
                       },
@@ -74,7 +77,7 @@ class FriendsFamilyGridView extends StatelessWidget {
   final String header;
   final String count;
   final VoidCallback? seeAllOnPressed;
-  final List<FriendFamilyUserData> friendList;
+  final List<FriendData?> friendList;
   final bool isFriendFamilySeeAllShowHide;
 
   @override
@@ -129,3 +132,53 @@ class FriendsFamilyGridView extends StatelessWidget {
     );
   }
 }
+
+
+
+class CustomGridViewContainer extends StatelessWidget {
+  const CustomGridViewContainer({Key? key, required this.item}) : super(key: key);
+
+  final FriendData? item;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if( item?.friend?.profilePicture!=null)
+          ClipRRect(
+            borderRadius: k8CircularBorderRadius,
+            child: Container(
+              color: cBlackColor,
+              height: 100,
+              width: ((width - 72) / 3),
+              child: Image.network(
+                item!.friend!.profilePicture!,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: cBlackColor,
+                  child: const CommonImageErrorBuilder(
+                    icon: BipHip.user,
+                    iconSize: kIconSize60,
+                  ),
+                ),
+                loadingBuilder: imageLoadingBuilderCover,
+              ),
+            ),
+          ),
+          kH4sizedBox,
+          Text(
+            item!.friend!.fullName!,
+            style: semiBold14TextStyle(cBlackColor),
+            overflow: TextOverflow.clip,
+            maxLines: 2,
+          ),
+        ],
+      ),
+    );
+  }
+}
+

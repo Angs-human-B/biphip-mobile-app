@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
@@ -232,6 +233,39 @@ class ProfileViewController extends GetxController {
     } catch (e) {
       isProfileViewWorkEducationLoading.value = true;
       ll('getProfileViewWorkEducation error: $e');
+    }
+  }
+  //* Profile view Friends api
+  Rx<ProfileViewFriendModel?> profileFriendData = Rx<ProfileViewFriendModel?>(null);
+  RxList<MutualFriendData?> profileMutualFriendList = RxList<MutualFriendData?>([]);
+  RxList<FriendData?> profileFriendList = RxList<FriendData?>([]);
+  RxBool isProfileViewFriendLoading = RxBool(false);
+  Future<void> getProfileViewFriend() async {
+    try {
+      isProfileViewFriendLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/friends?all_friend_take=20&mutual_friend_take=20",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileFriendData.value = ProfileViewFriendModel.fromJson(response.data);
+        profileMutualFriendList.addAll(profileFriendData.value!.mutualFriends!.data!);
+        profileFriendList.addAll(profileFriendData.value!.friends!.data!);
+        isProfileViewFriendLoading.value = false;
+      } else {
+        isProfileViewFriendLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewFriendLoading.value = true;
+      ll('getProfileViewFriend error: $e');
     }
   }
   //* Profile view Place Live info api
