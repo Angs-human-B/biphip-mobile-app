@@ -1,4 +1,5 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
@@ -235,6 +236,7 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewWorkEducation error: $e');
     }
   }
+
   //* Profile view Friends api
   Rx<ProfileViewFriendModel?> profileFriendData = Rx<ProfileViewFriendModel?>(null);
   RxList<MutualFriendData?> profileMutualFriendList = RxList<MutualFriendData?>([]);
@@ -268,6 +270,7 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewFriend error: $e');
     }
   }
+
   //* Profile view Place Live info api
   Rx<ProfileViewPlaceLiveModel?> profileViewPlaceLiveData = Rx<ProfileViewPlaceLiveModel?>(null);
   Rx<CurrentCity?> profileViewHometownData = Rx<CurrentCity?>(null);
@@ -304,7 +307,47 @@ class ProfileViewController extends GetxController {
     }
   }
 
-
+  //*Award APi implement
+  final Rx<ProfileViewAwardModel?> allAwardListData = Rx<ProfileViewAwardModel?>(null);
+  final RxList<AllAwardData> allAwardList = RxList<AllAwardData>([]);
+  final Rx<String?> awardListSubLink = Rx<String?>(null);
+  final RxBool awardListScrolled = RxBool(false);
+  final RxBool isawardListLoading = RxBool(false);
+  Future<void> getProfileViewAwardList() async {
+    try {
+      isawardListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/awards?take=20",
+      ) as CommonDM;
+      if (response.success == true) {
+        allAwardList.clear();
+        awardListScrolled.value = false;
+        allAwardListData.value = ProfileViewAwardModel.fromJson(response.data);
+        allAwardList.addAll(allAwardListData.value!.awards!.data!);
+        awardListSubLink.value = allAwardListData.value!.awards!.nextPageUrl;
+        if (awardListSubLink.value != null) {
+          awardListScrolled.value = false;
+        } else {
+          awardListScrolled.value = true;
+        }
+        isawardListLoading.value = false;
+      } else {
+        isawardListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isawardListLoading.value = true;
+      ll('getProfileViewAwardList error: $e');
+    }
+  }
 
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {

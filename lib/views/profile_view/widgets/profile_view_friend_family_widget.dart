@@ -8,7 +8,6 @@ import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class ProfileViewFriendFamilyWidget extends StatelessWidget {
   ProfileViewFriendFamilyWidget({super.key});
-  // final FriendController friendController = Get.find<FriendController>();
   final FamilyController familyController = Get.find<FamilyController>();
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 

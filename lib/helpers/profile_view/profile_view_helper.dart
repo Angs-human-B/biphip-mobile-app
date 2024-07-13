@@ -1,4 +1,3 @@
-import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 
@@ -14,7 +13,7 @@ class ProfileViewHelper {
       profileViewController.profileSelectedTabIndex.value = 2;
     } else if (index == 3) {
       profileViewController.profileSelectedTabIndex.value = 3;
-      await Get.find<AwardController>().getAwardList();//!remove this api call when profile view award api is available
+      await profileViewController.getProfileViewAwardList();
     }
   }
 }
