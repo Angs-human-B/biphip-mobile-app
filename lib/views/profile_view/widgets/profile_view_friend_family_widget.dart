@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
-import 'package:bip_hip/controllers/menu/friend_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -9,7 +8,7 @@ import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class ProfileViewFriendFamilyWidget extends StatelessWidget {
   ProfileViewFriendFamilyWidget({super.key});
-  final FriendController friendController = Get.find<FriendController>();
+  // final FriendController friendController = Get.find<FriendController>();
   final FamilyController familyController = Get.find<FamilyController>();
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
@@ -133,8 +132,6 @@ class FriendsFamilyGridView extends StatelessWidget {
   }
 }
 
-
-
 class CustomGridViewContainer extends StatelessWidget {
   const CustomGridViewContainer({Key? key, required this.item}) : super(key: key);
 
@@ -147,28 +144,28 @@ class CustomGridViewContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if( item?.friend?.profilePicture!=null)
-          ClipRRect(
-            borderRadius: k8CircularBorderRadius,
-            child: Container(
-              color: cBlackColor,
-              height: 100,
-              width: ((width - 72) / 3),
-              child: Image.network(
-                item!.friend!.profilePicture!,
-                filterQuality: FilterQuality.high,
-                fit: BoxFit.fill,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: cBlackColor,
-                  child: const CommonImageErrorBuilder(
-                    icon: BipHip.user,
-                    iconSize: kIconSize60,
+          if (item?.friend?.profilePicture != null)
+            ClipRRect(
+              borderRadius: k8CircularBorderRadius,
+              child: Container(
+                color: cBlackColor,
+                height: 100,
+                width: ((width - 72) / 3),
+                child: Image.network(
+                  item!.friend!.profilePicture!,
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.fill,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: cBlackColor,
+                    child: const CommonImageErrorBuilder(
+                      icon: BipHip.user,
+                      iconSize: kIconSize60,
+                    ),
                   ),
+                  loadingBuilder: imageLoadingBuilderCover,
                 ),
-                loadingBuilder: imageLoadingBuilderCover,
               ),
             ),
-          ),
           kH4sizedBox,
           Text(
             item!.friend!.fullName!,
@@ -181,4 +178,3 @@ class CustomGridViewContainer extends StatelessWidget {
     );
   }
 }
-
