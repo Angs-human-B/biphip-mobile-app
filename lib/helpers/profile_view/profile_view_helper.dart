@@ -12,6 +12,7 @@ class ProfileViewHelper {
       await profileViewController.getAllImage();
     } else if (index == 2) {
       profileViewController.profileSelectedTabIndex.value = 2;
+      await profileViewController.getVideos();
     } else if (index == 3) {
       profileViewController.profileSelectedTabIndex.value = 3;
       await profileViewController.getProfileViewAwardList();

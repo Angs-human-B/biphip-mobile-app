@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_video_content_list_widget.dart';
+import 'package:intl/intl.dart';
 
 class ProfileViewVideoTab extends StatelessWidget {
   ProfileViewVideoTab({super.key});
@@ -22,13 +23,13 @@ class ProfileViewVideoTab extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: profileViewController.videoContentList.length,
+                      itemCount: profileViewController.videoList.length,
                       itemBuilder: (context, index) {
                         return VideoContentListWidget(
-                          videoPreviewImage: profileViewController.videoContentList[index]["videoPreviewImage"],
-                          videoTitle: profileViewController.videoContentList[index]["videoTitle"],
-                          videoPublishedDate: profileViewController.videoContentList[index]["videoPublishedDate"],
-                          postIndex: profileViewController.videoContentList[index]["postIndex"],
+                          videoPreviewImage: profileViewController.videoList[index].fullPath??"",
+                          videoTitle: profileViewController.videoList[index].title??ksNA,
+                          videoPublishedDate: DateFormat('dd MMM, yyyy').format(profileViewController.videoList[index].createdAt??DateTime.now()),
+                          postIndex: index,
                         );
                       },
                     ),
