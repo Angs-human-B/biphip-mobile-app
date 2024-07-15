@@ -463,8 +463,7 @@ class CommonPostWidget extends StatelessWidget {
                                 Positioned(
                                   child: TextButton(
                                     style: kTextButtonStyle,
-                                    onPressed: () {
-                                    },
+                                    onPressed: () {},
                                     child: Text(
                                       "${globalController.commonPostList[postIndex].images.length - 5} More",
                                       style: semiBold16TextStyle(cWhiteColor),
@@ -1105,7 +1104,6 @@ class GiftContent extends StatelessWidget {
             ),
           ),
           kH20sizedBox,
-
           kH20sizedBox,
           CustomElevatedButton(
               label: ksGetStars.tr,
@@ -1264,7 +1262,6 @@ class PurchaseStarContent extends StatelessWidget {
                 ],
               ),
             ),
-
             kH24sizedBox,
             const CustomDivider(),
             kH16sizedBox,
@@ -1501,7 +1498,6 @@ class PurchaseStarContent extends StatelessWidget {
               ],
             ),
             kH20sizedBox,
-
             Row(
               children: [
                 ClipOval(
@@ -1544,7 +1540,6 @@ class PurchaseStarContent extends StatelessWidget {
                 ),
               ],
             ),
-
             kH24sizedBox,
             CustomElevatedButton(
                 label: pendentBadgesController.totalStars.value == "" &&

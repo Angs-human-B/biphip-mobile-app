@@ -12,6 +12,7 @@ import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_mo
 import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:intl/intl.dart';
+import 'package:bip_hip/views/profile_view/store_review/profile_view_create_review.dart';
 
 class ProfileViewController extends GetxController {
   final ApiController apiController = ApiController();
@@ -550,5 +551,98 @@ class ProfileViewController extends GetxController {
     } else {
       return "";
     }
+  }
+  final TextEditingController followerSearchController = TextEditingController();
+  final RxBool isKidOrStoreProfile = RxBool(false);
+  final RxString profileViewType = RxString("");
+  final RxString storeRating = RxString("4.8");
+  final RxInt storeRatingReviewCount = RxInt(36);
+  final RxList storeReviewList = RxList([
+    {
+      "userImage":
+          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
+      "userName": "Jane Smith",
+      "storeName": " Emma Isabella",
+      "rating": "4.0",
+      "postText": "I have been doing business",
+    },
+    {
+      "userImage":
+          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
+      "userName": "Jane Smith",
+      "storeName": " Emma Isabella",
+      "rating": "4.0",
+      "postText": "I have been doing business",
+    },
+    {
+      "userImage":
+          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
+      "userName": "Jane Smith",
+      "storeName": " Emma Isabella",
+      "rating": "4.0",
+      "postText": "I have been doing business",
+    },
+    {
+      "userImage":
+          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
+      "userName": "Jane Smith",
+      "storeName": " Emma Isabella",
+      "rating": "4.0",
+      "postText": "I have been doing business",
+    },
+    {
+      "userImage":
+          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
+      "userName": "Jane Smith",
+      "storeName": " Emma Isabella",
+      "rating": "4.0",
+      "postText": "I have been doing business",
+    },
+  ]);
+  final RxString temporaryReviewSelectedPrivacy = RxString("Public");
+  final RxString reviewSelectedPrivacy = RxString("Public");
+  final Rx<IconData> temporaryeviewSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final Rx<IconData> reviewSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final RxInt reviewPrivacyId = RxInt(1);
+  final RxDouble ratingValue = RxDouble(4.0);
+  final RxList<Map<String, dynamic>> reviewPrivacyList = RxList([
+    {'icon': BipHip.world, 'action': 'Public', 'id': 1},
+    {'icon': BipHip.lock, 'action': 'Only me', 'id': 2},
+    {'icon': BipHip.friends, 'action': 'Friends', 'id': 3},
+    {'icon': BipHip.addFamily, 'action': 'Families', 'id': 4},
+    {'icon': BipHip.addFamily, 'action': 'Friends & Families', 'id': 5},
+  ]);
+
+  void showReviewPrivacySheet(context) {
+    temporaryReviewSelectedPrivacy.value = reviewSelectedPrivacy.value;
+    Get.find<GlobalController>().commonBottomSheet(
+      isBottomSheetRightButtonActive: true.obs,
+      bottomSheetHeight: height * .5,
+      context: context,
+      content: ReviewAudienceContent(),
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        reviewSelectedPrivacy.value = temporaryReviewSelectedPrivacy.value;
+        reviewSelectedPrivacyIcon.value = temporaryeviewSelectedPrivacyIcon.value;
+        if (reviewSelectedPrivacy.value.toLowerCase() == "Public".toLowerCase()) {
+          reviewPrivacyId.value = 1;
+        } else if (reviewSelectedPrivacy.value.toLowerCase() == "Friends".toLowerCase()) {
+          reviewPrivacyId.value = 3;
+        } else if (reviewSelectedPrivacy.value.toLowerCase() == "Friends".toLowerCase()) {
+          reviewPrivacyId.value = 3;
+        } else if (reviewSelectedPrivacy.value.toLowerCase() == "Families".toLowerCase()) {
+          reviewPrivacyId.value = 4;
+        } else if (reviewSelectedPrivacy.value.toLowerCase() == "Friend & Family".toLowerCase()) {
+          reviewPrivacyId.value = 5;
+        }
+        Get.back();
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: medium14TextStyle(cPrimaryColor),
+      title: ksEditAudience.tr,
+      isRightButtonShow: true,
+    );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/widgets/common_post_widget.dart';
+import 'package:bip_hip/views/menu/kids/kid_profile/common_feature_post_widget.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_friend_family_widget.dart';
 import 'package:bip_hip/widgets/common/button/custom_filter_chips.dart';
@@ -13,6 +15,7 @@ class ProfileViewPostTab extends StatelessWidget {
   ProfileViewPostTab({super.key});
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
   final HomeController homeController = Get.find<HomeController>();
+  final KidsController kidsController = Get.find<KidsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +65,12 @@ class ProfileViewPostTab extends StatelessWidget {
               ),
             ),
             kH16sizedBox,
-            Container(
-              height: h8,
-              color: cBackgroundColor,
-            ),
-            ProfileViewFriendFamilyWidget(),
-            kH16sizedBox,
+            if (Get.find<ProfileViewController>().isKidOrStoreProfile.value == false)
+              Container(
+                height: h8,
+                color: cBackgroundColor,
+              ),
+            if (Get.find<ProfileViewController>().isKidOrStoreProfile.value == false) ProfileViewFriendFamilyWidget(),
             Container(
               height: h8,
               color: cBackgroundColor,
@@ -78,13 +81,14 @@ class ProfileViewPostTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                    child: Text(
-                      ksCatagories.tr,
-                      style: semiBold18TextStyle(cBlackColor),
+                  if (profileViewController.isKidOrStoreProfile.value == false)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Text(
+                        ksCatagories.tr,
+                        style: semiBold18TextStyle(cBlackColor),
+                      ),
                     ),
-                  ),
                   SizedBox(
                     width: width,
                     height: 50,
@@ -119,6 +123,72 @@ class ProfileViewPostTab extends StatelessWidget {
                 ],
               ),
             ),
+            if (profileViewController.isKidOrStoreProfile.value)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ksFeatured.tr,
+                    style: semiBold18TextStyle(cBlackColor),
+                  ),
+                  kH16sizedBox,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: FittedBox(
+                      child: SizedBox(
+                        width: width - 40,
+                        height: 420,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) => kW16sizedBox,
+                          itemCount: kidsController.featuredPostList.length,
+                          itemBuilder: (context, index) {
+                            var item = kidsController.featuredPostList[index];
+                            return Container(
+                              width: width,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor,
+                                borderRadius: BorderRadius.circular(k8BorderRadius),
+                                border: Border.all(color: cLineColor2, width: 1),
+                              ),
+                              child: CommonFeaturePostWidget(
+                                isCommented: false,
+                                isLiked: false,
+                                isSharedPost: false,
+                                userName: item.user!.fullName!,
+                                postTime: Get.find<GlobalController>().postTimeDifference(item.createdAt!),
+                                isCategorized: true,
+                                subCategory: null,
+                                category: item.postCategory == null ? null : item.postCategory!.name,
+                                categoryIcon: item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id),
+                                categoryIconColor: item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id),
+                                privacy: BipHip.world,
+                                kidName: item.kid == null ? null : item.kid!.name,
+                                kidAge: item.kid == null ? null : item.kid!.age.toString(),
+                                title: item.title,
+                                postText: item.content ?? '',
+                                price: null,
+                                mediaList: item.images,
+                                isSelfPost: true,
+                                isInStock: true,
+                                isCommentShown: true,
+                                commentCount: item.countComment!,
+                                shareCount: item.countShare!,
+                                giftCount: item.countStar!,
+                                postID: item.id!,
+                                userImage: kidsController.kidOverviewData.value?.kids?.profilePicture ?? '',
+                                taggedFriends: const [],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             kH12sizedBox,
             profileViewController.isProfileViewPostLoading.value
                 ? const PostCommonShimmer()
