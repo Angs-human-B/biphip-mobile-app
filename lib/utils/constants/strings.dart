@@ -913,3 +913,23 @@ const String ksEnterBusinessInfo = "Enter business info";
 const String ksUpdateYourBusinessInformationToVerify = "Update your business information to verify your payouts section on your account";
 const String ksPhoneNumber = "Phone number";
 const String ksVatOrGstRegistrationNumber = "VAT/GST registration number (Optional)";
+
+//* Profile view
+const String ksPhotosAndVideos = "Photos & Videos";
+const String ksUnfollow = "Unfollow";
+const String ksUnfollowFromYourFollowersList = "Unfollow from your follower list";
+const String ksUnFriend = "Unfriend";
+const String ksRemoveFromYourFriendList = "Remove from your friend list";
+const String ksReportProfile = "Report profile";
+const String ksReportThisProfile = "Report this profile";
+const String ksBlockFromYourFriendList = "Block from your friend list";
+const String ksCopyThisProfileLink = "Copy this profile link";
+const String ksPlaceLived = "Place Lived";
+const String ksEducationBackground = "Education Background";
+const String ksMutualFriend = "Mutual Friend";
+const String ksAllFriend = "All Friend";
+const String ksFollow = "Follow";
+const String ksFollowing = "Following";
+const String ksReviews = "Reviews";
+const String ksDoYouRecommendGenieInfoTech = "Do you recommend Genie InfoTech?";
+const String ksWhatDoYouRecommendAbout = "What do you recommend about";

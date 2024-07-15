@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/common/common_link_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 
 class DashboardContentsModel {
@@ -19,7 +20,7 @@ class Contents {
     int? from;
     int? lastPage;
     String? lastPageUrl;
-    List<Link>? links;
+    List<CommonLink>? links;
     String? nextPageUrl;
     String? path;
     int? perPage;
@@ -50,7 +51,7 @@ class Contents {
         from: json["from"],
         lastPage: json["last_page"],
         lastPageUrl: json["last_page_url"],
-        links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
+        links: json["links"] == null ? [] : List<CommonLink>.from(json["links"]!.map((x) => CommonLink.fromJson(x))),
         nextPageUrl: json["next_page_url"],
         path: json["path"],
         perPage: json["per_page"],
@@ -679,157 +680,5 @@ class ReactionUser {
         id: json["id"],
         fullName: json["full_name"],
         profilePicture: json["profile_picture"],
-    );
-}
-
-// class User {
-//     int? id;
-//     UserImage? image;
-//     String? userName;
-//     ReferralCode? referralCode;
-//     FirstName? firstName;
-//     LastName? lastName;
-//     Email? email;
-//     DateTime? emailVerifiedAt;
-//     dynamic phone;
-//     dynamic phoneVerifiedAt;
-//     Gender? gender;
-//     DateTime? dob;
-//     List<Profession>? profession;
-//     List<Interest>? interest;
-//     Bio? bio;
-//     List<String>? languages;
-//     String? status;
-//     dynamic blockTill;
-//     dynamic otp;
-//     DateTime? createdAt;
-//     DateTime? updatedAt;
-//     int? refId;
-//     dynamic relation;
-//     dynamic relationWithName;
-//     dynamic relationWithId;
-//     dynamic relationSince;
-//     Cover? cover;
-//     dynamic badge;
-//     int? starBalance;
-//     dynamic socialProvider;
-//     String? referralUrl;
-//     FullName? fullName;
-//     String? profilePicture;
-//     String? coverPhoto;
-//     String? currentBadge;
-//     int? friendStatus;
-//     int? followStatus;
-//     dynamic familyRelationStatus;
-//     int? mutualFriend;
-//     int? yearsOld;
-//     dynamic pendent;
-//     int? chatRoomId;
-
-//     User({
-//         this.id,
-//         this.image,
-//         this.userName,
-//         this.referralCode,
-//         this.firstName,
-//         this.lastName,
-//         this.email,
-//         this.emailVerifiedAt,
-//         this.phone,
-//         this.phoneVerifiedAt,
-//         this.gender,
-//         this.dob,
-//         this.profession,
-//         this.interest,
-//         this.bio,
-//         this.languages,
-//         this.status,
-//         this.blockTill,
-//         this.otp,
-//         this.createdAt,
-//         this.updatedAt,
-//         this.refId,
-//         this.relation,
-//         this.relationWithName,
-//         this.relationWithId,
-//         this.relationSince,
-//         this.cover,
-//         this.badge,
-//         this.starBalance,
-//         this.socialProvider,
-//         this.referralUrl,
-//         this.fullName,
-//         this.profilePicture,
-//         this.coverPhoto,
-//         this.currentBadge,
-//         this.friendStatus,
-//         this.followStatus,
-//         this.familyRelationStatus,
-//         this.mutualFriend,
-//         this.yearsOld,
-//         this.pendent,
-//         this.chatRoomId,
-//     });
-
-//     factory User.fromJson(Map<String, dynamic> json) => User(
-//         id: json["id"],
-//         image: userImageValues.map[json["image"]]!,
-//         userName: referralCodeValues.map[json["user_name"]]!,
-//         referralCode: referralCodeValues.map[json["referral_code"]]!,
-//         firstName: firstNameValues.map[json["first_name"]]!,
-//         lastName: lastNameValues.map[json["last_name"]]!,
-//         email: emailValues.map[json["email"]]!,
-//         emailVerifiedAt: json["email_verified_at"] == null ? null : DateTime.parse(json["email_verified_at"]),
-//         phone: json["phone"],
-//         phoneVerifiedAt: json["phone_verified_at"],
-//         gender: genderValues.map[json["gender"]]!,
-//         dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
-//         profession: json["profession"] == null ? [] : List<Profession>.from(json["profession"]!.map((x) => professionValues.map[x]!)),
-//         interest: json["interest"] == null ? [] : List<Interest>.from(json["interest"]!.map((x) => interestValues.map[x]!)),
-//         bio: bioValues.map[json["bio"]]!,
-//         languages: List<String>.from(json["languages"].map((x) => x)),
-//         status: json["status"],
-//         blockTill: json["block_till"],
-//         otp: json["otp"],
-//         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-//         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-//         refId: json["ref_id"],
-//         relation: json["relation"],
-//         relationWithName: json["relation_with_name"],
-//         relationWithId: json["relation_with_id"],
-//         relationSince: json["relation_since"],
-//         cover: coverValues.map[json["cover"]]!,
-//         badge: json["badge"],
-//         starBalance: json["star_balance"],
-//         socialProvider: json["social_provider"],
-//         referralUrl: json["referral_url"],
-//         fullName: fullNameValues.map[json["full_name"]]!,
-//         profilePicture: json["profile_picture"],
-//         coverPhoto: json["cover_photo"],
-//         currentBadge: json["current_badge"],
-//         friendStatus: json["friend_status"],
-//         followStatus: json["follow_status"],
-//         familyRelationStatus: json["family_relation_status"],
-//         mutualFriend: json["mutual_friend"],
-//         yearsOld: json["years_old"],
-//         pendent: json["pendent"],
-//         chatRoomId: json["chat_room_id"],
-//     );
-//     }
-class Link {
-    String? url;
-    String? label;
-    bool? active;
-
-    Link({
-        this.url,
-        this.label,
-        this.active,
-    });
-
-    factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
     );
 }

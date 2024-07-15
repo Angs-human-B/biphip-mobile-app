@@ -23,6 +23,7 @@ class MenuSectionController extends GetxController {
     {'text': 'Birthday', 'icon': BipHip.birthday},
     {'text': 'Awards', 'icon': BipHip.addNew}, //!Icon should be changed
     {'text': 'Dashboard', 'icon': BipHip.school}, //!Icon should be changed
+    {'text': 'View Profile', 'icon': BipHip.user}, 
   ];
 
   List supportButtonContent = [

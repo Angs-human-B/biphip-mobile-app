@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/common/common_link_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 
 class AwardModel {
@@ -22,7 +23,7 @@ class Awards {
   int? from;
   int? lastPage;
   String? lastPageUrl;
-  List<Link>? links;
+  List<CommonLink>? links;
   String? nextPageUrl;
   String? path;
   int? perPage;
@@ -53,7 +54,7 @@ class Awards {
         from: json["from"],
         lastPage: json["last_page"],
         lastPageUrl: json["last_page_url"],
-        links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
+        links: json["links"] == null ? [] : List<CommonLink>.from(json["links"]!.map((x) => CommonLink.fromJson(x))),
         nextPageUrl: json["next_page_url"],
         path: json["path"],
         perPage: json["per_page"],
@@ -281,23 +282,5 @@ class PostCategory {
         slug: json["slug"],
         name: json["name"],
         isActive: json["is_active"],
-      );
-}
-
-class Link {
-  String? url;
-  String? label;
-  bool? active;
-
-  Link({
-    this.url,
-    this.label,
-    this.active,
-  });
-
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
       );
 }

@@ -139,6 +139,12 @@ import 'package:bip_hip/views/menu/videos/gallery_videos.dart';
 import 'package:bip_hip/views/menu/videos/video_details.dart';
 import 'package:bip_hip/views/menu/videos/videos.dart';
 import 'package:bip_hip/views/intro/splash_screen.dart';
+import 'package:bip_hip/views/profile_view/profile_view.dart';
+import 'package:bip_hip/views/profile_view/profile_view_about.dart';
+import 'package:bip_hip/views/profile_view/profile_view_family.dart';
+import 'package:bip_hip/views/profile_view/profile_view_follower.dart';
+import 'package:bip_hip/views/profile_view/profile_view_friend.dart';
+import 'package:bip_hip/views/profile_view/store_review/profile_view_create_review.dart';
 import 'package:bip_hip/views/search/search.dart';
 import 'package:get/get.dart';
 
@@ -319,6 +325,14 @@ const String krMessages = "/messages";
  const String krPayoutStudentIdVerification = "/payout-student-id-verification";
  const String krPayoutBankAccountTaxPassportInfoView = "/payout-tax-info-view";
  const String krPayoutBusinessInfo = "/payout-business-info";
+ 
+ //* Profile view
+ const String krProfileView = "/profile-view";
+ const String krProfileViewAbout = "/profile-view-about";
+ const String krProfileViewFriend = "/profile-view-friend";
+ const String krProfileViewFamily = "/profile-view-family";
+ const String krProfileViewFollower = "/profile-view-follower";
+ const String krProfileViewCreateReview = "/profile-view-create-review";
 
 
 List<GetPage<dynamic>>? routes = [
@@ -497,5 +511,12 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krPayoutStudentIdVerification, page: () => PayoutStudentIdVerification(), transition: Transition.noTransition),
   GetPage(name: krPayoutBankAccountTaxPassportInfoView, page: () => PayoutBankAccountTaxPassportInfoView(), transition: Transition.noTransition),
   GetPage(name: krPayoutBusinessInfo, page: () => PayoutBusinessInfo(), transition: Transition.noTransition),
+  //* Profile view
+  GetPage(name: krProfileView, page: () => ProfileView(), transition: Transition.noTransition),
+  GetPage(name: krProfileViewAbout, page: () => ProfileViewAbout(), transition: Transition.noTransition),
+  GetPage(name: krProfileViewFriend, page: () => ProfileViewFriend(), transition: Transition.noTransition),
+  GetPage(name: krProfileViewFamily, page: () => ProfileViewFamily(), transition: Transition.noTransition),
+  GetPage(name: krProfileViewFollower, page: () => ProfileViewFollower(), transition: Transition.noTransition),
+  GetPage(name: krProfileViewCreateReview, page: () => ProfileViewCreateReview(), transition: Transition.noTransition),
 
 ];
