@@ -486,12 +486,40 @@ class AllSearchController extends GetxController {
   late VideoPlayerController videoPlayerController;
   late Future<void> initializedVideoPlayerFuture;
   final RxString videoUrl = RxString("");
+  final RxDouble videoProgress = RxDouble(0);
+  final RxBool showVideoKeys = RxBool(false);
+  final RxBool isVideoPlaying = RxBool(false);
   void customOnInit() {
-    videoPlayerController = VideoPlayerController.network(videoUrl.value);
+    showVideoKeys.value = false;
+    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
     initializedVideoPlayerFuture = videoPlayerController.initialize().then((value) {
       videoPlayerController.play();
       videoPlayerController.setLooping(false);
+      videoProgress.value = videoPlayerController.value.position.inSeconds.toDouble();
+      ll(videoProgress.value);
     });
+    videoPlayerController.addListener(() {
+      videoProgress.value = videoPlayerController.value.position.inSeconds.toDouble();
+      if (videoPlayerController.value.position.inSeconds == videoPlayerController.value.duration.inSeconds) {
+        isVideoPlaying.value = false;
+      } else {
+        isVideoPlaying.value = true;
+      }
+    });
+  }
+
+  void enableVideoKeyLayer() {
+    showVideoKeys.value = !showVideoKeys.value;
+    Future.delayed(const Duration(seconds: 5), () async {
+      showVideoKeys.value = false;
+    });
+  }
+
+  String videoSeconds(int seconds) {
+    String twoDigits(String n) => n.padLeft(2, '0');
+    int minutes = (seconds / 60).floor();
+    int remainingSeconds = seconds % 60;
+    return '${twoDigits(minutes.toString())}:${twoDigits(remainingSeconds.toString())}';
   }
 
   @override
