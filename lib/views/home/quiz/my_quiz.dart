@@ -76,7 +76,6 @@ class MyQuiz extends StatelessWidget {
                           ),
                         ),
                       if (quizController.quizTapButtonState[1]) MyPlayedQuiz(),
-                      // postReactionController.isMyQuizesLoading.value ? const PlayedQuizShimmer() : MyPlayedQuiz(),
                       if (quizController.quizTapButtonState[2])
                         Padding(
                           padding: const EdgeInsets.only(top: k16Padding),
@@ -165,8 +164,7 @@ class MyQuiz extends StatelessWidget {
                                                   ranking: quizController.myQuizWinnerList[index].obtainedMarks.toString(),
                                                   correctAnswer: quizController.myQuizWinnerList[index].countRightAnswer.toString(),
                                                   totalQuestions: quizController.myQuizWinnerList[index].totalMarks.toString(),
-                                                  totalTime:
-                                                      double.parse(quizController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
+                                                  totalTime: double.parse(quizController.myQuizWinnerList[index].elapsedTime.toString()).toStringAsFixed(0),
                                                 );
                                               },
                                             ),
@@ -261,8 +259,7 @@ class MyPlayedQuiz extends StatelessWidget {
                                 totalTime:
                                     "Taken Time: ${double.parse(quizController.myAllPlayedQuizList[index].elapsedTime.toString()).toStringAsFixed(0)} sec",
                                 actionText: "Score: ${quizController.myAllPlayedQuizList[index].obtainedMarks}",
-                                actionTextStyle:
-                                    semiBold14TextStyle(quizController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
+                                actionTextStyle: semiBold14TextStyle(quizController.myAllPlayedQuizList[index].obtainedMarks == 0 ? cRedColor : cPrimaryColor),
                               );
                             },
                           ),
@@ -467,7 +464,7 @@ class CommonDailyAndPlayedQuiz extends StatelessWidget {
                                       child: Image.network(
                                         imageList![i].profilePicture ?? "",
                                         fit: BoxFit.cover,
-                                        loadingBuilder: imageLoadingBuilder,
+                                        loadingBuilder: smallImageLoadingBuilder,
                                         errorBuilder: (context, error, stackTrace) {
                                           return Image.asset(
                                             kiProfileDefaultImageUrl,
@@ -748,7 +745,6 @@ class QuizWinner extends StatelessWidget {
                     ],
                   ),
                   kH12sizedBox,
-                  // fit: FlexFit.loose,
                   Text(
                     quizTitle!,
                     style: semiBold14TextStyle(cBlackColor),

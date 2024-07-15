@@ -2,9 +2,6 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/post/comment_widget.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
-import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoDetails extends StatelessWidget {
@@ -51,7 +48,7 @@ class VideoDetails extends StatelessWidget {
                         child: VideoPlayer(profileController.videoPlayerController),
                       ),
                     ),
-          
+
                     kH20sizedBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -181,25 +178,7 @@ class VideoDetails extends StatelessWidget {
                       ],
                     ),
                     kH20sizedBox,
-                    PostActivityStatusWidget(
-                      // reactCount: 440,
-                      reactionOnPressed: () {
-                      },
-                      giftCount: 50,
-                      commentCount: 200,
-                      shareCount: 340,
-                      isGiftShown: true,
-                      giftOnPressed: () {
-                      },
-                    ),
-                    LikeSectionWidget(
-                      isGiftShown: true,
-                      giftOnPressed: () {
-                      },
-                      commentOnPressed: () {
-                 
-                      },
-                    ),
+
                     const CustomDivider(),
                     kH16sizedBox,
                     Row(
@@ -211,35 +190,6 @@ class VideoDetails extends StatelessWidget {
                       ],
                     ),
                     kH16sizedBox,
-                    const CommentWidget(
-                      profileImage: kiProfileDefaultImageUrl,
-                      timePassed: '5',
-                      isLikeButtonShown: true,
-                      isReplyButtonShown: true,
-                      isReactButtonShown: false,
-                      comment: 'When I was 16 I won a great victory. Thought I would live to be hundred. Now I know I shall not see 30.',
-                      isLink: false,
-                      userName: 'Sharker Omi',
-                      isSendMessageShown: false,
-                      isHideButtonShown: false,
-                      isImageComment: false,
-                      replyList: [],
-                    ),
-                    kH16sizedBox,
-                    const CommentWidget(
-                      profileImage: kiProfileDefaultImageUrl,
-                      timePassed: '5',
-                      isLikeButtonShown: true,
-                      isReplyButtonShown: true,
-                      isReactButtonShown: false,
-                      commentLink: 'https://www.youtube.com/watch?v=cDJXsPS5FPM',
-                      isLink: true,
-                      userName: 'Sharker Omi',
-                      isSendMessageShown: false,
-                      isHideButtonShown: false,
-                      isImageComment: false,
-                      replyList: [],
-                    ),
                   ],
                 ),
               ),

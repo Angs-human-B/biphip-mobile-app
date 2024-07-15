@@ -28,28 +28,36 @@ class CreateAlbum extends StatelessWidget {
                     //* info:: appBar
                     child: CustomAppBar(
                       appBarColor: cWhiteColor,
-                      title: ksCreateAlbum.tr,
+                      title: galleryController.isEditAlbum.value ? ksEditAlbum : ksCreateAlbum.tr,
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
                         Get.back();
                       },
                       action: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: k20Padding),
-                          child: TextButton(
-                            style: kTextButtonStyle,
-                            onPressed: galleryController.isCreateAlbumPostButtonEnable.value
-                                ? () async {
-                                    await galleryController.createAlbum();
-                                  }
-                                : null,
-                            child: Text(
-                              ksPost.tr,
-                              style: semiBold16TextStyle(galleryController.isCreateAlbumPostButtonEnable.value ? cPrimaryColor : cPlaceHolderColor),
-                            ),
-                          ),
-                        ),
+                        Obx(() => Padding(
+                              padding: const EdgeInsets.only(right: k20Padding),
+                              child: TextButton(
+                                style: kTextButtonStyle,
+                                onPressed: galleryController.isCreateAlbumPostButtonEnable.value ||
+                                        (galleryController.privacyId.value != galleryController.selectedPrivacyId.value)
+                                    ? () async {
+                                        if (galleryController.isEditAlbum.value) {
+                                          await galleryController.updateAlbum(albumId: galleryController.selectedAlbumId.value);
+                                        } else {
+                                          await galleryController.createAlbum();
+                                        }
+                                      }
+                                    : null,
+                                child: Text(
+                                  galleryController.isEditAlbum.value ? ksSave : ksPost.tr,
+                                  style: semiBold16TextStyle(galleryController.isCreateAlbumPostButtonEnable.value ||
+                                          (galleryController.privacyId.value != galleryController.selectedPrivacyId.value)
+                                      ? cPrimaryColor
+                                      : cPlaceHolderColor),
+                                ),
+                              ),
+                            )),
                       ],
                     ),
                   ),
@@ -97,14 +105,13 @@ class CreateAlbum extends StatelessWidget {
                               ],
                             ),
                             kH16sizedBox,
-                            if (galleryController.allMediaFileList.isEmpty)
+                            if (galleryController.allMediaList.isEmpty)
                               InkWell(
                                 onTap: () async {
                                   var status = await Get.find<GlobalController>().selectMultiMediaSource(galleryController.isCreateAlbumMediaChanged,
                                       galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
                                   if (status) {
-                                    GalleryPhotoHelper()
-                                        .insertMedia(galleryController.createAlbumAllMediaLinkList, galleryController.createAlbumAllMediaFileList);
+                                    GalleryPhotoHelper().insertMedia(galleryController.createAlbumAllMediaFileList);
                                     GalleryPhotoHelper().configImageDescription();
                                     galleryController.checkCreateAlbum();
                                     galleryController.isCreateAlbumMediaChanged.value = false;
@@ -146,7 +153,7 @@ class CreateAlbum extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            if (galleryController.allMediaFileList.isNotEmpty) CreateAlbumtMediaSection(),
+                            if (galleryController.allMediaList.isNotEmpty) CreateAlbumtMediaSection(),
                           ],
                         ),
                       ),
@@ -186,6 +193,7 @@ class CreateAlbum extends StatelessWidget {
 class CreateAlbumAudienceContent extends StatelessWidget {
   CreateAlbumAudienceContent({super.key});
   final GalleryController galleryController = Get.find<GalleryController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -202,20 +210,18 @@ class CreateAlbumAudienceContent extends StatelessWidget {
           style: regular14TextStyle(cBlackColor),
         ),
         kH8sizedBox,
-        for (int i = 0; i < galleryController.privacyList.length; i++)
+        for (int i = 0; i < globalController.privacyList.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: k4Padding),
             child: Obx(
               () => CustomListTile(
                 onPressed: () {
-                  galleryController.temporaryCreateAlbumSelectedPrivacy.value = galleryController.privacyList[i]['name'].toString();
-                  galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = galleryController.privacyList[i]['icon'];
-                  galleryController.temoparyprivacyId.value = galleryController.privacyList[i]['id'];
+                  galleryController.temporaryCreateAlbumSelectedPrivacy.value = globalController.privacyList[i]['action'].toString();
+                  galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = globalController.privacyList[i]['icon'];
+                  galleryController.temporaryprivacyId.value = globalController.privacyList[i]['id'];
                 },
-                itemColor: galleryController.temporaryCreateAlbumSelectedPrivacy.value == galleryController.privacyList[i]['name'].toString()
-                    ? cPrimaryTint3Color
-                    : cWhiteColor,
-                title: galleryController.privacyList[i]['name'].toString(),
+                itemColor: galleryController.temporaryprivacyId.value == globalController.privacyList[i]['id'] ? cPrimaryTint3Color : cWhiteColor,
+                title: globalController.privacyList[i]['action'].toString(),
                 leading: Container(
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
@@ -224,18 +230,18 @@ class CreateAlbumAudienceContent extends StatelessWidget {
                   height: h28,
                   width: h28,
                   child: Icon(
-                    galleryController.privacyList[i]['icon'],
+                    globalController.privacyList[i]['icon'],
                     color: cBlackColor,
                     size: isDeviceScreenLarge() ? h18 : h14,
                   ),
                 ),
                 trailing: CustomRadioButton(
                   onChanged: () {
-                    galleryController.temporaryCreateAlbumSelectedPrivacy.value = galleryController.privacyList[i]['name'].toString();
-                    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = galleryController.privacyList[i]['icon'];
-                    galleryController.temoparyprivacyId.value = galleryController.privacyList[i]['id'];
+                    galleryController.temporaryCreateAlbumSelectedPrivacy.value = globalController.privacyList[i]['name'].toString();
+                    galleryController.temporaryCreateAlbumSelectedPrivacyIcon.value = globalController.privacyList[i]['icon'];
+                    galleryController.temporaryprivacyId.value = globalController.privacyList[i]['id'];
                   },
-                  isSelected: galleryController.temporaryCreateAlbumSelectedPrivacy.value == galleryController.privacyList[i]['name'].toString(),
+                  isSelected: galleryController.temporaryprivacyId.value == globalController.privacyList[i]['id'],
                 ),
               ),
             ),

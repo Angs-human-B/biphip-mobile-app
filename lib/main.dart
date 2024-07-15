@@ -6,9 +6,9 @@ import 'package:flutter_mentions/flutter_mentions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BinderController().dependencies();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");
+  BinderController().dependencies();
   await Firebase.initializeApp(
       options: FirebaseOptions(
           apiKey: Environment.apiKey, appId: Environment.appId, messagingSenderId: Environment.messagingSenderId, projectId: Environment.projectId));

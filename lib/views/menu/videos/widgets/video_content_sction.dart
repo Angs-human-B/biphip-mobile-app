@@ -1,10 +1,7 @@
-
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/models/utility/video_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
-import 'package:bip_hip/widgets/post/post_activity_status_widget.dart';
 
 class VideoContentSection extends StatelessWidget {
   VideoContentSection({super.key, required this.item});
@@ -22,7 +19,6 @@ class VideoContentSection extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              ll('play');
               profileController.videoUrl.value = item.url;
               profileController.playVideo(profileController.videoUrl.value, init: true);
 
@@ -57,7 +53,6 @@ class VideoContentSection extends StatelessWidget {
                   right: 8,
                   child: InkWell(
                     onTap: () {
-                      ll('edit');
                     },
                     child: Container(
                       height: 24,
@@ -88,24 +83,6 @@ class VideoContentSection extends StatelessWidget {
             style: regular12TextStyle(cSmallBodyTextColor),
           ),
           kH16sizedBox,
-          PostActivityStatusWidget(
-            // reactCount: 440,
-            reactionOnPressed: () {
-            },
-            giftCount: 50,
-            commentCount: 200,
-            shareCount: 340,
-            isGiftShown: true,
-            giftOnPressed: () {
-            },
-          ),
-          LikeSectionWidget(
-            isGiftShown: true,
-            giftOnPressed: () {
-            },
-            commentOnPressed: () {
-            },
-          ),
           const CustomDivider(),
         ],
       ),

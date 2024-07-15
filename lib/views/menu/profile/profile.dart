@@ -7,7 +7,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_friends_gridview.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
@@ -49,13 +48,15 @@ class Profile extends StatelessWidget {
                         if (homeController.timelinePostListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
                             scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
                             !homeController.timelinePostListScrolled.value) {
-                              homeController.timelinePostListScrolled.value = true;
-                          if (homeController.allTimelinePostList.isNotEmpty) {
+                          homeController.timelinePostListScrolled.value = true;
+                          if (Get.find<GlobalController>().commonPostList.isNotEmpty) {
                             homeController.getMoreTimelinePostList();
+                          }
+                          if (homeController.allTimelinePostList.isNotEmpty && profileController.interestCatagoriesIndex.value != 0) {
+                            homeController.getMoreFilteredTimelinePostList(categoryId: profileController.interestCatagoriesIndex.value, type: 2);
                           }
                           return true;
                         }
-                        // homeController.timelinePostListScrolled.value = false;
                         return false;
                       },
                       child: SingleChildScrollView(
@@ -152,19 +153,31 @@ class Profile extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        Positioned(
-                                          right: 6,
-                                          top: 10,
-                                          child: Container(
-                                              height: h28,
-                                              width: h28,
-                                              decoration: BoxDecoration(
-                                                color: cGreyBoxColor,
-                                                borderRadius: BorderRadius.circular(26),
-                                                border: Border.all(color: cPrimaryColor, width: 1),
-                                              ),
-                                              child: SvgPicture.asset(kiBadge1SvgImageUrl)),
-                                        ),
+                                        if (profileController.userData.value!.userPendent != null)
+                                          Positioned(
+                                            right: 6,
+                                            top: 10,
+                                            child: Container(
+                                                height: h28,
+                                                width: h28,
+                                                decoration: BoxDecoration(
+                                                  color: cTransparentColor,
+                                                  borderRadius: BorderRadius.circular(26),
+                                                ),
+                                                child: Image.network(
+                                                  profileController.userData.value!.userPendent!.pendent!.icon.toString(),
+                                                  fit: BoxFit.cover,
+                                                  filterQuality: FilterQuality.high,
+                                                  errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
+                                                    context,
+                                                    error,
+                                                    stackTrace,
+                                                    BipHip.badgesOutline,
+                                                    kIconSize18,
+                                                  ),
+                                                  loadingBuilder: imageLoadingBuilder,
+                                                )),
+                                          ),
                                       ],
                                     ),
                                   ),
@@ -210,34 +223,35 @@ class Profile extends StatelessWidget {
                                       ),
                                     ),
                                     kH10sizedBox,
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          const Icon(
-                                            Icons.attach_money_sharp,
-                                            color: cSecondaryColor,
-                                            size: kIconSize14,
-                                          ),
-                                          Text(
-                                            '2.57',
-                                            style: medium14TextStyle(cSmallBodyTextColor),
-                                          ),
-                                          kW4sizedBox,
-                                          const Icon(
-                                            BipHip.giftNew,
-                                            color: cSecondaryColor,
-                                            size: kIconSize14,
-                                          ),
-                                          kW4sizedBox,
-                                          Text(
-                                            '457',
-                                            style: medium14TextStyle(cSmallBodyTextColor),
-                                          )
-                                        ],
+                                    if (profileController.userData.value!.starBalance != null)
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            const Icon(
+                                              Icons.attach_money_sharp,
+                                              color: cSecondaryColor,
+                                              size: kIconSize14,
+                                            ),
+                                            Text(
+                                              '2.57',
+                                              style: medium14TextStyle(cSmallBodyTextColor),
+                                            ),
+                                            kW4sizedBox,
+                                            const Icon(
+                                              BipHip.giftNew,
+                                              color: cSecondaryColor,
+                                              size: kIconSize14,
+                                            ),
+                                            kW4sizedBox,
+                                            Text(
+                                              profileController.userData.value!.starBalance!.toString(),
+                                              style: medium14TextStyle(cSmallBodyTextColor),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
                                     kH12sizedBox,
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),

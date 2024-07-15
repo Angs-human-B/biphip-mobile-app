@@ -1,34 +1,25 @@
+import 'dart:developer';
+
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_reaction_button/flutter_reaction_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class LikeSectionWidget extends StatelessWidget {
-  LikeSectionWidget(
-      {super.key,
-      this.likeOnLongPressed,
-      this.commentOnPressed,
-      this.shareOnPressed,
-      this.giftOnPressed,
-      this.likeOnTap,
-      required this.isGiftShown,
-      this.sectionColor,
-      this.postIndex = 0,
-      this.refType = 0,
-      this.refId = 0,
-      this.onLikePressed,
-      this.onLovePressed,
-      this.onWowPressed,
-      this.onHahaPressed,
-      this.onSadPressed,
-      this.onAngryPressed,
-      this.selfReaction});
+  LikeSectionWidget({
+    super.key,
+    this.commentOnPressed,
+    this.shareOnPressed,
+    this.giftOnPressed,
+    required this.isGiftShown,
+    this.sectionColor,
+    required this.postIndex,
+  });
 
-  final VoidCallback? likeOnTap, likeOnLongPressed, commentOnPressed, shareOnPressed, giftOnPressed;
+  final VoidCallback? commentOnPressed, shareOnPressed, giftOnPressed;
   final Color? sectionColor;
   final bool isGiftShown;
-  final int postIndex, refId, refType;
-  final String? selfReaction;
-  final void Function(Reaction<String>? reaction)? onLikePressed, onLovePressed, onWowPressed, onHahaPressed, onSadPressed, onAngryPressed;
+  final int postIndex;
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +53,14 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: onLovePressed!,
+                          onReactionChanged: (Reaction<String>? reaction) {
+                            globalController.commonPostList[postIndex].countReactions = globalController.updateReaction(
+                                "love", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
+                            globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
+                                globalController.commonPostList[postIndex].myReaction, "love", 1, globalController.commonPostList[postIndex].id!);
+                            log(globalController.commonPostList[postIndex].myReaction.toString());
+                            globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                          },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
                               value: 'love',
@@ -91,7 +89,13 @@ class LikeSectionWidget extends StatelessWidget {
                           boxAnimationDuration: const Duration(milliseconds: 500),
                           itemAnimationDuration: const Duration(milliseconds: 500),
                           itemSize: const Size.square(48),
-                          onReactionChanged: onLikePressed!,
+                          onReactionChanged: (Reaction<String>? reaction) {
+                            globalController.commonPostList[postIndex].countReactions = globalController.updateReaction(
+                                "like", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
+                            globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
+                                globalController.commonPostList[postIndex].myReaction, "like", 1, globalController.commonPostList[postIndex].id!);
+                            globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                          },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
                               value: 'like',
@@ -117,7 +121,13 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: onHahaPressed!,
+                          onReactionChanged: (Reaction<String>? reaction) {
+                            globalController.commonPostList[postIndex].countReactions = globalController.updateReaction(
+                                "haha", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
+                            globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
+                                globalController.commonPostList[postIndex].myReaction, "haha", 1, globalController.commonPostList[postIndex].id!);
+                            globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                          },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
                               value: 'haha',
@@ -143,7 +153,13 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: onWowPressed!,
+                          onReactionChanged: (Reaction<String>? reaction) {
+                            globalController.commonPostList[postIndex].countReactions = globalController.updateReaction(
+                                "wow", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
+                            globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
+                                globalController.commonPostList[postIndex].myReaction, "wow", 1, globalController.commonPostList[postIndex].id!);
+                            globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                          },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
                               value: 'wow',
@@ -169,7 +185,13 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: onSadPressed!,
+                          onReactionChanged: (Reaction<String>? reaction) {
+                            globalController.commonPostList[postIndex].countReactions = globalController.updateReaction(
+                                "sad", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
+                            globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
+                                globalController.commonPostList[postIndex].myReaction, "sad", 1, globalController.commonPostList[postIndex].id!);
+                            globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                          },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
                               value: 'sad',
@@ -195,7 +217,13 @@ class LikeSectionWidget extends StatelessWidget {
                         splashFactory: InkRipple.splashFactory,
                         child: ReactionButton<String>(
                           itemSize: const Size.square(48),
-                          onReactionChanged: onAngryPressed!,
+                          onReactionChanged: (Reaction<String>? reaction) {
+                            globalController.commonPostList[postIndex].countReactions = globalController.updateReaction(
+                                "angry", globalController.commonPostList[postIndex].myReaction, globalController.commonPostList[postIndex].countReactions);
+                            globalController.commonPostList[postIndex].myReaction = globalController.getReaction(
+                                globalController.commonPostList[postIndex].myReaction, "angry", 1, globalController.commonPostList[postIndex].id!);
+                            globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                          },
                           reactions: <Reaction<String>>[
                             Reaction<String>(
                               value: 'angry',
@@ -222,10 +250,12 @@ class LikeSectionWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(180),
             ),
-            child: SizedBox(
-              width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
-              height: 44,
-              child: Get.find<GlobalController>().getColoredReactionIcon(selfReaction),
+            child: Obx(
+              () => SizedBox(
+                width: isGiftShown ? (width - 40) / 4 : (width - 40) / 3,
+                height: 44,
+                child: globalController.getColoredReactionIcon(globalController.commonPostList[postIndex].myReaction),
+              ),
             ),
           ),
         ),

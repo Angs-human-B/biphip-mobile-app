@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/family/family_relation_model.dart';
 import 'package:bip_hip/models/menu/kids/all_hobbies_model.dart';
 import 'package:bip_hip/models/menu/kids/all_kids_model.dart';
@@ -18,7 +18,7 @@ class KidsController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
-  //   //*Kids List Api Call
+  //*Kids List Api Call
   final Rx<AllKidsModel?> kidsListData = Rx<AllKidsModel?>(null);
   final RxList<Kid> kidList = RxList<Kid>([]);
   final RxBool isKidsListLoading = RxBool(false);
@@ -90,7 +90,7 @@ class KidsController extends GetxController {
     }
   }
 
-  //Edit kid
+  //*Edit kid
   final RxBool saveKidInfo = RxBool(false);
   final RxString kidImageLink = RxString('');
   final Rx<File> kidImageFile = File('').obs;
@@ -309,7 +309,6 @@ class KidsController extends GetxController {
 
   //*Add kid API Implementation
   Rx<KidModel?> kidData = Rx<KidModel?>(null);
-  // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
   final RxBool isAddKidLoading = RxBool(false);
   Future<void> addKid() async {
     try {
@@ -378,7 +377,6 @@ class KidsController extends GetxController {
     if (kidYoutubeController.text.toString().trim() != '') {
       kidSocialLinkList.add({'Youtube': kidYoutubeController.text.toString().trim()});
     }
-    ll(kidSocialLinkList);
   }
 
   //!Kid profile
@@ -509,7 +507,6 @@ class KidsController extends GetxController {
 
   //* update Kid bio API Implementation
   final Rx<KidBioUpdateModel?> kidBioUpdateData = Rx<KidBioUpdateModel?>(null);
-  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
   RxBool isKidBioLoading = RxBool(false);
   Future<void> updateKidBio([isUpdate = true]) async {
     try {
@@ -530,7 +527,6 @@ class KidsController extends GetxController {
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;
         kidBio.value = kidsData.value!.bio;
-        ll(kidsData.value!.bio);
 
         if (isUpdate) {
           Get.back();
@@ -553,14 +549,12 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* upload profile photo
+  //* upload profile photo
   final RxBool isImageUploadPageLoading = RxBool(false);
   final Rx<KidBioUpdateModel?> kidProfileCoverData = Rx<KidBioUpdateModel?>(null);
   Future<void> uploadKidProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
     try {
-      // if (isFromProfile == true) {
       isImageUploadPageLoading.value = true;
-      // }
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'kid_id': selectedKidId.value.toString(),
@@ -615,7 +609,6 @@ class KidsController extends GetxController {
 
       if (response.success == true) {
         await getKidOverview();
-        ll(kidRelation.value);
         isKidRelationLoading.value = false;
         Get.back();
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -802,7 +795,6 @@ class KidsController extends GetxController {
         for (int i = 0; i < temporaryHobbiesList.length; i++) {
           if (!allHobbiesList.contains(temporaryHobbiesList[i])) {
             allHobbiesList.add(temporaryHobbiesList[i]);
-            ll(allHobbiesList);
           }
         }
         isAllHobbiesListLoading.value = false;
@@ -839,7 +831,6 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        ll(response.data);
         selectedHobbies.clear();
         kidBioUpdateData.value = KidBioUpdateModel.fromJson(response.data);
         kidsData.value = kidBioUpdateData.value!.kids;
@@ -1107,7 +1098,7 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* update contact API Implementation
+  //* update contact API Implementation
   Future<void> updateContact(id, type) async {
     try {
       isKidContactLoading.value = true;
@@ -1144,7 +1135,7 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* delete contact API Implementation
+  //* delete contact API Implementation
   Future<void> deleteContact(id, type) async {
     try {
       isKidContactLoading.value = true;
@@ -1214,7 +1205,7 @@ class KidsController extends GetxController {
   //*Kid all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final Rx<GetKidPostModel?> postListData = Rx<GetKidPostModel?>(null);
-  final RxList<PostData> allPostList = RxList<PostData>([]);
+  final RxList<PostDataRx> allPostList = RxList<PostDataRx>([]);
   final RxBool isKidPageLoading = RxBool(false);
   final RxBool isKidPagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
@@ -1231,9 +1222,11 @@ class KidsController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
+        globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1283,8 +1276,10 @@ class KidsController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        allPostList.clear();
         postListData.value = GetKidPostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1322,7 +1317,7 @@ class KidsController extends GetxController {
       Get.find<CreatePostController>().isCreatePostLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
-        'content': Get.find<CreatePostController>().createPostController.text.trim(),
+        'content': Get.find<CreatePostController>().createPostTextEditingController.text.trim(),
         'post_category_id': "7",
         'is_public': '1',
         'post_tag_friend_id': tags.join(','),

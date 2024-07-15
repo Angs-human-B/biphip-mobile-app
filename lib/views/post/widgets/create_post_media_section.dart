@@ -27,13 +27,19 @@ class CreatePostMediaSection extends StatelessWidget {
                   },
                   child: Container(
                     color: cWhiteColor,
-                    height: createPostController.allMediaList.length < 2 ? 302 : 150,
+                    height: (createPostController.allMediaList.length < 2) ? 302 : 150,
                     width: width - 40,
-                    child: Image.file(
-                      createPostController.allMediaFileList[0].value,
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
-                    ),
+                    child: createPostController.allMediaList[0] is String
+                        ? Image.network(
+                            createPostController.allMediaList[0] ?? "",
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            createPostController.allMediaList[0].value,
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
                 Positioned(
@@ -43,7 +49,16 @@ class CreatePostMediaSection extends StatelessWidget {
                     style: kTextButtonStyle,
                     onPressed: () {
                       createPostHelper.removeMedia(0);
-                      createPostHelper.checkCanCreatePost();
+                      if (createPostController.isEditPost.value) {
+                        if (createPostController.allMediaList.isEmpty && createPostController.createPostTextEditingController.text.trim() == "") {
+                          createPostController.isPostButtonActive.value = false;
+                        } else {
+                          createPostController.isImageChanged.value = true;
+                          createPostController.isPostButtonActive.value = true;
+                        }
+                      } else {
+                        createPostHelper.checkCanCreatePost();
+                      }
                       createPostController.imageDescriptionTextEditingController[0].clear();
                       createPostController.imageLocationsList.removeAt(0);
                       createPostController.imageTimesList.removeAt(0);
@@ -74,12 +89,17 @@ class CreatePostMediaSection extends StatelessWidget {
                         child: Container(
                           color: cWhiteColor,
                           height: 150,
-                          width: createPostController.allMediaList.length < 3 ? (width - 40) : (width - 42) / 2,
-                          child: Image.file(
-                            createPostController.allMediaFileList[1].value,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,
-                          ),
+                          width: (createPostController.allMediaList.length < 3) ? (width - 40) : (width - 42) / 2,
+                          child: createPostController.allMediaList[1] is String
+                              ? Image.network(
+                                  createPostController.allMediaList[1] ?? "",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  createPostController.allMediaList[1].value,
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                       Positioned(
@@ -89,6 +109,10 @@ class CreatePostMediaSection extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             createPostHelper.removeMedia(1);
+                            if (createPostController.isEditPost.value) {
+                              createPostController.isImageChanged.value = true;
+                              createPostController.isPostButtonActive.value = true;
+                            }
                             createPostController.imageDescriptionTextEditingController[1].clear();
                             createPostController.imageLocationsList.removeAt(1);
                             createPostController.imageTimesList.removeAt(1);
@@ -119,13 +143,18 @@ class CreatePostMediaSection extends StatelessWidget {
                           color: cWhiteColor,
                           height: 150,
                           width: (width - 42) / 2,
-                          child: Image.file(
-                            createPostController.allMediaFileList[2].value,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,
-                            color: cBlackColor.withOpacity(0.3),
-                            colorBlendMode: BlendMode.multiply,
-                          ),
+                          child: createPostController.allMediaList[2] is String?
+                              ? Image.network(
+                                  createPostController.allMediaList[2] ?? "",
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  createPostController.allMediaList[2].value,
+                                  filterQuality: FilterQuality.high,
+                                  fit: BoxFit.cover,
+                                  color: cBlackColor.withOpacity(0.3),
+                                  colorBlendMode: BlendMode.multiply,
+                                ),
                         ),
                       ),
                       if (createPostController.allMediaList.length == 3)
@@ -135,6 +164,10 @@ class CreatePostMediaSection extends StatelessWidget {
                           child: TextButton(
                             style: kTextButtonStyle,
                             onPressed: () {
+                              if (createPostController.isEditPost.value) {
+                                createPostController.isImageChanged.value = true;
+                                createPostController.isPostButtonActive.value = true;
+                              }
                               createPostHelper.removeMedia(2);
                             },
                             child: const Icon(

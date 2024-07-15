@@ -24,30 +24,6 @@ class GetCreatePostModel {
       );
 }
 
-// class PostCategory {
-//     int ?id;
-//     String ?slug;
-//     String ?name;
-//     int ?isActive;
-//     int? postCategoryId;
-
-//     PostCategory({
-//         required this.id,
-//         required this.slug,
-//         required this.name,
-//         required this.isActive,
-//         this.postCategoryId,
-//     });
-
-//     factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
-//         id: json["id"],
-//         slug: json["slug"],
-//         name: json["name"],
-//         isActive: json["is_active"],
-//         postCategoryId: json["post_category_id"],
-//     );
-// }
-
 class Privacy {
   int? id;
   String? name;

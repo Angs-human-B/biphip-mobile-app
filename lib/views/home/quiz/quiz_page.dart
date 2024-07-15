@@ -48,12 +48,6 @@ class QuizPage extends StatelessWidget {
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
-                        // if (postReactionController.currentIndex.value > 0) {
-                        //   postReactionController.currentIndex.value--;
-                        // } else {
-                        //   Get.back();
-                        // }
-                        // Get.back();
                         leaveQuizAlertDialog(
                             context: context,
                             content: LeaveQuizPopupContent(
@@ -206,7 +200,6 @@ class QuizPage extends StatelessWidget {
                                   ),
                                 kH24sizedBox,
                                 for (int i = 0; i < quizController.questionList[quizController.currentIndex.value].options.length; i++)
-                                  // for (int j = 0; j < postReactionController.questionList[i].options.length; j++)
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: k8Padding),
                                     child: Obx(() => CustomListTile(

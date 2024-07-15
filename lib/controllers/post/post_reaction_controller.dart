@@ -1,18 +1,38 @@
 import 'dart:io';
-
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/models/post/get_reply_list_model.dart';
-import 'package:bip_hip/models/post/post_comment_model.dart';
+import 'package:bip_hip/models/post/new_post_comment.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PostReactionController extends GetxController with GetSingleTickerProviderStateMixin {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
+  final RxBool isKeyboardFocused = RxBool(false);
+  @override
+  void onInit() async {
+    commentFocusNode.addListener(() {
+      if (commentFocusNode.hasFocus) {
+        isKeyboardFocused.value = true;
+        ll("isKeyboardFocused: $isKeyboardFocused");
+      } else {
+        isKeyboardFocused.value = false;
+        ll("isKeyboardFocused: $isKeyboardFocused");
+      }
+    });
+    tabController = TabController(
+      length: 5,
+      animationDuration: Duration.zero,
+      vsync: this,
+    );
+    tabController.addListener(() {
+      giftFilter(tabController.index);
+    });
+    super.onInit();
+  }
+
   final RxInt selectedBidIndex = RxInt(-1);
   final RxInt selectedGiftIndex = RxInt(-1);
   final RxInt balance = RxInt(200);
@@ -38,20 +58,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   final RxString temporaryTotalStars = RxString('');
   final RxString totalStars = RxString('');
   final String perPageTake = "take=15";
-  final Rx<PostData?> homePostDetailsData = Rx<PostData?>(null);
-
-  @override
-  void onInit() {
-    super.onInit();
-    tabController = TabController(
-      length: 6,
-      animationDuration: Duration.zero,
-      vsync: this,
-    );
-    tabController.addListener(() {
-      giftFilter(tabController.index);
-    });
-  }
 
   void clearBadgeCount() {
     badgeCount1.value = 0;
@@ -103,7 +109,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     reactEmojiList.clear();
     List<MapEntry<String, dynamic>> entries = map.entries.toList();
     if (entries.length > 1) {
-      entries.sort((a, b) => b.value.compareTo(a.value));
+      entries.sort((a, b) => b.value.value.compareTo(a.value.value));
     }
 
     List<MapEntry<String, dynamic>> topThree = entries.take(3).toList();
@@ -141,50 +147,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   final RxBool test = RxBool(true);
 
-  List<Map<String, dynamic>> reactions = [];
   final Rx<String> selectedReactionText = Rx<String>("");
   final ScrollController scrollController = ScrollController();
   final RxInt postIndex = RxInt(-1);
-
-  selectedReaction(postIndex) {
-    if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'love' ||
-        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Love".toLowerCase()) {
-      return SvgPicture.asset(
-        kiLoveSvgImageUrl,
-        width: 20,
-      );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'like' ||
-        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Like".toLowerCase()) {
-      return SvgPicture.asset(
-        kiLikeSvgImageUrl,
-        width: 20,
-      );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'haha' ||
-        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Haha".toLowerCase()) {
-      return SvgPicture.asset(
-        kiHahaSvgImageUrl,
-        width: 20,
-      );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'wow' ||
-        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Wow".toLowerCase()) {
-      return SvgPicture.asset(
-        kiWowSvgImageUrl,
-        width: 20,
-      );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'sad' ||
-        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Sad".toLowerCase()) {
-      return SvgPicture.asset(
-        kiSadSvgImageUrl,
-        width: 20,
-      );
-    } else if (Get.find<HomeController>().allPostList[postIndex].myReaction.toString().toLowerCase() == 'angry'.toLowerCase() ||
-        reactions[postIndex]['reaction'].value.toString().toLowerCase() == "Angry".toLowerCase()) {
-      return SvgPicture.asset(
-        kiAngrySvgImageUrl,
-        width: 20,
-      );
-    }
-  }
 
   final RxBool isCommentSendEnable = RxBool(false);
   final RxBool isReplySendEnable = RxBool(false);
@@ -237,7 +202,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
       if (response.success == true) {
         isPostReactionLoading.value = false;
-        // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
         isPostReactionLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -254,17 +218,18 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   //* post Reaction API Implementation
-  final RxBool isPostCommentLoading = RxBool(false);
-  Future<void> postComment(int refType, int refId, context, String commentOrReply) async {
+  final RxBool isCommentPostLoading = RxBool(false);
+  final RxBool isFromSharePage = RxBool(false);
+  Future<void> postComment(int refType, int refId, context, String commentOrReply, [postIndex]) async {
     try {
-      isPostCommentLoading.value = true;
+      isCommentPostLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         if (commentOrReply == "comment") 'ref_type': refType.toString(),
         if (commentOrReply == "comment") 'ref_id': refId.toString(),
         if (commentOrReply == "comment") 'comment': commentTextEditingController.text.toString().trim(),
         if (commentOrReply == "reply") 'reply': commentTextEditingController.text.toString().trim(),
-        if (commentOrReply == "reply") 'comment_id': commentId.toString(),
+        if (commentOrReply == "reply") 'comment_id': commentId.value.toString(),
         'mention_user_ids': commentMentionList.join(','),
       };
       var response;
@@ -295,11 +260,19 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         commentImageLink.value = "";
         commentImageFile.value = File("");
         isCommentSendEnable.value = false;
-        await getCommentList(1, refId);
-        isPostCommentLoading.value = false;
-        // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        if (isFromSharePage.value) {
+          await Get.find<HomeController>().getPostCommentList(refType, Get.find<HomeController>().postData.value!.post.id!);
+        } else {
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(refType, refId, postIndex);
+          }
+        }
+        isCommentPostLoading.value = false;
       } else {
-        isPostCommentLoading.value = false;
+        isCommentPostLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -308,17 +281,15 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         }
       }
     } catch (e) {
-      isPostCommentLoading.value = false;
+      isCommentPostLoading.value = false;
       ll('postComment error: $e');
     }
   }
 
   final Rx<ReplyListModel?> replyListData = Rx<ReplyListModel?>(null);
   final RxList<CommentReply> replyList = RxList<CommentReply>([]);
-  // final List<Map<String, dynamic>> commentReactions = [];
-  // final RxInt commentIndex = RxInt(-1);
   final RxBool isReplyLoading = RxBool(false);
-  Future<void> getReplyList(int commentId) async {
+  Future<void> getReplyList(int commentId, postIndex, commentIndex) async {
     try {
       isReplyLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -331,6 +302,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         replyList.clear();
         replyListData.value = ReplyListModel.fromJson(response.data);
         replyList.addAll(replyListData.value!.commentReplies!.data);
+        globalController.commonPostList[postIndex].comments[commentIndex].commentReplies.addAll(replyList);
         isReplyLoading.value = false;
       } else {
         isReplyLoading.value = true;
@@ -347,18 +319,17 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  final RxInt refId = RxInt(-1);
-  //   //*get Comment Api Call
+  //*get Comment Api Call
   final ScrollController commentListScrollController = ScrollController();
   final Rx<PostCommentModel?> commentListData = Rx<PostCommentModel?>(null);
-  final RxList<CommentData> commentList = RxList<CommentData>([]);
+  final RxList<CommentDataRx> commentList = RxList<CommentDataRx>([]);
   final List<Map<String, dynamic>> commentReactions = [];
   final RxInt commentIndex = RxInt(-1);
   final RxBool isCommentLoading = RxBool(false);
   final Rx<String?> getCommentSubLink = Rx<String?>(null);
   final RxBool getCommentScrolled = RxBool(false);
   final RxList<bool> replyShow = RxList<bool>([]);
-  Future<void> getCommentList(int refType, int refId) async {
+  Future<void> getCommentList(int refType, int refId, int postIndex) async {
     try {
       isCommentLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -370,13 +341,14 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       if (response.success == true) {
         commentList.clear();
         replyShow.clear();
+        globalController.commonPostList[postIndex].comments.clear();
         getCommentScrolled.value = false;
         commentListData.value = PostCommentModel.fromJson(response.data);
         commentList.addAll(commentListData.value!.comments!.data);
-        for (int i = 0; i < commentList.length; i++) {
+        globalController.commonPostList[postIndex].comments.addAll(commentList);
+        for (int i = 0; i < globalController.commonPostList[postIndex].comments.length; i++) {
           replyShow.add(false);
         }
-        // ll("123 ${commentList.length}");
         getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
         if (getCommentSubLink.value != null) {
           getCommentScrolled.value = false;
@@ -400,7 +372,8 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   }
 
   //*Get More Comment List for pagination
-  Future<void> getMoreCommentList(take, int refType, int refId) async {
+  Future<void> getMoreCommentList(take, int refType, int refId, int postIndex) async {
+    isCommentLoading.value = true;
     try {
       String? token = await spController.getBearerToken();
       dynamic commentListSub;
@@ -422,8 +395,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       if (response.success == true) {
         commentListData.value = PostCommentModel.fromJson(response.data);
         commentList.addAll(commentListData.value!.comments!.data);
+        globalController.commonPostList[postIndex].comments.addAll(commentListData.value!.comments!.data);
         replyShow.clear();
-        for (int i = 0; i < commentList.length; i++) {
+        for (int i = 0; i < globalController.commonPostList[postIndex].comments.length; i++) {
           replyShow.add(false);
         }
         getCommentSubLink.value = commentListData.value!.comments!.nextPageUrl;
@@ -471,6 +445,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     giftAgreeCheckBox.value = false;
   }
 
+  //! Comment & Reply Section
   final RxList commentActionList = RxList([
     {
       'icon': BipHip.edit,
@@ -540,10 +515,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'icon': BipHip.circleCrossNew,
       'action': 'Hide Comment',
     },
-    // {
-    //   'icon': BipHip.menuFill,
-    //   'action': 'Reply',
-    // },
   ]);
   final RxList replyActionList = RxList([
     {
@@ -558,10 +529,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'icon': BipHip.deleteNew,
       'action': 'Delete',
     },
-    // {
-    //   'icon': BipHip.menuFill,
-    //   'action': 'Reply',
-    // },
   ]);
   final RxList othersReplyActionList = RxList([
     {
@@ -576,10 +543,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'icon': BipHip.deleteNew,
       'action': 'Delete',
     },
-    // {
-    //   'icon': BipHip.menuFill,
-    //   'action': 'Reply',
-    // },
   ]);
   final RxList othersPostOtherUserReplyActionList = RxList([
     {
@@ -590,10 +553,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       'icon': BipHip.circleCrossNew,
       'action': 'Hide Reply',
     },
-    // {
-    //   'icon': BipHip.menuFill,
-    //   'action': 'Reply',
-    // },
   ]);
 
   final RxInt commentId = RxInt(-1);
@@ -605,7 +564,9 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Delete Comment Api Call
   final RxBool isCommentDeleteLoading = RxBool(false);
-  Future<void> deleteComment() async {
+  final RxInt imageId = RxInt(-1);
+  final RxBool isRouteFromHomePage = RxBool(false);
+  Future<void> deleteComment(postId, [postIndex]) async {
     try {
       isCommentDeleteLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -617,7 +578,16 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        await getCommentList(1, refId.value);
+        if (isFromSharePage.value) {
+          await Get.find<HomeController>().getPostCommentList(1, postId);
+        } else {
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
+        }
         isCommentDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -649,12 +619,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        // for (int index = 0; index <= commentList.length; index++) {
-        //   if (commentId.value == commentList[index].id) {
-        //     commentList.removeAt(index);
-        //   }
-        // }
-        // await getCommentList(1, refId.value);
         isCommentHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -675,7 +639,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
   //*Update Comment Api Call
   final RxBool isUpdateComment = RxBool(false);
   final RxBool isUpdateCommentLoading = RxBool(false);
-  Future<void> updateComment(context) async {
+  Future<void> updateComment(context, postId, [postIndex]) async {
     try {
       isUpdateCommentLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -702,7 +666,16 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
       if (response.success == true) {
         unFocus(context);
-        await getCommentList(1, refId.value);
+        if (isFromSharePage.value) {
+          await Get.find<HomeController>().getPostCommentList(1, postId);
+        } else {
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
+        }
         isUpdateComment.value = false;
         commentTextEditingController.clear();
         commentMentionKey.currentState?.controller?.text = "";
@@ -734,19 +707,26 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Delete Reply Api Call
   final RxBool isReplyDeleteLoading = RxBool(false);
-  Future<void> deleteReply() async {
+  Future<void> deleteReply(postId, [postIndex]) async {
     try {
       isReplyDeleteLoading.value = true;
       String? token = await spController.getBearerToken();
-      // Map<String, dynamic> body = {};
       var response = await apiController.commonApiCall(
         requestMethod: kDelete,
         url: '$kuDeleteReply/${replyId.value.toString()}',
-        // body: body,
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        await getCommentList(1, refId.value);
+        if (isFromSharePage.value) {
+          await Get.find<HomeController>().getPostCommentList(1, postId);
+        } else {
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
+        }
         isReplyDeleteLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -766,7 +746,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
 
   //*Hide Reply Api Call
   final RxBool isReplyHideLoading = RxBool(false);
-  Future<void> hideReply() async {
+  Future<void> hideReply(postId, [postIndex]) async {
     try {
       isReplyHideLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -778,7 +758,16 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        await getCommentList(1, refId.value);
+        if (isFromSharePage.value) {
+          await Get.find<HomeController>().getPostCommentList(1, postId);
+        } else {
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
+        }
         isReplyHideLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
       } else {
@@ -796,66 +785,10 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
     }
   }
 
-  // //* post Reaction API Implementation
-  // final RxBool isPostReplyLoading = RxBool(false);
-  // Future<void> postReply(context) async {
-  //   try {
-  //     isPostReplyLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     Map<String, String> body = {
-  //       'comment_id': commentId.toString(),
-  //       'reply': replyTextEditingController.text.toString().trim(),
-  //       'mention_user_ids': commentMentionList.join(','),
-  //     };
-  //     var response;
-  //     if (isReplyImageChanged.value != true) {
-  //       response = await apiController.commonApiCall(
-  //         requestMethod: kPost,
-  //         url: kuSetReply,
-  //         body: body,
-  //         token: token,
-  //       ) as CommonDM;
-  //     } else {
-  //       response = await apiController.mediaUpload(
-  //         url: kuSetReply,
-  //         token: token,
-  //         body: body,
-  //         key: 'image',
-  //         value: replyImageFile.value.path,
-  //       ) as CommonDM;
-  //     }
-
-  //     if (response.success == true) {
-  //       unFocus(context);
-  //       replyTextEditingController.clear();
-  //       // replyMentionList.clear();
-  //       isReplyImageChanged.value = false;
-  //       replyImageLink.value = "";
-  //       replyImageFile.value = File("");
-  //       isReplySendEnable.value = false;
-  //       commentId.value = -1;
-  //       await getCommentList(1, refId.value);
-  //       isPostReplyLoading.value = false;
-  //       // globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
-  //     } else {
-  //       isPostReplyLoading.value = false;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isPostReplyLoading.value = false;
-  //     ll('postReply error: $e');
-  //   }
-  // }
-
-  // //*Update Reply Api Call
+  //*Update Reply Api Call
   final RxBool isUpdateReply = RxBool(false);
   final RxBool isUpdateReplyLoading = RxBool(false);
-  Future<void> updateReply(context) async {
+  Future<void> updateReply(context, postId, [postIndex]) async {
     try {
       isUpdateReplyLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -863,7 +796,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
         'reply': commentTextEditingController.text.toString().trim(),
         'mention_user_ids': commentMentionList.join(','),
       };
-      ll(replyImageFile.value);
       var response;
       if (isCommentImageChanged.value != true) {
         response = await apiController.commonApiCall(
@@ -883,15 +815,20 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
       if (response.success == true) {
         unFocus(context);
-        await getCommentList(1, refId.value);
+        if (isFromSharePage.value) {
+          await Get.find<HomeController>().getPostCommentList(1, postId);
+        } else {
+          if (Get.currentRoute.toString().toLowerCase() == "/GalleryWidget".toLowerCase() ||
+              Get.currentRoute.toString().toLowerCase() == "/HomePostDetailsScreen".toLowerCase()) {
+            await getCommentList(2, imageId.value, postIndex);
+          } else {
+            await getCommentList(1, postId, postIndex);
+          }
+        }
         isUpdateReply.value = false;
         replyTextEditingController.clear();
         commentMentionKey.currentState?.controller?.text = "";
         commentImage.value = "";
-        // isReplyImageChanged.value = false;
-        // replyImageLink.value = "";
-        // replyImageFile.value = File("");
-        // isReplySendEnable.value = false;
         isCommentImageChanged.value = false;
         commentImageLink.value = "";
         commentImageFile.value = File("");
@@ -1004,7 +941,6 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       ) as CommonDM;
 
       if (response.success == true) {
-        // unFocus(context);
         giftAddCommentTextEditingController.clear();
         isGiftStarLoading.value = false;
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
@@ -1019,7 +955,7 @@ class PostReactionController extends GetxController with GetSingleTickerProvider
       }
     } catch (e) {
       isGiftStarLoading.value = false;
-      ll('postReply error: $e');
+      ll('giftStar error: $e');
     }
   }
 

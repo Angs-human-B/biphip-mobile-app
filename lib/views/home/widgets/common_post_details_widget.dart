@@ -1,82 +1,55 @@
-import 'package:bip_hip/controllers/home/home_controller.dart';
-import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/home/home_post_details.dart';
+import 'package:bip_hip/views/home/home_post_details_screen.dart';
 import 'package:bip_hip/views/home/widgets/common_photo_view.dart';
 import 'package:bip_hip/views/home/widgets/common_shared_post_widget.dart';
 
 class CommonPostDetailsWidget extends StatelessWidget {
   CommonPostDetailsWidget({
     super.key,
-    this.category,
-    this.title,
-    this.postText,
-    this.postIndex = 0,
-    this.userId = 0,
-    required this.mediaList,
-    required this.isCommentShown,
-    required this.showBottomSection,
-    required this.refType,
-    required this.refId,
-    this.postList,
+    required this.postIndex,
   });
-  final bool isCommentShown, showBottomSection;
-  final String? category, title, postText;
-  final List mediaList;
-  final RxList<PostData>? postList;
+
   final int postIndex;
-  final int refType;
-  final int refId, userId;
-  final HomeController homeController = Get.find<HomeController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
+        if (globalController.commonPostList[postIndex].title != null)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: k8Padding, horizontal: kHorizontalPadding),
             child: Text(
-              title!,
+              globalController.commonPostList[postIndex].title!,
               overflow: TextOverflow.clip,
               style: semiBold14TextStyle(cBlackColor),
             ),
           ),
-        if (postText != null)
+        if (globalController.commonPostList[postIndex].content != null)
           Obx(() => Padding(
-                padding: EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: (mediaList.isNotEmpty) ? k16Padding : 0),
+                padding: EdgeInsets.only(
+                    left: kHorizontalPadding,
+                    right: kHorizontalPadding,
+                    bottom: (globalController.commonPostList[postIndex].images.isNotEmpty) ? k16Padding : 0),
                 child: RichText(
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.clip,
-                  maxLines: (homeController.seeMore.value && postText!.length > 256) ? 5 : null,
+                  maxLines: (globalController.commonPostList[postIndex].content!.length > 256) ? 5 : null,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: postText!,
-                        style: (postText!.length < 150 && mediaList.isEmpty) ? regular20TextStyle(cBlackColor) : regular14TextStyle(cBlackColor),
+                        text: globalController.commonPostList[postIndex].content!,
+                        style: (globalController.commonPostList[postIndex].content!.length < 150 && globalController.commonPostList[postIndex].images.isEmpty)
+                            ? regular20TextStyle(cBlackColor)
+                            : regular14TextStyle(cBlackColor),
                       ),
                     ],
                   ),
                 ),
               )),
-        if ((postText?.length ?? 0) > 256)
-          Obx(() => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                child: TextButton(
-                  style: kTextButtonStyle,
-                  onPressed: () {
-                    homeController.seeMore.value = !homeController.seeMore.value;
-                  },
-                  child: Text(
-                    homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
-                    style: semiBold14TextStyle(cPrimaryColor),
-                  ),
-                ),
-              )),
-        // kH16sizedBox,
-        if (mediaList.isNotEmpty)
+        if (globalController.commonPostList[postIndex].images.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
             child: Container(
@@ -90,23 +63,27 @@ class CommonPostDetailsWidget extends StatelessWidget {
                       TextButton(
                         style: kTextButtonStyle,
                         onPressed: () async {
-                          if ((postText != null && postText?.trim() != '') || mediaList.length > 1) {
-                            Get.toNamed(krHomePostDetailsScreen);
+                          if ((globalController.commonPostList[postIndex].content != null &&
+                                  globalController.commonPostList[postIndex].content?.trim() != '') ||
+                              globalController.commonPostList[postIndex].images.length > 1) {
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                           } else {
                             Get.to(() => CommonPhotoView(
-                                  image: Environment.imageBaseUrl + mediaList[0].path.toString(),
+                                  image: Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[0].path.toString(),
                                   postIndex: postIndex,
                                 ));
                           }
                         },
                         child: Container(
                           decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
-                          height: mediaList.length < 2 ? 302 : 150,
-                          width: mediaList.length > 3 ? (width - 42) / 2 : (width - 40),
+                          height: globalController.commonPostList[postIndex].images.length < 2 ? 302 : 150,
+                          width: globalController.commonPostList[postIndex].images.length > 3 ? (width - 42) / 2 : (width - 40),
                           child: ClipRRect(
                             borderRadius: k8CircularBorderRadius,
                             child: Image.network(
-                              Environment.imageBaseUrl + mediaList[0].path.toString(),
+                              Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[0].path.toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
                                 BipHip.imageFile,
@@ -121,15 +98,17 @@ class CommonPostDetailsWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].images.length > 3)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].images.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
@@ -138,7 +117,7 @@ class CommonPostDetailsWidget extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[1].path.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -155,26 +134,28 @@ class CommonPostDetailsWidget extends StatelessWidget {
                         ),
                     ],
                   ),
-                  if (mediaList.length > 1)
+                  if (globalController.commonPostList[postIndex].images.length > 1)
                     const SizedBox(
                       height: 2,
                     ),
                   Row(
                     children: [
-                      if (mediaList.length < 4 && mediaList.length > 1)
+                      if (globalController.commonPostList[postIndex].images.length < 4 && globalController.commonPostList[postIndex].images.length > 1)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
-                            width: mediaList.length < 3 ? (width - 40) : (width - 42) / 2,
+                            width: globalController.commonPostList[postIndex].images.length < 3 ? (width - 40) : (width - 42) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[1].path.toString(),
+                                Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[1].path.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -189,24 +170,26 @@ class CommonPostDetailsWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length < 4 && mediaList.length > 2)
+                      if (globalController.commonPostList[postIndex].images.length < 4 && globalController.commonPostList[postIndex].images.length > 2)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length > 2)
+                      if (globalController.commonPostList[postIndex].images.length > 2)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
-                            width: mediaList.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
+                            width: globalController.commonPostList[postIndex].images.length > 4 ? (width - 44) / 3 : (width - 42) / 2,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[2].path.toString(),
+                                Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[2].path.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -221,24 +204,26 @@ class CommonPostDetailsWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].images.length > 3)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length > 3)
+                      if (globalController.commonPostList[postIndex].images.length > 3)
                         TextButton(
                           style: kTextButtonStyle,
                           onPressed: () {
-                            Get.toNamed(krHomePostDetailsScreen);
+                            Get.to(() => HomePostDetailsScreen(
+                                  postIndex: postIndex,
+                                ));
                           },
                           child: Container(
                             decoration: BoxDecoration(borderRadius: k4CircularBorderRadius, color: cWhiteColor),
                             height: 150,
-                            width: mediaList.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
+                            width: globalController.commonPostList[postIndex].images.length < 5 ? (width - 42) / 2 : (width - 44) / 3,
                             child: ClipRRect(
                               borderRadius: k8CircularBorderRadius,
                               child: Image.network(
-                                Environment.imageBaseUrl + mediaList[3].path.toString(),
+                                Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[3].path.toString(),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) => const Icon(
                                   BipHip.imageFile,
@@ -253,18 +238,20 @@ class CommonPostDetailsWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (mediaList.length > 4)
+                      if (globalController.commonPostList[postIndex].images.length > 4)
                         const SizedBox(
                           width: 2,
                         ),
-                      if (mediaList.length >= 5)
+                      if (globalController.commonPostList[postIndex].images.length >= 5)
                         Stack(
                           alignment: AlignmentDirectional.center,
                           children: [
                             TextButton(
                               style: kTextButtonStyle,
                               onPressed: () {
-                                Get.toNamed(krHomePostDetailsScreen);
+                                Get.to(() => HomePostDetailsScreen(
+                                      postIndex: postIndex,
+                                    ));
                               },
                               child: Container(
                                 decoration: BoxDecoration(borderRadius: k8CircularBorderRadius, color: cWhiteColor),
@@ -273,9 +260,9 @@ class CommonPostDetailsWidget extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: k8CircularBorderRadius,
                                   child: Image.network(
-                                    Environment.imageBaseUrl + mediaList[4].path.toString(),
-                                    color: mediaList.length > 5 ? cBlackColor.withOpacity(0.3) : null,
-                                    colorBlendMode: mediaList.length > 5 ? BlendMode.multiply : null,
+                                    Environment.imageBaseUrl + globalController.commonPostList[postIndex].images[4].path.toString(),
+                                    color: globalController.commonPostList[postIndex].images.length > 5 ? cBlackColor.withOpacity(0.3) : null,
+                                    colorBlendMode: globalController.commonPostList[postIndex].images.length > 5 ? BlendMode.multiply : null,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) => const Icon(
                                       BipHip.imageFile,
@@ -290,16 +277,17 @@ class CommonPostDetailsWidget extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            if (mediaList.length > 5)
+                            if (globalController.commonPostList[postIndex].images.length > 5)
                               Positioned(
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    // Get.toNamed(krUploadedImageListPage);
-                                    Get.toNamed(krHomePostDetailsScreen);
+                                    Get.to(() => HomePostDetailsScreen(
+                                          postIndex: postIndex,
+                                        ));
                                   },
                                   child: Text(
-                                    "${mediaList.length - 5} More",
+                                    "${globalController.commonPostList[postIndex].images.length - 5} More",
                                     style: semiBold16TextStyle(cWhiteColor),
                                   ),
                                 ),
@@ -312,52 +300,31 @@ class CommonPostDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
-          child: Container(
-              decoration: BoxDecoration(
-                borderRadius: k8CircularBorderRadius,
-                border: Border.all(color: cLineColor),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: CommonSharedPostWidget(
-                  taggedFriends: [],
-                  postID: postList![postIndex].sharePosts!.id!,
-                  mediaList: postList![postIndex].sharePosts!.images,
-                  isCategorized: false,
-                  userName: postList![postIndex].sharePosts!.user!.fullName!,
-                  postTime: homeController.postTimeDifference(postList![postIndex].sharePosts!.createdAt),
-                  privacy: BipHip.world,
-                  postText: postList![postIndex].sharePosts!.content,
-                  isInStock: false,
-                  userImage: postList![postIndex].sharePosts!.user!.profilePicture!,
-                  postList: homeController.allPostList,
-                  category: postList![postIndex].sharePosts!.postCategory == null ? null : postList![postIndex].sharePosts!.postCategory!.name,
-                  categoryIcon: postList![postIndex].sharePosts!.postCategory == null
-                      ? null
-                      : homeController.getCategoryIcon(postList![postIndex].sharePosts!.postCategory!.id), // need change API
-                  categoryIconColor: postList![postIndex].sharePosts!.postCategory == null
-                      ? null
-                      : homeController.getCategoryColor(postList![postIndex].sharePosts!.postCategory!.id),
+        if (globalController.commonPostList[postIndex].sharePosts != null)
+          Padding(
+            padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k8Padding),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: k8CircularBorderRadius,
+                  border: Border.all(color: cLineColor),
                 ),
-              )),
-        ),
-
-        if (showBottomSection)
-          PostDetailsBottomSection(
-            userId: userId,
-            postList: postList,
-            postIndex: postIndex,
-            refType: 3,
-            isCommentShown: true,
-            isSelfPost: true,
-            commentCount:
-                Get.find<PostReactionController>().commentList.isEmpty ? 0 : Get.find<PostReactionController>().commentList[0].refRelation!.post!.countComment!,
-            shareCount: 0,
-            giftCount: 0,
-            // reactCount: 67,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: CommonSharedPostWidget(
+                    postIndex: postIndex,
+                  ),
+                )),
           ),
+
+        PostDetailsBottomSection(
+          postIndex: postIndex,
+          refType: 3,
+          isCommentShown: true,
+          isSelfPost: true,
+          commentCount: globalController.commonPostList[postIndex].comments.isEmpty ? 0 : globalController.commonPostList[postIndex].countComment!.value,
+          shareCount: 0,
+          giftCount: 0,
+        ),
       ],
     );
   }

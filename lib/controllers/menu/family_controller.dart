@@ -244,7 +244,6 @@ class FamilyController extends GetxController {
   }
 
   //*Reject Family Request
-
   final RxInt receivedRequestCount = RxInt(0);
   Future<void> rejectFamilyRequest() async {
     try {
@@ -513,20 +512,20 @@ class FamilyController extends GetxController {
   //*Block Family Member
   final RxList familyBlockList = RxList([]);
   final RxBool isBlockUserLoading = RxBool(false);
-  Future<void> blockUser() async {
+  Future<void> blockUser({required int userId}) async {
     try {
       isBlockUserLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {};
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
-        url: '$kuBlockUser/${userId.value.toString()}',
+        url: '$kuBlockUser/${userId.toString()}',
         body: body,
         token: token,
       ) as CommonDM;
       if (response.success == true) {
          for (int index = 0; index < familyList.length; index++) {
-         if (familyList[index].id == userId.value) {
+         if (familyList[index].id == userId) {
           familyBlockList[index]=true;
           }
          }

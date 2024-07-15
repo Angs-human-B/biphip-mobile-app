@@ -1,5 +1,7 @@
 import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
+import 'package:bip_hip/controllers/notification/notification_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -48,10 +50,10 @@ class CustomBottomNavBar extends StatelessWidget {
                 icon: BipHip.homeOutline,
                 iconSelected: BipHip.homeFill,
                 onPressed: () async {
-                  Get.find<HomeController>().homeTabIndex.value=0;
+                  Get.find<HomeController>().homeTabIndex.value = 0;
                   Get.offAllNamed(krHome);
-
                   await Get.find<HomeController>().getPostList();
+                  await Get.find<SelfieController>().getFriendSelfieList();
                 },
               ),
 
@@ -76,10 +78,12 @@ class CustomBottomNavBar extends StatelessWidget {
               _BottomNavbarItem(
                 width: _width,
                 isClicked: _isThirdButtonClicked,
-                title: "Badges",
-                icon: BipHip.badgesOutline,
+                title: "MarketPlace",
+                icon: BipHip.shopFill,
                 iconSelected: BipHip.badgesFill,
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(krMarketPlacePage);
+                },
               ),
 
               //* notification
@@ -89,7 +93,10 @@ class CustomBottomNavBar extends StatelessWidget {
                 title: "Notification",
                 icon: BipHip.notificationOutline,
                 iconSelected: BipHip.notificationFill,
-                onPressed: () async {},
+                onPressed: () async {
+                  Get.find<NotificationController>().resetNotificationData();
+                  Get.toNamed(krNotificationPage);
+                },
               ),
 
               //* more

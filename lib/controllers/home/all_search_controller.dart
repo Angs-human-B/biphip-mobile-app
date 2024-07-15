@@ -1,3 +1,5 @@
+import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/search/search_filter_data_model.dart';
 import 'package:bip_hip/models/search/search_history_model.dart';
 import 'package:bip_hip/models/search/search_model.dart';
@@ -5,7 +7,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:video_player/video_player.dart';
 
 class AllSearchController extends GetxController {
-  
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -51,6 +52,7 @@ class AllSearchController extends GetxController {
   final RxBool isPhotosVideosBottomSheetResetOrShowResult = RxBool(false);
   final RxBool isKidsNewsBottomSheetResetOrShowResult = RxBool(false);
   final RxBool isSellPostBottomSheetResetOrShowResult = RxBool(false);
+  final FocusNode searchFocusNode = FocusNode();
 
   void resetKidsNewsBottomSheetData() {
     selectedSubCategory.value = "";
@@ -115,6 +117,7 @@ class AllSearchController extends GetxController {
       isSellPostBottomSheetResetOrShowResult.value = false;
     }
   }
+
   void resetSearchData() {
     searchTextEditingController.clear();
     isSearchSuffixIconVisible.value = false;
@@ -161,7 +164,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Search History List Api Call
+  //*Search History List Api Call
   final Rx<SearchHistoryModel?> searchHistoryData = Rx<SearchHistoryModel?>(null);
   final RxList<SearchHistoryListData> searchHistoryList = RxList<SearchHistoryListData>([]);
   final RxBool isSearchHistoryLoading = RxBool(false);
@@ -262,7 +265,7 @@ class AllSearchController extends GetxController {
     }
   }
 
-  //   //*Search Filter data Api Call
+  //*Search Filter data Api Call
   final RxList filterTypeList = RxList([]);
   final Rx<SearchFilterDataModel?> searchFilterData = Rx<SearchFilterDataModel?>(null);
   final Rx<All?> allFilterData = Rx<All?>(null);
@@ -326,7 +329,7 @@ class AllSearchController extends GetxController {
   }
 
   //! Search Api implement
-  //   //*Search History List Api Call
+  //*Search History List Api Call
   final Rx<SearchModel?> searchData = Rx<SearchModel?>(null);
   final Rx<Users?> userData = Rx<Users?>(null);
   final Rx<Posts?> postData = Rx<Posts?>(null);
@@ -335,13 +338,13 @@ class AllSearchController extends GetxController {
   final Rx<Posts?> sellPostsData = Rx<Posts?>(null);
   final Rx<Posts?> kidPostsData = Rx<Posts?>(null);
   final Rx<Posts?> newsPostsData = Rx<Posts?>(null);
-  final RxList<UserElement> userList = RxList<UserElement>([]);
-  final RxList<PostsData> postsList = RxList<PostsData>([]);
+  final RxList<User> userList = RxList<User>([]);
+  final RxList<PostDataRx> postsList = RxList<PostDataRx>([]);
   final RxList<PhotosData> photosList = RxList<PhotosData>([]);
   final RxList<PhotosData> videosList = RxList<PhotosData>([]);
-  final RxList<PostsData> sellPostList = RxList<PostsData>([]);
-  final RxList<PostsData> kidPostList = RxList<PostsData>([]);
-  final RxList<PostsData> newsPostList = RxList<PostsData>([]);
+  final RxList<PostDataRx> sellPostList = RxList<PostDataRx>([]);
+  final RxList<PostDataRx> kidPostList = RxList<PostDataRx>([]);
+  final RxList<PostDataRx> newsPostList = RxList<PostDataRx>([]);
   final RxBool isSearchLoading = RxBool(false);
   Future<void> getSearch() async {
     try {
@@ -354,31 +357,8 @@ class AllSearchController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         searchData.value = SearchModel.fromJson(response.data);
-        if (selectedFilterValue.value.toString() == "People") {
-          userList.clear();
-        } else if (selectedFilterValue.value.toString() == "Post") {
-          postsList.clear();
-        } else if (selectedFilterValue.value.toString() == "Photos") {
-          photosList.clear();
-        } else if (selectedFilterValue.value.toString() == "Videos") {
-          videosList.clear();
-        } else if (selectedFilterValue.value.toString() == "Kids") {
-          kidPostList.clear();
-        } else if (selectedFilterValue.value.toString() == "News") {
-          newsPostList.clear();
-        } 
-      else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
-          sellPostList.clear();
-        }
-        else {
-          userList.clear();
-          postsList.clear();
-          photosList.clear();
-          videosList.clear();
-          sellPostList.clear();
-          kidPostList.clear();
-          newsPostList.clear();
-        }
+        clearAllSearchResults();
+
         userData.value = searchData.value?.users;
         postData.value = searchData.value?.posts;
         photosData.value = searchData.value?.photos;
@@ -386,33 +366,20 @@ class AllSearchController extends GetxController {
         sellPostsData.value = searchData.value?.sellposts;
         kidPostsData.value = searchData.value?.kidposts;
         newsPostsData.value = searchData.value?.newsposts;
-        if (selectedFilterValue.value.toString() == "People") {
-          userList.addAll(searchData.value!.users!.data);
-        } else if (selectedFilterValue.value.toString() == "Post") {
-          postsList.addAll(searchData.value!.posts!.data);
-        } else if (selectedFilterValue.value.toString() == "Photos") {
-          photosList.addAll(searchData.value!.photos!.data);
-        } else if (selectedFilterValue.value.toString() == "Videos") {
-          videosList.addAll(searchData.value!.videos!.data);
-        } else if (selectedFilterValue.value.toString() == "Kids") {
-          kidPostList.addAll(searchData.value!.kidposts!.data);
-        } else if (selectedFilterValue.value.toString() == "News") {
-          newsPostList.addAll(searchData.value!.newsposts!.data);
-        }
-        else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
-          sellPostList.addAll(searchData.value!.sellposts!.data);
-        }
-         else {
-          userList.addAll(searchData.value!.users!.data);
-          postsList.addAll(searchData.value!.posts!.data);
-          photosList.addAll(searchData.value!.photos!.data);
-          videosList.addAll(searchData.value!.videos!.data);
-          sellPostList.addAll(searchData.value!.sellposts!.data);
-          kidPostList.addAll(searchData.value!.kidposts!.data);
-          newsPostList.addAll(searchData.value!.newsposts!.data);
-        }
-        await getSearchHistory();
+
+        userList.addAll(searchData.value!.users!.data);
+        postsList.addAll(searchData.value!.posts!.data);
+        photosList.addAll(searchData.value!.photos!.data);
+        videosList.addAll(searchData.value!.videos!.data);
+        sellPostList.addAll(searchData.value!.sellposts!.data);
+        kidPostList.addAll(searchData.value!.kidposts!.data);
+        newsPostList.addAll(searchData.value!.newsposts!.data);
+
+        globalController.commonPostList.clear();
+        globalController.populatePostList(postsList);
+
         isSearchLoading.value = false;
+        await getSearchHistory();
       } else {
         isSearchLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -428,8 +395,32 @@ class AllSearchController extends GetxController {
     }
   }
 
+  void clearAllSearchResults() {
+    userList.clear();
+    postsList.clear();
+    photosList.clear();
+    videosList.clear();
+    sellPostList.clear();
+    kidPostList.clear();
+    newsPostList.clear();
+  }
+
+  void filterPostCategory() {
+    isSearchLoading.value = true;
+    globalController.commonPostList.clear();
+    if (selectedFilterValue.value.toString() == "Post" || selectedFilterValue.value.toString() == "All") {
+      globalController.populatePostList(postsList);
+    } else if (selectedFilterValue.value.toString() == "Kids") {
+      globalController.populatePostList(kidPostList);
+    } else if (selectedFilterValue.value.toString() == "News") {
+      globalController.populatePostList(newsPostList);
+    } else if (selectedFilterValue.value.toString().toLowerCase() == "Sell Posts".toLowerCase()) {
+      globalController.populatePostList(sellPostList);
+    }
+    isSearchLoading.value = false;
+  }
+
   String getUrlLink() {
-    //  "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString().trim()}&recent_post=${isRecentPostCheckBoxSelected.value.toString()}&posted_by=${selectedPostedBy.value.toString()}&posted_date=${selectedDatePosted.value.toString()}&sell_post_type=${selectedSellPostTypeIndex.value.toString()}&take=20",
     String finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
     if (selectedFilterValue.value.toString() == "All") {
       finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
@@ -448,7 +439,6 @@ class AllSearchController extends GetxController {
       }
       return finalLink;
     } else if (selectedFilterValue.value.toString() == "People") {
-      // finalLink = "$kuSearch?type=${selectedFilterValue.value.toString().toLowerCase()}&keywords=${searchTextEditingController.text.toString()}&take=20";
       if (selectedPostedBy.value.toString() != "") {
         int peopleTypeValue = -1;
         if (selectedPostedBy.value.toString().toLowerCase() == "all") {
@@ -495,14 +485,43 @@ class AllSearchController extends GetxController {
 
   late VideoPlayerController videoPlayerController;
   late Future<void> initializedVideoPlayerFuture;
-    final RxString videoUrl = RxString("");
-    void customOnInit() {
-    videoPlayerController = VideoPlayerController.network(videoUrl.value);
+  final RxString videoUrl = RxString("");
+  final RxDouble videoProgress = RxDouble(0);
+  final RxBool showVideoKeys = RxBool(false);
+  final RxBool isVideoPlaying = RxBool(false);
+  void customOnInit() {
+    showVideoKeys.value = false;
+    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
     initializedVideoPlayerFuture = videoPlayerController.initialize().then((value) {
       videoPlayerController.play();
       videoPlayerController.setLooping(false);
+      videoProgress.value = videoPlayerController.value.position.inSeconds.toDouble();
+      ll(videoProgress.value);
+    });
+    videoPlayerController.addListener(() {
+      videoProgress.value = videoPlayerController.value.position.inSeconds.toDouble();
+      if (videoPlayerController.value.position.inSeconds == videoPlayerController.value.duration.inSeconds) {
+        isVideoPlaying.value = false;
+      } else {
+        isVideoPlaying.value = true;
+      }
     });
   }
+
+  void enableVideoKeyLayer() {
+    showVideoKeys.value = !showVideoKeys.value;
+    Future.delayed(const Duration(seconds: 5), () async {
+      showVideoKeys.value = false;
+    });
+  }
+
+  String videoSeconds(int seconds) {
+    String twoDigits(String n) => n.padLeft(2, '0');
+    int minutes = (seconds / 60).floor();
+    int remainingSeconds = seconds % 60;
+    return '${twoDigits(minutes.toString())}:${twoDigits(remainingSeconds.toString())}';
+  }
+
   @override
   void dispose() {
     videoPlayerController.dispose();

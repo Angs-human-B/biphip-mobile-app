@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 class AudienceContent extends StatelessWidget {
   AudienceContent({super.key});
   final CreatePostController createPostController = Get.find<CreatePostController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class AudienceContent extends StatelessWidget {
               () => CustomListTile(
                 onPressed: () {
                   createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostPrivacyList[i].name.toString();
-                  createPostController.tempCreatePostSelectedPrivacyIcon.value = createPostController.audienceTypeList[i]['icon'];
+                  createPostController.tempCreatePostSelectedPrivacyIcon.value = globalController.privacyList[i]['icon'];
                 },
                 itemColor: createPostController.tempCreatePostSelectedPrivacy.value == createPostController.createPostPrivacyList[i].name.toString()
                     ? cPrimaryTint3Color
@@ -51,14 +52,14 @@ class AudienceContent extends StatelessWidget {
                   height: h28,
                   width: h28,
                   child: Icon(
-                    createPostController.audienceTypeList[i]['icon'],
+                    Get.find<GlobalController>().privacyList[i]['icon'],
                     color: cBlackColor,
                     size: isDeviceScreenLarge() ? h18 : h14,
                   ),
                 ),
                 trailing: CustomRadioButton(
                   onChanged: () {
-                    createPostController.tempCreatePostSelectedPrivacyIcon.value = createPostController.audienceTypeList[i]['icon'];
+                    createPostController.tempCreatePostSelectedPrivacyIcon.value = globalController.privacyList[i]['icon'];
                     createPostController.tempCreatePostSelectedPrivacy.value = createPostController.createPostPrivacyList[i].name.toString();
                   },
                   isSelected: createPostController.tempCreatePostSelectedPrivacy.value == createPostController.createPostPrivacyList[i].name.toString(),
@@ -157,7 +158,6 @@ class KidCategoryContent extends StatelessWidget {
                       size: kIconSize120,
                       color: cIconColor,
                     ),
-                    // loadingBuilder: imageLoadingBuilder,
                   ),
                 ),
               ),
@@ -306,13 +306,11 @@ class KidListBottomSheetContent extends StatelessWidget {
                                     size: kIconSize120,
                                     color: cIconColor,
                                   ),
-                                  // loadingBuilder: imageLoadingBuilder,
                                 ),
                               ),
                             ),
                             trailing: CustomRadioButton(
                               onChanged: () {
-                                // selectKidStatusChange(i);
                                 createPostController.tempKidID.value = createPostController.kidList[i].id!;
                                 createPostController.tempSelectedKid.value = createPostController.kidList[i];
                                 if (createPostController.tempSelectedKid.value == null) {
@@ -470,7 +468,7 @@ class BrandBottomSheetContent extends StatelessWidget {
           Obx(() => OutLinedButton(
                 onPress: createPostController.selectedBrandId.value == -1
                     ? () {
-                      Get.find<HomeController>().homeTabIndex.value=0;
+                        Get.find<HomeController>().homeTabIndex.value = 0;
                         Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
                       }
                     : null,
@@ -594,7 +592,6 @@ class BrandBottomSheetContent extends StatelessWidget {
                 WidgetSpan(
                   child: InkWell(
                     onTap: () {
-                      ll('Route here to add store basic info page');
                     },
                     child: Text(
                       ksCreateStore.tr,
@@ -658,7 +655,6 @@ class SelectBrandBottomSheetContent extends StatelessWidget {
                                         size: kIconSize16,
                                         color: cIconColor,
                                       ),
-                                      // loadingBuilder: imageLoadingBuilder,
                                     ),
                                   ),
                                 ),
@@ -741,6 +737,10 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                               Positioned(
                                 child: InkWell(
                                   onTap: () {
+                                    if(createPostController.isEditPost.value){
+                                        createPostController.temporaryRemovedTaggedFriends.add(createPostController.tempTaggedFriends[index]);
+                                        createPostController.isPostButtonActive.value = true;
+                                    }
                                     createPostController.tagFriendList
                                         .insert(createPostController.tempTagIndex[index], createPostController.tempTaggedFriends[index]);
                                     createPostController.tempTagIndex.removeAt(index);
@@ -748,7 +748,9 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                                     if (createPostController.tempTaggedFriends.isNotEmpty) {
                                       createPostController.tagFriendButtonSheetRightButtonState.value = true;
                                     } else {
+                                      if(!createPostController.isEditPost.value){
                                       createPostController.tagFriendButtonSheetRightButtonState.value = false;
+                                      }
                                     }
                                   },
                                   child: Container(
@@ -791,6 +793,13 @@ class TagPeopleBottomSheetContent extends StatelessWidget {
                           style: kTextButtonStyle,
                           onPressed: () {
                             createPostController.tempTaggedFriends.add(createPostController.tagFriendList[index]);
+                            if(createPostController.isEditPost.value){
+                              for(int i = 0; i<createPostController.tempTaggedFriends.length; i++){
+                                if(createPostController.temporaryRemovedTaggedFriends.contains(createPostController.tempTaggedFriends[i])){
+                                  createPostController.temporaryRemovedTaggedFriends.remove(createPostController.tempTaggedFriends[i]);
+                                }
+                              }
+                            }
                             createPostController.tempTagIndex.add(index);
                             createPostController.tagFriendList.removeAt(index);
                             if (createPostController.tempTaggedFriends.isNotEmpty) {
@@ -909,7 +918,6 @@ class ProductConditionContent extends StatelessWidget {
             }),
       ],
     ));
-  
   }
 }
 

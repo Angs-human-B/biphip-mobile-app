@@ -1,15 +1,21 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
+import 'package:bip_hip/controllers/home/home_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/post/post_reaction_controller.dart';
-import 'package:bip_hip/models/home/postListModel.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
+import 'package:bip_hip/models/home/reportlistmode.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/widgets/all_family_listview.dart';
 import 'package:bip_hip/views/menu/family/widgets/pending_family_listview.dart';
 import 'package:bip_hip/views/menu/family/widgets/received_family_listview.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -247,8 +253,6 @@ class GlobalController extends GetxController {
         maxWidth: 720,
       );
       if (image != null) {
-        // final List<int> imageBytes = await image.readAsBytes();
-        // final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
         if (isList) {
           imageFile.add(imageTemporary.obs);
@@ -256,8 +260,6 @@ class GlobalController extends GetxController {
           imageFile(imageTemporary);
         }
         isChanged.value = true;
-        // imageLink.value = 'data:image/png;base64,$base64Image';
-        // log(imageLink.toString());
         if (isFromBottomSheet != false) {
           Get.back();
         }
@@ -281,19 +283,10 @@ class GlobalController extends GetxController {
       if (mediaList.isNotEmpty) {
         for (int i = 0; i < mediaList.length; i++) {
           final String? type = lookupMimeType(mediaList[i].path);
-          ll(type);
-          // final List<int> imageBytes = await mediaList[i].readAsBytes();
-          // final String base64Image = base64Encode(imageBytes);
           if (type != null) {
             isMediaChanged.value = true;
             final File imageTemporary = File(mediaList[i].path);
             mediaFileList.add(imageTemporary.obs);
-            // if (type.contains('image')) {
-            //   mediaLinkList.add('data:image/png;base64,$base64Image'.obs);
-            // }
-            // if (type.contains('video')) {
-            //   mediaLinkList.add('data:video/mp4;base64,$base64Image'.obs);
-            // }
           } else {
             showSnackBar(title: ksWarning.tr, message: ksFileFormatNotSupported.tr, color: cSecondaryColor);
           }
@@ -311,15 +304,9 @@ class GlobalController extends GetxController {
 
   //*For Selling type post max limit 10 and max size per image is 5
   Future<bool> selectMultiMediaSourceForSelling(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
-    // if (mediaFileList.length >= 10) {
-    //   showSnackBar(title: "Warning", message: "You cannot select more than 10 images.", color: Colors.red);
-    //   return false;
-    // }
     try {
       final List<XFile> mediaList = await _picker
           .pickMultiImage(
-              // maxHeight: 480,
-              // maxWidth: 720,
               )
           .then((value) => value.take(10).toList());
       if (mediaList.isNotEmpty) {
@@ -361,8 +348,6 @@ class GlobalController extends GetxController {
           preferredCameraDevice: CameraDevice.rear,
           maxDuration: const Duration(seconds: 600));
       if (video != null) {
-        // final List<int> videoBytes = await video.readAsBytes();
-        // final String base64Video = base64Encode(videoBytes);
         final File videoTemporary = File(video.path);
         if (isList) {
           videoFile.add(videoTemporary.obs);
@@ -370,8 +355,6 @@ class GlobalController extends GetxController {
           videoFile(videoTemporary);
         }
         isChanged.value = true;
-        // videoLink.value = 'data:video/mp4;base64,$base64Video';
-        // log(videoLink.toString());
         return true;
       } else {
         ll('video not selected');
@@ -437,6 +420,55 @@ class GlobalController extends GetxController {
     );
   }
 
+  void blankBottomSheetForImageComment({
+    required context,
+    required Widget content,
+    action,
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: Get.context!,
+      builder: (BuildContext context) {
+        keyboardHeight.value = MediaQuery.of(context).viewInsets.bottom;
+        ll(keyboardHeight.value);
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              width: width,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cLineColor,
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH10sizedBox,
+                  content,
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+            if (action != null) Positioned(bottom: MediaQuery.of(context).viewInsets.bottom, left: 0, right: 0, child: action),
+          ],
+        );
+      },
+    );
+  }
+
   final searchController = TextEditingController();
   final recentSearch = RxList();
 
@@ -470,20 +502,21 @@ class GlobalController extends GetxController {
     }
   }
 
-  String? getReaction(String? selfReaction, reaction, refType, refId) {
+  RxString? getReaction(RxString? selfReaction, reaction, refType, refId) {
     Get.back();
     if (selfReaction != null) {
-      if (selfReaction == reaction) {
-        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
+      if (selfReaction.value == reaction) {
+        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction.value);
         selfReaction = null;
       } else {
-        selfReaction = reaction;
-        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
+        selfReaction = RxString(reaction);
+        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction.value);
       }
     } else {
-      selfReaction = reaction;
+      selfReaction = RxString(reaction);
       Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
     }
+    log('-----' + selfReaction.toString());
     return selfReaction;
   }
 
@@ -496,7 +529,7 @@ class GlobalController extends GetxController {
     {"reaction": "Wow", "color": cAmberColor, "icon": kiWowSvgImageUrl},
   ];
 
-  Widget getColoredCommentReaction(String? myReaction) {
+  Widget getColoredCommentReaction(Rx<String>? myReaction) {
     if (myReaction == null) {
       return Text(
         ksLike,
@@ -504,7 +537,7 @@ class GlobalController extends GetxController {
       );
     } else {
       for (int i = 0; i < reactionVariant.length; i++) {
-        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction) {
+        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction.value) {
           return Text(
             reactionVariant[i]["reaction"].toString(),
             style: regular10TextStyle(reactionVariant[i]["color"]),
@@ -515,7 +548,7 @@ class GlobalController extends GetxController {
     }
   }
 
-  Widget getColoredReactionIcon(String? myReaction) {
+  Widget getColoredReactionIcon(RxString? myReaction) {
     if (myReaction == null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -534,7 +567,7 @@ class GlobalController extends GetxController {
       );
     } else {
       for (int i = 0; i < reactionVariant.length; i++) {
-        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction) {
+        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction.value.toLowerCase()) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -555,36 +588,38 @@ class GlobalController extends GetxController {
     }
   }
 
-  CountReactions? updateReaction(String reaction, String? myReaction, CountReactions? countReaction) {
+  Rx<CountReactions>? updateReaction(String reaction, Rx<String>? myReaction, Rx<CountReactions>? countReactionRX) {
+    CountReactions? countReaction = countReactionRX?.value;
+
     void adjustReactionCount(String reaction, bool increment) {
       countReaction ??= CountReactions(
-        all: 0,
-        haha: 0,
-        like: 0,
-        love: 0,
-        sad: 0,
-        wow: 0,
-        angry: 0,
+        all: RxInt(0),
+        haha: RxInt(0),
+        like: RxInt(0),
+        love: RxInt(0),
+        sad: RxInt(0),
+        wow: RxInt(0),
+        angry: RxInt(0),
       );
 
       switch (reaction) {
         case 'haha':
-          countReaction!.haha = increment ? (countReaction!.haha ?? 0) + 1 : (countReaction!.haha ?? 0) - 1;
+          countReaction!.haha = increment ? (countReaction!.haha ?? RxInt(0)) + 1 : (countReaction!.haha ?? RxInt(0)) - 1;
           break;
         case 'like':
-          countReaction!.like = increment ? (countReaction!.like ?? 0) + 1 : (countReaction!.like ?? 0) - 1;
+          countReaction!.like = increment ? (countReaction!.like ?? RxInt(0)) + 1 : (countReaction!.like ?? RxInt(0)) - 1;
           break;
         case 'love':
-          countReaction!.love = increment ? (countReaction!.love ?? 0) + 1 : (countReaction!.love ?? 0) - 1;
+          countReaction!.love = increment ? (countReaction!.love ?? RxInt(0)) + 1 : (countReaction!.love ?? RxInt(0)) - 1;
           break;
         case 'sad':
-          countReaction!.sad = increment ? (countReaction!.sad ?? 0) + 1 : (countReaction!.sad ?? 0) - 1;
+          countReaction!.sad = increment ? (countReaction!.sad ?? RxInt(0)) + 1 : (countReaction!.sad ?? RxInt(0)) - 1;
           break;
         case 'wow':
-          countReaction!.wow = increment ? (countReaction!.wow ?? 0) + 1 : (countReaction!.wow ?? 0) - 1;
+          countReaction!.wow = increment ? (countReaction!.wow ?? RxInt(0)) + 1 : (countReaction!.wow ?? RxInt(0)) - 1;
           break;
         case 'angry':
-          countReaction!.angry = increment ? (countReaction!.angry ?? 0) + 1 : (countReaction!.angry ?? 0) - 1;
+          countReaction!.angry = increment ? (countReaction!.angry ?? RxInt(0)) + 1 : (countReaction!.angry ?? RxInt(0)) - 1;
           break;
         default:
           break;
@@ -593,35 +628,559 @@ class GlobalController extends GetxController {
 
     if (myReaction == null) {
       adjustReactionCount(reaction, true);
-      countReaction!.all = (countReaction!.all ?? 0) + 1;
+      countReaction!.all = (countReaction!.all ?? RxInt(0)) + 1;
     } else {
       if (myReaction == reaction) {
         adjustReactionCount(reaction, false);
-        countReaction!.all = (countReaction!.all ?? 0) - 1;
-        if (countReaction!.all == 0) {
+        countReaction!.all = (countReaction!.all ?? RxInt(0)) - 1;
+        if (countReaction!.all!.value == 0) {
           return null;
         }
       } else {
-        adjustReactionCount(myReaction, false);
+        adjustReactionCount(myReaction.value, false);
         adjustReactionCount(reaction, true);
-        countReaction!.all = (countReaction!.all ?? 0) - 1;
-        countReaction!.all = (countReaction!.all ?? 0) + 1;
-        if (countReaction!.all == 0) {
+        countReaction!.all = (countReaction!.all ?? RxInt(0)) - 1;
+        countReaction!.all = (countReaction!.all ?? RxInt(0)) + 1;
+        if (countReaction!.all!.value == 0) {
           return null;
         }
       }
     }
 
-    return countReaction;
+    return Rx<CountReactions>(countReaction!);
   }
 
-  void updateCommentCount(RxList<PostData> postList, postIndex, isAddComment) {
-    if(isAddComment){
-    postList[postIndex].countComment = postList[postIndex].countComment! + 1;
-    }else{
-    postList[postIndex].countComment = postList[postIndex].countComment! - 1;
+  void updateCommentCount(RxList<PostDataRx> postList, postIndex, isAddComment) {
+    if (isAddComment) {
+      postList[postIndex].countComment!.value = postList[postIndex].countComment!.value + 1;
+    } else {
+      postList[postIndex].countComment!.value = postList[postIndex].countComment!.value - 1;
     }
-    postList.replaceRange(postIndex, postIndex + 1, [postList[postIndex]]);
   }
+
+  void updateSharedPostCommentCount(isAddComment) {
+    if (isAddComment) {
+      Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value + 1;
+    } else {
+      Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value - 1;
+    }
+    update();
+  }
+
+  final RxList<PostDataRx> commonPostList = RxList<PostDataRx>([]);
+  void populatePostList(postList) {
+    commonPostList.addAll(postList);
+  }
+
+  IconData getCategoryIcon(categoryID) {
+    if (categoryID == 3) {
+      return BipHip.poetry;
+    } else if (categoryID == 4) {
+      return BipHip.photography;
+    } else if (categoryID == 5) {
+      return BipHip.painting;
+    } else if (categoryID == 6) {
+      return BipHip.storytelling;
+    } else if (categoryID == 7) {
+      return BipHip.kids;
+    } else if (categoryID == 8) {
+      return BipHip.newsFill;
+    } else {
+      return BipHip.selling;
+    }
+  }
+
+  Color getCategoryColor(categoryID) {
+    if (categoryID == 3) {
+      return cPoetryColor;
+    } else if (categoryID == 4) {
+      return cPhotographyColor;
+    } else if (categoryID == 5) {
+      return cPaintingColor;
+    } else if (categoryID == 6) {
+      return cStoryTellingColor;
+    } else if (categoryID == 7) {
+      return cKidsColor;
+    } else if (categoryID == 8) {
+      return cBlackColor;
+    } else {
+      return cSellingColor;
+    }
+  }
+
+  String postTimeDifference(DateTime inputDate) {
+    final now = DateTime.now();
+    final difference = now.difference(inputDate);
+
+    if (difference.inDays >= 7) {
+      return DateFormat('dd MMMM yyyy').format(inputDate);
+    } else if (difference.inDays >= 1) {
+      if (difference.inDays == 1) {
+        return '${difference.inDays} day ago';
+      } else {
+        return '${difference.inDays} days ago';
+      }
+    } else if (difference.inHours >= 1) {
+      return '${difference.inHours} h ago';
+    } else if (difference.inMinutes >= 1) {
+      return '${difference.inMinutes} m ago';
+    } else {
+      return '${difference.inSeconds} s ago';
+    }
+  }
+
+  String? getProductCondition(id) {
+    for (var privacy in Get.find<CreatePostController>().createPostSellConditionList) {
+      if (privacy.id == id) {
+        return privacy.name;
+      }
+    }
+    return null;
+  }
+
+  String? getProductCategory(id) {
+    for (var privacy in Get.find<CreatePostController>().createPostSellCategoryList) {
+      if (privacy.id == id) {
+        return privacy.name;
+      }
+    }
+    return null;
+  }
+
+  final RxString postSelectedAction = RxString("");
+  final RxString postAudienceAction = RxString("");
+  final RxInt temporaryselectedAudienceId = RxInt(-1);
+  final RxInt selectedAudienceId = RxInt(-1);
+
+  IconData privacyIcon(int? isPublic) {
+    if (isPublic == 0) {
+      return BipHip.lock;
+    }
+    if (isPublic == 1) {
+      return BipHip.world;
+    }
+    if (isPublic == 2) {
+      return BipHip.friends;
+    }
+    if (isPublic == 3) {
+      return BipHip.addFamily;
+    } else {
+      return BipHip.removeFamily;
+    }
+  }
+
+  String privacyText(int? isPublic) {
+    if (isPublic == 0) {
+      return "Only me";
+    }
+    if (isPublic == 1) {
+      return "Public";
+    }
+    if (isPublic == 2) {
+      return "Friends";
+    }
+    if (isPublic == 3) {
+      return "Families";
+    } else {
+      return "Friend & Family";
+    }
+  }
+
+  final RxBool editDateBottomSheetRightButtonState = RxBool(false);
+  final RxString tempEditDate = RxString('');
+  final RxString editDate = RxString('');
+  final RxString postDate = RxString('');
+
+  void editPostDate({required BuildContext context, required int postId, required int postIndex}) {
+    tempEditDate.value = '';
+    if (tempEditDate.value == '') {
+      editDateBottomSheetRightButtonState.value = false;
+    }
+    commonBottomSheet(
+      isBottomSheetRightButtonActive: editDateBottomSheetRightButtonState,
+      context: context,
+      onPressCloseButton: () {
+        Get.back();
+      },
+      onPressRightButton: () {
+        Get.back();
+        editDate.value = tempEditDate.value;
+        postEditDate(
+          postId: postId,
+          date: editDate.value,
+        );
+        commonPostList[postIndex].dateTime = DateTime.parse(editDate.value);
+        commonPostList.replaceRange(postIndex, postIndex + 1, [commonPostList[postIndex]]);
+      },
+      rightText: ksDone.tr,
+      rightTextStyle: semiBold14TextStyle(cPrimaryColor),
+      title: "Edit date".tr,
+      isRightButtonShow: true,
+      content: SizedBox(
+        height: height * 0.4,
+        child: CupertinoDatePicker(
+          minimumDate: DateTime(1900),
+          maximumDate: DateTime.now(),
+          use24hFormat: true,
+          initialDateTime: DateTime.parse(postDate.value),
+          mode: CupertinoDatePickerMode.dateAndTime,
+          onDateTimeChanged: (value) {
+            editDateBottomSheetRightButtonState.value = true;
+            tempEditDate.value = DateFormat("yyyy-MM-dd HH:mm:ss").format(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  //*Post Notification off Api implement
+  RxBool isPostNotificationOffLoading = RxBool(false);
+  Future<void> postNotificationOff({required int postId}) async {
+    try {
+      isPostNotificationOffLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: "$kuPostNotificationOff/${postId.toString()}",
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < commonPostList.length; i++) {
+          if (commonPostList[i].id == postId) {
+            commonPostList[i].isNotifaction = false;
+          }
+        }
+        isPostNotificationOffLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPostNotificationOffLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostNotificationOffLoading.value = false;
+      ll('postNotificationOff error: $e');
+    }
+  }
+
+  //*Post Notification off Api implement
+  Future<void> postNotificationOn({required int postId}) async {
+    try {
+      isPostNotificationOffLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: "$kuPostNotificationOn/${postId.toString()}",
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        for (int i = 0; i < commonPostList.length; i++) {
+          if (commonPostList[i].id == postId) {
+            commonPostList[i].isNotifaction = true;
+          }
+        }
+        isPostNotificationOffLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPostNotificationOffLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostNotificationOffLoading.value = false;
+      ll('postNotificationOff error: $e');
+    }
+  }
+
+//*Update Date Time Api implement
+
+  Future<void> postEditDate({required int postId, required String date}) async {
+    try {
+      isPostNotificationOffLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        "id": postId.toString(),
+        "date_time": date.toString(),
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: kuEditDateTime,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isPostNotificationOffLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPostNotificationOffLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostNotificationOffLoading.value = false;
+      ll('postEditDate error: $e');
+    }
+  }
+
+  final RxInt reportId = RxInt(-1);
+  final RxInt selectedReportIndex = RxInt(-1);
+  final RxBool reportBottomSheetState = RxBool(false);
+   //*Get Report  List Api Call
+  final Rx<ReportListModel?> reportListData = Rx<ReportListModel?>(null);
+  final RxList<Report> reportList = RxList<Report>([]);
+  final RxBool isReportListLoading = RxBool(false);
+  Future<void> getReportList() async {
+    try {
+      isReportListLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      var response = await ApiController().commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetReoportList,
+      ) as CommonDM;
+      if (response.success == true) {
+        reportList.clear();
+        reportListData.value = ReportListModel.fromJson(response.data);
+        reportList.addAll(reportListData.value!.reports);
+        isReportListLoading.value = false;
+      } else {
+        isReportListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isReportListLoading.value = true;
+      ll('getReportList error: $e');
+    }
+  }
+
+  Future<void> postReportAndUndoReport(int? reportId, String? reason, {required String reportOrUndo, required int postId}) async {
+    try {
+      isPostNotificationOffLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        "post_id": postId.toString(),
+        if (reportOrUndo == "report") "report_id": reportId.toString(),
+        if (reportOrUndo == "report" && reason != null) "reason": null,
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: reportOrUndo == "report" ? kuPostReport : kuUndoPostReport,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        if (reportOrUndo == "report") {
+          for (int i = 0; i < commonPostList.length; i++) {
+            if (commonPostList[i].id == postId) {
+              commonPostList[i].hasReport = true;
+            }
+          }
+        } else {
+          for (int i = 0; i < commonPostList.length; i++) {
+            if (commonPostList[i].id == postId) {
+              commonPostList[i].hasReport = false;
+            }
+          }
+        }
+        isPostNotificationOffLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPostNotificationOffLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPostNotificationOffLoading.value = false;
+      ll('postEditDate error: $e');
+    }
+  }
+
+  //*Edit Audience Api call
+  final RxBool isEditAudienceLoading = RxBool(false);
+  Future<void> editAudience(int postId) async {
+    try {
+      isEditAudienceLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        "post_id": postId.toString(),
+        "is_public": selectedAudienceId.value.toString(),
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: kuEditAudience,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isEditAudienceLoading.value = false;
+        selectedAudienceId.value = -1;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isEditAudienceLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isEditAudienceLoading.value = false;
+      ll('editAudience error: $e');
+    }
+  }
+
+  //*Delete Post Api Call
+  final RxBool isDeletePostLoading = RxBool(false);
+  Future<void> postDelete({required int postId}) async {
+    try {
+      isDeletePostLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await ApiController().commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeletePost/${postId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        commonPostList.removeWhere((post) => post.id == postId);
+        isDeletePostLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeletePostLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeletePostLoading.value = false;
+      ll('postDelete error: $e');
+    }
+  }
+
+  final RxList<Map<String, dynamic>> privacyList = RxList([
+    {'icon': BipHip.lock, 'action': 'Only me', 'id': 0},
+    {'icon': BipHip.world, 'action': 'Public', 'id': 1},
+    {'icon': BipHip.friends, 'action': 'Friends', 'id': 2},
+    {'icon': BipHip.addFamily, 'action': 'Families', 'id': 3},
+    {'icon': BipHip.addFamily, 'action': 'Friends & Families', 'id': 4},
+  ]);
+
+  //*Hide Post Api implement
+  RxBool isHidePostLoading = RxBool(false);
+  Future<void> hidePost({required int postId}) async {
+    try {
+      isHidePostLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: "$kuHidePost/${postId.toString()}",
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        commonPostList.removeWhere((post) => post.id == postId);
+        isHidePostLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isHidePostLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isHidePostLoading.value = false;
+      ll('hidePost error: $e');
+    }
+  }
+
+  final RxBool isFollowUnfollowLoading = RxBool(false);
+
+  //*Unfollow User
+  Future<void> followUnfollowUser({required int userId, required String followOrUnfollow}) async {
+    try {
+      isFollowUnfollowLoading.value = true;
+      String? token = await SpController().getBearerToken();
+      Map<String, dynamic> body = {
+        'user_id': userId.toString(),
+      };
+      var response = await ApiController().commonApiCall(
+        requestMethod: kPost,
+        url: followOrUnfollow == "Follow" ? kuFollowUser : kuUnFollowUser,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        if (followOrUnfollow == "Follow") {
+          for (int i = 0; i < commonPostList.length; i++) {
+            if (userId == commonPostList[i].user!.id) {
+              commonPostList[i].user!.followStatus = 1;
+            }
+          }
+        } else {
+          for (int i = 0; i < commonPostList.length; i++) {
+            if (userId == commonPostList[i].user!.id) {
+              commonPostList[i].user!.followStatus = 0;
+            }
+          }
+        }
+        if (followOrUnfollow == "Follow") {}
+        isFollowUnfollowLoading.value = false;
+        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFollowUnfollowLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFollowUnfollowLoading.value = false;
+      ll('followUnfollowUser error: $e');
+    }
+  }
+
+  final RxDouble keyboardHeight = RxDouble(0.0);
   //! end
 }

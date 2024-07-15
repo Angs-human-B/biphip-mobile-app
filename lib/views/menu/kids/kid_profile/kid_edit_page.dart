@@ -4,7 +4,6 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/widgets/common/button/custom_outline_button.dart';
 import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
-// import 'package:bip_hip/widgets/common/button/custom_selection_button.dart';
 
 class KidEditPage extends StatelessWidget {
   KidEditPage({super.key});
@@ -50,8 +49,6 @@ class KidEditPage extends StatelessWidget {
                                             kidHelper.selectFunction("${kidsController.kidFunctionFlag.value} DELETE", kidsController.deleteIndex.value);
                                           }),
                                       title: ksConfirmation.tr);
-                                  // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                                  // Get.back();
                                 },
                                 text: ksDelete,
                                 textStyle: semiBold14TextStyle(cRedColor)),
@@ -60,8 +57,6 @@ class KidEditPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                //Obx(
-                // () =>
                 body: Stack(
                   children: [
                     SizedBox(
@@ -72,21 +67,6 @@ class KidEditPage extends StatelessWidget {
                         child: Column(
                           children: [
                             kH16sizedBox,
-                            // if (kidsController.isDropdownShown.value)
-                            // Padding(
-                            //   padding: const EdgeInsets.only(bottom: k16Padding),
-                            //   child: CustomSelectionButton(
-                            //     buttonColor: cWhiteColor,
-                            //     buttonHeight: 32,
-                            //     borderColor: cLineColor,
-                            //     contentPadding: const EdgeInsets.symmetric(horizontal: k8Padding),
-                            //     onPressed: () async {
-                            //       kidHelper.commonSelectionButtonOnPressed(context);
-                            //     },
-                            //     text: kidsController.kidEducationBackground.value,
-                            //     hintText: ksSelectEducationInstitute.tr,
-                            //   ),
-                            // ),
                             RawAutocomplete(
                               textEditingController: kidsController.kidCommonEditTextEditingController,
                               focusNode: commonFocusNode,
@@ -135,7 +115,6 @@ class KidEditPage extends StatelessWidget {
                                 return Obx(
                                   () => CustomModifiedTextField(
                                     focusNode: focusNode,
-                                    // errorText: kidsController.commonEditTextFieldErrorText.value,
                                     controller: kidsController.kidCommonEditTextEditingController,
                                     maxLength: (kidsController.commonEditTextfieldHintText.value == ksPhone.tr ||
                                             kidsController.commonEditTextfieldHintText.value == ksEditPhone.tr)
@@ -154,14 +133,12 @@ class KidEditPage extends StatelessWidget {
                                         ? [FilteringTextInputFormatter.digitsOnly]
                                         : null,
                                     onSuffixPress: () {
-                                      // editProfileHelper.commonTextfieldSuffixOnPressed();//!Write this function
                                     },
                                     onSubmit: (value) {
                                       unFocus(context);
                                       kidsController.showCommonEditSuffixIcon.value = false;
                                     },
                                     onChanged: (value) {
-                                      // editProfileHelper.commonTextfieldOnChanged();//!Create this function
                                     },
                                   ),
                                 );
@@ -177,7 +154,6 @@ class KidEditPage extends StatelessWidget {
                                     return kidsController.temporaryList.where((word) => word.toLowerCase().startsWith(textEditingValue.text.toLowerCase()));
                                   },
                                   onSelected: (option) {
-                                    ll(option);
                                   },
                                   optionsViewBuilder: (context, Function(String) onSelected, options) {
                                     return Align(
@@ -231,7 +207,6 @@ class KidEditPage extends StatelessWidget {
                                           kidsController.showCommonSecondaryEditSuffixIcon.value = false;
                                         },
                                         onChanged: (value) {
-                                          // editProfileHelper.commonSecondaryTextfieldOnChanged();//!Write this function
                                         },
                                       ),
                                     );
@@ -250,7 +225,7 @@ class KidEditPage extends StatelessWidget {
                                         prefixIcon: BipHip.calendarFill,
                                         prefixIconSize: screenWiseSize(kIconSize20, 4),
                                         onPressed: () {
-                                          kidHelper.startDateButtonOnPressed(context); //!Write this function
+                                          kidHelper.startDateButtonOnPressed(context);
                                         },
                                         text: kidsController.commonStartDate.value,
                                         hintText: kidsController.isSingleDatePicker.value ? ksDate.tr : ksStartDate.tr,
@@ -263,7 +238,7 @@ class KidEditPage extends StatelessWidget {
                                           prefixIcon: BipHip.calendarFill,
                                           prefixIconSize: screenWiseSize(kIconSize20, 4),
                                           onPressed: () {
-                                            kidHelper.endDateButtonOnPressed(context); //!Change
+                                            kidHelper.endDateButtonOnPressed(context);
                                           },
                                           text: kidsController.commonEndDate.value,
                                           hintText: ksEndDate.tr,
@@ -313,24 +288,15 @@ class KidEditPage extends StatelessWidget {
                     Positioned(
                       bottom: 20,
                       left: 20,
-                      // Obx(
-                      // () =>
                       child: CustomElevatedButton(
                           label: ksSave,
                           textStyle: semiBold14TextStyle(cWhiteColor),
                           buttonHeight: h42,
                           buttonWidth: width - 40,
                           onPressed: () {
-                            //kidsController.enableKidSaveButton.value ?
-                            ll(kidsController.kidFunctionFlag.value);
                             kidHelper.selectFunction(kidsController.kidFunctionFlag.value);
-                            // if (kidsController.kidFunctionFlag.value != 'ADD LINK' && profileController.functionFlag.value != 'EDIT LINK') {
-                            //   Get.back();
-                            // }
-                            //_profileController.clearCommonEditPageData();
                           }),
                     ),
-                    // ),
                   ],
                 ),
               ),

@@ -45,28 +45,53 @@ class CreatePostHelper {
         createPostController.isPostButtonActive.value = false;
       }
     } else if (createPostController.category.value == 'Kids') {
-      if ((createPostController.createPostController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
-          (createPostController.kidID.value != -1)) {
-        createPostController.isPostButtonActive.value = true;
-      } else {
-        createPostController.isPostButtonActive.value = false;
-      }
-    } else if (createPostController.category.value == 'News') {
-      if (createPostController.newsTitleTextEditingController.text.trim() == '') {
-        createPostController.isPostButtonActive.value = false;
-      } else {
-        createPostController.isPostButtonActive.value = true;
-      }
-    } else {
-      if (createPostController.createPostController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
-        createPostController.isPostButtonActive.value = true;
-        if (createPostController.createPostController.text.length > 150) {
-          createPostController.isTextLimitCrossed.value = true;
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousPostContent.value == createPostController.createPostTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
         } else {
-          createPostController.isTextLimitCrossed.value = false;
+          createPostController.isPostButtonActive.value = true;
         }
       } else {
-        createPostController.isPostButtonActive.value = false;
+        if ((createPostController.createPostTextEditingController.text.trim() != '' || createPostController.allMediaList.isNotEmpty) &&
+            (createPostController.kidID.value != -1)) {
+          createPostController.isPostButtonActive.value = true;
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
+      }
+    } else if (createPostController.category.value == 'News') {
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousNewsTitle.value == createPostController.newsTitleTextEditingController.text.toString().trim())) {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
+      } else {
+        if (createPostController.newsTitleTextEditingController.text.trim() == '') {
+          createPostController.isPostButtonActive.value = false;
+        } else {
+          createPostController.isPostButtonActive.value = true;
+        }
+      }
+    } else {
+      if (createPostController.isEditPost.value) {
+        if ((createPostController.previousPostContent.value != createPostController.createPostTextEditingController.text.toString().trim()) &&
+            createPostController.createPostTextEditingController.text.toString().trim() != "") {
+          createPostController.isPostButtonActive.value = true;
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
+      } else {
+        if (createPostController.createPostTextEditingController.text.trim().isNotEmpty || createPostController.allMediaList.isNotEmpty) {
+          createPostController.isPostButtonActive.value = true;
+          if (createPostController.createPostTextEditingController.text.length > 150) {
+            createPostController.isTextLimitCrossed.value = true;
+          } else {
+            createPostController.isTextLimitCrossed.value = false;
+          }
+        } else {
+          createPostController.isPostButtonActive.value = false;
+        }
       }
     }
   }
@@ -98,8 +123,17 @@ class CreatePostHelper {
       onPressRightButton: () {
         createPostController.createPostSelectedPrivacy.value = createPostController.tempCreatePostSelectedPrivacy.value;
         createPostController.createPostSelectedPrivacyIcon.value = createPostController.tempCreatePostSelectedPrivacyIcon.value;
-        ll("message");
-        // selectAudienceTextChange();
+        if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Only Me".toLowerCase()) {
+          createPostController.privacyId.value = 0;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Public".toLowerCase()) {
+          createPostController.privacyId.value = 1;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Friends".toLowerCase()) {
+          createPostController.privacyId.value = 2;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Families".toLowerCase()) {
+          createPostController.privacyId.value = 3;
+        } else if (createPostController.createPostSelectedPrivacy.value.toLowerCase() == "Friend & Family".toLowerCase()) {
+          createPostController.privacyId.value = 4;
+        }
         Get.back();
       },
       rightText: ksDone.tr,
@@ -109,7 +143,6 @@ class CreatePostHelper {
     );
   }
 
-  
   void selectPlatformStatusChange(index) {
     for (int i = 0; i < createPostController.platformStatusList.length; i++) {
       if (index == i) {
@@ -155,11 +188,10 @@ class CreatePostHelper {
   }
 
   void removeMedia(index) {
+    if (createPostController.isEditPost.value && createPostController.allMediaList[index] is String) {
+      createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
+    }
     createPostController.allMediaList.removeAt(index);
-    createPostController.allMediaFileList.removeAt(index);
-    // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
-    //   Get.back();
-    // }
   }
 
   void selectCategory(context) {
@@ -238,7 +270,7 @@ class CreatePostHelper {
                 }
               }
               createPostController.postSecondaryCircleAvatar.value = createPostController.selectedBrandImage.value;
-              Get.find<HomeController>().homeTabIndex.value=0;
+              Get.find<HomeController>().homeTabIndex.value = 0;
               Get.offNamedUntil(krCreatePost, ModalRoute.withName(krHome));
             },
             rightText: ksDone.tr,
@@ -271,6 +303,9 @@ class CreatePostHelper {
   }
 
   void resetCreatePostData() {
+    createPostController.isEditPost.value = false;
+    createPostController.deleteImageIdList.clear();
+    createPostController.imageIdList.clear();
     createPostController.isSharingPost.value = false;
     createPostController.taggedFriends.clear();
     createPostController.tempTaggedFriends.clear();
@@ -291,7 +326,6 @@ class CreatePostHelper {
     createPostController.createPostVideoLink.value = "";
     createPostController.createPostVideoFile.clear();
     createPostController.allMediaList.clear();
-    createPostController.allMediaFileList.clear();
     createPostController.sellingAllMediaList.clear();
     createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
@@ -300,15 +334,18 @@ class CreatePostHelper {
     createPostController.selectedProductCategoryID.value = '';
     createPostController.selectedProductCondition.value = '';
     createPostController.selectedProductConditionID.value = '';
-    createPostController.tempCreatePostSelectedPrivacy.value = 'Friends';
-    createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.friends;
-    createPostController.createPostSelectedPrivacyIcon.value = BipHip.friends;
-    createPostController.createPostSelectedPrivacy.value = 'Friends';
+    createPostController.tempCreatePostSelectedPrivacy.value = 'Public';
+    createPostController.tempCreatePostSelectedPrivacyIcon.value = BipHip.world;
+    createPostController.createPostSelectedPrivacyIcon.value = BipHip.world;
+    createPostController.createPostSelectedPrivacy.value = 'Public';
+    createPostController.privacyId.value = 1;
     createPostController.imageDescriptionTextEditingController.clear();
     createPostController.imageLocationsList.clear();
     createPostController.imageTimesList.clear();
     createPostController.imageTagIdList.clear();
+    createPostController.isImageChanged.value = false;
     clearCreateSellingPostView();
+    createPostController.isPostButtonActive.value = false;
   }
 
   void clearCreateSellingPostView() {
@@ -374,15 +411,18 @@ class CreatePostHelper {
   }
 
   void getBottomRowOnPressed(index, [context]) async {
-    ll(index);
     if (index == 1) {
       var status = await globalController.selectMultiMediaSource(
           createPostController.isMediaChanged, createPostController.mediaLinkList, createPostController.mediaFileList);
       if (status) {
-        ll("media list length : ${createPostController.mediaLinkList.length}");
-        insertMedia(createPostController.mediaLinkList, createPostController.mediaFileList);
+        insertMedia(createPostController.mediaFileList);
         configImageDescription();
-        checkCanCreatePost();
+        if (createPostController.isEditPost.value) {
+          createPostController.isPostButtonActive.value = true;
+          createPostController.isImageChanged.value = true;
+        } else {
+          checkCanCreatePost();
+        }
         createPostController.isMediaChanged.value = false;
         createPostController.mediaLinkList.clear();
         createPostController.mediaFileList.clear();
@@ -391,24 +431,24 @@ class CreatePostHelper {
       var status = await globalController.selectImageSource(createPostController.isCreatePostImageChanged, createPostController.createPostImageLink,
           createPostController.createPostImageFile, 'camera', false, true);
       if (status) {
-        insertMedia([createPostController.createPostImageLink], createPostController.createPostImageFile);
+        insertMedia(createPostController.createPostImageFile);
         configImageDescription();
-        checkCanCreatePost();
+        if (createPostController.isEditPost.value) {
+          createPostController.isPostButtonActive.value = true;
+          createPostController.isImageChanged.value = true;
+        } else {
+          checkCanCreatePost();
+        }
         createPostController.isCreatePostImageChanged.value = false;
         createPostController.createPostImageLink.value = "";
         createPostController.createPostImageFile.clear();
       }
     } else if (index == 3) {
-      // var status = await _globalController.selectVideoSource(isCreatePostVideoChanged, createPostVideoLink, createPostVideoFile, 'camera', true);
-      // if (status) {
-      //   insertMedia([createPostVideoLink], createPostVideoFile);
-      //   isCreatePostVideoChanged.value = false;
-      //   createPostVideoLink.value = "";
-      //   createPostVideoFile.clear();
-      // }
+
     } else {
-      // createPostController.tagFriendList.clear();
-      // createPostController.tempTaggedFriends.clear();
+
+      createPostController.temporaryRemovedTaggedFriends.clear();
+      createPostController.tempTaggedFriends.clear();
       Get.find<FriendController>().isFriendListLoading.value = true;
       createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
       if (createPostController.tempTaggedFriends.isNotEmpty) {
@@ -425,6 +465,8 @@ class CreatePostHelper {
         isSearchShow: true,
         content: TagPeopleBottomSheetContent(),
         onPressCloseButton: () {
+          createPostController.removedTaggedFriends.clear();
+          createPostController.temporaryRemovedTaggedFriends.clear();
           createPostController.taggedFriends.clear();
           createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
           createPostController.tempTaggedFriends.clear();
@@ -436,6 +478,10 @@ class CreatePostHelper {
           createPostController.taggedFriends.addAll(createPostController.tempTaggedFriends);
           createPostController.tempTaggedFriends.clear();
           createPostController.tagFriendButtonSheetRightButtonState.value = false;
+          if (createPostController.isEditPost.value) {
+            createPostController.removedTaggedFriends.addAll(createPostController.temporaryRemovedTaggedFriends);
+          }
+          createPostController.isPostButtonActive.value = true;
           Get.back();
         },
         rightText: ksDone.tr,
@@ -452,12 +498,23 @@ class CreatePostHelper {
         }
         Get.find<FriendController>().isFriendListLoading.value = false;
       }
+      if (createPostController.isEditPost.value && createPostController.taggedFriends.isNotEmpty) {
+        for (int k = 0; k < createPostController.tempTaggedFriends.length; k++) {
+          for (int i = 0; i < createPostController.tagFriendList.length; i++) {
+            if (createPostController.tagFriendList[i].id == createPostController.tempTaggedFriends[k].id) {
+              createPostController.tagFriendList.removeAt(i);
+            }
+          }
+        }
+        for (int k = 0; k < createPostController.tempTaggedFriends.length; k++) {
+          createPostController.tempTagIndex.add(0);
+        }
+      }
     }
   }
 
-  void insertMedia(mediaLink, mediaFile) {
+  void insertMedia(mediaFile) {
     createPostController.allMediaList.addAll(mediaFile);
-    createPostController.allMediaFileList.addAll(mediaFile);
   }
 
   void insertSellingMedia(mediaLink, mediaFile) {
@@ -468,9 +525,6 @@ class CreatePostHelper {
   void removeSellingMedia(index) {
     createPostController.sellingAllMediaList.removeAt(index);
     createPostController.sellingAllMediaFileList.removeAt(index);
-    // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
-    //   Get.back();
-    // }
   }
   //------------------------------
   //! important:: create post bottom option functions end
@@ -518,7 +572,6 @@ class CreatePostHelper {
     }
     String dateStr = "${now.year}-$month-$day";
     String fullDateTimeStr = "$dateStr $timeStr:00";
-    ll(fullDateTimeStr);
     return DateTime.parse(fullDateTimeStr);
   }
 
@@ -697,8 +750,6 @@ class CreatePostHelper {
       ),
     );
   }
-
-  //Get tagged friend bottom sheet
   Future<void> taggedFriendBottomSheet(context) async {
     Get.find<FriendController>().isFriendListLoading.value = true;
     createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);
@@ -743,6 +794,86 @@ class CreatePostHelper {
       }
       Get.find<FriendController>().isFriendListLoading.value = false;
     }
+  }
+
+  void deletePostAlertDialog({required BuildContext context, required int id}) {
+    showAlertDialog(
+      context: context,
+      child: CommonAlertDialog(
+        hasCloseBtn: false,
+        addContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [Text(ksDeletePostContent.tr, style: regular14TextStyle(cBlackColor))],
+        ),
+        title: ksMoveToBin.tr,
+        actions: [
+          CustomElevatedButton(
+            label: ksCancel.tr,
+            onPressed: () {
+              Get.back();
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cPrimaryColor),
+            buttonColor: cWhiteColor,
+            borderColor: cLineColor2,
+          ),
+          kH12sizedBox,
+          CustomElevatedButton(
+            label: ksMove.tr,
+            onPressed: () async {
+              Get.back();
+              await globalController.postDelete(postId: id);
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cWhiteColor),
+            buttonColor: cPrimaryColor,
+          ),
+          kH8sizedBox,
+        ],
+      ),
+    );
+  }
+
+  void editPostAlertDialog({required BuildContext context}) {
+    showAlertDialog(
+      context: context,
+      child: CommonAlertDialog(
+        hasCloseBtn: false,
+        addContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [Text(ksEditChangesWarning.tr, style: regular14TextStyle(cBlackColor))],
+        ),
+        title: ksEditPostDiscardChanges.tr,
+        actions: [
+          CustomElevatedButton(
+            label: ksContinueEditing.tr,
+            onPressed: () {
+              Get.back();
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cPrimaryColor),
+            buttonColor: cWhiteColor,
+            borderColor: cLineColor2,
+          ),
+          kH12sizedBox,
+          CustomElevatedButton(
+            label: ksDiscard.tr,
+            onPressed: () async {
+              Get.back();
+              Get.back();
+            },
+            buttonWidth: width - 70,
+            buttonHeight: 40,
+            textStyle: semiBold14TextStyle(cWhiteColor),
+            buttonColor: cPrimaryColor,
+          ),
+          kH8sizedBox,
+        ],
+      ),
+    );
   }
 }
 

@@ -17,7 +17,7 @@ class CreatePostController extends GetxController {
 
   final RxBool isPostButtonActive = RxBool(false);
   final RxBool isTextLimitCrossed = RxBool(false);
-  final TextEditingController createPostController = TextEditingController();
+  final TextEditingController createPostTextEditingController = TextEditingController();
   final RxString tempSelectedCategory = RxString('');
   final RxString category = RxString('');
   final RxInt categoryID = RxInt(-1);
@@ -27,8 +27,10 @@ class CreatePostController extends GetxController {
   final RxString selectedBrandName = RxString('');
   final RxString selectedBrandImage = RxString('');
   final RxBool isSharingPost = RxBool(false);
+  final RxBool isEditPost = RxBool(false);
+  final RxBool isImageChanged = RxBool(false);
 
-  // image and video picker variables
+  //* image and video picker variables
   final RxString createPostImageLink = RxString('');
   final RxList<Rx<File>> createPostImageFile = RxList<Rx<File>>([]);
   final RxBool isCreatePostImageChanged = RxBool(false);
@@ -69,13 +71,6 @@ class CreatePostController extends GetxController {
   final RxBool isSellingLocationSuffixIconVisible = RxBool(false);
   final RxList<String> businessType = RxList<String>(['Electronics', 'Shop', 'Gadgets', 'Hardware']);
   final RxBool isAddBrandSuffixIconVisible = RxBool(false);
-  final List audienceTypeList = [
-    {"icon": BipHip.lock},
-    {"icon": BipHip.world},
-    {"icon": BipHip.friends},
-    {"icon": BipHip.addFamily},
-    {"icon": BipHip.friends},
-  ];
 
   final List categoryList = [
     {"id": '', "name": '', "title": "Poetry", "icon": BipHip.poetry, "icon_color": cPoetryColor},
@@ -92,36 +87,14 @@ class CreatePostController extends GetxController {
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> tempTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> temporaryRemovedTaggedFriends = RxList<FriendFamilyUserData>([]);
+  final RxList<FriendFamilyUserData> removedTaggedFriends = RxList<FriendFamilyUserData>([]);
   final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
   final RxList tempTagIndex = RxList([]);
-
-  // final List tagFiendList = [
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  //   {"name": "Takin Ahmed", "image_url": kiLogoImageUrl},
-  // ];
-
-  final List brandList = [
-    {"name": "Takin Ahmed 1", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 2", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 3", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 4", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 5", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 6", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 7", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 8", "image_url": kiLogoImageUrl},
-    {"name": "Takin Ahmed 9", "image_url": kiLogoImageUrl},
-  ];
-
-  final RxList allMediaList = RxList([]);
-  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
-
+  final RxList<dynamic> allMediaList = RxList<dynamic>([]);
+  final RxInt previousPostImageLength = RxInt(-1);
+  final RxString previousPostContent = RxString("");
+  final RxString previousNewsTitle = RxString("");
   final List platformList = [
     {"id": '', "name": 'Facebook', "title": "Facebook", "image": kiFacebookSvgImageUrl},
     {"id": '', "name": 'Website', "title": "Website", "image": kiWebSvgImageUrl},
@@ -143,7 +116,6 @@ class CreatePostController extends GetxController {
 //! important:: create post API
 //------------------------------
 
-  //Get all post catagories API implementation
   Rx<PostCategoryListModel?> postCategoryData = Rx<PostCategoryListModel?>(null);
   final RxBool isAddKidPageLoading = RxBool(false);
   final RxBool isPostCategoryListLoading = RxBool(false);
@@ -184,7 +156,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  //Add kid
+  //!Add kid
   final RxBool saveKidInfo = RxBool(false);
   final RxString kidImageLink = RxString('');
   final Rx<File> kidImageFile = File('').obs;
@@ -217,7 +189,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  //Add kid API Implementation
+  //*Add kid API Implementation
   Rx<KidModel?> kidData = Rx<KidModel?>(null);
   RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
   Future<void> addKid() async {
@@ -238,7 +210,6 @@ class CreatePostController extends GetxController {
 
       if (response.success == true) {
         kidData.value = KidModel.fromJson(response.data);
-        ll(kidData.value!.name);
         await Get.find<KidsController>().getKidsList();
         isAddKidPageLoading.value = false;
         Get.back();
@@ -258,7 +229,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  //Get Kid List API Implementation
+  //*Get Kid List API Implementation
   Rx<KidListModel?> kidListData = Rx<KidListModel?>(null);
   RxList<Kid> kidList = RxList<Kid>([]);
   Rx<Kid?> selectedKid = Rx<Kid?>(null);
@@ -300,7 +271,7 @@ class CreatePostController extends GetxController {
     }
   }
 
-  // Add Brand API Implementation
+  //* Add Brand API Implementation
   final RxString brandImageLink = RxString('');
   final Rx<File> brandImageFile = File('').obs;
   final RxBool isBrandImageChanged = RxBool(false);
@@ -315,7 +286,6 @@ class CreatePostController extends GetxController {
   final TextEditingController brandInstagramTextEditingController = TextEditingController();
   final RxList brandSocialLinkList = RxList([]);
   Future<void> addBrand() async {
-    ll(brandImageFile.value.path);
     try {
       isAddBrandPageLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -401,7 +371,6 @@ class CreatePostController extends GetxController {
     if (brandYoutubeLinkTextEditingController.text.trim() != '') {
       brandSocialLinkList.add({'Youtube': brandYoutubeLinkTextEditingController.text.trim()});
     }
-    ll(brandSocialLinkList);
   }
 
   void checkCanSaveBrand() {
@@ -419,12 +388,12 @@ class CreatePostController extends GetxController {
     }
   }
 
-  // Create post API Implementation
+  //! Create post API Implementation
   final RxBool isCreatePostLoading = RxBool(false);
   final RxBool isPostedFromProfile = RxBool(false);
 
   void resetCreatePost() {
-    createPostController.clear();
+    createPostTextEditingController.clear();
     categoryID.value = -1;
     kidID.value = -1;
     brandID.value = -1;
@@ -451,8 +420,8 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         if (category.value != '') 'post_category_id': categoryID.value.toString(),
-        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostController.text.trim(),
-        'is_public': '1',
+        'content': category.value == 'Selling' ? biddingTitleTextEditingController.text.trim() : createPostTextEditingController.text.trim(),
+        "is_public": privacyId.value.toString(),
         'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
           'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
@@ -524,18 +493,15 @@ class CreatePostController extends GetxController {
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'share_post_id': postId.toString(),
-        'content': createPostController.text.trim(),
+        'content': createPostTextEditingController.text.trim(),
         'is_public': '1',
-        // 'post_tag_friend_id': tags.join(','),
       };
-      ll(body);
       var response = await apiController.commonApiCall(
         requestMethod: kPost,
         url: kuSharePost,
         body: body,
         token: token,
       ) as CommonDM;
-      ll("HELLO: $response");
       if (response.success == true) {
         await Get.find<HomeController>().getPostList();
 
@@ -594,28 +560,20 @@ class CreatePostController extends GetxController {
       return height * 0.4;
     } else {
       if (storeList.isEmpty) {
-        ll(storeList.length);
         return height * 0.4;
       } else if (storeList.isNotEmpty && storeList.length <= 1) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.2 : height * 0.3;
       } else if (storeList.length >= 2 && storeList.length <= 3) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.3 : height * 0.4;
       } else if (storeList.length >= 4 && storeList.length <= 5) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.4 : height * 0.5;
       } else if (storeList.length >= 6 && storeList.length <= 7) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.5 : height * 0.6;
       } else if (storeList.length >= 8 && storeList.length <= 9) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.6 : height * 0.7;
       } else if (storeList.length >= 10 && storeList.length <= 11) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.7 : height * 0.8;
       } else if (storeList.length >= 12 && storeList.length <= 13) {
-        ll(storeList.length);
         return isDeviceScreenLarge() ? height * 0.8 : height * 0.9;
       } else {
         return height * 0.9;
@@ -630,7 +588,6 @@ class CreatePostController extends GetxController {
   final RxBool sellingPostTypeBottomSheetRightButtonState = RxBool(false);
   final TextEditingController businessTypeTextEditingController = TextEditingController();
   final List<String> businessTypeLists = ['electronic', 'food', 'clothing'];
-  // final RxList businessTypeList = RxList([]);
   final RxList filteredBusinessTypeList = RxList([]);
   final RxInt businessTypeIndex = RxInt(-1);
 
@@ -672,7 +629,7 @@ class CreatePostController extends GetxController {
   final RxString selectedProductCategoryID = RxString('');
   final RxBool productCategoryBottomSheetRightButton = RxBool(false);
 
-  //   //*Get Create Post List Api Call
+  //*Get Create Post List Api Call
   final Rx<GetCreatePostModel?> createPostAllData = Rx<GetCreatePostModel?>(null);
   final RxList<PostCategory> createPostCategoryList = RxList<PostCategory>([]);
   final RxList<PostCategory> createPostSubCategoryList = RxList<PostCategory>([]);
@@ -700,6 +657,15 @@ class CreatePostController extends GetxController {
         createPostPrivacyList.addAll(createPostAllData.value!.privacy);
         createPostSellCategoryList.addAll(createPostAllData.value!.sellPostCategories);
         createPostSellConditionList.addAll(createPostAllData.value!.sellPostCondition);
+        PostCategory allCategory = PostCategory(
+          id: 0,
+          name: "All",
+          isActive: 1,
+        );
+
+        createPostCategoryList.insert(0, allCategory);
+        createPostCategoryList.addAll(createPostAllData.value!.postCategories);
+
         for (int i = 0; i < postCategoryList.length; i++) {
           for (int j = 0; j < categoryList.length; j++) {
             if (categoryList[j]['title'].toLowerCase() == postCategoryList[i].name!.toLowerCase()) {
@@ -734,4 +700,95 @@ class CreatePostController extends GetxController {
   final RxString temporaryProductAvailability = RxString('');
   final RxString productAvailability = RxString('');
   final RxBool productAvailabilityBottomSheetRightButtonState = RxBool(false);
+  final sharePostOthersList = [
+    {"icon": BipHip.activity, "text": "Message"}, //! Icon must change
+    {"icon": BipHip.whatsappFill, "text": "WhatsApp"},
+    {"icon": BipHip.addFamily, "text": "Group"},
+    {"icon": BipHip.activity, "text": "Your Story"}, //! Icon must change
+    {"icon": BipHip.addLink, "text": "Copy Link"},
+  ];
+
+  final RxInt postId = RxInt(-1);
+  final RxInt privacyId = RxInt(-1);
+  List deleteImageIdList = [];
+  RxList imageIdList = RxList([]);
+  Future<void> updatePost({required int postId}) async {
+    List tags = [];
+    for (int i = 0; i < taggedFriends.length; i++) {
+      tags.add(taggedFriends[i].id);
+    }
+    List removedTags = [];
+    for (int i = 0; i < removedTaggedFriends.length; i++) {
+      removedTags.add(removedTaggedFriends[i].id);
+    }
+    var uploadedImageList = [];
+    for (int i = 0; i < allMediaList.length; i++) {
+      if (allMediaList.isNotEmpty && allMediaList[i] is! String) {
+        uploadedImageList.add(allMediaList[i]);
+      }
+    }
+    try {
+      isCreatePostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        "id": postId.toString(),
+        "content": createPostTextEditingController.text.toString().trim(),
+        if (categoryID.value != -1) "post_category_id": categoryID.value.toString(),
+        'post_tag_friend_id': tags.join(','),
+        'post_tag_remove_friend_ids': removedTags.join(','),
+        "is_public": privacyId.value.toString(),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++)
+          'image_description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'image_locations[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'image_times[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'image_tag_friend_ids[$i]': imageTagIdList[i].toString(),
+        "delete_image_ids": deleteImageIdList.join(','),
+        if (uploadedImageList.isEmpty)
+          for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
+        if (kidID.value != -1) 'kid_id': kidID.value.toString(),
+        if (selectedBrandId.value != -1) 'store_id': selectedBrandId.value.toString(),
+        if (category.value == 'Selling') 'sell_post_type': (isRegularPost.value && !isBiddingPost.value) ? '0' : '1',
+        if (category.value == 'Selling') 'title': biddingTitleTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'price': biddingPriceTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'discount': biddingDiscountAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'description': biddingDescriptionTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'product_tags': biddingProductTagTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'sku': biddingSKUTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'bidding_post_type': (isPublicPost.value && !isPrivatePost.value) ? '0' : '1',
+        if (category.value == 'Selling') 'desire_amount': biddingDesiredAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'min_bidding_amount': biddingDesiredAmountTextEditingController.text.trim(),
+        if (category.value == 'Selling') 'sell_post_category_id': selectedProductCategoryID.value,
+        if (category.value == 'Selling') 'sell_post_condition_id': selectedProductConditionID.value,
+        if (category.value == 'Selling') 'sell_post_availabilty': productAvailabilityId.value,
+        if (category.value == 'Selling') 'is_hide_fnf': isHideFriendFamilySwitch.value ? '1' : '0',
+        if (category.value == 'Selling') 'location': sellingLocationTextEditingController.text.toString().trim(),
+        if (category.value == 'News') 'title': newsTitleTextEditingController.text.trim(),
+        if (category.value == 'News') 'description': newsDescriptionTextEditingController.text.trim(),
+      };
+      var response = await apiController.multiMediaUpload(
+        url: kuUpdatePost,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: category.value == 'Selling' ? sellingAllMediaFileList : uploadedImageList,
+      ) as CommonDM;
+      if (response.success == true) {
+        await Get.find<HomeController>().getPostList();
+        Get.back();
+        isCreatePostLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isCreatePostLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreatePostLoading.value = false;
+      ll('updatePost error: $e');
+    }
+  }
 }

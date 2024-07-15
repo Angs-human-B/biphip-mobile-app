@@ -1,6 +1,8 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/dashboard/dashboard_controller.dart';
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
@@ -10,6 +12,8 @@ import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/menu/friend/friend_helper.dart';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -20,14 +24,12 @@ class MenuHelper {
   void menuPressFunction(index) async {
     switch (index) {
       case 0:
-        ll('Friend');
         Get.find<GlobalController>().resetTapButtonData();
         FriendHelper().friendSearchFieldReset();
         Get.toNamed(krFriends);
         await Get.find<FriendController>().getFriendList();
         break;
       case 1:
-        ll('Family');
         Get.find<GlobalController>().resetTapButtonData();
         Get.find<GlobalController>().searchController.clear();
         Get.find<FamilyController>().isFamilySuffixIconVisible.value = false;
@@ -35,50 +37,41 @@ class MenuHelper {
         await Get.find<FamilyController>().getFamilyList();
         break;
       case 2:
-        ll('Image');
         GalleryPhotoHelper().resetTapButtonData();
         Get.toNamed(krGalleryPhotos);
         await Get.find<GalleryController>().getGalleryAlbumList();
         break;
       case 3:
-        ll('Videos');
         Get.toNamed(krGalleryVideos); //*new changes for gallery Videos
         break;
       case 4:
-        ll('Badges');
         Get.find<PendentBadgesController>().resetBadgesData();
         Get.toNamed(krBadgesStarPage);
         await Get.find<PendentBadgesController>().getUserBadges();
         await Get.find<PendentBadgesController>().getStarPrice();
         break;
       case 5:
-        ll('Pendent');
         Get.find<PendentBadgesController>().resetPendentData();
         Get.toNamed(krPendentPage);
         await Get.find<PendentBadgesController>().getUserPendent();
         break;
       case 6:
-        ll('Earnings');
         break;
       case 7:
         Get.toNamed(krKidsPage);
         await Get.find<KidsController>().getKidsList();
-        ll('Kids');
         break;
       case 8:
-        ll('Store');
         Get.toNamed(krStore);
         await Get.find<StoreController>().getStoreList();
         break;
       case 9:
-        ll('Quiz');
         Get.find<QuizController>().resetQuizTapButtonData();
         Get.find<QuizController>().resetQuizData();
         Get.toNamed(krMyQuiz);
         await Get.find<QuizController>().getQuestionList();
         break;
       case 10:
-        ll('Birthday');
         Get.find<PendentBadgesController>().todayBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().inTwoDaysBirthdayTimelineTextEditingController.clear();
         Get.find<PendentBadgesController>().upcomingBirthdayTimelineTextEditingController.clear();
@@ -89,9 +82,34 @@ class MenuHelper {
         await Get.find<PendentBadgesController>().getBirthday();
         break;
       case 11:
-        ll('Awards');
         Get.find<AwardController>().resetAwardData();
         Get.toNamed(krAwardsPage);
+        await Get.find<AwardController>().getAwardList();
+        break;
+      case 12:
+        Get.find<DashboardController>().dashboardOverviewSelectedFilterIndex.value = 0;
+        await Get.find<DashboardController>().getDashboardOverview();
+        // await Get.find<DashboardController>().getDashboardProfileOverview();
+        await Get.find<DashboardController>().getDashboardAudienceInsightByCity();
+        Get.toNamed(krDashboardOverview);
+        break;
+      case 13:
+        Get.find<ProfileViewController>().isKidOrStoreProfile.value = true;
+        Get.find<ProfileViewController>().profileViewType.value = "store";
+        if (Get.find<ProfileViewController>().isKidOrStoreProfile.value) {
+          Get.find<KidsController>().selectedKidId.value = 118; //!Its temporary set for show data, please must remove it
+          Get.find<KidsController>().getKidOverview();
+        }
+        //  if(Get.find<ProfileViewController>().isKidOrStoreProfile.value==false){
+        await Get.find<FriendController>().getFriendList();
+        await Get.find<FamilyController>().getFamilyList();
+        //  }
+        Get.toNamed(krProfileView);
+        Get.find<ProfileViewController>().interestCatagoriesIndex.value = 0;
+        await Get.find<ProfileViewController>().getProfileOverview();
+        await Get.find<ProfileViewController>().getProfileViewPostList();
+        await Get.find<CreatePostController>().getCreatePost();
+        await Get.find<HomeController>().getTimelinePostList();
         break;
     }
   }

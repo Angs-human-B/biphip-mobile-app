@@ -21,38 +21,16 @@ class MenuSectionController extends GetxController {
     {'text': 'Stores', 'icon': BipHip.shopFill},
     {'text': 'Quiz', 'icon': BipHip.activity},
     {'text': 'Birthday', 'icon': BipHip.birthday},
-    {'text': 'Awards', 'icon': BipHip.addNew},//!Icon should be changed
+    {'text': 'Awards', 'icon': BipHip.addNew}, //!Icon should be changed
+    {'text': 'Dashboard', 'icon': BipHip.school}, //!Icon should be changed
+    {'text': 'View Profile', 'icon': BipHip.user}, 
   ];
 
   List supportButtonContent = [
-    {
-      'text': 'Help Center',
-      'icon': BipHip.helpFill,
-      'onPressed': () {
-        ll('help center');
-      }
-    },
-    {
-      'text': 'Support Inbox',
-      'icon': BipHip.supportInbox,
-      'onPressed': () {
-        ll('Support inbox');
-      }
-    },
-    {
-      'text': 'Report a Problem',
-      'icon': BipHip.report,
-      'onPressed': () {
-        ll('Report a problem');
-      }
-    },
-    {
-      'text': 'Terms & Conditions',
-      'icon': BipHip.termsCondition,
-      'onPressed': () {
-        ll('Terms and condition');
-      }
-    },
+    {'text': 'Help Center', 'icon': BipHip.helpFill, 'onPressed': () {}},
+    {'text': 'Support Inbox', 'icon': BipHip.supportInbox, 'onPressed': () {}},
+    {'text': 'Report a Problem', 'icon': BipHip.report, 'onPressed': () {}},
+    {'text': 'Terms & Conditions', 'icon': BipHip.termsCondition, 'onPressed': () {}},
   ];
 
   List settingsButtonContent = [
@@ -60,61 +38,12 @@ class MenuSectionController extends GetxController {
       'text': 'Setting',
       'icon': BipHip.setting,
       'onPressed': () {
-        ll('Setting');
         Get.toNamed(krSettings);
       }
     },
-    {
-      'text': 'Recent Activity',
-      'icon': BipHip.activity,
-      'onPressed': () {
-        ll('Recent Activity');
-      }
-    },
-    {
-      'text': 'Dark Mode',
-      'icon': BipHip.darkMode,
-      'onPressed': () {
-        ll('Dark Mode');
-      }
-    },
-    {
-      'text': 'Language',
-      'icon': BipHip.language,
-      'onPressed': () {
-        ll('Language');
-      }
-    },
-  ];
-
-  List friendList = [
-    {'name': 'Karnaze Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Joe Biden', 'image': kiFriendImageUrl},
-    {'name': 'Stewie Griffin', 'image': kiFriendImageUrl},
-    {'name': 'Rick Sanchez', 'image': kiFriendImageUrl},
-    {'name': 'Johan Liebert', 'image': kiFriendImageUrl},
-    {'name': 'Akshia Rekrahs', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl}
-  ];
-
-  List familyList = [
-    {'name': 'Peter Griffin', 'image': kiFamilyImageUrl},
-    {'name': 'Vladmir Putin', 'image': kiFamilyImageUrl},
-    {'name': 'Meg Griffin', 'image': kiFamilyImageUrl},
-    {'name': 'Rick Sanchez', 'image': kiFamilyImageUrl},
-    {'name': 'Morty Sanchez', 'image': kiFamilyImageUrl},
-    {'name': 'Beth Sanchez', 'image': kiFamilyImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl},
-    {'name': 'Alyssa Krnunkenstein', 'image': kiFriendImageUrl}
+    {'text': 'Recent Activity', 'icon': BipHip.activity, 'onPressed': () {}},
+    {'text': 'Dark Mode', 'icon': BipHip.darkMode, 'onPressed': () {}},
+    {'text': 'Language', 'icon': BipHip.language, 'onPressed': () {}},
   ];
 
   final TextEditingController firstNameEditingController = TextEditingController();
@@ -144,7 +73,7 @@ class MenuSectionController extends GetxController {
         var rememberMe = await spController.getRememberMe();
         if (rememberMe == true) {
           await spController.saveUserList({
-             "id": profileController.userData.value!.id,
+            "id": profileController.userData.value!.id,
             "email": profileController.userData.value!.email.toString(),
             "name": profileController.userData.value!.fullName.toString(),
             "first_name": profileController.userData.value!.firstName.toString(),

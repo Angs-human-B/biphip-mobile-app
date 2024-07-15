@@ -1,3 +1,5 @@
+import 'package:bip_hip/models/common/common_link_model.dart';
+
 class SearchHistoryModel {
   SearchHistories? searchHistories;
 
@@ -17,7 +19,7 @@ class SearchHistories {
   int? from;
   int? lastPage;
   String? lastPageUrl;
-  List<Link> links;
+  List<CommonLink> links;
   dynamic nextPageUrl;
   String? path;
   int? perPage;
@@ -48,7 +50,7 @@ class SearchHistories {
         from: json["from"],
         lastPage: json["last_page"],
         lastPageUrl: json["last_page_url"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+        links: List<CommonLink>.from(json["links"].map((x) => CommonLink.fromJson(x))),
         nextPageUrl: json["next_page_url"],
         path: json["path"],
         perPage: json["per_page"],
@@ -73,23 +75,5 @@ class SearchHistoryListData {
         id: json["id"],
         userId: json["user_id"],
         keywords: json["keywords"],
-      );
-}
-
-class Link {
-  String? url;
-  String? label;
-  bool? active;
-
-  Link({
-    required this.url,
-    required this.label,
-    required this.active,
-  });
-
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
       );
 }

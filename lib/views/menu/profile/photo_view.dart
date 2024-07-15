@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
 
 class ViewPhoto extends StatelessWidget {
   ViewPhoto({super.key});
@@ -64,10 +63,6 @@ class ViewPhoto extends StatelessWidget {
                         color: cWhiteColor,
                         height: 1,
                         width: width - 40,
-                      ),
-                       LikeSectionWidget(
-                        sectionColor: cWhiteColor,
-                        isGiftShown: false,
                       ),
                     ],
                   ),

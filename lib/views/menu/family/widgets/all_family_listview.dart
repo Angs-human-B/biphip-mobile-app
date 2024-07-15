@@ -59,7 +59,7 @@ class AllFamilyListView extends StatelessWidget {
                                           if (familyController.familyBlockList[index]) {
                                             await familyController.unBlockUser();
                                           } else {
-                                            await familyController.blockUser();
+                                            await familyController.blockUser(userId: familyController.userId.value);
                                           }
                                         },
                                       )),

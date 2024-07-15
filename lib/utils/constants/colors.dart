@@ -44,9 +44,16 @@ const Color cAmberColor = Colors.amber;
 const Color cLinkColor = Color(0xFF316FF6);
 const Color cYellowLinearColor1 = Color(0xFFFDB805);
 const Color cYellowLinearColor2 = Color(0xFFFD5E05);
-const Color cBlueLinearColor1 = Color(0XFF59FCCB);
-const Color cBlueLinearColor2 = Color(0XFF158BF9);
-const Color csmallBodyTextColor2 = Color(0XFF6A6868);
+const Color cBlueLinearColor1 = Color(0xFF59FCCB);
+const Color cBlueLinearColor2 = Color(0xFF158BF9);
+const Color csmallBodyTextColor2 = Color(0xFF6A6868);
+const Color cOrangeGradientColor = Color(0xFFFBB500);
+const Color cBlackGradientColor = Color(0xFF464646);
+const Color cCategoryColor = Color(0xFF314579);
+const Color cDarkRedColor = Color(0xFFE92121);
+const Color cPinkColor = Color(0xFFE8246A);
+const Color cAmberAccentColor = Color(0xFFE4A90F);
+const Color cPurpleColor = Color(0xFF7367F0);
 
 final Shader linearGradient = const LinearGradient(
   colors: <Color>[Color(0xff59d3fc), Color(0xff554dde)],

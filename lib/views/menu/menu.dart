@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/helpers/menu/menu_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/widgets/common/utils/custom_bottom_nav.dart';
@@ -70,7 +71,9 @@ class Menu extends StatelessWidget {
                               height: 64,
                               onPressed: () async {
                                 Get.toNamed(krProfile);
+                                profileController.interestCatagoriesIndex.value = 0;
                                 await profileController.getProfileOverview();
+                                await Get.find<CreatePostController>().getCreatePost();
                                 await Get.find<HomeController>().getTimelinePostList();
                               },
                               leading: ClipOval(

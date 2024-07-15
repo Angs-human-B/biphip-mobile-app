@@ -89,7 +89,6 @@ class KidHelper {
   //*Edit kid cover bottom sheet content
   void kidCoverPhotoUploadBottomSheet(context) {
     kidsController.isKidProfilePicEditor.value = false;
-    // kidsController.kidViewOptionEnabled.value = false;
     resetKidImage();
     globalController.commonBottomSheet(
       context: context,
@@ -213,7 +212,7 @@ class KidHelper {
       kidsController.kidBioEditingController.text = '';
       kidsController.kidBio.value = null;
     } else {
-      //!Api Data
+      //*Api Data
       kidsController.kidBio.value = kidsController.kidsData.value!.bio;
       kidsController.bioCount.value = kidsController.kidsData.value!.bio.length;
       kidsController.kidBioEditingController.text = kidsController.kidsData.value!.bio;
@@ -233,25 +232,9 @@ class KidHelper {
     await kidsController.getAllHobbiesList();
     Get.toNamed(krSelectHobbiesPage);
     kidsController.temporarySelectedHobbies.addAll(kidsController.kidsData.value!.hobbies);
-    // for (int j = 0; j < kidsController.kidsData.value!.hobbies.length; j++) {
-    //   for (int i = 0; i < kidsController.allHobbiesList.length; i++) {
-    //     if (kidsController.allHobbiesList[i] == kidsController.kidsData.value!.hobbies[j]) {
-    //       kidsController.hobbiesIndex.add(i);
-    //       kidsController.temporarySelectedHobbies.addAll();
-    //       ll(kidsController.hobbiesIndex);
-    //     }
-    //   }
-    // }
   }
 
   void onSelectHobbies(index) {
-    // if (!kidsController.hobbiesIndex.contains(index)) {
-    //   kidsController.hobbiesIndex.add(index);
-    //   kidsController.temporarySelectedHobbies.add(kidsController.temporaryHobbiesList[index]);
-    // } else {
-    //   kidsController.hobbiesIndex.remove(index);
-    //   kidsController.temporarySelectedHobbies.remove(kidsController.temporaryHobbiesList[index]);
-    // }
     if (kidsController.temporarySelectedHobbies.contains(kidsController.temporaryHobbiesList[index])) {
       kidsController.hobbiesIndex.remove(index);
       kidsController.temporarySelectedHobbies.remove(kidsController.temporaryHobbiesList[index]);
@@ -263,7 +246,6 @@ class KidHelper {
 
   //* Common Edit page
   void commonSelectionButtonOnPressed(context) {
-    // profileController.isLinkListLoading.value = true;
     kidsController.kidTemporaryEducationBackground.value = kidsController.kidEducationBackground.value;
     if (kidsController.kidTemporaryEducationBackground.value == '' &&
         (kidsController.kidCommonEditPageTitle.value == ksAddEducationalEvent ||
@@ -273,7 +255,6 @@ class KidHelper {
     } else {
       kidsController.editCommonSelectionBottomSheetRightButtonState.value = true;
     }
-    // commonSelectionBottomSheet(context);
   }
 
   //* profile edit methods
@@ -298,11 +279,7 @@ class KidHelper {
 
   void selectFunction(functionFlag, [index]) async {
     if (functionFlag == 'ADD SCHOOL') {
-      // if (kidsController.kidEducationBackground.value == 'School') {
       await kidsController.storeSchool();
-      // } else {
-      // await profileController.storeCollege();//!Api call
-      // }
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
       kidsController.kidEducationBackground.value = '';
@@ -311,42 +288,29 @@ class KidHelper {
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     }
-    //  else if (functionFlag == 'EDIT COLLEGE') {
-    //   // await profileController.updateCollege(profileController.collegeID.value);//!Api
-    //   kidsController.kidEducationInstituteTextEditingController.clear();
-    //   kidsController.kidCommonEditTextEditingController.clear();
-    // }
     else if (functionFlag == 'ADD PHONE') {
       await kidsController.storeContact('phone');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE') {
       await kidsController.updateContact(kidsController.phoneID.value, 'phone');
-      // await profileController.storeContact('phone');//!Api
-      // await kidsController.storeContact('phone');
       kidsController.kidCommonEditTextEditingController.clear();
     }  else if (functionFlag == 'ADD EMAIL') {
-      // await kidsController.storeContact('email');
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL') {
       await kidsController.updateContact(kidsController.emailID.value, 'email');
-      // await kidsController.updateContact(kidsController.emailID.value, 'email'); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT SCHOOL DELETE') {
       await kidsController.deleteSchool(kidsController.schoolID.value);
       kidsController.kidEducationInstituteTextEditingController.clear();
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT PHONE DELETE') {
-      // await kidsController.deleteContact(kidsController.phoneID.value, "phone"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     } else if (functionFlag == 'EDIT EMAIL DELETE') {
-      // await kidsController.deleteContact(kidsController.emailID.value, "email"); //!Api
       kidsController.kidCommonEditTextEditingController.clear();
     }
   }
 
   void getMethod(methodID) {
-    // profileController.showCommonEditSuffixIcon.value = false;
-    // profileController.showCommonSecondaryEditSuffixIcon.value = false;
     if (methodID == 0) {
       setEditPageValue(
           ksAddEducationalEvent.tr,
@@ -387,59 +351,13 @@ class KidHelper {
     } else if (methodID == 3) {
       setEditPageValue(ksEditPhone.tr, false, BipHip.phoneFill, kidsController.kidPhoneNumberTextEditingController, false,
           kidsController.kidPhoneNumberTextEditingController, ksEditPhone.tr, false, true, false, false, '', 'EDIT PHONE', '', '');
-      // Get.back();
     } else if (methodID == 4) {
       setEditPageValue(ksAddEmail.tr, false, BipHip.mail, kidsController.kidEmailTextEditingController, false, kidsController.kidEmailTextEditingController,
           ksEmail.tr, false, true, false, false, '', 'ADD EMAIL', '', '');
     } else if (methodID == 5) {
       setEditPageValue(ksEditEmail.tr, false, BipHip.mail, kidsController.kidEmailTextEditingController, false, kidsController.kidEmailTextEditingController,
           ksEditEmail.tr, false, true, false, false, '', 'EDIT EMAIL', '', '');
-      // Get.back();
     }
-
-    //  else if (methodID == 2) {
-    //   setEditPageValue(
-    //       ksEditCollege.tr,
-    //       false,
-    //       BipHip.schoolNew,
-    //       kidsController.kidEducationInstituteTextEditingController,
-    //       false,
-    //       kidsController.kidEducationInstituteTextEditingController,
-    //       ksEditCollege.tr,
-    //       true,
-    //       true,
-    //       true,
-    //       kidsController.isKidCurrentlyStudyingHere.value,
-    //       ksCurrentlyStudyingHere.tr,
-    //       'EDIT COLLEGE',
-    //       kidsController.temporaryKidSchoolStartDate.value,
-    //       kidsController.temporaryKidSchoolEndDate.value);
-    // }
-    // else if (methodID == 15) {
-    //   setEditPageValue(ksAddLink, true, BipHip.webLink, profileController.linkTextEditingController, false, profileController.emailTextEditingController,
-    //       ksAddLink, false, true, false, false, '', 'ADD LINK', '', '');
-    // } else if (methodID == 16) {
-    //   setEditPageValue(ksEditLink.tr, true, getLinkIcon(profileController.linkSource.value), profileController.linkTextEditingController, false,
-    //       profileController.linkTextEditingController, ksEditLink.tr, false, true, false, false, '', 'EDIT LINK', '', '');
-    //   // Get.back();
-    // } else if (methodID == 17) {
-    //   setEditPageValue(
-    //       ksAddWorkplace.tr,
-    //       false,
-    //       BipHip.officeFill,
-    //       profileController.companyNameTextEditingController,
-    //       true,
-    //       profileController.designationTextEditingController,
-    //       ksOfficeName.tr,
-    //       true,
-    //       true,
-    //       true,
-    //       profileController.isCurrentlyStudyingHere.value,
-    //       ksCurrentlyWorkingHere.tr,
-    //       'ADD WORKPLACE',
-    //       '',
-    //       '');
-    // }
     Get.toNamed(krKidEditPage);
   }
 
@@ -464,7 +382,6 @@ class KidHelper {
       kidsController.isKidProfilePhoto.value = true;
       kidsController.kidViewOptionEnabled.value = true;
       kidsController.kidPreviewPhoto.value = kidsController.kidOverviewData.value!.kids!.profilePicture.toString();
-      ll(kidsController.kidOverviewData.value!.kids!.profilePicture);
       Get.toNamed(krKidPhotoView);
     }
   }
@@ -474,7 +391,6 @@ class KidHelper {
       kidsController.kidViewOptionEnabled.value = true;
       kidsController.isKidProfilePhoto.value = false;
       kidsController.kidPreviewPhoto.value = kidsController.kidOverviewData.value!.kids!.coverPhoto.toString();
-      ll(kidsController.kidPreviewPhoto.value);
       Get.toNamed(krKidPhotoView);
     }
   }
@@ -521,7 +437,6 @@ class KidHelper {
       kidsController.temporaryKidGender.value = '';
       kidsController.kidGenderBottomSheetState.value = false;
     }
-    // profileController.isGenderListLoading.value = true;
     globalController.commonBottomSheet(
       isBottomSheetRightButtonActive: kidsController.kidGenderBottomSheetState,
       context: context,
@@ -588,98 +503,58 @@ class KidHelper {
     await kidsController.getKidGenderList();
   }
 
-  // Future<void> removeLanguage(index) async {
-  //   kidsController.userLanguages.removeAt(index);
-  //   if (kidsController.userLanguages.length == 1) {
-  //     if (kidsController.userLanguages[0] == "") {
-  //       kidsController.userLanguages.clear();
-  //     }
-  //   }
-  //   await kidsController.storeLanguages(kidsController.userLanguages);
-  // }
-
   void resetTextEditor() {
-    // profileController.temporaryListCommon.clear();
     kidsController.kidEducationInstituteTextEditingController.clear();
-    // profileController.educationBackground.value = '';
     kidsController.kidPhoneNumberTextEditingController.clear();
     kidsController.kidEmailTextEditingController.clear();
-    // profileController.commonEditPageIcon.value = null;
     kidsController.isKidCurrentlyStudyingHere.value = false;
     kidsController.enableKidSaveButton.value = false;
     kidsController.temporaryKidSchoolEndDate.value = '';
     kidsController.temporaryKidSchoolStartDate.value = '';
-    // profileController.isSingleDatePicker.value = false;
   }
 
   //* kid Contact Section
   void kidAddPhone() {
     resetTextEditor();
-    // checkSaveButtonActive();
     kidsController.enableKidSaveButton.value = true;
     getMethod(2);
   }
 
-  // void editKidPhone() {
-  //   resetTextEditor();
-  //   kidsController.enableKidSaveButton.value = true;
-  //   kidsController.phoneID.value = kidsController.kidcontactData.value!.id!;
-  //   kidsController.kidPhoneNumberTextEditingController.text = kidsController.phoneData.value ?? '';
-  //   getMethod(4);
-  // }
   void editKidPhone(Contact contactData) {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
     kidsController.phoneID.value = contactData.id!;
     kidsController.kidPhoneNumberTextEditingController.text = contactData.value!;
-    ll(kidsController.phoneID.value);
-    ll(kidsController.kidPhoneNumberTextEditingController.text);
     getMethod(3);
   }
 
   void kidAddEmail() {
     resetTextEditor();
-    // checkSaveButtonActive();
     kidsController.enableKidSaveButton.value = true;
     getMethod(4);
   }
 
-  // void editKidEmail() {
-  //   resetTextEditor();
-  //   kidsController.enableKidSaveButton.value = true;
-  //   kidsController.emailID.value = kidsController.contactList[index].id;
-  //   kidsController.kidEmailTextEditingController.text = kidsController.emailData.value ?? '';
-  //   getMethod(6);
-  // }
   void editKidEmail(Contact contactData) {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
     kidsController.emailID.value = contactData.id!;
     kidsController.kidEmailTextEditingController.text = contactData.value!;
-    ll(kidsController.emailID.value);
-    ll(kidsController.kidEmailTextEditingController.text);
     getMethod(5);
   }
 
   void addKidEducationBackground() {
     resetTextEditor();
     getMethod(0);
-    kidsController.getSchoolList(); //!Api call here
+    kidsController.getSchoolList();
   }
 
   void saveHobbies() async {
-    // kidsController.selectedHobbies.clear();
-    // for (int i = 0; i < kidsController.hobbiesIndex.length; i++) {
-    //   // kidsController.selectedHobbies.add(kidsController.temporaryHobbiesList[kidsController.hobbiesIndex[i]]);
-    // }
     await kidsController.setHobbies(kidsController.selectedHobbies);
-    // kidsController.selectedHobbies.clear();
   }
 
   void editKidSchool(index) {
     resetTextEditor();
     kidsController.enableKidSaveButton.value = true;
-    ll(index);
     if (kidsController.kidSchoolList[index].started != null) {
       kidsController.temporaryKidSchoolStartDate.value = DateFormat("yyyy-MM-dd").format(kidsController.kidSchoolList[index].started!);
     }
@@ -819,7 +694,6 @@ class KidHelper {
   void checkSaveButtonActive() {
     if (kidsController.kidFunctionFlag.value == 'ADD SCHOOL') {
       if (kidsController.kidEducationBackground.value != '') {
-        //! kidsController.kidCommonEditTextEditingController.text.trim() != '' &&
         kidsController.enableKidSaveButton.value = true;
       } else {
         kidsController.enableKidSaveButton.value = false;
@@ -843,7 +717,6 @@ class KidHelper {
     if (startDate != null && endDate != null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} - ${DateFormat("dd MMMM, yyyy").format(endDate)}';
     } else if (startDate == null && endDate != null) {
-      ll(endDate.year);
       return 'School year ${endDate.year}';
     } else if (startDate != null && endDate == null) {
       return '${DateFormat("dd MMMM, yyyy").format(startDate)} to present';

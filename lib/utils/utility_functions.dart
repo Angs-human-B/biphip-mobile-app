@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/common/utils/common_image_errorBuilder.dart';
+import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 void heightWidthKeyboardValue(context) {
   height = MediaQuery.of(context).size.height;
@@ -32,7 +32,7 @@ bool commonValidUrlCheck(regexValue, urlValue) {
   return (RegExp(pattern1).hasMatch(urlValue) || RegExp(pattern2).hasMatch(urlValue));
 }
 
-// show alert dialog
+//* show alert dialog
 Future<dynamic> showAlertDialog({context, child}) {
   return showDialog(
     barrierDismissible: false,
@@ -72,6 +72,16 @@ Widget imageLoadingBuilder(context, child, loadingProgress) {
 }
 
 Widget smallImageLoadingBuilder(context, child, loadingProgress) {
+  if (loadingProgress == null) {
+    return child;
+  }
+  return const CustomLoadingAnimation(
+    radius: 9,
+    isTextVisible: false,
+  );
+}
+
+Widget mediumImageLoadingBuilder(context, child, loadingProgress) {
   if (loadingProgress == null) {
     return child;
   }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -15,7 +16,6 @@ class GalleryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    ll('Gallery APi Call test');
     if (albumData.value != null) {
       imageDataList.clear();
       for (var album in albumData.value!.imageAlbums.data) {
@@ -114,7 +114,6 @@ class GalleryController extends GetxController {
         for (var album in albumData.value!.imageAlbums.data) {
           if (album.title!.toLowerCase() == 'profile picture' || album.title!.toLowerCase() == 'cover photo') {
             imageDataList.add(album);
-            ll(imageDataList.length);
           }
         }
 
@@ -312,7 +311,7 @@ class GalleryController extends GetxController {
   final RxString previousImageDescription = RxString('');
   final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
-  Rx<ImageList?> imageData = Rx<ImageList?>(null);
+  Rx<ImageElement?> imageData = Rx<ImageElement?>(null);
 
   Future<void> imageDescriptionUpdate() async {
     try {
@@ -329,7 +328,7 @@ class GalleryController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        imageData.value = ImageList.fromJson(response.data);
+        imageData.value = ImageElement.fromJson(response.data);
         isImageDescriptionUpdateLoading.value = false;
         Get.back();
         if (!Get.isSnackbarOpen) {
@@ -354,9 +353,6 @@ class GalleryController extends GetxController {
 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
-  final RxList galleryPhotoActionList = RxList([
-    {'icon': BipHip.imageFile, 'action': 'Download album'}
-  ]);
   final RxString photoActionSelect = RxString('');
   final RxList photoActionList = RxList([
     {'icon': BipHip.deleteNew, 'action': 'Delete photo'},
@@ -370,12 +366,12 @@ class GalleryController extends GetxController {
   final Rx<String?> albumNameErrorText = Rx<String?>(null);
   final RxBool isCreateAlbumPostButtonEnable = RxBool(false);
   //*for privacy
-  final RxString temporaryCreateAlbumSelectedPrivacy = RxString('Friends');
-  final RxString createAlbumSelectedPrivacy = RxString('Friends');
-  final Rx<IconData> temporaryCreateAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
-  final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.friends);
-  final RxInt privacyId = RxInt(2);
-  final RxInt temoparyprivacyId = RxInt(2);
+  final RxString temporaryCreateAlbumSelectedPrivacy = RxString('Public');
+  final RxString createAlbumSelectedPrivacy = RxString('Public');
+  final Rx<IconData> temporaryCreateAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final Rx<IconData> createAlbumSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
+  final RxInt privacyId = RxInt(1);
+  final RxInt temporaryprivacyId = RxInt(1);
 
   void albumNameOnChange() {
     if (createAlbumNameController.text.toString().trim() == '') {
@@ -387,20 +383,27 @@ class GalleryController extends GetxController {
   }
 
   void checkCreateAlbum() {
-    if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
-      isCreateAlbumPostButtonEnable.value = true;
+    if (isEditAlbum.value) {
+      //! need to work
+      if (allMediaList.isNotEmpty) {
+        for (int i = 0; i < allMediaList.length; i++) {
+          if (previousAlbumImageLength.value != allMediaList.length) {
+            isCreateAlbumPostButtonEnable.value = true;
+          } else if (allMediaList[i] is String) {
+            isCreateAlbumPostButtonEnable.value = false;
+          } else {
+            isCreateAlbumPostButtonEnable.value = true;
+          }
+        }
+      }
     } else {
-      isCreateAlbumPostButtonEnable.value = false;
+      if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
+        isCreateAlbumPostButtonEnable.value = true;
+      } else {
+        isCreateAlbumPostButtonEnable.value = false;
+      }
     }
   }
-
-  final List<Map<String, dynamic>> privacyList = [
-    {'id': 0, 'name': 'Private', 'icon': BipHip.lock},
-    {'id': 1, 'name': 'Public', "icon": BipHip.world},
-    {'id': 2, 'name': 'Friends', "icon": BipHip.friends},
-    {'id': 3, 'name': 'Families', "icon": BipHip.addFamily},
-    {'id': 4, 'name': 'Friend & Family', "icon": BipHip.friends},
-  ];
 
   final RxBool isCreateAlbumMediaChanged = RxBool(false);
   final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
@@ -422,8 +425,9 @@ class GalleryController extends GetxController {
     }
   }
 
-  final RxList allMediaList = RxList([]);
-  final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
+  final RxBool isEditAlbum = RxBool(false);
+
+  final RxList<dynamic> allMediaList = RxList<dynamic>([]);
   final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
   List imageDescriptionTextEditingController = [];
@@ -452,7 +456,6 @@ class GalleryController extends GetxController {
       Map<String, String> body = {
         'title': createAlbumNameController.text.toString().trim(),
         'privacy': privacyId.value.toString(),
-        // 'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
         for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
         for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),
@@ -485,6 +488,98 @@ class GalleryController extends GetxController {
     } catch (e) {
       isCreateAlbumLoading.value = false;
       ll('createAlbum error: $e');
+    }
+  }
+
+  List deleteImageIdList = [];
+  RxList imageIdList = RxList([]);
+  final RxInt previousAlbumImageLength = RxInt(-1);
+  final RxString previousAlbumName = RxString("");
+  final RxInt selectedPrivacyId = RxInt(-1);
+//*Update album Api call
+  final RxInt selectedAlbumId = RxInt(-1);
+  Future<void> updateAlbum({required int albumId}) async {
+    var uploadedImageList = [];
+    for (int i = 0; i < allMediaList.length; i++) {
+      if (allMediaList.isNotEmpty && allMediaList[i] is! String) {
+        uploadedImageList.add(allMediaList[i]);
+      }
+    }
+    try {
+      isCreateAlbumLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, String> body = {
+        'id': albumId.toString(),
+        'title': createAlbumNameController.text.toString().trim(),
+        'privacy': privacyId.value.toString(),
+        "delete_image_ids": deleteImageIdList.join(','),
+        if (uploadedImageList.isEmpty)
+          for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
+        for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
+        for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
+        for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),
+        for (int i = 0; i < imageTagIdList.length; i++) 'tag_friend_ids[$i]': imageTagIdList[i].toString(),
+      };
+      ll(body);
+      var response = await apiController.multiMediaUpload(
+        url: kuUpdateAlbum,
+        body: body,
+        token: token,
+        key: 'images[]',
+        values: uploadedImageList.isNotEmpty ? uploadedImageList : [],
+      ) as CommonDM;
+
+      if (response.success == true) {
+        isCreateAlbumLoading.value = false;
+        Get.offNamedUntil(krGalleryPhotos, ModalRoute.withName(krMenu));
+        getGalleryAlbumList();
+        GalleryPhotoHelper().resetCreateAlbumData();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isCreateAlbumLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isCreateAlbumLoading.value = false;
+      ll('updateAlbum error: $e');
+    }
+  }
+
+  //*Delete  Album Api Call
+  final RxBool isDeleteAlbumLoading = RxBool(false);
+  Future<void> deleteAlbum({required int albumId}) async {
+    try {
+      isDeleteAlbumLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteAlbum/${albumId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        imageDataList.removeWhere((album) => album.id == selectedAlbumId.value);
+        Get.back();
+        isDeleteAlbumLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeleteAlbumLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeleteAlbumLoading.value = false;
+      ll('deleteAlbum error: $e');
     }
   }
 }

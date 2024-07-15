@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/store/all_business_category_model.dart';
 import 'package:bip_hip/models/menu/store/all_location_model.dart';
 import 'package:bip_hip/models/menu/store/profile_cover_picture_update_model.dart';
@@ -326,10 +327,7 @@ class StoreController extends GetxController {
     if (storeYoutubeController.text.toString().trim() != '') {
       storeSocialLinkList.add({'Youtube': storeYoutubeController.text.toString().trim()});
     }
-    ll(storeSocialLinkList);
   }
-
-  //!
   //! Store profile
   final RxInt storeProfileTabIndex = RxInt(0);
   final RxInt selectedStoreId = RxInt(-1);
@@ -340,7 +338,6 @@ class StoreController extends GetxController {
     {"fileName": "Image.png", "fileSize": "250KB"},
     {"fileName": "Image1.png", "fileSize": "251KB"}
   ]);
-  // final RxList websiteAndSocialLinkList = RxList(["Facebook.1", "Facebook.2", "Facebook.3", "Facebook.4", "Facebook.5"]);
   final Rx<String?> storePrivacyLink = Rx<String?>('');
   final RxList paymentMethodList = RxList([
     {"paymentMethod": "Nagad", "payment": "01789368774638"},
@@ -362,7 +359,6 @@ class StoreController extends GetxController {
   final RxList<String> storeCategoryList = RxList([]);
   final RxString selectedStoreSocialLinkSource = RxString("");
   final RxString temporarySelectedStoreSocialLinkSource = RxString("");
-  // final RxList storeSocialLinkSourceList = RxList(["Facebook", "Twitter", "Youtube", "Instagram", "Website"]);
   final RxBool storeSocialLinkBottomSheetRightButtonState = RxBool(false);
   final TextEditingController storePaymentTextEditingController = TextEditingController();
   final TextEditingController storeBioTextEditingController = TextEditingController();
@@ -450,7 +446,6 @@ class StoreController extends GetxController {
         featuredPostList.clear();
         storeOverviewData.value = StoreOverviewModel.fromJson(response.data);
         storesData.value = storeOverviewData.value?.stores;
-        // featuredPostList.addAll(kidOverviewData.value!.featurePost);
         storeBio.value = storesData.value?.bio;
         storeName.value = storesData.value?.name ?? "";
         storeProfilePicture.value = storesData.value?.profilePicture ?? "";
@@ -464,7 +459,6 @@ class StoreController extends GetxController {
         } else {
           storeCategory.value = null;
         }
-        // storeCategory.value = storesData.value!.categories.isEmpty ? null : storesData.value?.categories[0];
         isStoreOverviewLoading.value = false;
       } else {
         isStoreOverviewLoading.value = true;
@@ -646,7 +640,6 @@ class StoreController extends GetxController {
 
 //* All Business category Api call
   final Rx<AllBusinessCategoryModel?> businessCategoryData = Rx<AllBusinessCategoryModel?>(null);
-  // final RxList<FeaturePost> featuredPostList = RxList<FeaturePost>([]);
   final RxList<BusinessCategory?> businessCategoryList = RxList<BusinessCategory?>([]);
   final RxBool isBusinessCategoryLoading = RxBool(false);
   Future<void> getAllBusinessCategory() async {
@@ -660,14 +653,10 @@ class StoreController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         clearStoreData();
-        // featuredPostList.clear();
         businessCategoryData.value = AllBusinessCategoryModel.fromJson(response.data);
         businessCategoryList.addAll(businessCategoryData.value!.businessCategories!.data);
-        // storeCategoryList.addAll(businessCategoryList.value);
         List<String> categoryValues = businessCategoryList.map((category) => category!.value).toList();
         storeCategoryList.addAll(categoryValues);
-        ll(storeCategoryList);
-        // storeCategoryList.addAll(businessCategoryData.value!.businessCategory.value);
         isBusinessCategoryLoading.value = false;
       } else {
         isBusinessCategoryLoading.value = true;
@@ -683,8 +672,6 @@ class StoreController extends GetxController {
       ll('getAllBusinessCategory error: $e');
     }
   }
-
-  // storeCategory.value
   //*update store category Api implement
   RxBool isStoreCategoryLoading = RxBool(false);
   Future<void> updateStoreCategory() async {
@@ -774,9 +761,7 @@ class StoreController extends GetxController {
   final Rx<ProfileCoverPictureUpdateModel?> profileCoverPictureUpdateData = Rx<ProfileCoverPictureUpdateModel?>(null);
   Future<void> uploadStoreProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
     try {
-      // if (isFromProfile == true) {
       isImageUploadPageLoading.value = true;
-      // }
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'store_id': selectedStoreId.value.toString(),
@@ -832,7 +817,6 @@ class StoreController extends GetxController {
         allLocationList.clear();
         cityListData.value = CityListModel.fromJson(response.data);
         allLocationList.addAll(cityListData.value!.cities);
-        // isLinkListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -890,9 +874,6 @@ class StoreController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // storeLocationList.clear();
-        // allLocationData.value = AllLocationModel.fromJson(response.data);
-        // storeLocationList.addAll(allLocationData.value!.locations);
         await getStoreLocations();
         isStoreLocationLoading.value = false;
         Get.back();
@@ -930,9 +911,6 @@ class StoreController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // storeLocationList.clear();
-        // allLocationData.value = AllLocationModel.fromJson(response.data);
-        // storeLocationList.addAll(allLocationData.value!.locations);
         await getStoreLocations();
         isStoreLocationLoading.value = false;
         Get.back();
@@ -1012,8 +990,6 @@ class StoreController extends GetxController {
       ll('getStoreContacts error: $e');
     }
   }
-
-  // final Rx<StoreContactModel?> contactUpdateData = Rx<StoreContactModel?>(null);
   Future<void> storStoreContact(type) async {
     try {
       isStoreContactLoading.value = true;
@@ -1050,7 +1026,7 @@ class StoreController extends GetxController {
     }
   }
 
-  // //* update contact API Implementation
+  //* update contact API Implementation
   Future<void> updateContact(id, type) async {
     try {
       isStoreContactLoading.value = true;
@@ -1068,11 +1044,6 @@ class StoreController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
-        // for (int i = 0; i < contactDataList.length; i++) {
-        //   if (contactDataList[i].id == id) {
-        //     contactDataList[i] = Contact.fromJson(response.data);
-        //   }
-        // }
         await getStoreContacts();
         isStoreContactLoading.value = false;
         Get.back();
@@ -1092,7 +1063,7 @@ class StoreController extends GetxController {
     }
   }
 
-  // //* delete contact API Implementation
+  //* delete contact API Implementation
   Future<void> deleteContact(id, type) async {
     try {
       isStoreContactLoading.value = true;
@@ -1224,7 +1195,7 @@ class StoreController extends GetxController {
     }
   }
 
-  // //* update Store link API Implementation
+  //* update Store link API Implementation
   Future<void> updateStoreLink() async {
     try {
       isStoreLinkLoading.value = true;
@@ -1261,7 +1232,7 @@ class StoreController extends GetxController {
     }
   }
 
-  // //* delete contact API Implementation
+  //* delete contact API Implementation
   Future<void> deleteStoreLink() async {
     try {
       isStoreLinkLoading.value = true;
@@ -1296,7 +1267,7 @@ class StoreController extends GetxController {
   //*Store all post data get Api implement
   final ScrollController postListScrollController = ScrollController();
   final Rx<StorePostModel?> postListData = Rx<StorePostModel?>(null);
-  final RxList<StorePostData> allPostList = RxList<StorePostData>([]);
+  final RxList<PostDataRx> allPostList = RxList<PostDataRx>([]);
   final RxBool isStorePageLoading = RxBool(false);
   final RxBool isStorePagePaginationLoading = RxBool(false);
   final Rx<String?> postListSubLink = Rx<String?>(null);
@@ -1313,10 +1284,11 @@ class StoreController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         allPostList.clear();
-        // Get.find<PostReactionController>().reactions.clear();
+        globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = StorePostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts!.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
@@ -1366,8 +1338,10 @@ class StoreController extends GetxController {
       ) as CommonDM;
 
       if (response.success == true) {
+        allPostList.clear();
         postListData.value = StorePostModel.fromJson(response.data);
         allPostList.addAll(postListData.value!.posts!.data);
+        globalController.populatePostList(allPostList);
         postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;

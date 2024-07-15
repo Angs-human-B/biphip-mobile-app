@@ -1,4 +1,7 @@
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/shimmers/birthday/birthday_page_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:intl/intl.dart';
@@ -70,7 +73,6 @@ class BirthdayPage extends StatelessWidget {
                                               isBirthdaySendButtonEnabled: pendentBadgesController.todayBirthdaySendButtonEnabled[index],
                                               isAlreadyWished: pendentBadgesController.todayBirthdayList[index].myWish == null ? true : false,
                                               userId: pendentBadgesController.todayBirthdayList[index].id,
-                                              // isTimelinePostEnabled: todayBirthdays[index]['isAlreadyWished'],
                                             );
                                           },
                                         ),
@@ -101,7 +103,6 @@ class BirthdayPage extends StatelessWidget {
                                               isBirthdaySendButtonEnabled: pendentBadgesController.inTwoDaysBirthdaySendButtonEnabled[index],
                                               isAlreadyWished: pendentBadgesController.inTwoDaysBirthdayList[index].myWish == null ? true : false,
                                               userId: pendentBadgesController.inTwoDaysBirthdayList[index].id,
-                                              // isTimelinePostEnabled: inTwoDaysBirthdays[index]['isAlreadyWished'],
                                             );
                                           },
                                         ),
@@ -132,7 +133,6 @@ class BirthdayPage extends StatelessWidget {
                                               birthdayTextEditingControllerValue: pendentBadgesController.upcomingBirthdayTimelineTextEditingController[index],
                                               isAlreadyWished: pendentBadgesController.upcomingsBirthdayList[index].myWish == null ? true : false,
                                               userId: pendentBadgesController.upcomingsBirthdayList[index].id,
-                                              // isTimelinePostEnabled: upcomingBirthdays[index]['isAlreadyWished'],
                                             );
                                           },
                                         ),
@@ -175,7 +175,6 @@ class BirthdayCommonView extends StatelessWidget {
       this.age,
       this.isTodayOrIn2DaysBirthday = true,
       required this.birthdayTextEditingControllerValue,
-      // this.isTimelinePostEnabled,
       this.isAlreadyWished,
       this.isBirthdaySendButtonEnabled,
       this.userId});
@@ -187,7 +186,6 @@ class BirthdayCommonView extends StatelessWidget {
   final bool? isTodayOrIn2DaysBirthday;
   final TextEditingController birthdayTextEditingControllerValue;
   final RxBool? isBirthdaySendButtonEnabled;
-  // final bool? isTimelinePostEnabled;
   final bool? isAlreadyWished;
   final int? userId;
   final PendentBadgesController pendentBadgesController = Get.find<PendentBadgesController>();
@@ -229,35 +227,38 @@ class BirthdayCommonView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name!,
-                      style: semiBold18TextStyle(cBlackColor),
-                    ),
-                    kH4sizedBox,
-                    Row(
-                      children: [
-                        Text(
-                          birthday!,
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                        Text(
-                          ", $birthDate",
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                        Text(
-                          ", $age years old",
-                          style: regular12TextStyle(cSmallBodyTextColor),
-                        ),
-                      ],
-                    ),
-                  ],
+                SizedBox(
+                  width: width - 182,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name!,
+                        style: semiBold18TextStyle(cBlackColor),
+                        overflow: TextOverflow.clip,
+                      ),
+                      kH4sizedBox,
+                      Row(
+                        children: [
+                          Text(
+                            birthday!,
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          ),
+                          Text(
+                            ", $birthDate",
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          ),
+                          Text(
+                            ", $age years old",
+                            style: regular12TextStyle(cSmallBodyTextColor),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const Spacer(),
-                // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false)
                 if (isTodayOrIn2DaysBirthday == true)
                   Padding(
                     padding: const EdgeInsets.only(right: k16Padding),
@@ -281,7 +282,6 @@ class BirthdayCommonView extends StatelessWidget {
             ),
           ),
           kH20sizedBox,
-          // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == false && isAlreadyWished == true)
           if (isTodayOrIn2DaysBirthday == true && isAlreadyWished == true)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
@@ -350,25 +350,15 @@ class BirthdayCommonView extends StatelessWidget {
                 buttonColor: cPrimaryColor,
                 textStyle: regular12TextStyle(cWhiteColor),
                 label: ksViewPost.tr,
-                onPressed: null,
+                onPressed: () async {
+                  Get.toNamed(krProfile);
+                  Get.find<ProfileController>().interestCatagoriesIndex.value = 0;
+                  await Get.find<ProfileController>().getProfileOverview();
+                  await Get.find<CreatePostController>().getCreatePost();
+                  await Get.find<HomeController>().getTimelinePostList();
+                },
               ),
             ),
-          //*Timeline post disable option api have no prameter for differenciate this
-          // if (isTodayOrIn2DaysBirthday == true && isTimelinePostEnabled == true)
-          // if (isTodayOrIn2DaysBirthday == true)
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-          //   child: CustomElevatedButton(
-          //       buttonWidth: width - 82,
-          //       buttonHeight: h32,
-          //       buttonColor: cPrimaryTint2Color,
-          //       borderColor: cPrimaryColor,
-          //       textStyle: regular12TextStyle(cBlackColor),
-          //       label: ksWishInChat.tr,
-          //       suffixIcon: BipHip.chatFill,
-          //       suffixIconColor: cPrimaryColor,
-          //       onPressed: () {}),
-          // ),
         ],
       ),
     );

@@ -54,7 +54,9 @@ class CreatePostUpperSection extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
-                      child: createPostController.selectedKid.value != null || Get.find<KidsController>().isRouteFromKid.value
+                      child: createPostController.selectedKid.value != null ||
+                              Get.find<KidsController>().isRouteFromKid.value ||
+                              createPostController.isEditPost.value
                           ? Image.network(
                               createPostController.postSecondaryCircleAvatar.value,
                               fit: BoxFit.cover,
@@ -63,7 +65,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                 size: kIconSize120,
                                 color: cIconColor,
                               ),
-                              // loadingBuilder: imageLoadingBuilder,
                             )
                           : ClipOval(
                               child: Image.file(
@@ -90,7 +91,6 @@ class CreatePostUpperSection extends StatelessWidget {
                     decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
                     child: ClipOval(
                         child:
-                            // createPostController.selectedKid.value != null?
                             Image.network(
                       createPostController.postSecondaryCircleAvatar.value,
                       fit: BoxFit.cover,
@@ -142,10 +142,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                       style: semiBold16TextStyle(cBlackColor),
                                     ),
                                   )),
-                                // TextSpan(
-                                //   text: '${createPostController.taggedFriends[0].fullName} ',
-                                //   style: semiBold16TextStyle(cBlackColor),
-                                // ),
                                 if (createPostController.taggedFriends.isNotEmpty && createPostController.taggedFriends.length == 2)
                                   WidgetSpan(
                                     child: InkWell(
@@ -158,10 +154,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                // TextSpan(
-                                //   text: '& ${createPostController.taggedFriends[1].fullName}',
-                                //   style: semiBold16TextStyle(cBlackColor),
-                                // ),
                                 if (createPostController.taggedFriends.isNotEmpty && createPostController.taggedFriends.length > 2)
                                   WidgetSpan(
                                     child: InkWell(
@@ -174,10 +166,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                // TextSpan(
-                                //   text: '& ${createPostController.taggedFriends.length - 1} others',
-                                //   style: semiBold16TextStyle(cBlackColor),
-                                // ),
                               ],
                             ),
                           ),
@@ -201,7 +189,6 @@ class CreatePostUpperSection extends StatelessWidget {
                             label: createPostController.createPostSelectedPrivacy.value,
                             prefixIcon: createPostController.createPostSelectedPrivacyIcon.value,
                             onPressed: () {
-                              // createPostHelper.initializeAudienceText();
                               createPostController.createPostSelectedPrivacy.value;
                               createPostHelper.showAudienceSheet(context);
                             },
@@ -212,44 +199,45 @@ class CreatePostUpperSection extends StatelessWidget {
                             suffixIconColor: cBlackColor,
                             textStyle: regular12TextStyle(cBlackColor),
                           ),
-
-                        // kW8sizedBox,
-                        if(!createPostController.isSharingPost.value)
-                        CustomElevatedButton(
-                          label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
-                          prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
-                          prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
-                          onPressed: Get.find<KidsController>().isRouteFromKid.value
-                              ? null
-                              : () async {
-                                  if (createPostController.category.value != '') {
-                                    categoryResetAlertDialog(
-                                      context: context,
-                                      content: const CategoryResetWarningContent(),
-                                      title: ksWarning,
-                                    );
-                                  } else {
-                                    createPostHelper.initializeCategory();
-                                    createPostController.tempCategory.value = createPostController.category.value;
-                                    Get.toNamed(krSelectCategory);
-                                    await createPostController.getPostCategoryList();
-                                  }
-                                },
-                          buttonHeight: 22,
-                          isCustomButton: true,
-                          buttonColor: cGreyBoxColor,
-                          suffixIcon: createPostController.category.value == "" ? BipHip.plus : BipHip.edit,
-                          suffixIconColor: cBlackColor,
-                          textStyle: regular12TextStyle(cBlackColor),
-                        ),
-                        // kW8sizedBox,
+                        if (!createPostController.isSharingPost.value)
+                          CustomElevatedButton(
+                            label: createPostController.category.value == "" ? "Category" : createPostController.category.value,
+                            prefixIcon: createPostController.category.value == "" ? null : createPostController.categoryIcon.value,
+                            prefixIconColor: createPostController.category.value == "" ? null : createPostController.categoryIconColor.value,
+                            disableColor: cGreyBoxColor,
+                            onPressed: Get.find<KidsController>().isRouteFromKid.value || createPostController.isEditPost.value
+                                ? null
+                                : () async {
+                                    if (createPostController.category.value != '') {
+                                      categoryResetAlertDialog(
+                                        context: context,
+                                        content: const CategoryResetWarningContent(),
+                                        title: ksWarning,
+                                      );
+                                    } else {
+                                      createPostHelper.initializeCategory();
+                                      createPostController.tempCategory.value = createPostController.category.value;
+                                      Get.toNamed(krSelectCategory);
+                                      await createPostController.getPostCategoryList();
+                                    }
+                                  },
+                            buttonHeight: 22,
+                            isCustomButton: true,
+                            buttonColor: cGreyBoxColor,
+                            suffixIcon: (!createPostController.isEditPost.value)
+                                ? createPostController.category.value == ""
+                                    ? BipHip.plus
+                                    : BipHip.edit
+                                : null,
+                            suffixIconColor: cBlackColor,
+                            textStyle: regular12TextStyle(cBlackColor),
+                          ),
                         if (createPostController.category.value == "Kids" || createPostController.category.value == 'News')
                           ElevatedButton(
-                              onPressed: createPostController.category.value != ''
+                              onPressed: createPostController.category.value != '' && !createPostController.isEditPost.value
                                   ? () {
                                       createPostController.tempSubCategory.value = createPostController.subCategory.value;
                                       createPostController.tempSubCategoryIndex.value = createPostController.subCategoryIndex.value;
-                                      // log(createPostController.tempSubCategoryIndex.value.toString());
                                       if (createPostController.tempSubCategory.value == '' &&
                                           Get.find<CreatePostController>().tempSubCategoryIndex.value == -1) {
                                         createPostController.subCategoryBottomSheetRightButtonState.value = false;
@@ -275,7 +263,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                         isRightButtonShow: createPostController.createPostSubCategoryList.isEmpty ? false : true,
                                         isScrollControlled: true,
                                         bottomSheetHeight: createPostController.subCategoryCustomBottomSheetHeight(),
-                                        // bottomSheetHeight: height * .9
                                       );
                                     }
                                   : null,
@@ -312,14 +299,15 @@ class CreatePostUpperSection extends StatelessWidget {
                                                 ? regular12TextStyle(cPlaceHolderColor2)
                                                 : regular12TextStyle(cBlackColor)),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: k4Padding),
-                                        child: Icon(
-                                          createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
-                                          color: createPostController.category.value == "" ? cIconColor : cBlackColor,
-                                          size: screenWiseSize(kIconSize16, 4),
+                                      if (!createPostController.isEditPost.value)
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: k4Padding),
+                                          child: Icon(
+                                            createPostController.subCategory.value == "" ? BipHip.plus : BipHip.edit,
+                                            color: createPostController.category.value == "" ? cIconColor : cBlackColor,
+                                            size: screenWiseSize(kIconSize16, 4),
+                                          ),
                                         ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -354,7 +342,6 @@ class CreatePostUpperSection extends StatelessWidget {
                                       Get.back();
                                     },
                                     onPressRightButton: () {
-                                      // boostPostAlertDialog(context: context, title: ksBoostPost.tr, content: const BoostPostContent()); //* Set it temporary for test case
                                       Get.back();
                                       Get.back();
                                       Get.back();
@@ -494,8 +481,6 @@ class CategoryResetWarningContent extends StatelessWidget {
 
                   CreatePostHelper().resetCreatePostData();
                   Get.back();
-                  // Get.toNamed(krSelectCategory);
-                  // await Get.find<CreatePostController>().getPostCategoryList();
                 },
                 buttonColor: cPrimaryColor,
                 borderColor: cPrimaryColor,

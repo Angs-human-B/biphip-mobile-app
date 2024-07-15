@@ -38,13 +38,10 @@ class EditStoreCategory extends StatelessWidget {
                                   content: DeletePopupContent(
                                       text: ksDeleteConfirmation.tr,
                                       deleteOnPressed: () {
-                                        // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
                                         Get.back();
                                         Get.back();
                                       }),
                                   title: ksConfirmation.tr);
-                              // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                              // Get.back();
                             },
                             text: ksDelete,
                             textStyle: semiBold14TextStyle(cRedColor)),

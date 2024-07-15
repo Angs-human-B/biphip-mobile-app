@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/widgets/post/like_section_widget.dart';
 
 class KidPhotoView extends StatelessWidget {
   KidPhotoView({
@@ -65,10 +64,6 @@ class KidPhotoView extends StatelessWidget {
                         color: cWhiteColor,
                         height: 1,
                         width: width - 40,
-                      ),
-                       LikeSectionWidget(
-                        sectionColor: cWhiteColor,
-                        isGiftShown: false,
                       ),
                     ],
                   ),

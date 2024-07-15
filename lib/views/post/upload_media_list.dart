@@ -49,7 +49,7 @@ class UploadImageListPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Obx(
                 () => Column(
-                  children: [kH8sizedBox, for (int i = 0; i < createPostController.allMediaFileList.length; i++) SeparateImageView(index: i)],
+                  children: [kH8sizedBox, for (int i = 0; i < createPostController.allMediaList.length; i++) SeparateImageView(index: i)],
                 ),
               ),
             ),
@@ -80,10 +80,15 @@ class SeparateImageView extends StatelessWidget {
                   color: cWhiteColor,
                   height: 150,
                   width: width - 40,
-                  child: Image.file(
-                    createPostController.allMediaFileList[index].value,
-                    fit: BoxFit.cover,
-                  ),
+                  child: createPostController.allMediaList[index] is String
+                      ? Image.network(
+                          createPostController.allMediaList[index],
+                          fit: BoxFit.cover,
+                        )
+                      : Image.file(
+                          createPostController.allMediaList[index].value,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),
@@ -107,7 +112,6 @@ class SeparateImageView extends StatelessWidget {
             ),
           ],
         ),
-       
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
           child: CustomModifiedTextField(
