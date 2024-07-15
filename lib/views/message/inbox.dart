@@ -111,27 +111,29 @@ class Inbox extends StatelessWidget {
                                 if (!messengerController.isInboxLoading.value)
                                   Padding(
                                     padding: const EdgeInsets.only(top: h16),
-                                    child: ListView.separated(
+                                    child: Obx(() => ListView.separated(
                                         shrinkWrap: true,
                                         physics: const NeverScrollableScrollPhysics(),
                                         separatorBuilder: (context, index) => kH16sizedBox,
-                                        itemCount: messengerController.roomList.length,
+                                        itemCount: messengerController.allRoomMessageList.length,
                                         itemBuilder: (context, index) {
-                                          RoomData item = messengerController.roomList[index];
+                                          ll("HERE");
+                                          var item = messengerController.allRoomMessageList[index];
                                           return InboxContainer(
                                               index: index,
-                                              roomID: item.id!,
-                                              userID: item.roomUserId!,
-                                              userName: item.roomName!,
-                                              userImage: item.roomImage![0],
-                                              message: "Test message",
-                                              isActive: true,
+                                              peerID: item["peerID"],
+                                              roomID: messengerController.roomList[index].id!,
+                                              userID: messengerController.roomList[index].roomUserId!,
+                                              userName: messengerController.roomList[index].roomName!,
+                                              userImage: messengerController.roomList[index].roomImage![0],
+                                              message: item["messages"].isEmpty ? "Test message" : item["messages"][0].messageText,
+                                              isActive: item["status"],
                                               isMute: false,
                                               isLastMessageSelf: false,
                                               isSeen: true,
-                                              receiverData: item,
-                                              lastMessageTime: item.updatedAt!);
-                                        }),
+                                              receiverData: messengerController.roomList[index],
+                                              lastMessageTime: messengerController.roomList[index].updatedAt!);
+                                        })),
                                   ),
                                 if (messengerController.isInboxLoading.value)
                                   const Padding(

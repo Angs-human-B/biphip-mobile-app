@@ -116,12 +116,14 @@ class MessengerController extends GetxController {
 
     peer.on("close").listen((id) {
       connected.value = false;
+        ll("PEER CLOSED");
     });
 
     peer.on<DataConnection>("connection").listen((event) {
-      int index = Get.find<GlobalController>().allConnectedPeers.indexWhere((user) => user['peerID'] == event.peer);
-      if (index != -1) {
-        connectedUserID.add(Get.find<GlobalController>().allConnectedPeers[index]['peerID']);
+      ll("PEER CONNECTED: ${event.peer}");
+      int peerIndex = Get.find<GlobalController>().allOnlinePeers.indexWhere((user) => user['peerID'] == event.peer);
+      if (peerIndex != -1) {
+        connectedUserID.add(Get.find<GlobalController>().allOnlinePeers[peerIndex]['userID']);
       }
       conn = event;
       conn.on("data").listen((data) {
@@ -138,9 +140,10 @@ class MessengerController extends GetxController {
         ll("binary: $data");
       });
 
-      conn.on("close").listen((event) {
-        connected.value = false;
-      });
+      // conn.on("close").listen((event) {
+      //   connected.value = false;
+      //   ll("PEER CLOSED");
+      // });
 
       conn.on("error").listen((error) {
         ll("Error occurred: $error");
@@ -173,6 +176,7 @@ class MessengerController extends GetxController {
 
   void connectWithPeer(peerId) {
     //connect with peer
+    ll(peerId);
     try {
       final connection = peer.connect(peerId);
       ll(connection.connectionId);
@@ -180,9 +184,6 @@ class MessengerController extends GetxController {
 
       conn.on("open").listen((event) {
         connected.value = true;
-        connection.on("close").listen((event) {
-          connected.value = false;
-        });
 
         conn.on("data").listen((data) {
           int index = allRoomMessageList.indexWhere((user) => user['roomID'] == selectedReceiver.value!.id);
@@ -200,6 +201,16 @@ class MessengerController extends GetxController {
           ll("Error occurred: $error");
           connected.value = false;
         });
+
+        connection.on("close").listen((event) {
+          connected.value = false;
+          ll("CONN CLOSE: ${conn.peer}");
+          int index = Get.find<GlobalController>().allOnlinePeers.indexWhere((user) => user['peerID'] == conn.peer);
+          connectedUserID.remove(Get.find<GlobalController>().allOnlinePeers[index]['userID']);
+          Get.find<GlobalController>().allOnlinePeers.removeAt(index);
+          ll(connectedUserID);
+          ll(Get.find<GlobalController>().allOnlinePeers);
+        });
       });
     } catch (e) {
       ll(e.toString());
@@ -214,6 +225,7 @@ class MessengerController extends GetxController {
       "userImage": Get.find<GlobalController>().userImage.value
     };
     socket.emit("mobile-chat-peer-exchange-$userID", data);
+    connectedUserID.add(userID);
   }
 
   //===========END=======================================
@@ -234,7 +246,8 @@ class MessengerController extends GetxController {
   int batchSize = 1;
 
   void sendMessage(String message) async {
-    if (connected.value && isInternetConnectionAvailable.value) {
+    // if (connected.value && isInternetConnectionAvailable.value) {
+    if (isInternetConnectionAvailable.value) {
       // Add to offline list
       setMessage(selectedReceiver.value!.id, MessageData(text: message, senderId: globalController.userId.value, messageText: message));
 
@@ -293,10 +306,33 @@ class MessengerController extends GetxController {
       allRoomMessageList.add({
         "roomID": roomList[i].id,
         "userID": roomList[i].roomUserId,
+        "peerID": "",
+        "status": false.obs,
         "userName": roomList[i].roomName,
         "messages": RxList([]),
       });
     }
+    if (globalController.allOnlinePeers.isNotEmpty) {
+      updateRoomListWithOnlineUsers();
+    }
+  }
+
+  void updateRoomListWithOnlineUsers() {
+    ll("HELLO");
+    Map<int, Map<String, dynamic>> onlineUserMap = {for (var onlineUser in globalController.allOnlinePeers) onlineUser['userID']: onlineUser};
+
+    for (var room in allRoomMessageList) {
+      if (onlineUserMap.containsKey(room['userID'])) {
+        var onlineUser = onlineUserMap[room['userID']];
+        room['peerID'] = onlineUser!['peerID'];
+        room['status'] = true.obs;
+      }
+    }
+    RxList<Map<String, dynamic>> temporaryAllRoomMessageList = RxList<Map<String, dynamic>>([]); 
+    temporaryAllRoomMessageList.addAll(allRoomMessageList);
+    allRoomMessageList.clear();
+    allRoomMessageList.addAll(temporaryAllRoomMessageList);
+    // ll("Hello: $allRoomMessageList");
   }
 
   // Set Messages

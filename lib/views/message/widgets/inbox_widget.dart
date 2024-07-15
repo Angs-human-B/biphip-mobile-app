@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:intl/intl.dart';
+import 'package:peerdart/peerdart.dart';
 
 class InboxContainer extends StatelessWidget {
   InboxContainer(
@@ -17,9 +18,11 @@ class InboxContainer extends StatelessWidget {
       required this.receiverData,
       required this.lastMessageTime,
       required this.roomID,
-      required this.index});
-  final String userName, userImage, message;
-  final bool isActive, isSeen, isMute, isLastMessageSelf;
+      required this.index,
+      required this.peerID});
+  final String userName, userImage, message, peerID;
+  final bool  isSeen, isMute, isLastMessageSelf;
+  final RxBool isActive;
   final int userID, roomID, index;
   final RoomData receiverData;
   final DateTime lastMessageTime;
@@ -34,56 +37,59 @@ class InboxContainer extends StatelessWidget {
         if (!messengerController.connectedUserID.contains(userID)) {
           messengerController.exchangePeerID(userID);
         }
+        if (peerID != "") {
+          messengerController.connectWithPeer(peerID);
+        }
         Get.toNamed(krMessages);
         //* GET MESSAGE API CALL
         await messengerController.getMessageList(roomID);
         //*
       },
       child: Container(
-        color: cWhiteColor,
-        width: width,
-        height: h50,
-        child: Row(
-          children: [
-            Stack(
-              children: [
-                ClipOval(
-                  child: Container(
-                    height: h50,
-                    width: h50,
-                    decoration: const BoxDecoration(
-                      color: cBlackColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.network(
-                      userImage,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => const Icon(
-                        BipHip.user,
-                        size: kIconSize24,
-                        color: cIconColor,
-                      ),
-                    ),
-                  ),
-                ),
-                if (isActive)
-                  Positioned(
-                    bottom: 3,
-                    right: 0,
-                    child: Container(
-                      height: h14,
-                      width: h14,
-                      decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                      child: Padding(
-                        padding: const EdgeInsets.all(2),
+              color: cWhiteColor,
+              width: width,
+              height: h50,
+              child: Row(
+                children: [
+                  Stack(
+                    children: [
+                      ClipOval(
                         child: Container(
-                          height: h12,
-                          width: h12,
-                          decoration: const BoxDecoration(color: cGreenColor, shape: BoxShape.circle),
-                          child: Padding(
-                            padding: const EdgeInsets.all(3),
-                            child: Container(
-                              height: 4,
+                          height: h50,
+                          width: h50,
+                          decoration: const BoxDecoration(
+                            color: cBlackColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.network(
+                            userImage,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => const Icon(
+                              BipHip.user,
+                              size: kIconSize24,
+                              color: cIconColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (isActive.value)
+                        Positioned(
+                          bottom: 3,
+                          right: 0,
+                          child: Container(
+                            height: h14,
+                            width: h14,
+                            decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2),
+                              child: Container(
+                                height: h12,
+                                width: h12,
+                                decoration: const BoxDecoration(color: cGreenColor, shape: BoxShape.circle),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3),
+                                  child: Container(
+                                    height: 4,
                               width: 4,
                               decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
                             ),
@@ -105,23 +111,25 @@ class InboxContainer extends StatelessWidget {
                     userName,
                     style: isSeen ? regular16TextStyle(cBlackColor) : semiBold16TextStyle(cBlackColor),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 190,
-                        child: Text(
-                          "${isLastMessageSelf ? "You:" : ""} ${message}",
+                  SizedBox(
+                    width: width - 120,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${isLastMessageSelf ? "You:" : ""} ${message}",
+                            style: isSeen ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          "  • ${DateFormat('h:mm a').format(lastMessageTime)}",
                           style: isSeen ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
                           overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Text(
-                        "  • ${DateFormat('h:mm a').format(lastMessageTime)}",
-                        style: isSeen ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),

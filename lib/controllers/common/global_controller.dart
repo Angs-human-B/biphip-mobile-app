@@ -1151,7 +1151,7 @@ class GlobalController extends GetxController {
     }
   }
 
-  RxList<Map<String, dynamic>> allConnectedPeers = RxList<Map<String, dynamic>>([]);
+  RxList<Map<String, dynamic>> allOnlinePeers = RxList<Map<String, dynamic>>([]);
   void socketInit() {
     ll("Connecting...GC");
 
@@ -1164,19 +1164,25 @@ class GlobalController extends GetxController {
     socket.on('mobile-chat-channel', (data) {
       ll('Received peer data: $data');
       populatePeerList(data);
-      Get.find<MessengerController>().connectWithPeer(data["peerID"]);
-      ll("All connections: $allConnectedPeers");
+      // Get.find<MessengerController>().connectWithPeer(data["peerID"]);
+      ll("All connections: $allOnlinePeers");
+
+      Map<String, dynamic> selfData = {
+        "peerID": Get.find<MessengerController>().peerId.value,
+        "userID": Get.find<GlobalController>().userId.value,
+        "userName": Get.find<GlobalController>().userName.value,
+        "userImage": Get.find<GlobalController>().userImage.value
+      };
+      socket.emit("mobile-chat-peer-exchange-${data["userID"]}", selfData);
     });
 
     socket.on("mobile-chat-peer-exchange-${userId.value}", (data) {
       ll('Received peer exchange ID: $data');
-      int index = allConnectedPeers.indexWhere((user) => user['peerID'] == data["peerID"]);
-      if (index == -1) {
-        Get.find<MessengerController>().connectWithPeer(data["peerID"]);
-      } else {
-        populatePeerList(data);
-        Get.find<MessengerController>().connectWithPeer(data["peerID"]);
-      }
+      // int index = allConnectedPeers.indexWhere((user) => user['peerID'] == data["peerID"]);
+      // if (index == -1) {
+      //   Get.find<MessengerController>().connectWithPeer(data["peerID"]);
+      // }
+      populatePeerList(data);
     });
 
     socket.on('disconnect', (_) {
@@ -1188,19 +1194,22 @@ class GlobalController extends GetxController {
     });
   }
 
-  void disconnectSocket(){
+  void disconnectSocket() {
     socket.clearListeners();
     socket.disconnect();
     socket.dispose();
   }
 
   void populatePeerList(Map<String, dynamic> newUserData) {
-    int index = allConnectedPeers.indexWhere((user) => user['userID'] == newUserData['userID']);
+    int index = allOnlinePeers.indexWhere((user) => user['userID'] == newUserData['userID']);
     Get.find<MessengerController>().connectedUserID.add(newUserData['userID']);
     if (index != -1) {
-      allConnectedPeers[index]['peerID'] = newUserData['peerID'];
+      allOnlinePeers[index]['peerID'] = newUserData['peerID'];
     } else {
-      allConnectedPeers.add(newUserData);
+      allOnlinePeers.add(newUserData);
+    }
+    if(Get.find<MessengerController>().allRoomMessageList.isNotEmpty){
+      Get.find<MessengerController>().updateRoomListWithOnlineUsers();
     }
   }
   //! end
