@@ -49,7 +49,7 @@ class ProfileViewPostTab extends StatelessWidget {
                     CustomTextButton(
                       text: "See ${profileViewController.userProfileData.value?.lastName}'s about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
-                      onPressed: () async{
+                      onPressed: () async {
                         await profileViewController.getProfileBasicInfo();
                         await profileViewController.getProfileViewWorkEducation();
                         Get.toNamed(krProfileViewAbout);
@@ -104,10 +104,10 @@ class ProfileViewPostTab extends StatelessWidget {
                               onSelected: (value) {
                                 profileViewController.interestCatagoriesIndex.value = Get.find<CreatePostController>().createPostCategoryList[i].id!;
                                 if (profileViewController.interestCatagoriesIndex.value == 0) {
-                                  Get.find<HomeController>().getTimelinePostList();
+                                  profileViewController.interestCatagoriesIndex.value++;
+                                  profileViewController.getProfileViewPostList();
                                 } else if (profileViewController.interestCatagoriesIndex.value != 0) {
-                                  Get.find<HomeController>()
-                                      .getFilteredTimelinePostList(categoryId: profileViewController.interestCatagoriesIndex.value, type: 2);
+                                  profileViewController.getProfileViewPostList();
                                 }
                               },
                             ),
@@ -120,13 +120,13 @@ class ProfileViewPostTab extends StatelessWidget {
               ),
             ),
             kH12sizedBox,
-            Get.find<HomeController>().isTimelinePostLoading.value
+            profileViewController.isProfileViewPostLoading.value
                 ? const PostCommonShimmer()
                 : ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => kH8sizedBox,
-                    itemCount: Get.find<GlobalController>().commonPostList.length,
+                    itemCount: profileViewController.profileViewPostList.length,
                     itemBuilder: (context, index) {
                       return Container(
                         color: cWhiteColor,
@@ -136,9 +136,9 @@ class ProfileViewPostTab extends StatelessWidget {
                         ),
                       );
                     }),
-            if (Get.find<GlobalController>().commonPostList.isNotEmpty &&
-                homeController.timelinePostListScrolled.value &&
-                homeController.timelinePostListSubLink.value != null)
+            if (profileViewController.profileViewPostList.isNotEmpty &&
+                profileViewController.profileViewPostListScrolled.value &&
+                profileViewController.profileViewPostListSubLink.value != null)
               const HomePagePaginationShimmer(),
             kH8sizedBox,
           ],

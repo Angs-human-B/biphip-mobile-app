@@ -47,11 +47,14 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
           familyController.isFamilyListLoading.value
               ? const FriendFamilyGridViewShimmer()
               : familyController.familyList.isEmpty
-                  ? Container(
-                      width: width - 40,
-                      height: 60,
-                      decoration: BoxDecoration(border: Border.all(width: 1, color: cLineColor), borderRadius: BorderRadius.circular(k4BorderRadius)),
-                      child: EmptyView(title: ksNoFamilyAddedYet.tr),
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: k16Padding),
+                      child: Container(
+                        width: width - 40,
+                        height: 60,
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: cLineColor), borderRadius: BorderRadius.circular(k4BorderRadius)),
+                        child: EmptyView(title: ksNoFamilyAddedYet.tr),
+                      ),
                     )
                   : FriendsFamilyGridView(
                       header: ksFamily.tr,

@@ -1,9 +1,11 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_image_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_post_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_video_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
@@ -477,6 +479,53 @@ class ProfileViewController extends GetxController {
       ll('getImageAlbum error: $e');
     }
   }
+
+ //* Profile view post data
+   final Rx<ProfileViewPostModel?> profileViewPostData = Rx<ProfileViewPostModel?>(null);
+   final RxList<PostDataRx> profileViewPostList = RxList<PostDataRx>([]);
+  final RxBool isProfileViewPostLoading = RxBool(false);
+  final Rx<String?> profileViewPostListSubLink = Rx<String?>(null);
+  final RxBool profileViewPostListScrolled = RxBool(false);
+  Future<void> getProfileViewPostList() async {
+    try {
+      isProfileViewPostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/posts?take=1&category_id=${interestCatagoriesIndex.value}",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewPostList.clear();
+        globalController.commonPostList.clear();
+        profileViewPostListScrolled.value = false;
+        profileViewPostData.value = ProfileViewPostModel.fromJson(response.data);
+        profileViewPostList.addAll(profileViewPostData.value!.posts!.data);
+        globalController.populatePostList(profileViewPostList);
+        profileViewPostListSubLink.value = profileViewPostData.value!.posts!.nextPageUrl;
+        if (profileViewPostListSubLink.value != null) {
+          profileViewPostListScrolled.value = false;
+        } else {
+          profileViewPostListScrolled.value = true;
+        }
+        isProfileViewPostLoading.value = false;
+      } else {
+        isProfileViewPostLoading.value = true;
+
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewPostLoading.value = true;
+
+      ll('getProfileViewPostList error: $e');
+    }
+  }
+
 
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
