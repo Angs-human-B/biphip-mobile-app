@@ -176,7 +176,7 @@ class FriendFamilyGridViewShimmer extends StatelessWidget {
               width: 100,
             ),
           ),
-          kH12sizedBox,
+          // kH12sizedBox,
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

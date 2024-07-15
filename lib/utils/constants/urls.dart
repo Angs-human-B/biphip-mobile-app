@@ -278,6 +278,9 @@ const String kuDashboardStarInsightGift = "/mobile/dashboard/star-insight-gift";
 const String kuDashboardQuizInsight = "/mobile/dashboard/quiz-insight";
 const String kuDashboardPayoutEarningInsight = "/mobile/dashboard/earning-insight";
 
+//* Profile view
+
+
 /*
 |--------------------------------------------------------------------------
 | //! Image urls

@@ -366,8 +366,7 @@ class StoreProfile extends StatelessWidget {
                                                                       bottomSheetHeight: 140,
                                                                     );
                                                                   },
-                                                                  onPressed: () {
-                                                                  },
+                                                                  onPressed: () {},
                                                                 ),
                                                               ],
                                                             ),
@@ -589,21 +588,20 @@ class StoreProfilePostTab extends StatelessWidget {
                                 postTime: Get.find<GlobalController>().postTimeDifference(item.createdAt ?? DateTime.now()),
                                 isCategorized: true,
                                 subCategory: null,
-
-                                category: item.postCategory == null ? null : item.postCategory?.name ?? "", 
-                                categoryIcon:
-                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id),
-                                categoryIconColor:
-                                    item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id),
+                                category: item.postCategory == null ? null : item.postCategory?.name ?? "",
+                                categoryIcon: item.postCategory == null ? null : Get.find<GlobalController>().getCategoryIcon(item.postCategory!.id),
+                                categoryIconColor: item.postCategory == null ? null : Get.find<GlobalController>().getCategoryColor(item.postCategory!.id),
                                 privacy: BipHip.world,
                                 brandName: item.stores?.name ?? "",
                                 title: item.title,
                                 postText: item.content ?? '',
-                                price: null, 
+                                price: null,
                                 mediaList: item.images,
                                 isSelfPost: true,
                                 isInStock: true,
-                                isCommentShown: true, commentCount: item.countComment!, shareCount: item.countShare!,
+                                isCommentShown: true,
+                                commentCount: item.countComment!,
+                                shareCount: item.countShare!,
                                 giftCount: item.countStar!,
                                 postID: item.id!,
                                 userImage: storeController.storeProfilePicture.value,
@@ -625,7 +623,7 @@ class StoreProfilePostTab extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               separatorBuilder: (context, index) => kH8sizedBox,
-              itemCount: Get.find<GlobalController>().commonPostList.length,
+              itemCount: storeController.allPostList.length, //!//!Get.find<GlobalController>().commonPostList(its not valid)
               itemBuilder: (context, index) {
                 return Container(
                   color: cWhiteColor,

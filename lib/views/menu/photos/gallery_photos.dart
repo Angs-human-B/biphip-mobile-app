@@ -149,6 +149,7 @@ class GalleryPhotos extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                  
                     ],
                   ),
                 ),
