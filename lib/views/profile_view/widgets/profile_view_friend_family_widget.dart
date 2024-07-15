@@ -102,7 +102,8 @@ class FriendsFamilyGridView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (isFriendFamilySeeAllShowHide) CustomTextButton(onPressed: seeAllOnPressed, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
+                  if (isFriendFamilySeeAllShowHide)
+                    CustomTextButton(onPressed: seeAllOnPressed, text: ksSeeAll.tr, textStyle: semiBold14TextStyle(cPrimaryColor)),
                 ],
               ),
               kH12sizedBox,
