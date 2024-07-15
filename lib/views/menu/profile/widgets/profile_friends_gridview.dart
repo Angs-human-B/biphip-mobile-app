@@ -112,7 +112,6 @@ class FriendsFamilyGridView extends StatelessWidget {
   }
 }
 
-
 class CustomGridViewContainer extends StatelessWidget {
   const CustomGridViewContainer({Key? key, required this.item}) : super(key: key);
 
@@ -177,7 +176,7 @@ class FriendFamilyGridViewShimmer extends StatelessWidget {
               width: 100,
             ),
           ),
-          kH12sizedBox,
+          // kH12sizedBox,
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

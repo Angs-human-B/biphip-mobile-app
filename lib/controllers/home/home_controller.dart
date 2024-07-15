@@ -478,6 +478,7 @@ class HomeController extends GetxController {
     }
   }
 
+  
   Future<void> getMoreFilteredTimelinePostList({required int categoryId, required int type}) async {
     try {
       isTimelinePostPaginationLoading.value = true;

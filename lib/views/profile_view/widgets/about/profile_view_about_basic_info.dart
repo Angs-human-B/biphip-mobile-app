@@ -2,7 +2,9 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_title_subtitle_text.dart';
 
 class ProileViewAboutBasicInfo extends StatelessWidget {
-  const ProileViewAboutBasicInfo({super.key});
+  const ProileViewAboutBasicInfo({super.key, required this.gender, required this.dateOfBirth, required this.languages});
+  final String gender, dateOfBirth;
+  final List<String> languages;
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +22,17 @@ class ProileViewAboutBasicInfo extends StatelessWidget {
             ),
             kH16sizedBox,
             ProfileViewAboutTitleSubtitleText(
-              title: "Male",
+              title: gender,
               subTitle: ksGender.tr,
             ),
             kH16sizedBox,
             ProfileViewAboutTitleSubtitleText(
-              title: "January 10, 1998",
+              title: dateOfBirth,
               subTitle: ksBirthday.tr,
             ),
             kH16sizedBox,
             ProfileViewAboutTitleSubtitleText(
-              title: "Bangla and English",
+              title: languages.join(", "),
               subTitle: ksLanguages.tr,
             ),
           ],
@@ -39,4 +41,3 @@ class ProileViewAboutBasicInfo extends StatelessWidget {
     );
   }
 }
-

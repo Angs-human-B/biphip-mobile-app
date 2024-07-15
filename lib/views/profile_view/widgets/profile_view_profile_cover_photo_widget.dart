@@ -1,7 +1,9 @@
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
-  const ProfileViewProfileCoverPhotoWidget({super.key});
+  ProfileViewProfileCoverPhotoWidget({super.key});
+  final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,7 @@ class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
               width: width,
               decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
               child: Image.network(
-                "https://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3083.jpg?w=1060&t=st=1719985023~exp=1719985623~hmac=97f953c3b700b57b9b8dd31deac0d8852cf8e417069a2ba4a21fe3909f78f388",
-                // profileController.userData.value!.coverPhoto.toString(),
+                profileViewController.userProfileData.value?.coverPhoto ?? "",
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
                 errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
@@ -45,7 +46,7 @@ class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
                     ),
                     child: ClipOval(
                       child: Image.network(
-                        "https://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3083.jpg?w=1060&t=st=1719985023~exp=1719985623~hmac=97f953c3b700b57b9b8dd31deac0d8852cf8e417069a2ba4a21fe3909f78f388",
+                        profileViewController.userProfileData.value?.profilePicture ?? "",
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.high,
                         errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(

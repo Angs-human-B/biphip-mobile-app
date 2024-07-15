@@ -10,7 +10,6 @@ import 'package:bip_hip/controllers/menu/gallery_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
-import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/controllers/menu/quiz_controller.dart';
 import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
@@ -107,7 +106,8 @@ class MenuHelper {
         //  }
         Get.toNamed(krProfileView);
         Get.find<ProfileViewController>().interestCatagoriesIndex.value = 0;
-        await Get.find<ProfileController>().getProfileOverview();
+        await Get.find<ProfileViewController>().getProfileOverview();
+        await Get.find<ProfileViewController>().getProfileViewPostList();
         await Get.find<CreatePostController>().getCreatePost();
         await Get.find<HomeController>().getTimelinePostList();
         break;

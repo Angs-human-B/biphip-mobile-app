@@ -1,8 +1,9 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class ProfileViewAboutTitleSubtitleText extends StatelessWidget {
-  const ProfileViewAboutTitleSubtitleText({super.key, required this.title, required this.subTitle});
-  final String title, subTitle;
+  const ProfileViewAboutTitleSubtitleText({super.key, required this.title, this.subTitle});
+  final String title;
+  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,11 @@ class ProfileViewAboutTitleSubtitleText extends StatelessWidget {
           style: regular16TextStyle(cBlackColor),
         ),
         kH4sizedBox,
-        Text(
-          subTitle,
-          style: regular12TextStyle(cSmallBodyTextColor),
-        ),
+        if (subTitle != null)
+          Text(
+            subTitle!,
+            style: regular12TextStyle(cSmallBodyTextColor),
+          ),
       ],
     );
   }

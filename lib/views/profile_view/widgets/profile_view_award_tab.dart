@@ -1,4 +1,4 @@
-import 'package:bip_hip/controllers/menu/award_controller.dart';
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 class ProfileViewAwardTab extends StatelessWidget {
   ProfileViewAwardTab({super.key});
-  final AwardController awardController = Get.find<AwardController>();
+  final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,14 @@ class ProfileViewAwardTab extends StatelessWidget {
                 style: semiBold18TextStyle(cBlackColor),
               ),
               kH16sizedBox,
-              awardController.isawardListLoading.value
+              profileViewController.isawardListLoading.value
                   ? const AwardShimmer()
                   : Expanded(
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (awardController.friendAwardList.isEmpty)
+                            if (profileViewController.allAwardList.isEmpty)
                               Container(
                                   width: width - 40,
                                   height: height * 0.1,
@@ -41,11 +41,11 @@ class ProfileViewAwardTab extends StatelessWidget {
                                     border: Border.all(width: 1, color: cLineColor),
                                   ),
                                   child: EmptyView(title: ksYouHaveNotWonAnyAwards.tr)),
-                            if (awardController.friendAwardList.isNotEmpty)
+                            if (profileViewController.allAwardList.isNotEmpty)
                               GridView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: awardController.friendAwardList.length,
+                                itemCount: profileViewController.allAwardList.length,
                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   childAspectRatio: 0.75,
                                   crossAxisCount: 3,
@@ -55,19 +55,18 @@ class ProfileViewAwardTab extends StatelessWidget {
                                 itemBuilder: (BuildContext context, int index) {
                                   return InkWell(
                                     onTap: () {
-                                      awardController.isOthersWinner.value = false;
                                       Get.to(() => AwardDetailsPage(
-                                            userImage: awardController.friendAwardList[index].user!.profilePicture,
-                                            userName: awardController.friendAwardList[index].user!.fullName,
-                                            ranking: awardController.friendAwardList[index].rank.toString(),
+                                            userImage: profileViewController.allAwardList[index].user!.profilePicture,
+                                            userName: profileViewController.allAwardList[index].user!.fullName,
+                                            ranking: profileViewController.allAwardList[index].rank.toString(),
                                             certificateImage: "",
-                                            winningDate: DateFormat('d MMM, yyyy').format(awardController.friendAwardList[index].winDate!),
+                                            winningDate: DateFormat('d MMM, yyyy').format(profileViewController.allAwardList[index].winDate!),
                                           ));
                                     },
                                     child: AwardView(
-                                      image: awardController.friendAwardList[index].user?.profilePicture,
-                                      ranking: awardController.friendAwardList[index].rank.toString(),
-                                      titleText: DateFormat('d MMM, yyyy').format(awardController.friendAwardList[index].winDate!),
+                                      image: profileViewController.allAwardList[index].user?.profilePicture,
+                                      ranking: profileViewController.allAwardList[index].rank.toString(),
+                                      titleText: DateFormat('d MMM, yyyy').format(profileViewController.allAwardList[index].winDate!),
                                     ),
                                   );
                                 },

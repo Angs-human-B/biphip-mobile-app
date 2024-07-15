@@ -21,11 +21,10 @@ class ProfileViewPhotoTab extends StatelessWidget {
                 buttonState: profileViewController.photoTapAbleButtonState,
                 buttonPress: RxList([
                   () {
-                    // galleryPhotoHelper.yourPhotosTapableButton();
                     profileViewController.photoToggleType(0);
                   },
                   () {
-                    // galleryPhotoHelper.albumsTapableButton();
+                    profileViewController.getImageAlbum();
                     profileViewController.photoToggleType(1);
                   },
                 ]),
