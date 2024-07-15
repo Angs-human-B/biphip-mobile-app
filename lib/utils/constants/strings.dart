@@ -930,3 +930,6 @@ const String ksMutualFriend = "Mutual Friend";
 const String ksAllFriend = "All Friend";
 const String ksFollow = "Follow";
 const String ksFollowing = "Following";
+const String ksReviews = "Reviews";
+const String ksDoYouRecommendGenieInfoTech = "Do you recommend Genie InfoTech?";
+const String ksWhatDoYouRecommendAbout = "What do you recommend about";

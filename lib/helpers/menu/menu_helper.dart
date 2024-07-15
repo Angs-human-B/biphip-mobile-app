@@ -96,6 +96,7 @@ class MenuHelper {
         break;
       case 13:
         Get.find<ProfileViewController>().isKidOrStoreProfile.value = true;
+        Get.find<ProfileViewController>().profileViewType.value = "store";
         if (Get.find<ProfileViewController>().isKidOrStoreProfile.value) {
           Get.find<KidsController>().selectedKidId.value = 118; //!Its temporary set for show data, please must remove it
           Get.find<KidsController>().getKidOverview();

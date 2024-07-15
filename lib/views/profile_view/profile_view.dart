@@ -3,6 +3,7 @@ import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/bottom_sheet_content/user_profile_action_bottom_sheet_content.dart';
+import 'package:bip_hip/views/profile_view/store_review/store_review.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_top_tab_widget.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_award_tab.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_photo_tab.dart';
@@ -95,12 +96,14 @@ class ProfileView extends StatelessWidget {
                           height: h8,
                           color: cBackgroundColor,
                         ),
-                        const ProfileTopTabWidget(),
+                        ProfileTopTabWidget(),
                         kH16sizedBox,
                         if (profileViewController.profileSelectedTabIndex.value == 0) ProfileViewPostTab(),
                         if (profileViewController.profileSelectedTabIndex.value == 1) ProfileViewPhotoTab(),
                         if (profileViewController.profileSelectedTabIndex.value == 2) ProfileViewVideoTab(),
-                        if (profileViewController.profileSelectedTabIndex.value == 3) ProfileViewAwardTab(),
+                        if (profileViewController.profileSelectedTabIndex.value == 3 && profileViewController.profileViewType.value != "store")
+                          ProfileViewAwardTab(),
+                        if (profileViewController.profileSelectedTabIndex.value == 3 && profileViewController.profileViewType.value == "store") StoreReview(),
                       ],
                     ),
                   ),
