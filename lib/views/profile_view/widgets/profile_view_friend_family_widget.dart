@@ -19,7 +19,7 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
         children: [
           profileViewController.isProfileViewFriendLoading.value
               ? const FriendFamilyGridViewShimmer()
-              : (profileViewController.profileViewType.value != "kid" || profileViewController.profileViewType.value != "store") &&
+              : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
                       profileViewController.profileMutualFriendList.isEmpty &&
                       profileViewController.profileFriendList.isEmpty
                   ? Padding(
@@ -31,24 +31,27 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                         child: EmptyView(title: ksNoFriendAddedYet.tr),
                       ),
                     )
-                  : FriendsFamilyGridView(
-                      header: ksFriends.tr,
-                      count: profileViewController.profileFriendData.value!.mutualFriendsCount.toString(),
-                      friendList: profileViewController.profileFriendList,
-                      isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
-                      seeAllOnPressed: () {
-                        Get.toNamed(krProfileViewFriend);
-                      },
-                    ),
-          kH16sizedBox,
-          Container(
-            height: h8,
-            color: cBackgroundColor,
-          ),
-          // kH16sizedBox,
+                  : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+                      ? FriendsFamilyGridView(
+                          header: ksFriends.tr,
+                          count: profileViewController.profileFriendData.value!.mutualFriendsCount.toString(),
+                          friendList: profileViewController.profileFriendList,
+                          isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
+                          seeAllOnPressed: () {
+                            Get.toNamed(krProfileViewFriend);
+                          },
+                        )
+                      : const SizedBox(),
+          if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") kH16sizedBox,
+          if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+            Container(
+              height: h8,
+              color: cBackgroundColor,
+            ),
           familyController.isFamilyListLoading.value
               ? const FriendFamilyGridViewShimmer()
-              : familyController.familyList.isEmpty
+              : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
+                      familyController.familyList.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: k16Padding),
                       child: Container(
@@ -58,15 +61,17 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                         child: EmptyView(title: ksNoFamilyAddedYet.tr),
                       ),
                     )
-                  : FriendsFamilyGridView(
-                      header: ksFamily.tr,
-                      count: familyController.allFamilyCount.toString(),
-                      friendList: profileViewController.profileFriendList,
-                      isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
-                      seeAllOnPressed: () {
-                        Get.toNamed(krProfileViewFamily);
-                      },
-                    ),
+                  : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+                      ? FriendsFamilyGridView(
+                          header: ksFamily.tr,
+                          count: familyController.allFamilyCount.toString(),
+                          friendList: profileViewController.profileFriendList,
+                          isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
+                          seeAllOnPressed: () {
+                            Get.toNamed(krProfileViewFamily);
+                          },
+                        )
+                      : const SizedBox(),
         ],
       ),
     );
