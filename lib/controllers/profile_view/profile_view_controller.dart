@@ -1,5 +1,6 @@
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
+import 'package:bip_hip/models/profile_view/kid/profile_view_kid_overview_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.dart';
@@ -528,6 +529,49 @@ class ProfileViewController extends GetxController {
   }
 
 
+  //!Kid Profile view api implement
+  //* Profile overview API Implementation
+  final RxString pageId = RxString("4113727326");
+  Rx<ProfileViewKidOverviewModel?> userProfileViewKidData = Rx<ProfileViewKidOverviewModel?>(null);
+  Rx<Kid?> kidProfileData = Rx<Kid?>(null);
+  // Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
+  // Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
+  // Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
+  RxBool isKidProfileViewLoading = RxBool(false);
+  Future<void> getKidProfileOverview() async {
+    try {
+      isKidProfileViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/${pageId.value}/overview",
+      ) as CommonDM;
+      if (response.success == true) {
+        userProfileViewKidData.value = ProfileViewKidOverviewModel.fromJson(response.data);
+        kidProfileData.value = userProfileViewKidData.value!.kid;
+        // hometownData.value = userProfileViewData.value!.hometown;
+        // currentCityData.value = userProfileViewData.value!.currentCity;
+        // userCurrentWorkplace.value = userProfileViewData.value!.works;
+        isKidProfileViewLoading.value = false;
+      } else {
+        isKidProfileViewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidProfileViewLoading.value = true;
+      ll('getKidProfileOverview error: $e');
+    }
+  }
+
+
+
+
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
     if (startDate != null && endDate != null) {
@@ -553,7 +597,6 @@ class ProfileViewController extends GetxController {
     }
   }
   final TextEditingController followerSearchController = TextEditingController();
-  final RxBool isKidOrStoreProfile = RxBool(false);
   final RxString profileViewType = RxString("");
   final RxString storeRating = RxString("4.8");
   final RxInt storeRatingReviewCount = RxInt(36);

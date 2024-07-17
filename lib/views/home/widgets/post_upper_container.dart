@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
@@ -259,9 +260,25 @@ class PostUpperContainer extends StatelessWidget {
                                   style: regular16TextStyle(cSmallBodyTextColor),
                                 ),
                               if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
-                                TextSpan(
-                                  text: '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
-                                  style: semiBold16TextStyle(cBlackColor),
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      // Get.find<ProfileViewController>().userName.value =
+                                      //     globalController.commonPostList[postIndex].taggedFriends[0].userName;
+                                      ll(globalController.commonPostList[postIndex].taggedFriends[0].userName);
+                                      // Get.toNamed(krProfileView);
+                                      // await Get.find<ProfileViewController>().getProfileOverview();
+                                      // await Get.find<ProfileViewController>().getProfileViewPostList();
+                                      // await Get.find<ProfileViewController>().getProfileViewFriend();
+                                    },
+                                    child: Text(
+                                      '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                  ),
+
+                                  // text: '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
+                                  // style: semiBold16TextStyle(cBlackColor),
                                 ),
                               if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
                                   globalController.commonPostList[postIndex].taggedFriends.length == 2)
@@ -301,7 +318,7 @@ class PostUpperContainer extends StatelessWidget {
                                 baseline: TextBaseline.alphabetic,
                                 alignment: PlaceholderAlignment.baseline,
                                 child: Padding(
-                                  padding: EdgeInsets.only(bottom: 0),
+                                  padding: const EdgeInsets.only(bottom: 0),
                                   child: Icon(
                                     globalController.privacyList.firstWhere(
                                       (element) => element['id'] == globalController.commonPostList[postIndex].isPublic,
@@ -312,13 +329,26 @@ class PostUpperContainer extends StatelessWidget {
                                 ),
                               ),
                               if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
-                                  globalController.commonPostList[postIndex].store != null)
+                                  globalController.commonPostList[postIndex].store != null) //* these are widget span
                                 TextSpan(text: ' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
                               if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
                                   globalController.commonPostList[postIndex].kid != null)
-                                TextSpan(
-                                    text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
-                                    style: semiBold14TextStyle(cBlackColor)),
+                                // TextSpan(
+                                //     //* these are widget span
+                                //     text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
+                                //     style: semiBold14TextStyle(cBlackColor)),
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      Get.find<ProfileViewController>().profileViewType.value = "kid";
+                                      Get.toNamed(krProfileView);
+                                      await Get.find<ProfileViewController>().getKidProfileOverview();
+                                    },
+                                    child: Text(
+                                        ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
+                                        style: semiBold14TextStyle(cBlackColor)),
+                                  ),
+                                ),
                               TextSpan(
                                   text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
                                   style: regular14TextStyle(cSmallBodyTextColor))
@@ -577,7 +607,7 @@ class SharePostUpperContainer extends StatelessWidget {
                                 baseline: TextBaseline.alphabetic,
                                 alignment: PlaceholderAlignment.baseline,
                                 child: Padding(
-                                  padding: EdgeInsets.only(bottom: 0),
+                                  padding: const EdgeInsets.only(bottom: 0),
                                   child: Icon(
                                     globalController.privacyList.firstWhere(
                                       (element) => element['id'] == globalController.commonPostList[postIndex].sharePosts!.isPublic,
@@ -593,10 +623,18 @@ class SharePostUpperContainer extends StatelessWidget {
                                     text: ' (${globalController.commonPostList[postIndex].sharePosts!.store?.name})', style: semiBold14TextStyle(cBlackColor)),
                               if (globalController.commonPostList[postIndex].sharePosts!.postCategory?.name == 'Kids' &&
                                   globalController.commonPostList[postIndex].sharePosts!.kid != null)
-                                TextSpan(
-                                    text:
+                                // TextSpan(
+                                //     text:
+                                //         ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
+                                //     style: semiBold14TextStyle(cBlackColor)),
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Text(
                                         ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
-                                    style: semiBold14TextStyle(cBlackColor)),
+                                        style: semiBold14TextStyle(cBlackColor)),
+                                  ),
+                                ),
                               TextSpan(
                                   text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].sharePosts!.createdAt!)}',
                                   style: regular14TextStyle(cSmallBodyTextColor))
@@ -1093,7 +1131,6 @@ class OthersPostActionContent extends StatelessWidget {
                     isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
                     isRightButtonShow: false);
                 await globalController.getReportList();
-              
               } else {
                 await globalController.postReportAndUndoReport(
                   null,
@@ -1135,12 +1172,13 @@ class OthersPostActionContent extends StatelessWidget {
 }
 
 class IconWithTextRow extends StatelessWidget {
-  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor, this.iconSize, this.actionTextStyle});
+  const IconWithTextRow(
+      {super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor, this.iconSize, this.actionTextStyle});
   final IconData actionIcon;
   final Color? iconColor;
   final String actionText;
-  final double ? iconSize;
-  final TextStyle ? actionTextStyle;
+  final double? iconSize;
+  final TextStyle? actionTextStyle;
   final VoidCallback? actionOnPressed;
   @override
   Widget build(BuildContext context) {
@@ -1151,12 +1189,12 @@ class IconWithTextRow extends StatelessWidget {
           CustomIconButton(
             icon: actionIcon,
             onPress: null,
-            iconColor: iconColor?? cIconColor,
-            size: iconSize?? kIconSize20,
+            iconColor: iconColor ?? cIconColor,
+            size: iconSize ?? kIconSize20,
           ),
           Text(
             actionText,
-            style: actionTextStyle?? semiBold14TextStyle(cBlackColor),
+            style: actionTextStyle ?? semiBold14TextStyle(cBlackColor),
           ),
         ],
       ),

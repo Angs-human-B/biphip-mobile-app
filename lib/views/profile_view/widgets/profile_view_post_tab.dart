@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/shimmers/home/home_page_shimmer.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -34,14 +35,15 @@ class ProfileViewPostTab extends StatelessWidget {
                       style: semiBold18TextStyle(cBlackColor),
                     ),
                     kH12sizedBox,
-                    if (profileViewController.userProfileViewData.value!.currentCity?.city != null)
+                    if ((profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
+                        profileViewController.userProfileViewData.value?.currentCity?.city != null)
                       LinkUpIconTextRow(
                         icon: BipHip.address,
                         onPressed: null,
                         prefixText: '${ksLivesIn.tr} ',
                         suffixText: profileViewController.userProfileViewData.value!.currentCity?.city ?? ksNA.tr,
                       ),
-                    if (profileViewController.userProfileViewData.value!.currentCity?.city != null &&
+                    if (profileViewController.userProfileViewData.value?.currentCity?.city != null &&
                         profileViewController.userProfileViewData.value?.currentCity?.isCurrent == 1)
                       LinkUpIconTextRow(
                         icon: BipHip.location,
@@ -50,7 +52,7 @@ class ProfileViewPostTab extends StatelessWidget {
                         onPressed: null,
                       ),
                     CustomTextButton(
-                      text: "See ${profileViewController.userProfileData.value?.lastName}'s about info",
+                      text: "See ${ProfileViewHelper().getUserKidOrStoreLastName(type: profileViewController.profileViewType.value)} about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () async {
                         await profileViewController.getProfileBasicInfo();
@@ -65,12 +67,12 @@ class ProfileViewPostTab extends StatelessWidget {
               ),
             ),
             kH16sizedBox,
-            if (Get.find<ProfileViewController>().isKidOrStoreProfile.value == false)
+            if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
               Container(
                 height: h8,
                 color: cBackgroundColor,
               ),
-            if (Get.find<ProfileViewController>().isKidOrStoreProfile.value == false) ProfileViewFriendFamilyWidget(),
+            if (profileViewController.profileViewType.value != "kid" || profileViewController.profileViewType.value != "store") ProfileViewFriendFamilyWidget(),
             Container(
               height: h8,
               color: cBackgroundColor,
@@ -81,7 +83,7 @@ class ProfileViewPostTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (profileViewController.isKidOrStoreProfile.value == false)
+                  if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Text(
@@ -123,7 +125,7 @@ class ProfileViewPostTab extends StatelessWidget {
                 ],
               ),
             ),
-            if (profileViewController.isKidOrStoreProfile.value)
+            if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

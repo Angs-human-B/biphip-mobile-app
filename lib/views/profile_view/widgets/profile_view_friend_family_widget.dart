@@ -19,7 +19,9 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
         children: [
           profileViewController.isProfileViewFriendLoading.value
               ? const FriendFamilyGridViewShimmer()
-              : profileViewController.profileMutualFriendList.isEmpty && profileViewController.profileFriendList.isEmpty
+              : (profileViewController.profileViewType.value != "kid" || profileViewController.profileViewType.value != "store") &&
+                      profileViewController.profileMutualFriendList.isEmpty &&
+                      profileViewController.profileFriendList.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: k16Padding),
                       child: Container(
