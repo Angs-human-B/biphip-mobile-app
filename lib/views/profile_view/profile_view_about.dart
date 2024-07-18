@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/prfole_view_about_education_background.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_basic_info.dart';
@@ -7,11 +8,11 @@ import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_rela
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_social_links.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_work.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_interest_widget.dart';
-import 'package:intl/intl.dart';
 
 class ProfileViewAbout extends StatelessWidget {
   ProfileViewAbout({super.key});
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
+  final ProfileViewHelper profileViewHelper = ProfileViewHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +49,11 @@ class ProfileViewAbout extends StatelessWidget {
                 // ),
                 kH12sizedBox,
                 ProileViewAboutBasicInfo(
-                  gender: profileViewController.userProfileBasicData.value?.gender ?? "",
-                  dateOfBirth: DateFormat('MMMM d, yyyy').format(profileViewController.userProfileBasicData.value?.dateOfBirth ?? DateTime.now()),
-                  languages: profileViewController.userProfileBasicData.value!.languages!,
+                  gender: profileViewHelper.getUserKidOrStoreGender(type: profileViewController.profileViewType.value),
+                  dateOfBirth: profileViewHelper.getUserKidOrStoreDateOfBirth(type: profileViewController.profileViewType.value),
+                  languages: profileViewHelper.getUserKidOrStoreLanguages(type: profileViewController.profileViewType.value),
                 ),
-                if (profileViewController.userProfileData.value!.relation != null)
+                if (profileViewController.userProfileData.value?.relation != null)
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
                     child: ProfileViewAbotRelationProfessionInterestContent(
@@ -60,7 +61,9 @@ class ProfileViewAbout extends StatelessWidget {
                       subTitle: profileViewController.userProfileData.value?.relation ?? ksNA.tr,
                     ),
                   ),
-                if (profileViewController.userProfileData.value!.profession.isNotEmpty)
+                if (Get.find<ProfileViewController>().profileViewType.value != "kid" &&
+                    Get.find<ProfileViewController>().profileViewType.value != "store" &&
+                    profileViewController.userProfileData.value!.profession.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
                     child: ProfileViewAbotRelationProfessionInterestContent(
@@ -68,7 +71,9 @@ class ProfileViewAbout extends StatelessWidget {
                       subTitle: profileViewController.userProfileData.value?.profession[0],
                     ),
                   ),
-                if (profileViewController.userProfileData.value!.interest.isNotEmpty)
+                if (Get.find<ProfileViewController>().profileViewType.value != "kid" &&
+                    Get.find<ProfileViewController>().profileViewType.value != "store" &&
+                    profileViewController.userProfileData.value!.interest.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
                     child: ProfileViewAbotInterestContent(
@@ -80,18 +85,23 @@ class ProfileViewAbout extends StatelessWidget {
                 ProileViewAboutEducationBackground(
                   collegeList: profileViewController.collegeDataList,
                   schoolList: profileViewController.schoolDataList,
+                  kidSchool: profileViewController.kidProfileSchoolData,
                 ),
-                kH12sizedBox,
-                ProileViewAboutWork(
-                  workplaceList: profileViewController.workPlaceList,
-                ),
+                if (Get.find<ProfileViewController>().profileViewType.value != "kid" && Get.find<ProfileViewController>().profileViewType.value != "store")
+                  Padding(
+                    padding: const EdgeInsets.only(top: k12Padding),
+                    child: ProileViewAboutWork(
+                      workplaceList: profileViewController.workPlaceList,
+                    ),
+                  ),
                 kH12sizedBox,
                 ProileViewAboutContactInfo(
-                  title: profileViewController.userBasicData,
+                  title: profileViewHelper.getUserKidOrStoreContactInfo(type: profileViewController.profileViewType.value),
                 ),
                 kH12sizedBox,
                 ProileViewAboutSocialLinks(
                   title: profileViewController.userLinkData,
+                  privacyLink: profileViewController.kidProfileData.value?.privacyLink??[],
                 ),
               ],
             ),

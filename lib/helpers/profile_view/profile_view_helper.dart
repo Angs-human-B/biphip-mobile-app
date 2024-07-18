@@ -1,5 +1,6 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:intl/intl.dart';
 
 class ProfileViewHelper {
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
@@ -42,17 +43,52 @@ class ProfileViewHelper {
     return "0 Followers";
   }
 
-  String getUserKidOrStoreLastName({required String type}){
-     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.name != null) {
+  String getUserKidOrStoreLastName({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.name != null) {
       return profileViewController.kidProfileData.value!.name!;
     }
-        // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
+    // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
     //   return profileViewController.kidProfileData.value!.name!;
     // }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.lastName != null) {
       return profileViewController.userProfileData.value!.lastName!;
     }
-  return "";
+    return "";
+  }
+
+  String getUserKidOrStoreGender({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.gender != null) {
+      return profileViewController.kidProfileData.value!.gender!;
+    }
+    // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
+    //   return profileViewController.kidProfileData.value!.name!;
+    // }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.gender != null) {
+      return profileViewController.userProfileData.value!.gender!;
+    }
+    return "";
+  }
+  List<String> getUserKidOrStoreLanguages({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.languages != null) {
+      return profileViewController.kidProfileData.value!.languages!;
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
+      return  profileViewController.userProfileBasicData.value!.languages!;
+    }
+    return [];
+  }
+
+  String getUserKidOrStoreDateOfBirth({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.dob != null) {
+      return DateFormat('MMMM d, yyyy').format(profileViewController.kidProfileData.value!.dob!);
+    }
+    // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
+    //   return profileViewController.kidProfileData.value!.name!;
+    // }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.dob != null) {
+      return DateFormat('MMMM d, yyyy').format(profileViewController.userProfileBasicData.value!.dateOfBirth!);
+    }
+    return ksNA.tr;
   }
 
   String getUserKidStoreCoverPhoto({required String type}) {
@@ -64,6 +100,18 @@ class ProfileViewHelper {
     // }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.coverPhoto != null) {
       return profileViewController.userProfileData.value!.coverPhoto!;
+    }
+    return "";
+  }
+   getUserKidOrStoreContactInfo({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileContactList.isNotEmpty) {
+      return profileViewController.kidProfileContactList;
+    }
+    //       if(profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.coverPhoto!=null){
+    //   return profileViewController.kidProfileData.value!.coverPhoto!;
+    // }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.userBasicData.isNotEmpty) {
+      return profileViewController.userBasicData;
     }
     return "";
   }

@@ -534,6 +534,8 @@ class ProfileViewController extends GetxController {
   final RxString pageId = RxString("4113727326");
   Rx<ProfileViewKidOverviewModel?> userProfileViewKidData = Rx<ProfileViewKidOverviewModel?>(null);
   Rx<Kid?> kidProfileData = Rx<Kid?>(null);
+  Rx<School?> kidProfileSchoolData = Rx<School?>(null);
+  RxList<Contact?> kidProfileContactList = RxList<Contact?>([]);
   // Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   // Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
   // Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
@@ -548,8 +550,11 @@ class ProfileViewController extends GetxController {
         url: "/mobile/user/kid-profile/${pageId.value}/overview",
       ) as CommonDM;
       if (response.success == true) {
+        kidProfileContactList.clear();
         userProfileViewKidData.value = ProfileViewKidOverviewModel.fromJson(response.data);
         kidProfileData.value = userProfileViewKidData.value!.kid;
+        kidProfileSchoolData.value = userProfileViewKidData.value!.school;
+        kidProfileContactList.addAll(userProfileViewKidData.value!.contacts!);
         // hometownData.value = userProfileViewData.value!.hometown;
         // currentCityData.value = userProfileViewData.value!.currentCity;
         // userCurrentWorkplace.value = userProfileViewData.value!.works;
@@ -568,10 +573,7 @@ class ProfileViewController extends GetxController {
       ll('getKidProfileOverview error: $e');
     }
   }
-
-
-
-
+  
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
     if (startDate != null && endDate != null) {

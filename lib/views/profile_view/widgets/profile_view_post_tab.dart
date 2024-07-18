@@ -55,8 +55,13 @@ class ProfileViewPostTab extends StatelessWidget {
                       text: "See ${ProfileViewHelper().getUserKidOrStoreLastName(type: profileViewController.profileViewType.value)} about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () async {
+                        if(profileViewController.profileViewType.value== "profile"){
                         await profileViewController.getProfileBasicInfo();
                         await profileViewController.getProfileViewWorkEducation();
+                        }
+                       if(profileViewController.profileViewType.value== "kid"){
+                       
+                       }
                         Get.toNamed(krProfileViewAbout);
                       },
                       mainAxisAlignment: MainAxisAlignment.start,
