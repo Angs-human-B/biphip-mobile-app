@@ -1,6 +1,7 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/store/store_profile/edit_store_about.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/prfole_view_about_education_background.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_basic_info.dart';
 import 'package:bip_hip/views/profile_view/widgets/about/profile_view_about_contact_info.dart';
@@ -98,11 +99,18 @@ class ProfileViewAbout extends StatelessWidget {
                 ProileViewAboutContactInfo(
                   title: profileViewHelper.getUserKidOrStoreContactInfo(type: profileViewController.profileViewType.value),
                 ),
-                kH12sizedBox,
                 ProileViewAboutSocialLinks(
                   title: profileViewController.userLinkData,
-                  privacyLink: profileViewController.kidProfileData.value?.privacyLink??[],
+                  privacyLink: profileViewController.kidProfileData.value?.privacyLink ?? [],
                 ),
+                if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
+                  Padding(
+                    padding: const EdgeInsets.only(top: k12Padding),
+                    child: StorePageTransperencyContent(
+                      pageId: profileViewController.kidProfileData.value!.pageId.toString(),
+                      creatingDate: profileViewController.kidProfileData.value?.createdAt,
+                    ),
+                  ),
               ],
             ),
           ),

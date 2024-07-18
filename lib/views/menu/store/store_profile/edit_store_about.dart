@@ -51,7 +51,7 @@ class StoreEditAbout extends StatelessWidget {
                 kH8sizedBox,
                 StoreReviewContent(),
                 kH8sizedBox,
-                StorePageTransperencyContent(),
+                StorePageTransperencyContent(pageId: storeController.storesData.value!.pageId.toString(),creatingDate: storeController.storesData.value?.createdAt,),
               ],
             ),
           ),
@@ -498,8 +498,10 @@ class StoreReviewContent extends StatelessWidget {
 }
 
 class StorePageTransperencyContent extends StatelessWidget {
-  StorePageTransperencyContent({super.key});
+  StorePageTransperencyContent({super.key, required this.pageId, this.creatingDate});
   final StoreController storeController = Get.find<StoreController>();
+  final String pageId;
+  final DateTime? creatingDate;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -522,7 +524,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              storeController.storesData.value!.pageId.toString(),
+              pageId,
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,
@@ -532,7 +534,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              DateFormat('dd MMM, yyyy').format(storeController.storesData.value?.createdAt ?? DateTime.now()),
+              DateFormat('dd MMM, yyyy').format(creatingDate ?? DateTime.now()),
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,
