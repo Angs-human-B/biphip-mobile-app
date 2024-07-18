@@ -83,7 +83,7 @@ class ProfileViewPostTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
+                  if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Text(
@@ -91,37 +91,38 @@ class ProfileViewPostTab extends StatelessWidget {
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                     ),
-                  SizedBox(
-                    width: width,
-                    height: 50,
-                    child: ListView.builder(
-                      itemCount: Get.find<CreatePostController>().createPostCategoryList.length,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(horizontal: k10Padding),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, i) {
-                        return Obx(
-                          () => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                            child: CustomChoiceChips(
-                              label: Get.find<CreatePostController>().createPostCategoryList[i].name ?? "",
-                              isSelected:
-                                  (profileViewController.interestCatagoriesIndex.value == Get.find<CreatePostController>().createPostCategoryList[i].id),
-                              onSelected: (value) {
-                                profileViewController.interestCatagoriesIndex.value = Get.find<CreatePostController>().createPostCategoryList[i].id!;
-                                if (profileViewController.interestCatagoriesIndex.value == 0) {
-                                  profileViewController.interestCatagoriesIndex.value++;
-                                  profileViewController.getProfileViewPostList();
-                                } else if (profileViewController.interestCatagoriesIndex.value != 0) {
-                                  profileViewController.getProfileViewPostList();
-                                }
-                              },
+                  if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+                    SizedBox(
+                      width: width,
+                      height: 50,
+                      child: ListView.builder(
+                        itemCount: Get.find<CreatePostController>().createPostCategoryList.length,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, i) {
+                          return Obx(
+                            () => Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                              child: CustomChoiceChips(
+                                label: Get.find<CreatePostController>().createPostCategoryList[i].name ?? "",
+                                isSelected:
+                                    (profileViewController.interestCatagoriesIndex.value == Get.find<CreatePostController>().createPostCategoryList[i].id),
+                                onSelected: (value) {
+                                  profileViewController.interestCatagoriesIndex.value = Get.find<CreatePostController>().createPostCategoryList[i].id!;
+                                  if (profileViewController.interestCatagoriesIndex.value == 0) {
+                                    profileViewController.interestCatagoriesIndex.value++;
+                                    profileViewController.getProfileViewPostList();
+                                  } else if (profileViewController.interestCatagoriesIndex.value != 0) {
+                                    profileViewController.getProfileViewPostList();
+                                  }
+                                },
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
