@@ -26,7 +26,7 @@ class ProfileViewPhotoTab extends StatelessWidget {
                     profileViewController.photoToggleType(0);
                   },
                   () {
-                    profileViewController.getImageAlbum();
+                    ProfileViewHelper().getUserKidOrStoreAlbumImage(type: profileViewController.profileViewType.value);
                     profileViewController.photoToggleType(1);
                   },
                 ]),

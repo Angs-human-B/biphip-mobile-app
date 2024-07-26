@@ -84,8 +84,20 @@ class ProfileViewHelper {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
       return profileViewController.profileViewKidPostList;
     }
-    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.profileViewPostList.isNotEmpty) {
       return profileViewController.profileViewPostList;
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return [];
+  }
+  List getUserKidOrStoreAlbumList({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidImageAlbumList.isNotEmpty) {
+      return profileViewController.profileViewKidImageAlbumList;
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.imageAlbumList.isNotEmpty) {
+      return profileViewController.imageAlbumList;
     }
     // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
     //   return  profileViewController.profileViewPostList;
@@ -106,6 +118,31 @@ class ProfileViewHelper {
     return null;
   }
 
+  getUserKidOrStoreAlbumImage({required String type}) async {
+    if (profileViewController.profileViewType.value == "kid") {
+      return await profileViewController.getProfileViewKidImageAlbum(kidPageId: "4113727326");
+    }
+    if (profileViewController.profileViewType.value == "profile") {
+      return await profileViewController.getImageAlbum();
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return null;
+  }
+
+  int getUserKidOrStoreAlbumListLength({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidImageAlbumList.isNotEmpty) {
+      return profileViewController.profileViewKidImageAlbumList.length;
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.imageAlbumList.isNotEmpty) {
+      return profileViewController.imageAlbumList.length;
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return 0;
+  }
   int getUserKidOrStorePostsListLength({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
       return profileViewController.profileViewKidPostList.length;

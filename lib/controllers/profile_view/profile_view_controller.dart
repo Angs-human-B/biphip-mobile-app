@@ -651,46 +651,45 @@ class ProfileViewController extends GetxController {
   }
 
   // //*Kid Image Album APi implement
-  // final Rx<ProfileViewImageAlbumModel?> profileViewImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
-  // final RxList<ImageAlbumData> imageAlbumList = RxList<ImageAlbumData>([]);
-  // final Rx<String?> imageAlbumListSubLink = Rx<String?>(null);
-  // final RxBool imageAlbumListScrolled = RxBool(false);
-  // final RxBool isImageAlbumListLoading = RxBool(false);
-  // Future<void> getImageAlbum() async {
-  //   try {
-  //     isImageAlbumListLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     var response = await apiController.commonApiCall(
-  //       requestMethod: kGet,
-  //       token: token,
-  //       url: "/mobile/user/user-profile/${userName.value}/image-albums?take=20",
-  //     ) as CommonDM;
-  //     if (response.success == true) {
-  //       imageAlbumList.clear();
-  //       imageAlbumListScrolled.value = false;
-  //       profileViewImageAlbumData.value = ProfileViewImageAlbumModel.fromJson(response.data);
-  //       imageAlbumList.addAll(profileViewImageAlbumData.value!.imageAlbums!.data!);
-  //       imageAlbumListSubLink.value = profileViewImageAlbumData.value!.imageAlbums!.nextPageUrl;
-  //       if (imageAlbumListSubLink.value != null) {
-  //         imageAlbumListScrolled.value = false;
-  //       } else {
-  //         imageAlbumListScrolled.value = true;
-  //       }
-  //       isImageAlbumListLoading.value = false;
-  //     } else {
-  //       isImageAlbumListLoading.value = true;
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       if (errorModel.errors.isEmpty) {
-  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-  //       } else {
-  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isImageAlbumListLoading.value = true;
-  //     ll('getImageAlbum error: $e');
-  //   }
-  // }
+  final Rx<ProfileViewImageAlbumModel?> profileViewKidImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
+  final RxList<ImageAlbumData> profileViewKidImageAlbumList = RxList<ImageAlbumData>([]);
+  final Rx<String?> profileViewKidImageAlbumListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidImageAlbumListScrolled = RxBool(false);
+  Future<void> getProfileViewKidImageAlbum({required String kidPageId}) async {
+    try {
+      isImageAlbumListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/image-albums?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidImageAlbumList.clear();
+        profileViewKidImageAlbumListScrolled.value = false;
+        profileViewKidImageAlbumData.value = ProfileViewImageAlbumModel.fromJson(response.data);
+        profileViewKidImageAlbumList.addAll(profileViewKidImageAlbumData.value!.imageAlbums!.data!);
+        profileViewKidImageAlbumListSubLink.value = profileViewKidImageAlbumData.value!.imageAlbums!.nextPageUrl;
+        if (profileViewKidImageAlbumListSubLink.value != null) {
+          profileViewKidImageAlbumListScrolled.value = false;
+        } else {
+          profileViewKidImageAlbumListScrolled.value = true;
+        }
+        isImageAlbumListLoading.value = false;
+      } else {
+        isImageAlbumListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isImageAlbumListLoading.value = true;
+      ll('getProfileViewKidImageAlbum error: $e');
+    }
+  }
 
   // //*Kid Video APi implement
   // final Rx<ProfileViewVideoModel?> videoData = Rx<ProfileViewVideoModel?>(null);
