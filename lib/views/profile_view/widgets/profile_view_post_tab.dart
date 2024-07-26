@@ -17,6 +17,7 @@ class ProfileViewPostTab extends StatelessWidget {
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
   final HomeController homeController = Get.find<HomeController>();
   final KidsController kidsController = Get.find<KidsController>();
+  final ProfileViewHelper profileViewHelper = ProfileViewHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +205,7 @@ class ProfileViewPostTab extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => kH8sizedBox,
-                    itemCount: profileViewController.profileViewPostList.length,
+                    itemCount: profileViewHelper.getUserKidOrStorePostsListLength(type: profileViewController.profileViewType.value),
                     itemBuilder: (context, index) {
                       return Container(
                         color: cWhiteColor,

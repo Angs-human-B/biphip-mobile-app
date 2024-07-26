@@ -72,9 +72,9 @@ class HomeController extends GetxController {
         globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        allPostList.addAll(postListData.value!.posts.data);
+        allPostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allPostList);
-        postListSubLink.value = postListData.value!.posts.nextPageUrl;
+        postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
         } else {
@@ -125,9 +125,9 @@ class HomeController extends GetxController {
       if (response.success == true) {
         allPostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
-        allPostList.addAll(postListData.value!.posts.data);
+        allPostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allPostList);
-        postListSubLink.value = postListData.value!.posts.nextPageUrl;
+        postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
         } else {
@@ -171,9 +171,9 @@ class HomeController extends GetxController {
         globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {
@@ -223,9 +223,9 @@ class HomeController extends GetxController {
       if (response.success == true) {
         allTimelinePostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {
@@ -452,9 +452,9 @@ class HomeController extends GetxController {
         globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {
@@ -504,9 +504,9 @@ class HomeController extends GetxController {
       if (response.success == true) {
         allTimelinePostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.commonPostList.addAll(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {

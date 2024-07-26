@@ -341,8 +341,9 @@ class PostUpperContainer extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () async {
                                       Get.find<ProfileViewController>().profileViewType.value = "kid";
-                                      Get.toNamed(krProfileView);
+                                      await Get.find<ProfileViewController>().getProfileViewKidPostList(kidPageId: "4113727326");
                                       await Get.find<ProfileViewController>().getKidProfileOverview();
+                                      Get.toNamed(krProfileView);
                                     },
                                     child: Text(
                                         ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',

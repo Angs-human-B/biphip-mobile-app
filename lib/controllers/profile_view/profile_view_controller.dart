@@ -1,3 +1,4 @@
+import 'package:bip_hip/controllers/profile_view/profile_view_kid_post_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/profile_view/kid/profile_view_kid_overview_model.dart';
@@ -359,7 +360,7 @@ class ProfileViewController extends GetxController {
   //*Image APi implement
   final Rx<ProfileViewImageModel?> profileViewImageData = Rx<ProfileViewImageModel?>(null);
   final RxList<ImageData> allImageList = RxList<ImageData>([]);
-    final Rx<String?> allImageListSubLink = Rx<String?>(null);
+  final Rx<String?> allImageListSubLink = Rx<String?>(null);
   final RxBool allImageListScrolled = RxBool(false);
   final RxBool isAllImageListLoading = RxBool(false);
   Future<void> getAllImage() async {
@@ -397,11 +398,11 @@ class ProfileViewController extends GetxController {
       ll('getAllImage error: $e');
     }
   }
-  
+
   //*Image Album APi implement
   final Rx<ProfileViewImageAlbumModel?> profileViewImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
   final RxList<ImageAlbumData> imageAlbumList = RxList<ImageAlbumData>([]);
-    final Rx<String?> imageAlbumListSubLink = Rx<String?>(null);
+  final Rx<String?> imageAlbumListSubLink = Rx<String?>(null);
   final RxBool imageAlbumListScrolled = RxBool(false);
   final RxBool isImageAlbumListLoading = RxBool(false);
   Future<void> getImageAlbum() async {
@@ -443,7 +444,7 @@ class ProfileViewController extends GetxController {
   //*Video APi implement
   final Rx<ProfileViewVideoModel?> videoData = Rx<ProfileViewVideoModel?>(null);
   final RxList<VideoData> videoList = RxList<VideoData>([]);
-    final Rx<String?> videoListSubLink = Rx<String?>(null);
+  final Rx<String?> videoListSubLink = Rx<String?>(null);
   final RxBool videoListScrolled = RxBool(false);
   final RxBool isVideoListLoading = RxBool(false);
   Future<void> getVideos() async {
@@ -482,9 +483,9 @@ class ProfileViewController extends GetxController {
     }
   }
 
- //* Profile view post data
-   final Rx<ProfileViewPostModel?> profileViewPostData = Rx<ProfileViewPostModel?>(null);
-   final RxList<PostDataRx> profileViewPostList = RxList<PostDataRx>([]);
+  //* Profile view post data
+  final Rx<ProfileViewPostModel?> profileViewPostData = Rx<ProfileViewPostModel?>(null);
+  final RxList<PostDataRx> profileViewPostList = RxList<PostDataRx>([]);
   final RxBool isProfileViewPostLoading = RxBool(false);
   final Rx<String?> profileViewPostListSubLink = Rx<String?>(null);
   final RxBool profileViewPostListScrolled = RxBool(false);
@@ -495,15 +496,13 @@ class ProfileViewController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "/mobile/user/user-profile/${userName.value}/posts?take=1&category_id=${interestCatagoriesIndex.value}",
+        url: "/mobile/user/user-profile/${userName.value}/posts?take=10&category_id=${interestCatagoriesIndex.value}",
       ) as CommonDM;
       if (response.success == true) {
         profileViewPostList.clear();
-        globalController.commonPostList.clear();
         profileViewPostListScrolled.value = false;
         profileViewPostData.value = ProfileViewPostModel.fromJson(response.data);
         profileViewPostList.addAll(profileViewPostData.value!.posts!.data);
-        globalController.populatePostList(profileViewPostList);
         profileViewPostListSubLink.value = profileViewPostData.value!.posts!.nextPageUrl;
         if (profileViewPostListSubLink.value != null) {
           profileViewPostListScrolled.value = false;
@@ -513,7 +512,6 @@ class ProfileViewController extends GetxController {
         isProfileViewPostLoading.value = false;
       } else {
         isProfileViewPostLoading.value = true;
-
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -528,7 +526,6 @@ class ProfileViewController extends GetxController {
     }
   }
 
-
   //!Kid Profile view api implement
   //* Profile overview API Implementation
   final RxString pageId = RxString("4113727326");
@@ -536,9 +533,6 @@ class ProfileViewController extends GetxController {
   Rx<Kid?> kidProfileData = Rx<Kid?>(null);
   Rx<School?> kidProfileSchoolData = Rx<School?>(null);
   RxList<Contact?> kidProfileContactList = RxList<Contact?>([]);
-  // Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
-  // Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
-  // Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
   RxBool isKidProfileViewLoading = RxBool(false);
   Future<void> getKidProfileOverview() async {
     try {
@@ -555,9 +549,6 @@ class ProfileViewController extends GetxController {
         kidProfileData.value = userProfileViewKidData.value!.kid;
         kidProfileSchoolData.value = userProfileViewKidData.value!.school;
         kidProfileContactList.addAll(userProfileViewKidData.value!.contacts!);
-        // hometownData.value = userProfileViewData.value!.hometown;
-        // currentCityData.value = userProfileViewData.value!.currentCity;
-        // userCurrentWorkplace.value = userProfileViewData.value!.works;
         isKidProfileViewLoading.value = false;
       } else {
         isKidProfileViewLoading.value = true;
@@ -573,7 +564,48 @@ class ProfileViewController extends GetxController {
       ll('getKidProfileOverview error: $e');
     }
   }
-  
+
+  //* Profile view kid post data
+  final Rx<ProfileViewKidPostModel?> profileViewKidPostData = Rx<ProfileViewKidPostModel?>(null);
+  final RxList<PostDataRx> profileViewKidPostList = RxList<PostDataRx>([]);
+  final Rx<String?> profileViewKidPostListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidPostListScrolled = RxBool(false);
+  Future<void> getProfileViewKidPostList({required String kidPageId}) async {
+    try {
+      isProfileViewPostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/posts?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidPostList.clear();
+        profileViewKidPostListScrolled.value = false;
+        profileViewKidPostData.value = ProfileViewKidPostModel.fromJson(response.data);
+        profileViewKidPostList.addAll(profileViewKidPostData.value!.posts!.data!);
+        profileViewKidPostListSubLink.value = profileViewKidPostData.value!.posts!.nextPageUrl;
+        if (profileViewKidPostListSubLink.value != null) {
+          profileViewKidPostListScrolled.value = false;
+        } else {
+          profileViewKidPostListScrolled.value = true;
+        }
+        isProfileViewPostLoading.value = false;
+      } else {
+        isProfileViewPostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewPostLoading.value = true;
+      ll('getProfileViewKidPostList error: $e');
+    }
+  }
+
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
     if (startDate != null && endDate != null) {
@@ -598,6 +630,7 @@ class ProfileViewController extends GetxController {
       return "";
     }
   }
+
   final TextEditingController followerSearchController = TextEditingController();
   final RxString profileViewType = RxString("");
   final RxString storeRating = RxString("4.8");

@@ -77,6 +77,30 @@ class ProfileViewHelper {
     }
     return [];
   }
+  List getUserKidOrStorePosts({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
+      return profileViewController.profileViewKidPostList;
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
+      return  profileViewController.profileViewPostList;
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return [];
+  }
+  int getUserKidOrStorePostsListLength({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
+      return profileViewController.profileViewKidPostList.length;
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
+      return  profileViewController.profileViewPostList.length;
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return 0;
+  }
 
   String getUserKidOrStoreDateOfBirth({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.dob != null) {
