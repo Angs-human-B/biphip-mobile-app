@@ -13,6 +13,7 @@ import 'package:bip_hip/models/profile_view/user/profile_view_work_education_mod
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/utils/constants/strings.dart';
 import 'package:intl/intl.dart';
 import 'package:bip_hip/views/profile_view/store_review/profile_view_create_review.dart';
 
@@ -605,6 +606,135 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewKidPostList error: $e');
     }
   }
+
+
+
+  //* Kid Image APi implement
+  final Rx<ProfileViewImageModel?> profileViewKidImageData = Rx<ProfileViewImageModel?>(null);
+  final RxList<ImageData> kidAllImageList = RxList<ImageData>([]);
+  final Rx<String?> kidAllImageListSubLink = Rx<String?>(null);
+  final RxBool kidAllImageListScrolled = RxBool(false);
+  Future<void> getProfileViewKidAllImage({required String kidPageId}) async {
+    try {
+      isAllImageListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/images?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        kidAllImageList.clear();
+        kidAllImageListScrolled.value = false;
+        profileViewKidImageData.value = ProfileViewImageModel.fromJson(response.data);
+        kidAllImageList.addAll(profileViewKidImageData.value!.images!.data!);
+        kidAllImageListSubLink.value = profileViewKidImageData.value!.images!.nextPageUrl;
+        if (kidAllImageListSubLink.value != null) {
+          kidAllImageListScrolled.value = false;
+        } else {
+          kidAllImageListScrolled.value = true;
+        }
+        isAllImageListLoading.value = false;
+      } else {
+        isAllImageListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAllImageListLoading.value = true;
+      ll('getProfileViewKidAllImage error: $e');
+    }
+  }
+
+  // //*Kid Image Album APi implement
+  // final Rx<ProfileViewImageAlbumModel?> profileViewImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
+  // final RxList<ImageAlbumData> imageAlbumList = RxList<ImageAlbumData>([]);
+  // final Rx<String?> imageAlbumListSubLink = Rx<String?>(null);
+  // final RxBool imageAlbumListScrolled = RxBool(false);
+  // final RxBool isImageAlbumListLoading = RxBool(false);
+  // Future<void> getImageAlbum() async {
+  //   try {
+  //     isImageAlbumListLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: "/mobile/user/user-profile/${userName.value}/image-albums?take=20",
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       imageAlbumList.clear();
+  //       imageAlbumListScrolled.value = false;
+  //       profileViewImageAlbumData.value = ProfileViewImageAlbumModel.fromJson(response.data);
+  //       imageAlbumList.addAll(profileViewImageAlbumData.value!.imageAlbums!.data!);
+  //       imageAlbumListSubLink.value = profileViewImageAlbumData.value!.imageAlbums!.nextPageUrl;
+  //       if (imageAlbumListSubLink.value != null) {
+  //         imageAlbumListScrolled.value = false;
+  //       } else {
+  //         imageAlbumListScrolled.value = true;
+  //       }
+  //       isImageAlbumListLoading.value = false;
+  //     } else {
+  //       isImageAlbumListLoading.value = true;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isImageAlbumListLoading.value = true;
+  //     ll('getImageAlbum error: $e');
+  //   }
+  // }
+
+  // //*Kid Video APi implement
+  // final Rx<ProfileViewVideoModel?> videoData = Rx<ProfileViewVideoModel?>(null);
+  // final RxList<VideoData> videoList = RxList<VideoData>([]);
+  // final Rx<String?> videoListSubLink = Rx<String?>(null);
+  // final RxBool videoListScrolled = RxBool(false);
+  // final RxBool isVideoListLoading = RxBool(false);
+  // Future<void> getVideos() async {
+  //   try {
+  //     isVideoListLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: "/mobile/user/user-profile/${userName.value}/videos?take=20",
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       videoList.clear();
+  //       videoListScrolled.value = false;
+  //       videoData.value = ProfileViewVideoModel.fromJson(response.data);
+  //       videoList.addAll(videoData.value!.videos!.data!);
+  //       videoListSubLink.value = videoData.value!.videos!.nextPageUrl;
+  //       if (videoListSubLink.value != null) {
+  //         videoListScrolled.value = false;
+  //       } else {
+  //         videoListScrolled.value = true;
+  //       }
+  //       isVideoListLoading.value = false;
+  //     } else {
+  //       isVideoListLoading.value = true;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isVideoListLoading.value = true;
+  //     ll('getImageAlbum error: $e');
+  //   }
+  // }
+
+
 
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {

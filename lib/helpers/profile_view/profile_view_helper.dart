@@ -10,7 +10,8 @@ class ProfileViewHelper {
       profileViewController.profileSelectedTabIndex.value = 0;
     } else if (index == 1) {
       profileViewController.profileSelectedTabIndex.value = 1;
-      await profileViewController.getAllImage();
+      // await profileViewController.getAllImage();
+      getUserKidOrStoreAllImages(type: profileViewController.profileViewType.value);
     } else if (index == 2) {
       profileViewController.profileSelectedTabIndex.value = 2;
       await profileViewController.getVideos();
@@ -68,38 +69,80 @@ class ProfileViewHelper {
     }
     return "";
   }
+
   List<String> getUserKidOrStoreLanguages({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.languages != null) {
       return profileViewController.kidProfileData.value!.languages!;
     }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
-      return  profileViewController.userProfileBasicData.value!.languages!;
+      return profileViewController.userProfileBasicData.value!.languages!;
     }
     return [];
   }
+
   List getUserKidOrStorePosts({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
       return profileViewController.profileViewKidPostList;
     }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
-      return  profileViewController.profileViewPostList;
+      return profileViewController.profileViewPostList;
     }
     // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
     //   return  profileViewController.profileViewPostList;
     // }
     return [];
   }
+
+  getUserKidOrStoreAllImages({required String type}) async {
+    if (profileViewController.profileViewType.value == "kid") {
+      return await profileViewController.getProfileViewKidAllImage(kidPageId: "4113727326");
+    }
+    if (profileViewController.profileViewType.value == "profile") {
+      return await profileViewController.getAllImage();
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return null;
+  }
+
   int getUserKidOrStorePostsListLength({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
       return profileViewController.profileViewKidPostList.length;
     }
-    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.languages != null) {
-      return  profileViewController.profileViewPostList.length;
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.profileViewPostList.isNotEmpty) {
+      return profileViewController.profileViewPostList.length;
     }
     // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
     //   return  profileViewController.profileViewPostList;
     // }
     return 0;
+  }
+
+  int getUserKidOrStoreAllImageListLength({required String type}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidAllImageList.isNotEmpty) {
+      return profileViewController.kidAllImageList.length;
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.allImageList.isNotEmpty) {
+      return profileViewController.allImageList.length;
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return 0;
+  }
+
+  String getUserKidOrStoreAllImageListSingleImage({required String type, required int index}) {
+    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidAllImageList.isNotEmpty) {
+      return profileViewController.kidAllImageList[index].fullPath ?? "";
+    }
+    if (profileViewController.profileViewType.value == "profile" && profileViewController.allImageList.isNotEmpty) {
+      return profileViewController.allImageList[index].fullPath ?? "";
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return "";
   }
 
   String getUserKidOrStoreDateOfBirth({required String type}) {
@@ -127,7 +170,8 @@ class ProfileViewHelper {
     }
     return "";
   }
-   getUserKidOrStoreContactInfo({required String type}) {
+
+  getUserKidOrStoreContactInfo({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileContactList.isNotEmpty) {
       return profileViewController.kidProfileContactList;
     }
