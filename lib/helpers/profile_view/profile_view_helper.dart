@@ -17,7 +17,7 @@ class ProfileViewHelper {
       await profileViewController.getVideos();
     } else if (index == 3) {
       profileViewController.profileSelectedTabIndex.value = 3;
-      await profileViewController.getProfileViewAwardList();
+      getUserKidOrStoreAwardList(type: profileViewController.profileViewType.value);
     }
   }
 
@@ -92,6 +92,7 @@ class ProfileViewHelper {
     // }
     return [];
   }
+
   List getUserKidOrStoreAlbumList({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidImageAlbumList.isNotEmpty) {
       return profileViewController.profileViewKidImageAlbumList;
@@ -131,6 +132,32 @@ class ProfileViewHelper {
     return null;
   }
 
+  getUserKidOrStoreAwardList({required String type}) async {
+    if (type == "kid") {
+      return await profileViewController.getProfileViewKidAwardList(kidPageId: "4113727326");
+    }
+    if (type == "profile") {
+      return await profileViewController.getProfileViewAwardList();
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return null;
+  }
+
+  int getUserKidOrStoreAwardListLength({required String type}) {
+    if (type == "kid") {
+      return profileViewController.profileViewKidAllAwardList.length;
+    }
+    if (type == "profile") {
+      return profileViewController.allAwardList.length;
+    }
+    // if (profileViewController.profileViewType.value == "store" && profileViewController.userProfileData.value?.languages != null) {
+    //   return  profileViewController.profileViewPostList;
+    // }
+    return 0;
+  }
+
   int getUserKidOrStoreAlbumListLength({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidImageAlbumList.isNotEmpty) {
       return profileViewController.profileViewKidImageAlbumList.length;
@@ -143,6 +170,7 @@ class ProfileViewHelper {
     // }
     return 0;
   }
+
   int getUserKidOrStorePostsListLength({required String type}) {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.profileViewKidPostList.isNotEmpty) {
       return profileViewController.profileViewKidPostList.length;

@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/awards/awards_details_page.dart';
 import 'package:bip_hip/views/menu/awards/awards_page.dart';
@@ -41,11 +42,13 @@ class ProfileViewAwardTab extends StatelessWidget {
                                     border: Border.all(width: 1, color: cLineColor),
                                   ),
                                   child: EmptyView(title: ksYouHaveNotWonAnyAwards.tr)),
-                            if (profileViewController.allAwardList.isNotEmpty)
+                            if (profileViewController.profileViewType.value == "Kid"
+                                ? profileViewController.profileViewKidAllAwardList.isNotEmpty
+                                : profileViewController.allAwardList.isNotEmpty)
                               GridView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: profileViewController.allAwardList.length,
+                                itemCount: ProfileViewHelper().getUserKidOrStoreAwardListLength(type: profileViewController.profileViewType.value),
                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   childAspectRatio: 0.75,
                                   crossAxisCount: 3,
@@ -53,20 +56,21 @@ class ProfileViewAwardTab extends StatelessWidget {
                                   mainAxisSpacing: k16Padding,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
+                                  var item = ProfileViewHelper().getUserKidOrStoreAwardList(type: profileViewController.profileViewType.value);
                                   return InkWell(
                                     onTap: () {
                                       Get.to(() => AwardDetailsPage(
-                                            userImage: profileViewController.allAwardList[index].user!.profilePicture,
-                                            userName: profileViewController.allAwardList[index].user!.fullName,
-                                            ranking: profileViewController.allAwardList[index].rank.toString(),
+                                            userImage: item[index].user!.profilePicture,
+                                            userName: item[index].user!.fullName,
+                                            ranking: item[index].rank.toString(),
                                             certificateImage: "",
-                                            winningDate: DateFormat('d MMM, yyyy').format(profileViewController.allAwardList[index].winDate!),
+                                            winningDate: DateFormat('d MMM, yyyy').format(item[index].winDate!),
                                           ));
                                     },
                                     child: AwardView(
-                                      image: profileViewController.allAwardList[index].user?.profilePicture,
-                                      ranking: profileViewController.allAwardList[index].rank.toString(),
-                                      titleText: DateFormat('d MMM, yyyy').format(profileViewController.allAwardList[index].winDate!),
+                                      image: item[index].user?.profilePicture,
+                                      ranking: item[index].rank.toString(),
+                                      titleText: DateFormat('d MMM, yyyy').format(item[index].winDate!),
                                     ),
                                   );
                                 },

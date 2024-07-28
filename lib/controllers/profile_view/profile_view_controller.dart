@@ -735,6 +735,51 @@ class ProfileViewController extends GetxController {
 
 
 
+  
+
+  //*Kid Award APi implement
+  final Rx<ProfileViewAwardModel?> profileViewKidllAwardListData = Rx<ProfileViewAwardModel?>(null);
+  final RxList<AllAwardData> profileViewKidAllAwardList = RxList<AllAwardData>([]);
+  final Rx<String?> profileViewKidAwardListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidAwardListScrolled = RxBool(false);
+  Future<void> getProfileViewKidAwardList({required String kidPageId}) async {
+    try {
+      isawardListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/awards?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidAllAwardList.clear();
+        profileViewKidAwardListScrolled.value = false;
+        profileViewKidllAwardListData.value = ProfileViewAwardModel.fromJson(response.data);
+        profileViewKidAllAwardList.addAll(profileViewKidllAwardListData.value!.awards!.data!);
+        profileViewKidAwardListSubLink.value = profileViewKidllAwardListData.value!.awards!.nextPageUrl;
+        if (profileViewKidAwardListSubLink.value != null) {
+          profileViewKidAwardListScrolled.value = false;
+        } else {
+          profileViewKidAwardListScrolled.value = true;
+        }
+        isawardListLoading.value = false;
+      } else {
+        isawardListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isawardListLoading.value = true;
+      ll('getProfileViewKidAwardList error: $e');
+    }
+  }
+
+
+  
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
     if (startDate != null && endDate != null) {
