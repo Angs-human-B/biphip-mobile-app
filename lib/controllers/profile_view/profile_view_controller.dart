@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/profile_view/profile_view_kid_post_model.dar
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/profile_view/kid/profile_view_kid_overview_model.dart';
+import 'package:bip_hip/models/profile_view/store/profile_view_store_overview_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.dart';
@@ -777,6 +778,43 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewKidAwardList error: $e');
     }
   }
+
+  //!Store Profile view api implement
+  //* Profile overview API Implementation
+  final RxString storePageId = RxString("8086769119");
+  Rx<ProfileViewStoreOverviewModel?> profileViewStoreData = Rx<ProfileViewStoreOverviewModel?>(null);
+  Rx<Store?> storeProfileData = Rx<Store?>(null);
+  RxList<Contact?> storeProfileContactList = RxList<Contact?>([]);
+  Future<void> getProfileViewStoreOverview() async {
+    try {
+      isKidProfileViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/${storePageId.value}/overview",
+      ) as CommonDM;
+      if (response.success == true) {
+        storeProfileContactList.clear();
+        profileViewStoreData.value = ProfileViewStoreOverviewModel.fromJson(response.data);
+        storeProfileData.value = profileViewStoreData.value!.store;
+        storeProfileContactList.addAll(profileViewStoreData.value!.contacts!);
+        isKidProfileViewLoading.value = false;
+      } else {
+        isKidProfileViewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidProfileViewLoading.value = true;
+      ll('getKidProfileOverview error: $e');
+    }
+  }
+
 
 
   

@@ -22,25 +22,25 @@ class ProfileViewHelper {
   }
 
   String getUserKidOrStoreName({required String type}) {
-    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.name != null) {
+    if (type == "kid" && profileViewController.kidProfileData.value?.name != null) {
       return profileViewController.kidProfileData.value!.name!;
     }
-    // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
-    //   return profileViewController.kidProfileData.value!.name!;
-    // }
-    if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.fullName != null) {
+    if (type == "profile" && profileViewController.userProfileData.value?.fullName != null) {
       return profileViewController.userProfileData.value!.fullName!;
+    }
+    if (type == "store" && profileViewController.storeProfileData.value?.name != null) {
+      return profileViewController.storeProfileData.value!.name!;
     }
     return ksNA.tr;
   }
 
   String getKidOrStoreFollowers({required String type}) {
-    if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.countFollowers != null) {
+    if (type == "kid" && profileViewController.kidProfileData.value?.countFollowers != null) {
       return "${profileViewController.kidProfileData.value?.countFollowers} Followers";
     }
-    // if(profileViewController.profileViewType.value == "store" && profileViewController.s.value?.name!=null){
-    //   return profileViewController.kidProfileData.value!.name!;
-    // }
+    if (type == "store" && profileViewController.storeProfileData.value?.countFollowers != null) {
+      return "${profileViewController.storeProfileData.value?.countFollowers!} Followers";
+    }
     return "0 Followers";
   }
 
@@ -48,9 +48,9 @@ class ProfileViewHelper {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.name != null) {
       return profileViewController.kidProfileData.value!.name!;
     }
-    // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
-    //   return profileViewController.kidProfileData.value!.name!;
-    // }
+    if (profileViewController.profileViewType.value == "store" && profileViewController.storeProfileData.value?.name != null) {
+      return profileViewController.storeProfileData.value!.name!;
+    }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.lastName != null) {
       return profileViewController.userProfileData.value!.lastName!;
     }
@@ -61,9 +61,6 @@ class ProfileViewHelper {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.gender != null) {
       return profileViewController.kidProfileData.value!.gender!;
     }
-    // if(profileViewController.profileViewType.value == "store" && profileViewController.kidProfileData.value?.name!=null){
-    //   return profileViewController.kidProfileData.value!.name!;
-    // }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.gender != null) {
       return profileViewController.userProfileData.value!.gender!;
     }
@@ -227,9 +224,9 @@ class ProfileViewHelper {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.coverPhoto != null) {
       return profileViewController.kidProfileData.value!.coverPhoto!;
     }
-    //       if(profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.coverPhoto!=null){
-    //   return profileViewController.kidProfileData.value!.coverPhoto!;
-    // }
+    if (profileViewController.profileViewType.value == "store" && profileViewController.storeProfileData.value?.coverPhoto != null) {
+      return profileViewController.storeProfileData.value!.coverPhoto!;
+    }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.coverPhoto != null) {
       return profileViewController.userProfileData.value!.coverPhoto!;
     }
@@ -240,11 +237,29 @@ class ProfileViewHelper {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileContactList.isNotEmpty) {
       return profileViewController.kidProfileContactList;
     }
-    //       if(profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.coverPhoto!=null){
-    //   return profileViewController.kidProfileData.value!.coverPhoto!;
-    // }
+    if (profileViewController.profileViewType.value == "store" && profileViewController.storeProfileContactList.isNotEmpty) {
+      return profileViewController.storeProfileContactList;
+    }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userBasicData.isNotEmpty) {
       return profileViewController.userBasicData;
+    }
+    return "";
+  }
+  String getKidOrStorePageId({required String type}) {
+    if (type == "kid" && profileViewController.kidProfileData.value!.pageId!=null) {
+      return profileViewController.kidProfileData.value!.pageId.toString();
+    }
+    if (type == "store" && profileViewController.storeProfileData.value!.pageId!=null) {
+      return profileViewController.storeProfileData.value!.pageId!.toString();
+    }
+    return "";
+  }
+      getKidOrStoreCreatingDate({required String type}) {
+    if (type == "kid" && profileViewController.kidProfileData.value?.createdAt!=null) {
+      return profileViewController.kidProfileData.value!.createdAt!;
+    }
+    if (type == "store" && profileViewController.storeProfileData.value!.pageId!=null) {
+      return profileViewController.storeProfileData.value!.createdAt!;
     }
     return "";
   }
@@ -253,9 +268,9 @@ class ProfileViewHelper {
     if (profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.profilePicture != null) {
       return profileViewController.kidProfileData.value!.profilePicture!;
     }
-    //       if(profileViewController.profileViewType.value == "kid" && profileViewController.kidProfileData.value?.coverPhoto!=null){
-    //   return profileViewController.kidProfileData.value!.coverPhoto!;
-    // }
+    if (profileViewController.profileViewType.value == "store" && profileViewController.storeProfileData.value?.profilePicture != null) {
+      return profileViewController.storeProfileData.value!.profilePicture!;
+    }
     if (profileViewController.profileViewType.value == "profile" && profileViewController.userProfileData.value?.profilePicture != null) {
       return profileViewController.userProfileData.value!.profilePicture!;
     }

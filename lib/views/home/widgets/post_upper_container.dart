@@ -329,8 +329,17 @@ class PostUpperContainer extends StatelessWidget {
                                 ),
                               ),
                               if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
-                                  globalController.commonPostList[postIndex].store != null) //* these are widget span
-                                TextSpan(text: ' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
+                                  globalController.commonPostList[postIndex].store != null)
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      Get.find<ProfileViewController>().profileViewType.value = "store";
+                                      await Get.find<ProfileViewController>().getProfileViewStoreOverview();
+                                      Get.toNamed(krProfileView);
+                                    },
+                                    child: Text(' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
+                                  ),
+                                ),
                               if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
                                   globalController.commonPostList[postIndex].kid != null)
                                 // TextSpan(

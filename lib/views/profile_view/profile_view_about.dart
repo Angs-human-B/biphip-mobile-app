@@ -107,8 +107,8 @@ class ProfileViewAbout extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
                     child: StorePageTransperencyContent(
-                      pageId: profileViewController.kidProfileData.value!.pageId.toString(),
-                      creatingDate: profileViewController.kidProfileData.value?.createdAt,
+                      pageId: ProfileViewHelper().getKidOrStorePageId(type: profileViewController.profileViewType.value),
+                      creatingDate: ProfileViewHelper().getKidOrStoreCreatingDate(type: profileViewController.profileViewType.value),
                     ),
                   ),
               ],
