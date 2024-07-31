@@ -48,12 +48,13 @@ class ProfileViewAbout extends StatelessWidget {
                 //   currentCity: profileViewController.profileViewCurrentCityData.value,
                 //   placesList: profileViewController.profileViewPlacesList.value,
                 // ),
-                kH12sizedBox,
-                ProileViewAboutBasicInfo(
-                  gender: profileViewHelper.getUserKidOrStoreGender(type: profileViewController.profileViewType.value),
-                  dateOfBirth: profileViewHelper.getUserKidOrStoreDateOfBirth(type: profileViewController.profileViewType.value),
-                  languages: profileViewHelper.getUserKidOrStoreLanguages(type: profileViewController.profileViewType.value),
-                ),
+                if (profileViewController.profileViewType.value != "store") kH12sizedBox,
+                if (profileViewController.profileViewType.value != "store")
+                  ProileViewAboutBasicInfo(
+                    gender: profileViewHelper.getUserKidGender(type: profileViewController.profileViewType.value),
+                    dateOfBirth: profileViewHelper.getUserKidDateOfBirth(type: profileViewController.profileViewType.value),
+                    languages: profileViewHelper.getUserKidOrStoreLanguages(type: profileViewController.profileViewType.value),
+                  ),
                 if (profileViewController.userProfileData.value?.relation != null)
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
@@ -82,12 +83,13 @@ class ProfileViewAbout extends StatelessWidget {
                       subTitle: profileViewController.userProfileData.value!.interest,
                     ),
                   ),
-                kH12sizedBox,
-                ProileViewAboutEducationBackground(
-                  collegeList: profileViewController.collegeDataList,
-                  schoolList: profileViewController.schoolDataList,
-                  kidSchool: profileViewController.kidProfileSchoolData,
-                ),
+                if (profileViewController.profileViewType.value != "store") kH12sizedBox,
+                if (profileViewController.profileViewType.value != "store")
+                  ProileViewAboutEducationBackground(
+                    collegeList: profileViewController.collegeDataList,
+                    schoolList: profileViewController.schoolDataList,
+                    kidSchool: profileViewController.kidProfileSchoolData,
+                  ),
                 if (Get.find<ProfileViewController>().profileViewType.value != "kid" && Get.find<ProfileViewController>().profileViewType.value != "store")
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),
@@ -99,6 +101,7 @@ class ProfileViewAbout extends StatelessWidget {
                 ProileViewAboutContactInfo(
                   title: profileViewHelper.getUserKidOrStoreContactInfo(type: profileViewController.profileViewType.value),
                 ),
+                kH12sizedBox,
                 ProileViewAboutSocialLinks(
                   title: profileViewController.userLinkData,
                   privacyLink: profileViewController.kidProfileData.value?.privacyLink ?? [],

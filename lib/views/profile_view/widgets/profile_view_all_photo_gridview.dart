@@ -44,6 +44,7 @@ class ProfileViewAllPhotoGridView extends StatelessWidget {
                       childrenDelegate: SliverChildBuilderDelegate(
                         childCount: ProfileViewHelper().getUserKidOrStoreAllImageListLength(type: profileViewController.profileViewType.value),
                         (context, index) {
+                          // var item = ProfileViewHelper().getUserKidOrStoreAllImageList(type: profileViewController.profileViewType.value);
                           // String imageUrl = profileViewController.allImageList[index].fullPath ?? "";
                           String imageUrl =
                               ProfileViewHelper().getUserKidOrStoreAllImageListSingleImage(type: profileViewController.profileViewType.value, index: index);
@@ -55,6 +56,11 @@ class ProfileViewAllPhotoGridView extends StatelessWidget {
                               // Get.find<PostReactionController>().isRouteFromHomePage.value = false;
                               // Get.to(() => GalleryWidget(
                               //     urlImages: RxList(galleryController.imageDataList[albumIndex].imageList), imageIndex: index, postIndex: albumIndex));
+                              // Get.to(() => GalleryWidget(
+                              //       urlImages: item,
+                              //       imageIndex: index,
+                              //       postIndex: 0,
+                              //     ));
                             },
                             child: Container(
                               decoration: BoxDecoration(

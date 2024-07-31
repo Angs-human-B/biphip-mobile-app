@@ -334,7 +334,12 @@ class PostUpperContainer extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () async {
                                       Get.find<ProfileViewController>().profileViewType.value = "store";
-                                      await Get.find<ProfileViewController>().getProfileViewStoreOverview();
+                                      Get.find<ProfileViewController>().kidOrStorePageId.value =
+                                          globalController.commonPostList[postIndex].store!.pageId!.toString();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewStorePostList(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value.toString());
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewStoreOverview(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
                                       Get.toNamed(krProfileView);
                                     },
                                     child: Text(' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
@@ -342,16 +347,16 @@ class PostUpperContainer extends StatelessWidget {
                                 ),
                               if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
                                   globalController.commonPostList[postIndex].kid != null)
-                                // TextSpan(
-                                //     //* these are widget span
-                                //     text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
-                                //     style: semiBold14TextStyle(cBlackColor)),
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
                                       Get.find<ProfileViewController>().profileViewType.value = "kid";
-                                      await Get.find<ProfileViewController>().getProfileViewKidPostList(kidPageId: "4113727326");
-                                      await Get.find<ProfileViewController>().getKidProfileOverview();
+                                      Get.find<ProfileViewController>().kidOrStorePageId.value =
+                                          globalController.commonPostList[postIndex].kid!.pageId!.toString();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewKidPostList(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                      await Get.find<ProfileViewController>()
+                                          .getKidProfileOverview(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
                                       Get.toNamed(krProfileView);
                                     },
                                     child: Text(

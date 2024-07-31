@@ -48,7 +48,7 @@ class ProfileViewAwardTab extends StatelessWidget {
                               GridView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: ProfileViewHelper().getUserKidOrStoreAwardListLength(type: profileViewController.profileViewType.value),
+                                itemCount: ProfileViewHelper().getUserKidAwardListLength(type: profileViewController.profileViewType.value),
                                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                   childAspectRatio: 0.75,
                                   crossAxisCount: 3,
@@ -56,7 +56,7 @@ class ProfileViewAwardTab extends StatelessWidget {
                                   mainAxisSpacing: k16Padding,
                                 ),
                                 itemBuilder: (BuildContext context, int index) {
-                                  var item = ProfileViewHelper().getUserKidOrStoreAwardList(type: profileViewController.profileViewType.value);
+                                  var item = ProfileViewHelper().getUserKidAwardList(type: profileViewController.profileViewType.value);
                                   return InkWell(
                                     onTap: () {
                                       Get.to(() => AwardDetailsPage(
