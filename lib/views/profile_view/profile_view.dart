@@ -42,6 +42,7 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   body: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

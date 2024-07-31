@@ -3,6 +3,7 @@ import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/profile_view/kid/profile_view_kid_overview_model.dart';
 import 'package:bip_hip/models/profile_view/store/profile_view_store_overview_model.dart';
+import 'package:bip_hip/models/profile_view/store/profile_view_store_review_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.dart';
@@ -972,7 +973,7 @@ class ProfileViewController extends GetxController {
     }
   }
 
-  // //*Store Video APi implement
+  //*Store Video APi implement
   final Rx<ProfileViewVideoModel?> profileViewStoreVideoData = Rx<ProfileViewVideoModel?>(null);
   final RxList<VideoData> profileViewStoreVideoList = RxList<VideoData>([]);
   final Rx<String?> profileViewStoreVideoListSubLink = Rx<String?>(null);
@@ -1012,6 +1013,50 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewStoreVideos error: $e');
     }
   }
+
+
+  //*Store Video APi implement
+  final Rx<ProfileViewStoreReviewModel?> profileViewStoreReviewData = Rx<ProfileViewStoreReviewModel?>(null);
+  final RxList<ReviewData> profileViewStoreReviewList = RxList<ReviewData>([]);
+  final Rx<String?> profileViewStoreReviewListSubLink = Rx<String?>(null);
+  final RxBool profileViewStoreReviewListScrolled = RxBool(false);
+  final RxBool isStoreReviewLoading = RxBool(false);
+  Future<void> getProfileViewStoreReview({required String storePageId}) async {
+    try {
+      isStoreReviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/reviews?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewStoreReviewList.clear();
+        profileViewStoreReviewListScrolled.value = false;
+        profileViewStoreReviewData.value = ProfileViewStoreReviewModel.fromJson(response.data);
+        profileViewStoreReviewList.addAll(profileViewStoreReviewData.value!.reviews!.data!);
+        profileViewStoreReviewListSubLink.value = profileViewStoreReviewData.value!.reviews!.nextPageUrl;
+        if (profileViewStoreReviewListSubLink.value != null) {
+          profileViewStoreReviewListScrolled.value = false;
+        } else {
+          profileViewStoreReviewListScrolled.value = true;
+        }
+        isStoreReviewLoading.value = false;
+      } else {
+        isStoreReviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreReviewLoading.value = true;
+      ll('getProfileViewStoreReview error: $e');
+    }
+  }
+
 
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {

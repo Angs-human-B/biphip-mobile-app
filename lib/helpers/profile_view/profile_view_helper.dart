@@ -17,7 +17,12 @@ class ProfileViewHelper {
       getUserKidOrStoreVideos(type: profileViewController.profileViewType.value);
     } else if (index == 3) {
       profileViewController.profileSelectedTabIndex.value = 3;
-      getUserKidAwardList(type: profileViewController.profileViewType.value);
+      if (profileViewController.profileViewType.value != "store") {
+        getUserKidAwardList(type: profileViewController.profileViewType.value);
+      }
+      if (profileViewController.profileViewType.value == "store") {
+        profileViewController.getProfileViewStoreReview(storePageId: profileViewController.kidOrStorePageId.value);
+      }
     }
   }
 
@@ -240,7 +245,7 @@ class ProfileViewHelper {
     return "";
   }
 
-    getUserKidOrStoreAllImageList({required String type}) {
+  getUserKidOrStoreAllImageList({required String type}) {
     if (type == "kid") {
       return profileViewController.kidAllImageList;
     }
