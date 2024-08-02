@@ -240,9 +240,9 @@ class PostUpperContainer extends StatelessWidget {
                                       Get.find<ProfileViewController>().userName.value = globalController.commonPostList[postIndex].user!.userName!;
                                       Get.toNamed(krProfileView);
                                       await Get.find<ProfileViewController>().getProfileOverview();
-                                      await Get.find<ProfileViewController>().getProfileViewPostList();
                                       await Get.find<ProfileViewController>().getProfileViewFriend();
                                       await Get.find<ProfileViewController>().getProfileViewFamily();
+                                      await Get.find<ProfileViewController>().getProfileViewPostList();
                                     }
                                   },
                                   child: Text(globalController.commonPostList[postIndex].user!.fullName!, style: semiBold14TextStyle(cBlackColor)),
