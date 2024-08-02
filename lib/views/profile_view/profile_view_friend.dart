@@ -74,7 +74,7 @@ class ProfileViewFriend extends StatelessWidget {
                             ),
                             kH8sizedBox,
                             ListView.separated(
-                              itemCount: friendController.friendList.length,
+                              itemCount: profileViewController.profileMutualFriendList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               separatorBuilder: (context, index) => kH16sizedBox,
@@ -82,10 +82,10 @@ class ProfileViewFriend extends StatelessWidget {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: FriendFamilySingleButtonAction(
-                                    backgroundImage: friendController.friendList[index].profilePicture.toString(),
+                                    backgroundImage: profileViewController.profileMutualFriendList[index]?.profilePicture ?? "",
                                     imageSize: h45,
-                                    name: friendController.friendList[index].fullName ?? ksNA.tr,
-                                    subTitle: "${friendController.friendList[index].mutualFriend.toString()} mutual Friend",
+                                    name: profileViewController.profileMutualFriendList[index]?.fullName ?? ksNA.tr,
+                                    subTitle: "${profileViewController.profileMutualFriendList[index]?.mutualFriend.toString()} mutual Friend",
                                     buttonText: ksMessage.tr,
                                     buttonOnPressed: () async {
                                       // familyController.userId.value = familyController.sendFamilyRequestList[index].id!;
@@ -104,7 +104,7 @@ class ProfileViewFriend extends StatelessWidget {
                             ),
                             kH8sizedBox,
                             ListView.separated(
-                              itemCount: friendController.friendList.length,
+                              itemCount: profileViewController.profileFriendList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               separatorBuilder: (context, index) => kH16sizedBox,
@@ -112,10 +112,10 @@ class ProfileViewFriend extends StatelessWidget {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: FriendFamilySingleButtonAction(
-                                    backgroundImage: friendController.friendList[index].profilePicture.toString(),
+                                    backgroundImage: profileViewController.profileFriendList[index]?.friend?.profilePicture ?? "",
                                     imageSize: h45,
-                                    name: friendController.friendList[index].fullName ?? ksNA.tr,
-                                    subTitle: "${friendController.friendList[index].mutualFriend.toString()} mutual Friend",
+                                    name: profileViewController.profileFriendList[index]?.friend?.fullName ?? ksNA.tr,
+                                    subTitle: "${profileViewController.profileFriendList[index]?.friend?.mutualFriend.toString()} mutual Friend",
                                     buttonText: ksAddFriend.tr,
                                     buttonOnPressed: () async {
                                       // familyController.userId.value = familyController.sendFamilyRequestList[index].id!;

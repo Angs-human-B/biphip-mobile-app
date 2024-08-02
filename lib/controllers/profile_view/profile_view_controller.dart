@@ -10,6 +10,7 @@ import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.
 import 'package:bip_hip/models/profile_view/user/profile_view_image_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_post_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_user_family_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_video_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
@@ -263,6 +264,8 @@ class ProfileViewController extends GetxController {
         url: "/mobile/user/user-profile/${userName.value}/friends?all_friend_take=20&mutual_friend_take=20",
       ) as CommonDM;
       if (response.success == true) {
+        profileMutualFriendList.clear();
+        profileFriendList.clear();
         profileFriendData.value = ProfileViewFriendModel.fromJson(response.data);
         profileMutualFriendList.addAll(profileFriendData.value!.mutualFriends!.data!);
         profileFriendList.addAll(profileFriendData.value!.friends!.data!);
@@ -278,6 +281,39 @@ class ProfileViewController extends GetxController {
       }
     } catch (e) {
       isProfileViewFriendLoading.value = true;
+      ll('getProfileViewFriend error: $e');
+    }
+  }
+
+  //* Profile view Family api
+  Rx<ProfileViewUserFamilyModel?> profileFamilyData = Rx<ProfileViewUserFamilyModel?>(null);
+  RxList<FamilyData?> profileFamilyList = RxList<FamilyData?>([]);
+  RxBool isProfileViewFamilyLoading = RxBool(false);
+  Future<void> getProfileViewFamily() async {
+    try {
+      isProfileViewFamilyLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/families?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileFamilyList.clear();
+        profileFamilyData.value = ProfileViewUserFamilyModel.fromJson(response.data);
+        profileFamilyList.addAll(profileFamilyData.value!.families!.data!);
+        isProfileViewFamilyLoading.value = false;
+      } else {
+        isProfileViewFamilyLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewFamilyLoading.value = true;
       ll('getProfileViewFriend error: $e');
     }
   }

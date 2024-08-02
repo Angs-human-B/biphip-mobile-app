@@ -1,7 +1,11 @@
 import 'dart:math';
 
+import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/kids_controller.dart';
 import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
+import 'package:bip_hip/controllers/menu/profile_controller.dart';
+import 'package:bip_hip/controllers/menu/store_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
@@ -223,10 +227,33 @@ class PostUpperContainer extends StatelessWidget {
                           text: TextSpan(
                             style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
                             children: [
-                              TextSpan(
-                                text: globalController.commonPostList[postIndex].user!.fullName!,
-                                style: semiBold16TextStyle(cBlackColor),
+                              WidgetSpan(
+                                child: InkWell(
+                                  onTap: () async {
+                                    if (globalController.userId.value == globalController.commonPostList[postIndex].userId) {
+                                      Get.toNamed(krProfile);
+                                      Get.find<ProfileController>().interestCatagoriesIndex.value = 0;
+                                      await Get.find<ProfileController>().getProfileOverview();
+                                      await Get.find<CreatePostController>().getCreatePost();
+                                      await Get.find<HomeController>().getTimelinePostList();
+                                    } else {
+                                      Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
+                                      Get.find<ProfileViewController>().profileViewType.value = "profile";
+                                      Get.find<ProfileViewController>().userName.value = globalController.commonPostList[postIndex].user!.userName!;
+                                      Get.toNamed(krProfileView);
+                                      await Get.find<ProfileViewController>().getProfileOverview();
+                                      await Get.find<ProfileViewController>().getProfileViewPostList();
+                                      await Get.find<ProfileViewController>().getProfileViewFriend();
+                                      await Get.find<ProfileViewController>().getProfileViewFamily();
+                                    }
+                                  },
+                                  child: Text(globalController.commonPostList[postIndex].user!.fullName!, style: semiBold14TextStyle(cBlackColor)),
+                                ),
                               ),
+                              // TextSpan(
+                              //   text: globalController.commonPostList[postIndex].user!.fullName!,
+                              //   style: semiBold16TextStyle(cBlackColor),
+                              // ),
                               if (globalController.commonPostList[postIndex].postCategory != null)
                                 TextSpan(
                                   text: ' ${ksPostedOn.tr} ',
@@ -263,13 +290,15 @@ class PostUpperContainer extends StatelessWidget {
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
-                                      // Get.find<ProfileViewController>().userName.value =
-                                      //     globalController.commonPostList[postIndex].taggedFriends[0].userName;
-                                      ll(globalController.commonPostList[postIndex].taggedFriends[0].userName);
+                                      //!userNa null so api call have issue
+                                      // Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
+                                      // ll(globalController.commonPostList[postIndex].taggedFriends[0].fullName);
+                                      // Get.find<ProfileViewController>().userName.value = globalController.commonPostList[postIndex].taggedFriends[0].userName!;
                                       // Get.toNamed(krProfileView);
                                       // await Get.find<ProfileViewController>().getProfileOverview();
                                       // await Get.find<ProfileViewController>().getProfileViewPostList();
                                       // await Get.find<ProfileViewController>().getProfileViewFriend();
+                                      // await Get.find<ProfileViewController>().getProfileViewFamily();
                                     },
                                     child: Text(
                                       '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
@@ -333,6 +362,12 @@ class PostUpperContainer extends StatelessWidget {
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
+                                      // if (globalController.userId.value == globalController.commonPostList[postIndex].userId) {
+                                      //   Get.find<StoreController>().selectedStoreId.value = globalController.commonPostList[postIndex].store!.id!;
+                                      //   Get.toNamed(krStoreProfile);
+                                      //   await Get.find<StoreController>().getStoreOverview();
+                                      //   await Get.find<StoreController>().getPostList();
+                                      // } else {
                                       Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
                                       Get.find<ProfileViewController>().profileViewType.value = "store";
                                       Get.find<ProfileViewController>().kidOrStorePageId.value =
@@ -342,6 +377,7 @@ class PostUpperContainer extends StatelessWidget {
                                           .getProfileViewStoreOverview(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
                                       await Get.find<ProfileViewController>()
                                           .getProfileViewStorePostList(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value.toString());
+                                      // }
                                     },
                                     child: Text(' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
                                   ),
@@ -351,6 +387,13 @@ class PostUpperContainer extends StatelessWidget {
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
+                                      // if (globalController.userId.value == globalController.commonPostList[postIndex].userId) {
+                                      //   Get.find<KidsController>().selectedKidId.value = globalController.commonPostList[postIndex].kid!.id!;
+                                      //   Get.find<KidsController>().resetKidProfileData();
+                                      //   Get.toNamed(krKidProfile);
+                                      //   await Get.find<KidsController>().getKidOverview();
+                                      //   await Get.find<KidsController>().getPostList();
+                                      // } else {
                                       Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
                                       Get.find<ProfileViewController>().profileViewType.value = "kid";
                                       Get.find<ProfileViewController>().kidOrStorePageId.value =
@@ -360,6 +403,7 @@ class PostUpperContainer extends StatelessWidget {
                                           .getKidProfileOverview(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
                                       await Get.find<ProfileViewController>()
                                           .getProfileViewKidPostList(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                      // }
                                     },
                                     child: Text(
                                         ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
