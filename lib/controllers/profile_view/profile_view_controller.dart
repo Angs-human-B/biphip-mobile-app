@@ -1119,49 +1119,7 @@ class ProfileViewController extends GetxController {
   final TextEditingController followerSearchController = TextEditingController();
   final RxString profileViewType = RxString("");
   final RxString storeRating = RxString("4.8");
-  final RxInt storeRatingReviewCount = RxInt(36);
-  final RxList storeReviewList = RxList([
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-  ]);
+  final RxInt storeRatingReviewCount = RxInt(-1);
   final RxString temporaryReviewSelectedPrivacy = RxString("Public");
   final RxString reviewSelectedPrivacy = RxString("Public");
   final Rx<IconData> temporaryeviewSelectedPrivacyIcon = Rx<IconData>(BipHip.world);
