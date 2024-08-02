@@ -48,6 +48,54 @@ class ProfileViewAbout extends StatelessWidget {
                 //   currentCity: profileViewController.profileViewCurrentCityData.value,
                 //   placesList: profileViewController.profileViewPlacesList.value,
                 // ),
+                if (profileViewController.profileViewType.value == "store")
+                  ProfileViewAbotRelationProfessionInterestContent(
+                    title: ksCategory.tr,
+                    subTitle: profileViewController.storeProfileData.value!.categories![0],
+                  ),
+                //!Store location data missing from the api
+                // if (profileViewController.profileViewType.value == "store")
+                // ProfileViewAbotRelationProfessionInterestContent(
+                //   title: ksStoreLocation.tr,
+                //   subTitle: profileViewController.storeProfileData.value.,
+                // ),
+                if (profileViewController.profileViewType.value == "store") kH12sizedBox,
+                if (profileViewController.profileViewType.value == "store")
+                  Container(
+                    color: cWhiteColor,
+                    width: width,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k16Padding),
+                      child: Row(
+                        children: [
+                          Text(
+                            ksRating.tr,
+                            style: regular16TextStyle(cBlackColor),
+                          ),
+                          kW4sizedBox,
+                          Container(
+                            width: 2,
+                            height: 2,
+                            decoration: const BoxDecoration(
+                              color: cBlackColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          kW4sizedBox,
+                          Text(
+                            "${profileViewController.profileViewStoreData.value?.store?.rating.toString() ?? ksNA.tr} (${profileViewController.profileViewStoreData.value?.store?.countPageReviews.toString() ?? ksNA.tr})",
+                            style: regular16TextStyle(cBlackColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                if (profileViewController.profileViewType.value == "store") kH12sizedBox,
+                if (profileViewController.profileViewType.value == "store")
+                  ProfileViewAbotRelationProfessionInterestContent(
+                    title: ksQRCode.tr,
+                    subTitle: profileViewController.storeProfileData.value!.qrCode ?? ksNA.tr,
+                  ),
                 if (profileViewController.profileViewType.value != "store") kH12sizedBox,
                 if (profileViewController.profileViewType.value != "store")
                   ProileViewAboutBasicInfo(
@@ -61,6 +109,29 @@ class ProfileViewAbout extends StatelessWidget {
                     child: ProfileViewAbotRelationProfessionInterestContent(
                       title: ksRelationshipStatus.tr,
                       subTitle: profileViewController.userProfileData.value?.relation ?? ksNA.tr,
+                    ),
+                  ),
+                if (profileViewController.profileViewType.value == "kid") kH12sizedBox,
+                if (profileViewController.profileViewType.value == "kid")
+                  Container(
+                    width: width,
+                    color: cWhiteColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding, vertical: k16Padding),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ksRelation.tr,
+                            style: semiBold18TextStyle(cBlackColor),
+                          ),
+                          kH16sizedBox,
+                          Text(
+                            profileViewController.kidProfileData.value?.relation ?? ksNA.tr,
+                            style: regular16TextStyle(cBlackColor),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 if (Get.find<ProfileViewController>().profileViewType.value != "kid" &&
@@ -101,11 +172,12 @@ class ProfileViewAbout extends StatelessWidget {
                 ProileViewAboutContactInfo(
                   title: profileViewHelper.getUserKidOrStoreContactInfo(type: profileViewController.profileViewType.value),
                 ),
-                kH12sizedBox,
-                ProileViewAboutSocialLinks(
-                  title: profileViewController.userLinkData,
-                  privacyLink: profileViewController.kidProfileData.value?.privacyLink ?? [],
-                ),
+                if (profileViewController.profileViewType.value != "store") kH12sizedBox,
+                if (profileViewController.profileViewType.value != "store")
+                  ProileViewAboutSocialLinks(
+                    title: profileViewController.userLinkData,
+                    privacyLink: profileViewController.kidProfileData.value?.privacyLink ?? [],
+                  ),
                 if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
                   Padding(
                     padding: const EdgeInsets.only(top: k12Padding),

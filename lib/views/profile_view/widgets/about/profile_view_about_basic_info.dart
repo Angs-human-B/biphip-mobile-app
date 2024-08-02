@@ -27,13 +27,11 @@ class ProileViewAboutBasicInfo extends StatelessWidget {
               subTitle: ksGender.tr,
             ),
             kH16sizedBox,
-            ProfileViewAboutTitleSubtitleText(
-              title: dateOfBirth,
-              subTitle: ksBirthday.tr,
-            ),
-            if (
-                Get.find<ProfileViewController>().profileViewType.value != "store" &&
-                languages != null)
+              ProfileViewAboutTitleSubtitleText(
+                title: dateOfBirth,
+                subTitle: ksBirthday.tr,
+              ),
+            if (Get.find<ProfileViewController>().profileViewType.value != "store" && languages != null)
               Padding(
                 padding: const EdgeInsets.only(top: k16Padding),
                 child: ProfileViewAboutTitleSubtitleText(

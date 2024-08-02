@@ -623,7 +623,7 @@ class StoreProfilePostTab extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               separatorBuilder: (context, index) => kH8sizedBox,
-              itemCount: storeController.allPostList.length, //!//!Get.find<GlobalController>().commonPostList(its not valid)
+              itemCount: storeController.allPostList.length, //!Get.find<GlobalController>().commonPostList(its not valid)
               itemBuilder: (context, index) {
                 return Container(
                   color: cWhiteColor,
