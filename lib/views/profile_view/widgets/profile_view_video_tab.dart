@@ -18,29 +18,99 @@ class ProfileViewVideoTab extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: profileViewHelper.getUserKidOrStoreVideosListLength(type: profileViewController.profileViewType.value),
-                      itemBuilder: (context, index) {
-                        var item = profileViewHelper.getUserKidOrStoreVideosList(type: profileViewController.profileViewType.value);
-                        return  VideoContentListWidget(
-                          videoPreviewImage: item[index].fullPath??"",
-                          videoTitle: item[index].title??ksNA.tr,
-                           videoPublishedDate: DateFormat('dd MMM, yyyy').format(item[index].createdAt??DateTime.now()),
-                           postIndex: index,
-                        );
-                      },
+            Obx(
+              () => profileViewController.isVideoListLoading.value
+                  ? const ProfileViewVideoShimmer()
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: profileViewHelper.getUserKidOrStoreVideosListLength(type: profileViewController.profileViewType.value),
+                              itemBuilder: (context, index) {
+                                var item = profileViewHelper.getUserKidOrStoreVideosList(type: profileViewController.profileViewType.value);
+                                return VideoContentListWidget(
+                                  videoPreviewImage: item[index].fullPath ?? "",
+                                  videoTitle: item[index].title ?? ksNA.tr,
+                                  videoPublishedDate: DateFormat('dd MMM, yyyy').format(item[index].createdAt ?? DateTime.now()),
+                                  postIndex: index,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileViewVideoShimmer extends StatelessWidget {
+  const ProfileViewVideoShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kH12sizedBox,
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => kH16sizedBox,
+                itemCount: 20,
+                itemBuilder: (BuildContext context, int index) {
+                  return ClipRRect(
+                    borderRadius: k8CircularBorderRadius,
+                    child: SizedBox(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ClipRRect(
+                            borderRadius: k8CircularBorderRadius,
+                            child: ShimmerCommon(
+                              widget: Container(
+                                color: cWhiteColor,
+                                height: 150,
+                                width: (width - 40),
+                              ),
+                            ),
+                          ),
+                          kH8sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 16,
+                              width: (width - 40) / 2,
+                            ),
+                          ),
+                          kH4sizedBox,
+                          ShimmerCommon(
+                            widget: Container(
+                              decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius),
+                              height: 16,
+                              width: (width - 40) / 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

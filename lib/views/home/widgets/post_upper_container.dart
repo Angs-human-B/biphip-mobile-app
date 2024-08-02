@@ -333,6 +333,7 @@ class PostUpperContainer extends StatelessWidget {
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
+                                      Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
                                       Get.find<ProfileViewController>().profileViewType.value = "store";
                                       Get.find<ProfileViewController>().kidOrStorePageId.value =
                                           globalController.commonPostList[postIndex].store!.pageId!.toString();
@@ -350,6 +351,7 @@ class PostUpperContainer extends StatelessWidget {
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
+                                      Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
                                       Get.find<ProfileViewController>().profileViewType.value = "kid";
                                       Get.find<ProfileViewController>().kidOrStorePageId.value =
                                           globalController.commonPostList[postIndex].kid!.pageId!.toString();

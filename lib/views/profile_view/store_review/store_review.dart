@@ -8,142 +8,143 @@ class StoreReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Text(
-            ksReviews.tr,
-            style: semiBold18TextStyle(cBlackColor),
-          ),
-        ),
-        kH12sizedBox,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Text(
-            ksDoYouRecommendGenieInfoTech.tr,
-            style: regular20TextStyle(cBlackColor),
-          ),
-        ),
-        kH24sizedBox,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Row(
-            children: [
-              CustomElevatedButton(
-                buttonWidth: (width - 56) / 2,
-                buttonHeight: h32,
-                buttonColor: cPrimaryColor,
-                textStyle: semiBold16TextStyle(cWhiteColor),
-                label: ksYes.tr,
-                onPressed: () {
-                  Get.toNamed(krProfileViewCreateReview);
-                },
-              ),
-              kW16sizedBox,
-              CustomElevatedButton(
-                buttonWidth: (width - 56) / 2,
-                buttonHeight: h32,
-                buttonColor: cWhiteColor,
-                borderColor: cPrimaryColor,
-                textStyle: semiBold16TextStyle(cPrimaryColor),
-                label: ksNo.tr,
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-        if (profileViewController.storeRatingReviewCount.value == 0)
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            child: SizedBox(
-              height: height * 0.4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: SvgPicture.asset(
-                      kiReviewSvgImage,
-                      width: h60,
-                      height: h60,
-                      color: cIconColor,
-                    ),
-                  ),
-                  kH16sizedBox,
-                  Text(
-                    ksNoReviews.tr,
-                    style: semiBold16TextStyle(cBlackColor),
-                  ),
-                ],
-              ),
+            child: Text(
+              ksReviews.tr,
+              style: semiBold18TextStyle(cBlackColor),
             ),
           ),
-        if (profileViewController.storeRatingReviewCount.value != 0)
-          Column(
-            children: [
-              kH24sizedBox,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: Row(
+          kH12sizedBox,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Text(
+              ksDoYouRecommendGenieInfoTech.tr,
+              style: regular20TextStyle(cBlackColor),
+            ),
+          ),
+          kH24sizedBox,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Row(
+              children: [
+                CustomElevatedButton(
+                  buttonWidth: (width - 56) / 2,
+                  buttonHeight: h32,
+                  buttonColor: cPrimaryColor,
+                  textStyle: semiBold16TextStyle(cWhiteColor),
+                  label: ksYes.tr,
+                  onPressed: () {
+                    Get.toNamed(krProfileViewCreateReview);
+                  },
+                ),
+                kW16sizedBox,
+                CustomElevatedButton(
+                  buttonWidth: (width - 56) / 2,
+                  buttonHeight: h32,
+                  buttonColor: cWhiteColor,
+                  borderColor: cPrimaryColor,
+                  textStyle: semiBold16TextStyle(cPrimaryColor),
+                  label: ksNo.tr,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
+          if (profileViewController.storeRatingReviewCount.value == 0)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: SizedBox(
+                height: height * 0.4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      ksRating.tr,
-                      style: regular20TextStyle(cBlackColor),
-                    ),
-                    kW8sizedBox,
-                    Container(
-                      width: 4,
-                      height: 4,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cBlackColor,
+                    Center(
+                      child: SvgPicture.asset(
+                        kiReviewSvgImage,
+                        width: h60,
+                        height: h60,
+                        color: cIconColor,
                       ),
                     ),
-                    kW8sizedBox,
+                    kH16sizedBox,
                     Text(
-                      profileViewController.storeRating.value,
-                      style: regular20TextStyle(cBlackColor),
-                    ),
-                    Text(
-                      " (${profileViewController.storeRatingReviewCount.value} ${ksReviews.tr})",
-                      style: regular20TextStyle(cBlackColor),
+                      ksNoReviews.tr,
+                      style: semiBold16TextStyle(cBlackColor),
                     ),
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    width: width,
-                    child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          ll(index);
-                          return SizedBox(
-                              child: StoreReviewPostWidget(
-                            userImage: profileViewController.profileViewStoreReviewList[index].user!.profilePicture!,
-                            userName: profileViewController.profileViewStoreReviewList[index].user!.fullName!,
-                            postText: profileViewController.profileViewStoreReviewList[index].content,
-                            postDate: profileViewController.profileViewStoreReviewList[index].createdAt,
-                            // storeName: profileViewController.profileViewStoreReviewList[index].,
-                            storeName: profileViewController.storeProfileData.value?.name ?? ksNA.tr,
-                          ));
-                        },
-                        separatorBuilder: (context, index) => Container(
-                              color: cBackgroundColor,
-                              height: 8,
-                              width: width,
-                            ),
-                        itemCount: profileViewController.profileViewStoreReviewList.length),
+            ),
+          if (profileViewController.storeRatingReviewCount.value != 0)
+            Column(
+              children: [
+                kH24sizedBox,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                  child: Row(
+                    children: [
+                      Text(
+                        ksRating.tr,
+                        style: regular20TextStyle(cBlackColor),
+                      ),
+                      kW8sizedBox,
+                      Container(
+                        width: 4,
+                        height: 4,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cBlackColor,
+                        ),
+                      ),
+                      kW8sizedBox,
+                      Text(
+                        profileViewController.storeRating.value,
+                        style: regular20TextStyle(cBlackColor),
+                      ),
+                      Text(
+                        " (${profileViewController.storeRatingReviewCount.value} ${ksReviews.tr})",
+                        style: regular20TextStyle(cBlackColor),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
-          ),
-      ],
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      width: width,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                                child: StoreReviewPostWidget(
+                              userImage: profileViewController.profileViewStoreReviewList[index].user!.profilePicture!,
+                              userName: profileViewController.profileViewStoreReviewList[index].user!.fullName!,
+                              postText: profileViewController.profileViewStoreReviewList[index].content,
+                              postDate: profileViewController.profileViewStoreReviewList[index].createdAt,
+                              // storeName: profileViewController.profileViewStoreReviewList[index].,
+                              storeName: profileViewController.storeProfileData.value?.name ?? ksNA.tr,
+                            ));
+                          },
+                          separatorBuilder: (context, index) => Container(
+                                color: cBackgroundColor,
+                                height: 8,
+                                width: width,
+                              ),
+                          itemCount: profileViewController.profileViewStoreReviewList.length),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }
