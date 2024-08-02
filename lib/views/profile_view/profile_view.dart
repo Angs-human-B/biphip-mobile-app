@@ -22,7 +22,7 @@ class ProfileView extends StatelessWidget {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => profileViewController.isUserProfileViewLoading.value || profileViewController.isKidProfileViewLoading.value
+        () => profileViewController.isUserProfileViewOverviewLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,

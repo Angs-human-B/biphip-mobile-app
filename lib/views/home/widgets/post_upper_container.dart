@@ -337,11 +337,11 @@ class PostUpperContainer extends StatelessWidget {
                                       Get.find<ProfileViewController>().profileViewType.value = "store";
                                       Get.find<ProfileViewController>().kidOrStorePageId.value =
                                           globalController.commonPostList[postIndex].store!.pageId!.toString();
-                                      await Get.find<ProfileViewController>()
-                                          .getProfileViewStorePostList(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value.toString());
+                                      Get.toNamed(krProfileView);
                                       await Get.find<ProfileViewController>()
                                           .getProfileViewStoreOverview(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
-                                      Get.toNamed(krProfileView);
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewStorePostList(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value.toString());
                                     },
                                     child: Text(' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
                                   ),
@@ -355,11 +355,11 @@ class PostUpperContainer extends StatelessWidget {
                                       Get.find<ProfileViewController>().profileViewType.value = "kid";
                                       Get.find<ProfileViewController>().kidOrStorePageId.value =
                                           globalController.commonPostList[postIndex].kid!.pageId!.toString();
-                                      await Get.find<ProfileViewController>()
-                                          .getProfileViewKidPostList(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                      Get.toNamed(krProfileView);
                                       await Get.find<ProfileViewController>()
                                           .getKidProfileOverview(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
-                                      Get.toNamed(krProfileView);
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewKidPostList(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
                                     },
                                     child: Text(
                                         ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',

@@ -3,6 +3,7 @@ import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/photos/photos.dart';
 import 'package:bip_hip/views/menu/photos/widgets/gallery_photo_container.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 
 class ProfileViewGalleryPhoto extends StatelessWidget {
   ProfileViewGalleryPhoto({super.key});
@@ -13,7 +14,15 @@ class ProfileViewGalleryPhoto extends StatelessWidget {
     return Obx(
       () => profileViewController.isImageAlbumListLoading.value
           ? const AlbumPhotoShimmer()
-          : Expanded(
+         : (profileViewController.allPhotoList.isEmpty || profileViewController.kidAllImageList.isEmpty || profileViewController.storeAllImageList.isEmpty)
+              ? Container(
+                  width: width - 40,
+                  height: height * 0.1,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(k8BorderRadius),
+                    border: Border.all(width: 1, color: cLineColor),
+                  ),
+                  child: EmptyView(title: ksNoAlbumAvailable.tr)) : Expanded(
               child: SingleChildScrollView(
                 child: GridView.builder(
                   shrinkWrap: true,

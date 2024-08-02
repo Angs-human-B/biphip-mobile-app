@@ -146,10 +146,10 @@ class ProfileViewController extends GetxController {
   // Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   // Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
   // Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
-  RxBool isUserProfileViewLoading = RxBool(false);
+  RxBool isUserProfileViewOverviewLoading = RxBool(false);
   Future<void> getProfileOverview() async {
     try {
-      isUserProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -162,9 +162,9 @@ class ProfileViewController extends GetxController {
         // hometownData.value = userProfileViewData.value!.hometown;
         // currentCityData.value = userProfileViewData.value!.currentCity;
         // userCurrentWorkplace.value = userProfileViewData.value!.works;
-        isUserProfileViewLoading.value = false;
+        isUserProfileViewOverviewLoading.value = false;
       } else {
-        isUserProfileViewLoading.value = true;
+        isUserProfileViewOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -173,7 +173,7 @@ class ProfileViewController extends GetxController {
         }
       }
     } catch (e) {
-      isUserProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       ll('getProfileOverview error: $e');
     }
   }
@@ -536,10 +536,9 @@ class ProfileViewController extends GetxController {
   Rx<Kid?> kidProfileData = Rx<Kid?>(null);
   Rx<School?> kidProfileSchoolData = Rx<School?>(null);
   RxList<Contact?> kidProfileContactList = RxList<Contact?>([]);
-  RxBool isKidProfileViewLoading = RxBool(false);
   Future<void> getKidProfileOverview({required String kidPageId}) async {
     try {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -552,9 +551,9 @@ class ProfileViewController extends GetxController {
         kidProfileData.value = userProfileViewKidData.value!.kid;
         kidProfileSchoolData.value = userProfileViewKidData.value!.school;
         kidProfileContactList.addAll(userProfileViewKidData.value!.contacts!);
-        isKidProfileViewLoading.value = false;
+        isUserProfileViewOverviewLoading.value = false;
       } else {
-        isKidProfileViewLoading.value = true;
+        isUserProfileViewOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -563,7 +562,7 @@ class ProfileViewController extends GetxController {
         }
       }
     } catch (e) {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       ll('getKidProfileOverview error: $e');
     }
   }
@@ -822,7 +821,7 @@ class ProfileViewController extends GetxController {
   RxList<Contact?> storeProfileContactList = RxList<Contact?>([]);
   Future<void> getProfileViewStoreOverview({required String storePageId}) async {
     try {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -834,9 +833,9 @@ class ProfileViewController extends GetxController {
         profileViewStoreData.value = ProfileViewStoreOverviewModel.fromJson(response.data);
         storeProfileData.value = profileViewStoreData.value!.store;
         storeProfileContactList.addAll(profileViewStoreData.value!.contacts!);
-        isKidProfileViewLoading.value = false;
+        isUserProfileViewOverviewLoading.value = false;
       } else {
-        isKidProfileViewLoading.value = true;
+        isUserProfileViewOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -845,7 +844,7 @@ class ProfileViewController extends GetxController {
         }
       }
     } catch (e) {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       ll('getKidProfileOverview error: $e');
     }
   }
@@ -1014,7 +1013,6 @@ class ProfileViewController extends GetxController {
     }
   }
 
-
   //*Store Video APi implement
   final Rx<ProfileViewStoreReviewModel?> profileViewStoreReviewData = Rx<ProfileViewStoreReviewModel?>(null);
   final RxList<ReviewData> profileViewStoreReviewList = RxList<ReviewData>([]);
@@ -1056,7 +1054,6 @@ class ProfileViewController extends GetxController {
       ll('getProfileViewStoreReview error: $e');
     }
   }
-
 
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {

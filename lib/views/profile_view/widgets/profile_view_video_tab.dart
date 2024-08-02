@@ -2,6 +2,7 @@ import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_video_content_list_widget.dart';
+import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:intl/intl.dart';
 
 class ProfileViewVideoTab extends StatelessWidget {
@@ -21,28 +22,39 @@ class ProfileViewVideoTab extends StatelessWidget {
             Obx(
               () => profileViewController.isVideoListLoading.value
                   ? const ProfileViewVideoShimmer()
-                  : Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: profileViewHelper.getUserKidOrStoreVideosListLength(type: profileViewController.profileViewType.value),
-                              itemBuilder: (context, index) {
-                                var item = profileViewHelper.getUserKidOrStoreVideosList(type: profileViewController.profileViewType.value);
-                                return VideoContentListWidget(
-                                  videoPreviewImage: item[index].fullPath ?? "",
-                                  videoTitle: item[index].title ?? ksNA.tr,
-                                  videoPublishedDate: DateFormat('dd MMM, yyyy').format(item[index].createdAt ?? DateTime.now()),
-                                  postIndex: index,
-                                );
-                              },
+                  : (profileViewController.allPhotoList.isEmpty ||
+                          profileViewController.kidAllImageList.isEmpty ||
+                          profileViewController.storeAllImageList.isEmpty)
+                      ? Container(
+                          width: width - 40,
+                          height: height * 0.1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(k8BorderRadius),
+                            border: Border.all(width: 1, color: cLineColor),
+                          ),
+                          child: EmptyView(title: ksNoVideoAvailable.tr))
+                      : Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: profileViewHelper.getUserKidOrStoreVideosListLength(type: profileViewController.profileViewType.value),
+                                  itemBuilder: (context, index) {
+                                    var item = profileViewHelper.getUserKidOrStoreVideosList(type: profileViewController.profileViewType.value);
+                                    return VideoContentListWidget(
+                                      videoPreviewImage: item[index].fullPath ?? "",
+                                      videoTitle: item[index].title ?? ksNA.tr,
+                                      videoPublishedDate: DateFormat('dd MMM, yyyy').format(item[index].createdAt ?? DateTime.now()),
+                                      postIndex: index,
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
             ),
           ],
         ),
