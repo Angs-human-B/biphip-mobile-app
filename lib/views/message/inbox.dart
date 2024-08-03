@@ -117,7 +117,6 @@ class Inbox extends StatelessWidget {
                                         itemCount: messengerController.allRoomMessageList.length,
                                         itemBuilder: (context, index) {
                                           var item = messengerController.allRoomMessageList[index];
-                                          ll("welp");
                                           return Obx(() => InboxContainer(
                                               index: index,
                                               dataChannel: item['dataChannel'],
