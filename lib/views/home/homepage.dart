@@ -71,7 +71,6 @@ class HomePage extends StatelessWidget {
                         child: TextButton(
                           style: kTextButtonStyle,
                           onPressed: () async {
-                            Get.find<MessengerController>().roomList.clear();
                             Get.toNamed(krInbox);
                             await Get.find<MessengerController>().getRoomList();
                           },

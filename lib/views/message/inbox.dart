@@ -117,8 +117,9 @@ class Inbox extends StatelessWidget {
                                         itemCount: messengerController.allRoomMessageList.length,
                                         itemBuilder: (context, index) {
                                           var item = messengerController.allRoomMessageList[index];
-                                          return InboxContainer(
-                                               index: index,
+                                          ll("welp");
+                                          return Obx(() => InboxContainer(
+                                              index: index,
                                               dataChannel: item['dataChannel'],
                                               peerConnection: item['peerConnection'],
                                               roomID: messengerController.roomList[index].id!,
@@ -131,7 +132,7 @@ class Inbox extends StatelessWidget {
                                               isLastMessageSelf: false,
                                               isSeen: item['isSeen'],
                                               receiverData: messengerController.roomList[index],
-                                              lastMessageTime: messengerController.roomList[index].updatedAt!);
+                                              lastMessageTime: messengerController.roomList[index].updatedAt!));
                                         })),
                                   ),
                                 if (messengerController.isInboxLoading.value)

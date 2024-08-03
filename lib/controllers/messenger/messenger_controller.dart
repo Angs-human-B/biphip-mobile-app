@@ -33,16 +33,16 @@ class MessengerController extends GetxController {
         isMessageTextFieldFocused.value = false;
       }
     });
-    
+
     super.onInit();
   }
 
-  Future<void> initializeRenderer()async{
+  Future<void> initializeRenderer() async {
     await localRenderer.initialize();
     await remoteRenderer.initialize();
   }
 
-  void disposeRenderer(){
+  void disposeRenderer() {
     localRenderer.dispose();
     remoteRenderer.dispose();
   }
@@ -224,6 +224,7 @@ class MessengerController extends GetxController {
       ) as CommonDM;
       if (response.success == true) {
         roomList.clear();
+        allRoomMessageList.clear();
         roomListScrolled.value = false;
         roomListData.value = RoomListModel.fromJson(response.data);
         roomList.addAll(roomListData.value!.rooms!.data!);
@@ -482,7 +483,6 @@ class MessengerController extends GetxController {
   final RxBool isMuted = RxBool(false);
 
   void initiateVideoCall(RTCPeerConnection? peerConnection, userID, isAudioCall) async {
-
     await MessengerHelper().openUserMedia(isAudioCall);
 
     localStream?.getTracks().forEach((track) {
