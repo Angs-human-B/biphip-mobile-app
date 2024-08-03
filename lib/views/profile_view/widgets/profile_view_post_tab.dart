@@ -35,7 +35,7 @@ class ProfileViewPostTab extends StatelessWidget {
                       ksDetails.tr,
                       style: semiBold18TextStyle(cBlackColor),
                     ),
-                    if (profileViewController.profileViewType.value == "kid") kH12sizedBox,
+                    kH12sizedBox,
                     if (profileViewController.profileViewType.value == "kid")
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +58,6 @@ class ProfileViewPostTab extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (profileViewController.profileViewType.value == "store") kH12sizedBox,
                     if (profileViewController.profileViewType.value == "store")
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +131,7 @@ class ProfileViewPostTab extends StatelessWidget {
             //   height: h8,
             //   color: cBackgroundColor,
             // ),
-            // kH16sizedBox,
+            kH16sizedBox,
             Container(
               color: cWhiteColor,
               child: Column(

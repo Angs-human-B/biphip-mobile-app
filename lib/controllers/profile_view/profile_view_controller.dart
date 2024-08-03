@@ -10,6 +10,7 @@ import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.
 import 'package:bip_hip/models/profile_view/user/profile_view_image_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_place_live_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_post_model.dart';
+import 'package:bip_hip/models/profile_view/user/profile_view_user_family_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_video_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_work_education_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
@@ -146,10 +147,10 @@ class ProfileViewController extends GetxController {
   // Rx<CurrentCity?> hometownData = Rx<CurrentCity?>(null);
   // Rx<CurrentCity?> currentCityData = Rx<CurrentCity?>(null);
   // Rx<Works?> userCurrentWorkplace = Rx<Works?>(null);
-  RxBool isUserProfileViewLoading = RxBool(false);
+  RxBool isUserProfileViewOverviewLoading = RxBool(false);
   Future<void> getProfileOverview() async {
     try {
-      isUserProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -162,9 +163,9 @@ class ProfileViewController extends GetxController {
         // hometownData.value = userProfileViewData.value!.hometown;
         // currentCityData.value = userProfileViewData.value!.currentCity;
         // userCurrentWorkplace.value = userProfileViewData.value!.works;
-        isUserProfileViewLoading.value = false;
+        isUserProfileViewOverviewLoading.value = false;
       } else {
-        isUserProfileViewLoading.value = true;
+        isUserProfileViewOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -173,7 +174,7 @@ class ProfileViewController extends GetxController {
         }
       }
     } catch (e) {
-      isUserProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       ll('getProfileOverview error: $e');
     }
   }
@@ -263,6 +264,8 @@ class ProfileViewController extends GetxController {
         url: "/mobile/user/user-profile/${userName.value}/friends?all_friend_take=20&mutual_friend_take=20",
       ) as CommonDM;
       if (response.success == true) {
+        profileMutualFriendList.clear();
+        profileFriendList.clear();
         profileFriendData.value = ProfileViewFriendModel.fromJson(response.data);
         profileMutualFriendList.addAll(profileFriendData.value!.mutualFriends!.data!);
         profileFriendList.addAll(profileFriendData.value!.friends!.data!);
@@ -278,6 +281,39 @@ class ProfileViewController extends GetxController {
       }
     } catch (e) {
       isProfileViewFriendLoading.value = true;
+      ll('getProfileViewFriend error: $e');
+    }
+  }
+
+  //* Profile view Family api
+  Rx<ProfileViewUserFamilyModel?> profileFamilyData = Rx<ProfileViewUserFamilyModel?>(null);
+  RxList<FamilyData?> profileFamilyList = RxList<FamilyData?>([]);
+  RxBool isProfileViewFamilyLoading = RxBool(false);
+  Future<void> getProfileViewFamily() async {
+    try {
+      isProfileViewFamilyLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/user-profile/${userName.value}/families?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileFamilyList.clear();
+        profileFamilyData.value = ProfileViewUserFamilyModel.fromJson(response.data);
+        profileFamilyList.addAll(profileFamilyData.value!.families!.data!);
+        isProfileViewFamilyLoading.value = false;
+      } else {
+        isProfileViewFamilyLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewFamilyLoading.value = true;
       ll('getProfileViewFriend error: $e');
     }
   }
@@ -536,10 +572,9 @@ class ProfileViewController extends GetxController {
   Rx<Kid?> kidProfileData = Rx<Kid?>(null);
   Rx<School?> kidProfileSchoolData = Rx<School?>(null);
   RxList<Contact?> kidProfileContactList = RxList<Contact?>([]);
-  RxBool isKidProfileViewLoading = RxBool(false);
   Future<void> getKidProfileOverview({required String kidPageId}) async {
     try {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -552,9 +587,9 @@ class ProfileViewController extends GetxController {
         kidProfileData.value = userProfileViewKidData.value!.kid;
         kidProfileSchoolData.value = userProfileViewKidData.value!.school;
         kidProfileContactList.addAll(userProfileViewKidData.value!.contacts!);
-        isKidProfileViewLoading.value = false;
+        isUserProfileViewOverviewLoading.value = false;
       } else {
-        isKidProfileViewLoading.value = true;
+        isUserProfileViewOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -563,7 +598,7 @@ class ProfileViewController extends GetxController {
         }
       }
     } catch (e) {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       ll('getKidProfileOverview error: $e');
     }
   }
@@ -822,7 +857,7 @@ class ProfileViewController extends GetxController {
   RxList<Contact?> storeProfileContactList = RxList<Contact?>([]);
   Future<void> getProfileViewStoreOverview({required String storePageId}) async {
     try {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -834,9 +869,9 @@ class ProfileViewController extends GetxController {
         profileViewStoreData.value = ProfileViewStoreOverviewModel.fromJson(response.data);
         storeProfileData.value = profileViewStoreData.value!.store;
         storeProfileContactList.addAll(profileViewStoreData.value!.contacts!);
-        isKidProfileViewLoading.value = false;
+        isUserProfileViewOverviewLoading.value = false;
       } else {
-        isKidProfileViewLoading.value = true;
+        isUserProfileViewOverviewLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -845,7 +880,7 @@ class ProfileViewController extends GetxController {
         }
       }
     } catch (e) {
-      isKidProfileViewLoading.value = true;
+      isUserProfileViewOverviewLoading.value = true;
       ll('getKidProfileOverview error: $e');
     }
   }
@@ -1014,7 +1049,6 @@ class ProfileViewController extends GetxController {
     }
   }
 
-
   //*Store Video APi implement
   final Rx<ProfileViewStoreReviewModel?> profileViewStoreReviewData = Rx<ProfileViewStoreReviewModel?>(null);
   final RxList<ReviewData> profileViewStoreReviewList = RxList<ReviewData>([]);
@@ -1057,7 +1091,6 @@ class ProfileViewController extends GetxController {
     }
   }
 
-
   //* Education Section
   String workEducationSubTitleText(DateTime? startDate, dynamic endDate) {
     if (startDate != null && endDate != null) {
@@ -1086,49 +1119,7 @@ class ProfileViewController extends GetxController {
   final TextEditingController followerSearchController = TextEditingController();
   final RxString profileViewType = RxString("");
   final RxString storeRating = RxString("4.8");
-  final RxInt storeRatingReviewCount = RxInt(36);
-  final RxList storeReviewList = RxList([
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-    {
-      "userImage":
-          "https://media.istockphoto.com/id/1490133656/photo/young-woman-using-a-laptop-while-working-from-home.jpg?s=1024x1024&w=is&k=20&c=mg4cZuZQfZcBi6KBU_JyNGSFzA2ZSCOexOjep4TazLc=",
-      "userName": "Jane Smith",
-      "storeName": " Emma Isabella",
-      "rating": "4.0",
-      "postText": "I have been doing business",
-    },
-  ]);
+  final RxInt storeRatingReviewCount = RxInt(-1);
   final RxString temporaryReviewSelectedPrivacy = RxString("Public");
   final RxString reviewSelectedPrivacy = RxString("Public");
   final Rx<IconData> temporaryeviewSelectedPrivacyIcon = Rx<IconData>(BipHip.world);

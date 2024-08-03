@@ -1,11 +1,10 @@
-import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class ProfileViewFamily extends StatelessWidget {
   ProfileViewFamily({super.key});
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
-  final FamilyController familyController = Get.find<FamilyController>();
+  // final FamilyController familyController = Get.find<FamilyController>();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class ProfileViewFamily extends StatelessWidget {
                           children: [
                             kH16sizedBox,
                             ListView.separated(
-                              itemCount: familyController.familyList.length,
+                              itemCount: profileViewController.profileFamilyList.length,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               separatorBuilder: (context, index) => kH16sizedBox,
@@ -76,20 +75,21 @@ class ProfileViewFamily extends StatelessWidget {
                                 return ClipRRect(
                                   borderRadius: BorderRadius.circular(k8BorderRadius),
                                   child: Obx(() => ProfileViewFamilyListWidget(
-                                        backgroundImage: familyController.familyList[index].profilePicture.toString(),
+                                        backgroundImage: profileViewController.profileFamilyList[index]?.family?.profilePicture ?? "",
                                         imageSize: h50,
-                                        name: familyController.familyList[index].fullName ?? ksNA.tr,
+                                        name: profileViewController.profileFamilyList[index]?.family?.fullName ?? ksNA.tr,
                                         icon: BipHip.relation,
-                                        subTitle: familyController.familyList[index].familyRelationStatus ?? ksNA.tr,
+                                        subTitle: profileViewController.profileFamilyList[index]?.family?.familyRelationStatus ?? ksNA.tr,
                                       )),
                                 );
                               },
                             ),
                             kH16sizedBox,
-                            if (familyController.familyList.isNotEmpty &&
-                                familyController.familyListScrolled.value &&
-                                familyController.familyListSubLink.value != null)
-                              const Center(child: CircularProgressIndicator()),
+                            //!Not needed now
+                            // if (.familyList.isNotEmpty &&
+                            //     familyController.familyListScrolled.value &&
+                            //     familyController.familyListSubLink.value != null)
+                            //   const Center(child: CircularProgressIndicator()),
                           ],
                         ),
                       ),

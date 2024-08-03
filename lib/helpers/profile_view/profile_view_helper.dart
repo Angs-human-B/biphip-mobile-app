@@ -136,7 +136,7 @@ class ProfileViewHelper {
 
   getUserKidOrStoreVideos({required String type}) async {
     if (type == "kid") {
-      return await profileViewController.getProfileViewKidAllImage(kidPageId: profileViewController.kidOrStorePageId.value);
+      return await profileViewController.getProfileViewKidVideos(kidPageId: profileViewController.kidOrStorePageId.value);
     }
     if (type == "profile") {
       return await profileViewController.getVideos();

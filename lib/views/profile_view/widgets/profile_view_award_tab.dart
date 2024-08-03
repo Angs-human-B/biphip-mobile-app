@@ -33,7 +33,7 @@ class ProfileViewAwardTab extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (profileViewController.allAwardList.isEmpty)
+                            if (profileViewController.allAwardList.isEmpty || profileViewController.profileViewKidAllAwardList.isEmpty)
                               Container(
                                   width: width - 40,
                                   height: height * 0.1,

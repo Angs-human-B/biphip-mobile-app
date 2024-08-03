@@ -1,14 +1,12 @@
-import 'package:bip_hip/controllers/menu/family_controller.dart';
+// import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/profile/widgets/profile_friends_gridview.dart';
 import 'package:bip_hip/widgets/common/utils/common_empty_view.dart';
 import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
 class ProfileViewFriendFamilyWidget extends StatelessWidget {
   ProfileViewFriendFamilyWidget({super.key});
-  final FamilyController familyController = Get.find<FamilyController>();
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
   @override
@@ -17,41 +15,37 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
       () => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          profileViewController.isProfileViewFriendLoading.value
-              ? const FriendFamilyGridViewShimmer()
-              : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
-                      profileViewController.profileMutualFriendList.isEmpty &&
-                      profileViewController.profileFriendList.isEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: k16Padding),
-                      child: Container(
-                        width: width - 40,
-                        height: 60,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: cLineColor), borderRadius: BorderRadius.circular(k4BorderRadius)),
-                        child: EmptyView(title: ksNoFriendAddedYet.tr),
-                      ),
+          (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
+                  profileViewController.profileMutualFriendList.isEmpty &&
+                  profileViewController.profileFriendList.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: k16Padding),
+                  child: Container(
+                    width: width - 40,
+                    height: 60,
+                    decoration: BoxDecoration(border: Border.all(width: 1, color: cLineColor), borderRadius: BorderRadius.circular(k4BorderRadius)),
+                    child: EmptyView(title: ksNoFriendAddedYet.tr),
+                  ),
+                )
+              : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+                  ? FriendsFamilyGridView(
+                      header: ksFriends.tr,
+                      count: profileViewController.profileFriendData.value!.mutualFriendsCount.toString(),
+                      friendList: profileViewController.profileFriendList,
+                      isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
+                      seeAllOnPressed: () {
+                        Get.toNamed(krProfileViewFriend);
+                      },
                     )
-                  : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
-                      ? FriendsFamilyGridView(
-                          header: ksFriends.tr,
-                          count: profileViewController.profileFriendData.value!.mutualFriendsCount.toString(),
-                          friendList: profileViewController.profileFriendList,
-                          isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
-                          seeAllOnPressed: () {
-                            Get.toNamed(krProfileViewFriend);
-                          },
-                        )
-                      : const SizedBox(),
+                  : const SizedBox(),
           if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") kH16sizedBox,
           if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
             Container(
               height: h8,
               color: cBackgroundColor,
             ),
-          familyController.isFamilyListLoading.value
-              ? const FriendFamilyGridViewShimmer()
-              : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
-                      familyController.familyList.isEmpty
+           (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
+                      profileViewController.profileFamilyList.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: k16Padding),
                       child: Container(
@@ -64,7 +58,7 @@ class ProfileViewFriendFamilyWidget extends StatelessWidget {
                   : (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
                       ? FriendsFamilyGridView(
                           header: ksFamily.tr,
-                          count: familyController.allFamilyCount.toString(),
+                          count: profileViewController.profileFamilyList.toString(),
                           friendList: profileViewController.profileFriendList,
                           isFriendFamilySeeAllShowHide: profileViewController.profileFriendList.length > 3 ? true : false,
                           seeAllOnPressed: () {
