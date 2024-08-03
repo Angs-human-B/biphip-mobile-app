@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
@@ -21,7 +22,7 @@ class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
               width: width,
               decoration: const BoxDecoration(color: cBlackColor, border: Border(bottom: BorderSide(color: cLineColor))),
               child: Image.network(
-                profileViewController.userProfileData.value?.coverPhoto ?? "",
+                ProfileViewHelper().getUserKidStoreCoverPhoto(type: profileViewController.profileViewType.value),
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.high,
                 errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(context, error, stackTrace, BipHip.imageFile, kIconSize120),
@@ -46,7 +47,7 @@ class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
                     ),
                     child: ClipOval(
                       child: Image.network(
-                        profileViewController.userProfileData.value?.profilePicture ?? "",
+                        ProfileViewHelper().getUserKidStoreProfilePicture(type: profileViewController.profileViewType.value),
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.high,
                         errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
@@ -60,88 +61,9 @@ class ProfileViewProfileCoverPhotoWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   right: 6,
-                  //   bottom: 10,
-                  //   child: TextButton(
-                  //     style: kTextButtonStyle,
-                  //     onPressed: () {
-                  //       profileHelper.profilePicUploadBottomSheet(context);
-                  //     },
-                  //     child: Container(
-                  //       height: h28,
-                  //       width: h28,
-                  //       decoration: BoxDecoration(
-                  //         color: cGreyBoxColor,
-                  //         borderRadius: BorderRadius.circular(26),
-                  //         border: Border.all(
-                  //           color: cLineColor,
-                  //         ),
-                  //       ),
-                  //       child: const Icon(
-                  //         BipHip.camera,
-                  //         color: cBlackColor,
-                  //         size: kIconSize14,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  // if (profileController.userData.value!.userPendent != null)
-                  // Positioned(
-                  //   right: 6,
-                  //   top: 10,
-                  //   child: Container(
-                  //       height: h28,
-                  //       width: h28,
-                  //       decoration: BoxDecoration(
-                  //         color: cTransparentColor,
-                  //         borderRadius: BorderRadius.circular(26),
-                  //       ),
-                  //       child: Image.network(
-                  //         // profileController.userData.value!.userPendent!.pendent!.icon.toString(),
-                  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR15-88ChPxiVt2Ir13quaHTLlJk1sW_X4YIBuL_zXPXNsM1S0rfYU5aQXhZA&s",
-                  //         fit: BoxFit.cover,
-                  //         filterQuality: FilterQuality.high,
-                  //         errorBuilder: (context, error, stackTrace) => imageErrorBuilderCover(
-                  //           context,
-                  //           error,
-                  //           stackTrace,
-                  //           BipHip.badgesOutline,
-                  //           kIconSize18,
-                  //         ),
-                  //         loadingBuilder: imageLoadingBuilder,
-                  //       )),
-                  // ),
                 ],
               ),
             ),
-            // Positioned(
-            //   right: 16,
-            //   bottom: 60,
-            //   child: TextButton(
-            //     style: kTextButtonStyle,
-            //     onPressed: () {
-            //       profileHelper.coverPhotoUploadBottomSheet(context);
-            //     },
-            //     child: Container(
-            //       height: h28,
-            //       width: h28,
-            //       decoration: BoxDecoration(
-            //         color: cGreyBoxColor,
-            //         borderRadius: BorderRadius.circular(26),
-            //         border: Border.all(
-            //           color: cLineColor,
-            //         ),
-            //       ),
-            //       child: const Icon(
-            //         BipHip.camera,
-            //         color: cBlackColor,
-            //         size: kIconSize14,
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ],

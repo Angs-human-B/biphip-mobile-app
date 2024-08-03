@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/shimmers/profile/profile_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/bottom_sheet_content/user_profile_action_bottom_sheet_content.dart';
@@ -14,13 +15,14 @@ import 'package:bip_hip/views/profile_view/widgets/profile_view_video_tab.dart';
 class ProfileView extends StatelessWidget {
   ProfileView({super.key});
   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
+  final ProfileViewHelper profileViewHelper = ProfileViewHelper();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => profileViewController.isUserProfileViewLoading.value
+        () => profileViewController.isUserProfileViewLoading.value || profileViewController.isKidProfileViewLoading.value
             ? const ProfilePageShimmer2()
             : SafeArea(
                 top: false,
@@ -31,7 +33,7 @@ class ProfileView extends StatelessWidget {
                     //* info:: appBar
                     child: CustomAppBar(
                       appBarColor: cWhiteColor,
-                      title: profileViewController.userProfileData.value?.fullName ?? ksNA.tr,
+                      title: profileViewHelper.getUserKidOrStoreName(type: profileViewController.profileViewType.value),
                       hasBackButton: true,
                       isCenterTitle: true,
                       onBack: () {
@@ -40,6 +42,7 @@ class ProfileView extends StatelessWidget {
                     ),
                   ),
                   body: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -47,11 +50,11 @@ class ProfileView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(left: k20Padding, top: k8Padding, right: k20Padding),
                           child: Text(
-                            profileViewController.userProfileData.value?.fullName ?? ksNA.tr,
+                            profileViewHelper.getUserKidOrStoreName(type: profileViewController.profileViewType.value),
                             style: semiBold24TextStyle(cBlackColor),
                           ),
                         ),
-                        if (profileViewController.isKidOrStoreProfile.value)
+                        if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
                           Padding(
                             padding: const EdgeInsets.only(top: k4Padding, left: k20Padding, right: k20Padding),
                             child: InkWell(
@@ -59,24 +62,35 @@ class ProfileView extends StatelessWidget {
                                 Get.toNamed(krProfileViewFollower);
                               },
                               child: Text(
-                                "500 Followers",
+                                // "500 Followers",
+                                profileViewHelper.getKidOrStoreFollowers(type: profileViewController.profileViewType.value),
                                 style: semiBold14TextStyle(cPrimaryColor),
                               ),
                             ),
                           ),
-                        profileViewController.isKidOrStoreProfile.value ? kH12sizedBox : kH20sizedBox,
+                        profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store"
+                            ? kH12sizedBox
+                            : kH20sizedBox,
                         ProfileViewTopRowWidget(
-                          buttonText: profileViewController.userProfileViewData.value!.user?.friendStatus == 1 ? ksFriend.tr : ksAddFriend.tr,
+                          // buttonText: profileViewController.userProfileViewData.value?.user?.friendStatus == 1 ? ksFriend.tr : ksAddFriend.tr,
+                          buttonText: profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store"
+                              ? ksFollow.tr
+                              : ksFriends.tr,
                           messageButtonText: ksMessage.tr,
                           messageIcon: BipHip.chatFill,
-                          buttonIcon: profileViewController.isKidOrStoreProfile.value ? BipHip.follow : BipHip.friends,
+                          buttonIcon: profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store"
+                              ? BipHip.follow
+                              : BipHip.friends,
                           buttonOnPressed: () {},
                           messageButtonOnPressed: () {},
                           profileActionButtonOnPressed: () {
                             Get.find<GlobalController>().commonBottomSheet(
                                 context: context,
-                                bottomSheetHeight: profileViewController.isKidOrStoreProfile.value ? height * 0.35 : 0.5,
-                                content: const UserProfileActionBottomSheetContent(),
+                                bottomSheetHeight:
+                                    profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store"
+                                        ? height * 0.35
+                                        : 0.5,
+                                content: UserProfileActionBottomSheetContent(),
                                 onPressCloseButton: () {
                                   Get.back();
                                 },

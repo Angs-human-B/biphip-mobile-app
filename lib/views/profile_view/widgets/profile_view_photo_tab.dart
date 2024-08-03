@@ -1,4 +1,5 @@
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/helpers/profile_view/profile_view_helper.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_all_photo_gridview.dart';
 import 'package:bip_hip/views/profile_view/widgets/profile_view_gallery_photos.dart';
@@ -21,10 +22,11 @@ class ProfileViewPhotoTab extends StatelessWidget {
                 buttonState: profileViewController.photoTapAbleButtonState,
                 buttonPress: RxList([
                   () {
+                    ProfileViewHelper().getUserKidOrStoreAllImages(type: profileViewController.profileViewType.value);
                     profileViewController.photoToggleType(0);
                   },
                   () {
-                    profileViewController.getImageAlbum();
+                    ProfileViewHelper().getUserKidOrStoreAlbumImage(type: profileViewController.profileViewType.value);
                     profileViewController.photoToggleType(1);
                   },
                 ]),

@@ -1,5 +1,9 @@
+import 'package:bip_hip/controllers/profile_view/profile_view_kid_post_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
+import 'package:bip_hip/models/profile_view/kid/profile_view_kid_overview_model.dart';
+import 'package:bip_hip/models/profile_view/store/profile_view_store_overview_model.dart';
+import 'package:bip_hip/models/profile_view/store/profile_view_store_review_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_award_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_friend_model.dart';
 import 'package:bip_hip/models/profile_view/user/profile_view_image_album_model.dart';
@@ -11,6 +15,7 @@ import 'package:bip_hip/models/profile_view/user/profile_view_work_education_mod
 import 'package:bip_hip/models/profile_view/user/user_profile_view_basic_info_model.dart';
 import 'package:bip_hip/models/profile_view/user/user_profile_view_overview_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/utils/constants/strings.dart';
 import 'package:intl/intl.dart';
 import 'package:bip_hip/views/profile_view/store_review/profile_view_create_review.dart';
 
@@ -173,7 +178,7 @@ class ProfileViewController extends GetxController {
     }
   }
 
-  //* Profile view Contact info api
+  //* Profile view Basic info api
   Rx<UserProfileViewBasicInfoModel?> userProfileBasicData = Rx<UserProfileViewBasicInfoModel?>(null);
   RxList<Contact?> userBasicData = RxList<Contact?>([]);
   RxList<Link?> userLinkData = RxList<Link?>([]);
@@ -358,7 +363,7 @@ class ProfileViewController extends GetxController {
   //*Image APi implement
   final Rx<ProfileViewImageModel?> profileViewImageData = Rx<ProfileViewImageModel?>(null);
   final RxList<ImageData> allImageList = RxList<ImageData>([]);
-    final Rx<String?> allImageListSubLink = Rx<String?>(null);
+  final Rx<String?> allImageListSubLink = Rx<String?>(null);
   final RxBool allImageListScrolled = RxBool(false);
   final RxBool isAllImageListLoading = RxBool(false);
   Future<void> getAllImage() async {
@@ -396,11 +401,11 @@ class ProfileViewController extends GetxController {
       ll('getAllImage error: $e');
     }
   }
-  
+
   //*Image Album APi implement
   final Rx<ProfileViewImageAlbumModel?> profileViewImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
   final RxList<ImageAlbumData> imageAlbumList = RxList<ImageAlbumData>([]);
-    final Rx<String?> imageAlbumListSubLink = Rx<String?>(null);
+  final Rx<String?> imageAlbumListSubLink = Rx<String?>(null);
   final RxBool imageAlbumListScrolled = RxBool(false);
   final RxBool isImageAlbumListLoading = RxBool(false);
   Future<void> getImageAlbum() async {
@@ -442,7 +447,7 @@ class ProfileViewController extends GetxController {
   //*Video APi implement
   final Rx<ProfileViewVideoModel?> videoData = Rx<ProfileViewVideoModel?>(null);
   final RxList<VideoData> videoList = RxList<VideoData>([]);
-    final Rx<String?> videoListSubLink = Rx<String?>(null);
+  final Rx<String?> videoListSubLink = Rx<String?>(null);
   final RxBool videoListScrolled = RxBool(false);
   final RxBool isVideoListLoading = RxBool(false);
   Future<void> getVideos() async {
@@ -481,9 +486,9 @@ class ProfileViewController extends GetxController {
     }
   }
 
- //* Profile view post data
-   final Rx<ProfileViewPostModel?> profileViewPostData = Rx<ProfileViewPostModel?>(null);
-   final RxList<PostDataRx> profileViewPostList = RxList<PostDataRx>([]);
+  //* Profile view post data
+  final Rx<ProfileViewPostModel?> profileViewPostData = Rx<ProfileViewPostModel?>(null);
+  final RxList<PostDataRx> profileViewPostList = RxList<PostDataRx>([]);
   final RxBool isProfileViewPostLoading = RxBool(false);
   final Rx<String?> profileViewPostListSubLink = Rx<String?>(null);
   final RxBool profileViewPostListScrolled = RxBool(false);
@@ -494,15 +499,13 @@ class ProfileViewController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "/mobile/user/user-profile/${userName.value}/posts?take=1&category_id=${interestCatagoriesIndex.value}",
+        url: "/mobile/user/user-profile/${userName.value}/posts?take=10&category_id=${interestCatagoriesIndex.value}",
       ) as CommonDM;
       if (response.success == true) {
         profileViewPostList.clear();
-        globalController.commonPostList.clear();
         profileViewPostListScrolled.value = false;
         profileViewPostData.value = ProfileViewPostModel.fromJson(response.data);
         profileViewPostList.addAll(profileViewPostData.value!.posts!.data);
-        globalController.populatePostList(profileViewPostList);
         profileViewPostListSubLink.value = profileViewPostData.value!.posts!.nextPageUrl;
         if (profileViewPostListSubLink.value != null) {
           profileViewPostListScrolled.value = false;
@@ -512,7 +515,6 @@ class ProfileViewController extends GetxController {
         isProfileViewPostLoading.value = false;
       } else {
         isProfileViewPostLoading.value = true;
-
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -524,6 +526,534 @@ class ProfileViewController extends GetxController {
       isProfileViewPostLoading.value = true;
 
       ll('getProfileViewPostList error: $e');
+    }
+  }
+
+  //!Kid Profile view api implement
+  //* Profile overview API Implementation
+  final RxString kidOrStorePageId = RxString("");
+  Rx<ProfileViewKidOverviewModel?> userProfileViewKidData = Rx<ProfileViewKidOverviewModel?>(null);
+  Rx<Kid?> kidProfileData = Rx<Kid?>(null);
+  Rx<School?> kidProfileSchoolData = Rx<School?>(null);
+  RxList<Contact?> kidProfileContactList = RxList<Contact?>([]);
+  RxBool isKidProfileViewLoading = RxBool(false);
+  Future<void> getKidProfileOverview({required String kidPageId}) async {
+    try {
+      isKidProfileViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/overview",
+      ) as CommonDM;
+      if (response.success == true) {
+        kidProfileContactList.clear();
+        userProfileViewKidData.value = ProfileViewKidOverviewModel.fromJson(response.data);
+        kidProfileData.value = userProfileViewKidData.value!.kid;
+        kidProfileSchoolData.value = userProfileViewKidData.value!.school;
+        kidProfileContactList.addAll(userProfileViewKidData.value!.contacts!);
+        isKidProfileViewLoading.value = false;
+      } else {
+        isKidProfileViewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidProfileViewLoading.value = true;
+      ll('getKidProfileOverview error: $e');
+    }
+  }
+
+  //* Profile view kid post data
+  final Rx<ProfileViewKidPostModel?> profileViewKidPostData = Rx<ProfileViewKidPostModel?>(null);
+  final RxList<PostDataRx> profileViewKidPostList = RxList<PostDataRx>([]);
+  final Rx<String?> profileViewKidPostListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidPostListScrolled = RxBool(false);
+  Future<void> getProfileViewKidPostList({required String kidPageId}) async {
+    try {
+      isProfileViewPostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/posts?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidPostList.clear();
+        profileViewKidPostListScrolled.value = false;
+        profileViewKidPostData.value = ProfileViewKidPostModel.fromJson(response.data);
+        profileViewKidPostList.addAll(profileViewKidPostData.value!.posts!.data!);
+        profileViewKidPostListSubLink.value = profileViewKidPostData.value!.posts!.nextPageUrl;
+        if (profileViewKidPostListSubLink.value != null) {
+          profileViewKidPostListScrolled.value = false;
+        } else {
+          profileViewKidPostListScrolled.value = true;
+        }
+        isProfileViewPostLoading.value = false;
+      } else {
+        isProfileViewPostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewPostLoading.value = true;
+      ll('getProfileViewKidPostList error: $e');
+    }
+  }
+
+  //* Kid Image APi implement
+  final Rx<ProfileViewImageModel?> profileViewKidImageData = Rx<ProfileViewImageModel?>(null);
+  final RxList<ImageData> kidAllImageList = RxList<ImageData>([]);
+  final Rx<String?> kidAllImageListSubLink = Rx<String?>(null);
+  final RxBool kidAllImageListScrolled = RxBool(false);
+  Future<void> getProfileViewKidAllImage({required String kidPageId}) async {
+    try {
+      isAllImageListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/images?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        kidAllImageList.clear();
+        kidAllImageListScrolled.value = false;
+        profileViewKidImageData.value = ProfileViewImageModel.fromJson(response.data);
+        kidAllImageList.addAll(profileViewKidImageData.value!.images!.data!);
+        kidAllImageListSubLink.value = profileViewKidImageData.value!.images!.nextPageUrl;
+        if (kidAllImageListSubLink.value != null) {
+          kidAllImageListScrolled.value = false;
+        } else {
+          kidAllImageListScrolled.value = true;
+        }
+        isAllImageListLoading.value = false;
+      } else {
+        isAllImageListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAllImageListLoading.value = true;
+      ll('getProfileViewKidAllImage error: $e');
+    }
+  }
+
+  // //*Kid Image Album APi implement
+  final Rx<ProfileViewImageAlbumModel?> profileViewKidImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
+  final RxList<ImageAlbumData> profileViewKidImageAlbumList = RxList<ImageAlbumData>([]);
+  final Rx<String?> profileViewKidImageAlbumListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidImageAlbumListScrolled = RxBool(false);
+  Future<void> getProfileViewKidImageAlbum({required String kidPageId}) async {
+    try {
+      isImageAlbumListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/image-albums?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidImageAlbumList.clear();
+        profileViewKidImageAlbumListScrolled.value = false;
+        profileViewKidImageAlbumData.value = ProfileViewImageAlbumModel.fromJson(response.data);
+        profileViewKidImageAlbumList.addAll(profileViewKidImageAlbumData.value!.imageAlbums!.data!);
+        profileViewKidImageAlbumListSubLink.value = profileViewKidImageAlbumData.value!.imageAlbums!.nextPageUrl;
+        if (profileViewKidImageAlbumListSubLink.value != null) {
+          profileViewKidImageAlbumListScrolled.value = false;
+        } else {
+          profileViewKidImageAlbumListScrolled.value = true;
+        }
+        isImageAlbumListLoading.value = false;
+      } else {
+        isImageAlbumListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isImageAlbumListLoading.value = true;
+      ll('getProfileViewKidImageAlbum error: $e');
+    }
+  }
+
+  // //*Kid Video APi implement
+  // final Rx<ProfileViewVideoModel?> videoData = Rx<ProfileViewVideoModel?>(null);
+  // final RxList<VideoData> videoList = RxList<VideoData>([]);
+  // final Rx<String?> videoListSubLink = Rx<String?>(null);
+  // final RxBool videoListScrolled = RxBool(false);
+  // final RxBool isVideoListLoading = RxBool(false);
+  // Future<void> getVideos() async {
+  //   try {
+  //     isVideoListLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     var response = await apiController.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: "/mobile/user/user-profile/${userName.value}/videos?take=20",
+  //     ) as CommonDM;
+  //     if (response.success == true) {
+  //       videoList.clear();
+  //       videoListScrolled.value = false;
+  //       videoData.value = ProfileViewVideoModel.fromJson(response.data);
+  //       videoList.addAll(videoData.value!.videos!.data!);
+  //       videoListSubLink.value = videoData.value!.videos!.nextPageUrl;
+  //       if (videoListSubLink.value != null) {
+  //         videoListScrolled.value = false;
+  //       } else {
+  //         videoListScrolled.value = true;
+  //       }
+  //       isVideoListLoading.value = false;
+  //     } else {
+  //       isVideoListLoading.value = true;
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       if (errorModel.errors.isEmpty) {
+  //         globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+  //       } else {
+  //         globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isVideoListLoading.value = true;
+  //     ll('getImageAlbum error: $e');
+  //   }
+  // }
+
+  //*Kid Award APi implement
+  final Rx<ProfileViewAwardModel?> profileViewKidllAwardListData = Rx<ProfileViewAwardModel?>(null);
+  final RxList<AllAwardData> profileViewKidAllAwardList = RxList<AllAwardData>([]);
+  final Rx<String?> profileViewKidAwardListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidAwardListScrolled = RxBool(false);
+  Future<void> getProfileViewKidAwardList({required String kidPageId}) async {
+    try {
+      isawardListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/awards?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidAllAwardList.clear();
+        profileViewKidAwardListScrolled.value = false;
+        profileViewKidllAwardListData.value = ProfileViewAwardModel.fromJson(response.data);
+        profileViewKidAllAwardList.addAll(profileViewKidllAwardListData.value!.awards!.data!);
+        profileViewKidAwardListSubLink.value = profileViewKidllAwardListData.value!.awards!.nextPageUrl;
+        if (profileViewKidAwardListSubLink.value != null) {
+          profileViewKidAwardListScrolled.value = false;
+        } else {
+          profileViewKidAwardListScrolled.value = true;
+        }
+        isawardListLoading.value = false;
+      } else {
+        isawardListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isawardListLoading.value = true;
+      ll('getProfileViewKidAwardList error: $e');
+    }
+  }
+
+  //*Kid Video APi implement
+  final Rx<ProfileViewVideoModel?> profileViewKidVideoData = Rx<ProfileViewVideoModel?>(null);
+  final RxList<VideoData> profileViewKidVideoList = RxList<VideoData>([]);
+  final Rx<String?> profileViewKidVideoListSubLink = Rx<String?>(null);
+  final RxBool profileViewKidVideoListScrolled = RxBool(false);
+  Future<void> getProfileViewKidVideos({required String kidPageId}) async {
+    try {
+      isVideoListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/kid-profile/$kidPageId/videos?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewKidVideoList.clear();
+        profileViewKidVideoListScrolled.value = false;
+        profileViewKidVideoData.value = ProfileViewVideoModel.fromJson(response.data);
+        profileViewKidVideoList.addAll(profileViewKidVideoData.value!.videos!.data!);
+        profileViewKidVideoListSubLink.value = profileViewKidVideoData.value!.videos!.nextPageUrl;
+        if (profileViewKidVideoListSubLink.value != null) {
+          profileViewKidVideoListScrolled.value = false;
+        } else {
+          profileViewKidVideoListScrolled.value = true;
+        }
+        isVideoListLoading.value = false;
+      } else {
+        isVideoListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isVideoListLoading.value = true;
+      ll('getProfileViewKidVideos error: $e');
+    }
+  }
+
+  //!Store Profile view api implement
+  //* Profile overview API Implementation
+  Rx<ProfileViewStoreOverviewModel?> profileViewStoreData = Rx<ProfileViewStoreOverviewModel?>(null);
+  Rx<Store?> storeProfileData = Rx<Store?>(null);
+  RxList<Contact?> storeProfileContactList = RxList<Contact?>([]);
+  Future<void> getProfileViewStoreOverview({required String storePageId}) async {
+    try {
+      isKidProfileViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/overview",
+      ) as CommonDM;
+      if (response.success == true) {
+        storeProfileContactList.clear();
+        profileViewStoreData.value = ProfileViewStoreOverviewModel.fromJson(response.data);
+        storeProfileData.value = profileViewStoreData.value!.store;
+        storeProfileContactList.addAll(profileViewStoreData.value!.contacts!);
+        isKidProfileViewLoading.value = false;
+      } else {
+        isKidProfileViewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isKidProfileViewLoading.value = true;
+      ll('getKidProfileOverview error: $e');
+    }
+  }
+
+  //* Profile view kid post data
+  final Rx<ProfileViewKidPostModel?> profileViewStorePostData = Rx<ProfileViewKidPostModel?>(null);
+  final RxList<PostDataRx> profileViewStorePostList = RxList<PostDataRx>([]);
+  final Rx<String?> profileViewStorePostListSubLink = Rx<String?>(null);
+  final RxBool profileViewStorePostListScrolled = RxBool(false);
+  Future<void> getProfileViewStorePostList({required String storePageId}) async {
+    try {
+      isProfileViewPostLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/posts?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewStorePostList.clear();
+        profileViewStorePostListScrolled.value = false;
+        profileViewStorePostData.value = ProfileViewKidPostModel.fromJson(response.data);
+        profileViewStorePostList.addAll(profileViewStorePostData.value!.posts!.data!);
+        profileViewStorePostListSubLink.value = profileViewStorePostData.value!.posts!.nextPageUrl;
+        if (profileViewStorePostListSubLink.value != null) {
+          profileViewStorePostListScrolled.value = false;
+        } else {
+          profileViewStorePostListScrolled.value = true;
+        }
+        isProfileViewPostLoading.value = false;
+      } else {
+        isProfileViewPostLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isProfileViewPostLoading.value = true;
+      ll('getProfileViewStorePostList error: $e');
+    }
+  }
+
+  //* Kid Image APi implement
+  final Rx<ProfileViewImageModel?> profileViewStoreImageData = Rx<ProfileViewImageModel?>(null);
+  final RxList<ImageData> storeAllImageList = RxList<ImageData>([]);
+  final Rx<String?> storeAllImageListSubLink = Rx<String?>(null);
+  final RxBool storeAllImageListScrolled = RxBool(false);
+  Future<void> getProfileViewStoreAllImage({required String storePageId}) async {
+    try {
+      isAllImageListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/images?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        storeAllImageList.clear();
+        storeAllImageListScrolled.value = false;
+        profileViewStoreImageData.value = ProfileViewImageModel.fromJson(response.data);
+        storeAllImageList.addAll(profileViewStoreImageData.value!.images!.data!);
+        storeAllImageListSubLink.value = profileViewStoreImageData.value!.images!.nextPageUrl;
+        if (storeAllImageListSubLink.value != null) {
+          storeAllImageListScrolled.value = false;
+        } else {
+          storeAllImageListScrolled.value = true;
+        }
+        isAllImageListLoading.value = false;
+      } else {
+        isAllImageListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isAllImageListLoading.value = true;
+      ll('getProfileViewStoreAllImage error: $e');
+    }
+  }
+
+  // //*Kid Image Album APi implement
+  final Rx<ProfileViewImageAlbumModel?> profileViewStoreImageAlbumData = Rx<ProfileViewImageAlbumModel?>(null);
+  final RxList<ImageAlbumData> profileViewStoreImageAlbumList = RxList<ImageAlbumData>([]);
+  final Rx<String?> profileViewStoreImageAlbumListSubLink = Rx<String?>(null);
+  final RxBool profileViewStoreImageAlbumListScrolled = RxBool(false);
+  Future<void> getProfileViewStoreImageAlbum({required String storePageId}) async {
+    try {
+      isImageAlbumListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/image-albums?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewStoreImageAlbumList.clear();
+        profileViewStoreImageAlbumListScrolled.value = false;
+        profileViewStoreImageAlbumData.value = ProfileViewImageAlbumModel.fromJson(response.data);
+        profileViewStoreImageAlbumList.addAll(profileViewStoreImageAlbumData.value!.imageAlbums!.data!);
+        profileViewStoreImageAlbumListSubLink.value = profileViewStoreImageAlbumData.value!.imageAlbums!.nextPageUrl;
+        if (profileViewStoreImageAlbumListSubLink.value != null) {
+          profileViewStoreImageAlbumListScrolled.value = false;
+        } else {
+          profileViewStoreImageAlbumListScrolled.value = true;
+        }
+        isImageAlbumListLoading.value = false;
+      } else {
+        isImageAlbumListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isImageAlbumListLoading.value = true;
+      ll('getProfileViewStoreImageAlbum error: $e');
+    }
+  }
+
+  //*Store Video APi implement
+  final Rx<ProfileViewVideoModel?> profileViewStoreVideoData = Rx<ProfileViewVideoModel?>(null);
+  final RxList<VideoData> profileViewStoreVideoList = RxList<VideoData>([]);
+  final Rx<String?> profileViewStoreVideoListSubLink = Rx<String?>(null);
+  final RxBool profileViewStoreVideoListScrolled = RxBool(false);
+  Future<void> getProfileViewStoreVideos({required String storePageId}) async {
+    try {
+      isVideoListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/videos?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewStoreVideoList.clear();
+        profileViewStoreVideoListScrolled.value = false;
+        profileViewStoreVideoData.value = ProfileViewVideoModel.fromJson(response.data);
+        profileViewStoreVideoList.addAll(profileViewStoreVideoData.value!.videos!.data!);
+        profileViewStoreVideoListSubLink.value = profileViewStoreVideoData.value!.videos!.nextPageUrl;
+        if (profileViewStoreVideoListSubLink.value != null) {
+          profileViewStoreVideoListScrolled.value = false;
+        } else {
+          profileViewStoreVideoListScrolled.value = true;
+        }
+        isVideoListLoading.value = false;
+      } else {
+        isVideoListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isVideoListLoading.value = true;
+      ll('getProfileViewStoreVideos error: $e');
+    }
+  }
+
+
+  //*Store Video APi implement
+  final Rx<ProfileViewStoreReviewModel?> profileViewStoreReviewData = Rx<ProfileViewStoreReviewModel?>(null);
+  final RxList<ReviewData> profileViewStoreReviewList = RxList<ReviewData>([]);
+  final Rx<String?> profileViewStoreReviewListSubLink = Rx<String?>(null);
+  final RxBool profileViewStoreReviewListScrolled = RxBool(false);
+  final RxBool isStoreReviewLoading = RxBool(false);
+  Future<void> getProfileViewStoreReview({required String storePageId}) async {
+    try {
+      isStoreReviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "/mobile/user/store-profile/$storePageId/reviews?take=10",
+      ) as CommonDM;
+      if (response.success == true) {
+        profileViewStoreReviewList.clear();
+        profileViewStoreReviewListScrolled.value = false;
+        profileViewStoreReviewData.value = ProfileViewStoreReviewModel.fromJson(response.data);
+        profileViewStoreReviewList.addAll(profileViewStoreReviewData.value!.reviews!.data!);
+        profileViewStoreReviewListSubLink.value = profileViewStoreReviewData.value!.reviews!.nextPageUrl;
+        if (profileViewStoreReviewListSubLink.value != null) {
+          profileViewStoreReviewListScrolled.value = false;
+        } else {
+          profileViewStoreReviewListScrolled.value = true;
+        }
+        isStoreReviewLoading.value = false;
+      } else {
+        isStoreReviewLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreReviewLoading.value = true;
+      ll('getProfileViewStoreReview error: $e');
     }
   }
 
@@ -552,8 +1082,8 @@ class ProfileViewController extends GetxController {
       return "";
     }
   }
+
   final TextEditingController followerSearchController = TextEditingController();
-  final RxBool isKidOrStoreProfile = RxBool(false);
   final RxString profileViewType = RxString("");
   final RxString storeRating = RxString("4.8");
   final RxInt storeRatingReviewCount = RxInt(36);

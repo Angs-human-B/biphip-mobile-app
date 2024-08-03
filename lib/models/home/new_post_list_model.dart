@@ -18,14 +18,14 @@ class PostDataModel {
 }
 
 class PostListModel {
-  Posts posts;
+  Posts? posts;
 
   PostListModel({
     required this.posts,
   });
 
   factory PostListModel.fromJson(Map<String, dynamic> json) => PostListModel(
-        posts: Posts.fromJson(json["posts"]),
+        posts: json["posts"] == null ? null : Posts.fromJson(json["posts"]),
       );
 }
 
@@ -131,9 +131,7 @@ class PostDataRx {
   RxString? myReaction;
   SharePosts? sharePosts;
   bool? isNotifaction;
-bool? hasReport;
- 
-
+  bool? hasReport;
 
   PostDataRx({
     required this.id,
@@ -235,20 +233,20 @@ bool? hasReport;
         timelineId: json["timeline_id"],
         countBids: RxInt(json["count_bids"]),
         type: json["type"],
-        taggedFriends: json["tagged_friends"] == null ? [] : List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => FriendFamilyUserData.fromJson(x))),
-        user:  json["user"] ==null? null:User.fromJson(json["user"]),
+        taggedFriends:
+            json["tagged_friends"] == null ? [] : List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => FriendFamilyUserData.fromJson(x))),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
         kid: json["kid"] == null ? null : Brand.fromJson(json["kid"]),
         store: json["store"] == null ? null : Brand.fromJson(json["store"]),
         postCategory: json["post_category"] == null ? null : PostCategory.fromJson(json["post_category"]),
         postSubCategory: json["post_sub_category"],
-        postTags: json["post_tags"]==null?[]:List<dynamic>.from(json["post_tags"].map((x) => x)),
-        images: json["images"]==null?RxList<ImageElement>([]):RxList<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
-        comments:json["comments"]==null?  RxList<CommentDataRx>([]):RxList<CommentDataRx>.from(json["comments"].map((x) => CommentDataRx.fromJson(x))),
+        postTags: json["post_tags"] == null ? [] : List<dynamic>.from(json["post_tags"].map((x) => x)),
+        images: json["images"] == null ? RxList<ImageElement>([]) : RxList<ImageElement>.from(json["images"].map((x) => ImageElement.fromJson(x))),
+        comments: json["comments"] == null ? RxList<CommentDataRx>([]) : RxList<CommentDataRx>.from(json["comments"].map((x) => CommentDataRx.fromJson(x))),
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
         sharePosts: json["share_posts"] == null ? null : SharePosts.fromJson(json["share_posts"]),
         isNotifaction: json["is_notifaction"],
- 
- hasReport: json["has_report"],
+        hasReport: json["has_report"],
       );
 }
 
@@ -392,15 +390,16 @@ class SharePosts {
         minBiddingAmount: json["min_bidding_amount"],
         biddingDuration: json["bidding_duration"],
         title: json["title"],
-        createdAt: json["created_at"]==null? null: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"]== null?null:DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         postCategoryId: json["post_category_id"],
         isPublic: json["is_public"],
         countView: RxInt(json["count_view"]),
         countShare: RxInt(json["count_share"]),
         countComment: RxInt(json["count_comment"]),
         countStar: RxInt(json["count_star"]),
-        countReactions: json["count_reactions"] == null || json["count_reactions"] == 0 ? null : Rx<CountReactions>(CountReactions.fromJson(json["count_reactions"])),
+        countReactions:
+            json["count_reactions"] == null || json["count_reactions"] == 0 ? null : Rx<CountReactions>(CountReactions.fromJson(json["count_reactions"])),
         postSubCategoryId: json["post_sub_category_id"],
         timelineId: json["timeline_id"],
         type: json["type"],
@@ -436,6 +435,7 @@ class Brand {
   int? age;
   String? kidImage;
   String? profilePicture;
+  String? pageId;
 
   Brand({
     required this.id,
@@ -447,6 +447,7 @@ class Brand {
     this.age,
     this.kidImage,
     required this.profilePicture,
+    this.pageId,
   });
 
   factory Brand.fromJson(Map<String, dynamic> json) => Brand(
@@ -458,6 +459,7 @@ class Brand {
       brandImage: json["brand_image"],
       age: json["age"],
       kidImage: json["kid_image"],
+      pageId: json["page_id"],
       profilePicture: json["profile_picture"]);
 }
 
@@ -485,30 +487,29 @@ class ImageElement {
   int? totalViewCount;
   RxString? myReaction;
 
-  ImageElement({
-    required this.id,
-    required this.userId,
-    required this.postId,
-    required this.imageAlbumId,
-    required this.imageType,
-    required this.mimeType,
-    required this.title,
-    required this.storagePath,
-    required this.path,
-    required this.filesize,
-    required this.description,
-    required this.imageTakenTime,
-    required this.imageTakenLocation,
-    required this.countView,
-    required this.countShare,
-    required this.countComment,
-    required this.countStar,
-    required this.countReactions,
-    required this.fullPath,
-    required this.taggedFriends,
-    required this.totalViewCount,
-    required this.myReaction
-  });
+  ImageElement(
+      {required this.id,
+      required this.userId,
+      required this.postId,
+      required this.imageAlbumId,
+      required this.imageType,
+      required this.mimeType,
+      required this.title,
+      required this.storagePath,
+      required this.path,
+      required this.filesize,
+      required this.description,
+      required this.imageTakenTime,
+      required this.imageTakenLocation,
+      required this.countView,
+      required this.countShare,
+      required this.countComment,
+      required this.countStar,
+      required this.countReactions,
+      required this.fullPath,
+      required this.taggedFriends,
+      required this.totalViewCount,
+      required this.myReaction});
 
   factory ImageElement.fromJson(Map<String, dynamic> json) => ImageElement(
         id: json["id"],
@@ -528,13 +529,15 @@ class ImageElement {
         countShare: json["count_share"],
         countComment: json["count_comment"],
         countStar: json["count_star"],
-        countReactions: json["count_reactions"] == null || json["count_reactions"] == 0 ? null : Rx<CountReactions>(CountReactions.fromJson(json["count_reactions"])),
+        countReactions:
+            json["count_reactions"] == null || json["count_reactions"] == 0 ? null : Rx<CountReactions>(CountReactions.fromJson(json["count_reactions"])),
         fullPath: json["full_path"],
         taggedFriends: List<FriendFamilyUserData>.from(json["tagged_friends"].map((x) => FriendFamilyUserData.fromJson(x))),
         totalViewCount: json["total_view_count"],
         myReaction: json["my_reaction"] == null ? null : RxString(json["my_reaction"]),
       );
 }
+
 class MentionUser {
   int? id;
   String? fullName;

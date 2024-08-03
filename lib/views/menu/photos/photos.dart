@@ -86,12 +86,14 @@ class Photos extends StatelessWidget {
                           String imageUrl = imageList[index].fullPath.toString();
                           return InkWell(
                             onTap: () async {
-                              galleryController.imageId.value = imageList[index].id!;
-                              await galleryController.getImageDetails();
-                              galleryController.imageData.value?.description = null;
-                              Get.find<PostReactionController>().isRouteFromHomePage.value = false;
-                              Get.to(() => GalleryWidget(
-                                  urlImages: RxList(galleryController.imageDataList[albumIndex].imageList), imageIndex: index, postIndex: albumIndex));
+                              if (Get.previousRoute != "/profile-view") {
+                                galleryController.imageId.value = imageList[index].id!;
+                                await galleryController.getImageDetails();
+                                galleryController.imageData.value?.description = null;
+                                Get.find<PostReactionController>().isRouteFromHomePage.value = false;
+                                Get.to(() => GalleryWidget(
+                                    urlImages: RxList(galleryController.imageDataList[albumIndex].imageList), imageIndex: index, postIndex: albumIndex));
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -272,7 +274,6 @@ class GalleryImageShareBottomSheetContent extends StatelessWidget {
                           await createPostController.getKidList();
                         }
                         if (postReactionController.shareActionList[index]['action'].toString().toLowerCase() == "Share to Your Store Profile".toLowerCase()) {
-
                           if (createPostController.tempSelectedBrandId.value == -1) {
                             createPostController.storeListBottomSheetRightButtonState.value = false;
                           } else {

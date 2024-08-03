@@ -3,13 +3,14 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/profile_view/widgets/common_list_tile.dart';
 
 class UserProfileActionBottomSheetContent extends StatelessWidget {
-  const UserProfileActionBottomSheetContent({super.key});
+   UserProfileActionBottomSheetContent({super.key});
+   final ProfileViewController profileViewController = Get.find<ProfileViewController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (Get.find<ProfileViewController>().isKidOrStoreProfile.value == false)
+        if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
           CommonListTile(
             titleText: ksUnfollow.tr,
             subTitleText: ksUnfollowFromYourFollowersList.tr,
@@ -18,7 +19,7 @@ class UserProfileActionBottomSheetContent extends StatelessWidget {
               Get.back();
             },
           ),
-        if (Get.find<ProfileViewController>().isKidOrStoreProfile.value == false)
+        if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
           CommonListTile(
             titleText: ksUnFriend.tr,
             subTitleText: ksRemoveFromYourFriendList.tr,

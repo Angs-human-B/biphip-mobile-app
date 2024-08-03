@@ -1,6 +1,5 @@
 import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/friend_controller.dart';
-import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/shimmers/menu/friends/all_pending_friend_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/family/add_family.dart';
@@ -50,11 +49,6 @@ class AllFriendListView extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
-                                    Get.toNamed(krProfileView);
-                                    Get.find<ProfileViewController>().userName.value = friendController.friendList[index].userName!;
-                                    await Get.find<ProfileViewController>().getProfileOverview();
-                                    await Get.find<ProfileViewController>().getProfileViewPostList();
-                                    await Get.find<ProfileViewController>().getProfileViewFriend();
                                     // await Get.find<FamilyController>().getFamilyList();
                                   },
                                   child: ClipRRect(
