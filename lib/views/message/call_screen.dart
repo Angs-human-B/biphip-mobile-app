@@ -22,13 +22,11 @@ class CallScreen extends StatelessWidget {
               body: Stack(
                 children: [
                   if (messengerController.callState.value == "inCall" && !messengerController.isAudioCallState.value)
-                    Expanded(
-                      child: messengerController.isRemoteFeedStreaming.value
-                          ? (messengerController.callState.value == "ringing"
-                              ? RTCVideoView(messengerController.localRenderer, mirror: true)
-                              : RTCVideoView(messengerController.remoteRenderer))
-                          : const SizedBox(),
-                    ),
+                    messengerController.isRemoteFeedStreaming.value
+                        ? (messengerController.callState.value == "ringing"
+                            ? RTCVideoView(messengerController.localRenderer, mirror: true)
+                            : RTCVideoView(messengerController.remoteRenderer))
+                        : const SizedBox(),
                   if (messengerController.callState.value == "ringing" ||
                       (messengerController.callState.value == "inCall" && messengerController.isAudioCallState.value))
                     Positioned(
