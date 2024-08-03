@@ -98,7 +98,9 @@ class MessageScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: h20),
                     child: TextButton(
                       style: kTextButtonStyle,
-                      onPressed: () {},
+                      onPressed: () {
+                        messengerController.ringUser(messengerController.selectedReceiver.value!.roomUserId, false);
+                      },
                       child: Icon(
                         BipHip.video,
                         color: cPrimaryColor,
@@ -110,7 +112,9 @@ class MessageScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right: h20),
                     child: TextButton(
                       style: kTextButtonStyle,
-                      onPressed: () {},
+                      onPressed: () {
+                        messengerController.ringUser(messengerController.selectedReceiver.value!.roomUserId, true);
+                      },
                       child: Icon(
                         BipHip.phoneFill,
                         color: cPrimaryColor,

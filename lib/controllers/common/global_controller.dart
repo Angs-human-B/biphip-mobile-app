@@ -1190,7 +1190,7 @@ class GlobalController extends GetxController {
   }
   
   RxList<Map<String, dynamic>> allOnlineUsers = RxList<Map<String, dynamic>>([]);
-  void populatePeerList(Map<String, dynamic> newUserData) {
+  void populatePeerList(newUserData) {
     allOnlineUsers.add({"userID": newUserData});
 
     if (Get.find<MessengerController>().allRoomMessageList.isNotEmpty) {

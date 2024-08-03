@@ -33,7 +33,8 @@ class MessengerController extends GetxController {
         isMessageTextFieldFocused.value = false;
       }
     });
-
+    localRenderer.initialize();
+    remoteRenderer.initialize();
     super.onInit();
   }
 

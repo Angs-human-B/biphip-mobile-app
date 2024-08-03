@@ -36,7 +36,6 @@ class CustomAppBar extends StatelessWidget {
       centerTitle: isCenterTitle ?? true,
       automaticallyImplyLeading: false,
       elevation: kCommonElevation,
-      titleSpacing: titleSpacing,
       backgroundColor: appBarColor ?? cWhiteColor,
       leadingWidth: leadingWidth ?? kCommonBackSpace,
       titleSpacing: titleSpacing ?? h16,
