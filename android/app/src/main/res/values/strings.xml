@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name ="app_name">bip_hip</string>
+    <string name="facebook_app_id">3156764567960620</string>
+    <string name="fb_login_protocol_scheme">fb3156764567960620</string>
+    <string name="facebook_client_token">7970799d6c83b4469ba243a87b01a0cf</string>
+
+</resources>

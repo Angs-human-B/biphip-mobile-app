@@ -1,10 +1,8 @@
-import 'package:bip_hip/utils/constants/colors.dart';
-import 'package:bip_hip/utils/constants/const.dart';
-import 'package:flutter/material.dart';
+import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 dynamic screenWiseSize(size, difference) {
-  return height > kSmallDeviceSizeLimit ? size : size - difference;
+  return isDeviceScreenLarge() ? size : size - difference;
 }
 
 TextStyle medium24TextStyle(Color color) {
@@ -13,6 +11,14 @@ TextStyle medium24TextStyle(Color color) {
 
 TextStyle medium12TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h12, 2), color: color);
+}
+
+TextStyle medium14TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h14, 2), color: color);
+}
+
+TextStyle medium16TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h16, 2), color: color);
 }
 
 TextStyle regular20TextStyle(Color color) {
@@ -41,6 +47,10 @@ TextStyle regular10TextStyle(Color color) {
 
 TextStyle regular8TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h8, 0), color: color);
+}
+
+TextStyle semiBold24TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h24, 2), color: color);
 }
 
 TextStyle semiBold20TextStyle(Color color) {
@@ -80,7 +90,8 @@ ButtonStyle? kTextButtonStyle = TextButton.styleFrom(
 );
 
 //* info:: box border
-BoxBorder? kMainBoxBorder = Border.all(color: cLineColor, width: 1);
+BoxBorder? kIconColorBoxBorder = Border.all(color: cIconColor, width: 1);
+BoxBorder? kLineBorder = Border.all(color: cLineColor2.withOpacity(.8), width: 1);
 
 ButtonStyle? kElevatedButtonStyle = ButtonStyle(
   alignment: Alignment.center,
