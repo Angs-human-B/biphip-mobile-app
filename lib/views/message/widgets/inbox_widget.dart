@@ -39,6 +39,7 @@ class InboxContainer extends StatelessWidget {
       onTap: () async {
         messengerController.selectedReceiver.value = receiverData;
         messengerController.selectedRoomIndex.value = index;
+        messengerController.callerID.value = userID;
         ll("DATA CHANNEL: $dataChannel");
         ll("LIST: ${messengerController.allRoomMessageList[index]}");
         messengerController.allRoomMessageList[index]["isSeen"] = true.obs;

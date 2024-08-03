@@ -6,7 +6,6 @@ import 'package:bip_hip/models/messenger/message_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
-
 class SocketController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
   // @override
@@ -84,7 +83,8 @@ class SocketController extends GetxController {
             int index = Get.find<MessengerController>().allRoomMessageList.indexWhere((user) => user['userID'] == data['userID']);
             if (index != -1) {
               ll("here");
-              globalController.showSnackBar(title: Get.find<MessengerController>().allRoomMessageList[index]["userName"], message: message.text, color: Colors.green);
+              globalController.showSnackBar(
+                  title: Get.find<MessengerController>().allRoomMessageList[index]["userName"], message: message.text, color: Colors.green);
               Get.find<MessengerController>().allRoomMessageList[index]["isSeen"] = false.obs;
               Get.find<MessengerController>().allRoomMessageList[index]["messages"].insert(
                     0,
@@ -165,6 +165,7 @@ class SocketController extends GetxController {
           Get.find<MessengerController>().isAudioCallState.value = false;
         }
         Get.toNamed(krRingingScreen);
+        Get.find<MessengerController>().initializeRenderer();
       } else if (data['callStatus'] == "accepted") {
         RTCPeerConnection? peerConnection;
         Map<int, Map<String, dynamic>> allRoomMessageListMap = {for (var user in Get.find<MessengerController>().allRoomMessageList) user['userID']: user};
@@ -217,6 +218,7 @@ class SocketController extends GetxController {
                   'type': answer.type,
                 }
               });
+              Get.offAndToNamed(krCallScreen);
             } catch (e) {
               ll("EXCEPTION: $e");
             }
@@ -237,7 +239,11 @@ class SocketController extends GetxController {
           ll("Someone tried to connect");
           await icePeerConnection?.setRemoteDescription(answer);
         }
+      }else if (data['callStatus'] == "hangUP") {
+        ll("hangup");
+        MessengerHelper().hangUp();
       }
+      
     });
 
     socket.on('disconnect', (_) {

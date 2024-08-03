@@ -93,7 +93,6 @@ class RingingScreen extends StatelessWidget {
                                     'userID': Get.find<GlobalController>().userId.value,
                                     'callStatus': "accepted",
                                   });
-                                  Get.offAndToNamed(krCallScreen);
                                 },
                                 child: Container(
                                   decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle),

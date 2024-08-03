@@ -98,8 +98,12 @@ class CallScreen extends StatelessWidget {
                                 ),
                               InkWell(
                                 onTap: () {
+                                  socket.emit('mobile-video-call-${messengerController.callerID.value}', {
+                                    'userID': Get.find<GlobalController>().userId.value,
+                                    'callStatus': "hangUP",
+                                  });
+                                  ll("id: ${messengerController.callerID.value}");
                                   MessengerHelper().hangUp();
-                                  Get.back();
                                 },
                                 child: Container(
                                   decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
@@ -121,9 +125,9 @@ class CallScreen extends StatelessWidget {
                                   decoration: const BoxDecoration(color: cBlackColor, shape: BoxShape.circle),
                                   height: 70,
                                   width: 70,
-                                  child: const Center(
+                                  child: Center(
                                     child: Icon(
-                                      Icons.mic_off_rounded,
+                                      messengerController.isMuted.value ? Icons.mic : Icons.mic_off_rounded,
                                       color: cWhiteColor,
                                     ),
                                   ),

@@ -23,7 +23,7 @@ class MessengerController extends GetxController {
   final Rx<RoomData?> selectedReceiver = Rx<RoomData?>(null);
   final RxInt selectedRoomIndex = RxInt(-1);
 
-@override
+  @override
   void onInit() async {
     checkInternetConnectivity();
     messageFocusNode.addListener(() {
@@ -33,14 +33,24 @@ class MessengerController extends GetxController {
         isMessageTextFieldFocused.value = false;
       }
     });
-    localRenderer.initialize();
-    remoteRenderer.initialize();
+    
     super.onInit();
+  }
+
+  Future<void> initializeRenderer()async{
+    await localRenderer.initialize();
+    await remoteRenderer.initialize();
+  }
+
+  void disposeRenderer(){
+    localRenderer.dispose();
+    remoteRenderer.dispose();
   }
 
   @override
   void onClose() {
     super.onClose();
+    disposeRenderer();
   }
 
   //=====================================================
@@ -99,10 +109,9 @@ class MessengerController extends GetxController {
   List<String> messageQueue = [];
   int batchSize = 1;
 
-void sendMessage(String message, RTCDataChannel dataChannel) async {
+  void sendMessage(String message, RTCDataChannel dataChannel) async {
     ll(dataChannel.label);
     if (isInternetConnectionAvailable.value) {
-
       setMessage(selectedReceiver.value!.id, MessageData(text: message, senderId: globalController.userId.value, messageText: message));
 
       sendViaDataChannel(message, dataChannel);
@@ -174,7 +183,7 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
   }
 
   void updateRoomListWithOnlineUsers() {
-   Map<int, Map<String, dynamic>> onlineUserMap = {for (var onlineUser in globalController.allOnlineUsers) onlineUser['userID']: onlineUser};
+    Map<int, Map<String, dynamic>> onlineUserMap = {for (var onlineUser in globalController.allOnlineUsers) onlineUser['userID']: onlineUser};
 
     for (var room in allRoomMessageList) {
       if (onlineUserMap.containsKey(room['userID'])) {
@@ -300,7 +309,7 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
   RTCDataChannel? targetDataChannel;
   RTCPeerConnection? targetPeerConnection;
   final RxList connectedUserID = RxList([]);
-  final Map<String, dynamic>  configuration = {
+  final Map<String, dynamic> configuration = {
     'iceServers': [
       {'urls': "stun:stun.l.google.com:19302"},
       {
@@ -313,7 +322,7 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
     ],
   };
 
-    void handleRTCEvents(RTCDataChannelState state) {
+  void handleRTCEvents(RTCDataChannelState state) {
     switch (state) {
       case RTCDataChannelState.RTCDataChannelOpen:
         ll('dc connection success');
@@ -452,13 +461,11 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
 
     peerConnection?.onAddStream = (MediaStream stream) {
       ll("Add remote stream");
-
     };
-
   }
   //===========END=======================================
 
-   // * AUDIO VIDEO CALL
+  // * AUDIO VIDEO CALL
   RTCVideoRenderer localRenderer = RTCVideoRenderer();
   RTCVideoRenderer remoteRenderer = RTCVideoRenderer();
   MediaStream? localStream;
@@ -472,8 +479,10 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
   final RxBool isRemoteFeedStreaming = RxBool(false);
   final RxBool isUserTypeSender = RxBool(false);
   final RxBool isAudioCallState = RxBool(false);
+  final RxBool isMuted = RxBool(false);
 
   void initiateVideoCall(RTCPeerConnection? peerConnection, userID, isAudioCall) async {
+
     await MessengerHelper().openUserMedia(isAudioCall);
 
     localStream?.getTracks().forEach((track) {
@@ -482,17 +491,17 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
     });
     RTCSessionDescription? offer;
 
-    if(isAudioCall){
-       offer = await peerConnection!.createOffer({
-      'offerToReceiveAudio': true,
-      'offerToReceiveVideo': false,
-    });
-    }else{
-     offer = await peerConnection!.createOffer();
+    if (isAudioCall) {
+      offer = await peerConnection!.createOffer({
+        'offerToReceiveAudio': true,
+        'offerToReceiveVideo': false,
+      });
+    } else {
+      offer = await peerConnection!.createOffer();
     }
-    if(isAudioCall){
-    Helper.setSpeakerphoneOn(false);
-    }else{
+    if (isAudioCall) {
+      Helper.setSpeakerphoneOn(false);
+    } else {
       Helper.setSpeakerphoneOn(true);
     }
 
@@ -500,7 +509,7 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
     socket.emit('mobile-video-call-$userID', {
       'userID': Get.find<GlobalController>().userId.value,
       'callStatus': "inCall",
-      'callType': isAudioCall?"audio":"video",
+      'callType': isAudioCall ? "audio" : "video",
       'type': "offer",
       'data': {
         'sdp': offer.sdp,
@@ -521,15 +530,15 @@ void sendMessage(String message, RTCDataChannel dataChannel) async {
     socket.emit('mobile-video-call-$userID', {
       'userID': Get.find<GlobalController>().userId.value,
       'callStatus': "ringing",
-      'callType': isAudioCall?"audio":"video",
-      'type': "offer",
+      'callType': isAudioCall ? "audio" : "video",
     });
     callState.value = "ringing";
-    if(isAudioCall){
+    if (isAudioCall) {
       isAudioCallState.value = true;
-    }else{
+    } else {
       isAudioCallState.value = false;
     }
     Get.toNamed(krCallScreen);
+    initializeRenderer();
   }
 }

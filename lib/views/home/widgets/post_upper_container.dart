@@ -245,7 +245,7 @@ class PostUpperContainer extends StatelessWidget {
                                       await Get.find<ProfileViewController>().getProfileViewPostList();
                                     }
                                   },
-                                  child: Text(globalController.commonPostList[postIndex].user!.fullName!, style: semiBold14TextStyle(cBlackColor)),
+                                  child: Text(globalController.commonPostList[postIndex].user!.fullName!, style: semiBold18TextStyle(cBlackColor)),
                                 ),
                               ),
                               // TextSpan(
@@ -300,7 +300,7 @@ class PostUpperContainer extends StatelessWidget {
                                     },
                                     child: Text(
                                       '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
-                                      style: semiBold16TextStyle(cBlackColor),
+                                      style: semiBold18TextStyle(cBlackColor),
                                     ),
                                   ),
 
