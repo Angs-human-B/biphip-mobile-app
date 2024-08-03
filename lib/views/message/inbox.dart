@@ -1,5 +1,4 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
-import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/shimmers/messenger/inbox_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/message/bottom_sheets/settings_content.dart';
@@ -117,20 +116,20 @@ class Inbox extends StatelessWidget {
                                         separatorBuilder: (context, index) => kH16sizedBox,
                                         itemCount: messengerController.allRoomMessageList.length,
                                         itemBuilder: (context, index) {
-                                          ll("HERE");
                                           var item = messengerController.allRoomMessageList[index];
                                           return InboxContainer(
-                                              index: index,
-                                              peerID: item["peerID"],
+                                               index: index,
+                                              dataChannel: item['dataChannel'],
+                                              peerConnection: item['peerConnection'],
                                               roomID: messengerController.roomList[index].id!,
                                               userID: messengerController.roomList[index].roomUserId!,
                                               userName: messengerController.roomList[index].roomName!,
                                               userImage: messengerController.roomList[index].roomImage![0],
-                                              message: item["messages"].isEmpty ? "Test message" : item["messages"][0].messageText,
+                                              message: item["messages"].isEmpty ? RxString("Test message") : RxString(item["messages"][0].messageText),
                                               isActive: item["status"],
                                               isMute: false,
                                               isLastMessageSelf: false,
-                                              isSeen: true,
+                                              isSeen: item['isSeen'],
                                               receiverData: messengerController.roomList[index],
                                               lastMessageTime: messengerController.roomList[index].updatedAt!);
                                         })),

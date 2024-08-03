@@ -68,8 +68,10 @@ import 'package:bip_hip/views/menu/store/store_profile/store_profile.dart';
 import 'package:bip_hip/views/menu/store/store_profile/store_review.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_preview.dart';
 import 'package:bip_hip/views/menu/store/widgets/store_photo_view.dart';
+import 'package:bip_hip/views/message/call_screen.dart';
 import 'package:bip_hip/views/message/inbox.dart';
 import 'package:bip_hip/views/message/message_screen.dart';
+import 'package:bip_hip/views/message/ringing_screen.dart';
 import 'package:bip_hip/views/post/add_kid.dart';
 import 'package:bip_hip/views/post/create_post.dart';
 import 'package:bip_hip/views/post/upload_media_list.dart';
@@ -229,6 +231,8 @@ const String krSelectPeoplePage = "/select-people-page";
 //* Messenger
 const String krInbox = "/inbox";
 const String krMessages = "/messages";
+const String krCallScreen = '/call-screen';
+const String krRingingScreen = '/ringing-screen';
 
 List<GetPage<dynamic>>? routes = [
   // //* info:: auth screens
@@ -360,4 +364,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelfiePage, page: () => SelfiePage(), transition: Transition.noTransition),
   GetPage(name: krSelfiePrivacyPage, page: () => SelfiePrivacyPage(), transition: Transition.noTransition),
   GetPage(name: krSelectPeoplePage, page: () => SelectPeoplePage(), transition: Transition.noTransition),
+   GetPage(name: krCallScreen, page: () => CallScreen(), transition: Transition.noTransition),
+  GetPage(name: krRingingScreen, page: () => RingingScreen(), transition: Transition.noTransition),
 ];

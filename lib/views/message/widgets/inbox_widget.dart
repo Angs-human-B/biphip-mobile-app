@@ -1,31 +1,36 @@
 import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:intl/intl.dart';
-import 'package:peerdart/peerdart.dart';
 
 class InboxContainer extends StatelessWidget {
-  InboxContainer(
-      {super.key,
-      required this.userName,
-      required this.userImage,
-      required this.message,
-      required this.isActive,
-      required this.isSeen,
-      required this.isMute,
-      required this.isLastMessageSelf,
-      required this.userID,
-      required this.receiverData,
-      required this.lastMessageTime,
-      required this.roomID,
-      required this.index,
-      required this.peerID});
-  final String userName, userImage, message, peerID;
-  final bool  isSeen, isMute, isLastMessageSelf;
-  final RxBool isActive;
+  InboxContainer({
+    super.key,
+    required this.userName,
+    required this.userImage,
+    required this.message,
+    required this.isActive,
+    required this.isSeen,
+    required this.isMute,
+    required this.isLastMessageSelf,
+    required this.userID,
+    required this.receiverData,
+    required this.lastMessageTime,
+    required this.roomID,
+    required this.index,
+    required this.dataChannel,
+    this.peerConnection,
+  });
+  final String userName, userImage;
+  final RxString message;
+  final bool isMute, isLastMessageSelf;
+  final RxBool isActive, isSeen;
   final int userID, roomID, index;
   final RoomData receiverData;
   final DateTime lastMessageTime;
+  final RTCDataChannel? dataChannel;
+  final RTCPeerConnection? peerConnection;
   final MessengerController messengerController = Get.find<MessengerController>();
 
   @override
@@ -34,11 +39,14 @@ class InboxContainer extends StatelessWidget {
       onTap: () async {
         messengerController.selectedReceiver.value = receiverData;
         messengerController.selectedRoomIndex.value = index;
-        if (!messengerController.connectedUserID.contains(userID)) {
-          messengerController.exchangePeerID(userID);
-        }
-        if (peerID != "") {
-          messengerController.connectWithPeer(peerID);
+        ll("DATA CHANNEL: $dataChannel");
+        ll("LIST: ${messengerController.allRoomMessageList[index]}");
+        messengerController.allRoomMessageList[index]["isSeen"] = true.obs;
+        if (dataChannel == null) {
+          messengerController.connectUser(userID);
+        } else {
+          messengerController.targetDataChannel = dataChannel;
+          messengerController.targetPeerConnection = peerConnection;
         }
         Get.toNamed(krMessages);
         //* GET MESSAGE API CALL
@@ -46,50 +54,50 @@ class InboxContainer extends StatelessWidget {
         //*
       },
       child: Container(
-              color: cWhiteColor,
-              width: width,
-              height: h50,
-              child: Row(
-                children: [
-                  Stack(
-                    children: [
-                      ClipOval(
-                        child: Container(
-                          height: h50,
-                          width: h50,
-                          decoration: const BoxDecoration(
-                            color: cBlackColor,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.network(
-                            userImage,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => const Icon(
-                              BipHip.user,
-                              size: kIconSize24,
-                              color: cIconColor,
-                            ),
-                          ),
-                        ),
+        color: cWhiteColor,
+        width: width,
+        height: h50,
+        child: Row(
+          children: [
+            Stack(
+              children: [
+                ClipOval(
+                  child: Container(
+                    height: h50,
+                    width: h50,
+                    decoration: const BoxDecoration(
+                      color: cBlackColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.network(
+                      userImage,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        BipHip.user,
+                        size: kIconSize24,
+                        color: cIconColor,
                       ),
-                      if (isActive.value)
-                        Positioned(
-                          bottom: 3,
-                          right: 0,
-                          child: Container(
-                            height: h14,
-                            width: h14,
-                            decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: Container(
-                                height: h12,
-                                width: h12,
-                                decoration: const BoxDecoration(color: cGreenColor, shape: BoxShape.circle),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3),
-                                  child: Container(
-                                    height: 4,
+                    ),
+                  ),
+                ),
+                if (isActive.value)
+                  Positioned(
+                    bottom: 3,
+                    right: 0,
+                    child: Container(
+                      height: h14,
+                      width: h14,
+                      decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
+                      child: Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Container(
+                          height: h12,
+                          width: h12,
+                          decoration: const BoxDecoration(color: cGreenColor, shape: BoxShape.circle),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: Container(
+                              height: 4,
                               width: 4,
                               decoration: const BoxDecoration(color: cWhiteColor, shape: BoxShape.circle),
                             ),
@@ -109,7 +117,7 @@ class InboxContainer extends StatelessWidget {
                 children: [
                   Text(
                     userName,
-                    style: isSeen ? regular16TextStyle(cBlackColor) : semiBold16TextStyle(cBlackColor),
+                    style: isSeen.value ? regular16TextStyle(cBlackColor) : semiBold16TextStyle(cBlackColor),
                   ),
                   SizedBox(
                     width: width - 120,
@@ -118,14 +126,14 @@ class InboxContainer extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            "${isLastMessageSelf ? "You:" : ""} ${message}",
-                            style: isSeen ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
+                            "${isLastMessageSelf ? "You:" : ""} ${message.value}",
+                            style: isSeen.value ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
                           "  • ${DateFormat('h:mm a').format(lastMessageTime)}",
-                          style: isSeen ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
+                          style: isSeen.value ? regular14TextStyle(cSmallBodyTextColor) : semiBold14TextStyle(cBlackColor),
                           overflow: TextOverflow.ellipsis,
                         )
                       ],
@@ -141,7 +149,7 @@ class InboxContainer extends StatelessWidget {
                 color: cIconColor,
                 size: kIconSize14,
               ),
-            if (isSeen)
+            if (isSeen.value)
               ClipOval(
                 child: Container(
                   height: h14,

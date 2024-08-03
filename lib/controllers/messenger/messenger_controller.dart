@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:bip_hip/helpers/messenger/messenger_helper.dart';
 import 'package:bip_hip/models/messenger/message_list_model.dart';
 import 'package:bip_hip/models/messenger/room_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:peerdart/peerdart.dart';
 
 class MessengerController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
@@ -22,9 +23,9 @@ class MessengerController extends GetxController {
   final Rx<RoomData?> selectedReceiver = Rx<RoomData?>(null);
   final RxInt selectedRoomIndex = RxInt(-1);
 
+@override
   void onInit() async {
     checkInternetConnectivity();
-    connectPeer();
     messageFocusNode.addListener(() {
       if (messageFocusNode.hasFocus) {
         isMessageTextFieldFocused.value = true;
@@ -38,7 +39,6 @@ class MessengerController extends GetxController {
 
   @override
   void onClose() {
-    peer.dispose();
     super.onClose();
   }
 
@@ -83,153 +83,6 @@ class MessengerController extends GetxController {
 
   //=====================================================
 
-  //=====================================================
-  //!                Socket and WebRTC
-  //=====================================================
-
-  static const defaultConfig = {
-    'iceServers': [
-      {'urls': "stun:stun.l.google.com:19302"},
-      {
-        "urls": [
-          "turn:54.91.252.241:3478",
-        ],
-        "username": "user1",
-        "credential": "123456",
-      },
-    ],
-  };
-
-  final Peer peer = Peer(options: PeerOptions(debug: LogLevel.All, config: defaultConfig));
-  final RxString peerId = RxString("");
-  late DataConnection conn;
-  final RxBool connected = RxBool(false);
-  final RxList connectedUserID = RxList([]);
-
-  void connectPeer() {
-    peer.on("open").listen((id) {
-      peerId.value = peer.id!;
-      if (peerId.value != "") {
-        socketConnect(peerId.value);
-      }
-    });
-
-    peer.on("close").listen((id) {
-      connected.value = false;
-        ll("PEER CLOSED");
-    });
-
-    peer.on<DataConnection>("connection").listen((event) {
-      ll("PEER CONNECTED: ${event.peer}");
-      int peerIndex = Get.find<GlobalController>().allOnlinePeers.indexWhere((user) => user['peerID'] == event.peer);
-      if (peerIndex != -1) {
-        connectedUserID.add(Get.find<GlobalController>().allOnlinePeers[peerIndex]['userID']);
-      }
-      conn = event;
-      conn.on("data").listen((data) {
-        // messages.insert(0, {"userType": "sender", "message": data});
-        int index = allRoomMessageList.indexWhere((user) => user['roomID'] == selectedReceiver.value!.id);
-        if (index != -1) {
-          allRoomMessageList[index]["messages"].insert(
-              0, MessageData(text: data, senderId: selectedReceiver.value!.roomUserId, messageText: data, senderImage: selectedReceiver.value!.roomImage![0]));
-        }
-        ll("incoming message: $data");
-      });
-
-      conn.on("binary").listen((data) {
-        ll("binary: $data");
-      });
-
-      // conn.on("close").listen((event) {
-      //   connected.value = false;
-      //   ll("PEER CLOSED");
-      // });
-
-      conn.on("error").listen((error) {
-        ll("Error occurred: $error");
-        connected.value = false;
-      });
-
-      connected.value = true;
-    });
-  }
-
-  void disconnectPeer() {
-    peer.dispose();
-    // peer.disconnect();
-  }
-
-  void socketConnect(peerID) {
-    ll("Connecting...MC");
-
-    socket.on('connect', (_) {
-      ll('Connected: ${socket.id}');
-      Map<String, dynamic> data = {
-        "peerID": peerID,
-        "userID": Get.find<GlobalController>().userId.value,
-        "userName": Get.find<GlobalController>().userName.value,
-        "userImage": Get.find<GlobalController>().userImage.value
-      };
-      socket.emit("mobile-chat-channel", data);
-    });
-  }
-
-  void connectWithPeer(peerId) {
-    //connect with peer
-    ll(peerId);
-    try {
-      final connection = peer.connect(peerId);
-      ll(connection.connectionId);
-      conn = connection;
-
-      conn.on("open").listen((event) {
-        connected.value = true;
-
-        conn.on("data").listen((data) {
-          int index = allRoomMessageList.indexWhere((user) => user['roomID'] == selectedReceiver.value!.id);
-          if (index != -1) {
-            allRoomMessageList[index]["messages"].insert(0,
-                MessageData(text: data, senderId: selectedReceiver.value!.roomUserId, messageText: data, senderImage: selectedReceiver.value!.roomImage![0]));
-          }
-          ll("Peer connect data: $data");
-        });
-        conn.on("binary").listen((data) {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(content: Text("Got binary!")));
-        });
-
-        conn.on("error").listen((error) {
-          ll("Error occurred: $error");
-          connected.value = false;
-        });
-
-        connection.on("close").listen((event) {
-          connected.value = false;
-          ll("CONN CLOSE: ${conn.peer}");
-          int index = Get.find<GlobalController>().allOnlinePeers.indexWhere((user) => user['peerID'] == conn.peer);
-          connectedUserID.remove(Get.find<GlobalController>().allOnlinePeers[index]['userID']);
-          Get.find<GlobalController>().allOnlinePeers.removeAt(index);
-          ll(connectedUserID);
-          ll(Get.find<GlobalController>().allOnlinePeers);
-        });
-      });
-    } catch (e) {
-      ll(e.toString());
-    }
-  }
-
-  void exchangePeerID(userID) {
-    Map<String, dynamic> data = {
-      "peerID": peerId.value,
-      "userID": Get.find<GlobalController>().userId.value,
-      "userName": Get.find<GlobalController>().userName.value,
-      "userImage": Get.find<GlobalController>().userImage.value
-    };
-    socket.emit("mobile-chat-peer-exchange-$userID", data);
-    connectedUserID.add(userID);
-  }
-
-  //===========END=======================================
-
   void checkCanSendMessage() {
     if (messageTextEditingController.text.trim() == "") {
       isSendEnabled.value = false;
@@ -245,16 +98,14 @@ class MessengerController extends GetxController {
   List<String> messageQueue = [];
   int batchSize = 1;
 
-  void sendMessage(String message) async {
-    // if (connected.value && isInternetConnectionAvailable.value) {
+void sendMessage(String message, RTCDataChannel dataChannel) async {
+    ll(dataChannel.label);
     if (isInternetConnectionAvailable.value) {
-      // Add to offline list
+
       setMessage(selectedReceiver.value!.id, MessageData(text: message, senderId: globalController.userId.value, messageText: message));
 
-      // Send through webRTC
-      conn.send(message);
+      sendViaDataChannel(message, dataChannel);
 
-      // Add message to queue
       messageQueue.add(message);
 
       if (messageQueue.length >= batchSize && isInternetConnectionAvailable.value) {
@@ -306,33 +157,33 @@ class MessengerController extends GetxController {
       allRoomMessageList.add({
         "roomID": roomList[i].id,
         "userID": roomList[i].roomUserId,
-        "peerID": "",
+        "dataChannelLabel": "",
+        "dataChannel": null,
+        "peerConnection": null,
         "status": false.obs,
         "userName": roomList[i].roomName,
+        "userImage": roomList[i].roomImage![0],
+        "isSeen": true.obs,
         "messages": RxList([]),
       });
     }
-    if (globalController.allOnlinePeers.isNotEmpty) {
+    if (globalController.allOnlineUsers.isNotEmpty) {
       updateRoomListWithOnlineUsers();
     }
   }
 
   void updateRoomListWithOnlineUsers() {
-    ll("HELLO");
-    Map<int, Map<String, dynamic>> onlineUserMap = {for (var onlineUser in globalController.allOnlinePeers) onlineUser['userID']: onlineUser};
+   Map<int, Map<String, dynamic>> onlineUserMap = {for (var onlineUser in globalController.allOnlineUsers) onlineUser['userID']: onlineUser};
 
     for (var room in allRoomMessageList) {
       if (onlineUserMap.containsKey(room['userID'])) {
-        var onlineUser = onlineUserMap[room['userID']];
-        room['peerID'] = onlineUser!['peerID'];
         room['status'] = true.obs;
       }
     }
-    RxList<Map<String, dynamic>> temporaryAllRoomMessageList = RxList<Map<String, dynamic>>([]); 
+    RxList<Map<String, dynamic>> temporaryAllRoomMessageList = RxList<Map<String, dynamic>>([]);
     temporaryAllRoomMessageList.addAll(allRoomMessageList);
     allRoomMessageList.clear();
     allRoomMessageList.addAll(temporaryAllRoomMessageList);
-    // ll("Hello: $allRoomMessageList");
   }
 
   // Set Messages
@@ -425,5 +276,259 @@ class MessengerController extends GetxController {
       allRoomMessageList[index]["messages"].clear();
       allRoomMessageList[index]["messages"].addAll(messageList);
     }
+  }
+
+  void setUpRoomDataChannel(userID, dataChannel, peerConnection) async {
+    targetDataChannel = dataChannel;
+    targetPeerConnection = peerConnection;
+    ll("Set up room data channel: $targetDataChannel $dataChannel");
+    Map<int, Map<String, dynamic>> roomMap = {for (var onlineUser in allRoomMessageList) onlineUser['userID']: onlineUser};
+
+    if (roomMap.containsKey(userID)) {
+      roomMap[userID]!['dataChannelLabel'] = dataChannel.label;
+      roomMap[userID]!['dataChannel'] = dataChannel;
+      roomMap[userID]!['peerConnection'] = peerConnection;
+    }
+    allRoomMessageList.clear();
+    allRoomMessageList.addAll(roomMap.values.toList());
+  }
+
+  //=====================================================
+  //!                Socket and WebRTC
+  //=====================================================
+  RTCDataChannel? targetDataChannel;
+  RTCPeerConnection? targetPeerConnection;
+  final RxList connectedUserID = RxList([]);
+  final Map<String, dynamic>  configuration = {
+    'iceServers': [
+      {'urls': "stun:stun.l.google.com:19302"},
+      {
+        "urls": [
+          "turn:54.91.252.241:3478",
+        ],
+        "username": "user1",
+        "credential": "123456",
+      },
+    ],
+  };
+
+    void handleRTCEvents(RTCDataChannelState state) {
+    switch (state) {
+      case RTCDataChannelState.RTCDataChannelOpen:
+        ll('dc connection success');
+
+        break;
+
+      case RTCDataChannelState.RTCDataChannelClosed:
+        ll(' dc closed ');
+
+        break;
+      case RTCDataChannelState.RTCDataChannelConnecting:
+        break;
+      case RTCDataChannelState.RTCDataChannelClosing:
+        break;
+    }
+  }
+
+  void connectUser(userID) async {
+    Map<int, Map<String, dynamic>> allRoomMessageListMap = {for (var user in allRoomMessageList) user['userID']: user};
+    RTCPeerConnection peerConnection = await createPeerConnection(configuration);
+
+    registerPeerConnectionListeners(peerConnection);
+    RTCDataChannelInit dataChannelDict = RTCDataChannelInit();
+    String dataChannelName = "${Get.find<GlobalController>().userId.value}-$userID";
+    RTCDataChannel dataChannel = await peerConnection.createDataChannel(dataChannelName, dataChannelDict);
+
+    if (allRoomMessageListMap.containsKey(userID)) {
+      allRoomMessageListMap[userID]!['peerConnection'] = peerConnection;
+      allRoomMessageListMap[userID]!['dataChannel'] = dataChannel;
+    }
+    allRoomMessageList.clear();
+    allRoomMessageList.addAll(allRoomMessageListMap.values.toList());
+
+    dataChannel.onDataChannelState = (RTCDataChannelState state) {
+      ll("STATE CHANGED: $state");
+    };
+    dataChannel.onMessage = (RTCDataChannelMessage message) {
+      ll('Received message: ${message.text}');
+      ll("USER NAME: $userID DATA CHANNEL: ${dataChannel.label}");
+      int index = allRoomMessageList.indexWhere((user) => user['userID'] == userID);
+      if (index != -1) {
+        globalController.showSnackBar(title: allRoomMessageList[index]["userName"], message: message.text, color: Colors.green);
+        allRoomMessageList[index]["isSeen"] = false.obs;
+        allRoomMessageList[index]["messages"].insert(
+            0,
+            MessageData(
+                text: message.text,
+                senderId: Get.find<MessengerController>().selectedReceiver.value!.roomUserId,
+                messageText: message.text,
+                senderImage: Get.find<MessengerController>().selectedReceiver.value!.roomImage![0]));
+      }
+    };
+    peerConnection.onIceCandidate = (RTCIceCandidate candidate) {
+      socket.emit('mobile-chat-peer-exchange-$userID', {
+        'userID': Get.find<GlobalController>().userId.value,
+        'type': "candidate",
+        'data': {
+          'candidate': candidate.candidate,
+          'sdpMid': candidate.sdpMid,
+          'sdpMLineIndex': candidate.sdpMLineIndex,
+        }
+      });
+    };
+
+    RTCSessionDescription offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
+    socket.emit('mobile-chat-peer-exchange-$userID', {
+      'userID': Get.find<GlobalController>().userId.value,
+      'type': "offer",
+      'dataChannelLabel': dataChannel.label,
+      'data': {
+        'sdp': offer.sdp,
+        'type': offer.type,
+      },
+    });
+
+    ll("CORE DATACHANNEL: ${dataChannel.state}");
+    setUpRoomDataChannel(userID, dataChannel, peerConnection);
+  }
+
+  void sendViaDataChannel(String message, dataChannel) {
+    ll("Before sending message: ${dataChannel}");
+    if (dataChannel.state == RTCDataChannelState.RTCDataChannelOpen) {
+      ll("sending message");
+      dataChannel.send(RTCDataChannelMessage(message));
+    }
+  }
+
+  void registerPeerConnectionListeners(RTCPeerConnection? peerConnection) {
+    peerConnection?.onIceGatheringState = (RTCIceGatheringState state) {
+      ll('ICE gathering state changed: $state');
+    };
+
+    peerConnection?.onConnectionState = (RTCPeerConnectionState state) {
+      ll('Connection state change: $state');
+    };
+
+    peerConnection?.onSignalingState = (RTCSignalingState state) {
+      ll('Signaling state change: $state');
+    };
+
+    peerConnection?.onIceGatheringState = (RTCIceGatheringState state) {
+      ll('ICE connection state change: $state');
+    };
+
+    peerConnection?.onTrack = (RTCTrackEvent event) async {
+      ll('Got remote track mc: ${event.streams[0]}');
+
+      if (Get.find<MessengerController>().remoteStream == null) {
+        ll('Initializing remoteStream');
+        remoteStream = await createLocalMediaStream('remoteStream');
+      } else {
+        ll('remoteStream already initialized');
+      }
+
+      event.streams[0].getTracks().forEach((track) {
+        ll('Add a track to the remoteStream $track');
+        remoteStream?.addTrack(track);
+        remoteRenderer.srcObject = remoteStream;
+        isRemoteFeedStreaming.value = true;
+      });
+    };
+
+    peerConnection?.onAddTrack = (MediaStream stream, MediaStreamTrack track) async {
+      ll("GETTING REMOTE TRACK MC");
+      if (remoteStream == null) {
+        ll('Initializing remoteStream');
+        remoteStream = await createLocalMediaStream('remoteStream');
+      } else {
+        ll('remoteStream already initialized');
+      }
+      remoteRenderer.srcObject = stream;
+      remoteStream = stream;
+      isRemoteFeedStreaming.value = true;
+    };
+
+    peerConnection?.onAddStream = (MediaStream stream) {
+      ll("Add remote stream");
+
+    };
+
+  }
+  //===========END=======================================
+
+   // * AUDIO VIDEO CALL
+  RTCVideoRenderer localRenderer = RTCVideoRenderer();
+  RTCVideoRenderer remoteRenderer = RTCVideoRenderer();
+  MediaStream? localStream;
+  MediaStream? remoteStream;
+  final RxInt? selectedUserID = RxInt(-1);
+  final RxString callState = RxString("online");
+  final RxString callerName = RxString("");
+  final RxString callerImage = RxString("");
+  final RxInt callerID = RxInt(-1);
+  final RxBool isLocalFeedStreaming = RxBool(false);
+  final RxBool isRemoteFeedStreaming = RxBool(false);
+  final RxBool isUserTypeSender = RxBool(false);
+  final RxBool isAudioCallState = RxBool(false);
+
+  void initiateVideoCall(RTCPeerConnection? peerConnection, userID, isAudioCall) async {
+    await MessengerHelper().openUserMedia(isAudioCall);
+
+    localStream?.getTracks().forEach((track) {
+      ll("ON VIDEO CALL START GETTING LOCAL TRACK: $track");
+      peerConnection?.addTrack(track, localStream!);
+    });
+    RTCSessionDescription? offer;
+
+    if(isAudioCall){
+       offer = await peerConnection!.createOffer({
+      'offerToReceiveAudio': true,
+      'offerToReceiveVideo': false,
+    });
+    }else{
+     offer = await peerConnection!.createOffer();
+    }
+    if(isAudioCall){
+    Helper.setSpeakerphoneOn(false);
+    }else{
+      Helper.setSpeakerphoneOn(true);
+    }
+
+    await peerConnection.setLocalDescription(offer);
+    socket.emit('mobile-video-call-$userID', {
+      'userID': Get.find<GlobalController>().userId.value,
+      'callStatus': "inCall",
+      'callType': isAudioCall?"audio":"video",
+      'type': "offer",
+      'data': {
+        'sdp': offer.sdp,
+        'type': offer.type,
+      },
+    });
+
+    // todo: may need to store the peer connection
+  }
+
+  void ringUser(userID, isAudioCall) {
+    isUserTypeSender.value = true;
+    Map<int, Map<String, dynamic>> allRoomMessageListMap = {for (var user in Get.find<MessengerController>().allRoomMessageList) user['userID']: user};
+    if (allRoomMessageListMap.containsKey(userID)) {
+      Get.find<MessengerController>().callerName.value = allRoomMessageListMap[userID]!['userName'];
+      Get.find<MessengerController>().callerImage.value = allRoomMessageListMap[userID]!['userImage'];
+    }
+    socket.emit('mobile-video-call-$userID', {
+      'userID': Get.find<GlobalController>().userId.value,
+      'callStatus': "ringing",
+      'callType': isAudioCall?"audio":"video",
+      'type': "offer",
+    });
+    callState.value = "ringing";
+    if(isAudioCall){
+      isAudioCallState.value = true;
+    }else{
+      isAudioCallState.value = false;
+    }
+    Get.toNamed(krCallScreen);
   }
 }

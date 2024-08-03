@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:bip_hip/controllers/common/socket_controller.dart';
 import 'package:bip_hip/controllers/home/home_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/menu/profile_controller.dart';
-import 'package:bip_hip/controllers/messenger/messenger_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
@@ -114,8 +114,7 @@ class AuthenticationController extends GetxController {
         await globalController.getUserInfo();
         // await setDeviceID(loginData.user.id);
         isLoginLoading.value = false;
-        globalController.socketInit();
-        Get.find<MessengerController>().connectPeer();
+        Get.find<SocketController>().socketInit();
         Get.offAllNamed(krHome);
         Get.find<HomeController>().homeTabIndex.value = 0;
         await Get.find<HomeController>().getPostList();
@@ -526,7 +525,6 @@ class AuthenticationController extends GetxController {
         isLogoutLoading.value = false;
         Get.find<MenuSectionController>().isSupportButtonPressed.value = false;
         Get.find<MenuSectionController>().isSettingButtonPressed.value = false;
-        Get.find<MessengerController>().disconnectPeer();
         globalController.disconnectSocket();
         Get.offAllNamed(krLogin);
         globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);

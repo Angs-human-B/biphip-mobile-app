@@ -1151,64 +1151,18 @@ class GlobalController extends GetxController {
     }
   }
 
-  RxList<Map<String, dynamic>> allOnlinePeers = RxList<Map<String, dynamic>>([]);
-  void socketInit() {
-    ll("Connecting...GC");
-
-    socket.connect();
-
-    socket.on('connect', (_) {
-      ll('Connected GController: ${socket.id}');
-    });
-
-    socket.on('mobile-chat-channel', (data) {
-      ll('Received peer data: $data');
-      populatePeerList(data);
-      // Get.find<MessengerController>().connectWithPeer(data["peerID"]);
-      ll("All connections: $allOnlinePeers");
-
-      Map<String, dynamic> selfData = {
-        "peerID": Get.find<MessengerController>().peerId.value,
-        "userID": Get.find<GlobalController>().userId.value,
-        "userName": Get.find<GlobalController>().userName.value,
-        "userImage": Get.find<GlobalController>().userImage.value
-      };
-      socket.emit("mobile-chat-peer-exchange-${data["userID"]}", selfData);
-    });
-
-    socket.on("mobile-chat-peer-exchange-${userId.value}", (data) {
-      ll('Received peer exchange ID: $data');
-      // int index = allConnectedPeers.indexWhere((user) => user['peerID'] == data["peerID"]);
-      // if (index == -1) {
-      //   Get.find<MessengerController>().connectWithPeer(data["peerID"]);
-      // }
-      populatePeerList(data);
-    });
-
-    socket.on('disconnect', (_) {
-      ll('Disconnected');
-    });
-
-    socket.on('error', (error) {
-      ll('Socket error: $error');
-    });
-  }
 
   void disconnectSocket() {
     socket.clearListeners();
     socket.disconnect();
     socket.dispose();
   }
-
+  
+  RxList<Map<String, dynamic>> allOnlineUsers = RxList<Map<String, dynamic>>([]);
   void populatePeerList(Map<String, dynamic> newUserData) {
-    int index = allOnlinePeers.indexWhere((user) => user['userID'] == newUserData['userID']);
-    Get.find<MessengerController>().connectedUserID.add(newUserData['userID']);
-    if (index != -1) {
-      allOnlinePeers[index]['peerID'] = newUserData['peerID'];
-    } else {
-      allOnlinePeers.add(newUserData);
-    }
-    if(Get.find<MessengerController>().allRoomMessageList.isNotEmpty){
+    allOnlineUsers.add({"userID": newUserData});
+
+    if (Get.find<MessengerController>().allRoomMessageList.isNotEmpty) {
       Get.find<MessengerController>().updateRoomListWithOnlineUsers();
     }
   }

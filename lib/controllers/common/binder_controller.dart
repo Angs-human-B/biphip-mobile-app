@@ -1,5 +1,6 @@
 import 'package:bip_hip/controllers/auth/authentication_controller.dart';
 import 'package:bip_hip/controllers/auth/social_login_controller.dart';
+import 'package:bip_hip/controllers/common/socket_controller.dart';
 import 'package:bip_hip/controllers/home/all_search_controller.dart';
 import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/controllers/menu/award_controller.dart';
@@ -41,6 +42,7 @@ class BinderController implements Bindings {
     Get.put<AwardController>(AwardController());
     Get.put<QuizController>(QuizController());
     Get.put<MenuSectionController>(MenuSectionController());
+    Get.put<SocketController>(SocketController());
     Get.put<MessengerController>(MessengerController());
   }
 }

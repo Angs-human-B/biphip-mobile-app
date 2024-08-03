@@ -113,7 +113,7 @@ class ChatTextField extends StatelessWidget {
                     padding: const EdgeInsets.only(left: k8Padding, bottom: 14),
                     child: InkWell(
                       onTap: () {
-                        messengerController.sendMessage(messengerController.messageTextEditingController.text.trim());
+                        messengerController.sendMessage(messengerController.messageTextEditingController.text.trim(), messengerController.targetDataChannel!);
                       },
                       child: const Icon(
                         BipHip.sendNew,
