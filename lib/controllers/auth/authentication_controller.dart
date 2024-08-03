@@ -394,6 +394,7 @@ class AuthenticationController extends GetxController {
           "token": otpData.token.toString(),
         });
         await globalController.getUserInfo();
+        Get.find<SocketController>().socketInit();
         if (parentRoute.value == "login") {
           isOTPLoading.value = false;
           Get.find<HomeController>().homeTabIndex.value = 0;
