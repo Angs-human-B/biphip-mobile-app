@@ -933,3 +933,4 @@ const String ksFollowing = "Following";
 const String ksReviews = "Reviews";
 const String ksDoYouRecommendGenieInfoTech = "Do you recommend Genie InfoTech?";
 const String ksWhatDoYouRecommendAbout = "What do you recommend about";
+const String ksNoVideoAvailable = "No Video Available";
