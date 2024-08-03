@@ -210,16 +210,6 @@ class OtherLoginPlatform extends StatelessWidget {
             width: 40,
           ),
         ),
-        // kW8sizedBox,
-        // TextButton(
-        //   onPressed: onPressedTwitter,
-        //   style: kTextButtonStyle,
-        //   child: Image.asset(
-        //     kiTwitterImageUrl,
-        //     height: 40,
-        //     width: 40,
-        //   ),
-        // ),
       ],
     );
   }

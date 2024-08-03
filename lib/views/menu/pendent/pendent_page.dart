@@ -115,8 +115,6 @@ class PendentPage extends StatelessWidget {
                                                       CustomElevatedButton(
                                                         buttonWidth: 70,
                                                         buttonHeight: h24,
-                                                        // borderColor: cPrimaryColor,
-                                                        // buttonColor: cWhiteColor,
                                                         buttonColor: cPrimaryColor,
                                                         label: ksHistory.tr,
                                                         textStyle: semiBold12TextStyle(cWhiteColor),
@@ -326,30 +324,6 @@ class PurchasePendentBottomSheetContent extends StatelessWidget {
           pendentDescription ?? ksNA,
           style: regular12TextStyle(cBlackColor),
         ),
-        //* Not needed now
-        // kH20sizedBox,
-        // for (int i = 0; i < pendentBadgesController.benefitsList.length; i++)
-        //   Padding(
-        //     padding: const EdgeInsets.only(top: k4Padding),
-        //     child: Row(
-        //       children: [
-        //         Container(
-        //           width: 4,
-        //           height: 4,
-        //           decoration: const BoxDecoration(
-        //             shape: BoxShape.circle,
-        //             color: cBlackColor,
-        //           ),
-        //         ),
-        //         kW8sizedBox,
-        //         Text(
-        //           pendentBadgesController.benefitsList[i],
-        //           style: regular12TextStyle(cBlackColor),
-        //           overflow: TextOverflow.clip,
-        //         ),
-        //       ],
-        //     ),
-        //   ),
         kH16sizedBox,
         RichText(
           text: TextSpan(

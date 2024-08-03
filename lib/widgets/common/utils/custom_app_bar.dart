@@ -39,6 +39,7 @@ class CustomAppBar extends StatelessWidget {
       titleSpacing: titleSpacing,
       backgroundColor: appBarColor ?? cWhiteColor,
       leadingWidth: leadingWidth ?? kCommonBackSpace,
+      titleSpacing: titleSpacing ?? h16,
       title: (title is String)
           ? Text(
               title.toString(),

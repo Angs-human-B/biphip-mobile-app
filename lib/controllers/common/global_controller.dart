@@ -254,8 +254,6 @@ class GlobalController extends GetxController {
         maxWidth: 720,
       );
       if (image != null) {
-        // final List<int> imageBytes = await image.readAsBytes();
-        // final String base64Image = base64Encode(imageBytes);
         final File imageTemporary = File(image.path);
         if (isList) {
           imageFile.add(imageTemporary.obs);
@@ -263,8 +261,6 @@ class GlobalController extends GetxController {
           imageFile(imageTemporary);
         }
         isChanged.value = true;
-        // imageLink.value = 'data:image/png;base64,$base64Image';
-        // log(imageLink.toString());
         if (isFromBottomSheet != false) {
           Get.back();
         }
@@ -309,15 +305,9 @@ class GlobalController extends GetxController {
 
   //*For Selling type post max limit 10 and max size per image is 5
   Future<bool> selectMultiMediaSourceForSelling(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
-    // if (mediaFileList.length >= 10) {
-    //   showSnackBar(title: "Warning", message: "You cannot select more than 10 images.", color: Colors.red);
-    //   return false;
-    // }
     try {
       final List<XFile> mediaList = await _picker
           .pickMultiImage(
-              // maxHeight: 480,
-              // maxWidth: 720,
               )
           .then((value) => value.take(10).toList());
       if (mediaList.isNotEmpty) {
@@ -359,8 +349,6 @@ class GlobalController extends GetxController {
           preferredCameraDevice: CameraDevice.rear,
           maxDuration: const Duration(seconds: 600));
       if (video != null) {
-        // final List<int> videoBytes = await video.readAsBytes();
-        // final String base64Video = base64Encode(videoBytes);
         final File videoTemporary = File(video.path);
         if (isList) {
           videoFile.add(videoTemporary.obs);
@@ -368,8 +356,6 @@ class GlobalController extends GetxController {
           videoFile(videoTemporary);
         }
         isChanged.value = true;
-        // videoLink.value = 'data:video/mp4;base64,$base64Video';
-        // log(videoLink.toString());
         return true;
       } else {
         ll('video not selected');
@@ -429,6 +415,55 @@ class GlobalController extends GetxController {
                 ],
               ),
             ),
+          ],
+        );
+      },
+    );
+  }
+
+  void blankBottomSheetForImageComment({
+    required context,
+    required Widget content,
+    action,
+    double? bottomSheetHeight,
+    bool? isScrollControlled,
+  }) {
+    showModalBottomSheet<void>(
+      isScrollControlled: isScrollControlled ?? false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: Get.context!,
+      builder: (BuildContext context) {
+        keyboardHeight.value = MediaQuery.of(context).viewInsets.bottom;
+        ll(keyboardHeight.value);
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              width: width,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cLineColor,
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH10sizedBox,
+                  content,
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+            if (action != null) Positioned(bottom: MediaQuery.of(context).viewInsets.bottom, left: 0, right: 0, child: action),
           ],
         );
       },
@@ -622,7 +657,6 @@ class GlobalController extends GetxController {
     } else {
       postList[postIndex].countComment!.value = postList[postIndex].countComment!.value - 1;
     }
-    // postList.replaceRange(postIndex, postIndex + 1, [postList[postIndex]]);
   }
 
   void updateSharedPostCommentCount(isAddComment) {
@@ -789,9 +823,6 @@ class GlobalController extends GetxController {
           minimumDate: DateTime(1900),
           maximumDate: DateTime.now(),
           use24hFormat: true,
-          // initialDateTime: createPostController.biddingEndDate.value != ''
-          //     ? DateTime.parse(createPostController.biddingEndDate.value)
-          //     : DateTime.parse(createPostController.biddingStartDate.value),
           initialDateTime: DateTime.parse(postDate.value),
           mode: CupertinoDatePickerMode.dateAndTime,
           onDateTimeChanged: (value) {
@@ -914,7 +945,7 @@ class GlobalController extends GetxController {
   final RxInt reportId = RxInt(-1);
   final RxInt selectedReportIndex = RxInt(-1);
   final RxBool reportBottomSheetState = RxBool(false);
-  //   //*Get Report  List Api Call
+   //*Get Report  List Api Call
   final Rx<ReportListModel?> reportListData = Rx<ReportListModel?>(null);
   final RxList<Report> reportList = RxList<Report>([]);
   final RxBool isReportListLoading = RxBool(false);
@@ -1030,7 +1061,7 @@ class GlobalController extends GetxController {
     }
   }
 
-  // //*Delete Post Api Call
+  //*Delete Post Api Call
   final RxBool isDeletePostLoading = RxBool(false);
   Future<void> postDelete({required int postId}) async {
     try {
@@ -1166,5 +1197,6 @@ class GlobalController extends GetxController {
       Get.find<MessengerController>().updateRoomListWithOnlineUsers();
     }
   }
+  final RxDouble keyboardHeight = RxDouble(0.0);
   //! end
 }

@@ -42,15 +42,6 @@ List friendsList = [
   },
 ];
 
-List stories = [
-  {'name': 'Rick Sanchez', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
-  {'name': 'Stewie Griffin', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': true},
-  {'name': 'Johan Liebert', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
-  {'name': 'Karnaze Ravencroft', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': true},
-  {'name': 'Zekken McLaren', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
-  {'name': 'Loreta Stevenson', 'profileImage': kiDummyImage1ImageUrl, 'storyImage': kiDummyImage3ImageUrl, 'isSeen': false},
-];
-
 List bidingComments = [
   {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
   {'image': kiDummyImage1ImageUrl, 'userName': 'Monjurul Sharker Omi', 'comment': '\$200'},
@@ -161,10 +152,6 @@ List homePagePost = [
     'isTextualPost': true,
     'mediaList': [
       kiDummyImage3ImageUrl,
-      // kiDummyImage3ImageUrl,
-      // kiDummyImage3ImageUrl,
-      // kiDummyImage3ImageUrl,
-      // kiDummyImage3ImageUrl,
     ],
     'isSelfPost': false,
     'isCommentShown': true,

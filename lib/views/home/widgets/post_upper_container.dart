@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:bip_hip/controllers/menu/family_controller.dart';
+import 'package:bip_hip/controllers/menu/pendent_badges_controller.dart';
 import 'package:bip_hip/controllers/post/create_post_controller.dart';
+import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
 import 'package:bip_hip/helpers/post/create_post_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PostUpperContainer extends StatelessWidget {
   PostUpperContainer({
@@ -21,6 +26,130 @@ class PostUpperContainer extends StatelessWidget {
       children: [
         Stack(
           children: [
+            if (globalController.commonPostList[postIndex].type.toString() == "3")
+              SizedBox(
+                width: width - 48,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipOval(
+                      child: Container(
+                        height: h44,
+                        width: h44,
+                        decoration: const BoxDecoration(
+                          color: cBlackColor,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.network(
+                          globalController.commonPostList[postIndex].user!.profilePicture ?? '',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            BipHip.user,
+                            size: kIconSize24,
+                            color: cIconColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    kW8sizedBox,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: width - 120,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: RichText(
+                                  textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.clip,
+                                  maxLines: 3,
+                                  softWrap: true,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
+                                        style: semiBold16TextStyle(cBlackColor),
+                                      ),
+                                      WidgetSpan(
+                                        baseline: TextBaseline.alphabetic,
+                                        alignment: PlaceholderAlignment.middle,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: k4Padding, right: k4Padding),
+                                          child: SvgPicture.asset(
+                                            kiRightArrow,
+                                            width: h16,
+                                            height: h16,
+                                            color: cBlackColor,
+                                          ),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
+                                        style: semiBold16TextStyle(cBlackColor),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        kH4sizedBox,
+                        Row(
+                          children: [
+                            const Icon(
+                              BipHip.birthday,
+                              size: kIconSize16,
+                              color: cAmberColor,
+                            ),
+                            kW4sizedBox,
+                            Text(
+                              ksBirthday.tr,
+                              style: semiBold14TextStyle(cAmberColor),
+                            ),
+                          ],
+                        ),
+                        kH4sizedBox,
+                        Row(
+                          children: [
+                            Icon(
+                              globalController.privacyIcon(globalController.commonPostList[postIndex].isPublic),
+                              color: cIconColor,
+                              size: kIconSize12,
+                            ),
+                            Text(
+                              ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
+                              style: regular14TextStyle(cSmallBodyTextColor),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Transform.rotate(
+                        angle: pi / 2,
+                        child: InkWell(
+                          onTap: () {
+                            globalController.blankBottomSheet(
+                                context: context,
+                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
+                                content: BirthdayBottomSheetContent(
+                                  postIndex: postIndex,
+                                ));
+                          },
+                          child: const Icon(
+                            BipHip.system,
+                            size: kIconSize20,
+                            color: cIconColor,
+                          ),
+                        )),
+                  ],
+                ),
+              ),
             SizedBox(
               width: (globalController.commonPostList[postIndex].kid?.profilePicture != null ||
                       globalController.commonPostList[postIndex].store?.profilePicture != null)
@@ -76,171 +205,203 @@ class PostUpperContainer extends StatelessWidget {
           ],
         ),
         kW8sizedBox,
-        Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: RichText(
-                        textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.clip,
-                        maxLines: 3,
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
-                          children: [
-                            TextSpan(
-                              text: globalController.commonPostList[postIndex].user!.fullName!,
-                              style: semiBold16TextStyle(cBlackColor),
-                            ),
-                            if (globalController.commonPostList[postIndex].postCategory != null)
+        if (globalController.commonPostList[postIndex].type.toString() != "3")
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: RichText(
+                          textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.clip,
+                          maxLines: 3,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
+                            children: [
                               TextSpan(
-                                text: ' ${ksPostedOn.tr} ',
-                                style: regular16TextStyle(cSmallBodyTextColor),
+                                text: globalController.commonPostList[postIndex].user!.fullName!,
+                                style: semiBold16TextStyle(cBlackColor),
                               ),
-                            if (globalController.commonPostList[postIndex].postCategory != null)
-                              WidgetSpan(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 0),
-                                      child: Icon(
-                                        globalController.getCategoryIcon(globalController.commonPostList[postIndex].postCategory!.id),
-                                        color: globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id),
-                                        size: kIconSize14,
-                                      ),
-                                    ),
-                                    if (globalController.commonPostList[postIndex].postCategory != null)
-                                      Text(
-                                        " ${globalController.commonPostList[postIndex].postCategory!.name!}",
-                                        style:
-                                            semiBold14TextStyle(globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id)),
-                                      ),
-                                  ],
+                              if (globalController.commonPostList[postIndex].postCategory != null)
+                                TextSpan(
+                                  text: ' ${ksPostedOn.tr} ',
+                                  style: regular16TextStyle(cSmallBodyTextColor),
                                 ),
-                              ),
-
-                            //* For post subcategory
-                            // if (subCategory != null)
-                            //   TextSpan(
-                            //     text: ' ${ksAt.tr} ',
-                            //     style: regular16TextStyle(cSmallBodyTextColor),
-                            //   ),
-                            // if (subCategory != null)
-                            //   TextSpan(
-                            //     text: '($subCategory)',
-                            //     style: semiBold16TextStyle(cBlackColor),
-                            //   ),
-
-                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
-                              TextSpan(
-                                text: ' ${ksWith.tr} ',
-                                style: regular16TextStyle(cSmallBodyTextColor),
-                              ),
-                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
-                              TextSpan(
-                                text: '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
-                                globalController.commonPostList[postIndex].taggedFriends.length == 2)
-                              TextSpan(
-                                text: ' & ${globalController.commonPostList[postIndex].taggedFriends[1].fullName}',
-                                style: semiBold16TextStyle(cBlackColor),
-                              ),
-                            if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
-                                globalController.commonPostList[postIndex].taggedFriends.length > 2)
-                              WidgetSpan(
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.find<GlobalController>().commonBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        bottomSheetHeight: globalController.commonPostList[postIndex].taggedFriends.length > 10 ? height * 0.6 : null,
-                                        content: TaggedFriendContent(
-                                          taggedFriend: globalController.commonPostList[postIndex].taggedFriends,
+                              if (globalController.commonPostList[postIndex].postCategory != null)
+                                WidgetSpan(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 0),
+                                        child: Icon(
+                                          globalController.getCategoryIcon(globalController.commonPostList[postIndex].postCategory!.id),
+                                          color: globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id),
+                                          size: kIconSize14,
                                         ),
-                                        onPressCloseButton: () {
-                                          Get.back();
-                                        },
-                                        onPressRightButton: () {},
-                                        rightText: ksDone.tr,
-                                        rightTextStyle: regular14TextStyle(cPrimaryColor),
-                                        title: ksTaggedFriends.tr,
-                                        isRightButtonShow: false);
-                                  },
-                                  child: Text(
-                                    ' & ${globalController.commonPostList[postIndex].taggedFriends.length - 1} others',
-                                    style: semiBold16TextStyle(cBlackColor),
+                                      ),
+                                      if (globalController.commonPostList[postIndex].postCategory != null)
+                                        Text(
+                                          " ${globalController.commonPostList[postIndex].postCategory!.name!}",
+                                          style: semiBold14TextStyle(
+                                              globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id)),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
+                                TextSpan(
+                                  text: ' ${ksWith.tr} ',
+                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      // Get.find<ProfileViewController>().userName.value =
+                                      //     globalController.commonPostList[postIndex].taggedFriends[0].userName;
+                                      ll(globalController.commonPostList[postIndex].taggedFriends[0].userName);
+                                      // Get.toNamed(krProfileView);
+                                      // await Get.find<ProfileViewController>().getProfileOverview();
+                                      // await Get.find<ProfileViewController>().getProfileViewPostList();
+                                      // await Get.find<ProfileViewController>().getProfileViewFriend();
+                                    },
+                                    child: Text(
+                                      '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                  ),
+
+                                  // text: '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
+                                  // style: semiBold16TextStyle(cBlackColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex].taggedFriends.length == 2)
+                                TextSpan(
+                                  text: ' & ${globalController.commonPostList[postIndex].taggedFriends[1].fullName}',
+                                  style: semiBold16TextStyle(cBlackColor),
+                                ),
+                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex].taggedFriends.length > 2)
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.find<GlobalController>().commonBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          bottomSheetHeight: globalController.commonPostList[postIndex].taggedFriends.length > 10 ? height * 0.6 : null,
+                                          content: TaggedFriendContent(
+                                            taggedFriend: globalController.commonPostList[postIndex].taggedFriends,
+                                          ),
+                                          onPressCloseButton: () {
+                                            Get.back();
+                                          },
+                                          onPressRightButton: () {},
+                                          rightText: ksDone.tr,
+                                          rightTextStyle: regular14TextStyle(cPrimaryColor),
+                                          title: ksTaggedFriends.tr,
+                                          isRightButtonShow: false);
+                                    },
+                                    child: Text(
+                                      ' & ${globalController.commonPostList[postIndex].taggedFriends.length - 1} others',
+                                      style: semiBold16TextStyle(cBlackColor),
+                                    ),
+                                  ),
+                                ),
+                              const TextSpan(text: '\n'),
+                              WidgetSpan(
+                                baseline: TextBaseline.alphabetic,
+                                alignment: PlaceholderAlignment.baseline,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 0),
+                                  child: Icon(
+                                    globalController.privacyList.firstWhere(
+                                      (element) => element['id'] == globalController.commonPostList[postIndex].isPublic,
+                                    )["icon"],
+                                    color: cIconColor,
+                                    size: kIconSize12,
                                   ),
                                 ),
                               ),
-                            const TextSpan(text: '\n'),
-                            WidgetSpan(
-                              baseline: TextBaseline.alphabetic,
-                              alignment: PlaceholderAlignment.baseline,
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 0),
-                                child: Icon(
-                                  globalController.privacyList.firstWhere(
-                                    (element) => element['id'] == globalController.commonPostList[postIndex].isPublic,
-                                  )["icon"],
-                                  color: cIconColor,
-                                  size: kIconSize12,
+                              if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
+                                  globalController.commonPostList[postIndex].store != null)
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      Get.find<ProfileViewController>().profileViewType.value = "store";
+                                      Get.find<ProfileViewController>().kidOrStorePageId.value =
+                                          globalController.commonPostList[postIndex].store!.pageId!.toString();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewStorePostList(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value.toString());
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewStoreOverview(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                      Get.toNamed(krProfileView);
+                                    },
+                                    child: Text(' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
-                                globalController.commonPostList[postIndex].store != null)
-                              TextSpan(text: ' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
-                            if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
-                                globalController.commonPostList[postIndex].kid != null)
+                              if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
+                                  globalController.commonPostList[postIndex].kid != null)
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () async {
+                                      Get.find<ProfileViewController>().profileViewType.value = "kid";
+                                      Get.find<ProfileViewController>().kidOrStorePageId.value =
+                                          globalController.commonPostList[postIndex].kid!.pageId!.toString();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewKidPostList(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                      await Get.find<ProfileViewController>()
+                                          .getKidProfileOverview(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                      Get.toNamed(krProfileView);
+                                    },
+                                    child: Text(
+                                        ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
+                                        style: semiBold14TextStyle(cBlackColor)),
+                                  ),
+                                ),
                               TextSpan(
-                                  text: ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
-                                  style: semiBold14TextStyle(cBlackColor)),
-                            TextSpan(
-                                text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
-                                style: regular14TextStyle(cSmallBodyTextColor))
-                          ],
+                                  text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
+                                  style: regular14TextStyle(cSmallBodyTextColor))
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      globalController.postSelectedAction.value = "";
-                      globalController.selectedAudienceId.value = globalController.commonPostList[postIndex].isPublic!;
-                      globalController.blankBottomSheet(
-                        context: context,
-                        bottomSheetHeight: isDeviceScreenLarge() ? height * 0.32 : height * 0.40,
-                        content: Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id
-                            ? SelfPostActionContent(
-                                postIndex: postIndex,
-                              )
-                            : OthersPostActionContent(
-                                postIndex: postIndex,
-                              ),
-                      );
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: k4Padding),
-                      child: Icon(
-                        BipHip.system,
-                        size: kIconSize18,
-                        color: cIconColor,
+                    InkWell(
+                      onTap: () {
+                        globalController.postSelectedAction.value = "";
+                        globalController.selectedAudienceId.value = globalController.commonPostList[postIndex].isPublic!;
+                        globalController.blankBottomSheet(
+                          context: context,
+                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.32 : height * 0.40,
+                          content: Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id
+                              ? SelfPostActionContent(
+                                  postIndex: postIndex,
+                                )
+                              : OthersPostActionContent(
+                                  postIndex: postIndex,
+                                ),
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(top: k4Padding),
+                        child: Icon(
+                          BipHip.system,
+                          size: kIconSize18,
+                          color: cIconColor,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
       ],
     );
   }
@@ -276,7 +437,6 @@ class TaggedFriendContent extends StatelessWidget {
                         size: kIconSize24,
                         color: cIconColor,
                       ),
-                      // loadingBuilder: imageLoadingBuilder,
                     ),
                   ),
                 ),
@@ -413,19 +573,6 @@ class SharePostUpperContainer extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-
-                              //* For post subcategory
-                              // if (subCategory != null)
-                              //   TextSpan(
-                              //     text: ' ${ksAt.tr} ',
-                              //     style: regular16TextStyle(cSmallBodyTextColor),
-                              //   ),
-                              // if (subCategory != null)
-                              //   TextSpan(
-                              //     text: '($subCategory)',
-                              //     style: semiBold16TextStyle(cBlackColor),
-                              //   ),
-
                               if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty)
                                 TextSpan(
                                   text: ' ${ksWith.tr} ',
@@ -475,7 +622,7 @@ class SharePostUpperContainer extends StatelessWidget {
                                 baseline: TextBaseline.alphabetic,
                                 alignment: PlaceholderAlignment.baseline,
                                 child: Padding(
-                                  padding: EdgeInsets.only(bottom: 0),
+                                  padding: const EdgeInsets.only(bottom: 0),
                                   child: Icon(
                                     globalController.privacyList.firstWhere(
                                       (element) => element['id'] == globalController.commonPostList[postIndex].sharePosts!.isPublic,
@@ -491,10 +638,18 @@ class SharePostUpperContainer extends StatelessWidget {
                                     text: ' (${globalController.commonPostList[postIndex].sharePosts!.store?.name})', style: semiBold14TextStyle(cBlackColor)),
                               if (globalController.commonPostList[postIndex].sharePosts!.postCategory?.name == 'Kids' &&
                                   globalController.commonPostList[postIndex].sharePosts!.kid != null)
-                                TextSpan(
-                                    text:
+                                // TextSpan(
+                                //     text:
+                                //         ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
+                                //     style: semiBold14TextStyle(cBlackColor)),
+                                WidgetSpan(
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Text(
                                         ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
-                                    style: semiBold14TextStyle(cBlackColor)),
+                                        style: semiBold14TextStyle(cBlackColor)),
+                                  ),
+                                ),
                               TextSpan(
                                   text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].sharePosts!.createdAt!)}',
                                   style: regular14TextStyle(cSmallBodyTextColor))
@@ -582,7 +737,6 @@ class SelfPostActionContent extends StatelessWidget {
                     } else {
                       createPostController.sellingPostType.value = ksBiddingPost.tr;
                     }
-                    // createPostController.sellingPostType.value = postData.sellPostType.toString();
                   }
                   createPostController.selectedBrandName.value = postData.store?.name ?? "";
                   createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
@@ -818,8 +972,6 @@ class ReportBottomSheetContent extends StatelessWidget {
                             title: "Report".tr,
                             isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
                             isRightButtonShow: false);
-
-                        // homeController.temporaryselectedAudienceId.value = homeController.privacyList[index]['id'];
                       },
                     ),
                   ),
@@ -1035,10 +1187,13 @@ class OthersPostActionContent extends StatelessWidget {
 }
 
 class IconWithTextRow extends StatelessWidget {
-  const IconWithTextRow({super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor});
+  const IconWithTextRow(
+      {super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor, this.iconSize, this.actionTextStyle});
   final IconData actionIcon;
   final Color? iconColor;
   final String actionText;
+  final double? iconSize;
+  final TextStyle? actionTextStyle;
   final VoidCallback? actionOnPressed;
   @override
   Widget build(BuildContext context) {
@@ -1050,14 +1205,67 @@ class IconWithTextRow extends StatelessWidget {
             icon: actionIcon,
             onPress: null,
             iconColor: iconColor ?? cIconColor,
-            size: kIconSize20,
+            size: iconSize ?? kIconSize20,
           ),
           Text(
             actionText,
-            style: semiBold14TextStyle(cBlackColor),
+            style: actionTextStyle ?? semiBold14TextStyle(cBlackColor),
           ),
         ],
       ),
+    );
+  }
+}
+
+class BirthdayBottomSheetContent extends StatelessWidget {
+  const BirthdayBottomSheetContent({super.key, required this.postIndex});
+  final int postIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    PostDataRx postData = Get.find<GlobalController>().commonPostList[postIndex];
+    return Column(
+      children: [
+        CustomListTile(
+          onPressed: () {
+            Get.back();
+          },
+          leading: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              color: cNeutralColor,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              BipHip.edit,
+              size: kIconSize14,
+              color: cBlackColor,
+            ),
+          ),
+          title: ksEditPost.tr,
+        ),
+        CustomListTile(
+          onPressed: () {
+            Get.back();
+            Get.find<PendentBadgesController>().deletePostAlertDialog(context: context, id: postData.id!);
+          },
+          leading: Container(
+            width: h24,
+            height: h24,
+            decoration: const BoxDecoration(
+              color: cNeutralColor,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              BipHip.deleteNew,
+              size: kIconSize14,
+              color: cBlackColor,
+            ),
+          ),
+          title: ksDeletePost.tr,
+        ),
+      ],
     );
   }
 }

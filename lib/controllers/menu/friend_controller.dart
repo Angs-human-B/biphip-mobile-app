@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:bip_hip/controllers/home/selfie_controller.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
 import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -35,9 +34,6 @@ class FriendController extends GetxController {
         friendListScrolled.value = false;
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-        for (int i = 0; i < friendList.length; i++) {
-          Get.find<SelfieController>().isPeopleSelected.add(false);
-        }
         mentionsList.clear();
         for (var friend in friendList) {
           Map<String, dynamic> friendMap = {
@@ -98,9 +94,6 @@ class FriendController extends GetxController {
       if (response.success == true) {
         friendListData.value = CommonFriendModel.fromJson(response.data);
         friendList.addAll(friendListData.value!.friends!.data);
-        for (int i = 0; i < friendList.length; i++) {
-          Get.find<SelfieController>().isPeopleSelected.add(false);
-        }
         allFriendCount.value = friendListData.value!.friends!.total!;
         friendListSubLink.value = friendListData.value!.friends!.nextPageUrl;
         if (friendListSubLink.value != null) {
@@ -381,7 +374,6 @@ class FriendController extends GetxController {
   }
 
   //*Follow User
-
   Future<void> followUser() async {
     try {
       isFriendViewLoading.value = true;
@@ -795,7 +787,7 @@ class FriendController extends GetxController {
     }
   }
 
-  // //*Get More Friend Search List for pagination
+  //*Get More Friend Search List for pagination
   Future<void> getMoreFriendSearchList(take) async {
     try {
       String? token = await spController.getBearerToken();

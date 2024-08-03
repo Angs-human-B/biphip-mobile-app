@@ -1,3 +1,4 @@
+import 'package:bip_hip/models/common/common_link_model.dart';
 import 'package:bip_hip/models/common/common_user_model.dart';
 import 'package:bip_hip/models/home/quiz/all_quiz_model.dart';
 
@@ -20,7 +21,7 @@ class MyQuizzes {
   int ?from;
   int ?lastPage;
   String ?lastPageUrl;
-  List<Link> links;
+  List<CommonLink> links;
   String ?nextPageUrl;
   String ?path;
   int ?perPage;
@@ -51,7 +52,7 @@ class MyQuizzes {
         from: json["from"],
         lastPage: json["last_page"],
         lastPageUrl: json["last_page_url"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+        links: List<CommonLink>.from(json["links"].map((x) => CommonLink.fromJson(x))),
         nextPageUrl: json["next_page_url"],
         path: json["path"],
         perPage: json["per_page"],
@@ -104,23 +105,5 @@ class QuizData {
         isWinner: json["is_winner"],
         user: User.fromJson(json["user"]),
         quiz: Quiz.fromJson(json["quiz"]),
-      );
-}
-
-class Link {
-  String? url;
-  String ?label;
-  bool ?active;
-
-  Link({
-    required this.url,
-    required this.label,
-    required this.active,
-  });
-
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
       );
 }

@@ -174,34 +174,6 @@ class KidListModel {
         kids: List<Kid>.from(json["kids"].map((x) => Kid.fromJson(x))),
       );
 }
-
-// class Kid {
-//   int? id;
-//   int? userId;
-//   String? name;
-//   String? image;
-//   int? age;
-//   String kidImage;
-
-//   Kid({
-//     required this.id,
-//     required this.userId,
-//     required this.name,
-//     required this.image,
-//     required this.age,
-//     required this.kidImage,
-//   });
-
-//   factory Kid.fromJson(Map<String, dynamic> json) => Kid(
-//         id: json["id"],
-//         userId: json["user_id"],
-//         name: json["name"],
-//         image: json["image"],
-//         age: json["age"],
-//         kidImage: json["kid_image"],
-//       );
-// }
-
 class StoreModel {
   List<Store> stores;
 
@@ -234,8 +206,6 @@ class Store {
   dynamic privacyLink;
   String? profilePicture;
   dynamic coverPhoto;
-  // ProPic? proPic;
-  // dynamic coverPic;
 
   Store({
     required this.id,
@@ -257,8 +227,6 @@ class Store {
     required this.privacyLink,
     required this.profilePicture,
     required this.coverPhoto,
-    // required this.proPic,
-    // required this.coverPic,
   });
 
   factory Store.fromJson(Map<String, dynamic> json) => Store(
@@ -281,8 +249,6 @@ class Store {
         privacyLink: json["privacy_link"],
         profilePicture: json["profile_picture"],
         coverPhoto: json["cover_photo"],
-        // proPic: json["pro_pic"] == null?null:ProPic.fromJson(json["pro_pic"]),
-        // coverPic: json["cover_pic"],
       );
 }
 

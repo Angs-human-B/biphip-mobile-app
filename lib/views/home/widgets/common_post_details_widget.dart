@@ -49,21 +49,6 @@ class CommonPostDetailsWidget extends StatelessWidget {
                   ),
                 ),
               )),
-        // if ((globalController.commonPostList[postIndex].content?.length ?? 0) > 256)
-        //   Obx(() => Padding(
-        //         padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-        //         child: TextButton(
-        //           style: kTextButtonStyle,
-        //           onPressed: () {
-        //             homeController.seeMore.value = !homeController.seeMore.value;
-        //           },
-        //           child: Text(
-        //             homeController.seeMore.value ? ksSeeMore.tr : ksShowLess.tr,
-        //             style: semiBold14TextStyle(cPrimaryColor),
-        //           ),
-        //         ),
-        //       )),
-        // kH16sizedBox,
         if (globalController.commonPostList[postIndex].images.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, bottom: k12Padding),
@@ -297,7 +282,6 @@ class CommonPostDetailsWidget extends StatelessWidget {
                                 child: TextButton(
                                   style: kTextButtonStyle,
                                   onPressed: () {
-                                    // Get.toNamed(krUploadedImageListPage);
                                     Get.to(() => HomePostDetailsScreen(
                                           postIndex: postIndex,
                                         ));
@@ -340,7 +324,6 @@ class CommonPostDetailsWidget extends StatelessWidget {
           commentCount: globalController.commonPostList[postIndex].comments.isEmpty ? 0 : globalController.commonPostList[postIndex].countComment!.value,
           shareCount: 0,
           giftCount: 0,
-          // reactCount: 67,
         ),
       ],
     );

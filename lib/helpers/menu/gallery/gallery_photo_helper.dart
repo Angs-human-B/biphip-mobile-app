@@ -49,17 +49,14 @@ class GalleryPhotoHelper {
     } else if (galleryController.photoActionSelect.value == 'Delete photo') {
       await galleryController.deleteImage();
     }
-    //  else if (galleryController.photoActionSelect.value == 'Download photo') {
-    // await galleryController.downloadPhoto();
-    // }
     else if (galleryController.photoActionSelect.value == 'Edit caption') {
       galleryController.isImageDescriptionSaveButtonEnable.value = false;
       if (galleryController.imageDetailsData.value!.image?.description != null && galleryController.imageData.value?.description == null) {
         galleryController.imageDescriptionUpdateController.text = galleryController.imageDetailsData.value!.image!.description;
         galleryController.previousImageDescription.value = galleryController.imageDetailsData.value!.image!.description;
       } else if (galleryController.imageData.value?.description != null) {
-        galleryController.imageDescriptionUpdateController.text = galleryController.imageData.value!.description;
-        galleryController.previousImageDescription.value = galleryController.imageData.value!.description;
+        galleryController.imageDescriptionUpdateController.text = galleryController.imageData.value!.description ?? "";
+        galleryController.previousImageDescription.value = galleryController.imageData.value!.description ?? "";
       } else {
         galleryController.imageDescriptionUpdateController.text = '';
         galleryController.previousImageDescription.value = '';
@@ -103,13 +100,7 @@ class GalleryPhotoHelper {
   }
 
   void insertMedia(mediaFile) {
-    // if (mediaFile is File) {
     galleryController.allMediaList.addAll(mediaFile);
-    // } else {
-    // globalController.showSnackBar(title: ksError.tr, message: "Image upload failed", color: cRedColor);
-    // }
-    // galleryController.allMediaList.addAll(mediaFile);
-    // galleryController.allMediaFileList.addAll(mediaFile);
   }
 
   void configImageDescription() {

@@ -9,7 +9,6 @@ class HomeController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
   final Rx<Color> categoryIconColor = Rx<Color>(cWhiteColor);
   final Rx<IconData> categoryIcon = Rx<IconData>(BipHip.add);
-  // final RxBool showSeeMore = RxBool(false);
   final RxBool sharedPostSeeMore = RxBool(true);
   final RxBool seeMore = RxBool(false);
   final RxList imageList = RxList([
@@ -50,8 +49,6 @@ class HomeController extends GetxController {
     int diff = endTime.difference(DateTime.now()).inSeconds;
     return diff;
   }
-
-  // All post list API Implementation
   final ScrollController postListScrollController = ScrollController();
   final ScrollController timelinePostListScrollController = ScrollController();
   final Rx<PostListModel?> postListData = Rx<PostListModel?>(null);
@@ -75,9 +72,9 @@ class HomeController extends GetxController {
         globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        allPostList.addAll(postListData.value!.posts.data);
+        allPostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allPostList);
-        postListSubLink.value = postListData.value!.posts.nextPageUrl;
+        postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
         } else {
@@ -128,9 +125,9 @@ class HomeController extends GetxController {
       if (response.success == true) {
         allPostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
-        allPostList.addAll(postListData.value!.posts.data);
+        allPostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allPostList);
-        postListSubLink.value = postListData.value!.posts.nextPageUrl;
+        postListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (postListSubLink.value != null) {
           postListScrolled.value = false;
         } else {
@@ -174,9 +171,9 @@ class HomeController extends GetxController {
         globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {
@@ -226,9 +223,9 @@ class HomeController extends GetxController {
       if (response.success == true) {
         allTimelinePostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {
@@ -249,8 +246,6 @@ class HomeController extends GetxController {
       ll('getMoreTimelinePostList error: $e');
     }
   }
-
-  //Get post data
   final RxBool isPostDetailsPageLoading = RxBool(false);
   final Rx<PostDataModel?> postData = Rx<PostDataModel?>(null);
   final RxString sharedPostMyReaction = RxString("");
@@ -288,7 +283,7 @@ class HomeController extends GetxController {
     }
   }
 
-  //   //*get Specific post Comments
+  //*get Specific post Comments
   final ScrollController postCommentListScrollController = ScrollController();
   final Rx<PostCommentModel?> postCommentListData = Rx<PostCommentModel?>(null);
   final RxList<CommentDataRx> postCommentList = RxList<CommentDataRx>([]);
@@ -443,7 +438,6 @@ class HomeController extends GetxController {
   final RxString birthdaySelectedAction = RxString("");
 
   Future<void> getFilteredTimelinePostList({required int categoryId, required int type}) async {
-    //,int typeId
     try {
       isTimelinePostLoading.value = true;
       String suffixUrl = '?page=1';
@@ -458,9 +452,9 @@ class HomeController extends GetxController {
         globalController.commonPostList.clear();
         postListScrolled.value = false;
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.populatePostList(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {
@@ -484,6 +478,7 @@ class HomeController extends GetxController {
     }
   }
 
+  
   Future<void> getMoreFilteredTimelinePostList({required int categoryId, required int type}) async {
     try {
       isTimelinePostPaginationLoading.value = true;
@@ -503,16 +498,15 @@ class HomeController extends GetxController {
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
-        // url: kuGetPostsByCategoryId + timelinePostListSuffixUrl,
         url: "$kuGetPostsByCategoryId$timelinePostListSuffixUrl &category_id=${categoryId.toString()}&type=${type.toString()}",
       ) as CommonDM;
 
       if (response.success == true) {
         allTimelinePostList.clear();
         postListData.value = PostListModel.fromJson(response.data);
-        allTimelinePostList.addAll(postListData.value!.posts.data);
+        allTimelinePostList.addAll(postListData.value!.posts!.data);
         globalController.commonPostList.addAll(allTimelinePostList);
-        timelinePostListSubLink.value = postListData.value!.posts.nextPageUrl;
+        timelinePostListSubLink.value = postListData.value!.posts!.nextPageUrl;
         if (timelinePostListSubLink.value != null) {
           timelinePostListScrolled.value = false;
         } else {

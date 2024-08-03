@@ -43,8 +43,6 @@ class Admin {
     String ?status;
     dynamic blockTill;
     String? otp;
-    // DateTime createdAt;
-    // DateTime updatedAt;
     int ?refId;
     String? relation;
     String? relationWithName;
@@ -84,8 +82,6 @@ class Admin {
         required this.status,
         required this.blockTill,
         required this.otp,
-        // required this.createdAt,
-        // required this.updatedAt,
         required this.refId,
         required this.relation,
         required this.relationWithName,
@@ -126,8 +122,6 @@ class Admin {
         status: json["status"],
         blockTill: json["block_till"],
         otp: json["otp"],
-        // createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
         refId: json["ref_id"],
         relation: json["relation"],
         relationWithName: json["relation_with_name"],
@@ -149,93 +143,22 @@ class Admin {
         yearsOld: json["years_old"],
         pendent: json["pendent"] == null ? null : AdminPendent.fromJson(json["pendent"]),
     );
-
-    // Map<String, dynamic> toJson() => {
-    //     "id": id,
-    //     "image": image,
-    //     "user_name": userName,
-    //     "referral_code": referralCode,
-    //     "first_name": firstName,
-    //     "last_name": lastName,
-    //     "email": email,
-    //     "email_verified_at": emailVerifiedAt.toIso8601String(),
-    //     "phone": phone,
-    //     "phone_verified_at": phoneVerifiedAt,
-    //     "gender": gender,
-    //     "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
-    //     "profession": List<dynamic>.from(profession.map((x) => x)),
-    //     "interest": List<dynamic>.from(interest.map((x) => x)),
-    //     "bio": bio,
-    //     "languages": List<dynamic>.from(languages.map((x) => languageValues.reverse[x])),
-    //     "status": status,
-    //     "block_till": blockTill,
-    //     "otp": otp,
-    //     "created_at": createdAt.toIso8601String(),
-    //     "updated_at": updatedAt.toIso8601String(),
-    //     "ref_id": refId,
-    //     "relation": relation,
-    //     "relation_with_name": relationWithName,
-    //     "relation_with_id": relationWithId,
-    //     "relation_since": "${relationSince!.year.toString().padLeft(4, '0')}-${relationSince!.month.toString().padLeft(2, '0')}-${relationSince!.day.toString().padLeft(2, '0')}",
-    //     "cover": cover,
-    //     "badge": badge,
-    //     "star_balance": starBalance,
-    //     "social_provider": socialProvider,
-    //     "referral_url": referralUrl,
-    //     "full_name": fullName,
-    //     "profile_picture": profilePicture,
-    //     "cover_photo": coverPhoto,
-    //     "current_badge": currentBadge,
-    //     "friend_status": friendStatus,
-    //     "follow_status": followStatus,
-    //     "family_relation_status": familyRelationStatus,
-    //     "mutual_friend": mutualFriend,
-    //     "years_old": yearsOld,
-    //     "pendent": pendent?.toJson(),
-    // };
-
-}
-
-// enum Language {
-//     BANGLA,
-//     EMPTY,
-//     ENGLISH,
-//     FRENCH,
-//     PERSIAN,
-//     SPANISH
-// }
-
-// final languageValues = EnumValues({
-//     "Bangla": Language.BANGLA,
-//     "": Language.EMPTY,
-//     "English": Language.ENGLISH,
-//     "French": Language.FRENCH,
-//     "Persian": Language.PERSIAN,
-//     "Spanish": Language.SPANISH
-// });
+    }
 
 class AdminPendent {
     int? id;
     int ?pendentId;
     int ?userId;
-    // DateTime startDate;
-    // DateTime endDate;
     int ?isActive;
     String? pendentPurchaseHistory;
-    // DateTime createdAt;
-    // DateTime updatedAt;
     PendentPendent? pendent;
 
     AdminPendent({
         required this.id,
         required this.pendentId,
         required this.userId,
-        // required this.startDate,
-        // required this.endDate,
         required this.isActive,
         required this.pendentPurchaseHistory,
-        // required this.createdAt,
-        // required this.updatedAt,
         required this.pendent,
     });
 
@@ -243,12 +166,8 @@ class AdminPendent {
         id: json["id"],
         pendentId: json["pendent_id"],
         userId: json["user_id"],
-        // startDate: DateTime.parse(json["start_date"]),
-        // endDate: DateTime.parse(json["end_date"]),
         isActive: json["is_active"],
         pendentPurchaseHistory: json["pendent_purchase_history"],
-        // createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
         pendent: PendentPendent.fromJson(json["pendent"]),
     );
 }
@@ -267,8 +186,6 @@ class PendentPendent {
     int? giftSendBenefits;
     int? giftReceiveBenefits;
     int? isActive;
-    // dynamic createdAt;
-    // dynamic updatedAt;
 
     PendentPendent({
         required this.id,
@@ -284,8 +201,6 @@ class PendentPendent {
         required this.giftSendBenefits,
         required this.giftReceiveBenefits,
         required this.isActive,
-        // required this.createdAt,
-        // required this.updatedAt,
     });
 
     factory PendentPendent.fromJson(Map<String, dynamic> json) => PendentPendent(
@@ -302,8 +217,6 @@ class PendentPendent {
         giftSendBenefits: json["gift_send_benefits"],
         giftReceiveBenefits: json["gift_receive_benefits"],
         isActive: json["is_active"],
-        // createdAt: json["created_at"],
-        // updatedAt: json["updated_at"],
     );
 }
 
@@ -334,7 +247,6 @@ class FeaturePost {
     String? title;
     DateTime ?dateTime;
     DateTime ?createdAt;
-    // DateTime updatedAt;
     int? postCategoryId;
     int? isPublic;
     int? countView;
@@ -394,7 +306,6 @@ class FeaturePost {
         required this.title,
         required this.dateTime,
         required this.createdAt,
-        // required this.updatedAt,
         required this.postCategoryId,
         required this.isPublic,
         required this.countView,
@@ -455,7 +366,6 @@ class FeaturePost {
         title: json["title"],
         dateTime: DateTime.parse(json["date_time"]),
         createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
         postCategoryId: json["post_category_id"],
         isPublic: json["is_public"],
         countView: json["count_view"],
@@ -513,7 +423,6 @@ class Image {
     int ?countStar;
     dynamic countReactions;
     DateTime createdAt;
-    // DateTime updatedAt;
     String fullPath;
     List<dynamic> taggedFriends;
     List<String> reactingPersons;
@@ -542,7 +451,6 @@ class Image {
         required this.countStar,
         required this.countReactions,
         required this.createdAt,
-        // required this.updatedAt,
         required this.fullPath,
         required this.taggedFriends,
         required this.reactingPersons,
@@ -572,7 +480,6 @@ class Image {
         countStar: json["count_star"],
         countReactions: json["count_reactions"],
         createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
         fullPath: json["full_path"],
         taggedFriends: List<dynamic>.from(json["tagged_friends"].map((x) => x)),
         reactingPersons: List<String>.from(json["reacting_persons"].map((x) => x)),
@@ -583,56 +490,22 @@ class Image {
   
 }
 
-// enum FileType {
-//     IMAGE
-// }
-
-// final fileTypeValues = EnumValues({
-//     "image": FileType.IMAGE
-// });
-
-// enum ReactingPerson {
-//     EMON,
-//     SAZID
-// }
-
-// final reactingPersonValues = EnumValues({
-//     "Emon": ReactingPerson.EMON,
-//     "Sazid": ReactingPerson.SAZID
-// });
-
-// enum StorageType {
-//     LOCAL
-// }
-
-// final storageTypeValues = EnumValues({
-//     "local": StorageType.LOCAL
-// });
 
 class PostCategory {
     int ?id;
-    // String slug;
     String? name;
     int ?isActive;
-    // dynamic createdAt;
-    // dynamic updatedAt;
 
     PostCategory({
         required this.id,
-        // required this.slug,
         required this.name,
         required this.isActive,
-        // required this.createdAt,
-        // required this.updatedAt,
     });
 
     factory PostCategory.fromJson(Map<String, dynamic> json) => PostCategory(
         id: json["id"],
-        // slug: json["slug"],
         name: json["name"],
         isActive: json["is_active"],
-        // createdAt: json["created_at"],
-        // updatedAt: json["updated_at"],
     );
 }
 
@@ -657,7 +530,6 @@ class Stores {
     dynamic gender;
     dynamic privacyLink;
     DateTime? createdAt;
-    // DateTime updatedAt;
     dynamic qr;
     dynamic legalFiles;
     dynamic introVideo;
@@ -741,7 +613,6 @@ class Stores {
         gender: json["gender"],
         privacyLink: json["privacy_link"],
         createdAt: DateTime.parse(json["created_at"]),
-        // updatedAt: DateTime.parse(json["updated_at"]),
         qr: json["qr"],
         legalFiles: json["legal_files"],
         introVideo: json["intro_video"],
@@ -763,19 +634,6 @@ class Stores {
         coverImage: json["cover_image"] == null ? null : Image.fromJson(json["cover_image"]),
     );
 }
-
-// class EnumValues<T> {
-//     Map<String, T> map;
-//     late Map<T, String> reverseMap;
-
-//     EnumValues(this.map);
-
-//     Map<T, String> get reverse {
-//         reverseMap = map.map((k, v) => MapEntry(v, k));
-//         return reverseMap;
-//     }
-// }
-
 
 class StoreAllLinksModel {
   List<Link> links;

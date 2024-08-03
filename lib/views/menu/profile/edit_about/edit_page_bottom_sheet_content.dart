@@ -88,7 +88,6 @@ class LinkListContent extends StatelessWidget {
                           },
                           trailing: CustomRadioButton(
                             onChanged: () {
-                              // profileController.tempLinkSource.value = profileController.linkSourceList[index];
                               editProfileHelper.onSelectLinkBottomSheet(index);
                             },
                             isSelected: profileController.temporaryLinkSource.value == profileController.linkSourceList[index],

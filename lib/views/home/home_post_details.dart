@@ -127,6 +127,7 @@ class HomePostDetails extends StatelessWidget {
                               )),
                         ),
                       ),
+                   
                     ],
                   ),
                 ),
@@ -193,105 +194,6 @@ class PostDetailsBottomSection extends StatelessWidget {
     return Obx(
       () => Column(
         children: [
-          // if (isSelfPost && category == 'Selling')
-          //   Padding(
-          //     padding: const EdgeInsets.only(
-          //       left: kHorizontalPadding,
-          //       right: kHorizontalPadding,
-          //     ),
-          //     child: BiddingWidget(
-          //       totalBids: 25,
-          //       yourBid: 300,
-          //       isPlaceBid: false,
-          //       bidingOnPressed: () {
-          //         globalController.blankBottomSheet(
-          //             context: context,
-          //             content: BiddingInsightsContent(
-          //               comment: bidingComments,
-          //             ),
-          //             isScrollControlled: true,
-          //             bottomSheetHeight: height * 0.7);
-          //       },
-          //     ),
-          //   ),
-          // if (!isSelfPost && category == 'Selling')
-          //   Padding(
-          //     padding: const EdgeInsets.only(
-          //       left: kHorizontalPadding,
-          //       right: kHorizontalPadding,
-          //     ),
-          //     child: BiddingWidget(
-          //       totalBids: 25,
-          //       yourBid: postReactionController.yourBid.value,
-          //       bidingOnPressed: () {
-          //         if (postReactionController.yourBid.value == null) {
-          //           globalController.commonBottomSheet(
-          //             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
-          //             context: context,
-          //             content: PlaceBidContent(
-          //               desiredAmount: '100',
-          //               minimumBiddingAmount: '50',
-          //             ),
-          //             onPressCloseButton: () {
-          //               Get.back();
-          //             },
-          //             onPressRightButton: () {
-          //               postReactionController.yourBid.value = int.parse(postReactionController.bidingTextEditingController.text);
-          //               Get.back();
-          //             },
-          //             rightText: ksSubmit.tr,
-          //             rightTextStyle: medium14TextStyle(cPrimaryColor),
-          //             title: ksPlaceABid.tr,
-          //             isRightButtonShow: true,
-          //             isScrollControlled: true,
-          //           );
-          //         } else {
-          //           globalController.commonBottomSheet(
-          //             bottomSheetHeight: isDeviceScreenLarge() ? height * 0.4 : null,
-          //             context: context,
-          //             content: BidAmount(
-          //               highestAmount: '350',
-          //               totalBid: '56',
-          //               desireAmount: '400',
-          //               yourBid: postReactionController.yourBid.value.toString(),
-          //             ),
-          //             onPressCloseButton: () {
-          //               Get.back();
-          //             },
-          //             onPressRightButton: () {
-          //               Get.back();
-          //               globalController.commonBottomSheet(
-          //                 bottomSheetHeight: isDeviceScreenLarge() ? height * 0.3 : null,
-          //                 context: context,
-          //                 content: UpdateBidding(
-          //                   yourBid: postReactionController.yourBid.value.toString(),
-          //                 ),
-          //                 onPressCloseButton: () {
-          //                   Get.back();
-          //                 },
-          //                 onPressRightButton: () {
-          //                   Get.back();
-          //                 },
-          //                 rightText: ksUpdate.tr,
-          //                 rightTextStyle: medium14TextStyle(cPrimaryColor),
-          //                 title: ksUpdateBiddingAmount.tr,
-          //                 isRightButtonShow: true,
-          //                 isScrollControlled: true,
-          //               );
-          //             },
-          //             rightText: ksEdit.tr,
-          //             rightTextStyle: medium14TextStyle(cPrimaryColor),
-          //             title: ksYourBidAmount.tr,
-          //             isRightButtonShow: true,
-          //             isScrollControlled: true,
-          //           );
-          //         }
-          //       },
-          //       isPlaceBid: true,
-          //     ),
-          //   ),
-
-          // if (reactCount != null || commentCount != 0 || shareCount != 0 || giftCount != 0)
           Padding(
             padding: const EdgeInsets.only(left: kHorizontalPadding, right: kHorizontalPadding, top: k12Padding),
             child: PostActivityStatusWidget(
@@ -312,21 +214,6 @@ class PostDetailsBottomSection extends StatelessWidget {
               postIndex: postIndex,
               isGiftShown: globalController.userId.value == globalController.commonPostList[postIndex].user!.id! ? false : true,
               giftOnPressed: () {
-                // postReactionController.resetGiftData();
-                // globalController.commonBottomSheet(
-                //   context: context,
-                //   content: GiftContent(),
-                //   isScrollControlled: true,
-                //   bottomSheetHeight: height * .9,
-                //   onPressCloseButton: () {
-                //     Get.back();
-                //   },
-                //   onPressRightButton: null,
-                //   rightText: '',
-                //   rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                //   title: ksSendGift.tr,
-                //   isRightButtonShow: false,
-                // );
               },
               commentOnPressed: () async {
                 postReactionController.commentMentionKey.currentState?.controller?.text = "";
@@ -340,7 +227,6 @@ class PostDetailsBottomSection extends StatelessWidget {
             child: CustomDivider(),
           ),
           kH12sizedBox,
-          // for (int i = 0; i < postReactionController.commentList.length; i++)
           if (postReactionController.isCommentPostLoading.value) const SingleCommentShimmer(),
           (postReactionController.isCommentLoading.value && !postReactionController.isCommentPostLoading.value)
               ? const CommentCommonShimmer()
@@ -381,14 +267,6 @@ class PostDetailsBottomSection extends StatelessWidget {
                                           style: semiBold14TextStyle(cSmallBodyTextColor),
                                         ))),
                               ),
-                            // if (postReactionController.isReplyLoading.value)
-                            //   const Center(
-                            //       child: SizedBox(
-                            //           width: 20,
-                            //           height: 20,
-                            //           child: CircularProgressIndicator(
-                            //             strokeWidth: 2,
-                            //           ))),
                             if (postReactionController.replyShow[i])
                               for (int index = 0; index < globalController.commonPostList[postIndex].comments[i].commentReplies.length; index++)
                                 Padding(

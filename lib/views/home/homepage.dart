@@ -94,7 +94,8 @@ class HomePage extends StatelessWidget {
                   isFifthButtonClicked: false,
                 ),
                 body: Obx(
-                  () => homeController.isHomePageLoading.value
+                  () => homeController.isHomePageLoading
+                          .value //* Add this loading for api issue this time loading off (|| Get.find<SelfieController>().isFriendSelfieListLoading.value)
                       ? const HomePageShimmer()
                       : NotificationListener<ScrollNotification>(
                           onNotification: (scrollNotification) {
@@ -216,136 +217,6 @@ class HomePage extends StatelessWidget {
                                     child: AwardsWidget(),
                                   ),
                                 kH8sizedBox,
-                                //!This part must be changed, it for just birthday test post
-                                // Container(
-                                //   color: cWhiteColor,
-                                //   child: Padding(
-                                //     padding: const EdgeInsets.only(left: kHorizontalPadding, top: k16Padding, right: kHorizontalPadding),
-                                //     child: Column(
-                                //       mainAxisAlignment: MainAxisAlignment.start,
-                                //       crossAxisAlignment: CrossAxisAlignment.start,
-                                //       children: [
-                                //         Row(
-                                //           crossAxisAlignment: CrossAxisAlignment.start,
-                                //           children: [
-                                //             ClipOval(
-                                //               child: Container(
-                                //                 height: h44,
-                                //                 width: h44,
-                                //                 decoration: const BoxDecoration(
-                                //                   color: cBlackColor,
-                                //                   shape: BoxShape.circle,
-                                //                 ),
-                                //                 child: Image.network(
-                                //                   "https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png",
-                                //                   fit: BoxFit.cover,
-                                //                   errorBuilder: (context, error, stackTrace) => const Icon(
-                                //                     BipHip.user,
-                                //                     size: kIconSize24,
-                                //                     color: cIconColor,
-                                //                   ),
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //             kW12sizedBox,
-                                //             Padding(
-                                //               padding: const EdgeInsets.only(top: k4Padding),
-                                //               child: Column(
-                                //                 crossAxisAlignment: CrossAxisAlignment.start,
-                                //                 children: [
-                                //                   Row(
-                                //                     children: [
-                                //                       Text(
-                                //                         "Wahid Murad",
-                                //                         style: semiBold16TextStyle(cBlackColor),
-                                //                       ),
-                                //                       kW4sizedBox,
-                                //                       const Icon(
-                                //                         BipHip.rightArrowOutline,
-                                //                         size: kIconSize12,
-                                //                         color: cIconColor,
-                                //                       ),
-                                //                       kW4sizedBox,
-                                //                       Text(
-                                //                         "Wahid Murad",
-                                //                         style: semiBold16TextStyle(cBlackColor),
-                                //                       ),
-                                //                     ],
-                                //                   ),
-                                //                   kH4sizedBox,
-                                //                   Row(
-                                //                     children: [
-                                //                       const Icon(
-                                //                         BipHip.world,
-                                //                         size: kIconSize14,
-                                //                         color: cIconColor,
-                                //                       ),
-                                //                       kW4sizedBox,
-                                //                       Text(
-                                //                         '1 hour ago',
-                                //                         style: regular12TextStyle(cSmallBodyTextColor),
-                                //                       ),
-                                //                     ],
-                                //                   ),
-                                //                 ],
-                                //               ),
-                                //             ),
-
-                                //             const Spacer(),
-                                //             // CustomIconButton(
-                                //             //   icon: BipHip.system,
-                                //             //   size: kIconSize14,
-                                //             //   iconColor: cIconColor,
-                                //             //   onPress: () {},
-                                //             // ),
-                                //             Padding(
-                                //               padding: const EdgeInsets.only(top: k4Padding),
-                                //               child: InkWell(
-                                //                 onTap: () {
-                                //                   homeController.birthdaySelectedAction.value = "";
-                                //                   Get.find<GlobalController>().commonBottomSheet(
-                                //                     context: context,
-                                //                     isScrollControlled: true,
-                                //                     content: BirthdayActionContent(),
-                                //                     onPressCloseButton: () {
-                                //                       Get.back();
-                                //                     },
-                                //                     onPressRightButton: null,
-                                //                     rightText: "",
-                                //                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
-                                //                     title: ksAction.tr,
-                                //                     isRightButtonShow: false,
-                                //                     bottomSheetHeight: 200,
-                                //                   );
-                                //                 },
-                                //                 child: const Icon(
-                                //                   BipHip.system,
-                                //                   size: kIconSize14,
-                                //                   color: cIconColor,
-                                //                 ),
-                                //               ),
-                                //             ),
-                                //           ],
-                                //         ),
-                                //         kH8sizedBox,
-                                //         Text(
-                                //           "Happy Birthday",
-                                //           style: regular14TextStyle(cBlackColor),
-                                //         ),
-                                //         kH8sizedBox,
-                                //         LikeSectionWidget(
-                                //           isGiftShown: true,
-                                //           giftOnPressed: () {},
-                                //           commentOnPressed: () {},
-                                //         ),
-                                //         const CustomDivider(),
-                                //         kH8sizedBox,
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-
-                                kH8sizedBox,
                                 if (globalController.commonPostList.isEmpty)
                                   SizedBox(
                                     height: height - (2 + 64 + 8 + 158 + 41 + kAppBarSize + MediaQuery.of(context).padding.top + kBottomNavHeight),
@@ -353,7 +224,6 @@ class HomePage extends StatelessWidget {
                                       title: ksNoDataAvailable.tr,
                                     ),
                                   ),
-                                // ),
                                 if (globalController.commonPostList.isNotEmpty)
                                   ListView.separated(
                                       shrinkWrap: true,
@@ -383,13 +253,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          // homeController.congratulationsAlertDialog(
-          //     context: context,
-          //     content: Column(
-          //       children: [
-          //         Image.asset(kiProfileDefaultImageUrl),
-          //       ],
-          //     )),
           if (Get.find<PostReactionController>().isGiftStarLoading.value || Get.find<PendentBadgesController>().isBuyBadgeLoading.value)
             Positioned(
               child: CommonLoadingAnimation(

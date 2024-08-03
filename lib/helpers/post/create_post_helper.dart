@@ -192,10 +192,6 @@ class CreatePostHelper {
       createPostController.deleteImageIdList.add(createPostController.imageIdList.removeAt(index));
     }
     createPostController.allMediaList.removeAt(index);
-    // createPostController.allMediaFileList.removeAt(index);
-    // if (createPostController.allMediaFileList.isEmpty || createPostController.allMediaList.isEmpty) {
-    //   Get.back();
-    // }
   }
 
   void selectCategory(context) {
@@ -330,7 +326,6 @@ class CreatePostHelper {
     createPostController.createPostVideoLink.value = "";
     createPostController.createPostVideoFile.clear();
     createPostController.allMediaList.clear();
-    // createPostController.allMediaFileList.clear();
     createPostController.sellingAllMediaList.clear();
     createPostController.sellingAllMediaFileList.clear();
     createPostController.resetCreatePost();
@@ -755,8 +750,6 @@ class CreatePostHelper {
       ),
     );
   }
-
-  //Get tagged friend bottom sheet
   Future<void> taggedFriendBottomSheet(context) async {
     Get.find<FriendController>().isFriendListLoading.value = true;
     createPostController.tempTaggedFriends.addAll(createPostController.taggedFriends);

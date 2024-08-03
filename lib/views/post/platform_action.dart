@@ -133,7 +133,6 @@ class PlatformAndAction extends StatelessWidget {
           ),
         ),
       ),
-      // ),
     );
   }
 }

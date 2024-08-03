@@ -70,7 +70,6 @@ class KidProfile extends StatelessWidget {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      // profileHelper).coverPhotoEditBottomSheet(context);
                                       kidHelper.kidCoverPhotoEditBottomSheet(context);
                                     },
                                     child: Container(
@@ -191,40 +190,10 @@ class KidProfile extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                       child: Text(
                                         kidsController.kidOverviewData.value?.kids?.name ?? ksNA,
-                                        // '${profileController.userData.value!.firstName} ${profileController.userData.value!.lastName}',//*needed and change it
                                         style: medium24TextStyle(cBlackColor),
                                       ),
                                     ),
                                     kH10sizedBox,
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-                                    //   child: Row(
-                                    //     mainAxisAlignment: MainAxisAlignment.start,
-                                    //     children: [
-                                    //       const Icon(
-                                    //         Icons.attach_money_sharp,
-                                    //         color: cSecondaryColor,
-                                    //         size: kIconSize14,
-                                    //       ),
-                                    //       Text(
-                                    //         '2.57',
-                                    //         style: medium14TextStyle(cSmallBodyTextColor),
-                                    //       ),
-                                    //       kW4sizedBox,
-                                    //       const Icon(
-                                    //         BipHip.giftNew,
-                                    //         color: cSecondaryColor,
-                                    //         size: kIconSize14,
-                                    //       ),
-                                    //       kW4sizedBox,
-                                    //       Text(
-                                    //         '457',
-                                    //         style: medium14TextStyle(cSmallBodyTextColor),
-                                    //       )
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    kH4sizedBox,
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                                       child: Text(
@@ -271,7 +240,6 @@ class KidProfile extends StatelessWidget {
                               kH8sizedBox,
                               DefaultTabController(
                                 length: 3,
-                                // initialIndex: profileController.postSectionVisible.value ? 0 : 1,//!con
                                 initialIndex: 0,
                                 child: Column(
                                   children: [
@@ -390,10 +358,6 @@ class KidProfile extends StatelessWidget {
                                                               );
                                                             },
                                                             onPressed: () {
-                                                              // Get.to(() => Photos(
-                                                              //       imageList: galleryController.imageDataList[index].imageList,
-                                                              //       imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
-                                                              //     ));
                                                             },
                                                           ),
                                                         ],

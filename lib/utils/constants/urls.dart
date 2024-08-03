@@ -8,19 +8,19 @@
 //* common api
 //---------------------------------------
 
-const String kuGetAllProfessions = '/mobile/get-all-professions'; //DONE
-const String kuGetAllInterests = '/mobile/get-all-interests'; //DONE
-const String kuGetAllLinkTypes = '/mobile/get-all-link-types'; //DONE
-const String kuGetAllRelationShips = '/mobile/get-all-relationships'; //DONE
-const String kuGetAllGenders = '/mobile/get-all-genders'; //DONE
-const String kuGetAllCities = '/mobile/get-all-cities'; //DONE
-const String kuGetAllSchools = '/mobile/get-all-schools'; //DONE
-const String kuGetAllCompanies = '/mobile/get-all-companies'; //DONE
+const String kuGetAllProfessions = '/mobile/get-all-professions'; 
+const String kuGetAllInterests = '/mobile/get-all-interests'; 
+const String kuGetAllLinkTypes = '/mobile/get-all-link-types';
+const String kuGetAllRelationShips = '/mobile/get-all-relationships';
+const String kuGetAllGenders = '/mobile/get-all-genders'; 
+const String kuGetAllCities = '/mobile/get-all-cities';
+const String kuGetAllSchools = '/mobile/get-all-schools';
+const String kuGetAllCompanies = '/mobile/get-all-companies';
 const String kuGetAllDegrees = '/mobile/get-all-degrees';
-const String kuGetAllPositions = '/mobile/get-all-positions'; //DONE
-const String kuGetAllPostCatagories = '/mobile/get-all-post-categories'; //DONE
-const String kuGetAllKidList = '/mobile/user/get-all-kids'; //DONE
-const String kuGetALlLanguageList = '/mobile/get-all-languages'; //DONE
+const String kuGetAllPositions = '/mobile/get-all-positions';
+const String kuGetAllPostCatagories = '/mobile/get-all-post-categories';
+const String kuGetAllKidList = '/mobile/user/get-all-kids';
+const String kuGetALlLanguageList = '/mobile/get-all-languages';
 
 //---------------------------------------
 //* authentication story
@@ -41,41 +41,41 @@ const String kuLogOut = '/mobile/logout';
 //* profile story
 //---------------------------------------
 
-const String kuGetProfileOverView = '/mobile/user/get-profile-overview'; //DONE
+const String kuGetProfileOverView = '/mobile/user/get-profile-overview';
 const String kuGetPostsByCategoryId = '/user/get-posts-by-category-id';
 
 //* Address/Places
-const String kuGetAllPlaces = '/mobile/user/get-all-places'; //? NOT NEEDED
-const String kuSetHomeTown = '/mobile/user/set-hometown'; //DONE
-const String kuSetCurrentCity = '/mobile/user/set-current-city'; //DONE
-const String kuOtherCity = '/mobile/user/store-city'; //DONE
-const String kuUpdateCity = '/mobile/user/update-city'; //DONE
-const String kuDeleteCity = '/mobile/user/delete-city'; //DONE
+const String kuGetAllPlaces = '/mobile/user/get-all-places';
+const String kuSetHomeTown = '/mobile/user/set-hometown';
+const String kuSetCurrentCity = '/mobile/user/set-current-city';
+const String kuOtherCity = '/mobile/user/store-city';
+const String kuUpdateCity = '/mobile/user/update-city';
+const String kuDeleteCity = '/mobile/user/delete-city';
 
 //* Work and Education
-const String kuGetWorkAndEducation = '/mobile/user/get-work-and-education'; //? NOT NEEDED
-const String kuStoreSchool = '/mobile/user/store-school'; //DONE
-const String kuUpdateSchool = '/mobile/user/update-school'; //DONE
-const String kuDeleteSchool = '/mobile/user/delete-school'; //DONE
-const String kuStoreCollege = '/mobile/user/store-college'; //DONE
-const String kuUpdateCollege = '/mobile/user/update-college'; //DONE
-const String kuDeleteCollege = '/mobile/user/delete-college'; //DONE
-const String kuStoreWork = '/mobile/user/store-work'; //DONE
-const String kuUpdateWork = '/mobile/user/update-work'; //DONE
-const String kuDeleteWork = '/mobile/user/delete-work'; //DONE
+const String kuGetWorkAndEducation = '/mobile/user/get-work-and-education';
+const String kuStoreSchool = '/mobile/user/store-school'; 
+const String kuUpdateSchool = '/mobile/user/update-school';
+const String kuDeleteSchool = '/mobile/user/delete-school';
+const String kuStoreCollege = '/mobile/user/store-college';
+const String kuUpdateCollege = '/mobile/user/update-college';
+const String kuDeleteCollege = '/mobile/user/delete-college';
+const String kuStoreWork = '/mobile/user/store-work'; 
+const String kuUpdateWork = '/mobile/user/update-work'; 
+const String kuDeleteWork = '/mobile/user/delete-work';
 
 //* Contact & Basic Info
-const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info'; //? NOT NEEDED
-const String kuStoreContact = '/mobile/user/store-contact'; //DONE
-const String kuUpdateContact = '/mobile/user/update-contact'; //DONE
-const String kuDeleteContact = '/mobile/user/delete-contact'; //DONE
-const String kuStoreLink = '/mobile/user/store-link'; //DONE
-const String kuUpdateLink = '/mobile/user/update-link'; //DONE
-const String kuDeleteLink = '/mobile/user/delete-link'; //DONE
-const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth'; //DONE
-const String kuUpdateBio = '/mobile/user/update-bio'; //DONE
+const String kuGetContactAndBasicInfo = '/mobile/user/get-contacts-and-basic-info';
+const String kuStoreContact = '/mobile/user/store-contact';
+const String kuUpdateContact = '/mobile/user/update-contact';
+const String kuDeleteContact = '/mobile/user/delete-contact';
+const String kuStoreLink = '/mobile/user/store-link';
+const String kuUpdateLink = '/mobile/user/update-link';
+const String kuDeleteLink = '/mobile/user/delete-link';
+const String kuUpdateDateOfBirth = '/mobile/user/update-date-of-birth';
+const String kuUpdateBio = '/mobile/user/update-bio';
 const String kuUpdateLanguages = '/mobile/user/update-languages';
-const String kuUpdateUserFullName = '/mobile/user/update-full-name'; //DONE
+const String kuUpdateUserFullName = '/mobile/user/update-full-name';
 
 //* About Section
 const String kuSetGeneralSetting = '/mobile/user/store-user-setting';
@@ -148,6 +148,13 @@ const String kuSharePost = '/mobile/user/share-post';
 const String kuGetAllPosts = '/mobile/user/get-all-posts';
 const String kuGetPostData = '/mobile/user/get-post';
 const String kuGetTimelinePostData = '/mobile/user/get-my-timeline-posts';
+
+//*Selfie
+const String kuGetFriendSelfie = '/mobile/user/selfie/get-friend-selfies';
+const String kuStoreSelfie = '/mobile/user/selfie/store-selfie';
+const String kuDeleteSelfie = '/mobile/user/selfie/delete';
+const String kuReportSelfie = '/mobile/user/store-selfie-report';
+const String kuSelfieSendGift = '/mobile/user/selfie/send-gift';
 
 //* kids
 //---------------------------------------
@@ -264,6 +271,26 @@ const String kuSendMessage = '/user/messenger/send-message';
 |--------------------------------------------------------------------------
 */
 const String webSocketURL = "wss://node.biphip.com";
+//* Awards
+const String kuGetMyAward = "/mobile/user/get-my-awards";
+
+//* Dashboard
+const String kuGetProfileOverview = "/mobile/dashboard/profile-overview";
+const String kuDashboardContents = "/mobile/dashboard/contents";
+const String kuDashboardStarInsight = "/mobile/dashboard/star-insight";
+const String kuDashboardGiftInsight = "/mobile/dashboard/gift-insight";
+const String kuDashboardGiftEarnedPost = "/mobile/dashboard/gift-earned-posts";
+const String kuDashboardOverview = "/mobile/dashboard/overview";
+const String kuDashboardAudienceInsightByCountry = "/mobile/dashboard/audience-insight-by-country";
+const String kuDashboardAudienceInsightByCity = "/mobile/dashboard/audience-insight-by-city";
+const String kuDashboardContentInsights = "/mobile/dashboard/content-insights";
+const String kuDashboardStarInsightPurchase = "/mobile/dashboard/star-insight-purchase";
+const String kuDashboardStarInsightGift = "/mobile/dashboard/star-insight-gift";
+const String kuDashboardQuizInsight = "/mobile/dashboard/quiz-insight";
+const String kuDashboardPayoutEarningInsight = "/mobile/dashboard/earning-insight";
+
+//* Profile view
+
 
 /*
 |--------------------------------------------------------------------------
@@ -338,3 +365,4 @@ const String kiStarSvgImage = 'assets/svg/star.svg';
 const String kiNagadSvgImage = 'assets/svg/nagad.svg';
 const String kiPaypalSvgImage = 'assets/svg/paypal.svg';
 const String kiReviewSvgImage = 'assets/svg/review.svg';
+const String kiRightArrow = 'assets/svg/right_arrow.svg';

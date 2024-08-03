@@ -66,7 +66,6 @@ class EditKidLanguageSection extends StatelessWidget {
                           prefixIcon: BipHip.language,
                           trailingIcon: BipHip.cross,
                           onPressSuffixButton: () async {
-                            // await kidHelper.removeLanguage(index);
                           },
                           text: kidsController.kidsData.value!.languages[index],
                         );

@@ -26,7 +26,7 @@ class FriendFamilySingleButtonAction extends StatelessWidget {
   final double? buttonHeight;
   final String? subTitle;
   final double? imageSize;
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(

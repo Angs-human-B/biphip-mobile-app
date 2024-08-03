@@ -46,8 +46,6 @@ class EditPage extends StatelessWidget {
                                     Get.back();
                                   }),
                               title: ksConfirmation.tr);
-                          // editProfileHelper.selectFunction("${profileController.functionFlag.value} DELETE", profileController.deleteIndex.value);
-                          // Get.back();
                         },
                         text: ksDelete,
                         textStyle: semiBold14TextStyle(cRedColor)),
@@ -274,23 +272,6 @@ class EditPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              // if (_profileController.isCommonEditPrivacyShown.value)
-                              //   OutLinedButton(
-                              //     buttonWidth: 80,
-                              //     buttonHeight: 25,
-                              //     onPress: () {},
-                              //     buttonText: ksPublic.tr,
-                              //     buttonTextStyle: semiBold12TextStyle(cBlackColor),
-                              //     borderColor: cLineColor,
-                              //     suffixWidget: const Padding(
-                              //       padding: EdgeInsets.only(right: k8Padding),
-                              //       child: Icon(
-                              //         BipHip.world,
-                              //         color: cIconColor,
-                              //         size: kIconSize16,
-                              //       ),
-                              //     ),
-                              //   ),
                               if (profileController.isCommonEditCheckBoxShown.value)
                                 SizedBox(
                                   width: profileController.commonEditCheckBoxText.value == 'Currently living here' ? width / 2 : width / 2,

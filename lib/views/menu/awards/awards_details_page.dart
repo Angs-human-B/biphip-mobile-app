@@ -11,8 +11,9 @@ class AwardDetailsPage extends StatelessWidget {
     this.certificateImage,
     this.ranking,
     this.winningDate,
+    this.userName,
   });
-  final String? userImage;
+  final String? userImage, userName;
   final String? certificateImage;
   final String? ranking;
   final String? winningDate;
@@ -76,7 +77,7 @@ class AwardDetailsPage extends StatelessWidget {
                                       color: cWhiteColor,
                                     ),
                                     child: Image.network(
-                                      userImage!,
+                                      userImage ?? "",
                                       fit: BoxFit.cover,
                                       errorBuilder: (context, error, stackTrace) => const Icon(
                                         BipHip.imageFile,
@@ -125,7 +126,7 @@ class AwardDetailsPage extends StatelessWidget {
                     ),
                     kH8sizedBox,
                     Text(
-                      'Aminul islam rana',
+                      userName??ksNA.tr,
                       style: semiBold16TextStyle(cBlackColor),
                       textAlign: TextAlign.left,
                     ),
@@ -151,7 +152,7 @@ class AwardDetailsPage extends StatelessWidget {
                               image: certificateImage ?? '',
                               description: '',
                               isLikeSectionShow: false,
-                              topRightIcon: Icons.download,//!Download Icon should be chnage 
+                              topRightIcon: Icons.download, //!Download Icon should be chnage
                             ));
                       },
                       buttonWidth: width - 40,
@@ -160,17 +161,6 @@ class AwardDetailsPage extends StatelessWidget {
                       borderColor: cPrimaryColor,
                       textStyle: regular12TextStyle(cPrimaryColor),
                     ),
-                    kH24sizedBox,
-                    //  PostUpperContainer(
-                    //     userName: 'Wahid Murad',
-                    //     isCategorized: true,
-                    //     privacy: BipHip.world,
-                    //     postTime: '1 hr',
-                    //     category: 'Photography',
-                    //     categoryIcon: BipHip.photography,
-                    //     categoryIconColor: cPhotographyColor,
-                    //     userImage: 'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/3155475/user-clipart-md.png',
-                    //     taggedFriend: []),
                     kH12sizedBox,
                     SizedBox(
                       width: width - 40,
@@ -192,33 +182,8 @@ class AwardDetailsPage extends StatelessWidget {
                       ),
                     ),
                     kH12sizedBox,
-                    // LikeSectionWidget(
-                    //   isGiftShown: true,
-                    //   giftOnPressed: () {},
-                    //   commentOnPressed: () {
-                    //     awardController.isCommentOnPressed.value = !awardController.isCommentOnPressed.value;
-                    //   },
-                    // ),
                     const CustomDivider(),
                     kH12sizedBox,
-                    // if (awardController.isCommentOnPressed.value)
-                      // CommentWidget(
-                      //   profileImage: kiDummyImage3ImageUrl,
-                      //   comment:
-                      //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam nisi, cras neque, lorem vel vulputate vitae aliquam. Pretium tristique nisi, ut commodo fames. Porttitor et sagittis egestas vitae metus, odio tristique amet, duis.',
-                      //   timePassed: '30',
-                      //   isLikeButtonShown: true,
-                      //   commentLink: 'https://itnext.io/showing-url-preview-in-flutter-a3ad4ff9927e',
-                      //   isReplyButtonShown: true,
-                      //   isReactButtonShown: true,
-                      //   isImageComment: true,
-                      //   image: kiDummyImage3ImageUrl,
-                      //   isLink: false,
-                      //   userName: 'Monjurul Sharker Omi',
-                      //   isSendMessageShown: false,
-                      //   isHideButtonShown: true,
-                      //   replyList: replyComment,
-                      // ),
                   ],
                 ),
               ),

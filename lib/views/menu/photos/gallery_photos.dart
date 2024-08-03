@@ -136,6 +136,7 @@ class GalleryPhotos extends StatelessWidget {
                                                       Get.to(() => Photos(
                                                             imageList: galleryController.imageDataList[index].imageList,
                                                             imageListTitle: galleryController.imageDataList[index].title ?? ksNA,
+                                                            albumIndex: index,
                                                           ));
                                                     },
                                                   ),
@@ -148,6 +149,7 @@ class GalleryPhotos extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                  
                     ],
                   ),
                 ),

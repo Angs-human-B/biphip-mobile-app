@@ -6,6 +6,7 @@ class StoriesWidget extends StatelessWidget {
   final SelfieController selfieController = Get.find<SelfieController>();
   @override
   Widget build(BuildContext context) {
+    selfieController.customOnInit();
     return SizedBox(
       height: 150,
       width: width,
@@ -13,7 +14,7 @@ class StoriesWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: k10Padding),
         child: ListView.builder(
             padding: const EdgeInsets.only(left: k10Padding),
-            itemCount: stories.length + 1,
+            itemCount: selfieController.allSelfieList.length + 1,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -33,18 +34,98 @@ class StoriesWidget extends StatelessWidget {
                     }
                   },
                 );
-              } else {
+              }
+              if (selfieController.allSelfieList.isNotEmpty) {
+                ll("selfie list length : ${selfieController.allSelfieList.length}");
                 return StoryCard(
                   isStory: true,
-                  storyImage: stories[index - 1]['storyImage'],
-                  profileImage: stories[index - 1]['profileImage'],
-                  userName: stories[index - 1]['name'],
-                  isSeen: stories[index - 1]['isSeen'],
+                  storyImage: selfieController.allSelfieList[index - 1]["selfies"][0].fullPath ?? "",
+                  profileImage: selfieController.allSelfieList[index - 1]["userImage"],
+                  userName: selfieController.allSelfieList[index - 1]["userId"] == Get.find<GlobalController>().userId.value
+                      ? ksYourSelfie.tr
+                      : selfieController.allSelfieList[index - 1]["userName"],
+                  isSeen: true,
+                  onPressed: () {
+                    selfieController.allSelfieListIndex.value = index - 1;
+                    Get.toNamed(krSelfieViewPage);
+                  },
                 );
               }
+              return const SizedBox();
             }),
       ),
     );
+    // SizedBox(
+    //   height: 150,
+    //   width: width - 120,
+    //   child: Padding(
+    //     padding: const EdgeInsets.symmetric(vertical: k10Padding),
+    //     child: ListView.builder(
+    //         padding: const EdgeInsets.only(left: k10Padding),
+    //         itemCount: selfieController.friendSelfiesList.length,
+    //         shrinkWrap: true,
+    //         scrollDirection: Axis.horizontal,
+    //         physics: const AlwaysScrollableScrollPhysics(),
+    //         itemBuilder: (context, index) {
+    //           // int sameIndex = 0;
+    //           // if (selfieController.friendSelfiesList[index].id == Get.find<GlobalController>().userId.value) {
+    //           //   sameIndex++;
+    //           // }
+    //           // index = index - sameIndex;
+    //           return StoryCard(
+    //             isStory: true,
+    //             storyImage: selfieController.friendSelfiesList[index].currentSelfies[0].fullPath ?? "",
+    //             profileImage: selfieController.friendSelfiesList[index].profilePicture ?? "",
+    //             userName: selfieController.friendSelfiesList[index].fullName ?? ksNA.tr,
+    //             isSeen: true,
+    //             onPressed: () {
+    //               Get.toNamed(krSelfieViewPage);
+    //             },
+    //           );
+
+    //           // if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isNotEmpty) {
+    //           //   return StoryCard(
+    //           //     isStory: true,
+    //           //     storyImage: selfieController.friendSelfiesList[index - 2].currentSelfies[0].fullPath ?? "",
+    //           //     profileImage: selfieController.friendSelfiesList[index - 2].profilePicture ?? "",
+    //           //     userName: selfieController.friendSelfiesList[index - 2].fullName ?? ksNA.tr,
+    //           //     isSeen: false,
+    //           //     onPressed: () {
+    //           //       Get.toNamed(krSelfieViewPage);
+    //           //     },
+    //           //   );
+    //           // }
+    //           // if (selfieController.friendSelfiesList.isNotEmpty && selfieController.mySelfieList.isEmpty) {
+    //           //   return StoryCard(
+    //           //     isStory: true,
+    //           //     storyImage: selfieController.friendSelfiesList[index - 1].currentSelfies[0].fullPath ?? "",
+    //           //     profileImage: selfieController.friendSelfiesList[index - 1].profilePicture ?? "",
+    //           //     userName: selfieController.friendSelfiesList[index - 1].fullName ?? ksNA.tr,
+    //           //     isSeen: false,
+    //           //     onPressed: () {
+    //           //       Get.toNamed(krSelfieViewPage);
+    //           //     },
+    //           //   );
+    //           // }
+    //           // return const SizedBox();
+    //           // else {
+    //           //   return StoryCard(
+    //           //     isStory: true,
+    //           //     storyImage: allStories[index - 1]['storyImage'],
+    //           //     profileImage: allStories[index - 1]['profileImage'],
+    //           //     userName: allStories[index - 1]['name'],
+    //           //     isSeen: allStories[index - 1]['isSeen'],
+    //           //     onPressed: () {
+    //           //       Get.toNamed(krSelfieViewPage);
+    //           //     },
+    //           //   );
+    //           // }
+    //         }),
+    //   ),
+    // ),
+
+    // ],
+    // );
   }
 }
 
@@ -82,11 +163,13 @@ class StoryCard extends StatelessWidget {
                   width: 90,
                   child: ClipRRect(
                     borderRadius: k8CircularBorderRadius,
-                    child: Image.asset(
+                    child: Image.network(
                       storyImage,
                       fit: BoxFit.cover,
-                      color: cBlackColor.withOpacity(0.2),
-                      colorBlendMode: BlendMode.multiply,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(kiDummyImage1ImageUrl);
+                      },
+                      loadingBuilder: imageLoadingBuilder,
                     ),
                   ),
                 ),
@@ -95,13 +178,19 @@ class StoryCard extends StatelessWidget {
                   top: 8,
                   left: 6,
                   child: Container(
-                    height: 27,
-                    width: 27,
+                    // height: h28,
+                    // width: h28,
                     decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: isSeen ? cLineColor : cPrimaryColor)),
                     child: ClipOval(
-                      child: Image.asset(
+                      child: Image.network(
                         profileImage,
                         fit: BoxFit.cover,
+                        height: h32,
+                        width: h32,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(kiDummyImage1ImageUrl);
+                        },
+                        loadingBuilder: mediumImageLoadingBuilder,
                       ),
                     ),
                   ),

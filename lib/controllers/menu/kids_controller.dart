@@ -18,7 +18,7 @@ class KidsController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
-  //   //*Kids List Api Call
+  //*Kids List Api Call
   final Rx<AllKidsModel?> kidsListData = Rx<AllKidsModel?>(null);
   final RxList<Kid> kidList = RxList<Kid>([]);
   final RxBool isKidsListLoading = RxBool(false);
@@ -90,7 +90,7 @@ class KidsController extends GetxController {
     }
   }
 
-  //Edit kid
+  //*Edit kid
   final RxBool saveKidInfo = RxBool(false);
   final RxString kidImageLink = RxString('');
   final Rx<File> kidImageFile = File('').obs;
@@ -309,7 +309,6 @@ class KidsController extends GetxController {
 
   //*Add kid API Implementation
   Rx<KidModel?> kidData = Rx<KidModel?>(null);
-  // RxList<PostCategory> postCategoryList = RxList<PostCategory>([]);
   final RxBool isAddKidLoading = RxBool(false);
   Future<void> addKid() async {
     try {
@@ -508,7 +507,6 @@ class KidsController extends GetxController {
 
   //* update Kid bio API Implementation
   final Rx<KidBioUpdateModel?> kidBioUpdateData = Rx<KidBioUpdateModel?>(null);
-  // final Rx<Kids?> kidsData = Rx<Kids?>(null);
   RxBool isKidBioLoading = RxBool(false);
   Future<void> updateKidBio([isUpdate = true]) async {
     try {
@@ -551,14 +549,12 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* upload profile photo
+  //* upload profile photo
   final RxBool isImageUploadPageLoading = RxBool(false);
   final Rx<KidBioUpdateModel?> kidProfileCoverData = Rx<KidBioUpdateModel?>(null);
   Future<void> uploadKidProfileAndCover(File imageFile, String type, [isFromProfile = true]) async {
     try {
-      // if (isFromProfile == true) {
       isImageUploadPageLoading.value = true;
-      // }
       String? token = await spController.getBearerToken();
       Map<String, String> body = {
         'kid_id': selectedKidId.value.toString(),
@@ -1102,7 +1098,7 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* update contact API Implementation
+  //* update contact API Implementation
   Future<void> updateContact(id, type) async {
     try {
       isKidContactLoading.value = true;
@@ -1139,7 +1135,7 @@ class KidsController extends GetxController {
     }
   }
 
-  // //* delete contact API Implementation
+  //* delete contact API Implementation
   Future<void> deleteContact(id, type) async {
     try {
       isKidContactLoading.value = true;

@@ -51,7 +51,7 @@ class StoreEditAbout extends StatelessWidget {
                 kH8sizedBox,
                 StoreReviewContent(),
                 kH8sizedBox,
-                StorePageTransperencyContent(),
+                StorePageTransperencyContent(pageId: storeController.storesData.value!.pageId.toString(),creatingDate: storeController.storesData.value?.createdAt,),
               ],
             ),
           ),
@@ -124,7 +124,7 @@ class StoreLocationContent extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: k12Padding),
                     child: InfoContainer(
                       suffixText: '',
-                      prefixText: checkNullOrStringNull(storeController.storeLocationList[i].location), //*Use here api
+                      prefixText: checkNullOrStringNull(storeController.storeLocationList[i].location),
                       isAddButton: false,
                       suffixOnPressed: () async {
                         storeController.isEditOrAdd.value = true;
@@ -336,13 +336,13 @@ class StorePaymentContent extends StatelessWidget {
               },
             ),
             kH12sizedBox,
-            for (int i = 0; i < storeController.paymentMethodList.length; i++) //! using api
+            for (int i = 0; i < storeController.paymentMethodList.length; i++)
               Padding(
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['payment']), //*Use here api
-                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentMethod']), //*Use here api
+                  prefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['payment']), //!Use here api
+                  subtitlePrefixText: checkNullOrStringNull(storeController.paymentMethodList[i]['paymentMethod']), //!Use here api
                   isAddButton: false,
                   suffixOnPressed: () async {
                     storeController.isEditOrAdd.value = true;
@@ -457,10 +457,9 @@ class StoreLegalPaperContent extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: k12Padding),
                 child: InfoContainer(
                   suffixText: '',
-                  prefixText: checkNullOrStringNull(storeController.legalPaperAllInfoList[i]['fileName']), //*Use here api
+                  prefixText: checkNullOrStringNull(storeController.legalPaperAllInfoList[i]['fileName']), //!Use here api
                   subtitlePrefixText: checkNullOrStringNull(storeController.legalPaperAllInfoList[i]['fileSize']),
                   suffixOnPressed: () async {
-                    // kidHelper.editKidSchool(i);
                   },
                 ),
               ),
@@ -499,8 +498,10 @@ class StoreReviewContent extends StatelessWidget {
 }
 
 class StorePageTransperencyContent extends StatelessWidget {
-  StorePageTransperencyContent({super.key});
+  StorePageTransperencyContent({super.key, required this.pageId, this.creatingDate});
   final StoreController storeController = Get.find<StoreController>();
+  final String pageId;
+  final DateTime? creatingDate;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -523,7 +524,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              storeController.storesData.value!.pageId.toString(),
+              pageId,
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,
@@ -533,7 +534,7 @@ class StorePageTransperencyContent extends StatelessWidget {
             ),
             kH16sizedBox,
             Text(
-              DateFormat('dd MMM, yyyy').format(storeController.storesData.value?.createdAt ?? DateTime.now()),
+              DateFormat('dd MMM, yyyy').format(creatingDate ?? DateTime.now()),
               style: regular16TextStyle(cBlackColor),
             ),
             kH4sizedBox,

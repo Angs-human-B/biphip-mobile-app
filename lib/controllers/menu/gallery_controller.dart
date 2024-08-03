@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:bip_hip/helpers/menu/gallery/gallery_photo_helper.dart';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/home/new_post_list_model.dart';
 import 'package:bip_hip/models/menu/album/album_list_model.dart';
 import 'package:bip_hip/models/menu/album/image_details_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -310,7 +311,7 @@ class GalleryController extends GetxController {
   final RxString previousImageDescription = RxString('');
   final RxBool isImageDescriptionSaveButtonEnable = RxBool(false);
   final RxBool isImageDescriptionUpdateLoading = RxBool(false);
-  Rx<ImageList?> imageData = Rx<ImageList?>(null);
+  Rx<ImageElement?> imageData = Rx<ImageElement?>(null);
 
   Future<void> imageDescriptionUpdate() async {
     try {
@@ -327,7 +328,7 @@ class GalleryController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        imageData.value = ImageList.fromJson(response.data);
+        imageData.value = ImageElement.fromJson(response.data);
         isImageDescriptionUpdateLoading.value = false;
         Get.back();
         if (!Get.isSnackbarOpen) {
@@ -352,10 +353,6 @@ class GalleryController extends GetxController {
 
   final RxBool galleryPhotoBottomSheetRightButtonState = RxBool(false);
   final RxString galleryPhotoActionSelect = RxString('');
-  // final RxList galleryPhotoActionList = RxList([
-  //   {'icon': BipHip.imageFile, 'action': 'Download album'},
-  //   {'icon': BipHip.editImage, 'action': 'Edit Album'},
-  // ]);
   final RxString photoActionSelect = RxString('');
   final RxList photoActionList = RxList([
     {'icon': BipHip.deleteNew, 'action': 'Delete photo'},
@@ -399,11 +396,6 @@ class GalleryController extends GetxController {
           }
         }
       }
-      // if ((previousAlbumName.value == createAlbumNameController.text.toString().trim())) {
-      //   isCreateAlbumPostButtonEnable.value = false;
-      // } else {
-      //   isCreateAlbumPostButtonEnable.value = true;
-      // }
     } else {
       if (createAlbumNameController.text.toString().trim() != '' && allMediaList.isNotEmpty) {
         isCreateAlbumPostButtonEnable.value = true;
@@ -436,7 +428,6 @@ class GalleryController extends GetxController {
   final RxBool isEditAlbum = RxBool(false);
 
   final RxList<dynamic> allMediaList = RxList<dynamic>([]);
-  // final RxList<Rx<File>> allMediaFileList = RxList<Rx<File>>([]);
   final RxList<RxString> createAlbumAllMediaLinkList = RxList<RxString>([]);
   final RxList<Rx<File>> createAlbumAllMediaFileList = RxList<Rx<File>>([]);
   List imageDescriptionTextEditingController = [];
@@ -514,10 +505,6 @@ class GalleryController extends GetxController {
         uploadedImageList.add(allMediaList[i]);
       }
     }
-    // List tags = [];
-    // for (int i = 0; i < taggedFriends.length; i++) {
-    //   tags.add(taggedFriends[i].id);
-    // }
     try {
       isCreateAlbumLoading.value = true;
       String? token = await spController.getBearerToken();
@@ -528,7 +515,6 @@ class GalleryController extends GetxController {
         "delete_image_ids": deleteImageIdList.join(','),
         if (uploadedImageList.isEmpty)
           for (int i = 0; i < imageIdList.length; i++) 'image_ids[$i]': imageIdList[i].toString(),
-        // 'post_tag_friend_id': tags.join(','),
         for (int i = 0; i < imageDescriptionTextEditingController.length; i++) 'description[$i]': imageDescriptionTextEditingController[i].text.toString(),
         for (int i = 0; i < imageLocationsList.length; i++) 'location[$i]': imageLocationsList[i].toString(),
         for (int i = 0; i < imageTimesList.length; i++) 'time[$i]': imageTimesList[i].toString(),
