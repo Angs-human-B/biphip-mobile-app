@@ -266,7 +266,7 @@ class SelfiePage extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () async {
                                       final image = await selfieController.screenshotController.capture();
-                                      selfieController.saveScreenshot(image!);
+                                      // selfieController.saveScreenshot(image!);
                                     },
                                     child: Column(
                                       children: [

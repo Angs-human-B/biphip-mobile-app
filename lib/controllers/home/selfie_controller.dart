@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bip_hip/models/home/selfie/selfie_common_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:story_view/story_view.dart';
@@ -138,13 +138,13 @@ class SelfieController extends GetxController {
 
   final Rx<File> selfieFile = File('').obs;
 
-  Future<String> saveScreenshot(Uint8List bytes) async {
-    await [Permission.storage].request();
-    const String name = "Screenshot";
-    final result = await ImageGallerySaver.saveImage(bytes, name: name);
-    ll(result['filePath']);
-    return result['filePath'];
-  }
+  // Future<String> saveScreenshot(Uint8List bytes) async {
+  //   await [Permission.storage].request();
+  //   const String name = "Screenshot";
+  //   final result = await ImageGallerySaver.saveImage(bytes, name: name);
+  //   ll(result['filePath']);
+  //   return result['filePath'];
+  // }
 
   final RxList<Map<String, dynamic>> allSelfieList = RxList<Map<String, dynamic>>([]);
 
