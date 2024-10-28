@@ -38,7 +38,7 @@ class Settings extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomMenuContainer(
-                        height: 48,
+                        height: 49,
                         trailing: const Icon(
                           BipHip.downArrow,
                           color: cIconColor,
