@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1031379540193",
+    "project_id": "biphip-6ffd7",
+    "storage_bucket": "biphip-6ffd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031379540193:android:b112d455070252c746ffa0",
+        "android_client_info": {
+          "package_name": "com.biphip.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031379540193-o8j1i6ln5hram133it0nv9ouge6oc3bt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.biphip.app",
+            "certificate_hash": "670c09d1c311d52517b2d1fe73ef5f7c350835bd"
+          }
+        },
+        {
+          "client_id": "1031379540193-a6npflr137b70ucnkmnvpjr6c2j0hftb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5ujQgYzWuPhAvScW1L34P26CU4FxlYlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031379540193-a6npflr137b70ucnkmnvpjr6c2j0hftb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
