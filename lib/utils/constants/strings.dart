@@ -200,6 +200,7 @@ const String ksComment = 'Comment';
 const String ksShares = 'Shares';
 const String ksComments = 'Comments';
 const String ksSelfie = 'Selfie';
+const String ksSelfies = 'Selfies';
 const String ksPublicPost = 'Public post';
 const String ksPrivatePost = 'Private post';
 
@@ -791,6 +792,7 @@ const String ksYouHavenotWonAnyAward = "You haven't won any Award on this week";
 const String ksWinningDate = "Winning Date";
 const String ksYouHaveNotWonAnyAwards = "You haven't won any awards";
 const String ksNotification = "Notification";
+const String ksNotifications = "Notifications";
 const String ksNoNotificationAvailable = "No notification available";
 const String ksYouDontHaveAnyNotification = "You don't have any notification";
 
@@ -935,3 +937,44 @@ const String ksReviews = "Reviews";
 const String ksDoYouRecommendGenieInfoTech = "Do you recommend Genie InfoTech?";
 const String ksWhatDoYouRecommendAbout = "What do you recommend about";
 const String ksNoVideoAvailable = "No Video Available";
+
+
+//---------------------------------------
+//* Setting
+//---------------------------------------
+const String ksProfile = 'Profile';
+const String ksPersonalDetails = 'Personal details';
+const String ksProfileDetails = 'Profile details';
+const String ksPasswordAndSecurity = 'Password and Security';
+const String ksVerification = 'Verification';
+const String ksAccountsCenter = 'Accounts Center';
+const String ksAccountsCenterDetails = 'Manage your connected experiences and account setting across Bip-Hip Technologies.';
+const String ksToolsAndResources = 'Tools and resources';
+const String ksToolsAndResourcesDetails = 'Our tools help you control and manage your privacy.';
+const String ksDefaultAudienceSettings = 'Default audience settings';
+const String ksPreferencesDetails = 'Customise your experience on Bip-Hip.';
+const String ksReactionPreferences = 'Reaction preferences';
+const String ksLanguageAndRegion = 'Language and region';
+const String ksDarkMode = 'Dark mode';
+const String ksAudienceAndVisibility = 'Audience and visibility';
+const String ksAudienceAndVisibilityDetails = 'Control who can see what you share on Bip-Hip';
+const String ksHowPeopleWillFindYou = 'How people will find you';
+const String ksPolls = 'Polls';
+const String ksProfileAndTagging = 'Profile and tagging';
+const String ksBlocking = 'Blocking';
+const String ksPayments = "Payments";
+const String ksPaymentsDetails = "Manage your payment Info and activity.";
+const String ksAdsPayments = "Ads payments";
+const String ksYourActivity = "Your activity";
+const String ksYourActivityDetails = "Review your activity and content you’re tagged in.";
+const String ksActivityLog = "Activity log";
+const String ksTrash = "Trash";
+const String ksArchive = "Archive";
+const String ksReviewPostsYouTaggedIn = "Review posts you tagged in";
+const String ksCommunityStandardAndLegalPolicy = "Community Standard and Legal Policy";
+const String ksTermsOfService = "Terms of service";
+const String ksPrivacyPolicy = "Privacy policy";
+const String ksCookiesPolicy = "Cookies Policy";
+const String ksCommunityStandard = "Community Standard";
+
+

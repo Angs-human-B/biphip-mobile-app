@@ -17,6 +17,8 @@ class BipHip {
   static const _kChatFontFam = 'Chat';
   static const String? _kChatFontPkg = null;
 
+  static const IconData starFill = IconData(0xe826, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
+  static const IconData starOutLine = IconData(0xe825, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData add = IconData(0xe800, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addImage = IconData(0xe801, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
   static const IconData addPhotos = IconData(0xe802, fontFamily: _kBipHipFontFam, fontPackage: _kBipHipFontPkg);
