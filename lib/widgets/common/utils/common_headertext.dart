@@ -5,7 +5,8 @@ import '../../../utils/constants/const.dart';
 
 class HeaderText extends StatelessWidget {
   String title;
-  HeaderText(this.title, {Key? key}) : super();
+  Color color;
+  HeaderText(this.title, {this.color = Colors.black, Key? key}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,8 @@ class HeaderText extends StatelessWidget {
       title,
       style: TextStyle(
           fontSize: 33.sp,
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.bold,
+        color: color
       ),
     );
   }

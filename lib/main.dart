@@ -1,5 +1,7 @@
 import 'package:bip_hip/controllers/common/binder_controller.dart';
-import 'package:bip_hip/views/menu/settings/profile_details_page.dart';
+import 'package:bip_hip/views/menu/settings/change%20password/password_and_security_page.dart';
+import 'package:bip_hip/views/menu/settings/default%20audience/default_audience_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/profile_details_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
@@ -54,7 +56,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           debugShowCheckedModeBanner: false,
-          home: ProfileDetailsPage(),
+          home: DefaultAudience(),
           // initialRoute: krProfileDetails,
           // getPages: routes,
           theme: ThemeData(useMaterial3: false),

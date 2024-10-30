@@ -1,21 +1,25 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/settings/account_ownership_page.dart';
-import 'package:bip_hip/views/menu/settings/add_contact_info_page.dart';
-import 'package:bip_hip/views/menu/settings/contact_info_page.dart';
+import 'package:bip_hip/views/menu/settings/change%20password/change_password_page.dart';
+import 'package:bip_hip/views/menu/settings/change%20password/two%20_factor_authentication_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/account_ownership_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/add_contact_info_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/contact_info_page.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
 import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProfileDetailsPage extends StatefulWidget {
-  const ProfileDetailsPage({Key? key}) : super(key: key);
+import '../../../auth/register/otp_verification.dart';
+
+class PersonalDetailsPage extends StatefulWidget {
+  const PersonalDetailsPage({Key? key}) : super(key: key);
 
   @override
-  State<ProfileDetailsPage> createState() => _ProfileDetailsPageState();
+  State<PersonalDetailsPage> createState() => _PersonalDetailsPageState();
 }
 
-class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
+class _PersonalDetailsPageState extends State<PersonalDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -28,7 +32,7 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
           child: CustomAppBar(
             onBack: (){
               Get.back();
-          },
+            },
             title: "Personal Details",
 
           ),
@@ -39,15 +43,16 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Normalext(
-                  "Bip-Hip uses this information to verify your identity and to keep our community safe. You decide what personal details you make visible to others.",txtAlign: TextAlign.justify,fontSize: 25.sp,),
+                "We'll now ask for a login code anytime you log in on a device we don't recognize. Learn more",txtAlign: TextAlign.justify,fontSize: 25.sp,),
               SizedBox(height: 20,),
+
               Container(
                 padding: EdgeInsets.only(left: 20),
-                height: 250,
+                height: 230.h,
                 width: MediaQuery.of(context).size.width*.9,
                 decoration: BoxDecoration(
-                  color: cGreyBoxColor,
-                  borderRadius: BorderRadius.circular(10)
+                    color: cGreyBoxColor,
+                    borderRadius: BorderRadius.circular(10)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,13 +65,12 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            HeaderText("Contact info"),
-                            Normalext("Shohagjalal@gmail.com", fontSize: 26.sp,),
-                            Normalext("+8801993144278", fontSize: 26.sp),
+                            HeaderText("Text message"),
+                            Normalext("We will send code to ************78.", fontSize: 26.sp,),
                           ],
                         ),
                         IconButton(onPressed: (){
-                          Get.to(ContactInfo());
+                          Get.to(TwoFactorAuthentication(type: 'phone',));
                         },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -80,36 +84,17 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            HeaderText("Birthday"),
-                            Normalext("January 01, 2000", fontSize: 26.sp),
+                            HeaderText("Get code on your mail"),
+                            Normalext("We will send code to s**************l@gmail.com.", fontSize: 24.sp),
                           ],
                         ),
                         IconButton(onPressed: (){
-                          Get.to(AddContactInfo("Birthday", 'birthday', controllerTxt: "January 01, 2000",));
+                          Get.to(TwoFactorAuthentication(type: 'email',));
                         },
-                            icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
+                            icon: Icon(Icons.arrow_forward_ios, color: cIconColor))
                       ],
                     ),
-                    SizedBox(height: 10),
-                    CustomDivider(),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HeaderText("Account ownership and control"),
-                            Normalext("Deactivate or delete your account and profile", fontSize: 26.sp),
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: (){
-                              Get.to(AccountOwnership());
-                            },
-                            icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
-                      ],
-                    ),
+
                     SizedBox(height: 10),
                   ],
                 ),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-import '../../../utils/constants/const.dart';
-import '../../../widgets/common/utils/common_simple_text.dart';
-import '../../../widgets/common/utils/custom_app_bar.dart';
+import '../../../../utils/constants/const.dart';
+import '../../../../widgets/common/utils/common_simple_text.dart';
+import '../../../../widgets/common/utils/custom_app_bar.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 class OTP extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/settings/add_contact_info_page.dart';
-import 'package:bip_hip/views/menu/settings/contact_info_page.dart';
-import 'package:bip_hip/views/menu/settings/delete_account_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/add_contact_info_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/contact_info_page.dart';
+import 'package:bip_hip/views/menu/settings/personal%20details/delete_account_page.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
 import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
