@@ -1,9 +1,13 @@
+import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/const.dart';
+import '../../widgets/common/utils/common_shimmer.dart';
+import '../../widgets/common/utils/custom_app_bar.dart';
 
 class SettingsShimmerPage extends StatelessWidget {
   const SettingsShimmerPage({Key? key}) : super(key: key);
@@ -11,8 +15,22 @@ class SettingsShimmerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: cWhiteColor,
-      body: SingleChildScrollView(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: cGreyBoxColor,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kAppBarSize),
+        //* info:: appBar
+        child: CustomAppBar(
+          appBarColor: cWhiteColor,
+          title: ShimmerCommon(
+            widget: Container(decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius), height: h20, width: width * 0.6),
+          ),
+          hasBackButton: true,
+          onBack: () {
+            Get.back();
+          },
+        ),
+      ),      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
           child: Column(
