@@ -37,6 +37,8 @@ class MenuSectionController extends GetxController {
       'text': 'Setting',
       'icon': BipHip.setting,
       'onPressed': () {
+        final ProfileController profileController = Get.find<ProfileController>();
+        profileController.getProfileOverview();
         Get.toNamed(krSettings);
       }
     },

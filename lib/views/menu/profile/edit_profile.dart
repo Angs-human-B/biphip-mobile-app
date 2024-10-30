@@ -7,6 +7,8 @@ import 'package:bip_hip/views/menu/profile/widgets/profile_post_tab.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_image_errorbuilder.dart';
 
+import '../../../shimmers/profile/profile_shimmer.dart';
+
 class EditProfile extends StatelessWidget {
   EditProfile({super.key});
 
@@ -19,7 +21,7 @@ class EditProfile extends StatelessWidget {
     return Container(
         color: cWhiteColor,
         child: Obx(
-          () => Stack(
+          () =>Stack(
             children: [
               SafeArea(
                 top: false,

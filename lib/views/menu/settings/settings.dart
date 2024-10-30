@@ -1,13 +1,21 @@
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
+import 'package:bip_hip/shimmers/settings/settings_shimmer.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/menu.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../controllers/home/home_controller.dart';
+import '../../../controllers/menu/profile_controller.dart';
+import '../../../helpers/profile/profile_helper.dart';
 
 class Settings extends StatelessWidget {
   Settings({super.key});
 
   final MenuSectionController menuController =
       Get.find<MenuSectionController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final HomeController homeController = Get.find<HomeController>();
+  final ProfileHelper profileHelper = ProfileHelper();
   final GlobalController globalController = Get.find<GlobalController>();
 
   @override
@@ -15,7 +23,9 @@ class Settings extends StatelessWidget {
     return Container(
       color: cWhiteColor,
       child: Obx(
-        () => Stack(
+        () =>  profileController.isProfileLoading.value
+            ? const SettingsShimmerPage()
+            : Stack(
           children: [
             SafeArea(
               top: false,
@@ -58,7 +68,9 @@ class Settings extends StatelessWidget {
                           textStyle: semiBold16TextStyle(cBlackColor),
                           height: 70.h,
                           leading: const Icon(BipHip.user, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: ()  {
+                            Get.toNamed(krEditProfile);
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(

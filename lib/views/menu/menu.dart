@@ -228,7 +228,7 @@ class CustomMenuContainer extends StatelessWidget {
 
   final Widget? leading, trailing;
   final double? height, width;
-  final VoidCallback? onPressed;
+  final GestureTapCallback? onPressed;
   final String text;
   final TextStyle textStyle;
 
