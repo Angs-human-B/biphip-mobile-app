@@ -82,6 +82,8 @@ import 'package:bip_hip/views/menu/selfie/select_people_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_privacy_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_view_page.dart';
+import 'package:bip_hip/views/menu/settings/DarkMode/dark_mode_page.dart';
+import 'package:bip_hip/views/menu/settings/languageAndRegion/language_and_region_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
@@ -149,6 +151,9 @@ import 'package:bip_hip/views/profile_view/store_review/profile_view_create_revi
 import 'package:bip_hip/views/search/search.dart';
 import 'package:get/get.dart';
 
+import '../../views/menu/settings/ReactionPreferences/reaction_preferences.dart';
+import '../../views/menu/settings/change password/password_and_security_page.dart';
+import '../../views/menu/settings/default audience/default_audience_page.dart';
 import '../../views/menu/settings/personal details/profile_details_page.dart';
 import '../../views/menu/settings/settings.dart';
 
@@ -342,6 +347,18 @@ const String krRingingScreen = '/ringing-screen';
  const String krProfileViewFollower = "/profile-view-follower";
  const String krProfileViewCreateReview = "/profile-view-create-review";
 
+//* Settings
+const String krProfileDetailsPage = "/profile-details-page";
+const String krPasswordAndSecurity = "/password-and-security";
+const String krDefaultAudience = "/default-audience";
+const String krReactionPreferences = "/reaction-preferences";
+const String krDarkMode = "/dark-mode";
+const String krLanguageAndRegion = "/language-and-region";
+// const String krProfileViewFriend = "/profile-view-friend";
+// const String krProfileViewFamily = "/profile-view-family";
+// const String krProfileViewFollower = "/profile-view-follower";
+// const String krProfileViewCreateReview = "/profile-view-create-review";
+
 List<GetPage<dynamic>>? routes = [
   //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -528,5 +545,13 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krProfileViewFamily, page: () => ProfileViewFamily(), transition: Transition.noTransition),
   GetPage(name: krProfileViewFollower, page: () => ProfileViewFollower(), transition: Transition.noTransition),
   GetPage(name: krProfileViewCreateReview, page: () => ProfileViewCreateReview(), transition: Transition.noTransition),
+
+  //* Settings
+  GetPage(name: krProfileDetailsPage, page: () => const ProfileDetailsPage(), transition: Transition.noTransition),
+  GetPage(name: krPasswordAndSecurity, page: () => const PasswordAndSecurity(), transition: Transition.noTransition),
+  GetPage(name: krDefaultAudience, page: () => const DefaultAudience(), transition: Transition.noTransition),
+  GetPage(name: krReactionPreferences, page: () => const ReactionPreferences(), transition: Transition.noTransition),
+  GetPage(name: krDarkMode, page: () => const DarkModePage(), transition: Transition.noTransition),
+  GetPage(name: krLanguageAndRegion, page: () => const LanguageAndRegion(), transition: Transition.noTransition),
 
 ];

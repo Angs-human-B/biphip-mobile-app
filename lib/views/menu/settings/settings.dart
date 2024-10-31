@@ -2,6 +2,7 @@
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../controllers/dashboard/dashboard_controller.dart';
 import '../../../controllers/home/home_controller.dart';
 import '../../../controllers/menu/menu_section_controller.dart';
 import '../../../controllers/menu/profile_controller.dart';
@@ -19,6 +20,8 @@ class Settings extends StatelessWidget {
   final HomeController homeController = Get.find<HomeController>();
   final ProfileHelper profileHelper = ProfileHelper();
   final GlobalController globalController = Get.find<GlobalController>();
+  final DashboardController dashboardController = Get.find<DashboardController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +74,7 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading: const Icon(BipHip.user, color: cIconColor),
                           onPressed: ()  {
-                            Get.toNamed(krEditProfile);
+                            Get.toNamed(krProfile);
                           },
                         ),
                         SizedBox(height: 12.h),
@@ -81,7 +84,9 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading: const Icon(BipHip.termsCondition,
                               color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krProfileDetailsPage);
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(
@@ -89,7 +94,9 @@ class Settings extends StatelessWidget {
                           textStyle: semiBold16TextStyle(cBlackColor),
                           height: 70.h,
                           leading: const Icon(BipHip.lock, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krPasswordAndSecurity);
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(
@@ -98,7 +105,10 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading:
                               const Icon(BipHip.starFill, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            dashboardController.payoutsSettingsTapableButtonOnPressed();
+                            Get.toNamed(krDashboardPayout);
+                          },
                         ),
                         SizedBox(height: 22.h),
                         Text(
@@ -117,7 +127,9 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading: const Icon(BipHip.removeFamily,
                               color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krDefaultAudience);
+                          },
                         ),
                         SizedBox(height: 22.h),
                         Text(
@@ -135,7 +147,9 @@ class Settings extends StatelessWidget {
                           textStyle: semiBold16TextStyle(cBlackColor),
                           height: 70.h,
                           leading: const Icon(BipHip.user, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krReactionPreferences);
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(
@@ -153,7 +167,9 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading:
                               const Icon(BipHip.language, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krLanguageAndRegion);
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(
@@ -162,7 +178,9 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading:
                               const Icon(BipHip.darkMode, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krDarkMode);
+                          },
                         ),
                         SizedBox(height: 22.h),
                         Text(
@@ -180,7 +198,10 @@ class Settings extends StatelessWidget {
                           textStyle: semiBold16TextStyle(cBlackColor),
                           height: 70.h,
                           leading: const Icon(BipHip.info, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krEditProfile);
+
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(
