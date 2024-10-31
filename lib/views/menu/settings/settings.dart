@@ -1,12 +1,14 @@
-import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
-import 'package:bip_hip/shimmers/settings/settings_shimmer.dart';
-import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/menu.dart';
+
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../controllers/home/home_controller.dart';
+import '../../../controllers/menu/menu_section_controller.dart';
 import '../../../controllers/menu/profile_controller.dart';
 import '../../../helpers/profile/profile_helper.dart';
+import '../../../shimmers/settings/settings_shimmer.dart';
+import '../../../utils/constants/imports.dart';
+import '../menu.dart';
 
 class Settings extends StatelessWidget {
   Settings({super.key});

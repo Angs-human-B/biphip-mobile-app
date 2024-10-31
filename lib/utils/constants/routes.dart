@@ -131,7 +131,6 @@ import 'package:bip_hip/views/menu/profile/edit_bio.dart';
 import 'package:bip_hip/views/menu/profile/edit_profile.dart';
 import 'package:bip_hip/views/post/select_category.dart';
 import 'package:bip_hip/views/menu/menu.dart';
-import 'package:bip_hip/views/menu/settings/settings.dart';
 import 'package:bip_hip/views/menu/photos/photo_details.dart';
 import 'package:bip_hip/views/menu/photos/photo_preview.dart';
 import 'package:bip_hip/views/menu/profile/photo_view.dart';
@@ -149,6 +148,10 @@ import 'package:bip_hip/views/profile_view/profile_view_friend.dart';
 import 'package:bip_hip/views/profile_view/store_review/profile_view_create_review.dart';
 import 'package:bip_hip/views/search/search.dart';
 import 'package:get/get.dart';
+
+import '../../views/menu/settings/personal details/profile_details_page.dart';
+import '../../views/menu/settings/settings.dart';
+
 
 const String krSplashScreen = '/splash-screen';
 const String krIntroductionScreen = '/introduction-screen';
@@ -192,6 +195,7 @@ const String krViewPhoto = '/view-photo';
 const String krVideos = '/videos';
 const String krVideoDetails = '/video-details';
 const String krSettings = '/settings';
+const String krProfileDetails = '/profile-details';
 const String krAddLanguage = '/add-language';
 
 const String krCreatePost = '/create-post';
@@ -338,7 +342,6 @@ const String krRingingScreen = '/ringing-screen';
  const String krProfileViewFollower = "/profile-view-follower";
  const String krProfileViewCreateReview = "/profile-view-create-review";
 
-
 List<GetPage<dynamic>>? routes = [
   //* info:: auth screens
   GetPage(name: krLogin, page: () => Login(), transition: Transition.noTransition),
@@ -370,6 +373,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krEditAboutInfo, page: () => EditAboutInfo(), transition: Transition.noTransition),
   GetPage(name: krSettings, page: () => Settings(), transition: Transition.noTransition),
+  GetPage(name: krProfileDetails, page: () => ProfileDetailsPage(), transition: Transition.noTransition),
   GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
   GetPage(name: krAddFamily, page: () => AddFamily(), transition: Transition.noTransition),
   GetPage(name: krAddFriend, page: () => AddFriend(), transition: Transition.noTransition),

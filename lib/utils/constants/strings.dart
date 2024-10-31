@@ -976,5 +976,3 @@ const String ksTermsOfService = "Terms of service";
 const String ksPrivacyPolicy = "Privacy policy";
 const String ksCookiesPolicy = "Cookies Policy";
 const String ksCommunityStandard = "Community Standard";
-
-

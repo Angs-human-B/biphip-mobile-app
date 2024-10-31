@@ -20,7 +20,7 @@ BorderRadius k20CircularBorderRadius = BorderRadius.circular(20.0);
 BorderRadius k100CircularBorderRadius = BorderRadius.circular(100.0);
 
 const double kAppBarSize = 44.0;
-
+const double kAppBarSizeSetting = 60;
 const int kMinPasswordLength = 8;
 const int kOTPLength = 4;
 

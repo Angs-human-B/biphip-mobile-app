@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       minTextAdapt: true,
+      splitScreenMode: true,
       designSize: const Size(720, 1280),
       builder: (context, child) {
         return GestureDetector(

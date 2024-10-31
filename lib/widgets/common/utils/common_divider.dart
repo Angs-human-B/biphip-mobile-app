@@ -6,7 +6,7 @@ class CustomDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
+      width: MediaQuery.of(context).size.width,
       child: Divider(
         thickness: thickness ?? 1,
         height: 1,
