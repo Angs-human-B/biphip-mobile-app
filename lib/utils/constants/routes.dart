@@ -83,6 +83,7 @@ import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_privacy_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_view_page.dart';
 import 'package:bip_hip/views/menu/settings/DarkMode/dark_mode_page.dart';
+import 'package:bip_hip/views/menu/settings/how%20people%20will%20find%20you/how_people_will_find_you_page.dart';
 import 'package:bip_hip/views/menu/settings/languageAndRegion/language_and_region_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
@@ -354,6 +355,7 @@ const String krDefaultAudience = "/default-audience";
 const String krReactionPreferences = "/reaction-preferences";
 const String krDarkMode = "/dark-mode";
 const String krLanguageAndRegion = "/language-and-region";
+const String krHowPeopleWillFindYou = "/how_people_will_find_you_page.dart";
 // const String krProfileViewFriend = "/profile-view-friend";
 // const String krProfileViewFamily = "/profile-view-family";
 // const String krProfileViewFollower = "/profile-view-follower";
@@ -553,5 +555,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krReactionPreferences, page: () => const ReactionPreferences(), transition: Transition.noTransition),
   GetPage(name: krDarkMode, page: () => const DarkModePage(), transition: Transition.noTransition),
   GetPage(name: krLanguageAndRegion, page: () => const LanguageAndRegion(), transition: Transition.noTransition),
+  GetPage(name: krHowPeopleWillFindYou, page: () => const HowPeopleWillFindYou(), transition: Transition.noTransition),
 
 ];

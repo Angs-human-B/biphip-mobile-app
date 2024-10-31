@@ -122,7 +122,11 @@ class GlobalController extends GetxController {
     )) throw 'Could not launch $url';
   }
 
-  void showSnackBar({required String title, required String message, required Color color, duration}) {
+  void showSnackBar(
+      {required String title,
+      required String message,
+      required Color color,
+      duration}) {
     Get.snackbar(
       title,
       message,
@@ -156,7 +160,9 @@ class GlobalController extends GetxController {
       isDismissible: isDismissible ?? true,
       isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(k16BorderRadius),
+            topRight: Radius.circular(k16BorderRadius)),
       ),
       context: context,
       builder: (BuildContext context) {
@@ -165,10 +171,17 @@ class GlobalController extends GetxController {
           children: [
             Container(
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(k16BorderRadius),
+                      topRight: Radius.circular(k16BorderRadius)),
+                  color: cWhiteColor),
               width: width,
-              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
-              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0
+                  ? height * .9
+                  : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(
+                  minHeight: bottomSheetHeight ?? height * .5,
+                  maxHeight: height * .9),
               child: Column(
                 children: [
                   kH4sizedBox,
@@ -186,21 +199,24 @@ class GlobalController extends GetxController {
                   ),
                   if (isSearchShow == true)
                     Padding(
-                      padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
+                      padding: const EdgeInsets.only(
+                          left: k16Padding, right: k16Padding, top: k16Padding),
                       child: CustomModifiedTextField(
                         borderRadius: h8,
                         controller: searchController,
                         prefixIcon: BipHip.search,
                         suffixIcon: BipHip.voiceFill,
                         hint: ksSearch.tr,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: k16Padding),
                         textInputStyle: regular16TextStyle(cBlackColor),
                       ),
                     ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: k16Padding, vertical: k8Padding),
                         child: content,
                       ),
                     ),
@@ -231,10 +247,14 @@ class GlobalController extends GetxController {
                 top: h20,
                 right: 10,
                 child: Obx(() => CustomTextButton(
-                      onPressed: isBottomSheetRightButtonActive!.value ? onPressRightButton : null,
+                      onPressed: isBottomSheetRightButtonActive!.value
+                          ? onPressRightButton
+                          : null,
                       icon: BipHip.circleCross,
                       text: rightText,
-                      textStyle: isBottomSheetRightButtonActive.value ? rightTextStyle : medium14TextStyle(cLineColor2),
+                      textStyle: isBottomSheetRightButtonActive.value
+                          ? rightTextStyle
+                          : medium14TextStyle(cLineColor2),
                     )),
               ),
           ],
@@ -246,7 +266,9 @@ class GlobalController extends GetxController {
   //* Image picker
   final ImagePicker _picker = ImagePicker();
 
-  Future<bool> selectImageSource(RxBool isChanged, imageLink, imageFile, String source, [bool? isFromBottomSheet, isList = false]) async {
+  Future<bool> selectImageSource(
+      RxBool isChanged, imageLink, imageFile, String source,
+      [bool? isFromBottomSheet, isList = false]) async {
     try {
       final XFile? image = await _picker.pickImage(
         source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
@@ -275,7 +297,8 @@ class GlobalController extends GetxController {
     }
   }
 
-  Future<bool> selectMultiMediaSource(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
+  Future<bool> selectMultiMediaSource(RxBool isMediaChanged,
+      RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
     try {
       final List<XFile> mediaList = await _picker.pickMultiImage(
         maxHeight: 480,
@@ -289,7 +312,10 @@ class GlobalController extends GetxController {
             final File imageTemporary = File(mediaList[i].path);
             mediaFileList.add(imageTemporary.obs);
           } else {
-            showSnackBar(title: ksWarning.tr, message: ksFileFormatNotSupported.tr, color: cSecondaryColor);
+            showSnackBar(
+                title: ksWarning.tr,
+                message: ksFileFormatNotSupported.tr,
+                color: cSecondaryColor);
           }
         }
         return true;
@@ -304,11 +330,11 @@ class GlobalController extends GetxController {
   }
 
   //*For Selling type post max limit 10 and max size per image is 5
-  Future<bool> selectMultiMediaSourceForSelling(RxBool isMediaChanged, RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
+  Future<bool> selectMultiMediaSourceForSelling(RxBool isMediaChanged,
+      RxList<RxString> mediaLinkList, RxList<Rx<File?>> mediaFileList) async {
     try {
       final List<XFile> mediaList = await _picker
-          .pickMultiImage(
-              )
+          .pickMultiImage()
           .then((value) => value.take(10).toList());
       if (mediaList.isNotEmpty) {
         for (int i = 0; i < mediaList.length; i++) {
@@ -316,14 +342,21 @@ class GlobalController extends GetxController {
           if (type != null) {
             final File imageTemporary = File(mediaList[i].path);
             if (mediaFileList.length > 10) {
-              showSnackBar(title: "Warning", message: "You cannot select more than 10 images.", color: cAmberColor);
+              showSnackBar(
+                  title: "Warning",
+                  message: "You cannot select more than 10 images.",
+                  color: cAmberColor);
               return false;
             }
             if (await imageTemporary.exists()) {
-              final double sizeInMB = imageTemporary.lengthSync() / (1024 * 1024);
+              final double sizeInMB =
+                  imageTemporary.lengthSync() / (1024 * 1024);
               ll('file size is ${sizeInMB.toString()}');
               if (sizeInMB > 5) {
-                showSnackBar(title: "Warning", message: "Image size must be less than 5MB.", color: cAmberColor);
+                showSnackBar(
+                    title: "Warning",
+                    message: "Image size must be less than 5MB.",
+                    color: cAmberColor);
                 continue;
               }
             }
@@ -342,10 +375,13 @@ class GlobalController extends GetxController {
     }
   }
 
-  Future<bool> selectVideoSource(RxBool isChanged, videoLink, videoFile, String source, [isList = false]) async {
+  Future<bool> selectVideoSource(
+      RxBool isChanged, videoLink, videoFile, String source,
+      [isList = false]) async {
     try {
       final XFile? video = await _picker.pickVideo(
-          source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
+          source:
+              source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
           preferredCameraDevice: CameraDevice.rear,
           maxDuration: const Duration(seconds: 600));
       if (video != null) {
@@ -381,7 +417,9 @@ class GlobalController extends GetxController {
     showModalBottomSheet<void>(
       isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(k16BorderRadius),
+            topRight: Radius.circular(k16BorderRadius)),
       ),
       context: context,
       builder: (BuildContext context) {
@@ -390,10 +428,17 @@ class GlobalController extends GetxController {
           children: [
             Container(
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(k16BorderRadius),
+                      topRight: Radius.circular(k16BorderRadius)),
+                  color: cWhiteColor),
               width: width,
-              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
-              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0
+                  ? height * .9
+                  : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(
+                  minHeight: bottomSheetHeight ?? height * .5,
+                  maxHeight: height * .9),
               child: Column(
                 children: [
                   kH4sizedBox,
@@ -431,7 +476,9 @@ class GlobalController extends GetxController {
     showModalBottomSheet<void>(
       isScrollControlled: isScrollControlled ?? false,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(k16BorderRadius),
+            topRight: Radius.circular(k16BorderRadius)),
       ),
       context: Get.context!,
       builder: (BuildContext context) {
@@ -442,10 +489,17 @@ class GlobalController extends GetxController {
           children: [
             Container(
               decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(k16BorderRadius),
+                      topRight: Radius.circular(k16BorderRadius)),
+                  color: cWhiteColor),
               width: width,
-              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
-              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0
+                  ? height * .9
+                  : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(
+                  minHeight: bottomSheetHeight ?? height * .5,
+                  maxHeight: height * .9),
               child: Column(
                 children: [
                   kH4sizedBox,
@@ -463,7 +517,12 @@ class GlobalController extends GetxController {
                 ],
               ),
             ),
-            if (action != null) Positioned(bottom: MediaQuery.of(context).viewInsets.bottom, left: 0, right: 0, child: action),
+            if (action != null)
+              Positioned(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                  left: 0,
+                  right: 0,
+                  child: action),
           ],
         );
       },
@@ -507,15 +566,18 @@ class GlobalController extends GetxController {
     Get.back();
     if (selfReaction != null) {
       if (selfReaction.value == reaction) {
-        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction.value);
+        Get.find<PostReactionController>()
+            .postReaction(refType, refId, selfReaction.value);
         selfReaction = null;
       } else {
         selfReaction = RxString(reaction);
-        Get.find<PostReactionController>().postReaction(refType, refId, selfReaction.value);
+        Get.find<PostReactionController>()
+            .postReaction(refType, refId, selfReaction.value);
       }
     } else {
       selfReaction = RxString(reaction);
-      Get.find<PostReactionController>().postReaction(refType, refId, selfReaction);
+      Get.find<PostReactionController>()
+          .postReaction(refType, refId, selfReaction);
     }
     log('-----' + selfReaction.toString());
     return selfReaction;
@@ -538,7 +600,8 @@ class GlobalController extends GetxController {
       );
     } else {
       for (int i = 0; i < reactionVariant.length; i++) {
-        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction.value) {
+        if (reactionVariant[i]["reaction"].toString().toLowerCase() ==
+            myReaction.value) {
           return Text(
             reactionVariant[i]["reaction"].toString(),
             style: regular10TextStyle(reactionVariant[i]["color"]),
@@ -568,7 +631,8 @@ class GlobalController extends GetxController {
       );
     } else {
       for (int i = 0; i < reactionVariant.length; i++) {
-        if (reactionVariant[i]["reaction"].toString().toLowerCase() == myReaction.value.toLowerCase()) {
+        if (reactionVariant[i]["reaction"].toString().toLowerCase() ==
+            myReaction.value.toLowerCase()) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -589,7 +653,8 @@ class GlobalController extends GetxController {
     }
   }
 
-  Rx<CountReactions>? updateReaction(String reaction, Rx<String>? myReaction, Rx<CountReactions>? countReactionRX) {
+  Rx<CountReactions>? updateReaction(String reaction, Rx<String>? myReaction,
+      Rx<CountReactions>? countReactionRX) {
     CountReactions? countReaction = countReactionRX?.value;
 
     void adjustReactionCount(String reaction, bool increment) {
@@ -605,22 +670,34 @@ class GlobalController extends GetxController {
 
       switch (reaction) {
         case 'haha':
-          countReaction!.haha = increment ? (countReaction!.haha ?? RxInt(0)) + 1 : (countReaction!.haha ?? RxInt(0)) - 1;
+          countReaction!.haha = increment
+              ? (countReaction!.haha ?? RxInt(0)) + 1
+              : (countReaction!.haha ?? RxInt(0)) - 1;
           break;
         case 'like':
-          countReaction!.like = increment ? (countReaction!.like ?? RxInt(0)) + 1 : (countReaction!.like ?? RxInt(0)) - 1;
+          countReaction!.like = increment
+              ? (countReaction!.like ?? RxInt(0)) + 1
+              : (countReaction!.like ?? RxInt(0)) - 1;
           break;
         case 'love':
-          countReaction!.love = increment ? (countReaction!.love ?? RxInt(0)) + 1 : (countReaction!.love ?? RxInt(0)) - 1;
+          countReaction!.love = increment
+              ? (countReaction!.love ?? RxInt(0)) + 1
+              : (countReaction!.love ?? RxInt(0)) - 1;
           break;
         case 'sad':
-          countReaction!.sad = increment ? (countReaction!.sad ?? RxInt(0)) + 1 : (countReaction!.sad ?? RxInt(0)) - 1;
+          countReaction!.sad = increment
+              ? (countReaction!.sad ?? RxInt(0)) + 1
+              : (countReaction!.sad ?? RxInt(0)) - 1;
           break;
         case 'wow':
-          countReaction!.wow = increment ? (countReaction!.wow ?? RxInt(0)) + 1 : (countReaction!.wow ?? RxInt(0)) - 1;
+          countReaction!.wow = increment
+              ? (countReaction!.wow ?? RxInt(0)) + 1
+              : (countReaction!.wow ?? RxInt(0)) - 1;
           break;
         case 'angry':
-          countReaction!.angry = increment ? (countReaction!.angry ?? RxInt(0)) + 1 : (countReaction!.angry ?? RxInt(0)) - 1;
+          countReaction!.angry = increment
+              ? (countReaction!.angry ?? RxInt(0)) + 1
+              : (countReaction!.angry ?? RxInt(0)) - 1;
           break;
         default:
           break;
@@ -651,19 +728,26 @@ class GlobalController extends GetxController {
     return Rx<CountReactions>(countReaction!);
   }
 
-  void updateCommentCount(RxList<PostDataRx> postList, postIndex, isAddComment) {
+  void updateCommentCount(
+      RxList<PostDataRx> postList, postIndex, isAddComment) {
     if (isAddComment) {
-      postList[postIndex].countComment!.value = postList[postIndex].countComment!.value + 1;
+      postList[postIndex].countComment!.value =
+          postList[postIndex].countComment!.value + 1;
     } else {
-      postList[postIndex].countComment!.value = postList[postIndex].countComment!.value - 1;
+      postList[postIndex].countComment!.value =
+          postList[postIndex].countComment!.value - 1;
     }
   }
 
   void updateSharedPostCommentCount(isAddComment) {
     if (isAddComment) {
-      Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value + 1;
+      Get.find<HomeController>().postData.value!.post.countComment!.value =
+          Get.find<HomeController>().postData.value!.post.countComment!.value +
+              1;
     } else {
-      Get.find<HomeController>().postData.value!.post.countComment!.value = Get.find<HomeController>().postData.value!.post.countComment!.value - 1;
+      Get.find<HomeController>().postData.value!.post.countComment!.value =
+          Get.find<HomeController>().postData.value!.post.countComment!.value -
+              1;
     }
     update();
   }
@@ -731,7 +815,8 @@ class GlobalController extends GetxController {
   }
 
   String? getProductCondition(id) {
-    for (var privacy in Get.find<CreatePostController>().createPostSellConditionList) {
+    for (var privacy
+        in Get.find<CreatePostController>().createPostSellConditionList) {
       if (privacy.id == id) {
         return privacy.name;
       }
@@ -740,7 +825,8 @@ class GlobalController extends GetxController {
   }
 
   String? getProductCategory(id) {
-    for (var privacy in Get.find<CreatePostController>().createPostSellCategoryList) {
+    for (var privacy
+        in Get.find<CreatePostController>().createPostSellCategoryList) {
       if (privacy.id == id) {
         return privacy.name;
       }
@@ -792,7 +878,10 @@ class GlobalController extends GetxController {
   final RxString editDate = RxString('');
   final RxString postDate = RxString('');
 
-  void editPostDate({required BuildContext context, required int postId, required int postIndex}) {
+  void editPostDate(
+      {required BuildContext context,
+      required int postId,
+      required int postIndex}) {
     tempEditDate.value = '';
     if (tempEditDate.value == '') {
       editDateBottomSheetRightButtonState.value = false;
@@ -811,7 +900,8 @@ class GlobalController extends GetxController {
           date: editDate.value,
         );
         commonPostList[postIndex].dateTime = DateTime.parse(editDate.value);
-        commonPostList.replaceRange(postIndex, postIndex + 1, [commonPostList[postIndex]]);
+        commonPostList.replaceRange(
+            postIndex, postIndex + 1, [commonPostList[postIndex]]);
       },
       rightText: ksDone.tr,
       rightTextStyle: semiBold14TextStyle(cPrimaryColor),
@@ -827,7 +917,8 @@ class GlobalController extends GetxController {
           mode: CupertinoDatePickerMode.dateAndTime,
           onDateTimeChanged: (value) {
             editDateBottomSheetRightButtonState.value = true;
-            tempEditDate.value = DateFormat("yyyy-MM-dd HH:mm:ss").format(value);
+            tempEditDate.value =
+                DateFormat("yyyy-MM-dd HH:mm:ss").format(value);
           },
         ),
       ),
@@ -855,14 +946,22 @@ class GlobalController extends GetxController {
           }
         }
         isPostNotificationOffLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isPostNotificationOffLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -891,14 +990,22 @@ class GlobalController extends GetxController {
           }
         }
         isPostNotificationOffLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isPostNotificationOffLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -926,14 +1033,22 @@ class GlobalController extends GetxController {
 
       if (response.success == true) {
         isPostNotificationOffLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isPostNotificationOffLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -945,7 +1060,7 @@ class GlobalController extends GetxController {
   final RxInt reportId = RxInt(-1);
   final RxInt selectedReportIndex = RxInt(-1);
   final RxBool reportBottomSheetState = RxBool(false);
-   //*Get Report  List Api Call
+  //*Get Report  List Api Call
   final Rx<ReportListModel?> reportListData = Rx<ReportListModel?>(null);
   final RxList<Report> reportList = RxList<Report>([]);
   final RxBool isReportListLoading = RxBool(false);
@@ -967,9 +1082,13 @@ class GlobalController extends GetxController {
         isReportListLoading.value = true;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -978,7 +1097,8 @@ class GlobalController extends GetxController {
     }
   }
 
-  Future<void> postReportAndUndoReport(int? reportId, String? reason, {required String reportOrUndo, required int postId}) async {
+  Future<void> postReportAndUndoReport(int? reportId, String? reason,
+      {required String reportOrUndo, required int postId}) async {
     try {
       isPostNotificationOffLoading.value = true;
       String? token = await SpController().getBearerToken();
@@ -1009,14 +1129,22 @@ class GlobalController extends GetxController {
           }
         }
         isPostNotificationOffLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isPostNotificationOffLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -1045,14 +1173,22 @@ class GlobalController extends GetxController {
       if (response.success == true) {
         isEditAudienceLoading.value = false;
         selectedAudienceId.value = -1;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isEditAudienceLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -1077,14 +1213,22 @@ class GlobalController extends GetxController {
       if (response.success == true) {
         commonPostList.removeWhere((post) => post.id == postId);
         isDeletePostLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         isDeletePostLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -1118,14 +1262,22 @@ class GlobalController extends GetxController {
       if (response.success == true) {
         commonPostList.removeWhere((post) => post.id == postId);
         isHidePostLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isHidePostLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -1137,7 +1289,8 @@ class GlobalController extends GetxController {
   final RxBool isFollowUnfollowLoading = RxBool(false);
 
   //*Unfollow User
-  Future<void> followUnfollowUser({required int userId, required String followOrUnfollow}) async {
+  Future<void> followUnfollowUser(
+      {required int userId, required String followOrUnfollow}) async {
     try {
       isFollowUnfollowLoading.value = true;
       String? token = await SpController().getBearerToken();
@@ -1166,14 +1319,22 @@ class GlobalController extends GetxController {
         }
         if (followOrUnfollow == "Follow") {}
         isFollowUnfollowLoading.value = false;
-        showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+        showSnackBar(
+            title: ksSuccess.tr,
+            message: response.message,
+            color: cGreenColor,
+            duration: 1000);
       } else {
         isFollowUnfollowLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr, message: response.message, color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -1182,14 +1343,14 @@ class GlobalController extends GetxController {
     }
   }
 
-
   void disconnectSocket() {
     socket.clearListeners();
     socket.disconnect();
     socket.dispose();
   }
-  
-  RxList<Map<String, dynamic>> allOnlineUsers = RxList<Map<String, dynamic>>([]);
+
+  RxList<Map<String, dynamic>> allOnlineUsers =
+      RxList<Map<String, dynamic>>([]);
   void populatePeerList(newUserData) {
     allOnlineUsers.add({"userID": newUserData});
 
@@ -1197,6 +1358,7 @@ class GlobalController extends GetxController {
       Get.find<MessengerController>().updateRoomListWithOnlineUsers();
     }
   }
+
   final RxDouble keyboardHeight = RxDouble(0.0);
   //! end
 }

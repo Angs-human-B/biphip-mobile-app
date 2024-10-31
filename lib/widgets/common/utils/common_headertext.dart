@@ -12,10 +12,10 @@ class HeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      softWrap: true,
-      overflow: TextOverflow.ellipsis,
+      // softWrap: true,
+      // overflow: TextOverflow.ellipsis,
       style: TextStyle(
-          fontSize: 33.sp,
+          fontSize: 31.sp,
           fontWeight: FontWeight.bold,
         color: color
       ),

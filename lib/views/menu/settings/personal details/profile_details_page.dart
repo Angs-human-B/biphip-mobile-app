@@ -28,7 +28,7 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
           child: CustomAppBar(
             onBack: (){
               Get.back();
-          },
+            },
             title: "Personal Details",
 
           ),
@@ -39,15 +39,15 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Normalext(
-                  "Bip-Hip uses this information to verify your identity and to keep our community safe. You decide what personal details you make visible to others.",txtAlign: TextAlign.justify,fontSize: 25.sp,),
+                "Bip-Hip uses this information to verify your identity and to keep our community safe. You decide what personal details you make visible to others.",txtAlign: TextAlign.justify,fontSize: 25.sp,),
               SizedBox(height: 20,),
               Container(
                 padding: EdgeInsets.only(left: 20),
                 height: 250,
                 width: MediaQuery.of(context).size.width*.9,
                 decoration: BoxDecoration(
-                  color: cGreyBoxColor,
-                  borderRadius: BorderRadius.circular(10)
+                    color: cGreyBoxColor,
+                    borderRadius: BorderRadius.circular(10)
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

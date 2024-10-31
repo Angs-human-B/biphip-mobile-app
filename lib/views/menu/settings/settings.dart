@@ -210,7 +210,9 @@ class Settings extends StatelessWidget {
                           height: 70.h,
                           leading:
                               const Icon(BipHip.addFamily, color: cIconColor),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(krHowPeopleWillFindYou);
+                          },
                         ),
                         SizedBox(height: 12.h),
                         CustomMenuContainer(
