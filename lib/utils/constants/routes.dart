@@ -155,7 +155,11 @@ import 'package:get/get.dart';
 import '../../views/menu/settings/ReactionPreferences/reaction_preferences.dart';
 import '../../views/menu/settings/change password/password_and_security_page.dart';
 import '../../views/menu/settings/default audience/default_audience_page.dart';
+import '../../views/menu/settings/followers/followers_settings_page.dart';
 import '../../views/menu/settings/personal details/profile_details_page.dart';
+import '../../views/menu/settings/polls/polls_settings_page.dart';
+import '../../views/menu/settings/posts/posts_settings_page.dart';
+import '../../views/menu/settings/selfies/selfies_settings_page.dart';
 import '../../views/menu/settings/settings.dart';
 
 
@@ -356,8 +360,10 @@ const String krReactionPreferences = "/reaction-preferences";
 const String krDarkMode = "/dark-mode";
 const String krLanguageAndRegion = "/language-and-region";
 const String krHowPeopleWillFindYou = "/how_people_will_find_you_page.dart";
-// const String krProfileViewFriend = "/profile-view-friend";
-// const String krProfileViewFamily = "/profile-view-family";
+const String krPostsSettingsPage = "/posts-settings-page";
+const String krSelfiesSettingsPage = "/selfies-settings-page";
+const String krPollsSettingsPage = "/polls-settings-page";
+const String krFollowersSettingsPage = "/followers-settings-page";
 // const String krProfileViewFollower = "/profile-view-follower";
 // const String krProfileViewCreateReview = "/profile-view-create-review";
 
@@ -556,5 +562,9 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krDarkMode, page: () => const DarkModePage(), transition: Transition.noTransition),
   GetPage(name: krLanguageAndRegion, page: () => const LanguageAndRegion(), transition: Transition.noTransition),
   GetPage(name: krHowPeopleWillFindYou, page: () => const HowPeopleWillFindYou(), transition: Transition.noTransition),
+  GetPage(name: krPostsSettingsPage, page: () => const PostsSettingsPage(), transition: Transition.noTransition),
+  GetPage(name: krSelfiesSettingsPage, page: () => const SelfiesSettingsPage(), transition: Transition.noTransition),
+  GetPage(name: krPollsSettingsPage, page: () => const PollsSettingsPage(), transition: Transition.noTransition),
+  GetPage(name: krFollowersSettingsPage, page: () => const FollowersSettingsPage(), transition: Transition.noTransition),
 
 ];
