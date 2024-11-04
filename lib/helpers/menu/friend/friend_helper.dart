@@ -5,15 +5,21 @@ import 'package:bip_hip/views/menu/friends/widgets/all_friend_listview.dart';
 import 'package:bip_hip/views/menu/friends/widgets/pending_friend_listview.dart';
 import 'package:bip_hip/views/menu/friends/widgets/received_friend_listview.dart';
 
+import '../../../views/menu/settings/blocking/all_blocked_listview.dart';
+
 class FriendHelper {
   final GlobalController globalController = Get.find<GlobalController>();
   final FriendController friendController = Get.find<FriendController>();
 
   //*friends page tapable button views
+  Widget blockedListView(){
+    return AllBlockedListview();
+  }
   Widget friendListView() {
     if (globalController.tapAbleButtonState[0] == true) {
       return AllFriendListView();
-    } else if (globalController.tapAbleButtonState[1] == true) {
+    }
+    else if (globalController.tapAbleButtonState[1] == true) {
       return ReceivedFriendListView();
     } else {
       return PendingFriendListView();
