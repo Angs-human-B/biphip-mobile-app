@@ -1,4 +1,6 @@
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/settings/tash%20or%20archive/common_undo_button.dart';
+import 'package:bip_hip/views/menu/settings/tash%20or%20archive/common_white_button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controllers/profile_view/profile_view_controller.dart';
@@ -43,32 +45,45 @@ class _ReviewPostsSettingsPageState extends State<ReviewPostsSettingsPage> {
           title: ksReviewPostsYouTaggedIn.tr,
         ),
       ),
-      body: Column(
-        children: [
-          kH12sizedBox,
-          profileViewController.isProfileViewPostLoading.value
-              ? const PostCommonShimmer()
-              : ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  separatorBuilder: (context, index) => kH8sizedBox,
-                  itemCount:Get.find<GlobalController>().commonPostList.length,
-                      // profileViewHelper.getUserKidOrStorePostsListLength(
-                      //     type: profileViewController.profileViewType.value),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          color: cWhiteColor,
-                          width: width,
-                          child: CommonPostWidget(
-                            postIndex: index,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            kH12sizedBox,
+            profileViewController.isProfileViewPostLoading.value
+                ? const PostCommonShimmer()
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder:(context, index)=>const CustomDivider(),
+                    itemCount:Get.find<GlobalController>().commonPostList.length,
+                        // profileViewHelper.getUserKidOrStorePostsListLength(
+                        //     type: profileViewController.profileViewType.value),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          SizedBox(height: 15.h),
+                          Container(
+                            color: cWhiteColor,
+                            width: width,
+                            child: CommonPostWidget(
+                              postIndex: index,
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
-        ],
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width*.92,
+                            child: CommonBlueButton("Add to profile", null, (){}),
+                          ),
+                          SizedBox(height: 20.h),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width*.92,
+                            child: CommonWhiteButton("Hide", null, (){}),
+                          ),
+                          SizedBox(height: 16.h),
+                        ],
+                      );
+                    }),
+          ],
+        ),
       ),
     );
   }
