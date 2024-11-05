@@ -280,7 +280,9 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading:
                                     const Icon(BipHip.lock, color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(krBlocking);
+                                },
                               ),
                               SizedBox(height: 22.h),
                               Text(
@@ -318,7 +320,9 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.activity,
                                     color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(krActivityLog);
+                                },
                               ),
                               SizedBox(height: 12.h),
                               CustomMenuContainer(
@@ -327,7 +331,9 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.delete,
                                     color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(krTrash);
+                                },
                               ),
                               SizedBox(height: 12.h),
                               CustomMenuContainer(
@@ -336,7 +342,9 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.withdraw,
                                     color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(krArchive);
+                                },
                               ),
                               SizedBox(height: 12.h),
                               CustomMenuContainer(

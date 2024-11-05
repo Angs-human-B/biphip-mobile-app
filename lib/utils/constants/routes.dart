@@ -83,8 +83,11 @@ import 'package:bip_hip/views/menu/selfie/selfie_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_privacy_page.dart';
 import 'package:bip_hip/views/menu/selfie/selfie_view_page.dart';
 import 'package:bip_hip/views/menu/settings/DarkMode/dark_mode_page.dart';
+import 'package:bip_hip/views/menu/settings/activity%20log/activity_log_page.dart';
+import 'package:bip_hip/views/menu/settings/blocking/blocking_page.dart';
 import 'package:bip_hip/views/menu/settings/how%20people%20will%20find%20you/how_people_will_find_you_page.dart';
 import 'package:bip_hip/views/menu/settings/languageAndRegion/language_and_region_page.dart';
+import 'package:bip_hip/views/menu/settings/tash%20or%20archive/trash_archive_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_documents.dart';
@@ -156,12 +159,9 @@ import '../../views/menu/settings/ReactionPreferences/reaction_preferences.dart'
 import '../../views/menu/settings/change password/password_and_security_page.dart';
 import '../../views/menu/settings/default audience/default_audience_page.dart';
 import '../../views/menu/settings/followers/followers_settings_page.dart';
-import '../../views/menu/settings/languageAndRegion/language_list_page.dart';
 import '../../views/menu/settings/personal details/profile_details_page.dart';
 import '../../views/menu/settings/polls/polls_settings_page.dart';
 import '../../views/menu/settings/posts/posts_settings_page.dart';
-import '../../views/menu/settings/profile and tagging/profileAndTagging_settings_page.dart';
-import '../../views/menu/settings/reviewPosts/review_posts_youre_tagged_in.dart';
 import '../../views/menu/settings/selfies/selfies_settings_page.dart';
 import '../../views/menu/settings/settings.dart';
 
@@ -367,6 +367,11 @@ const String krPostsSettingsPage = "/posts-settings-page";
 const String krSelfiesSettingsPage = "/selfies-settings-page";
 const String krPollsSettingsPage = "/polls-settings-page";
 const String krFollowersSettingsPage = "/followers-settings-page";
+const String krBlocking = "/blocking_page.dart";
+const String krActivityLog = "/activity_log_page.dart";
+const String krTrash = "/trash_archive_page.dart";
+const String krArchive = "/trash_archive_page.dart";
+// const String krProfileViewFollower = "/profile-view-follower";
 const String krProfileAndTaggingSettingsPage = "/profileAndTagging-settings-page";
 const String krReviewPostsSettingsPage = "/review-posts-settings-page";
 const String krLanguageListPage = "/language-list-page";
@@ -572,6 +577,10 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krSelfiesSettingsPage, page: () => const SelfiesSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krPollsSettingsPage, page: () => const PollsSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krFollowersSettingsPage, page: () => const FollowersSettingsPage(), transition: Transition.noTransition),
+  GetPage(name: krBlocking, page: () => const Blocking(), transition: Transition.noTransition),
+  GetPage(name: krActivityLog, page: () => const ActivityLog(), transition: Transition.noTransition),
+  GetPage(name: krTrash, page: () =>  TrashArchive("Trash"), transition: Transition.noTransition),
+  GetPage(name: krArchive, page: () => TrashArchive("Archive"), transition: Transition.noTransition),
   GetPage(name: krProfileAndTaggingSettingsPage, page: () => const ProfileAndTaggingSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krReviewPostsSettingsPage, page: () => const ReviewPostsSettingsPage(), transition: Transition.noTransition),
 

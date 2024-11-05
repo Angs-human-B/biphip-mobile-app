@@ -6,7 +6,8 @@ import '../../../utils/constants/const.dart';
 class HeaderText extends StatelessWidget {
   String title;
   Color color;
-  HeaderText(this.title, {this.color = Colors.black, Key? key}) : super();
+  double fontSize;
+  HeaderText(this.title, {this.color = Colors.black, this.fontSize = 17.71428571428571, Key? key}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class HeaderText extends StatelessWidget {
       // softWrap: true,
       // overflow: TextOverflow.ellipsis,
       style: TextStyle(
-          fontSize: 31.sp,
+          fontSize: fontSize,
           fontWeight: FontWeight.bold,
         color: color
       ),
