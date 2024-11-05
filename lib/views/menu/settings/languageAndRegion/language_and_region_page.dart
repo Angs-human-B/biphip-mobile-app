@@ -12,6 +12,9 @@ import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../controllers/menu/kids_controller.dart';
+import '../../../../helpers/menu/kids/kid_helper.dart';
+
 class LanguageAndRegion extends StatefulWidget {
   const LanguageAndRegion({Key? key}) : super(key: key);
 
@@ -20,6 +23,10 @@ class LanguageAndRegion extends StatefulWidget {
 }
 
 class _LanguageAndRegionState extends State<LanguageAndRegion> {
+  final KidsController kidsController = Get.find<KidsController>();
+  final KidHelper kidHelper = KidHelper();
+
+
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -59,7 +66,9 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                           padding: EdgeInsets.only(left: 15),
                           child: HeaderText(ksAccountLanguage.tr),
                         ),
-                        IconButton(onPressed: (){
+                        IconButton(onPressed: ()  {
+                           kidsController.getLanguageList();
+                          Get.toNamed(krLanguageListPage);
                         },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -75,6 +84,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                           child: HeaderText(ksRegionFormat.tr),
                         ),
                         IconButton(onPressed: (){
+                          kidsController.getLanguageList();
+                          Get.toNamed(krLanguageListPage);
                         },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -91,6 +102,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         ),
                         IconButton(
                             onPressed: (){
+                              kidsController.getLanguageList();
+                              Get.toNamed(krLanguageListPage);
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -107,6 +120,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         ),
                         IconButton(
                             onPressed: (){
+                              kidsController.getLanguageList();
+                              Get.toNamed(krLanguageListPage);
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -123,6 +138,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         ),
                         IconButton(
                             onPressed: (){
+                              kidsController.getLanguageList();
+                              Get.toNamed(krLanguageListPage);
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],

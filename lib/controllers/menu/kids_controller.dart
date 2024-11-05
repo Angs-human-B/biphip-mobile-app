@@ -711,6 +711,8 @@ class KidsController extends GetxController {
   RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   Future<void> getLanguageList() async {
     try {
+      isStoreLanguageLoading.value = true;
+
       String? token = await spController.getBearerToken();
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
@@ -721,6 +723,7 @@ class KidsController extends GetxController {
         allLanguageList.clear();
         languageListData.value = LanguageListModel.fromJson(response.data);
         allLanguageList.addAll(languageListData.value!.languages);
+        isStoreLanguageLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
@@ -728,8 +731,11 @@ class KidsController extends GetxController {
         } else {
           globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
+        isStoreLanguageLoading.value = false;
+
       }
     } catch (e) {
+      isStoreLanguageLoading.value = false;
       ll('getLanguageList error: $e');
     }
   }

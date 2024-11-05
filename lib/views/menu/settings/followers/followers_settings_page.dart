@@ -25,7 +25,7 @@ class _FollowersSettingsPageState extends State<FollowersSettingsPage> {
           onBack: () {
             Get.back();
           },
-          title: ksPolls.tr,
+          title: ksFollowers.tr,
         ),
       ),
       body: Padding(

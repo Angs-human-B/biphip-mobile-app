@@ -156,9 +156,12 @@ import '../../views/menu/settings/ReactionPreferences/reaction_preferences.dart'
 import '../../views/menu/settings/change password/password_and_security_page.dart';
 import '../../views/menu/settings/default audience/default_audience_page.dart';
 import '../../views/menu/settings/followers/followers_settings_page.dart';
+import '../../views/menu/settings/languageAndRegion/language_list_page.dart';
 import '../../views/menu/settings/personal details/profile_details_page.dart';
 import '../../views/menu/settings/polls/polls_settings_page.dart';
 import '../../views/menu/settings/posts/posts_settings_page.dart';
+import '../../views/menu/settings/profile and tagging/profileAndTagging_settings_page.dart';
+import '../../views/menu/settings/reviewPosts/review_posts_youre_tagged_in.dart';
 import '../../views/menu/settings/selfies/selfies_settings_page.dart';
 import '../../views/menu/settings/settings.dart';
 
@@ -364,7 +367,9 @@ const String krPostsSettingsPage = "/posts-settings-page";
 const String krSelfiesSettingsPage = "/selfies-settings-page";
 const String krPollsSettingsPage = "/polls-settings-page";
 const String krFollowersSettingsPage = "/followers-settings-page";
-// const String krProfileViewFollower = "/profile-view-follower";
+const String krProfileAndTaggingSettingsPage = "/profileAndTagging-settings-page";
+const String krReviewPostsSettingsPage = "/review-posts-settings-page";
+const String krLanguageListPage = "/language-list-page";
 // const String krProfileViewCreateReview = "/profile-view-create-review";
 
 List<GetPage<dynamic>>? routes = [
@@ -561,10 +566,13 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krReactionPreferences, page: () => const ReactionPreferences(), transition: Transition.noTransition),
   GetPage(name: krDarkMode, page: () => const DarkModePage(), transition: Transition.noTransition),
   GetPage(name: krLanguageAndRegion, page: () => const LanguageAndRegion(), transition: Transition.noTransition),
+  GetPage(name: krLanguageListPage, page: () => const LanguageListPage(), transition: Transition.noTransition),
   GetPage(name: krHowPeopleWillFindYou, page: () => const HowPeopleWillFindYou(), transition: Transition.noTransition),
   GetPage(name: krPostsSettingsPage, page: () => const PostsSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krSelfiesSettingsPage, page: () => const SelfiesSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krPollsSettingsPage, page: () => const PollsSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krFollowersSettingsPage, page: () => const FollowersSettingsPage(), transition: Transition.noTransition),
+  GetPage(name: krProfileAndTaggingSettingsPage, page: () => const ProfileAndTaggingSettingsPage(), transition: Transition.noTransition),
+  GetPage(name: krReviewPostsSettingsPage, page: () => const ReviewPostsSettingsPage(), transition: Transition.noTransition),
 
 ];

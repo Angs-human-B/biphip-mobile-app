@@ -4,6 +4,7 @@ import '../../../controllers/dashboard/dashboard_controller.dart';
 import '../../../controllers/home/home_controller.dart';
 import '../../../controllers/menu/menu_section_controller.dart';
 import '../../../controllers/menu/profile_controller.dart';
+import '../../../controllers/profile_view/profile_view_controller.dart';
 import '../../../helpers/profile/profile_helper.dart';
 import '../../../shimmers/settings/settings_shimmer.dart';
 import '../../../utils/constants/imports.dart';
@@ -268,7 +269,9 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.tagFriends,
                                     color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(krProfileAndTaggingSettingsPage);
+                                },
                               ),
                               SizedBox(height: 12.h),
                               CustomMenuContainer(
@@ -342,7 +345,16 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.tagFriends,
                                     color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
+                                  Get.find<ProfileViewController>().profileViewType.value = "profile";
+                                  // Get.find<ProfileViewController>().userName.value = globalController.commonPostList[postIndex].user!.userName!;
+                                  Get.toNamed(krReviewPostsSettingsPage);
+                                  // await Get.find<ProfileViewController>().getProfileOverview();
+                                  // await Get.find<ProfileViewController>().getProfileViewFriend();
+                                  // await Get.find<ProfileViewController>().getProfileViewFamily();
+                                  // await Get.find<ProfileViewController>().getProfileViewPostList();
+                                },
                               ),
                               SizedBox(height: 22.h),
                               Text(

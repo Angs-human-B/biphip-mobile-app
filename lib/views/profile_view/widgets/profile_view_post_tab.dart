@@ -14,7 +14,8 @@ import 'package:flutter_svg/svg.dart';
 
 class ProfileViewPostTab extends StatelessWidget {
   ProfileViewPostTab({super.key});
-  final ProfileViewController profileViewController = Get.find<ProfileViewController>();
+  final ProfileViewController profileViewController =
+      Get.find<ProfileViewController>();
   final HomeController homeController = Get.find<HomeController>();
   // final KidsController kidsController = Get.find<KidsController>();
   final ProfileViewHelper profileViewHelper = ProfileViewHelper();
@@ -27,7 +28,8 @@ class ProfileViewPostTab extends StatelessWidget {
             Container(
               color: cWhiteColor,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -48,12 +50,28 @@ class ProfileViewPostTab extends StatelessWidget {
                             ),
                             onPressed: null,
                             prefixText: ksPage.tr,
-                            suffixText: profileViewController.userProfileViewKidData.value?.kid?.pageType ?? ksNA.tr,
+                            suffixText: profileViewController
+                                    .userProfileViewKidData
+                                    .value
+                                    ?.kid
+                                    ?.pageType ??
+                                ksNA.tr,
                           ),
                           KidStoreProfileLinkUpIconTextRow(
                             iconOrSvg: SvgPicture.asset(kiParentSvgImageUrl),
-                            prefixText: profileViewController.userProfileViewKidData.value?.kid?.relation ?? ksNA,
-                            suffixText: profileViewController.userProfileViewKidData.value?.kid?.user?.fullName ?? ksNA,
+                            prefixText: profileViewController
+                                    .userProfileViewKidData
+                                    .value
+                                    ?.kid
+                                    ?.relation ??
+                                ksNA,
+                            suffixText: profileViewController
+                                    .userProfileViewKidData
+                                    .value
+                                    ?.kid
+                                    ?.user
+                                    ?.fullName ??
+                                ksNA,
                             onPressed: null,
                           ),
                         ],
@@ -70,7 +88,12 @@ class ProfileViewPostTab extends StatelessWidget {
                             ),
                             onPressed: null,
                             prefixText: '${ksPage.tr} ',
-                            suffixText: profileViewController.profileViewStoreData.value?.store?.pageType ?? ksNA.tr,
+                            suffixText: profileViewController
+                                    .profileViewStoreData
+                                    .value
+                                    ?.store
+                                    ?.pageType ??
+                                ksNA.tr,
                           ),
                           StoreProfileLinkUpIconTextRow(
                             iconOrSvg: SvgPicture.asset(
@@ -86,31 +109,47 @@ class ProfileViewPostTab extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if ((profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store") &&
-                        profileViewController.userProfileViewData.value?.currentCity?.city != null)
+                    if ((profileViewController.profileViewType.value != "kid" &&
+                            profileViewController.profileViewType.value !=
+                                "store") &&
+                        profileViewController
+                                .userProfileViewData.value?.currentCity?.city !=
+                            null)
                       LinkUpIconTextRow(
                         icon: BipHip.address,
                         onPressed: null,
                         prefixText: '${ksLivesIn.tr} ',
-                        suffixText: profileViewController.userProfileViewData.value!.currentCity?.city ?? ksNA.tr,
+                        suffixText: profileViewController
+                                .userProfileViewData.value!.currentCity?.city ??
+                            ksNA.tr,
                       ),
-                    if (profileViewController.userProfileViewData.value?.currentCity?.city != null &&
-                        profileViewController.userProfileViewData.value?.currentCity?.isCurrent == 1)
+                    if (profileViewController
+                                .userProfileViewData.value?.currentCity?.city !=
+                            null &&
+                        profileViewController.userProfileViewData.value
+                                ?.currentCity?.isCurrent ==
+                            1)
                       LinkUpIconTextRow(
                         icon: BipHip.location,
                         prefixText: '${ksFrom.tr} ',
-                        suffixText: profileViewController.userProfileViewData.value?.currentCity?.city ?? ksNA.tr,
+                        suffixText: profileViewController
+                                .userProfileViewData.value?.currentCity?.city ??
+                            ksNA.tr,
                         onPressed: null,
                       ),
                     CustomTextButton(
-                      text: "See ${ProfileViewHelper().getUserKidOrStoreLastName(type: profileViewController.profileViewType.value)} about info",
+                      text:
+                          "See ${ProfileViewHelper().getUserKidOrStoreLastName(type: profileViewController.profileViewType.value)} about info",
                       textStyle: medium16TextStyle(cPrimaryColor),
                       onPressed: () async {
-                        if (profileViewController.profileViewType.value == "profile") {
+                        if (profileViewController.profileViewType.value ==
+                            "profile") {
                           await profileViewController.getProfileBasicInfo();
-                          await profileViewController.getProfileViewWorkEducation();
+                          await profileViewController
+                              .getProfileViewWorkEducation();
                         }
-                        if (profileViewController.profileViewType.value == "kid") {}
+                        if (profileViewController.profileViewType.value ==
+                            "kid") {}
                         Get.toNamed(krProfileViewAbout);
                       },
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -121,12 +160,15 @@ class ProfileViewPostTab extends StatelessWidget {
               ),
             ),
             kH16sizedBox,
-            if (profileViewController.profileViewType.value == "kid" || profileViewController.profileViewType.value == "store")
+            if (profileViewController.profileViewType.value == "kid" ||
+                profileViewController.profileViewType.value == "store")
               Container(
                 height: h8,
                 color: cBackgroundColor,
               ),
-            if (profileViewController.profileViewType.value != "kid" || profileViewController.profileViewType.value != "store") ProfileViewFriendFamilyWidget(),
+            if (profileViewController.profileViewType.value != "kid" ||
+                profileViewController.profileViewType.value != "store")
+              ProfileViewFriendFamilyWidget(),
             // Container(
             //   height: h8,
             //   color: cBackgroundColor,
@@ -137,38 +179,62 @@ class ProfileViewPostTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+                  if (profileViewController.profileViewType.value != "kid" &&
+                      profileViewController.profileViewType.value != "store")
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kHorizontalPadding),
                       child: Text(
                         ksCatagories.tr,
                         style: semiBold18TextStyle(cBlackColor),
                       ),
                     ),
-                  if (profileViewController.profileViewType.value != "kid" && profileViewController.profileViewType.value != "store")
+                  if (profileViewController.profileViewType.value != "kid" &&
+                      profileViewController.profileViewType.value != "store")
                     SizedBox(
                       width: width,
                       height: 50,
                       child: ListView.builder(
-                        itemCount: Get.find<CreatePostController>().createPostCategoryList.length,
+                        itemCount: Get.find<CreatePostController>()
+                            .createPostCategoryList
+                            .length,
                         shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(horizontal: k10Padding),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: k10Padding),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, i) {
                           return Obx(
                             () => Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: k4Padding),
                               child: CustomChoiceChips(
-                                label: Get.find<CreatePostController>().createPostCategoryList[i].name ?? "",
-                                isSelected:
-                                    (profileViewController.interestCatagoriesIndex.value == Get.find<CreatePostController>().createPostCategoryList[i].id),
+                                label: Get.find<CreatePostController>()
+                                        .createPostCategoryList[i]
+                                        .name ??
+                                    "",
+                                isSelected: (profileViewController
+                                        .interestCatagoriesIndex.value ==
+                                    Get.find<CreatePostController>()
+                                        .createPostCategoryList[i]
+                                        .id),
                                 onSelected: (value) {
-                                  profileViewController.interestCatagoriesIndex.value = Get.find<CreatePostController>().createPostCategoryList[i].id!;
-                                  if (profileViewController.interestCatagoriesIndex.value == 0) {
-                                    profileViewController.interestCatagoriesIndex.value++;
-                                    profileViewController.getProfileViewPostList();
-                                  } else if (profileViewController.interestCatagoriesIndex.value != 0) {
-                                    profileViewController.getProfileViewPostList();
+                                  profileViewController
+                                          .interestCatagoriesIndex.value =
+                                      Get.find<CreatePostController>()
+                                          .createPostCategoryList[i]
+                                          .id!;
+                                  if (profileViewController
+                                          .interestCatagoriesIndex.value ==
+                                      0) {
+                                    profileViewController
+                                        .interestCatagoriesIndex.value++;
+                                    profileViewController
+                                        .getProfileViewPostList();
+                                  } else if (profileViewController
+                                          .interestCatagoriesIndex.value !=
+                                      0) {
+                                    profileViewController
+                                        .getProfileViewPostList();
                                   }
                                 },
                               ),
@@ -257,7 +323,9 @@ class ProfileViewPostTab extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => kH8sizedBox,
-                    itemCount: profileViewHelper.getUserKidOrStorePostsListLength(type: profileViewController.profileViewType.value),
+                    itemCount:
+                        profileViewHelper.getUserKidOrStorePostsListLength(
+                            type: profileViewController.profileViewType.value),
                     itemBuilder: (context, index) {
                       return Container(
                         color: cWhiteColor,

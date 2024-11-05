@@ -20,6 +20,9 @@ TextStyle medium14TextStyle(Color color) {
 TextStyle medium16TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h16, 2), color: color);
 }
+TextStyle medium18TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w500, fontSize: screenWiseSize(h18, 2), color: color);
+}
 
 TextStyle regular20TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h20, 2), color: color);
