@@ -1,3 +1,4 @@
+import 'package:bip_hip/views/notification/notification_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../controllers/dashboard/dashboard_controller.dart';
@@ -161,7 +162,9 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.notificationOutline,
                                     color: cIconColor),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Get.toNamed(krNotifications);
+                                },
                               ),
                               SizedBox(height: 12.h),
                               CustomMenuContainer(

@@ -159,6 +159,7 @@ import '../../views/menu/settings/ReactionPreferences/reaction_preferences.dart'
 import '../../views/menu/settings/change password/password_and_security_page.dart';
 import '../../views/menu/settings/default audience/default_audience_page.dart';
 import '../../views/menu/settings/followers/followers_settings_page.dart';
+import '../../views/menu/settings/notifications/notifications_page.dart';
 import '../../views/menu/settings/personal details/profile_details_page.dart';
 import '../../views/menu/settings/polls/polls_settings_page.dart';
 import '../../views/menu/settings/posts/posts_settings_page.dart';
@@ -371,6 +372,7 @@ const String krBlocking = "/blocking_page.dart";
 const String krActivityLog = "/activity_log_page.dart";
 const String krTrash = "/trash_archive_page.dart";
 const String krArchive = "/trash_archive_page.dart";
+const String krNotifications = "/notifications.dart";
 // const String krProfileViewFollower = "/profile-view-follower";
 // const String krProfileViewCreateReview = "/profile-view-create-review";
 
@@ -577,5 +579,6 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krActivityLog, page: () => const ActivityLog(), transition: Transition.noTransition),
   GetPage(name: krTrash, page: () =>  TrashArchive("Trash"), transition: Transition.noTransition),
   GetPage(name: krArchive, page: () => TrashArchive("Archive"), transition: Transition.noTransition),
+  GetPage(name: krNotifications, page: () => Notifications(), transition: Transition.noTransition),
 
 ];

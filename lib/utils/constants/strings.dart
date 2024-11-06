@@ -981,3 +981,4 @@ const String ksRegionFormat = "Region format";
 const String ksLanguageYoudLikeToHavePostsTranslatedInto = "Language you’d like to have \nposts translated into";
 const String ksLanguagesYouDontWantToBeOfferedTranslations = "Languages you don’t want to \nbe offered translations";
 const String ksLanguagesYouDontWantAutomaticallyTranslated = "Languages you don’t want \nautomatically translated";
+const String ksNotificationsSetting = "Notification settings";
