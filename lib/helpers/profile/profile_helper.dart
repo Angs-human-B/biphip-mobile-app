@@ -5,9 +5,13 @@ import 'package:bip_hip/controllers/menu/profile_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/profile/widgets/profile_pic_upload_content.dart';
 
+import '../../controllers/menu/menu_section_controller.dart';
+import '../../views/menu/settings/personal details/changeNameBottomSheetContent.dart';
+
 class ProfileHelper {
   final ProfileController profileController = Get.find<ProfileController>();
   final GlobalController globalController = Get.find<GlobalController>();
+  final MenuSectionController menuController = Get.find<MenuSectionController>();
 
   void showProfileTabSection(index) async {
     if (index == 0) {
@@ -176,6 +180,43 @@ class ProfileHelper {
       profileController.bioEditingController.text = profileController.userData.value!.bio!;
     }
     Get.toNamed(krEditBio);
+  }
+  void editName(BuildContext context){
+    menuController
+        .firstNameEditingController.text =
+        globalController.userFirstName.value ??
+            '';
+    menuController
+        .lastNameEditingController.text =
+        globalController.userLastName.value ?? '';
+    menuController
+        .changeNameBottomSheetButtonState
+        .value = false;
+    globalController.commonBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        isBottomSheetRightButtonActive:
+        menuController
+            .changeNameBottomSheetButtonState,
+        content: ChangeNameBottomSheetContent(
+          menuController: menuController,
+        ),
+        onPressCloseButton: () {
+          Get.back();
+        },
+        onPressRightButton: () async {
+          menuController
+              .changeNameBottomSheetButtonState
+              .value = false;
+          unfocus(context);
+          Get.back();
+          await menuController.changeName();
+        },
+        rightText: ksDone.tr,
+        rightTextStyle:
+        medium14TextStyle(cPrimaryColor),
+        title: ksChangeName.tr,
+        isRightButtonShow: true);
   }
 
   void saveBio() async {

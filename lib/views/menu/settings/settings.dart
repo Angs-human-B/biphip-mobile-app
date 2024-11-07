@@ -406,52 +406,6 @@ class Settings extends StatelessWidget {
                                 onPressed: () {},
                               ),
                               SizedBox(height: 22.h),
-                              CustomMenuContainer(
-                                height: 48,
-                                trailing: const Icon(
-                                  BipHip.downArrow,
-                                  color: cIconColor,
-                                ),
-                                onPressed: () {
-                                  menuController
-                                          .firstNameEditingController.text =
-                                      globalController.userFirstName.value ??
-                                          '';
-                                  menuController
-                                          .lastNameEditingController.text =
-                                      globalController.userLastName.value ?? '';
-                                  menuController
-                                      .changeNameBottomSheetButtonState
-                                      .value = false;
-                                  globalController.commonBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      isBottomSheetRightButtonActive:
-                                          menuController
-                                              .changeNameBottomSheetButtonState,
-                                      content: ChangeNameBottomSheetContent(
-                                        menuController: menuController,
-                                      ),
-                                      onPressCloseButton: () {
-                                        Get.back();
-                                      },
-                                      onPressRightButton: () async {
-                                        menuController
-                                            .changeNameBottomSheetButtonState
-                                            .value = false;
-                                        unfocus(context);
-                                        Get.back();
-                                        await menuController.changeName();
-                                      },
-                                      rightText: ksDone.tr,
-                                      rightTextStyle:
-                                          medium14TextStyle(cPrimaryColor),
-                                      title: ksChangeName.tr,
-                                      isRightButtonShow: true);
-                                },
-                                text: ksChangeName.tr,
-                                textStyle: semiBold16TextStyle(cBlackColor),
-                              ),
                             ],
                           ),
                         ),
@@ -476,50 +430,3 @@ class Settings extends StatelessWidget {
   }
 }
 
-class ChangeNameBottomSheetContent extends StatelessWidget {
-  const ChangeNameBottomSheetContent({super.key, required this.menuController});
-  final MenuSectionController menuController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          ksFirstName.tr,
-          style: medium16TextStyle(cBlackColor),
-        ),
-        kH8sizedBox,
-        CustomModifiedTextField(
-          controller: menuController.firstNameEditingController,
-          hint: ksFirstName.tr,
-          onChanged: (v) {
-            menuController.checkCanChangeName();
-          },
-        ),
-        Text(
-          ksLastName.tr,
-          style: medium16TextStyle(cBlackColor),
-        ),
-        kH8sizedBox,
-        CustomModifiedTextField(
-          controller: menuController.lastNameEditingController,
-          hint: ksLastName.tr,
-          onChanged: (v) {
-            menuController.checkCanChangeName();
-          },
-        ),
-        kH8sizedBox,
-        RichText(
-            text: TextSpan(children: [
-          TextSpan(
-              text: ksNameChangeWarning.tr,
-              style: regular12TextStyle(cBlackColor)),
-          TextSpan(
-              text: ' ${ksLearnMoreAboutStars.tr}',
-              style: regular12TextStyle(cPrimaryColor))
-        ]))
-      ],
-    );
-  }
-}

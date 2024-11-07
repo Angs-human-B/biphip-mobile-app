@@ -7,6 +7,10 @@ import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
 import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../controllers/menu/profile_controller.dart';
+import '../../../../helpers/profile/edit_profile_helper.dart';
 
 class ProfileDetailsPage extends StatefulWidget {
   const ProfileDetailsPage({Key? key}) : super(key: key);
@@ -16,101 +20,161 @@ class ProfileDetailsPage extends StatefulWidget {
 }
 
 class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
+  final ProfileController profileController = Get.find<ProfileController>();
+  final EditProfileHelper editProfileHelper = EditProfileHelper();
+
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSizeSetting),
+          preferredSize: const Size.fromHeight(kAppBarSizeSetting),
           child: CustomAppBar(
-            onBack: (){
+            onBack: () {
               Get.back();
             },
             title: "Personal Details",
-
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Normalext(
-                "Bip-Hip uses this information to verify your identity and to keep our community safe. You decide what personal details you make visible to others.",txtAlign: TextAlign.justify,fontSize: 25.sp,),
-              SizedBox(height: 20,),
+                "Bip-Hip uses this information to verify your identity and to keep our community safe. You decide what personal details you make visible to others.",
+                txtAlign: TextAlign.justify,
+                fontSize: 25.sp,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
-                padding: EdgeInsets.only(left: 20),
-                height: 250,
-                width: MediaQuery.of(context).size.width*.9,
+                padding: const EdgeInsets.only(left: 20),
+                width: MediaQuery.of(context).size.width * .9,
                 decoration: BoxDecoration(
                     color: cGreyBoxColor,
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HeaderText("Contact info"),
-                            Normalext("Shohagjalal@gmail.com", fontSize: 26.sp,),
-                            Normalext("+8801993144278", fontSize: 26.sp),
-                          ],
-                        ),
-                        IconButton(onPressed: (){
-                          Get.to(ContactInfo());
-                        },
-                            icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
-                      ],
+                    const SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10,),
-                    CustomDivider(),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HeaderText("Birthday"),
-                            Normalext("January 01, 2000", fontSize: 26.sp),
-                          ],
-                        ),
-                        IconButton(onPressed: (){
-                          Get.to(AddContactInfo("Birthday", 'birthday', controllerTxt: "January 01, 2000",));
-                        },
-                            icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
-                      ],
+                    InkWell(
+                      onTap: (){
+                        Get.to(const ContactInfo());
+
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HeaderText("Contact info"),
+                              for (int i = 0;
+                                  i < profileController.contactDataList.length;
+                                  i++)
+                                if (profileController.contactDataList[i].type ==
+                                    'email')
+                                  Normalext(
+                                    checkNullOrStringNull(profileController
+                                        .contactDataList[i].value),
+                                    fontSize: 26.sp,
+                                  ),
+                              for (int i = 0;
+                                  i < profileController.contactDataList.length;
+                                  i++)
+                                if (profileController.contactDataList[i].type ==
+                                    'phone')
+                                  Normalext(
+                                    checkNullOrStringNull(profileController
+                                        .contactDataList[i].value),
+                                    fontSize: 26.sp,
+                                  ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {
+                              },
+                              icon: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: cIconColor,
+                              ))
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 10),
-                    CustomDivider(),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HeaderText("Account ownership and control"),
-                            Normalext("Deactivate or delete your account and profile", fontSize: 26.sp),
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: (){
-                              Get.to(AccountOwnership());
-                            },
-                            icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
-                      ],
+                    const SizedBox(
+                      height: 10,
                     ),
-                    SizedBox(height: 10),
+                    const CustomDivider(),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: (){
+                        editProfileHelper.editBirthday();
+
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HeaderText("Birthday"),
+                              Normalext(
+                                profileController.userData.value!.dob == null
+                                    ? ksDateOfBirth.tr
+                                    : DateFormat("MMMM dd, yyyy").format(profileController.userData.value!.dob!),
+                                fontSize: 26.sp,
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {
+                              },
+                              icon: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: cIconColor,
+                              ))
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const CustomDivider(),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: (){
+                        Get.to(const AccountOwnership());
+
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              HeaderText("Account ownership and control"),
+                              Normalext(
+                                  "Deactivate or delete your account and profile",
+                                  fontSize: 26.sp),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {
+                              },
+                              icon: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: cIconColor,
+                              ))
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               )
