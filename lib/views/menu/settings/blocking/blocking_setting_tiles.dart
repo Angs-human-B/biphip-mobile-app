@@ -24,29 +24,29 @@ class BlockingSettingTiles extends StatefulWidget {
 class _BlockingSettingTilesState extends State<BlockingSettingTiles> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-                width: 400.w,
-                child: HeaderText(
-                  widget.texts[widget.index]['title'],
-                )),
-            GestureDetector(
-              onTap: ()async{
-                Get.find<GlobalController>().resetTapButtonData();
-                Get.find<GlobalController>().searchController.clear();
-                Get.find<FriendController>().isFriendSearched.value = false;
-                Get.find<FriendController>().isRouteFromBottomNavBar.value = true;
-                Get.to(BlockedPeople( widget.texts[widget.index]['title']));
-                await Get.find<FriendController>().getFriendList();
-              },
-              child: Container(
+    return InkWell(
+      onTap: ()async{
+        Get.find<GlobalController>().resetTapButtonData();
+        Get.find<GlobalController>().searchController.clear();
+        Get.find<FriendController>().isFriendSearched.value = false;
+        Get.find<FriendController>().isRouteFromBottomNavBar.value = true;
+        Get.to(BlockedPeople( widget.texts[widget.index]['title']));
+        await Get.find<FriendController>().getFriendList();
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  width: 400.w,
+                  child: HeaderText(
+                    widget.texts[widget.index]['title'],
+                  )),
+              Container(
                 padding: EdgeInsets.symmetric(
                     horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
@@ -60,22 +60,22 @@ class _BlockingSettingTilesState extends State<BlockingSettingTiles> {
                     fontSize: 26.sp,
                   ),
                 ),
-              ),
-            )
-          ],
-        ),
-        SizedBox(height: 10,),
-        Normalext(
-          widget.texts[widget.index]['body'],
-          fontSize: 25.sp,
-          txtAlign: TextAlign.start,
-          weight: FontWeight.normal,
-          color: cBlackColor,
-        ),
-        SizedBox(height: 10),
-        if(widget.index < widget.texts.length-1)
-          CustomDivider(),
-      ],
+              )
+            ],
+          ),
+          SizedBox(height: 10,),
+          Normalext(
+            widget.texts[widget.index]['body'],
+            fontSize: 25.sp,
+            txtAlign: TextAlign.start,
+            weight: FontWeight.normal,
+            color: cBlackColor,
+          ),
+          SizedBox(height: 10),
+          if(widget.index < widget.texts.length-1)
+            CustomDivider(),
+        ],
+      ),
     );
   }
 }

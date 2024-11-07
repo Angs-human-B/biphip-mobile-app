@@ -40,6 +40,7 @@ class _ActivityLogState extends State<ActivityLog> {
         padding: const EdgeInsets.all(20),
         child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10),
+        height:900.h,
         width: MediaQuery.of(context).size.width*.9,
         decoration: BoxDecoration(
             color: cGreyBoxColor,
@@ -48,245 +49,254 @@ class _ActivityLogState extends State<ActivityLog> {
           child: Column(
             children: [
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("Your search history", ''));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.search,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.search,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Your search history",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(History("Your search history", ''));
-                    },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Your search history",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("Videos you’ve Watched", ''));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.video,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.video,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Videos you’ve Watched",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(History("Videos you’ve Watched", ''));
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Videos you’ve Watched",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("Share history", ''));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.share,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.share,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Recent share",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(History("Share history", ''));
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Recent share",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("Post activity",  ''));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.heart,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.heart,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Post activity",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(History("Post activity",  ''));
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Post activity",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("Comment", ''));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.comment,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.comment,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Comment",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(History("Comment", ''));
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Comment",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("Selfie activity", 'reaction'));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.photo,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.photo,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Selfie activity",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(History("Selfie activity", 'reaction'));
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Selfie activity",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("New Friends", 'friends'));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.friends,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.friends,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Recent friend",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: (){
-                      Get.to(History("New Friends", 'friends'));
-                    },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Recent friend",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(History("New Friends", 'family'));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.addFamily ,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.addFamily ,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Recent family",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(History("New Friends", 'family'));
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Recent family",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
               CustomDivider(thickness: 2,),
               SizedBox(height: 15,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: cWhiteColor
+              InkWell(
+                onTap: (){
+                  Get.to(LoggedIn());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: cWhiteColor
+                          ),
+                          child: Icon(BipHip.user ,color: Colors.grey,),
                         ),
-                        child: Icon(BipHip.user ,color: Colors.grey,),
-                      ),
-                      SizedBox(width: 10,),
-                      HeaderText("Where you’re logged in",fontSize: 33.sp,),
-                    ],
-                  ),
-                  GestureDetector(
-                      onTap: (){
-                        Get.to(LoggedIn());
-                      },
-                      child: Icon(Icons.arrow_forward_ios, color: Colors.grey,))
-                ],
+                        SizedBox(width: 10,),
+                        HeaderText("Where you’re logged in",fontSize: 33.sp,),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Colors.grey,)
+                  ],
+                ),
               ),
               SizedBox(height: 15,),
             ],
