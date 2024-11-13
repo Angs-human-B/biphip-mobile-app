@@ -1,26 +1,23 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/settings/change%20password/password_and_security_page.dart';
-import 'package:bip_hip/views/menu/settings/change%20password/personal_details_page.dart';
-import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../../../utils/constants/const.dart';
-import '../../../../widgets/common/utils/common_simple_text.dart';
-import '../../../../widgets/common/utils/custom_app_bar.dart';
+import '../../../../controllers/auth/authentication_controller.dart';
+import '../../../../helpers/auth/registration_helper.dart';
+import '../../../../widgets/auth/top_text_and_subtext.dart';
+import '../../../../widgets/common/utils/common_headertext.dart';
 
 class ChangePassword extends StatefulWidget {
-  ChangePassword({Key? key}) : super(key: key);
+  const ChangePassword({Key? key}) : super(key: key);
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  TextEditingController currentPassword = TextEditingController();
-  TextEditingController newPassword = TextEditingController();
-  TextEditingController reTypePassword = TextEditingController();
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final RegistrationHelper registrationHelper = RegistrationHelper();
+  final FocusNode confirmPasswordFocusNode = FocusNode();
+  final FocusNode newPasswordFocusNode = FocusNode();
   @override
   void initState() {
     // TODO: implement initState
@@ -29,135 +26,158 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    var items = [
-      'assets/images/Flag_of_Bangladesh.svg.png',
-      'assets/images/Flag_of_the_United_States.svg.png',
-      'assets/images/Flag_of_the_United_States.svg.png',
-    ];
-    String dropdownvalue = 'assets/images/Flag_of_Bangladesh.svg.png';
-    bool onChangetxt = false;
-
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSizeSetting),
-          child: CustomAppBar(
-            onBack: () {
-              Get.back();
-            },
-            title: 'Change Password',
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-            Normalext(r"Your password must be at least 6 characters and should include a combination of numbers, letters and special characters (!$@%).", txtAlign: TextAlign.justify,fontSize: 25.sp,),
-            SizedBox(height: 30.h,),
-            Container(
-                width: 510.w + 140.w,
-                height: 90.h,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cLineColor),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
-                    controller: currentPassword,
-                    decoration: InputDecoration(
-                        hintText: "Current Password",
-                        border: InputBorder.none),
-                    onChanged: (value) {
-                      setState(() {
-                      });
-                    },
-                    onTap: () {
-                      setState(() {
-                      });
+    return Container(
+      decoration: const BoxDecoration(color: cWhiteColor, image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
+      child: Obx(
+            () => Stack(
+          children: [
+            SafeArea(
+              top: false,
+              child: Scaffold(
+                appBar: PreferredSize(
+                  preferredSize: const Size.fromHeight(kAppBarSize),
+                  //* info:: appBar
+                  child: CustomAppBar(
+                    appBarColor: cTransparentColor,
+                    title: ksForgetPassword.tr,
+                    onBack: () async {
+                      Get.back();
                     },
                   ),
-                )),
-            SizedBox(height: 20.h,),
-
-            Container(
-                width: 510.w + 140.w,
-                height: 90.h,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cLineColor),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
-                    controller: newPassword,
-                    decoration: InputDecoration(
-                        hintText: "New Password",
-                        border: InputBorder.none),
-                    onChanged: (value) {
-                      setState(() {
-                      });
-                    },
-                    onTap: () {
-                    },
-                  ),
-                )),
-            SizedBox(height: 20.h,),
-
-            Container(
-                width: 510.w + 140.w,
-                height: 90.h,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: cLineColor),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
-                    controller: reTypePassword,
-                    decoration: InputDecoration(
-                        hintText: "Re-type Password",
-                        border: InputBorder.none),
-                    onChanged: (value) {
-                      setState(() {
-                      });
-                    },
-                    onTap: () {
-                      setState(() {
-
-                      });
-                    },
-                  ),
-                )),
-                SizedBox(height: 20.h,),
-                GestureDetector(
-                  onTap: (){},
-                    child: HeaderText("Forget Passowrd", color: Colors.blue,)),
-          ]),
-        ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: currentPassword.text.isEmpty || newPassword.text.isEmpty || reTypePassword.text.isEmpty? Colors.black38: Colors.blue
-            ),
-            child: Normalext(
-              'Confirm Password',
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Get.offUntil(
-                GetPageRoute(
-                  page: () => const PasswordAndSecurity(),
                 ),
-                    (route) => route.isFirst,
-              );
-            },
-          ),
-        ));
+                backgroundColor: cTransparentColor,
+                body: SizedBox(
+                  height: height,
+                  width: width,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+                      child: Column(
+                        children: [
+                          kH48sizedBox,
+                          TopTitleAndSubtitle(
+                            title: ksChangePassword.tr,
+                            subTitle: ksCreateStrongPassword.tr,
+                          ),
+                          kH50sizedBox,
+                          CustomModifiedTextField(
+                            controller: authenticationController.oldPasswordTextEditingController,
+                            errorText: authenticationController.oldPasswordError.value,
+                            hint: ksCurrentPassword.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
+                            suffixIcon: authenticationController.isOldPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
+                            onSuffixPress: () {
+                              authenticationController.isOldPasswordToggleObscure.value = !authenticationController.isOldPasswordToggleObscure.value;
+                            },
+                            onChanged: (text) {
+                              registrationHelper.forgetPasswordNewPasswordValidation();
+                            },
+                            onSubmit: (text) {
+                              FocusScope.of(context).requestFocus(newPasswordFocusNode);
+                            },
+                            inputAction: TextInputAction.next,
+                            obscureText: authenticationController.isOldPasswordToggleObscure.value,
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                          // authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.resetPasswordError.value),
+
+                          CustomModifiedTextField(
+                            controller: authenticationController.resetNewPasswordTextEditingController,
+                            errorText: authenticationController.resetPasswordError.value,
+                            focusNode: newPasswordFocusNode,
+                            hint: ksTypePassword.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
+                            suffixIcon: authenticationController.isResetNewPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
+                            onSuffixPress: () {
+                              authenticationController.isResetNewPasswordToggleObscure.value = !authenticationController.isResetNewPasswordToggleObscure.value;
+                            },
+                            onChanged: (text) {
+                              registrationHelper.forgetPasswordNewPasswordValidation();
+                            },
+                            onSubmit: (text) {
+                              FocusScope.of(context).requestFocus(confirmPasswordFocusNode);
+                            },
+                            inputAction: TextInputAction.next,
+                            obscureText: authenticationController.isResetNewPasswordToggleObscure.value,
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                          // authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.resetPasswordError.value),
+                          CustomModifiedTextField(
+                            controller: authenticationController.resetConfirmPasswordTextEditingController,
+                            focusNode: confirmPasswordFocusNode,
+                            errorText: authenticationController.resetConfirmPasswordError.value,
+                            hint: ksConfirmPassword.tr,
+                            textHintStyle: regular16TextStyle(cPlaceHolderColor2),
+                            fillColor: cWhiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderSide: const BorderSide(width: 1, color: cLineColor2),
+                            ),
+                            suffixIcon: authenticationController.isResetConfirmPasswordToggleObscure.value ? BipHip.passwordHide : Icons.visibility_outlined,
+                            onSuffixPress: () {
+                              authenticationController.isResetConfirmPasswordToggleObscure.value =
+                              !authenticationController.isResetConfirmPasswordToggleObscure.value;
+                            },
+                            onChanged: (text) {
+                              registrationHelper.forgetPasswordConfirmPasswordValidation();
+                            },
+                            onSubmit: (text) {
+                              FocusScope.of(context).unfocus();
+                            },
+                            obscureText: authenticationController.isResetConfirmPasswordToggleObscure.value,
+                            inputAction: TextInputAction.done,
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                          authenticationController.errorTextWiseResponsiveSizedBox(authenticationController.resetConfirmPasswordError.value),
+                          GestureDetector(
+                              onTap: (){
+                                Get.toNamed(krForgotPassword);
+                              },
+                              child: HeaderText("Forgot Password", color: Colors.blue,)),
+                          SizedBox(height: 22.h),
+                          CustomElevatedButton(
+                            label: ksNext.tr,
+                            onPressed: authenticationController.canResetPassword.value
+                                ? () async {
+                              await authenticationController.changePassword();
+                            }
+                                : null,
+                            buttonWidth: width - 40,
+                            textStyle: authenticationController.canResetPassword.value
+                                ? semiBold16TextStyle(cWhiteColor)
+                                : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            if (authenticationController.isChangePasswordLoading.value == true)
+              Positioned(
+                child: CommonLoadingAnimation(
+                  onWillPop: () async {
+                    if (authenticationController.isChangePasswordLoading.value) {
+                      return false;
+                    }
+                    return true;
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 }

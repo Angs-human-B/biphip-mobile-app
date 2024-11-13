@@ -330,7 +330,7 @@ class RegistrationHelper {
   }
 
   void checkCanResetPassword() {
-    if (authenticationController.resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
+    if (authenticationController.oldPasswordTextEditingController.text.isNotEmpty&&authenticationController.resetNewPasswordTextEditingController.text.trim().length >= kMinPasswordLength &&
         authenticationController.resetNewPasswordTextEditingController.text.trim() ==
             authenticationController.resetConfirmPasswordTextEditingController.text.trim()) {
       authenticationController.canResetPassword.value = true;
@@ -341,11 +341,17 @@ class RegistrationHelper {
 
   void forgetPasswordNewPasswordValidation() {
     checkCanResetPassword();
-    if (authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
-      authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
-    } else if (authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
+    if (authenticationController.oldPasswordTextEditingController.text.trim() == '') {
+      authenticationController.oldPasswordError.value = ksEmptyPasswordErrorMessage.tr;
+    }else if (authenticationController.resetNewPasswordTextEditingController.text.trim() == '') {
+      if(authenticationController.oldPasswordTextEditingController.text.trim() == ''){
+        authenticationController.resetPasswordError.value = ksEmptyPasswordErrorMessage.tr;
+      }
+    }
+    else if (authenticationController.resetNewPasswordTextEditingController.text.length < kMinPasswordLength) {
       authenticationController.resetPasswordError.value = ksPasswordLengthErrorMessage.tr;
     } else {
+      authenticationController.oldPasswordError.value = null;
       authenticationController.resetPasswordError.value = null;
       authenticationController.resetConfirmPasswordError.value = null;
     }

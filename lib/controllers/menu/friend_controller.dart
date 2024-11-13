@@ -415,6 +415,78 @@ class FriendController extends GetxController {
     }
   }
 
+  //*Follow User
+  Future<void> blockUser() async {
+    try {
+      isFriendViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuBlockUser/${userId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < friendList.length; index++) {
+          if (userId.value == friendList[index].id) {
+            friendList.removeAt(index);
+            allFriendCount.value--;
+            searchedFriendCount.value--;
+          }
+        }
+        isFriendViewLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFriendViewLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendViewLoading.value = false;
+      ll('blockUser error: $e');
+    }
+  }
+  Future<void> unBlockUser() async {
+    try {
+      isFriendViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuUnblockUser/${userId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < friendList.length; index++) {
+          if (userId.value == friendList[index].id) {
+            friendList.removeAt(index);
+            allFriendCount.value--;
+            searchedFriendCount.value--;
+          }
+        }
+        isFriendViewLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFriendViewLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendViewLoading.value = false;
+      ll('unBlockUser error: $e');
+    }
+  }
+
   //*Scroll controller for pagination
   final ScrollController sendFriendListScrollController = ScrollController();
   //* Friend Request Send List(Pending)
@@ -858,12 +930,15 @@ class FriendController extends GetxController {
   final RxList friendActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
     {'icon': BipHip.unFollow, 'action': 'Unfollow', 'actionSubtitle': 'Unfollow your friend'},
-    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'},
+    {'icon': BipHip.lock, 'action': 'Block', 'actionSubtitle': 'Block this user'}
   ]);
   final RxList friendFollowActionList = RxList([
     {'icon': BipHip.unfriend, 'action': 'Unfriend', 'actionSubtitle': 'Remove your friend'},
     {'icon': BipHip.follow, 'action': 'Follow', 'actionSubtitle': 'Follow your friend'},
-    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'}
+    {'icon': BipHip.removeFamily, 'action': 'Add Family', 'actionSubtitle': 'Add your family'},
+    {'icon': BipHip.lock, 'action': 'Block', 'actionSubtitle': 'Block this user'}
+
   ]);
   //*Search suffix icon and bottom nav route bool value
   final RxBool isFriendSuffixIconVisible = RxBool(false);

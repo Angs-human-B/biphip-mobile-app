@@ -288,20 +288,26 @@ class AuthenticationController extends GetxController {
   | //! info:: reset password
   |--------------------------------------------------------------------------
   */
+  final TextEditingController oldPasswordTextEditingController = TextEditingController();
   final TextEditingController resetNewPasswordTextEditingController = TextEditingController();
   final RxBool isResetNewPasswordToggleObscure = RxBool(true);
+  final RxBool isOldPasswordToggleObscure = RxBool(true);
   final TextEditingController resetConfirmPasswordTextEditingController = TextEditingController();
   final RxBool isResetConfirmPasswordToggleObscure = RxBool(true);
   final RxBool canResetPassword = RxBool(false);
 
+  final Rx<String?> oldPasswordError = Rx<String?>(null);
   final Rx<String?> resetPasswordError = Rx<String?>(null);
   final Rx<String?> resetConfirmPasswordError = Rx<String?>(null);
 
   void resetResetPasswordScreen() {
+    oldPasswordTextEditingController.clear();
     resetNewPasswordTextEditingController.clear();
     resetConfirmPasswordTextEditingController.clear();
+    isOldPasswordToggleObscure.value = true;
     isResetNewPasswordToggleObscure.value = true;
     isResetConfirmPasswordToggleObscure.value = true;
+    oldPasswordError.value = null;
     resetPasswordError.value = null;
     resetConfirmPasswordError.value = null;
     canResetPassword.value = false;
@@ -339,6 +345,44 @@ class AuthenticationController extends GetxController {
     } catch (e) {
       isResetPasswordLoading.value = false;
       ll('resetPassword error: $e');
+    }
+  }
+
+  final RxBool isChangePasswordLoading = RxBool(false);
+  Future<void> changePassword() async {
+    try {
+      isChangePasswordLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "current_password": oldPasswordTextEditingController.text,
+        "password": resetNewPasswordTextEditingController.text,
+        "password_confirmation": resetConfirmPasswordTextEditingController.text,
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        token: token,
+        url: kuChangePassword,
+        body: body,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        resetResetPasswordScreen();
+        resetLoginScreen();
+        isChangePasswordLoading.value = false;
+        Get.offAllNamed(krLogin);
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isChangePasswordLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isChangePasswordLoading.value = false;
+      ll('changePassword error: $e');
     }
   }
 

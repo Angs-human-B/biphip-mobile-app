@@ -28,7 +28,8 @@ class PostUpperContainer extends StatelessWidget {
       children: [
         Stack(
           children: [
-            if (globalController.commonPostList[postIndex].type.toString() == "3")
+            if (globalController.commonPostList[postIndex].type.toString() ==
+                "3")
               SizedBox(
                 width: width - 48,
                 child: Row(
@@ -44,9 +45,12 @@ class PostUpperContainer extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Image.network(
-                          globalController.commonPostList[postIndex].user!.profilePicture ?? '',
+                          globalController.commonPostList[postIndex].user!
+                                  .profilePicture ??
+                              '',
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
                             BipHip.user,
                             size: kIconSize24,
                             color: cIconColor,
@@ -65,7 +69,8 @@ class PostUpperContainer extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: RichText(
-                                  textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                                  textHeightBehavior: const TextHeightBehavior(
+                                      applyHeightToFirstAscent: false),
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.clip,
                                   maxLines: 3,
@@ -73,14 +78,20 @@ class PostUpperContainer extends StatelessWidget {
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
+                                        text: globalController
+                                                .commonPostList[postIndex]
+                                                .user
+                                                ?.fullName ??
+                                            ksNA.tr,
                                         style: semiBold16TextStyle(cBlackColor),
                                       ),
                                       WidgetSpan(
                                         baseline: TextBaseline.alphabetic,
                                         alignment: PlaceholderAlignment.middle,
                                         child: Padding(
-                                          padding: const EdgeInsets.only(left: k4Padding, right: k4Padding),
+                                          padding: const EdgeInsets.only(
+                                              left: k4Padding,
+                                              right: k4Padding),
                                           child: SvgPicture.asset(
                                             kiRightArrow,
                                             width: h16,
@@ -90,7 +101,11 @@ class PostUpperContainer extends StatelessWidget {
                                         ),
                                       ),
                                       TextSpan(
-                                        text: globalController.commonPostList[postIndex].user?.fullName ?? ksNA.tr,
+                                        text: globalController
+                                                .commonPostList[postIndex]
+                                                .user
+                                                ?.fullName ??
+                                            ksNA.tr,
                                         style: semiBold16TextStyle(cBlackColor),
                                       ),
                                     ],
@@ -119,7 +134,8 @@ class PostUpperContainer extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              globalController.privacyIcon(globalController.commonPostList[postIndex].isPublic),
+                              globalController.privacyIcon(globalController
+                                  .commonPostList[postIndex].isPublic),
                               color: cIconColor,
                               size: kIconSize12,
                             ),
@@ -138,7 +154,9 @@ class PostUpperContainer extends StatelessWidget {
                           onTap: () {
                             globalController.blankBottomSheet(
                                 context: context,
-                                bottomSheetHeight: isDeviceScreenLarge() ? height * 0.15 : height * 0.25,
+                                bottomSheetHeight: isDeviceScreenLarge()
+                                    ? height * 0.15
+                                    : height * 0.25,
                                 content: BirthdayBottomSheetContent(
                                   postIndex: postIndex,
                                 ));
@@ -153,8 +171,12 @@ class PostUpperContainer extends StatelessWidget {
                 ),
               ),
             SizedBox(
-              width: (globalController.commonPostList[postIndex].kid?.profilePicture != null ||
-                      globalController.commonPostList[postIndex].store?.profilePicture != null)
+              width: (globalController
+                              .commonPostList[postIndex].kid?.profilePicture !=
+                          null ||
+                      globalController.commonPostList[postIndex].store
+                              ?.profilePicture !=
+                          null)
                   ? 70
                   : h44,
               child: Row(
@@ -168,9 +190,12 @@ class PostUpperContainer extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Image.network(
-                        globalController.commonPostList[postIndex].user!.profilePicture ?? '',
+                        globalController.commonPostList[postIndex].user!
+                                .profilePicture ??
+                            '',
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
                           BipHip.user,
                           size: kIconSize24,
                           color: cIconColor,
@@ -181,8 +206,12 @@ class PostUpperContainer extends StatelessWidget {
                 ],
               ),
             ),
-            if (globalController.commonPostList[postIndex].kid?.profilePicture != null ||
-                globalController.commonPostList[postIndex].store?.profilePicture != null)
+            if (globalController
+                        .commonPostList[postIndex].kid?.profilePicture !=
+                    null ||
+                globalController
+                        .commonPostList[postIndex].store?.profilePicture !=
+                    null)
               Positioned(
                 right: 0,
                 bottom: 0,
@@ -191,9 +220,14 @@ class PostUpperContainer extends StatelessWidget {
                   child: Container(
                     height: h45,
                     width: h45,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
+                    decoration: const BoxDecoration(
+                        shape: BoxShape.circle, color: cBlackColor),
                     child: Image.network(
-                      globalController.commonPostList[postIndex].kid?.profilePicture ?? globalController.commonPostList[postIndex].store?.profilePicture ?? "",
+                      globalController
+                              .commonPostList[postIndex].kid?.profilePicture ??
+                          globalController.commonPostList[postIndex].store
+                              ?.profilePicture ??
+                          "",
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) => const Icon(
                         BipHip.user,
@@ -218,73 +252,124 @@ class PostUpperContainer extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: RichText(
-                          textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                          textHeightBehavior: const TextHeightBehavior(
+                              applyHeightToFirstAscent: false),
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.clip,
                           maxLines: 3,
                           text: TextSpan(
-                            style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
+                            style: DefaultTextStyle.of(context)
+                                .style
+                                .copyWith(height: 1.4),
                             children: [
                               WidgetSpan(
                                 child: InkWell(
                                   onTap: () async {
-                                    if (globalController.userId.value == globalController.commonPostList[postIndex].userId) {
+                                    if (globalController.userId.value ==
+                                        globalController
+                                            .commonPostList[postIndex].userId) {
                                       Get.toNamed(krProfile);
-                                      Get.find<ProfileController>().interestCatagoriesIndex.value = 0;
-                                      await Get.find<ProfileController>().getProfileOverview();
-                                      await Get.find<CreatePostController>().getCreatePost();
-                                      await Get.find<HomeController>().getTimelinePostList();
+                                      Get.find<ProfileController>()
+                                          .interestCatagoriesIndex
+                                          .value = 0;
+                                      await Get.find<ProfileController>()
+                                          .getProfileOverview();
+                                      await Get.find<CreatePostController>()
+                                          .getCreatePost();
+                                      await Get.find<HomeController>()
+                                          .getTimelinePostList();
                                     } else {
-                                      Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
-                                      Get.find<ProfileViewController>().profileViewType.value = "profile";
-                                      Get.find<ProfileViewController>().userName.value = globalController.commonPostList[postIndex].user!.userName!;
+                                      Get.find<ProfileViewController>()
+                                          .profileSelectedTabIndex
+                                          .value = 0;
+                                      Get.find<ProfileViewController>()
+                                          .profileViewType
+                                          .value = "profile";
+                                      Get.find<ProfileViewController>()
+                                              .userName
+                                              .value =
+                                          globalController
+                                              .commonPostList[postIndex]
+                                              .user!
+                                              .userName!;
                                       Get.toNamed(krProfileView);
-                                      await Get.find<ProfileViewController>().getProfileOverview();
-                                      await Get.find<ProfileViewController>().getProfileViewFriend();
-                                      await Get.find<ProfileViewController>().getProfileViewFamily();
-                                      await Get.find<ProfileViewController>().getProfileViewPostList();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileOverview();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewFriend();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewFamily();
+                                      await Get.find<ProfileViewController>()
+                                          .getProfileViewPostList();
                                     }
                                   },
-                                  child: Text(globalController.commonPostList[postIndex].user!.fullName!, style: semiBold18TextStyle(cBlackColor)),
+                                  child: Text(
+                                      globalController.commonPostList[postIndex]
+                                          .user!.fullName!,
+                                      style: semiBold18TextStyle(cBlackColor)),
                                 ),
                               ),
                               // TextSpan(
                               //   text: globalController.commonPostList[postIndex].user!.fullName!,
                               //   style: semiBold16TextStyle(cBlackColor),
                               // ),
-                              if (globalController.commonPostList[postIndex].postCategory != null)
+                              if (globalController
+                                      .commonPostList[postIndex].postCategory !=
+                                  null)
                                 TextSpan(
                                   text: ' ${ksPostedOn.tr} ',
-                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                  style:
+                                      regular16TextStyle(cSmallBodyTextColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].postCategory != null)
+                              if (globalController
+                                      .commonPostList[postIndex].postCategory !=
+                                  null)
                                 WidgetSpan(
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(bottom: 0),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 0),
                                         child: Icon(
-                                          globalController.getCategoryIcon(globalController.commonPostList[postIndex].postCategory!.id),
-                                          color: globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id),
+                                          globalController.getCategoryIcon(
+                                              globalController
+                                                  .commonPostList[postIndex]
+                                                  .postCategory!
+                                                  .id),
+                                          color: globalController
+                                              .getCategoryColor(globalController
+                                                  .commonPostList[postIndex]
+                                                  .postCategory!
+                                                  .id),
                                           size: kIconSize14,
                                         ),
                                       ),
-                                      if (globalController.commonPostList[postIndex].postCategory != null)
+                                      if (globalController
+                                              .commonPostList[postIndex]
+                                              .postCategory !=
+                                          null)
                                         Text(
                                           " ${globalController.commonPostList[postIndex].postCategory!.name!}",
                                           style: semiBold14TextStyle(
-                                              globalController.getCategoryColor(globalController.commonPostList[postIndex].postCategory!.id)),
+                                              globalController.getCategoryColor(
+                                                  globalController
+                                                      .commonPostList[postIndex]
+                                                      .postCategory!
+                                                      .id)),
                                         ),
                                     ],
                                   ),
                                 ),
-                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
+                              if (globalController.commonPostList[postIndex]
+                                  .taggedFriends.isNotEmpty)
                                 TextSpan(
                                   text: ' ${ksWith.tr} ',
-                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                  style:
+                                      regular16TextStyle(cSmallBodyTextColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty)
+                              if (globalController.commonPostList[postIndex]
+                                  .taggedFriends.isNotEmpty)
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
@@ -307,32 +392,52 @@ class PostUpperContainer extends StatelessWidget {
                                   // text: '${globalController.commonPostList[postIndex].taggedFriends[0].fullName}',
                                   // style: semiBold16TextStyle(cBlackColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
-                                  globalController.commonPostList[postIndex].taggedFriends.length == 2)
+                              if (globalController.commonPostList[postIndex]
+                                      .taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex]
+                                          .taggedFriends.length ==
+                                      2)
                                 TextSpan(
-                                  text: ' & ${globalController.commonPostList[postIndex].taggedFriends[1].fullName}',
+                                  text:
+                                      ' & ${globalController.commonPostList[postIndex].taggedFriends[1].fullName}',
                                   style: semiBold16TextStyle(cBlackColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].taggedFriends.isNotEmpty &&
-                                  globalController.commonPostList[postIndex].taggedFriends.length > 2)
+                              if (globalController.commonPostList[postIndex]
+                                      .taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex]
+                                          .taggedFriends.length >
+                                      2)
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () {
-                                      Get.find<GlobalController>().commonBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          bottomSheetHeight: globalController.commonPostList[postIndex].taggedFriends.length > 10 ? height * 0.6 : null,
-                                          content: TaggedFriendContent(
-                                            taggedFriend: globalController.commonPostList[postIndex].taggedFriends,
-                                          ),
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () {},
-                                          rightText: ksDone.tr,
-                                          rightTextStyle: regular14TextStyle(cPrimaryColor),
-                                          title: ksTaggedFriends.tr,
-                                          isRightButtonShow: false);
+                                      Get.find<GlobalController>()
+                                          .commonBottomSheet(
+                                              context: context,
+                                              isScrollControlled: true,
+                                              bottomSheetHeight:
+                                                  globalController
+                                                              .commonPostList[
+                                                                  postIndex]
+                                                              .taggedFriends
+                                                              .length >
+                                                          10
+                                                      ? height * 0.6
+                                                      : null,
+                                              content: TaggedFriendContent(
+                                                taggedFriend: globalController
+                                                    .commonPostList[postIndex]
+                                                    .taggedFriends,
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {},
+                                              rightText: ksDone.tr,
+                                              rightTextStyle:
+                                                  regular14TextStyle(
+                                                      cPrimaryColor),
+                                              title: ksTaggedFriends.tr,
+                                              isRightButtonShow: false);
                                     },
                                     child: Text(
                                       ' & ${globalController.commonPostList[postIndex].taggedFriends.length - 1} others',
@@ -348,15 +453,23 @@ class PostUpperContainer extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: 0),
                                   child: Icon(
                                     globalController.privacyList.firstWhere(
-                                      (element) => element['id'] == globalController.commonPostList[postIndex].isPublic,
+                                      (element) =>
+                                          element['id'] ==
+                                          globalController
+                                              .commonPostList[postIndex]
+                                              .isPublic,
                                     )["icon"],
                                     color: cIconColor,
                                     size: kIconSize12,
                                   ),
                                 ),
                               ),
-                              if (globalController.commonPostList[postIndex].postCategory?.name == 'Selling' &&
-                                  globalController.commonPostList[postIndex].store != null)
+                              if (globalController.commonPostList[postIndex]
+                                          .postCategory?.name ==
+                                      'Selling' &&
+                                  globalController
+                                          .commonPostList[postIndex].store !=
+                                      null)
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
@@ -366,22 +479,48 @@ class PostUpperContainer extends StatelessWidget {
                                       //   await Get.find<StoreController>().getStoreOverview();
                                       //   await Get.find<StoreController>().getPostList();
                                       // } else {
-                                      Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
-                                      Get.find<ProfileViewController>().profileViewType.value = "store";
-                                      Get.find<ProfileViewController>().kidOrStorePageId.value =
-                                          globalController.commonPostList[postIndex].store!.pageId!.toString();
+                                      Get.find<ProfileViewController>()
+                                          .profileSelectedTabIndex
+                                          .value = 0;
+                                      Get.find<ProfileViewController>()
+                                          .profileViewType
+                                          .value = "store";
+                                      Get.find<ProfileViewController>()
+                                              .kidOrStorePageId
+                                              .value =
+                                          globalController
+                                              .commonPostList[postIndex]
+                                              .store!
+                                              .pageId!
+                                              .toString();
                                       Get.toNamed(krProfileView);
                                       await Get.find<ProfileViewController>()
-                                          .getProfileViewStoreOverview(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                          .getProfileViewStoreOverview(
+                                              storePageId: Get.find<
+                                                      ProfileViewController>()
+                                                  .kidOrStorePageId
+                                                  .value);
                                       await Get.find<ProfileViewController>()
-                                          .getProfileViewStorePostList(storePageId: Get.find<ProfileViewController>().kidOrStorePageId.value.toString());
+                                          .getProfileViewStorePostList(
+                                              storePageId: Get.find<
+                                                      ProfileViewController>()
+                                                  .kidOrStorePageId
+                                                  .value
+                                                  .toString());
                                       // }
                                     },
-                                    child: Text(' (${globalController.commonPostList[postIndex].store?.name})', style: semiBold14TextStyle(cBlackColor)),
+                                    child: Text(
+                                        ' (${globalController.commonPostList[postIndex].store?.name})',
+                                        style:
+                                            semiBold14TextStyle(cBlackColor)),
                                   ),
                                 ),
-                              if (globalController.commonPostList[postIndex].postCategory?.name == 'Kids' &&
-                                  globalController.commonPostList[postIndex].kid != null)
+                              if (globalController.commonPostList[postIndex]
+                                          .postCategory?.name ==
+                                      'Kids' &&
+                                  globalController
+                                          .commonPostList[postIndex].kid !=
+                                      null)
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () async {
@@ -392,25 +531,46 @@ class PostUpperContainer extends StatelessWidget {
                                       //   await Get.find<KidsController>().getKidOverview();
                                       //   await Get.find<KidsController>().getPostList();
                                       // } else {
-                                      Get.find<ProfileViewController>().profileSelectedTabIndex.value = 0;
-                                      Get.find<ProfileViewController>().profileViewType.value = "kid";
-                                      Get.find<ProfileViewController>().kidOrStorePageId.value =
-                                          globalController.commonPostList[postIndex].kid!.pageId!.toString();
+                                      Get.find<ProfileViewController>()
+                                          .profileSelectedTabIndex
+                                          .value = 0;
+                                      Get.find<ProfileViewController>()
+                                          .profileViewType
+                                          .value = "kid";
+                                      Get.find<ProfileViewController>()
+                                              .kidOrStorePageId
+                                              .value =
+                                          globalController
+                                              .commonPostList[postIndex]
+                                              .kid!
+                                              .pageId!
+                                              .toString();
                                       Get.toNamed(krProfileView);
                                       await Get.find<ProfileViewController>()
-                                          .getKidProfileOverview(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                          .getKidProfileOverview(
+                                              kidPageId: Get.find<
+                                                      ProfileViewController>()
+                                                  .kidOrStorePageId
+                                                  .value);
                                       await Get.find<ProfileViewController>()
-                                          .getProfileViewKidPostList(kidPageId: Get.find<ProfileViewController>().kidOrStorePageId.value);
+                                          .getProfileViewKidPostList(
+                                              kidPageId: Get.find<
+                                                      ProfileViewController>()
+                                                  .kidOrStorePageId
+                                                  .value);
                                       // }
                                     },
                                     child: Text(
                                         ' (${globalController.commonPostList[postIndex].kid?.name}, ${globalController.commonPostList[postIndex].kid?.age})',
-                                        style: semiBold14TextStyle(cBlackColor)),
+                                        style:
+                                            semiBold14TextStyle(cBlackColor)),
                                   ),
                                 ),
                               TextSpan(
-                                  text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
-                                  style: regular14TextStyle(cSmallBodyTextColor))
+                                  text:
+                                      ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].dateTime!)}',
+                                  style:
+                                      regular14TextStyle(cSmallBodyTextColor))
                             ],
                           ),
                         ),
@@ -419,11 +579,17 @@ class PostUpperContainer extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         globalController.postSelectedAction.value = "";
-                        globalController.selectedAudienceId.value = globalController.commonPostList[postIndex].isPublic!;
+                        globalController.selectedAudienceId.value =
+                            globalController
+                                .commonPostList[postIndex].isPublic!;
                         globalController.blankBottomSheet(
                           context: context,
-                          bottomSheetHeight: isDeviceScreenLarge() ? height * 0.32 : height * 0.40,
-                          content: Get.find<GlobalController>().userId.value == globalController.commonPostList[postIndex].user!.id
+                          bottomSheetHeight: isDeviceScreenLarge()
+                              ? height * 0.32
+                              : height * 0.40,
+                          content: Get.find<GlobalController>().userId.value ==
+                                  globalController
+                                      .commonPostList[postIndex].user!.id
                               ? SelfPostActionContent(
                                   postIndex: postIndex,
                                 )
@@ -513,8 +679,12 @@ class SharePostUpperContainer extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                width: (globalController.commonPostList[postIndex].sharePosts!.kid?.profilePicture != null ||
-                        globalController.commonPostList[postIndex].sharePosts!.store?.profilePicture != null)
+                width: (globalController.commonPostList[postIndex].sharePosts!
+                                .kid?.profilePicture !=
+                            null ||
+                        globalController.commonPostList[postIndex].sharePosts!
+                                .store?.profilePicture !=
+                            null)
                     ? 70
                     : h44,
                 child: Row(
@@ -528,9 +698,12 @@ class SharePostUpperContainer extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Image.network(
-                          globalController.commonPostList[postIndex].sharePosts!.user!.profilePicture ?? '',
+                          globalController.commonPostList[postIndex].sharePosts!
+                                  .user!.profilePicture ??
+                              '',
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Icon(
                             BipHip.user,
                             size: kIconSize24,
                             color: cIconColor,
@@ -541,8 +714,12 @@ class SharePostUpperContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              if (globalController.commonPostList[postIndex].sharePosts!.kid?.profilePicture != null ||
-                  globalController.commonPostList[postIndex].sharePosts!.store?.profilePicture != null)
+              if (globalController.commonPostList[postIndex].sharePosts!.kid
+                          ?.profilePicture !=
+                      null ||
+                  globalController.commonPostList[postIndex].sharePosts!.store
+                          ?.profilePicture !=
+                      null)
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -551,13 +728,17 @@ class SharePostUpperContainer extends StatelessWidget {
                     child: Container(
                       height: h45,
                       width: h45,
-                      decoration: const BoxDecoration(shape: BoxShape.circle, color: cBlackColor),
+                      decoration: const BoxDecoration(
+                          shape: BoxShape.circle, color: cBlackColor),
                       child: Image.network(
-                        globalController.commonPostList[postIndex].sharePosts!.kid?.profilePicture ??
-                            globalController.commonPostList[postIndex].sharePosts!.store?.profilePicture ??
+                        globalController.commonPostList[postIndex].sharePosts!
+                                .kid?.profilePicture ??
+                            globalController.commonPostList[postIndex]
+                                .sharePosts!.store?.profilePicture ??
                             "",
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => const Icon(
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
                           BipHip.user,
                           size: kIconSize24,
                           color: cIconColor,
@@ -579,81 +760,135 @@ class SharePostUpperContainer extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: RichText(
-                          textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                          textHeightBehavior: const TextHeightBehavior(
+                              applyHeightToFirstAscent: false),
                           textAlign: TextAlign.left,
                           overflow: TextOverflow.clip,
                           maxLines: 3,
                           text: TextSpan(
-                            style: DefaultTextStyle.of(context).style.copyWith(height: 1.4),
+                            style: DefaultTextStyle.of(context)
+                                .style
+                                .copyWith(height: 1.4),
                             children: [
                               TextSpan(
-                                text: globalController.commonPostList[postIndex].sharePosts!.user!.fullName!,
+                                text: globalController.commonPostList[postIndex]
+                                    .sharePosts!.user!.fullName!,
                                 style: semiBold16TextStyle(cBlackColor),
                               ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory != null)
+                              if (globalController.commonPostList[postIndex]
+                                      .sharePosts!.postCategory !=
+                                  null)
                                 TextSpan(
                                   text: ' ${ksPostedOn.tr} ',
-                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                  style:
+                                      regular16TextStyle(cSmallBodyTextColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory != null)
+                              if (globalController.commonPostList[postIndex]
+                                      .sharePosts!.postCategory !=
+                                  null)
                                 WidgetSpan(
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(bottom: 0),
+                                        padding:
+                                            const EdgeInsets.only(bottom: 0),
                                         child: Icon(
-                                          globalController.getCategoryIcon(globalController.commonPostList[postIndex].sharePosts!.postCategory!.id),
-                                          color: globalController.getCategoryColor(globalController.commonPostList[postIndex].sharePosts!.postCategory!.id),
+                                          globalController.getCategoryIcon(
+                                              globalController
+                                                  .commonPostList[postIndex]
+                                                  .sharePosts!
+                                                  .postCategory!
+                                                  .id),
+                                          color: globalController
+                                              .getCategoryColor(globalController
+                                                  .commonPostList[postIndex]
+                                                  .sharePosts!
+                                                  .postCategory!
+                                                  .id),
                                           size: kIconSize14,
                                         ),
                                       ),
-                                      if (globalController.commonPostList[postIndex].sharePosts!.postCategory != null)
+                                      if (globalController
+                                              .commonPostList[postIndex]
+                                              .sharePosts!
+                                              .postCategory !=
+                                          null)
                                         Text(
                                           " ${globalController.commonPostList[postIndex].sharePosts!.postCategory!.name!}",
                                           style: semiBold14TextStyle(
-                                              globalController.getCategoryColor(globalController.commonPostList[postIndex].sharePosts!.postCategory!.id)),
+                                              globalController.getCategoryColor(
+                                                  globalController
+                                                      .commonPostList[postIndex]
+                                                      .sharePosts!
+                                                      .postCategory!
+                                                      .id)),
                                         ),
                                     ],
                                   ),
                                 ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty)
+                              if (globalController.commonPostList[postIndex]
+                                  .sharePosts!.taggedFriends.isNotEmpty)
                                 TextSpan(
                                   text: ' ${ksWith.tr} ',
-                                  style: regular16TextStyle(cSmallBodyTextColor),
+                                  style:
+                                      regular16TextStyle(cSmallBodyTextColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty)
+                              if (globalController.commonPostList[postIndex]
+                                  .sharePosts!.taggedFriends.isNotEmpty)
                                 TextSpan(
-                                  text: '${globalController.commonPostList[postIndex].sharePosts!.taggedFriends[0].fullName}',
+                                  text:
+                                      '${globalController.commonPostList[postIndex].sharePosts!.taggedFriends[0].fullName}',
                                   style: semiBold16TextStyle(cBlackColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty &&
-                                  globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length == 2)
+                              if (globalController.commonPostList[postIndex]
+                                      .sharePosts!.taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex]
+                                          .sharePosts!.taggedFriends.length ==
+                                      2)
                                 TextSpan(
-                                  text: ' & ${globalController.commonPostList[postIndex].sharePosts!.taggedFriends[1].fullName}',
+                                  text:
+                                      ' & ${globalController.commonPostList[postIndex].sharePosts!.taggedFriends[1].fullName}',
                                   style: semiBold16TextStyle(cBlackColor),
                                 ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.taggedFriends.isNotEmpty &&
-                                  globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length > 2)
+                              if (globalController.commonPostList[postIndex]
+                                      .sharePosts!.taggedFriends.isNotEmpty &&
+                                  globalController.commonPostList[postIndex]
+                                          .sharePosts!.taggedFriends.length >
+                                      2)
                                 WidgetSpan(
                                   child: InkWell(
                                     onTap: () {
-                                      Get.find<GlobalController>().commonBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          bottomSheetHeight:
-                                              globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length > 10 ? height * 0.6 : null,
-                                          content: TaggedFriendContent(
-                                            taggedFriend: globalController.commonPostList[postIndex].sharePosts!.taggedFriends,
-                                          ),
-                                          onPressCloseButton: () {
-                                            Get.back();
-                                          },
-                                          onPressRightButton: () {},
-                                          rightText: ksDone.tr,
-                                          rightTextStyle: regular14TextStyle(cPrimaryColor),
-                                          title: ksTaggedFriends.tr,
-                                          isRightButtonShow: false);
+                                      Get.find<GlobalController>()
+                                          .commonBottomSheet(
+                                              context: context,
+                                              isScrollControlled: true,
+                                              bottomSheetHeight:
+                                                  globalController
+                                                              .commonPostList[
+                                                                  postIndex]
+                                                              .sharePosts!
+                                                              .taggedFriends
+                                                              .length >
+                                                          10
+                                                      ? height * 0.6
+                                                      : null,
+                                              content: TaggedFriendContent(
+                                                taggedFriend: globalController
+                                                    .commonPostList[postIndex]
+                                                    .sharePosts!
+                                                    .taggedFriends,
+                                              ),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {},
+                                              rightText: ksDone.tr,
+                                              rightTextStyle:
+                                                  regular14TextStyle(
+                                                      cPrimaryColor),
+                                              title: ksTaggedFriends.tr,
+                                              isRightButtonShow: false);
                                     },
                                     child: Text(
                                       ' & ${globalController.commonPostList[postIndex].sharePosts!.taggedFriends.length - 1} others',
@@ -669,19 +904,34 @@ class SharePostUpperContainer extends StatelessWidget {
                                   padding: const EdgeInsets.only(bottom: 0),
                                   child: Icon(
                                     globalController.privacyList.firstWhere(
-                                      (element) => element['id'] == globalController.commonPostList[postIndex].sharePosts!.isPublic,
+                                      (element) =>
+                                          element['id'] ==
+                                          globalController
+                                              .commonPostList[postIndex]
+                                              .sharePosts!
+                                              .isPublic,
                                     )["icon"],
                                     color: cIconColor,
                                     size: kIconSize12,
                                   ),
                                 ),
                               ),
-                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory?.name == 'Selling' &&
-                                  globalController.commonPostList[postIndex].sharePosts!.store != null)
+                              if (globalController.commonPostList[postIndex]
+                                          .sharePosts!.postCategory?.name ==
+                                      'Selling' &&
+                                  globalController.commonPostList[postIndex]
+                                          .sharePosts!.store !=
+                                      null)
                                 TextSpan(
-                                    text: ' (${globalController.commonPostList[postIndex].sharePosts!.store?.name})', style: semiBold14TextStyle(cBlackColor)),
-                              if (globalController.commonPostList[postIndex].sharePosts!.postCategory?.name == 'Kids' &&
-                                  globalController.commonPostList[postIndex].sharePosts!.kid != null)
+                                    text:
+                                        ' (${globalController.commonPostList[postIndex].sharePosts!.store?.name})',
+                                    style: semiBold14TextStyle(cBlackColor)),
+                              if (globalController.commonPostList[postIndex]
+                                          .sharePosts!.postCategory?.name ==
+                                      'Kids' &&
+                                  globalController.commonPostList[postIndex]
+                                          .sharePosts!.kid !=
+                                      null)
                                 // TextSpan(
                                 //     text:
                                 //         ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
@@ -691,12 +941,15 @@ class SharePostUpperContainer extends StatelessWidget {
                                     onTap: () {},
                                     child: Text(
                                         ' (${globalController.commonPostList[postIndex].sharePosts!.kid?.name}, ${globalController.commonPostList[postIndex].sharePosts!.kid?.age})',
-                                        style: semiBold14TextStyle(cBlackColor)),
+                                        style:
+                                            semiBold14TextStyle(cBlackColor)),
                                   ),
                                 ),
                               TextSpan(
-                                  text: ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].sharePosts!.createdAt!)}',
-                                  style: regular14TextStyle(cSmallBodyTextColor))
+                                  text:
+                                      ' ${globalController.postTimeDifference(globalController.commonPostList[postIndex].sharePosts!.createdAt!)}',
+                                  style:
+                                      regular14TextStyle(cSmallBodyTextColor))
                             ],
                           ),
                         ),
@@ -719,7 +972,8 @@ class SelfPostActionContent extends StatelessWidget {
     required this.postIndex,
   });
   final GlobalController globalController = Get.find<GlobalController>();
-  final CreatePostController createPostController = Get.find<CreatePostController>();
+  final CreatePostController createPostController =
+      Get.find<CreatePostController>();
   final int postIndex;
 
   @override
@@ -737,81 +991,120 @@ class SelfPostActionContent extends StatelessWidget {
               globalController.postSelectedAction.value = "Edit Post";
               if (globalController.postSelectedAction.value == "Edit Post") {
                 CreatePostHelper().resetCreatePostData();
-                createPostController.taggedFriends.addAll(postData.taggedFriends);
-                createPostController.postId.value = globalController.commonPostList[postIndex].id!;
+                createPostController.taggedFriends
+                    .addAll(postData.taggedFriends);
+                createPostController.postId.value =
+                    globalController.commonPostList[postIndex].id!;
                 createPostController.isEditPost.value = true;
                 createPostController.privacyId.value = postData.isPublic!;
-                createPostController.category.value = postData.postCategory?.name ?? "";
-                createPostController.createPostSelectedPrivacyIcon.value = globalController.privacyIcon(postData.isPublic);
-                createPostController.createPostSelectedPrivacy.value = globalController.privacyText(postData.isPublic);
-                for (int i = 0; i < createPostController.categoryList.length; i++) {
-                  if (createPostController.category.value != "" && createPostController.category.value == createPostController.categoryList[i]['title']) {
-                    createPostController.categoryIcon.value = createPostController.categoryList[i]['icon'];
-                    createPostController.categoryIconColor.value = createPostController.categoryList[i]['icon_color'];
+                createPostController.category.value =
+                    postData.postCategory?.name ?? "";
+                createPostController.createPostSelectedPrivacyIcon.value =
+                    globalController.privacyIcon(postData.isPublic);
+                createPostController.createPostSelectedPrivacy.value =
+                    globalController.privacyText(postData.isPublic);
+                for (int i = 0;
+                    i < createPostController.categoryList.length;
+                    i++) {
+                  if (createPostController.category.value != "" &&
+                      createPostController.category.value ==
+                          createPostController.categoryList[i]['title']) {
+                    createPostController.categoryIcon.value =
+                        createPostController.categoryList[i]['icon'];
+                    createPostController.categoryIconColor.value =
+                        createPostController.categoryList[i]['icon_color'];
                     break;
                   }
                 }
                 if (createPostController.category.value == "Selling") {
-                  createPostController.biddingTitleTextEditingController.text = postData.content ?? "";
-                  createPostController.biddingDescriptionTextEditingController.text = postData.description ?? "";
+                  createPostController.biddingTitleTextEditingController.text =
+                      postData.content ?? "";
+                  createPostController.biddingDescriptionTextEditingController
+                      .text = postData.description ?? "";
                   if (postData.price != null) {
-                    createPostController.biddingPriceTextEditingController.text = postData.price.toString();
+                    createPostController.biddingPriceTextEditingController
+                        .text = postData.price.toString();
                   }
                   if (postData.discount != null) {
-                    createPostController.biddingDiscountAmountTextEditingController.text = postData.discount.toString();
+                    createPostController
+                        .biddingDiscountAmountTextEditingController
+                        .text = postData.discount.toString();
                   }
                   if (postData.desireAmount != null) {
-                    createPostController.biddingDesiredAmountTextEditingController.text = postData.desireAmount.toString();
+                    createPostController
+                        .biddingDesiredAmountTextEditingController
+                        .text = postData.desireAmount.toString();
                   }
                   if (postData.productTags != null) {
-                    createPostController.biddingProductTagTextEditingController.text = postData.productTags.toString();
+                    createPostController.biddingProductTagTextEditingController
+                        .text = postData.productTags.toString();
                   }
                   if (postData.sku != null) {
-                    createPostController.biddingSKUTextEditingController.text = postData.sku.toString();
+                    createPostController.biddingSKUTextEditingController.text =
+                        postData.sku.toString();
                   }
                   if (postData.location != null) {
-                    createPostController.sellingLocationTextEditingController.text = postData.location.toString();
+                    createPostController.sellingLocationTextEditingController
+                        .text = postData.location.toString();
                   }
                   if (postData.minBiddingAmount != null) {
-                    createPostController.biddingMinimumBidTextEditingController.text = postData.minBiddingAmount.toString();
+                    createPostController.biddingMinimumBidTextEditingController
+                        .text = postData.minBiddingAmount.toString();
                   }
                   if (postData.sellPostType != null) {
                     if (postData.sellPostType == 0) {
-                      createPostController.sellingPostType.value = ksRegularPost.tr;
+                      createPostController.sellingPostType.value =
+                          ksRegularPost.tr;
                     } else {
-                      createPostController.sellingPostType.value = ksBiddingPost.tr;
+                      createPostController.sellingPostType.value =
+                          ksBiddingPost.tr;
                     }
                   }
-                  createPostController.selectedBrandName.value = postData.store?.name ?? "";
-                  createPostController.postSecondaryCircleAvatar.value = postData.store?.profilePicture ?? "";
+                  createPostController.selectedBrandName.value =
+                      postData.store?.name ?? "";
+                  createPostController.postSecondaryCircleAvatar.value =
+                      postData.store?.profilePicture ?? "";
                 } else if (createPostController.category.value == "News") {
                   if (postData.title != null) {
-                    createPostController.newsTitleTextEditingController.text = postData.title.toString();
-                    createPostController.previousNewsTitle.value = postData.title ?? "";
+                    createPostController.newsTitleTextEditingController.text =
+                        postData.title.toString();
+                    createPostController.previousNewsTitle.value =
+                        postData.title ?? "";
                   }
                   if (postData.description != null) {
-                    createPostController.newsDescriptionTextEditingController.text = postData.description.toString();
+                    createPostController.newsDescriptionTextEditingController
+                        .text = postData.description.toString();
                   }
                 } else {
-                  createPostController.createPostTextEditingController.text = postData.content ?? "";
-                  createPostController.previousPostContent.value = postData.content ?? "";
+                  createPostController.createPostTextEditingController.text =
+                      postData.content ?? "";
+                  createPostController.previousPostContent.value =
+                      postData.content ?? "";
                   if (postData.images.isNotEmpty) {
                     createPostController.imageIdList.clear();
                     createPostController.deleteImageIdList.clear();
                     for (int i = 0; i < postData.images.length; i++) {
                       if (postData.images[i].fullPath != null) {
-                        createPostController.allMediaList.add(postData.images[i].fullPath.toString());
+                        createPostController.allMediaList
+                            .add(postData.images[i].fullPath.toString());
                       }
-                      createPostController.previousPostImageLength.value = createPostController.allMediaList.length;
-                      createPostController.imageIdList.add(postData.images[i].id);
-                      createPostController.imageDescriptionTextEditingController.add(TextEditingController(text: postData.images[i].description ?? ""));
-                      createPostController.imageLocationsList.add(postData.images[i].imageTakenLocation);
-                      createPostController.imageTimesList.add(postData.images[i].imageTakenTime);
+                      createPostController.previousPostImageLength.value =
+                          createPostController.allMediaList.length;
+                      createPostController.imageIdList
+                          .add(postData.images[i].id);
+                      createPostController.imageDescriptionTextEditingController
+                          .add(TextEditingController(
+                              text: postData.images[i].description ?? ""));
+                      createPostController.imageLocationsList
+                          .add(postData.images[i].imageTakenLocation);
+                      createPostController.imageTimesList
+                          .add(postData.images[i].imageTakenTime);
                       createPostController.imageTagIdList.add('1,58');
                     }
                   }
                   if (createPostController.category.value == "Kids") {
-                    createPostController.postSecondaryCircleAvatar.value = postData.kid?.profilePicture ?? "";
+                    createPostController.postSecondaryCircleAvatar.value =
+                        postData.kid?.profilePicture ?? "";
                     createPostController.kidID.value = postData.kid?.id ?? -1;
                   }
                 }
@@ -825,8 +1118,10 @@ class SelfPostActionContent extends StatelessWidget {
             actionOnPressed: () async {
               Get.back();
               globalController.postSelectedAction.value = "Edit Audience";
-              if (globalController.postSelectedAction.value == "Edit Audience") {
-                globalController.temporaryselectedAudienceId.value = globalController.selectedAudienceId.value;
+              if (globalController.postSelectedAction.value ==
+                  "Edit Audience") {
+                globalController.temporaryselectedAudienceId.value =
+                    globalController.selectedAudienceId.value;
                 if (globalController.selectedAudienceId.value == 0) {
                   globalController.postAudienceAction.value = "Only me";
                 }
@@ -840,18 +1135,24 @@ class SelfPostActionContent extends StatelessWidget {
                   globalController.postAudienceAction.value = "Families";
                 }
                 if (globalController.selectedAudienceId.value == 4) {
-                  globalController.postAudienceAction.value = "Friends & Families";
+                  globalController.postAudienceAction.value =
+                      "Friends & Families";
                 }
                 Get.find<GlobalController>().commonBottomSheet(
                     context: context,
                     content: EditAudienceActionContent(),
                     onPressCloseButton: () => Get.back(),
                     onPressRightButton: () async {
-                      globalController.selectedAudienceId.value = globalController.temporaryselectedAudienceId.value;
+                      globalController.selectedAudienceId.value =
+                          globalController.temporaryselectedAudienceId.value;
                       Get.back();
-                      globalController.commonPostList[postIndex].isPublic = globalController.selectedAudienceId.value;
+                      globalController.commonPostList[postIndex].isPublic =
+                          globalController.selectedAudienceId.value;
                       await globalController.editAudience(postData.id!);
-                      globalController.commonPostList.replaceRange(postIndex, postIndex + 1, [globalController.commonPostList[postIndex]]);
+                      globalController.commonPostList.replaceRange(
+                          postIndex,
+                          postIndex + 1,
+                          [globalController.commonPostList[postIndex]]);
                     },
                     rightText: ksDone.tr,
                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
@@ -862,17 +1163,25 @@ class SelfPostActionContent extends StatelessWidget {
             },
           ),
           IconWithTextRow(
-            actionIcon: postData.isNotifaction == true ? BipHip.notificationFill : BipHip.notificationOutline,
-            actionText: postData.isNotifaction == true ? "Turn off notification for this post" : "Turn on notification for this post",
+            actionIcon: postData.isNotifaction == true
+                ? BipHip.notificationFill
+                : BipHip.notificationOutline,
+            actionText: postData.isNotifaction == true
+                ? "Turn off notification for this post"
+                : "Turn on notification for this post",
             actionOnPressed: () async {
               Get.back();
               if (postData.isNotifaction == true) {
-                globalController.postSelectedAction.value = "Turn off notification for this post";
+                globalController.postSelectedAction.value =
+                    "Turn off notification for this post";
               } else {
-                globalController.postSelectedAction.value = "Turn on notification for this post";
+                globalController.postSelectedAction.value =
+                    "Turn on notification for this post";
               }
-              if (globalController.postSelectedAction.value == "Turn off notification for this post") {
-                await globalController.postNotificationOff(postId: postData.id!);
+              if (globalController.postSelectedAction.value ==
+                  "Turn off notification for this post") {
+                await globalController.postNotificationOff(
+                    postId: postData.id!);
               } else {
                 await globalController.postNotificationOn(postId: postData.id!);
               }
@@ -886,7 +1195,10 @@ class SelfPostActionContent extends StatelessWidget {
               globalController.postSelectedAction.value = "Edit Date";
               if (globalController.postSelectedAction.value == "Edit Date") {
                 globalController.postDate.value = postData.dateTime.toString();
-                globalController.editPostDate(context: context, postId: postData.id!, postIndex: postIndex);
+                globalController.editPostDate(
+                    context: context,
+                    postId: postData.id!,
+                    postIndex: postIndex);
               }
             },
           ),
@@ -898,8 +1210,13 @@ class SelfPostActionContent extends StatelessWidget {
               globalController.postSelectedAction.value = "Copy Link";
               if (globalController.postSelectedAction.value == "Copy Link") {
                 String baseUrl = "bip-hip-dev.vercel.app/posts";
-                Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-                Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+                Clipboard.setData(
+                    ClipboardData(text: "$baseUrl/${postData.id}"));
+                Get.find<GlobalController>().showSnackBar(
+                    title: ksSuccess.tr,
+                    message: "Link copied to clipboard",
+                    color: cGreenColor,
+                    duration: 1000);
               }
             },
           ),
@@ -909,8 +1226,10 @@ class SelfPostActionContent extends StatelessWidget {
             actionOnPressed: () async {
               Get.back();
               globalController.postSelectedAction.value = "Move to Recycle Bin";
-              if (globalController.postSelectedAction.value == "Move to Recycle Bin") {
-                CreatePostHelper().deletePostAlertDialog(context: context, id: postData.id!);
+              if (globalController.postSelectedAction.value ==
+                  "Move to Recycle Bin") {
+                CreatePostHelper()
+                    .deletePostAlertDialog(context: context, id: postData.id!);
               }
             },
           ),
@@ -950,13 +1269,20 @@ class EditAudienceActionContent extends StatelessWidget {
                           size: isDeviceScreenLarge() ? h18 : h14,
                         ),
                       ),
-                      title: globalController.privacyList[index]['action'].toString().tr,
+                      title: globalController.privacyList[index]['action']
+                          .toString()
+                          .tr,
                       titleTextStyle: semiBold16TextStyle(cBlackColor),
                       subTitleTextStyle: regular14TextStyle(cBlackColor),
-                      itemColor: globalController.postAudienceAction.value == globalController.privacyList[index]['action'] ? cPrimaryTint2Color : cWhiteColor,
+                      itemColor: globalController.postAudienceAction.value ==
+                              globalController.privacyList[index]['action']
+                          ? cPrimaryTint2Color
+                          : cWhiteColor,
                       onPressed: () {
-                        globalController.postAudienceAction.value = globalController.privacyList[index]['action'];
-                        globalController.temporaryselectedAudienceId.value = globalController.privacyList[index]['id'];
+                        globalController.postAudienceAction.value =
+                            globalController.privacyList[index]['action'];
+                        globalController.temporaryselectedAudienceId.value =
+                            globalController.privacyList[index]['id'];
                       },
                     ),
                   ),
@@ -994,9 +1320,13 @@ class ReportBottomSheetContent extends StatelessWidget {
                       ),
                       titleTextStyle: semiBold16TextStyle(cBlackColor),
                       subTitleTextStyle: regular14TextStyle(cBlackColor),
-                      itemColor: globalController.reportId.value == globalController.reportList[index].id ? cPrimaryTint2Color : cWhiteColor,
+                      itemColor: globalController.reportId.value ==
+                              globalController.reportList[index].id
+                          ? cPrimaryTint2Color
+                          : cWhiteColor,
                       onPressed: () {
-                        globalController.reportId.value = globalController.reportList[index].id!;
+                        globalController.reportId.value =
+                            globalController.reportList[index].id!;
                         globalController.selectedReportIndex.value = index;
                         globalController.reportBottomSheetState.value = true;
                         Get.back();
@@ -1004,7 +1334,8 @@ class ReportBottomSheetContent extends StatelessWidget {
                             context: Get.context,
                             bottomSheetHeight: height * 0.2,
                             content: ReportDescriptionBottomSheetContent(
-                              selectedIndex: globalController.selectedReportIndex.value,
+                              selectedIndex:
+                                  globalController.selectedReportIndex.value,
                               postIndex: postIndex,
                             ),
                             onPressCloseButton: () => Get.back(),
@@ -1014,7 +1345,8 @@ class ReportBottomSheetContent extends StatelessWidget {
                             rightText: ksDone.tr,
                             rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                             title: "Report".tr,
-                            isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
+                            isBottomSheetRightButtonActive:
+                                globalController.reportBottomSheetState,
                             isRightButtonShow: false);
                       },
                     ),
@@ -1028,7 +1360,8 @@ class ReportBottomSheetContent extends StatelessWidget {
 }
 
 class ReportDescriptionBottomSheetContent extends StatelessWidget {
-  ReportDescriptionBottomSheetContent({super.key, required this.selectedIndex, required this.postIndex});
+  ReportDescriptionBottomSheetContent(
+      {super.key, required this.selectedIndex, required this.postIndex});
   final GlobalController globalController = Get.find<GlobalController>();
   final int selectedIndex;
   final int postIndex;
@@ -1079,7 +1412,12 @@ class ReportContentShimmer extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: k8Padding),
                     child: CustomListTile(
                       title: ShimmerCommon(
-                        widget: Container(height: h12, width: width - 80, decoration: BoxDecoration(color: cWhiteColor, borderRadius: k8CircularBorderRadius)),
+                        widget: Container(
+                            height: h12,
+                            width: width - 80,
+                            decoration: BoxDecoration(
+                                color: cWhiteColor,
+                                borderRadius: k8CircularBorderRadius)),
                       ),
                     ),
                   ),
@@ -1115,34 +1453,50 @@ class OthersPostActionContent extends StatelessWidget {
             },
           ),
           IconWithTextRow(
-            actionIcon: postData.user!.followStatus == 0 ? BipHip.follow : BipHip.unFollow,
-            actionText: postData.user!.followStatus == 0 ? "Follow ${postData.user!.fullName}" : "UnFollow ${postData.user!.fullName}",
+            actionIcon: postData.user!.followStatus == 0
+                ? BipHip.follow
+                : BipHip.unFollow,
+            actionText: postData.user!.followStatus == 0
+                ? "Follow ${postData.user!.fullName}"
+                : "UnFollow ${postData.user!.fullName}",
             actionOnPressed: () async {
               Get.back();
               if (postData.user!.followStatus == 0) {
-                globalController.postSelectedAction.value = "Follow ${postData.user!.fullName}";
+                globalController.postSelectedAction.value =
+                    "Follow ${postData.user!.fullName}";
               } else {
-                globalController.postSelectedAction.value = "UnFollow ${postData.user!.fullName}";
+                globalController.postSelectedAction.value =
+                    "UnFollow ${postData.user!.fullName}";
               }
-              if (globalController.postSelectedAction.value == "Follow ${postData.user!.fullName}") {
-                await globalController.followUnfollowUser(userId: postData.user!.id!, followOrUnfollow: "Follow");
+              if (globalController.postSelectedAction.value ==
+                  "Follow ${postData.user!.fullName}") {
+                await globalController.followUnfollowUser(
+                    userId: postData.user!.id!, followOrUnfollow: "Follow");
               } else {
-                await globalController.followUnfollowUser(userId: postData.user!.id!, followOrUnfollow: "UnFollow");
+                await globalController.followUnfollowUser(
+                    userId: postData.user!.id!, followOrUnfollow: "UnFollow");
               }
             },
           ),
           IconWithTextRow(
-            actionIcon: postData.isNotifaction == true ? BipHip.notificationFill : BipHip.notificationOutline,
-            actionText: postData.isNotifaction == true ? "Turn off notification for this post" : "Turn on notification for this post",
+            actionIcon: postData.isNotifaction == true
+                ? BipHip.notificationFill
+                : BipHip.notificationOutline,
+            actionText: postData.isNotifaction == true
+                ? "Turn off notification for this post"
+                : "Turn on notification for this post",
             actionOnPressed: () async {
               Get.back();
               if (postData.isNotifaction == true) {
-                globalController.postSelectedAction.value = "Turn off notification for this post";
+                globalController.postSelectedAction.value =
+                    "Turn off notification for this post";
               } else {
                 globalController.postSelectedAction.value = "";
               }
-              if (globalController.postSelectedAction.value == "Turn off notification for this post") {
-                await globalController.postNotificationOff(postId: postData.id!);
+              if (globalController.postSelectedAction.value ==
+                  "Turn off notification for this post") {
+                await globalController.postNotificationOff(
+                    postId: postData.id!);
               } else {
                 await globalController.postNotificationOn(postId: postData.id!);
               }
@@ -1163,7 +1517,9 @@ class OthersPostActionContent extends StatelessWidget {
                 globalController.reportBottomSheetState.value = false;
                 Get.find<GlobalController>().commonBottomSheet(
                     context: Get.context,
-                    content: globalController.isReportListLoading.value ? ReportContentShimmer() : ReportBottomSheetContent(postIndex: postIndex),
+                    content: globalController.isReportListLoading.value
+                        ? ReportContentShimmer()
+                        : ReportBottomSheetContent(postIndex: postIndex),
                     onPressCloseButton: () => Get.back(),
                     onPressRightButton: () {
                       Get.back();
@@ -1171,7 +1527,8 @@ class OthersPostActionContent extends StatelessWidget {
                           context: Get.context,
                           bottomSheetHeight: height * 0.2,
                           content: ReportDescriptionBottomSheetContent(
-                            selectedIndex: globalController.selectedReportIndex.value,
+                            selectedIndex:
+                                globalController.selectedReportIndex.value,
                             postIndex: postIndex,
                           ),
                           onPressCloseButton: () => Get.back(),
@@ -1181,13 +1538,15 @@ class OthersPostActionContent extends StatelessWidget {
                           rightText: ksDone.tr,
                           rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                           title: "Report".tr,
-                          isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
+                          isBottomSheetRightButtonActive:
+                              globalController.reportBottomSheetState,
                           isRightButtonShow: false);
                     },
                     rightText: ksDone.tr,
                     rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                     title: "Report".tr,
-                    isBottomSheetRightButtonActive: globalController.reportBottomSheetState,
+                    isBottomSheetRightButtonActive:
+                        globalController.reportBottomSheetState,
                     isRightButtonShow: false);
                 await globalController.getReportList();
               } else {
@@ -1208,8 +1567,13 @@ class OthersPostActionContent extends StatelessWidget {
               globalController.postSelectedAction.value = "Copy Link";
               if (globalController.postSelectedAction.value == "Copy Link") {
                 String baseUrl = "bip-hip-dev.vercel.app/posts";
-                Clipboard.setData(ClipboardData(text: "$baseUrl/${postData.id}"));
-                Get.find<GlobalController>().showSnackBar(title: ksSuccess.tr, message: "Link copied to clipboard", color: cGreenColor, duration: 1000);
+                Clipboard.setData(
+                    ClipboardData(text: "$baseUrl/${postData.id}"));
+                Get.find<GlobalController>().showSnackBar(
+                    title: ksSuccess.tr,
+                    message: "Link copied to clipboard",
+                    color: cGreenColor,
+                    duration: 1000);
               }
             },
           ),
@@ -1220,7 +1584,8 @@ class OthersPostActionContent extends StatelessWidget {
               Get.back();
               globalController.postSelectedAction.value = "Block";
               if (globalController.postSelectedAction.value == "Block") {
-                await Get.find<FamilyController>().blockUser(userId: postData.user!.id!);
+                await Get.find<FamilyController>()
+                    .blockUser(userId: postData.user!.id!);
               }
             },
           ),
@@ -1232,7 +1597,13 @@ class OthersPostActionContent extends StatelessWidget {
 
 class IconWithTextRow extends StatelessWidget {
   const IconWithTextRow(
-      {super.key, required this.actionIcon, required this.actionText, this.actionOnPressed, this.iconColor, this.iconSize, this.actionTextStyle});
+      {super.key,
+      required this.actionIcon,
+      required this.actionText,
+      this.actionOnPressed,
+      this.iconColor,
+      this.iconSize,
+      this.actionTextStyle});
   final IconData actionIcon;
   final Color? iconColor;
   final String actionText;
@@ -1267,7 +1638,8 @@ class BirthdayBottomSheetContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PostDataRx postData = Get.find<GlobalController>().commonPostList[postIndex];
+    PostDataRx postData =
+        Get.find<GlobalController>().commonPostList[postIndex];
     return Column(
       children: [
         CustomListTile(
@@ -1292,7 +1664,8 @@ class BirthdayBottomSheetContent extends StatelessWidget {
         CustomListTile(
           onPressed: () {
             Get.back();
-            Get.find<PendentBadgesController>().deletePostAlertDialog(context: context, id: postData.id!);
+            Get.find<PendentBadgesController>()
+                .deletePostAlertDialog(context: context, id: postData.id!);
           },
           leading: Container(
             width: h24,

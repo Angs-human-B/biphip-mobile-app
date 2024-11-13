@@ -111,6 +111,9 @@ class AllFriendListView extends StatelessWidget {
                                                 if (friendController.friendActionSelect.value == 'Follow') {
                                                   await friendController.followUser();
                                                 }
+                                                if (friendController.friendActionSelect.value == 'Block') {
+                                                  await friendController.blockUser();
+                                                }
                                                 if (friendController.friendActionSelect.value == 'Add Family') {
                                                   Get.find<FamilyController>().clearAddFamilyData();
                                                   Get.find<FamilyController>().isRouteFromAllFriend.value = true;
@@ -126,7 +129,7 @@ class AllFriendListView extends StatelessWidget {
                                               rightTextStyle: semiBold16TextStyle(cPrimaryColor),
                                               title: ksAction.tr,
                                               isRightButtonShow: true,
-                                              bottomSheetHeight: 250,
+                                              bottomSheetHeight: 300,
                                             );
                                           },
                                           icon: BipHip.system),

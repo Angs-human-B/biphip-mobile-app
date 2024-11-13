@@ -35,6 +35,7 @@ const String kuForgetPassword = '/mobile/forgot-password';
 const String kuForgetPasswordVerifyOTP = '/mobile/verify-forgot-password-otp';
 const String kuForgetPasswordResendOTP = '/mobile/resend-forgot-password-otp';
 const String kuResetPassword = '/mobile/user/reset-password';
+const String kuChangePassword = '/user/change-password';
 const String kuLogOut = '/mobile/logout';
 
 //---------------------------------------
