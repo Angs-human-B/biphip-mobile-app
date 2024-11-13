@@ -19,33 +19,19 @@ class AllBlockedListview extends StatelessWidget {
     return Obx(
           () => (friendController.isFriendListLoading.value)
           ? const AllPendingFriendShimmer()
-          : friendController.friendList.isNotEmpty
+          : friendController.blockedUserList.isNotEmpty
           ? NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          if (friendController.friendListScrollController.position.userScrollDirection == ScrollDirection.reverse &&
-              scrollNotification.metrics.pixels == scrollNotification.metrics.maxScrollExtent &&
-              !friendController.friendListScrolled.value) {
-            friendController.friendListScrolled.value = true;
-            if (friendController.friendList.isNotEmpty) {
-              friendController.getMoreFriendList(null);
-            }
-            if (friendController.friendList.isNotEmpty && friendController.isFriendSearched.value) {
-              friendController.getMoreFriendSearchList(null);
-            }
-            return true;
-          }
-          return false;
-        },
+
         child: Expanded(
           child: SingleChildScrollView(
-            controller: friendController.friendListScrollController,
+            // controller: friendController.friendListScrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                   child: ListView.separated(
-                    itemCount: friendController.friendList.length,
+                    itemCount: friendController.blockedUserList.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => kH16sizedBox,
@@ -68,7 +54,7 @@ class AllBlockedListview extends StatelessWidget {
                               ),
                               child: ClipOval(
                                 child: Image.network(
-                                  friendController.friendList[index].profilePicture.toString(),
+                                  Environment.imageBaseUrl+friendController.blockedUserList[index].image.toString(),
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Image.asset(kiProfileDefaultImageUrl);
@@ -78,7 +64,7 @@ class AllBlockedListview extends StatelessWidget {
                               ),
                             ),
                             title: Text(
-                              friendController.friendList[index].fullName ?? ksNA.tr,
+                              "${friendController.blockedUserList[index].firstName} ${friendController.blockedUserList[index].lastName}",
                               style: semiBold16TextStyle(cBlackColor),
                             ),
                             trailing: Padding(
@@ -89,12 +75,19 @@ class AllBlockedListview extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: cPrimaryTint3Color,
                                     borderRadius: BorderRadius.circular(8)),
-                                child: Padding(
-                                  padding: EdgeInsets.only(bottom: 4.5.h),
-                                  child: Normalext(
-                                    "Unblock",
-                                    weight: FontWeight.bold,
-                                    fontSize: 26.sp,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    friendController.userId.value = friendController.blockedUserList[index].id!;
+                                    friendController.unBlockUser();
+
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 4.5.h),
+                                    child: Normalext(
+                                      "Unblock",
+                                      weight: FontWeight.bold,
+                                      fontSize: 26.sp,
+                                    ),
                                   ),
                                 ),
                               ),

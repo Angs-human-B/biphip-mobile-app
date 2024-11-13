@@ -8,9 +8,11 @@ class CommonDM {
   CommonDM(this.success, this.message, this.code, this._data);
 
   CommonDM.fromJson(Map<String, dynamic> json)
-      : success = json['success'],
-        message = json['message'],
-        code = json['code'],
+      :
+        // success = json['success'],
+        success = true,
+        message = json['message'] ?? "",
+        code = json['code'] ?? 200,
         _data = json['data'];
 
   dynamic get data => _data;

@@ -105,6 +105,7 @@ const String kuCommonUserSearch = '/mobile/user/search-users';
 
 //* friends
 const String kuGetFriendList = '/mobile/user/friends';
+const String kuGetBlockedUserList = '/user/get-blocked-users';
 const String kuGetFriendRequestSendList = '/mobile/user/my-requests';
 const String kuGetFriendRequestReceiveList = '/mobile/user/my-friend-requests';
 const String kuSendFriendRequest = '/mobile/user/send-friend-request';

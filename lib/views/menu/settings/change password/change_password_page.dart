@@ -128,8 +128,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               authenticationController.isResetConfirmPasswordToggleObscure.value =
                               !authenticationController.isResetConfirmPasswordToggleObscure.value;
                             },
-                            onChanged: (text) {
-                              registrationHelper.forgetPasswordConfirmPasswordValidation();
+                            onChanged: (text) {registrationHelper.forgetPasswordConfirmPasswordValidation();
                             },
                             onSubmit: (text) {
                               FocusScope.of(context).unfocus();

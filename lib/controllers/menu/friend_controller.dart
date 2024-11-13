@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bip_hip/models/common/common_friend_family_user_model.dart';
+import 'package:bip_hip/models/menu/friend/common_blocked_model.dart';
 import 'package:bip_hip/models/menu/friend/common_friend_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
@@ -13,12 +14,14 @@ class FriendController extends GetxController {
 
   //*Friend List Api Call
   final Rx<CommonFriendModel?> friendListData = Rx<CommonFriendModel?>(null);
+   List<BlockedUser> blockedUserList = [];
   final RxList<FriendFamilyUserData> friendList = RxList<FriendFamilyUserData>([]);
   List<Map<String, dynamic>> mentionsList = ([]);
   final Rx<String?> friendListSubLink = Rx<String?>(null);
   final RxBool friendListScrolled = RxBool(false);
   final RxBool isFriendListLoading = RxBool(false);
   final RxInt allFriendCount = RxInt(0);
+
   Future<void> getFriendList() async {
     try {
       isFriendListLoading.value = true;
@@ -64,6 +67,36 @@ class FriendController extends GetxController {
         }
       }
     } catch (e) {
+      isFriendListLoading.value = true;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getBlockedUserList() async {
+    try {
+      isFriendListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBlockedUserList,
+      ) as CommonDM;
+      if (response.success) {
+        blockedUserList.clear();
+        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
+            .toList()
+            .cast<BlockedUser>();
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
       isFriendListLoading.value = true;
       ll('getFriendList error: $e');
     }
@@ -463,11 +496,9 @@ class FriendController extends GetxController {
         token: token,
       ) as CommonDM;
       if (response.success == true) {
-        for (int index = 0; index < friendList.length; index++) {
-          if (userId.value == friendList[index].id) {
-            friendList.removeAt(index);
-            allFriendCount.value--;
-            searchedFriendCount.value--;
+        for (int index = 0; index < blockedUserList.length; index++) {
+          if (userId.value == blockedUserList[index].id) {
+            blockedUserList.removeAt(index);
           }
         }
         isFriendViewLoading.value = false;
