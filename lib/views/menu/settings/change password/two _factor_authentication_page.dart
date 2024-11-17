@@ -49,17 +49,15 @@ class TwoFactorAuthentication extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
                         children: [
-                          type == 'phone'?
                           Normalext(
-                            "Enter the verification code. We just sent a code to your phone number 019********78.",txtAlign: TextAlign.center,fontSize: 25.sp,)
-                              : Normalext(
-                            "Enter the verification code. We just sent a code to your email address sa*******ai@***.com",txtAlign: TextAlign.center,fontSize: 25.sp,),
+                            "Enter your bip-hip password and press confirm to turn on Two-Factor Authentication.",txtAlign: TextAlign.center,fontSize: 25.sp,),
                           SizedBox(height: 20,),
-                          OtpTextField(
-                            controller: authenticationController.otpTextEditingController,
-                            onChange: (value) {
+                          CustomModifiedTextField(
+                            controller: authenticationController.twoFactorTextfieldController,
+                            onChanged: (value) {
                               registrationHelper.checkCanOTPVerifyNow();
                             },
+                            hint: "Enter you bip-hip password",
                           ),
                           SizedBox(height: 750.h,),
                           kH16sizedBox,
@@ -72,7 +70,7 @@ class TwoFactorAuthentication extends StatelessWidget {
                 bottomNavigationBar:  Padding(
                   padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 20.h),
                   child: CustomElevatedButton(
-                    label: ksNext.tr,
+                    label: ksConfirm.tr,
                     onPressed: authenticationController.canOTPVerifyNow.value
                         ? () {
                       registrationHelper.onPressedVerifyOTP();

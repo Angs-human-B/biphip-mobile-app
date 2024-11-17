@@ -12,6 +12,8 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:confetti/confetti.dart';
 
 class AuthenticationController extends GetxController {
+  final TextEditingController twoFactorTextfieldController = TextEditingController();
+
   final RxString profileLink = RxString('');
   final Rx<File> profileFile = File('').obs;
   final RxBool isProfileImageChanged = RxBool(false);
