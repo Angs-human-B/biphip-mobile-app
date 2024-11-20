@@ -53,6 +53,7 @@ class TwoFactorAuthentication extends StatelessWidget {
                             "Enter your bip-hip password and press confirm to turn on Two-Factor Authentication.",txtAlign: TextAlign.center,fontSize: 25.sp,),
                           SizedBox(height: 20,),
                           CustomModifiedTextField(
+                            obscureText: true,
                             controller: authenticationController.twoFactorTextfieldController,
                             onChanged: (value) {
                               registrationHelper.checkCanOTPVerifyNow();
@@ -71,11 +72,10 @@ class TwoFactorAuthentication extends StatelessWidget {
                   padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 20.h),
                   child: CustomElevatedButton(
                     label: ksConfirm.tr,
-                    onPressed: authenticationController.canOTPVerifyNow.value
-                        ? () {
-                      registrationHelper.onPressedVerifyOTP();
+                    onPressed:authenticationController.twoFactorTextfieldController.text.isNotEmpty?  () {
+                      authenticationController.enableTwoFactorAuthentication();
                     }
-                        : null,
+                       : null ,
                     buttonWidth: width - 40,
                     textStyle: authenticationController.canOTPVerifyNow.value
                         ? semiBold16TextStyle(cWhiteColor)
@@ -84,11 +84,11 @@ class TwoFactorAuthentication extends StatelessWidget {
                 ),
               ),
             ),
-            if (authenticationController.isOTPLoading.value == true)
+            if (authenticationController.isTwoFactorLoading.value == true)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (authenticationController.isOTPLoading.value) {
+                    if (authenticationController.isTwoFactorLoading.value) {
                       return false;
                     }
                     return true;

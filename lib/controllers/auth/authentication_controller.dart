@@ -19,7 +19,7 @@ class AuthenticationController extends GetxController {
   final RxBool isProfileImageChanged = RxBool(false);
   final RxBool isImageUploadLoading = RxBool(false);
   final RxList users = RxList([]);
-
+  final ValueNotifier<bool> isTwoFactorLoading =  ValueNotifier(false);
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -385,6 +385,38 @@ class AuthenticationController extends GetxController {
     } catch (e) {
       isChangePasswordLoading.value = false;
       ll('changePassword error: $e');
+    }
+  }
+  Future<void> enableTwoFactorAuthentication() async {
+    try {
+      isTwoFactorLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'password': twoFactorTextfieldController.text,
+        'two_factor_enabled': "1",
+        'two_factor_type': "sms",
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuTwoFactorAuthentication,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isTwoFactorLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isTwoFactorLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTwoFactorLoading.value = false;
+      ll('enableTwoFactorAuthentication error: $e');
     }
   }
 
