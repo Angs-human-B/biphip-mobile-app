@@ -8,7 +8,9 @@ import 'package:bip_hip/controllers/post/create_post_controller.dart';
 import 'package:bip_hip/models/auth/common_unverify_model.dart';
 import 'package:bip_hip/models/auth/forget_pass_model.dart';
 import 'package:bip_hip/models/auth/login_model.dart';
+import 'package:bip_hip/models/auth/two_factor_authentication.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+import 'package:bip_hip/views/menu/settings/change%20password/two%20_factor_authentication_page.dart';
 import 'package:confetti/confetti.dart';
 
 class AuthenticationController extends GetxController {
@@ -19,7 +21,7 @@ class AuthenticationController extends GetxController {
   final RxBool isProfileImageChanged = RxBool(false);
   final RxBool isImageUploadLoading = RxBool(false);
   final RxList users = RxList([]);
-
+  final RxBool isTwoFactorLoading =  RxBool(false);
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -64,7 +66,7 @@ class AuthenticationController extends GetxController {
   final RxBool isLoginRememberCheck = RxBool(false);
   final Rx<String?> loginEmailErrorText = Rx<String?>(null);
   final Rx<String?> loginPasswordErrorText = Rx<String?>(null);
-
+  final Rx<TwoFactorAuthenticationModel> twoFactorAuthentication = Rx(TwoFactorAuthenticationModel(two_factor_enabled: false, two_factor_type: 'two_factor_type'));
   void resetLoginScreen() {
     loginEmailTextEditingController.clear();
     loginPasswordTextEditingController.clear();
@@ -385,6 +387,66 @@ class AuthenticationController extends GetxController {
     } catch (e) {
       isChangePasswordLoading.value = false;
       ll('changePassword error: $e');
+    }
+  }
+  Future<void> enableTwoFactorAuthentication(String enable) async {
+    try {
+      isTwoFactorLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'password': twoFactorTextfieldController.text,
+        'two_factor_enabled': enable,
+        'two_factor_type': "sms",
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuTwoFactorAuthentication,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isTwoFactorLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isTwoFactorLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTwoFactorLoading.value = false;
+      ll('enableTwoFactorAuthentication error: $e');
+    }
+  }
+
+  Future<void> getTwoFactorAuthentication() async {
+    try {
+      isTwoFactorLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        url: kuGetTwoFactorAuthentication,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        twoFactorAuthentication.value = TwoFactorAuthenticationModel.fromJson(response.data);
+        isTwoFactorLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isTwoFactorLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTwoFactorLoading.value = false;
+      ll('enableTwoFactorAuthentication error: $e');
     }
   }
 

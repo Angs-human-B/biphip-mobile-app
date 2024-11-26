@@ -12,6 +12,8 @@ import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../controllers/auth/authentication_controller.dart';
+
 class PasswordAndSecurity extends StatefulWidget {
   const PasswordAndSecurity({Key? key}) : super(key: key);
 
@@ -20,6 +22,8 @@ class PasswordAndSecurity extends StatefulWidget {
 }
 
 class _PasswordAndSecurityState extends State<PasswordAndSecurity> {
+  final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -81,6 +85,8 @@ class _PasswordAndSecurityState extends State<PasswordAndSecurity> {
                           child: HeaderText("Tow-factor authentication"),
                         ),
                         IconButton(onPressed: (){
+                          authenticationController.getTwoFactorAuthentication();
+                          print(authenticationController.twoFactorAuthentication.value.two_factor_enabled);
                           Get.to(TwoFactorAuthentication());
                         },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))

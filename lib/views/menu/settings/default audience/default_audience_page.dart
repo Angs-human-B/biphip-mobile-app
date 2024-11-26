@@ -17,12 +17,7 @@ class DefaultAudience extends StatefulWidget {
 }
 
 class _DefaultAudienceState extends State<DefaultAudience> {
-  int selectAudienceGroupValue = 1;
-  int public = 1;
-  int family = 2;
-  int friends = 3;
-  int friendsandFamily = 4;
-  int Custom = 5;
+  int radioValue = 0;
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
@@ -76,11 +71,11 @@ class _DefaultAudienceState extends State<DefaultAudience> {
                         IconButton(onPressed: (){
                         },
                           icon: Radio<int>(
-                            value: public,
-                            groupValue: selectAudienceGroupValue,
+                            value: 0,
+                            groupValue: radioValue,
                             onChanged: (value) {
                               setState(() {
-                                selectAudienceGroupValue = 1;
+                                radioValue = value!;
                                 print("Button value: $value");
                               });
                             },
@@ -108,11 +103,11 @@ class _DefaultAudienceState extends State<DefaultAudience> {
                           onPressed: (){
                           },
                           icon: Radio<int>(
-                            value: family,
-                            groupValue: selectAudienceGroupValue,
+                            value: 1,
+                            groupValue: radioValue,
                             onChanged: (value) {
                               setState(() {
-                                selectAudienceGroupValue = 2;
+                                radioValue = value!;
                                 print("Button value: $value");
                               });
                             },
@@ -139,11 +134,11 @@ class _DefaultAudienceState extends State<DefaultAudience> {
                         IconButton(onPressed: (){
                         },
                           icon: Radio<int>(
-                            value: friends,
-                            groupValue: selectAudienceGroupValue,
+                            value: 2,
+                            groupValue: radioValue,
                             onChanged: (value) {
                               setState(() {
-                                selectAudienceGroupValue = 3;
+                                radioValue = value!;
                                 print("Button value: $value");
                               });
                             },
@@ -170,11 +165,11 @@ class _DefaultAudienceState extends State<DefaultAudience> {
                         IconButton(onPressed: (){
                         },
                           icon: Radio<int>(
-                            value: friendsandFamily,
-                            groupValue: selectAudienceGroupValue,
+                            value: 3,
+                            groupValue: radioValue,
                             onChanged: (value) {
                               setState(() {
-                                selectAudienceGroupValue = 4;
+                                radioValue = value!;
                                 print("Button value: $value");
                               });
                             },
@@ -201,11 +196,11 @@ class _DefaultAudienceState extends State<DefaultAudience> {
                         IconButton(onPressed: (){
                         },
                           icon: Radio<int>(
-                            value: Custom,
-                            groupValue: selectAudienceGroupValue,
+                            value: 4,
+                            groupValue: radioValue,
                             onChanged: (value) {
                               setState(() {
-                                selectAudienceGroupValue = 5;
+                                radioValue = value!;
                                 print("Button value: $value");
                               });
                             },
@@ -224,7 +219,7 @@ class _DefaultAudienceState extends State<DefaultAudience> {
           padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 20.h),
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: selectAudienceGroupValue == public? Colors.black38: Colors.blue
+                backgroundColor: Colors.blue
             ),
             child: Normalext('Save', color: Colors.white,),
             onPressed: () {

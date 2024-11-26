@@ -261,6 +261,8 @@ const String kuGetReoportList = '/mobile/get-all-reporting-list';
 const String kuPostReport = '/mobile/user/store-post-report';
 const String kuUndoPostReport = '/mobile/user/remove-post-report';
 const String kuUpdatePost = '/mobile/user/update-post';
+const String kuTwoFactorAuthentication = '/user/settings/two-factor-auth';
+const String kuGetTwoFactorAuthentication = '/user/settings/get-two-factor-auth-status';
 
 //* Messenger API
 const String kuGetRoomList = '/user/messenger/get-room-list';

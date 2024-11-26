@@ -11,17 +11,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../widgets/common/utils/common_simple_text.dart';
 
 
-class TwoFactorAuthentication extends StatelessWidget {
+class TwoFactorAuthentication extends StatefulWidget {
   String type;
   TwoFactorAuthentication({this.type = 'phone',super.key});
 
+  @override
+  State<TwoFactorAuthentication> createState() => _TwoFactorAuthenticationState();
+}
+
+class _TwoFactorAuthenticationState extends State<TwoFactorAuthentication> {
   final AuthenticationController authenticationController = Get.find<AuthenticationController>();
   final RegistrationHelper registrationHelper = RegistrationHelper();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // authenticationController.getTwoFactorAuthentication();
+  }
 
   @override
   Widget build(BuildContext context) {
 
     heightWidthKeyboardValue(context);
+
     return Container(
       decoration: const BoxDecoration(color: cWhiteColor,image: DecorationImage(image: AssetImage(kiOnBoardingImageUrl), fit: BoxFit.cover)),
       child: Obx(
@@ -37,7 +50,7 @@ class TwoFactorAuthentication extends StatelessWidget {
                     onBack: (){
                       Get.back();
                     },
-                    title: "Two-factor authentication",
+                    title: ksTwoFactorAuth.tr,
 
                   ),
                 ),
@@ -49,10 +62,12 @@ class TwoFactorAuthentication extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: kHorizontalPadding),
                       child: Column(
                         children: [
-                          Normalext(
-                            "Enter your bip-hip password and press confirm to turn on Two-Factor Authentication.",txtAlign: TextAlign.center,fontSize: 25.sp,),
+                          Normalext(authenticationController.twoFactorAuthentication.value.two_factor_enabled? ksTwoFactorEnabled:
+                          ksTwoFactorDisabled.tr,txtAlign: TextAlign.center,fontSize: 25.sp,),
                           SizedBox(height: 20,),
+                          // if(!authenticationController.twoFactorAuthentication.value.two_factor_enabled)
                           CustomModifiedTextField(
+                            obscureText: true,
                             controller: authenticationController.twoFactorTextfieldController,
                             onChanged: (value) {
                               registrationHelper.checkCanOTPVerifyNow();
@@ -70,13 +85,22 @@ class TwoFactorAuthentication extends StatelessWidget {
                 bottomNavigationBar:  Padding(
                   padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 20.h),
                   child: CustomElevatedButton(
-                    label: ksConfirm.tr,
-                    onPressed: authenticationController.canOTPVerifyNow.value
-                        ? () {
-                      registrationHelper.onPressedVerifyOTP();
+                    label:authenticationController.twoFactorAuthentication.value.two_factor_enabled? ksDisable.tr :ksConfirm.tr,
+                    onPressed:authenticationController.twoFactorTextfieldController.text.isNotEmpty?  () {
+                      Get.back();
+                      if(authenticationController.twoFactorAuthentication.value.two_factor_enabled){
+
+                        authenticationController.enableTwoFactorAuthentication("0");
+
+                      }
+                      else{
+                         authenticationController.enableTwoFactorAuthentication("1");
+
+                      }
                     }
-                        : null,
+                       : null ,
                     buttonWidth: width - 40,
+                    buttonColor: authenticationController.twoFactorAuthentication.value.two_factor_enabled? cRedColor: Colors.blue,
                     textStyle: authenticationController.canOTPVerifyNow.value
                         ? semiBold16TextStyle(cWhiteColor)
                         : semiBold16TextStyle(cWhiteColor.withOpacity(.7)),
@@ -84,11 +108,12 @@ class TwoFactorAuthentication extends StatelessWidget {
                 ),
               ),
             ),
-            if (authenticationController.isOTPLoading.value == true)
+            if (authenticationController.isTwoFactorLoading.value)
               Positioned(
                 child: CommonLoadingAnimation(
                   onWillPop: () async {
-                    if (authenticationController.isOTPLoading.value) {
+                    print("bool");
+                    if (authenticationController.isTwoFactorLoading.value) {
                       return false;
                     }
                     return true;
