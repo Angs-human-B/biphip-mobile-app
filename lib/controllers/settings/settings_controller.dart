@@ -5,7 +5,8 @@ class PrivacySettingsController extends GetxController {
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
-
+  int radioValue = 0;
+  String? radioStringValue = '';
   final Rx<PrivacySettingsModel?> settingsPrivacyData = Rx<PrivacySettingsModel?>(null);
   final RxBool isPrivacySettingsLoading = RxBool(false);
 
@@ -25,6 +26,8 @@ class PrivacySettingsController extends GetxController {
         // Map<String, dynamic> responseData = response.data["settings"] as Map<String, dynamic>;
         // print("responseData: $responseData");
         settingsPrivacyData.value = PrivacySettingsModel.fromJson(response.data);
+        radioValue = getDefaultAudienceValueInt(settingsPrivacyData.value?.defaultAudienceSetting);
+        radioStringValue = settingsPrivacyData.value!.defaultAudienceSetting;
         isPrivacySettingsLoading.value = false;
       } else {
         isPrivacySettingsLoading.value = false;
@@ -181,6 +184,25 @@ class PrivacySettingsController extends GetxController {
         }
       default:
         return "invalid_option_type";
+    }
+  }
+  int getDefaultAudienceValueInt(String? settingValue) {
+
+
+    // Map the value to its corresponding integer
+    switch (settingValue) {
+      case "public":
+        return 0;
+      case "family":
+        return 1;
+      case "friends":
+        return 2;
+      case "friends_and_family":
+        return 3;
+      case "custom":
+        return 4;
+      default:
+        return 0;
     }
   }
 
