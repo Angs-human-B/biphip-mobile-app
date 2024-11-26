@@ -1,4 +1,3 @@
-import 'package:bip_hip/views/notification/notification_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../controllers/dashboard/dashboard_controller.dart';
@@ -6,6 +5,7 @@ import '../../../controllers/home/home_controller.dart';
 import '../../../controllers/menu/menu_section_controller.dart';
 import '../../../controllers/menu/profile_controller.dart';
 import '../../../controllers/profile_view/profile_view_controller.dart';
+import '../../../controllers/settings/settings_controller.dart';
 import '../../../helpers/profile/profile_helper.dart';
 import '../../../shimmers/settings/settings_shimmer.dart';
 import '../../../utils/constants/imports.dart';
@@ -22,6 +22,8 @@ class Settings extends StatelessWidget {
   final GlobalController globalController = Get.find<GlobalController>();
   final DashboardController dashboardController =
       Get.find<DashboardController>();
+  final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +110,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.starFill,
                                     color: cIconColor),
                                 onPressed: () {
+                                  dashboardController.getDashboardPayoutIdentification();
                                   dashboardController.getDashboardPayoutEarningInsight(year: 2024);
                                   dashboardController
                                       .payoutsSettingsTapableButtonOnPressed();
@@ -218,6 +221,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.addFamily,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krHowPeopleWillFindYou);
                                 },
                               ),

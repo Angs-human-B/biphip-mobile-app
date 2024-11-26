@@ -69,7 +69,23 @@ class ApiController {
           throw TimeoutException(ksConnectionTimeoutMessage.tr);
         },
       );
-    } else {
+    } else if (method == "PATCH") {
+      return await client.patch(
+        uri,
+        body: body,
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ).timeout(
+        Duration(seconds: timer ?? 30),
+        onTimeout: () {
+          timeOutFunction();
+          throw TimeoutException(ksConnectionTimeoutMessage.tr);
+        },
+      );
+    }
+
+    else {
       return await client.delete(
         uri,
         body: body,

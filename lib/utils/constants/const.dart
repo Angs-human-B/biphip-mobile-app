@@ -175,3 +175,4 @@ const String kPost = "POST";
 const String kGet = "GET";
 const String kDelete = "DELETE";
 const String kPut = "PUT";
+const String kPatch = "PATCH";

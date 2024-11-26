@@ -58,21 +58,21 @@ class _PostsSettingsPageState extends State<PostsSettingsPage> {
                                 )),
                             GestureDetector(
                               onTap: () {
-                                showModalBottomSheet(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft:
-                                              Radius.circular(k16BorderRadius),
-                                          topRight:
-                                              Radius.circular(k16BorderRadius)),
-                                    ),
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Modalsheetwidget(
-                                          "Who can see your future posts?",
-                                          "Your post Will appear in Feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post",
-                                          1);
-                                    });
+                                // showModalBottomSheet(
+                                //     shape: const RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.only(
+                                //           topLeft:
+                                //               Radius.circular(k16BorderRadius),
+                                //           topRight:
+                                //               Radius.circular(k16BorderRadius)),
+                                //     ),
+                                //     context: context,
+                                //     builder: (BuildContext context) {
+                                //       return Modalsheetwidget(
+                                //           "Who can see your future posts?",
+                                //           "Your post Will appear in Feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post",
+                                //           1);
+                                //     });
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -130,21 +130,21 @@ class _PostsSettingsPageState extends State<PostsSettingsPage> {
                                 )),
                             GestureDetector(
                               onTap: () {
-                                showModalBottomSheet(
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft:
-                                              Radius.circular(k16BorderRadius),
-                                          topRight:
-                                              Radius.circular(k16BorderRadius)),
-                                    ),
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Modalsheetwidget(
-                                          "Who can see your post star bonus?",
-                                          "Your post Will appear in Feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post",
-                                          1);
-                                    });
+                                // showModalBottomSheet(
+                                //     shape: const RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.only(
+                                //           topLeft:
+                                //               Radius.circular(k16BorderRadius),
+                                //           topRight:
+                                //               Radius.circular(k16BorderRadius)),
+                                //     ),
+                                //     context: context,
+                                //     builder: (BuildContext context) {
+                                //       return Modalsheetwidget(
+                                //           "Who can see your post star bonus?",
+                                //           "Your post Will appear in Feed, on your profile and in search results. Your default audience is set to Public, but you can change the audience of this specific post",
+                                //           1);
+                                //     });
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(

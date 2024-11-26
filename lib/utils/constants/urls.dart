@@ -290,6 +290,11 @@ const String kuDashboardStarInsightPurchase = "/mobile/dashboard/star-insight-pu
 const String kuDashboardStarInsightGift = "/mobile/dashboard/star-insight-gift";
 const String kuDashboardQuizInsight = "/mobile/dashboard/quiz-insight";
 const String kuDashboardPayoutEarningInsight = "/mobile/dashboard/earning-insight";
+const String kuUploadIdentifications = '/user/identifications';
+const String kuGetIdentifications = '/user/get-identification';
+const String kuGetPrivacySettings = '/user/settings/privacy';
+const String kuUpdateSpecificPrivacySettings = '/user/settings/privacy/update-specific';
+
 
 //* Profile view
 

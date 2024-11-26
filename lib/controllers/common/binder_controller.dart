@@ -22,6 +22,7 @@ import 'package:bip_hip/controllers/menu/family_controller.dart';
 import 'package:bip_hip/controllers/menu/menu_section_controller.dart';
 import 'package:bip_hip/controllers/intro/splash_screen_controller.dart';
 import 'package:bip_hip/controllers/profile_view/profile_view_controller.dart';
+import 'package:bip_hip/controllers/settings/settings_controller.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
 class BinderController implements Bindings {
@@ -52,5 +53,6 @@ class BinderController implements Bindings {
     Get.put<MessengerController>(MessengerController());
     Get.put<DashboardController>(DashboardController());
     Get.put<ProfileViewController>(ProfileViewController());
+    Get.put<PrivacySettingsController>(PrivacySettingsController());
   }
 }

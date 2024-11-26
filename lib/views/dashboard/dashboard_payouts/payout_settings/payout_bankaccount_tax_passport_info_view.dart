@@ -123,81 +123,81 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
                               ],
                             ),
                           if (dashboardController.payoutTypeView.value == "Passport")
-                            const Column(
+                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PayoutText(
                                   titleText: ksName,
-                                  subtitleText: "Wahid Murad",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.firstName} ${dashboardController.dashboardUserIdentificationData.first?.lastName}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksPassportNumber,
-                                  subtitleText: "fer44545fg4",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.idNumber}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksIssueDate,
-                                  subtitleText: "23/03/2020",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.issueDate}",
                                   subtitleTextColor: cBlackColor,
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksEndDate,
-                                  subtitleText: "22/03/2025",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.endDate}",
                                   subtitleTextColor: cBlackColor,
                                 ),
                                 PayoutText(
                                   titleText: ksStatus,
-                                  subtitleText: "Verified",
-                                  subtitleTextColor: cGreenColor,
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.status}",
+                                  subtitleTextColor: dashboardController.dashboardUserIdentificationData.first?.status=='verified'?cGreenColor:cOrangeColor,
                                 ),
                               ],
                             ),
                           if (dashboardController.payoutTypeView.value == "NID")
-                            const Column(
+                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PayoutText(
                                   titleText: ksName,
-                                  subtitleText: "Wahid Murad",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.firstName} ${dashboardController.dashboardUserIdentificationData.first?.lastName}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksNidNumber,
-                                  subtitleText: "456 0983 457",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.idNumber}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksStatus,
-                                  subtitleText: "Verified",
-                                  subtitleTextColor: cGreenColor,
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.status}",
+                                  subtitleTextColor: dashboardController.dashboardUserIdentificationData.first?.status=='verified'?cGreenColor:cOrangeColor,
                                 ),
                               ],
                             ),
                           if (dashboardController.payoutTypeView.value == "Student Id")
-                            const Column(
+                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PayoutText(
                                   titleText: ksSchool,
-                                  subtitleText: "Sent josef college",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.schoolCollege}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksName,
-                                  subtitleText: "Wahid Murad",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.firstName} ${dashboardController.dashboardUserIdentificationData.first?.lastName}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksStudentId,
-                                  subtitleText: "456 0983 457",
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.idNumber}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksStatus,
-                                  subtitleText: "Verified",
-                                  subtitleTextColor: cGreenColor,
+                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.status}",
+                                  subtitleTextColor: dashboardController.dashboardUserIdentificationData.first?.status=='verified'?cGreenColor:cOrangeColor,
                                 ),
                               ],
                             ),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bip_hip/models/dashboard/dashboard_audience_insight_bt_city_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_audience_insight_by_country_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_content_insight_model.dart';
@@ -12,8 +14,11 @@ import 'package:bip_hip/models/dashboard/dashboard_star_insight_gift_model.dart'
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_model.dart';
 import 'package:bip_hip/models/dashboard/dashboard_star_insight_purchase_model.dart';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:bip_hip/utils/constants/imports.dart';
+
+import '../../models/dashboard/dashboard_user_identification.dart';
 
 class DashboardController extends GetxController {
   final ApiController apiController = ApiController();
@@ -291,6 +296,166 @@ class DashboardController extends GetxController {
       "amount": "120",
     },
   ]);
+
+  void clearVerificationFields() {
+    firstNameTextEditingController.clear();
+    lastNameTextEditingController.clear();
+    nidNumberTextEditingController.clear();
+    isNidBackImageChanged.value = false;
+    nidBackImageLink.value = '';
+    nidBackImageFile.value = File('');
+    isNidFrontImageChanged.value = false;
+    nidFrontImageLink.value = '';
+    nidFrontImageFile.value = File('');
+    //passport
+    passportIssueDateTextEditingController.clear();
+    passportEndDateTextEditingController.clear();
+    passportNumberTextEditingController.clear();
+    isPassportImageChanged.value = false;
+    passportImageLink.value = '';
+    passportImageFile.value = File('');
+    //StudentID
+    studentIdTextEditingController.clear();
+    isStudentIdFrontImageChanged.value = false;
+    studentIdFrontImageLink.value = '';
+    studentIdFrontImageFile.value = File('');
+    isStudentIdBackImageChanged.value = false;
+    studentIdBackImageLink.value = '';
+    studentIdBackImageFile.value = File('');
+  }
+  void passportIssueDateFormatValidation(){
+    if(RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(passportIssueDateTextEditingController.value.text)){
+      passportIssueDateError.value=null;
+    }else{
+      passportIssueDateError.value="Please enter correct \nformat: YYYY-MM-DD";
+
+    }
+  }
+  void passportEndDateFormatValidation(){
+    if(RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(passportEndDateTextEditingController.value.text)){
+      passportEndDateError.value=null;
+    }else{
+      passportEndDateError.value="Please enter correct \nformat: YYYY-MM-DD";
+
+    }
+  }
+
+  final RxBool isNidUploadLoading = RxBool(false);
+  Future<void> uploadNID() async {
+    var uri = Uri.parse(Environment.apiUrl +kuUploadIdentifications);
+    var request = http.MultipartRequest('POST', uri);
+    String? token = await spController.getBearerToken();
+    request.headers['Authorization'] = 'Bearer $token';
+    request.fields['type'] = 'nid';
+    request.fields['country'] = selectedCountry.string;
+    request.fields['first_name'] = firstNameTextEditingController.text;
+    request.fields['last_name'] = lastNameTextEditingController.text;
+    request.fields['id_number'] = nidNumberTextEditingController.text;
+
+    var frontMultipartFile = await http.MultipartFile.fromPath('document_front', nidFrontImageFile.value.path);
+    var backMultipartFile = await http.MultipartFile.fromPath('document_back', nidBackImageFile.value.path);
+    request.files.add(frontMultipartFile);
+    request.files.add(backMultipartFile);
+    try {
+      isNidUploadLoading.value=true;
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+      var decodedResponse = jsonDecode(responseBody);
+      if (decodedResponse['code']==200) {
+        isNidUploadLoading.value=false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: decodedResponse['message'], color: cGreenColor);
+        clearVerificationFields();
+        getDashboardPayoutIdentification();
+      } else {
+        isNidUploadLoading.value=false;
+        globalController.showSnackBar(title: ksError.tr, message: decodedResponse['message'], color: cRedColor);
+        print('Failed to upload file. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      isNidUploadLoading.value=false;
+      print('(uploadNID)Error uploading file: $e');
+    }
+  }
+
+  final RxBool isPassportUploadLoading = RxBool(false);
+  Future<void> uploadPassport() async {
+    var uri = Uri.parse(Environment.apiUrl +kuUploadIdentifications);
+    var request = http.MultipartRequest('POST', uri);
+    String? token = await spController.getBearerToken();
+    request.headers['Authorization'] = 'Bearer $token';
+    request.fields['type'] = 'passport';
+    request.fields['country'] = selectedCountry.string;
+    request.fields['first_name'] = firstNameTextEditingController.text;
+    request.fields['last_name'] = lastNameTextEditingController.text;
+    request.fields['id_number'] = passportNumberTextEditingController.text;
+    request.fields['issue_date'] = passportIssueDateTextEditingController.text;
+    request.fields['end_date'] = passportEndDateTextEditingController.text;
+
+    var passportMultipartFile = await http.MultipartFile.fromPath('passport_info_page', passportImageFile.value.path);
+    request.files.add(passportMultipartFile);
+    try {
+      isPassportUploadLoading.value=true;
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+      var decodedResponse = jsonDecode(responseBody);
+      print(decodedResponse);
+      if (decodedResponse['code']==200) {
+        isPassportUploadLoading.value=false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: decodedResponse['message'], color: cGreenColor);
+        clearVerificationFields();
+        getDashboardPayoutIdentification();
+      } else {
+        isPassportUploadLoading.value=false;
+        globalController.showSnackBar(title: ksError.tr, message: decodedResponse['message'], color: cRedColor);
+        print('Failed to upload file. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      isPassportUploadLoading.value=false;
+      print('(uploadPassport)Error uploading file: $e');
+    }
+  }
+
+  final RxBool isStudentIdUploadLoading = RxBool(false);
+  Future<void> uploadStudentId() async {
+    var uri = Uri.parse(Environment.apiUrl +kuUploadIdentifications);
+    var request = http.MultipartRequest('POST', uri);
+    String? token = await spController.getBearerToken();
+    request.headers['Authorization'] = 'Bearer $token';
+    request.fields['type'] = 'student_id';
+    request.fields['country'] = selectedCountry.string;
+    request.fields['school_college'] = selectedSchool.string;
+    request.fields['first_name'] = firstNameTextEditingController.text;
+    request.fields['last_name'] = lastNameTextEditingController.text;
+    request.fields['id_number'] = studentIdTextEditingController.text;
+
+    var frontMultipartFile = await http.MultipartFile.fromPath('document_front', studentIdFrontImageFile.value.path);
+    var backMultipartFile = await http.MultipartFile.fromPath('document_back', studentIdBackImageFile.value.path);
+    request.files.add(frontMultipartFile);
+    request.files.add(backMultipartFile);
+    try {
+      isStudentIdUploadLoading.value=true;
+      var response = await request.send();
+      var responseBody = await response.stream.bytesToString();
+      var decodedResponse = jsonDecode(responseBody);
+      if (decodedResponse['code']==200) {
+        isStudentIdUploadLoading.value=false;
+        Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: decodedResponse['message'], color: cGreenColor);
+        clearVerificationFields();
+        getDashboardPayoutIdentification();
+      } else {
+        isStudentIdUploadLoading.value=false;
+        globalController.showSnackBar(title: ksError.tr, message: decodedResponse['message'], color: cRedColor);
+        print('Failed to upload file. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      isStudentIdUploadLoading.value=false;
+      print('(uploadStudentId)Error uploading file: $e');
+    }
+  }
+
   final RxBool isConfirmButtonEnabled = RxBool(false);
   void checkConfirmButtonEnable() {
     if (fundTransferTextEditingController.text.toString().trim() == '') {
@@ -1116,6 +1281,65 @@ class DashboardController extends GetxController {
     }
   }
 
+  final RxList<UserIdentificationModel?> dashboardUserIdentificationData = RxList<UserIdentificationModel?>([]);
+  final RxBool isDashboardPayoutVerificationLoading = RxBool(false);
+
+  Future<void> getDashboardPayoutIdentification() async {
+    try {
+      isDashboardPayoutVerificationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetIdentifications,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        List<dynamic> responseData = response.data["user_identification"] as List<dynamic>;
+        dashboardUserIdentificationData.value = responseData
+            .map((json) => UserIdentificationModel.fromJson(json as Map<String, dynamic>))
+            .toList();
+        payoutPassportStatus.value = dashboardUserIdentificationData.first!.status ?? "";
+        isDashboardPayoutVerificationLoading.value = false;
+      } else {
+        isDashboardPayoutVerificationLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardPayoutVerificationLoading.value = false;
+      ll('getDashboardPayoutIdentification error: $e');
+    }
+  }
+  String formatType(String? type) {
+    switch (type) {
+      case "passport":
+        return ksPassportVerification.tr;
+      case "nid":
+        return ksNidVerification.tr;
+      case "student_id":
+        return ksStudentIdVerification.tr;
+      default:
+        return "Unknown";
+    }
+  }
+  String formatType2(String? type) {
+    switch (type) {
+      case "passport":
+        return "Passport";
+      case "nid":
+        return "NID";
+      case "student_id":
+        return "Student Id";
+      default:
+        return "Unknown";
+    }
+  }
+
   //* Dashboard overview percentage color
   Color getOverviewPercentValueColor(int? percentValue) {
     if (percentValue != null) {
@@ -1197,7 +1421,8 @@ class DashboardController extends GetxController {
   final TextEditingController payoutWithdrawTextEditingController = TextEditingController();
   final RxBool isdashboardPayoutWithdraw = RxBool(false);
   final RxString payoutTaxInformationStatus = RxString("Verified");
-  final RxString payoutPassportStatus = RxString("Verified");
+  final RxString payoutPassportStatus = RxString("");
+  // final RxString payoutPassportStatus = RxString("Verified");
   final RxList payoutBankAccountList = RxList([
     {"accountName": "Wahid Murad", "bankName": "Brac Bank"},
     {"accountName": "Wahid Murad", "bankName": "Ab Bank"},
@@ -1242,7 +1467,9 @@ class DashboardController extends GetxController {
   final TextEditingController lastNameTextEditingController = TextEditingController();
   final TextEditingController passportNumberTextEditingController = TextEditingController();
   final TextEditingController passportIssueDateTextEditingController = TextEditingController();
+  final Rx<String?> passportIssueDateError = Rx<String?>(null);
   final TextEditingController passportEndDateTextEditingController = TextEditingController();
+  final Rx<String?> passportEndDateError = Rx<String?>(null);
   final RxString passportImageLink = RxString('');
   final Rx<File> passportImageFile = File('').obs;
   final RxBool isPassportImageChanged = RxBool(false);

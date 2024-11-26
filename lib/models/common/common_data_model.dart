@@ -9,8 +9,8 @@ class CommonDM {
 
   CommonDM.fromJson(Map<String, dynamic> json)
       :
-        // success = json['success'],
-        success = true,
+        success = json['success'],
+        // success = true,
         message = json['message'] ?? "",
         code = json['code'] ?? 200,
         _data = json['data'];

@@ -13,8 +13,10 @@ class PayoutPassportVerification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: cWhiteColor,
-      child: SafeArea(
+        color: cWhiteColor,
+        child: Obx(
+    () => Stack(
+      children: [SafeArea(
         top: false,
         child: Scaffold(
           backgroundColor: cWhiteColor,
@@ -152,11 +154,15 @@ class PayoutPassportVerification extends StatelessWidget {
                               hint: ksIssueDate.tr,
                               fillColor: cWhiteColor,
                               controller: dashboardController.passportIssueDateTextEditingController,
+                              errorText: dashboardController.passportIssueDateError.value,
                               contentPadding: const EdgeInsets.all(k12Padding),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(k4BorderRadius),
                                 borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
                               ),
+                              onChanged: (text){
+                                dashboardController.passportIssueDateFormatValidation();
+                              },
                             ),
                           ),
                           kW16sizedBox,
@@ -165,11 +171,15 @@ class PayoutPassportVerification extends StatelessWidget {
                               hint: ksEndDate.tr,
                               fillColor: cWhiteColor,
                               controller: dashboardController.passportEndDateTextEditingController,
+                              errorText: dashboardController.passportEndDateError.value,
                               contentPadding: const EdgeInsets.all(k12Padding),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(k4BorderRadius),
                                 borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cLineColor2),
                               ),
+                              onChanged: (text){
+                                dashboardController.passportEndDateFormatValidation();
+                              },
                             ),
                           ),
                         ],
@@ -274,10 +284,13 @@ class PayoutPassportVerification extends StatelessWidget {
                         buttonWidth: width - 40,
                         buttonHeight: h32,
                         label: ksAdd.tr,
-                        onPressed: () {
+                        onPressed: dashboardController.passportImageFile.value.path.isNotEmpty
+                            ? () async {
                           unFocus(context);
-                          Get.back();
-                        },
+                          await dashboardController.uploadPassport();
+                          // Get.back();
+                        }
+                            : null,
                         textStyle: semiBold16TextStyle(cWhiteColor),
                       ),
                       kH20sizedBox,
@@ -289,6 +302,20 @@ class PayoutPassportVerification extends StatelessWidget {
           ),
         ),
       ),
+        if (dashboardController.isPassportUploadLoading.value == true)
+          Positioned(
+            child: CommonLoadingAnimation(
+              onWillPop: () async {
+                if (dashboardController.isPassportUploadLoading.value) {
+                  return false;
+                }
+                return true;
+              },
+            ),
+          ),
+      ],
+    ),
+        ),
     );
   }
 }
