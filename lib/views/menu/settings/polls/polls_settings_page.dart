@@ -152,7 +152,7 @@ class _PollsSettingsPageState extends State<PollsSettingsPage> {
                             onChanged: (bool value) {
                               setState(() {
                                 privacySettingsController.settingsPrivacyData.value?.pollArchiving = value;
-                                privacySettingsController.updateSpecificPrivacySettings('poll_archiving', value.toString());
+                                privacySettingsController.updateSpecificPrivacySettings('poll_archiving', value);
                               });
                             },
                           ),

@@ -51,7 +51,7 @@ class PrivacySettingsController extends GetxController {
       ll('getPrivacySettings error: $e');
     }
   }
-  Future<void> updateSpecificPrivacySettings(String settingKey,String settingValue) async {
+  Future<void> updateSpecificPrivacySettings(String settingKey,dynamic settingValue) async {
     try {
       isPrivacySettingsLoading.value = true;
       String? token = await spController.getBearerToken();

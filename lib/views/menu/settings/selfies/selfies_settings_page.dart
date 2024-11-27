@@ -153,7 +153,7 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                             onChanged: (bool value) {
                               setState(() {
                                 privacySettingsController.settingsPrivacyData.value?.allowOthersToShareYourPublicStoriesToTheirStory = value;
-                                privacySettingsController.updateSpecificPrivacySettings('allow_others_to_share_your_public_stories_to_their_story', value.toString());
+                                privacySettingsController.updateSpecificPrivacySettings('allow_others_to_share_your_public_stories_to_their_story', value);
                               });
                             },
                           ),
@@ -188,7 +188,7 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                             onChanged: (bool value) {
                               setState(() {
                                 privacySettingsController.settingsPrivacyData.value?.storyArchiving = value;
-                                privacySettingsController.updateSpecificPrivacySettings('story_archiving', value.toString());
+                                privacySettingsController.updateSpecificPrivacySettings('story_archiving', value);
                               });
                             },
                           ),

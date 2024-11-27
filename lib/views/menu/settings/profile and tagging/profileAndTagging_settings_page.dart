@@ -262,7 +262,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                             onChanged: (bool value) {
                               setState(() {
                                 privacySettingsController.settingsPrivacyData.value?.allowOthersToShareYourPublicStoriesToTheirStory = value;
-                                privacySettingsController.updateSpecificPrivacySettings('review_posts_youre_tagged_in_before_they_appear_on_your_profile', value.toString());
+                                privacySettingsController.updateSpecificPrivacySettings('review_posts_youre_tagged_in_before_they_appear_on_your_profile', value);
                               });
                             },
                           ),
@@ -297,7 +297,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                             onChanged: (bool value) {
                               setState(() {
                                 privacySettingsController.settingsPrivacyData.value?.reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile = value;
-                                privacySettingsController.updateSpecificPrivacySettings('review_posts_youre_tagged_in_before_they_appear_on_your_profile', value.toString());
+                                privacySettingsController.updateSpecificPrivacySettings('review_posts_youre_tagged_in_before_they_appear_on_your_profile', value);
                               });
                             },
                           ),

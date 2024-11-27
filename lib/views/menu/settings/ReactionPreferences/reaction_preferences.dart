@@ -82,7 +82,7 @@ class _ReactionPreferencesState extends State<ReactionPreferences> {
                           onChanged: (bool value) {
                             setState(() {
                               privacySettingsController.settingsPrivacyData.value?.hideNumberOfReactionsOnPostFromOthers = value;
-                              privacySettingsController.updateSpecificPrivacySettings('hide_number_of_reactions_on_post_from_others', value.toString());
+                              privacySettingsController.updateSpecificPrivacySettings('hide_number_of_reactions_on_post_from_others', value);
                             });
                           },
                         ),
@@ -118,7 +118,7 @@ class _ReactionPreferencesState extends State<ReactionPreferences> {
                           onChanged: (bool value) {
                             setState(() {
                               privacySettingsController.settingsPrivacyData.value?.hideNumberOfReactionsOnPostFromOwn = value;
-                              privacySettingsController.updateSpecificPrivacySettings('hide_number_of_reactions_on_post_from_own', value.toString());
+                              privacySettingsController.updateSpecificPrivacySettings('hide_number_of_reactions_on_post_from_own', value);
                             });
                           },
                         ),

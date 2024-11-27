@@ -72,8 +72,9 @@ class ApiController {
     } else if (method == "PATCH") {
       return await client.patch(
         uri,
-        body: body,
+        body: jsonEncode(body),
         headers: {
+          "Content-Type": "application/json",
           if (token != null) 'Authorization': 'Bearer $token',
         },
       ).timeout(
