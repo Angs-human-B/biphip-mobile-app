@@ -1,5 +1,9 @@
 class PrivacySettingsModel {
+  //default audience settings
+  final String? defaultAudienceSetting;
+
   // How people will find you section
+
   final String? friendRequestSetting;
   final String? friendsListVisibility;
   final String? messageRequestSetting;
@@ -41,6 +45,7 @@ class PrivacySettingsModel {
    bool? hideNumberOfReactionsOnPostFromOwn;
 
   PrivacySettingsModel({
+    this.defaultAudienceSetting,
     this.friendRequestSetting,
     this.friendsListVisibility,
     this.messageRequestSetting,
@@ -73,6 +78,7 @@ class PrivacySettingsModel {
   // Factory method to create a UserSettings object from JSON
   factory PrivacySettingsModel.fromJson(Map<String, dynamic> json) {
     return PrivacySettingsModel(
+      defaultAudienceSetting: json['default_audience'],
       friendRequestSetting: json['friend_request_setting'],
       friendsListVisibility: json['friends_list_visibility'],
       messageRequestSetting: json['message_request_setting'],
@@ -111,6 +117,7 @@ class PrivacySettingsModel {
   // Method to convert a UserSettings object to JSON
   Map<String, dynamic> toJson() {
     return {
+      'default_audience': defaultAudienceSetting,
       'friend_request_setting': friendRequestSetting,
       'friends_list_visibility': friendsListVisibility,
       'message_request_setting': messageRequestSetting,

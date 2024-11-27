@@ -134,7 +134,8 @@ class Settings extends StatelessWidget {
                                 height: 70.h,
                                 leading: const Icon(BipHip.removeFamily,
                                     color: cIconColor),
-                                onPressed: () {
+                                onPressed: () async{
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krDefaultAudience);
                                 },
                               ),
@@ -233,6 +234,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.starFill,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krPostsSettingsPage);
                                 },
                               ),
@@ -244,6 +246,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.selfieNew,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krSelfiesSettingsPage);
                                 },
                               ),
@@ -255,6 +258,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.starFill,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krPollsSettingsPage);
                                 },
                               ),
@@ -266,6 +270,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.follow,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krFollowersSettingsPage);
                                 },
                               ),
@@ -277,6 +282,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.tagFriends,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krProfileAndTaggingSettingsPage);
                                 },
                               ),
