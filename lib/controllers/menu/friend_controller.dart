@@ -87,7 +87,7 @@ class FriendController extends GetxController {
             .cast<BlockedUser>();
         isFriendListLoading.value = false;
       } else {
-        isFriendListLoading.value = true;
+        isFriendListLoading.value = false;
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         if (errorModel.errors.isEmpty) {
           globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
@@ -97,7 +97,7 @@ class FriendController extends GetxController {
       }
     }
     catch (e) {
-      isFriendListLoading.value = true;
+      isFriendListLoading.value = false;
       ll('getFriendList error: $e');
     }
   }

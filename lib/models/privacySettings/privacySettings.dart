@@ -9,13 +9,13 @@ class PrivacySettingsModel {
 
   // Selfie
   final String? selfieVisibility;
-  final bool? storyArchiving;
-  final bool? allowOthersToShareYourPublicStoriesToTheirStory;
+  bool? storyArchiving;
+  bool? allowOthersToShareYourPublicStoriesToTheirStory;
 
   // Poll
   final String? pollVisibility;
-  final bool? pollArchiving;
-  final bool? allowOthersToShareYourPublicPollsToTheirPoll;
+  bool? pollArchiving;
+  bool? allowOthersToShareYourPublicPollsToTheirPoll;
 
   // Followers and public content
   final String? whoCanFollowMe;
@@ -29,8 +29,16 @@ class PrivacySettingsModel {
   final String? whoCanPostOnYourProfile;
   final String? whoCanSeeWhatOthersPostOnYourProfile;
   final String? whoCanSeeWhatOthersPostOnYourProfileFriends;
-  final bool? allowOthersToShareYourPostsToTheirStories;
-  final bool? reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile;
+  bool? allowOthersToShareYourPostsToTheirStories;
+  bool? reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile;
+
+  // Posts Section
+  final String? whoCanSeeYourFuturePosts;
+  final String? whoCanSeeYourPostStarBonus;
+
+  // Reaction Preferences
+   bool? hideNumberOfReactionsOnPostFromOthers;
+   bool? hideNumberOfReactionsOnPostFromOwn;
 
   PrivacySettingsModel({
     this.friendRequestSetting,
@@ -56,6 +64,10 @@ class PrivacySettingsModel {
     this.whoCanSeeWhatOthersPostOnYourProfileFriends,
     this.allowOthersToShareYourPostsToTheirStories,
     this.reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile,
+    this.whoCanSeeYourFuturePosts,
+    this.whoCanSeeYourPostStarBonus,
+    this.hideNumberOfReactionsOnPostFromOthers,
+    this.hideNumberOfReactionsOnPostFromOwn,
   });
 
   // Factory method to create a UserSettings object from JSON
@@ -89,6 +101,10 @@ class PrivacySettingsModel {
       json['allow_others_to_share_your_posts_to_their_stories'],
       reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile:
       json['review_posts_youre_tagged_in_before_they_appear_on_your_profile'],
+      whoCanSeeYourFuturePosts: json['who_can_see_your_future_posts'],
+      whoCanSeeYourPostStarBonus: json['who_can_see_your_post_star_bonus'],
+      hideNumberOfReactionsOnPostFromOthers: json['hide_number_of_reactions_on_post_from_others'],
+      hideNumberOfReactionsOnPostFromOwn: json['hide_number_of_reactions_on_post_from_own'],
     );
   }
 
@@ -123,6 +139,10 @@ class PrivacySettingsModel {
       allowOthersToShareYourPostsToTheirStories,
       'review_posts_youre_tagged_in_before_they_appear_on_your_profile':
       reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile,
+      'who_can_see_your_future_posts': whoCanSeeYourFuturePosts,
+      'who_can_see_your_post_star_bonus': whoCanSeeYourPostStarBonus,
+      'hide_number_of_reactions_on_post_from_others': hideNumberOfReactionsOnPostFromOthers,
+      'hide_number_of_reactions_on_post_from_own': hideNumberOfReactionsOnPostFromOwn,
     };
   }
 }

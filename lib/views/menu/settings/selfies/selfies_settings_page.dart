@@ -15,8 +15,6 @@ class SelfiesSettingsPage extends StatefulWidget {
 }
 
 class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
-  bool toggleShareYourPublicStories = true;
-  bool toggleArchiveStories = false;
   final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
 
   @override
@@ -127,7 +125,7 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                       ),
                       const SizedBox(height: 10),
                       const CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +135,7 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HeaderText("Allow others to share your public stories to their own story?"),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Container(
                                   width: double.infinity,
                                   child: Normalext(
@@ -149,20 +147,21 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                             ),
                           ),
                           Switch(
-                            value: toggleShareYourPublicStories,
+                            value: privacySettingsController.settingsPrivacyData.value?.allowOthersToShareYourPublicStoriesToTheirStory??true,
                             activeTrackColor:Colors.green ,
                             thumbColor: WidgetStateProperty.all(cWhiteColor),
                             onChanged: (bool value) {
                               setState(() {
-                                toggleShareYourPublicStories = value;
+                                privacySettingsController.settingsPrivacyData.value?.allowOthersToShareYourPublicStoriesToTheirStory = value;
+                                privacySettingsController.updateSpecificPrivacySettings('allow_others_to_share_your_public_stories_to_their_story', value.toString());
                               });
                             },
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
-                      CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
+                      const CustomDivider(),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,7 +171,7 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HeaderText("Archiving your stories"),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Container(
                                   width: double.infinity,
                                   child: Normalext(
@@ -183,18 +182,19 @@ class _SelfiesSettingsPageState extends State<SelfiesSettingsPage> {
                             ),
                           ),
                           Switch(
-                            value: toggleArchiveStories,
+                            value: privacySettingsController.settingsPrivacyData.value?.storyArchiving??true,
                             activeTrackColor:Colors.green ,
                             thumbColor: WidgetStateProperty.all(cWhiteColor),
                             onChanged: (bool value) {
                               setState(() {
-                                toggleArchiveStories = value;
+                                privacySettingsController.settingsPrivacyData.value?.storyArchiving = value;
+                                privacySettingsController.updateSpecificPrivacySettings('story_archiving', value.toString());
                               });
                             },
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 )

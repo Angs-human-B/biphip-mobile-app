@@ -69,7 +69,6 @@ class _HowPeopleWillFindYouState extends State<HowPeopleWillFindYou> {
                           ),
                           GestureDetector(
                             onTap: (){
-                              print(privacySettingsController.settingsPrivacyData.value);
                               showModalBottomSheet(
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),

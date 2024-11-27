@@ -114,7 +114,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                       ),
                       const SizedBox(height: 10),
                       const CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -174,7 +174,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                       ),
                       const SizedBox(height: 10),
                       const CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -234,7 +234,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                       ),
                       const SizedBox(height: 10),
                       const CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,7 +244,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HeaderText("Allow others to share your posts to their stories?"),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Container(
                                   width: double.infinity,
                                   child: Normalext(
@@ -256,20 +256,21 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                             ),
                           ),
                           Switch(
-                            value: toggleShareYourPostsToTheirStories,
+                            value: privacySettingsController.settingsPrivacyData.value?.allowOthersToShareYourPublicStoriesToTheirStory??true,
                             activeTrackColor:Colors.green ,
                             thumbColor: WidgetStateProperty.all(cWhiteColor),
                             onChanged: (bool value) {
                               setState(() {
-                                toggleShareYourPostsToTheirStories = value;
+                                privacySettingsController.settingsPrivacyData.value?.allowOthersToShareYourPublicStoriesToTheirStory = value;
+                                privacySettingsController.updateSpecificPrivacySettings('review_posts_youre_tagged_in_before_they_appear_on_your_profile', value.toString());
                               });
                             },
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
-                      CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
+                      const CustomDivider(),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,7 +280,7 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HeaderText("Review posts you're tagged in before the post appears on your profile?"),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Container(
                                   width: double.infinity,
                                   child: Normalext(
@@ -290,18 +291,19 @@ class _ProfileAndTaggingSettingsPageState extends State<ProfileAndTaggingSetting
                             ),
                           ),
                           Switch(
-                            value: toggleReviewPosts,
+                            value: privacySettingsController.settingsPrivacyData.value?.reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile??true,
                             activeTrackColor:Colors.green ,
                             thumbColor: WidgetStateProperty.all(cWhiteColor),
                             onChanged: (bool value) {
                               setState(() {
-                                toggleReviewPosts = value;
+                                privacySettingsController.settingsPrivacyData.value?.reviewPostsYoureTaggedInBeforeTheyAppearOnYourProfile = value;
+                                privacySettingsController.updateSpecificPrivacySettings('review_posts_youre_tagged_in_before_they_appear_on_your_profile', value.toString());
                               });
                             },
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 )

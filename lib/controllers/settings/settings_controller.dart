@@ -49,7 +49,7 @@ class PrivacySettingsController extends GetxController {
     }
   }
   Future<void> updateSpecificPrivacySettings(String settingKey,String settingValue) async {
-    // try {
+    try {
       isPrivacySettingsLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
@@ -83,10 +83,10 @@ class PrivacySettingsController extends GetxController {
           );
         }
       }
-    // } catch (e) {
-    //   isPrivacySettingsLoading.value = false;
-    //   ll('updateSpecificPrivacySettings error: $e');
-    // }
+    } catch (e) {
+      isPrivacySettingsLoading.value = false;
+      ll('updateSpecificPrivacySettings error: $e');
+    }
   }
 
   String getPrivacySettingKey(String title) {
@@ -134,6 +134,12 @@ class PrivacySettingsController extends GetxController {
         return "who_can_see_what_others_post_on_your_profile";
       case "Who can see what others post on your profile Friends?":
         return "who_can_see_what_others_post_on_your_profile_friends";
+
+    //Posts section
+      case "Who can see your future posts?":
+        return "who_can_see_your_future_posts";
+      case "Who can see your post star bonus?":
+        return "who_can_see_your_post_star_bonus";
 
     // Default case for unrecognized titles
       default:

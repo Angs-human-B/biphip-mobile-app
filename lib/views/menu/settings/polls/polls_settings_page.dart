@@ -16,7 +16,6 @@ class PollsSettingsPage extends StatefulWidget {
 
 class _PollsSettingsPageState extends State<PollsSettingsPage> {
   final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
-  bool toggleArchivePolls = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -125,7 +124,7 @@ class _PollsSettingsPageState extends State<PollsSettingsPage> {
                       ),
                       const SizedBox(height: 10),
                       const CustomDivider(),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +134,7 @@ class _PollsSettingsPageState extends State<PollsSettingsPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 HeaderText("Archiving your Poll"),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Container(
                                   width: double.infinity,
                                   child: Normalext(
@@ -147,18 +146,19 @@ class _PollsSettingsPageState extends State<PollsSettingsPage> {
                             ),
                           ),
                           Switch(
-                            value: toggleArchivePolls,
+                            value: privacySettingsController.settingsPrivacyData.value?.pollArchiving??true,
                             activeTrackColor:Colors.green ,
                             thumbColor: WidgetStateProperty.all(cWhiteColor),
                             onChanged: (bool value) {
                               setState(() {
-                                toggleArchivePolls = value;
+                                privacySettingsController.settingsPrivacyData.value?.pollArchiving = value;
+                                privacySettingsController.updateSpecificPrivacySettings('poll_archiving', value.toString());
                               });
                             },
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                     ],
                   ),
                 )
