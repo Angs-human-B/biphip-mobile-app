@@ -2,6 +2,7 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/change_password_page.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/two%20_factor_authentication_page.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/where_logged_in_page.dart';
+import 'package:bip_hip/views/menu/settings/languageAndRegion/region_format.dart';
 import 'package:bip_hip/views/menu/settings/personal%20details/account_ownership_page.dart';
 import 'package:bip_hip/views/menu/settings/personal%20details/add_contact_info_page.dart';
 import 'package:bip_hip/views/menu/settings/personal%20details/contact_info_page.dart';
@@ -84,8 +85,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                           child: HeaderText(ksRegionFormat.tr),
                         ),
                         IconButton(onPressed: (){
-                          kidsController.getLanguageList();
-                          Get.toNamed(krLanguageListPage);
+                          kidsController.getRegionList();
+                          Get.to(RegionFormatListPage());
                         },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],

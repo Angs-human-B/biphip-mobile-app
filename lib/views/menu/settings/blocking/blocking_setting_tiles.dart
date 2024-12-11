@@ -31,7 +31,7 @@ class _BlockingSettingTilesState extends State<BlockingSettingTiles> {
         Get.find<FriendController>().isFriendSearched.value = false;
         Get.find<FriendController>().isRouteFromBottomNavBar.value = true;
         Get.to(BlockedPeople( widget.texts[widget.index]['title']));
-        await Get.find<FriendController>().getBlockedUserList();
+        await Get.find<FriendController>().getCurrentBlockedAPI(widget.texts[widget.index]['title']);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

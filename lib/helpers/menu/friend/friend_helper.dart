@@ -12,8 +12,8 @@ class FriendHelper {
   final FriendController friendController = Get.find<FriendController>();
 
   //*friends page tapable button views
-  Widget blockedListView(){
-    return AllBlockedListview();
+  Widget blockedListView(String title){
+    return AllBlockedListview(title);
   }
   Widget friendListView() {
     if (globalController.tapAbleButtonState[0] == true) {
