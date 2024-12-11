@@ -1282,12 +1282,16 @@ class DashboardController extends GetxController {
   }
 
   final RxList<UserIdentificationModel?> dashboardUserIdentificationData = RxList<UserIdentificationModel?>([]);
+  final Rx<UserIdentificationModel?> dashboardPassportIdentificationData = Rx<UserIdentificationModel?>(null);
+  final Rx<UserIdentificationModel?> dashboardNidIdentificationData = Rx<UserIdentificationModel?>(null);
+  final Rx<UserIdentificationModel?> dashboardStudentIdIdentificationData = Rx<UserIdentificationModel?>(null);
   final RxBool isDashboardPayoutVerificationLoading = RxBool(false);
 
   Future<void> getDashboardPayoutIdentification() async {
     try {
       isDashboardPayoutVerificationLoading.value = true;
       String? token = await spController.getBearerToken();
+      print(token);
       var response = await apiController.commonApiCall(
         requestMethod: kGet,
         token: token,
@@ -1299,7 +1303,22 @@ class DashboardController extends GetxController {
         dashboardUserIdentificationData.value = responseData
             .map((json) => UserIdentificationModel.fromJson(json as Map<String, dynamic>))
             .toList();
-        payoutPassportStatus.value = dashboardUserIdentificationData.first!.status ?? "";
+        for (var identification in dashboardUserIdentificationData) {
+          switch (identification?.type) {
+            case 'passport':
+              payoutPassportStatus.value = identification?.status ?? "";
+              dashboardPassportIdentificationData.value=identification;
+              break;
+            case 'nid':
+              payoutNidStatus.value = identification?.status ?? "";
+              dashboardNidIdentificationData.value=identification;
+              break;
+            case 'student_id':
+              payoutStudentIdStatus.value = identification?.status ?? "";
+              dashboardStudentIdIdentificationData.value=identification;
+              break;
+          }
+        }
         isDashboardPayoutVerificationLoading.value = false;
       } else {
         isDashboardPayoutVerificationLoading.value = false;
@@ -1314,6 +1333,43 @@ class DashboardController extends GetxController {
       isDashboardPayoutVerificationLoading.value = false;
       ll('getDashboardPayoutIdentification error: $e');
     }
+  }
+  Future<void> deleteDashboardPayoutIdentification() async {
+    try {
+      isDashboardPayoutVerificationLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kDelete,
+        url: '$kuDeleteIdentifications/${getIdentificationId(payoutTypeView.value)}',
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isDashboardPayoutVerificationLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDashboardPayoutVerificationLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDashboardPayoutVerificationLoading.value = false;
+      ll('deleteDashboardPayoutIdentification error: $e');
+    }
+  }
+  int? getIdentificationId(String? type) {
+    switch (type) {
+      case "Passport":
+        return dashboardPassportIdentificationData.value?.id;
+      case "NID":
+        return dashboardNidIdentificationData.value?.id;
+      case "Student Id":
+        return dashboardStudentIdIdentificationData.value?.id;
+    }
+    return null;
   }
   String formatType(String? type) {
     switch (type) {
@@ -1422,6 +1478,8 @@ class DashboardController extends GetxController {
   final RxBool isdashboardPayoutWithdraw = RxBool(false);
   final RxString payoutTaxInformationStatus = RxString("Verified");
   final RxString payoutPassportStatus = RxString("");
+  final RxString payoutNidStatus = RxString("");
+  final RxString payoutStudentIdStatus = RxString("");
   // final RxString payoutPassportStatus = RxString("Verified");
   final RxList payoutBankAccountList = RxList([
     {"accountName": "Wahid Murad", "bankName": "Brac Bank"},

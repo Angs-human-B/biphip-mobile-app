@@ -1,5 +1,5 @@
 class UserIdentificationModel {
-  final int id;
+  final int? id;
   final int? userId;
   final String? type;
   final String? country;
@@ -17,7 +17,7 @@ class UserIdentificationModel {
   final DateTime? updatedAt;
 
   UserIdentificationModel({
-    required this.id,
+    this.id,
     this.userId,
     this.type,
     this.country,

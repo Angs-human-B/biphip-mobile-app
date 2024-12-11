@@ -9,7 +9,9 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cWhiteColor,
-      child: SafeArea(
+      child: Obx(
+            () => Stack(
+          children: [SafeArea(
         top: false,
         child: Scaffold(
           backgroundColor: cWhiteColor,
@@ -128,29 +130,29 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
                               children: [
                                 PayoutText(
                                   titleText: ksName,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.firstName} ${dashboardController.dashboardUserIdentificationData.first?.lastName}",
+                                  subtitleText: "${dashboardController.dashboardPassportIdentificationData.value?.firstName} ${dashboardController.dashboardPassportIdentificationData.value?.lastName}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksPassportNumber,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.idNumber}",
+                                  subtitleText: "${dashboardController.dashboardPassportIdentificationData.value?.idNumber}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksIssueDate,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.issueDate}",
+                                  subtitleText: "${dashboardController.dashboardPassportIdentificationData.value?.issueDate}",
                                   subtitleTextColor: cBlackColor,
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksEndDate,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.endDate}",
+                                  subtitleText: "${dashboardController.dashboardPassportIdentificationData.value?.endDate}",
                                   subtitleTextColor: cBlackColor,
                                 ),
                                 PayoutText(
                                   titleText: ksStatus,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.status}",
-                                  subtitleTextColor: dashboardController.dashboardUserIdentificationData.first?.status=='verified'?cGreenColor:cOrangeColor,
+                                  subtitleText: "${dashboardController.dashboardPassportIdentificationData.value?.status}",
+                                  subtitleTextColor: dashboardController.dashboardPassportIdentificationData.value?.status=='verified'?cGreenColor:cOrangeColor,
                                 ),
                               ],
                             ),
@@ -160,18 +162,18 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
                               children: [
                                 PayoutText(
                                   titleText: ksName,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.firstName} ${dashboardController.dashboardUserIdentificationData.first?.lastName}",
+                                  subtitleText: "${dashboardController.dashboardNidIdentificationData.value?.firstName} ${dashboardController.dashboardNidIdentificationData.value?.lastName}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksNidNumber,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.idNumber}",
+                                  subtitleText: "${dashboardController.dashboardNidIdentificationData.value?.idNumber}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksStatus,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.status}",
-                                  subtitleTextColor: dashboardController.dashboardUserIdentificationData.first?.status=='verified'?cGreenColor:cOrangeColor,
+                                  subtitleText: "${dashboardController.dashboardNidIdentificationData.value?.status}",
+                                  subtitleTextColor: dashboardController.dashboardNidIdentificationData.value?.status=='verified'?cGreenColor:cOrangeColor,
                                 ),
                               ],
                             ),
@@ -181,23 +183,23 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
                               children: [
                                 PayoutText(
                                   titleText: ksSchool,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.schoolCollege}",
+                                  subtitleText: "${dashboardController.dashboardStudentIdIdentificationData.value?.schoolCollege}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksName,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.firstName} ${dashboardController.dashboardUserIdentificationData.first?.lastName}",
+                                  subtitleText: "${dashboardController.dashboardStudentIdIdentificationData.value?.firstName} ${dashboardController.dashboardStudentIdIdentificationData.value?.lastName}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksStudentId,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.idNumber}",
+                                  subtitleText: "${dashboardController.dashboardStudentIdIdentificationData.value?.idNumber}",
                                 ),
                                 kH12sizedBox,
                                 PayoutText(
                                   titleText: ksStatus,
-                                  subtitleText: "${dashboardController.dashboardUserIdentificationData.first?.status}",
-                                  subtitleTextColor: dashboardController.dashboardUserIdentificationData.first?.status=='verified'?cGreenColor:cOrangeColor,
+                                  subtitleText: "${dashboardController.dashboardStudentIdIdentificationData.value?.status}",
+                                  subtitleTextColor: dashboardController.dashboardStudentIdIdentificationData.value?.status=='verified'?cGreenColor:cOrangeColor,
                                 ),
                               ],
                             ),
@@ -210,7 +212,14 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
                             textStyle: semiBold12TextStyle(cWhiteColor),
                             buttonHeight: h32,
                             label: ksDelete,
-                            onPressed: () {},
+                            onPressed: () {
+                              dashboardController.deleteDashboardPayoutIdentification();
+                              dashboardController.payoutPassportStatus.value = "";
+                              dashboardController.payoutNidStatus.value = "";
+                              dashboardController.payoutStudentIdStatus.value = "";
+                              dashboardController.getDashboardPayoutIdentification();
+                              Get.back();
+                            },
                           ),
                         ],
                       ),
@@ -222,10 +231,26 @@ class PayoutBankAccountTaxPassportInfoView extends StatelessWidget {
           ),
         ),
       ),
+        if (dashboardController
+        .isDashboardPayoutVerificationLoading.value ==
+        true)
+    Positioned(
+      child: CommonLoadingAnimation(
+        onWillPop: () async {
+          if (dashboardController
+              .isDashboardPayoutVerificationLoading.value) {
+            return false;
+          }
+          return true;
+        },
+      ),
+    ),
+    ],
+    ),
+    ),
     );
   }
 }
-
 class PayoutText extends StatelessWidget {
   const PayoutText({super.key, required this.titleText, required this.subtitleText, this.subtitleTextColor});
   final String titleText, subtitleText;

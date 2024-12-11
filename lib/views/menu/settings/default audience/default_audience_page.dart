@@ -9,7 +9,7 @@ import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../controllers/settings/settings_controller.dart';
+import '../../../../controllers/settings/privacy_settings_controller.dart';
 
 class DefaultAudience extends StatefulWidget {
   const DefaultAudience({Key? key}) : super(key: key);

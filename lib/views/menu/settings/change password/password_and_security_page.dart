@@ -2,17 +2,14 @@ import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/change_password_page.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/two%20_factor_authentication_page.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/where_logged_in_page.dart';
-import 'package:bip_hip/views/menu/settings/personal%20details/account_ownership_page.dart';
-import 'package:bip_hip/views/menu/settings/personal%20details/add_contact_info_page.dart';
-import 'package:bip_hip/views/menu/settings/personal%20details/contact_info_page.dart';
 import 'package:bip_hip/views/menu/settings/change%20password/login_alerts_page.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
 import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controllers/auth/authentication_controller.dart';
+import '../../../../controllers/settings/privacy_settings_controller.dart';
 
 class PasswordAndSecurity extends StatefulWidget {
   const PasswordAndSecurity({Key? key}) : super(key: key);
@@ -23,6 +20,7 @@ class PasswordAndSecurity extends StatefulWidget {
 
 class _PasswordAndSecurityState extends State<PasswordAndSecurity> {
   final AuthenticationController authenticationController = Get.find<AuthenticationController>();
+  final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +118,7 @@ class _PasswordAndSecurityState extends State<PasswordAndSecurity> {
                         ),
                         IconButton(
                             onPressed: (){
+                              privacySettingsController.getLoginAlertStatus();
                               Get.to(LoginAlerts());
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))

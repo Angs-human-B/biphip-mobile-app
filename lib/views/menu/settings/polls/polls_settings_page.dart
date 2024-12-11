@@ -1,7 +1,7 @@
 import 'package:bip_hip/utils/constants/imports.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../controllers/settings/settings_controller.dart';
+import '../../../../controllers/settings/privacy_settings_controller.dart';
 import '../../../../widgets/common/utils/common_divider.dart';
 import '../../../../widgets/common/utils/common_headertext.dart';
 import '../../../../widgets/common/utils/common_simple_text.dart';

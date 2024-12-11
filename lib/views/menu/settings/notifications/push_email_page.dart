@@ -1,11 +1,8 @@
 import 'package:bip_hip/utils/constants/imports.dart';
-import 'package:bip_hip/views/menu/settings/notifications/toggle_button.dart';
 import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../../../utils/constants/const.dart';
-import '../../../../widgets/common/utils/custom_app_bar.dart';
+import '../../../../controllers/settings/privacy_settings_controller.dart';
+import '../../../../models/privacySettings/privacySettings.dart';
 
 class PushEmail extends StatefulWidget {
   String title;
@@ -16,42 +13,96 @@ class PushEmail extends StatefulWidget {
 }
 
 class _PushEmailState extends State<PushEmail> {
-  bool togglePush = true;
-  bool toggleEmail = false;
+  final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cWhiteColor,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kAppBarSizeSetting),
-        child: CustomAppBar(
-          onBack: () {
-            Get.back();
-          },
-          title:"${widget.title} settings",
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            ToggleButton("Push"),
-            ToggleButton("Email", toggle: false,),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
-        child: TextButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: cIconColor
+    return Container(
+      color: cWhiteColor,
+      child: Obx(
+            () => Stack(
+          children: [  SafeArea(
+      top: false,
+      child: Scaffold(
+        backgroundColor: cWhiteColor,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kAppBarSizeSetting),
+          child: CustomAppBar(
+            onBack: () {
+              Get.back();
+            },
+            title:"${widget.title} settings",
           ),
-          onPressed: (){
-
-          },
-          child: HeaderText("Save", color: cWhiteColor,),
         ),
-      )
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  HeaderText(ksPush.tr),
+                  Switch(
+                    value: privacySettingsController.getNotificationTypeFromTitle(widget.title)?.push??false,
+                    activeTrackColor:Colors.green ,
+                    thumbColor: WidgetStateProperty.all(cWhiteColor),
+                    onChanged: (bool value) {
+                      setState(() {
+                        privacySettingsController.getNotificationTypeFromTitle(widget.title)?.push = value;
+                        privacySettingsController.updateSpecificPrivacySettings("${privacySettingsController.getSettingKeyFromTitle(widget.title)}.push", value);
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  HeaderText(ksEmail.tr),
+                  Switch(
+                    value: privacySettingsController.getNotificationTypeFromTitle(widget.title)?.email??false,
+                    activeTrackColor:Colors.green ,
+                    thumbColor: WidgetStateProperty.all(cWhiteColor),
+                    onChanged: (bool value) {
+                      setState(() {
+                        privacySettingsController.getNotificationTypeFromTitle(widget.title)?.email = value;
+                        privacySettingsController.updateSpecificPrivacySettings("${privacySettingsController.getSettingKeyFromTitle(widget.title)}.email", value);
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
+          child: TextButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: cPrimaryColor
+            ),
+            onPressed: () {
+              Get.back();
+              // privacySettingsController.getPrivacySettings();
+            },
+            child: HeaderText("Save", color: cWhiteColor,),
+          ),
+        )
+      ),
+    ),
+    if (privacySettingsController.isPrivacySettingsLoading.value == true)
+    Positioned(
+    child: CommonLoadingAnimation(
+    onWillPop: () async {
+    if (privacySettingsController.isPrivacySettingsLoading.value) {
+    return false;
+    }
+    return true;
+    },
+    ),
+    ),
+    ],
+    ),
+    ),
     );
   }
 }

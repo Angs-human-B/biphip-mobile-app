@@ -5,6 +5,8 @@ import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../controllers/settings/privacy_settings_controller.dart';
+
 class DarkModePage extends StatefulWidget {
   const DarkModePage({Key? key}) : super(key: key);
 
@@ -13,17 +15,21 @@ class DarkModePage extends StatefulWidget {
 }
 
 class _DarkModePageState extends State<DarkModePage> {
-  bool toggleDarkMode = false;
+  final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      color: cWhiteColor,
+      child: Obx(
+            () => Stack(
+          children: [SafeArea(
       top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSizeSetting),
+          preferredSize: const Size.fromHeight(kAppBarSizeSetting),
           child: CustomAppBar(
             onBack: () {
               Get.back();
@@ -32,12 +38,12 @@ class _DarkModePageState extends State<DarkModePage> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 width: MediaQuery.of(context).size.width * .9,
                 decoration: BoxDecoration(
                   color: cGreyBoxColor,
@@ -47,7 +53,7 @@ class _DarkModePageState extends State<DarkModePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +63,7 @@ class _DarkModePageState extends State<DarkModePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               HeaderText("Dark mode"),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Container(
                                 width: double.infinity,
                                 child: Normalext(
@@ -70,18 +76,19 @@ class _DarkModePageState extends State<DarkModePage> {
                           ),
                         ),
                         Switch(
-                          value: toggleDarkMode,
+                          value: privacySettingsController.settingsPrivacyData.value?.darkModeEnabled??false,
                           activeTrackColor:Colors.green ,
                           thumbColor: WidgetStateProperty.all(cWhiteColor),
                           onChanged: (bool value) {
                             setState(() {
-                              toggleDarkMode = value;
+                              privacySettingsController.settingsPrivacyData.value?.darkModeEnabled = value;
+                              privacySettingsController.updateSpecificPrivacySettings("dark_mode_enabled", value);
                             });
                           },
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),
@@ -89,6 +96,21 @@ class _DarkModePageState extends State<DarkModePage> {
           ),
         ),
       ),
+    ),
+    if (privacySettingsController.isPrivacySettingsLoading.value == true)
+    Positioned(
+    child: CommonLoadingAnimation(
+    onWillPop: () async {
+    if (privacySettingsController.isPrivacySettingsLoading.value) {
+    return false;
+    }
+    return true;
+    },
+    ),
+    ),
+    ],
+    ),
+    ),
     );
   }
 }

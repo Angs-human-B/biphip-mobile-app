@@ -43,6 +43,11 @@ class PrivacySettingsModel {
   // Reaction Preferences
    bool? hideNumberOfReactionsOnPostFromOthers;
    bool? hideNumberOfReactionsOnPostFromOwn;
+ // Notification settings
+  final NotificationsModel? notifications;
+
+  // DarkMode settings
+   bool? darkModeEnabled;
 
   PrivacySettingsModel({
     this.defaultAudienceSetting,
@@ -73,6 +78,8 @@ class PrivacySettingsModel {
     this.whoCanSeeYourPostStarBonus,
     this.hideNumberOfReactionsOnPostFromOthers,
     this.hideNumberOfReactionsOnPostFromOwn,
+    this.notifications,
+    this.darkModeEnabled,
   });
 
   // Factory method to create a UserSettings object from JSON
@@ -111,6 +118,10 @@ class PrivacySettingsModel {
       whoCanSeeYourPostStarBonus: json['who_can_see_your_post_star_bonus'],
       hideNumberOfReactionsOnPostFromOthers: json['hide_number_of_reactions_on_post_from_others'],
       hideNumberOfReactionsOnPostFromOwn: json['hide_number_of_reactions_on_post_from_own'],
+      darkModeEnabled: json['dark_mode_enabled'],
+      notifications: json['notifications'] != null
+          ? NotificationsModel.fromJson(json['notifications'])
+          : null,
     );
   }
 
@@ -150,6 +161,132 @@ class PrivacySettingsModel {
       'who_can_see_your_post_star_bonus': whoCanSeeYourPostStarBonus,
       'hide_number_of_reactions_on_post_from_others': hideNumberOfReactionsOnPostFromOthers,
       'hide_number_of_reactions_on_post_from_own': hideNumberOfReactionsOnPostFromOwn,
+      'dark_mode_enabled': darkModeEnabled,
     };
   }
 }
+
+class NotificationsModel {
+  final NotificationTypeModel? kids;
+  final NotificationTypeModel? post;
+  final NotificationTypeModel? shop;
+  final NotificationTypeModel? tags;
+  final NotificationTypeModel? comments;
+  final NotificationTypeModel? messages;
+  final NotificationTypeModel? birthdays;
+  final NotificationTypeModel? reminders;
+  final NotificationTypeModel? groupChat;
+  final NotificationTypeModel? marketplace;
+  final NotificationTypeModel? friendRequest;
+  final NotificationTypeModel? otherNotifications;
+  final NotificationTypeModel? updatesFromFriends;
+  final NotificationTypeModel? moreActivityAboutYou;
+
+  NotificationsModel({
+    this.kids,
+    this.post,
+    this.shop,
+    this.tags,
+    this.comments,
+    this.messages,
+    this.birthdays,
+    this.reminders,
+    this.groupChat,
+    this.marketplace,
+    this.friendRequest,
+    this.otherNotifications,
+    this.updatesFromFriends,
+    this.moreActivityAboutYou,
+  });
+
+  factory NotificationsModel.fromJson(Map<String, dynamic> json) {
+    return NotificationsModel(
+      kids: json['kids'] != null
+          ? NotificationTypeModel.fromJson(json['kids'])
+          : null,
+      post: json['post'] != null
+          ? NotificationTypeModel.fromJson(json['post'])
+          : null,
+      shop: json['shop'] != null
+          ? NotificationTypeModel.fromJson(json['shop'])
+          : null,
+      tags: json['tags'] != null
+          ? NotificationTypeModel.fromJson(json['tags'])
+          : null,
+      comments: json['comments'] != null
+          ? NotificationTypeModel.fromJson(json['comments'])
+          : null,
+      messages: json['messages'] != null
+          ? NotificationTypeModel.fromJson(json['messages'])
+          : null,
+      birthdays: json['birthdays'] != null
+          ? NotificationTypeModel.fromJson(json['birthdays'])
+          : null,
+      reminders: json['reminders'] != null
+          ? NotificationTypeModel.fromJson(json['reminders'])
+          : null,
+      groupChat: json['group_chat'] != null
+          ? NotificationTypeModel.fromJson(json['group_chat'])
+          : null,
+      marketplace: json['marketplace'] != null
+          ? NotificationTypeModel.fromJson(json['marketplace'])
+          : null,
+      friendRequest: json['friend_request'] != null
+          ? NotificationTypeModel.fromJson(json['friend_request'])
+          : null,
+      otherNotifications: json['other_notifications'] != null
+          ? NotificationTypeModel.fromJson(json['other_notifications'])
+          : null,
+      updatesFromFriends: json['updates_from_friends'] != null
+          ? NotificationTypeModel.fromJson(json['updates_from_friends'])
+          : null,
+      moreActivityAboutYou: json['more_activity_about_you'] != null
+          ? NotificationTypeModel.fromJson(json['more_activity_about_you'])
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'kids': kids?.toJson(),
+      'post': post?.toJson(),
+      'shop': shop?.toJson(),
+      'tags': tags?.toJson(),
+      'comments': comments?.toJson(),
+      'messages': messages?.toJson(),
+      'birthdays': birthdays?.toJson(),
+      'reminders': reminders?.toJson(),
+      'group_chat': groupChat?.toJson(),
+      'marketplace': marketplace?.toJson(),
+      'friend_request': friendRequest?.toJson(),
+      'other_notifications': otherNotifications?.toJson(),
+      'updates_from_friends': updatesFromFriends?.toJson(),
+      'more_activity_about_you': moreActivityAboutYou?.toJson(),
+    };
+  }
+}
+
+class NotificationTypeModel {
+  late  bool? push;
+  late  bool? email;
+
+  NotificationTypeModel({
+    this.push,
+    this.email,
+  });
+
+  factory NotificationTypeModel.fromJson(Map<String, dynamic> json) {
+    return NotificationTypeModel(
+      push: json['push'] as bool?,
+      email: json['email'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'push': push,
+      'email': email,
+    };
+  }
+}
+

@@ -567,7 +567,7 @@ class DashboardPayouts extends StatelessWidget {
                                           ? DashboardPayoutSettingCommonContainer(
                                               prefixIcon: BipHip.add_1,
                                               titleText:
-                                                  "$ksNoPassportOrNidOrStudentIdAddedYet!",
+                                                  "$ksNoPassportAddedYet!",
                                               buttonOnPressed: () {
                                                 Get.find<GlobalController>()
                                                     .commonBottomSheet(
@@ -600,10 +600,10 @@ class DashboardPayouts extends StatelessWidget {
                                               icon: BipHip.badgesFill,
                                               statusText: dashboardController
                                                   .payoutPassportStatus.value,
-                                              titleText:dashboardController.formatType(dashboardController.dashboardUserIdentificationData.first?.type),
+                                              titleText:dashboardController.formatType(dashboardController.dashboardPassportIdentificationData.value?.type),
                                               dateText:
-    dashboardController.dashboardUserIdentificationData.first!.createdAt != null
-    ? "Submitted on ${DateFormat("dd MMM, yyyy").format(dashboardController.dashboardUserIdentificationData.first!.updatedAt!)}."
+    dashboardController.dashboardPassportIdentificationData.value!.createdAt != null
+    ? "Submitted on ${DateFormat("dd MMM, yyyy").format(dashboardController.dashboardPassportIdentificationData.value!.updatedAt!)}."
         : "Submission date not available.",
                                               statusTextStyle:
                                                   regular14TextStyle(
@@ -611,11 +611,123 @@ class DashboardPayouts extends StatelessWidget {
                                               containerOnPressed: () {
                                                 dashboardController
                                                         .payoutTypeView.value =
-                                                    dashboardController.formatType2(dashboardController.dashboardUserIdentificationData.first?.type); //*Passport,NID, Student Id
+                                                    dashboardController.formatType2(dashboardController.dashboardPassportIdentificationData.value?.type); //*Passport,NID, Student Id
                                                 Get.toNamed(
                                                     krPayoutBankAccountTaxPassportInfoView);
                                               },
                                             ),
+                                      kH16sizedBox,
+                                      dashboardController
+                                          .payoutNidStatus.value ==
+                                          ""
+                                          ? DashboardPayoutSettingCommonContainer(
+                                        prefixIcon: BipHip.add_1,
+                                        titleText:
+                                        "$ksNoNidAddedYet!",
+                                        buttonOnPressed: () {
+                                          Get.find<GlobalController>()
+                                              .commonBottomSheet(
+                                              context: context,
+                                              bottomSheetHeight:
+                                              isDeviceScreenLarge()
+                                                  ? height * 0.35
+                                                  : height * 0.45,
+                                              content:
+                                              const AddPassportNidStudentIdBottomSheetContent(),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "",
+                                              rightTextStyle:
+                                              semiBold14TextStyle(
+                                                  cPrimaryColor),
+                                              title: ksAddIdentificationMethod
+                                                  .tr,
+                                              isRightButtonShow:
+                                              false,
+                                              isBottomSheetRightButtonActive:
+                                              false.obs);
+                                        },
+                                      )
+                                          : DashboardPayoutSettingContentContainer(
+                                        icon: BipHip.badgesFill,
+                                        statusText: dashboardController
+                                            .payoutNidStatus.value,
+                                        titleText:ksNidVerification.tr,
+                                        dateText:
+                                        dashboardController.dashboardNidIdentificationData.value?.createdAt != null
+                                            ? "Submitted on ${DateFormat("dd MMM, yyyy").format(dashboardController.dashboardNidIdentificationData.value!.updatedAt!)}."
+                                            : "Submission date not available.",
+                                        statusTextStyle:
+                                        regular14TextStyle(
+                                            cSecondaryColor),
+                                        containerOnPressed: () {
+                                          dashboardController
+                                              .payoutTypeView.value =
+                                              dashboardController.formatType2(dashboardController.dashboardNidIdentificationData.value?.type); //*Passport,NID, Student Id
+                                          Get.toNamed(
+                                              krPayoutBankAccountTaxPassportInfoView);
+                                        },
+                                      ),
+                                      kH16sizedBox,
+                                      dashboardController
+                                          .payoutStudentIdStatus.value ==
+                                          ""
+                                          ? DashboardPayoutSettingCommonContainer(
+                                        prefixIcon: BipHip.add_1,
+                                        titleText:
+                                        "$ksNoStudentIdAddedYet!",
+                                        buttonOnPressed: () {
+                                          Get.find<GlobalController>()
+                                              .commonBottomSheet(
+                                              context: context,
+                                              bottomSheetHeight:
+                                              isDeviceScreenLarge()
+                                                  ? height * 0.35
+                                                  : height * 0.45,
+                                              content:
+                                              const AddPassportNidStudentIdBottomSheetContent(),
+                                              onPressCloseButton: () {
+                                                Get.back();
+                                              },
+                                              onPressRightButton: () {
+                                                Get.back();
+                                              },
+                                              rightText: "",
+                                              rightTextStyle:
+                                              semiBold14TextStyle(
+                                                  cPrimaryColor),
+                                              title: ksAddIdentificationMethod
+                                                  .tr,
+                                              isRightButtonShow:
+                                              false,
+                                              isBottomSheetRightButtonActive:
+                                              false.obs);
+                                        },
+                                      )
+                                          : DashboardPayoutSettingContentContainer(
+                                        icon: BipHip.badgesFill,
+                                        statusText: dashboardController
+                                            .payoutStudentIdStatus.value,
+                                        titleText:ksStudentIdVerification.tr,
+                                        dateText:
+                                        dashboardController.dashboardStudentIdIdentificationData.value!.createdAt != null
+                                            ? "Submitted on ${DateFormat("dd MMM, yyyy").format(dashboardController.dashboardStudentIdIdentificationData.value!.updatedAt!)}."
+                                            : "Submission date not available.",
+                                        statusTextStyle:
+                                        regular14TextStyle(
+                                            cSecondaryColor),
+                                        containerOnPressed: () {
+                                          dashboardController
+                                              .payoutTypeView.value =
+                                              dashboardController.formatType2(dashboardController.dashboardStudentIdIdentificationData.value?.type); //*Passport,NID, Student Id
+                                          Get.toNamed(
+                                              krPayoutBankAccountTaxPassportInfoView);
+                                        },
+                                      ),
                                       kH16sizedBox,
                                       Container(
                                         width: width - 40,

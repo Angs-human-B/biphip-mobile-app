@@ -5,7 +5,7 @@ import '../../../controllers/home/home_controller.dart';
 import '../../../controllers/menu/menu_section_controller.dart';
 import '../../../controllers/menu/profile_controller.dart';
 import '../../../controllers/profile_view/profile_view_controller.dart';
-import '../../../controllers/settings/settings_controller.dart';
+import '../../../controllers/settings/privacy_settings_controller.dart';
 import '../../../helpers/profile/profile_helper.dart';
 import '../../../shimmers/settings/settings_shimmer.dart';
 import '../../../utils/constants/imports.dart';
@@ -157,6 +157,7 @@ class Settings extends StatelessWidget {
                                 leading:
                                     const Icon(BipHip.user, color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krReactionPreferences);
                                 },
                               ),
@@ -168,6 +169,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.notificationOutline,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krNotifications);
                                 },
                               ),
@@ -190,6 +192,7 @@ class Settings extends StatelessWidget {
                                 leading: const Icon(BipHip.darkMode,
                                     color: cIconColor),
                                 onPressed: () {
+                                  privacySettingsController.getPrivacySettings();
                                   Get.toNamed(krDarkMode);
                                 },
                               ),

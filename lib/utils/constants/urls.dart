@@ -294,8 +294,11 @@ const String kuDashboardQuizInsight = "/mobile/dashboard/quiz-insight";
 const String kuDashboardPayoutEarningInsight = "/mobile/dashboard/earning-insight";
 const String kuUploadIdentifications = '/user/identifications';
 const String kuGetIdentifications = '/user/get-identification';
+const String kuDeleteIdentifications = '/user/delete-identification';
 const String kuGetPrivacySettings = '/user/settings/privacy';
 const String kuUpdateSpecificPrivacySettings = '/user/settings/privacy/update-specific';
+const String kuGetLoginAlertStatus = '/user/settings/get-login-alert-status';
+const String kuPostLoginAlert = '/user/settings/login-alert';
 
 
 //* Profile view
