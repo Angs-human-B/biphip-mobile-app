@@ -263,6 +263,8 @@ const String kuUndoPostReport = '/mobile/user/remove-post-report';
 const String kuUpdatePost = '/mobile/user/update-post';
 const String kuTwoFactorAuthentication = '/user/settings/two-factor-auth';
 const String kuGetTwoFactorAuthentication = '/user/settings/get-two-factor-auth-status';
+const String kuDeleteAccount = '/user/delete-account';
+const String kuDeactivateAccount = '/user/deactivate-account';
 
 //* Messenger API
 const String kuGetRoomList = '/user/messenger/get-room-list';

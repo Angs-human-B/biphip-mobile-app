@@ -133,10 +133,10 @@ class _AccountOwnershipState extends State<AccountOwnership> {
               child: Normalext('Continue', color: Colors.white,),
               onPressed: () {
                 if(selectDelete == 1){
-                  Get.to(DeleteAccount("Delete Account", "profile will be hidden on Instagram until you reactivate it through Accounts Center or by logging in to your Instagram account."));
+                  Get.to(DeleteDeactivateAccount("Deactivate Account", "profile will be hidden on Instagram until you reactivate it through Accounts Center or by logging in to your Instagram account."));
                 }
                 if(selectPermanentlyDelete == 1){
-                  Get.to(DeleteAccount("Permanently Delete Account", "Deleting your account is permanent. When you delete your Bip-Hip account, your profile, photos, videos, comments, likes and followers will be permanently removed. If you’d just like to take a break, you can temporarily deactivate your account."));
+                  Get.to(DeleteDeactivateAccount("Permanently Delete Account", "Deleting your account is permanent. When you delete your Bip-Hip account, your profile, photos, videos, comments, likes and followers will be permanently removed. If you’d just like to take a break, you can temporarily deactivate your account."));
                 }
               },
             ),

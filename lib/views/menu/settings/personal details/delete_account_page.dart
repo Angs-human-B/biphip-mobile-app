@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../controllers/auth/authentication_controller.dart';
+import '../../../../helpers/menu/menu_helper.dart';
 import '../../../../utils/constants/const.dart';
 import '../../../../widgets/common/utils/common_simple_text.dart';
 import '../../../../widgets/common/utils/custom_app_bar.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
-class DeleteAccount extends StatefulWidget {
+class DeleteDeactivateAccount extends StatefulWidget {
   String title;
   String bodyText;
-  DeleteAccount(this.title,this.bodyText, {Key? key}) : super(key: key);
+  DeleteDeactivateAccount(this.title, this.bodyText, {Key? key})
+      : super(key: key);
 
   @override
-  State<DeleteAccount> createState() => _DeleteAccountState();
+  State<DeleteDeactivateAccount> createState() =>
+      _DeleteDeactivateAccountState();
 }
 
-class _DeleteAccountState extends State<DeleteAccount> {
-  TextEditingController controller = TextEditingController();
+class _DeleteDeactivateAccountState extends State<DeleteDeactivateAccount> {
+  final AuthenticationController authenticationController =
+      Get.find<AuthenticationController>();
+  final MenuHelper menuHelper = MenuHelper();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -39,51 +44,65 @@ class _DeleteAccountState extends State<DeleteAccount> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Normalext(widget.bodyText, color: Colors.black54,txtAlign: TextAlign.center,),
-              SizedBox(height: 30,),
+              Normalext(
+                widget.bodyText,
+                color: Colors.black54,
+                txtAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 30,
+              ),
               Container(
-                  width: 510.w+140.w,
+                  width: 510.w + 140.w,
                   height: 80.h,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(color: cLineColor),
-                      borderRadius: BorderRadius.circular(5)
-                  ),
+                      borderRadius: BorderRadius.circular(5)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
-                      controller: controller,
+                      controller: authenticationController
+                          .currentPasswordTextController,
                       decoration: InputDecoration(
                           hintText: "Enter your Bip-Hip password",
-                          border: InputBorder.none
-                      ),
-                      onChanged: (value){
-                        setState(() {
-
-                        });
+                          border: InputBorder.none),
+                      onChanged: (value) {
+                        setState(() {});
                       },
-                      onTap: (){
-                      },
+                      onTap: () {},
                     ),
-                  )
-              ),
+                  )),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: controller.text.isEmpty? Colors.black38: Colors.blue
+              backgroundColor: authenticationController
+                      .currentPasswordTextController.text.isEmpty
+                  ? Colors.black38
+                  : Colors.blue),
+          child: Normalext(
+            'Confirm',
+            color: Colors.white,
           ),
-          child: Normalext('Confirm', color: Colors.white,),
           onPressed: () {
+            if(authenticationController.currentPasswordTextController.text.isNotEmpty){
+              if (widget.title == "Deactivate Account") {
+                authenticationController.deactivateAccount();
+              }
+              if (widget.title == "Permanently Delete Account") {
+                authenticationController.permanentlyDeleteAccount();
+              }
+              menuHelper.logout();
+            }
           },
         ),
       ),
-
     );
   }
 }

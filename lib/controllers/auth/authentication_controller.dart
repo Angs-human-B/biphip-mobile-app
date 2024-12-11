@@ -22,6 +22,8 @@ class AuthenticationController extends GetxController {
   final RxBool isImageUploadLoading = RxBool(false);
   final RxList users = RxList([]);
   final RxBool isTwoFactorLoading =  RxBool(false);
+  final RxBool isDeleteAccountLoading =  RxBool(false);
+  final RxBool isDeactivateAccountLoading =  RxBool(false);
   final ApiController apiController = ApiController();
   final SpController spController = SpController();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -387,6 +389,74 @@ class AuthenticationController extends GetxController {
     } catch (e) {
       isChangePasswordLoading.value = false;
       ll('changePassword error: $e');
+    }
+  }
+
+  TextEditingController currentPasswordTextController = TextEditingController();
+  Future<void> permanentlyDeleteAccount() async {
+    try {
+      isDeleteAccountLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'current_password': currentPasswordTextController.text
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuDeleteAccount,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isDeleteAccountLoading.value = false;
+        currentPasswordTextController.clear();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeleteAccountLoading.value = false;
+        currentPasswordTextController.clear();
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeleteAccountLoading.value = false;
+      currentPasswordTextController.clear();
+      ll('permanentlyDeleteAccount error: $e');
+    }
+  }
+  Future<void> deactivateAccount() async {
+    try {
+      isDeactivateAccountLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        'current_password': currentPasswordTextController.text
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: kuDeactivateAccount,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        isDeactivateAccountLoading.value = false;
+        currentPasswordTextController.clear();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isDeactivateAccountLoading.value = false;
+        currentPasswordTextController.clear();
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isDeactivateAccountLoading.value = false;
+      currentPasswordTextController.clear();
+      ll('deactivateAccount error: $e');
     }
   }
   Future<void> enableTwoFactorAuthentication(String enable) async {
