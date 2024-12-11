@@ -34,7 +34,7 @@ class _BlockingState extends State<Blocking> {
       "body":"Once you block someone, that person can no longer see things you post on your timeline, tag you, invite you to events or groups, start a conversation with you, or add you as a friend. Note: Does not include apps, games or groups you both participate in."
     },
     {
-      "title":"Block kids ",
+      "title":"Block kids",
       "body":"Once you block someone, that person can no longer see things you post on your timeline, tag you, invite you to events or groups, start a conversation with you, or add you as a friend. Note: Does not include apps, games or groups you both participate in."
     },
     {

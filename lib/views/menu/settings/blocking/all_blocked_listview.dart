@@ -11,7 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../widgets/common/utils/common_simple_text.dart';
 
 class AllBlockedListview extends StatelessWidget {
-  AllBlockedListview({super.key});
+  String title;
+  AllBlockedListview(this.title,{super.key});
   final FriendController friendController = Get.find<FriendController>();
   final GlobalController globalController = Get.find<GlobalController>();
   @override
@@ -78,8 +79,7 @@ class AllBlockedListview extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: (){
                                     friendController.userId.value = friendController.blockedUserList[index].id!;
-                                    friendController.unBlockUser();
-
+                                    friendController.postUnblockAPI(title);
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: 4.5.h),

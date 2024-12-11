@@ -81,7 +81,7 @@ class BlockedPeople extends StatelessWidget {
                       if (globalController.tapAbleButtonState[0] || globalController.tapAbleButtonState[1]) kH12sizedBox,
                       if (globalController.tapAbleButtonState[2]) kH4sizedBox,
                       //*All friend, Receive friend request and Pending friend request ui
-                      friendHelper.blockedListView(),
+                      friendHelper.blockedListView(title),
                     ],
                   ),
                 ),

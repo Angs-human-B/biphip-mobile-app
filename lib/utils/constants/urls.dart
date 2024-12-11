@@ -21,6 +21,8 @@ const String kuGetAllPositions = '/mobile/get-all-positions';
 const String kuGetAllPostCatagories = '/mobile/get-all-post-categories';
 const String kuGetAllKidList = '/mobile/user/get-all-kids';
 const String kuGetALlLanguageList = '/mobile/get-all-languages';
+const String kuGetALlRegionList = '/user/get-all-regions';
+const String kuGetUseRegion = '/user/get-user-region';
 
 //---------------------------------------
 //* authentication story
@@ -106,6 +108,10 @@ const String kuCommonUserSearch = '/mobile/user/search-users';
 //* friends
 const String kuGetFriendList = '/mobile/user/friends';
 const String kuGetBlockedUserList = '/user/get-blocked-users';
+const String kuGetBlockedAllList = '/user/get-blocked-all';
+const String kuGetBlockedKidList = '/user/get-blocked-kid';
+const String kuGetBlockedShopList = '/user/get-blocked-shop';
+const String kuGetBlockedMessageList = '/user/get-blocked-message';
 const String kuGetFriendRequestSendList = '/mobile/user/my-requests';
 const String kuGetFriendRequestReceiveList = '/mobile/user/my-friend-requests';
 const String kuSendFriendRequest = '/mobile/user/send-friend-request';
@@ -126,6 +132,10 @@ const String kuAcceptFamilyRequest = '/mobile/user/accept-family-request';
 const String kuRejectFamilyRequest = '/mobile/user/reject-family-request';
 const String kuBlockUser = '/user/block-user';
 const String kuUnblockUser = '/user/unblock-user';
+const String kuUnblockAll = '/user/unblock-all';
+const String kuUnblockKid = '/user/unblock-kid';
+const String kuUnblockShop = '/user/unblock-shop';
+const String kuUnblockMessage = '/user/unblock-message';
 
 //* Family Relation Status
 const String kuGetAllFamilyRelations = '/mobile/get-all-family-relations';

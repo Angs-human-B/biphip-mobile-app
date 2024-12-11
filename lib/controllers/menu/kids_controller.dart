@@ -13,6 +13,8 @@ import 'package:bip_hip/models/menu/profile/common_list_models.dart';
 import 'package:bip_hip/models/post/kid_model.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
 
+import '../../models/menu/region/region.dart';
+
 class KidsController extends GetxController {
   final RxInt kidId = RxInt(-1);
   final ApiController apiController = ApiController();
@@ -707,8 +709,78 @@ class KidsController extends GetxController {
   final RxBool isAddLanguageButtonEnabled = RxBool(false);
   final RxString addedLanguage = RxString("");
   List<String> allLanguageList = [];
+  List<Region> regionList = [];
+  Region userRegion = Region();
   RxList<String> userLanguages = RxList<String>([]);
   RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
+  String selectedRegion = '';
+
+  Future<void> getRegionList() async {
+    try {
+
+      isStoreLanguageLoading.value = true;
+      String? token = await spController.getBearerToken();
+      print(token);
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetALlRegionList,
+      ) as CommonDM;
+      if (response.success) {
+        regionList.clear();
+        regionList = response.data.map((user) => Region.fromJSON(user))
+            .toList()
+            .cast<Region>();
+        isStoreLanguageLoading.value = false;
+      } else {
+        isStoreLanguageLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isStoreLanguageLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getUserRegionList() async {
+    try {
+
+      isStoreRegionLoading.value = true;
+      String? token = await spController.getBearerToken();
+      print(token);
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetUseRegion,
+      ) as CommonDM;
+      if (response.success) {
+        userRegion = Region.fromJSON(response.data);
+        selectedRegion = userRegion.region;
+        isStoreRegionLoading.value = false;
+      } else {
+        isStoreRegionLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isStoreRegionLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+
+
   Future<void> getLanguageList() async {
     try {
       isStoreLanguageLoading.value = true;
@@ -741,6 +813,7 @@ class KidsController extends GetxController {
   }
 
   final RxBool isStoreLanguageLoading = RxBool(false);
+  final RxBool isStoreRegionLoading = RxBool(false);
   Future<void> storeLanguages(languages) async {
     try {
       isStoreLanguageLoading.value = true;

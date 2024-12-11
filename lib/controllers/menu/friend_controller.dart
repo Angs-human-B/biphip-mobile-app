@@ -71,36 +71,7 @@ class FriendController extends GetxController {
       ll('getFriendList error: $e');
     }
   }
-  Future<void> getBlockedUserList() async {
-    try {
-      isFriendListLoading.value = true;
-      String? token = await spController.getBearerToken();
-      var response = await apiController.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: kuGetBlockedUserList,
-      ) as CommonDM;
-      if (response.success) {
-        blockedUserList.clear();
-        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
-            .toList()
-            .cast<BlockedUser>();
-        isFriendListLoading.value = false;
-      } else {
-        isFriendListLoading.value = false;
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        if (errorModel.errors.isEmpty) {
-          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-        } else {
-          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
-        }
-      }
-    }
-    catch (e) {
-      isFriendListLoading.value = false;
-      ll('getFriendList error: $e');
-    }
-  }
+
 
   //*Get More Friend List for pagination
   Future<void> getMoreFriendList(take) async {
@@ -448,6 +419,44 @@ class FriendController extends GetxController {
     }
   }
 
+  getCurrentBlockedAPI(String title)async{
+    print(title);
+    if(title =='Block users'){
+      return await getBlockedUserList();
+    }
+    else if(title =='Block Messages'){
+      return await getBlockedMessageList();
+    }
+    else if(title =='Block from all'){
+      return await getBlockedAllList();
+    }
+    else if(title =='Block kids'){
+      return await getBlockedKidList();
+    }
+    else if(title =='Block shop'){
+      return await getBlockedShoList();
+    }
+  }
+
+  postUnblockAPI(String title)async{
+    print(title);
+    if(title =='Block users'){
+      return await unBlockUser();
+    }
+    else if(title =='Block Messages'){
+      return await unBlockMessage();
+    }
+    else if(title =='Block from all'){
+      return await unBlockAll();
+    }
+    else if(title =='Block kids'){
+      return await unBlockKid();
+    }
+    else if(title =='Block shop'){
+      return await unBlockShop();
+    }
+  }
+
   //*Follow User
   Future<void> blockUser() async {
     try {
@@ -517,7 +526,292 @@ class FriendController extends GetxController {
       ll('unBlockUser error: $e');
     }
   }
+  Future<void> unBlockAll() async {
+    try {
+      isFriendViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuUnblockAll/${userId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < blockedUserList.length; index++) {
+          if (userId.value == blockedUserList[index].id) {
+            blockedUserList.removeAt(index);
+          }
+        }
+        isFriendViewLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFriendViewLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendViewLoading.value = false;
+      ll('unBlockUser error: $e');
+    }
+  }
+  Future<void> unBlockKid() async {
+    try {
+      isFriendViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuUnblockKid/${userId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < blockedUserList.length; index++) {
+          if (userId.value == blockedUserList[index].id) {
+            blockedUserList.removeAt(index);
+          }
+        }
+        isFriendViewLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFriendViewLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendViewLoading.value = false;
+      ll('unBlockUser error: $e');
+    }
+  }
+  Future<void> unBlockShop() async {
+    try {
+      isFriendViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuUnblockShop/${userId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < blockedUserList.length; index++) {
+          if (userId.value == blockedUserList[index].id) {
+            blockedUserList.removeAt(index);
+          }
+        }
+        isFriendViewLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFriendViewLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendViewLoading.value = false;
+      ll('unBlockUser error: $e');
+    }
+  }
+  Future<void> unBlockMessage() async {
+    try {
+      isFriendViewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        url: '$kuUnblockMessage/${userId.toString()}',
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.success == true) {
+        for (int index = 0; index < blockedUserList.length; index++) {
+          if (userId.value == blockedUserList[index].id) {
+            blockedUserList.removeAt(index);
+          }
+        }
+        isFriendViewLoading.value = false;
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isFriendViewLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isFriendViewLoading.value = false;
+      ll('unBlockUser error: $e');
+    }
+  }
 
+  Future<void> getBlockedUserList() async {
+    try {
+
+      isFriendListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      print(token);
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBlockedUserList,
+      ) as CommonDM;
+      if (response.success) {
+        blockedUserList.clear();
+        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
+            .toList()
+            .cast<BlockedUser>();
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isFriendListLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getBlockedKidList() async {
+    try {
+      isFriendListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBlockedKidList,
+      ) as CommonDM;
+      if (response.success) {
+        blockedUserList.clear();
+        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
+            .toList()
+            .cast<BlockedUser>();
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isFriendListLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getBlockedAllList() async {
+    try {
+      isFriendListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBlockedAllList,
+      ) as CommonDM;
+      if (response.success) {
+        blockedUserList.clear();
+        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
+            .toList()
+            .cast<BlockedUser>();
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isFriendListLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getBlockedShoList() async {
+    try {
+      isFriendListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBlockedShopList,
+      ) as CommonDM;
+      if (response.success) {
+        blockedUserList.clear();
+        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
+            .toList()
+            .cast<BlockedUser>();
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isFriendListLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getBlockedMessageList() async {
+    try {
+      isFriendListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetBlockedMessageList,
+      ) as CommonDM;
+      if (response.success) {
+        blockedUserList.clear();
+        blockedUserList = response.data.map((user) => BlockedUser.fromJson(user))
+            .toList()
+            .cast<BlockedUser>();
+        isFriendListLoading.value = false;
+      } else {
+        isFriendListLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isFriendListLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
   //*Scroll controller for pagination
   final ScrollController sendFriendListScrollController = ScrollController();
   //* Friend Request Send List(Pending)

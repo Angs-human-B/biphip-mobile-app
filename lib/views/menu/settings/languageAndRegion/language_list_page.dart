@@ -5,6 +5,7 @@ import '../../../../shimmers/profile/gender_shimmer.dart';
 import '../../../../utils/constants/imports.dart';
 
 class LanguageListPage extends StatefulWidget {
+
   const LanguageListPage({super.key});
 
   @override
@@ -83,6 +84,7 @@ class LanguageListPageState extends State<LanguageListPage> {
                                     groupValue: selectedLanguage,
                                     onChanged: (value) {
                                       setState(() {
+                                        print(value);
                                         selectedLanguage = value!;
                                       });
                                     },
