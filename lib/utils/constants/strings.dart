@@ -297,6 +297,7 @@ const String ksEditRelationship = "Edit Relationship";
 const String ksEditBasicInfo = "Edit basic info";
 const String ksLanguage = "Language";
 const String ksLanguages = "Languages";
+const String ksLanguagesYouMayKnow = "Languages you may know";
 const String ksAddLanguage = "Add language";
 const String ksSelectLanguage = "Select language";
 const String ksDeleteWorkplace = 'Delete workplace';

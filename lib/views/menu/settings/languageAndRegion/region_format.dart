@@ -15,6 +15,7 @@ class RegionFormatListPage extends StatefulWidget {
 class RegionFormatListPageState extends State<RegionFormatListPage> {
   final KidsController kidsController = Get.find<KidsController>();
   String selectedLanguage = "";
+  String userSelectedLanguage = "";
   final TextEditingController searchQueryCon = TextEditingController();
 
   @override
@@ -52,6 +53,43 @@ class RegionFormatListPageState extends State<RegionFormatListPage> {
                     });
                   }),
               SizedBox(height: 22.h),
+              // if(kidsController.userRegion.region.isNotEmpty)
+                Obx(
+                        () => kidsController.isStoreRegionLoading.value
+                        ? const GenderListShimmer(): kidsController.userRegion.region.isNotEmpty? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksLanguagesYouMayKnow.tr,
+                      style: semiBold18TextStyle(cBlackColor),
+                    ),
+                    SizedBox(height: 22.h),
+                    RadioListTile(
+                      title: Text(
+                        kidsController.userRegion.region,
+                        style: medium18TextStyle(
+                            cBlackGradientColor),
+                      ),
+                      subtitle: Text(
+                        kidsController.userRegion.number_format,
+                        style: regular14TextStyle(
+                            csmallBodyTextColor2),
+                      ),
+                      controlAffinity:
+                      ListTileControlAffinity.trailing,
+                      value: kidsController.userRegion.region,
+                      groupValue: kidsController.selectedRegion,
+                      onChanged: (value) {
+                        setState(() {
+                          // print(value!.region!);
+                          kidsController.selectedRegion = value!;
+                        });
+                      },
+                    )
+                  ],
+                ): Container()),
+              SizedBox(height: 22.h),
+
               Text(
                 ksLanguageAndRegion.tr,
                 style: semiBold18TextStyle(cBlackColor),
@@ -81,11 +119,11 @@ class RegionFormatListPageState extends State<RegionFormatListPage> {
                       controlAffinity:
                       ListTileControlAffinity.trailing,
                       value: language.region,
-                      groupValue: selectedLanguage,
+                      groupValue: kidsController.selectedRegion,
                       onChanged: (value) {
                         setState(() {
                           // print(value!.region!);
-                          selectedLanguage = value!;
+                          kidsController.selectedRegion = value!;
                         });
                       },
                     ))

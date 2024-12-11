@@ -710,8 +710,10 @@ class KidsController extends GetxController {
   final RxString addedLanguage = RxString("");
   List<String> allLanguageList = [];
   List<Region> regionList = [];
+  Region userRegion = Region();
   RxList<String> userLanguages = RxList<String>([]);
   RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
+  String selectedRegion = '';
 
   Future<void> getRegionList() async {
     try {
@@ -743,6 +745,37 @@ class KidsController extends GetxController {
     }
     catch (e) {
       isStoreLanguageLoading.value = false;
+      ll('getFriendList error: $e');
+    }
+  }
+  Future<void> getUserRegionList() async {
+    try {
+
+      isStoreRegionLoading.value = true;
+      String? token = await spController.getBearerToken();
+      print(token);
+
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetUseRegion,
+      ) as CommonDM;
+      if (response.success) {
+        userRegion = Region.fromJSON(response.data);
+        selectedRegion = userRegion.region;
+        isStoreRegionLoading.value = false;
+      } else {
+        isStoreRegionLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    }
+    catch (e) {
+      isStoreRegionLoading.value = false;
       ll('getFriendList error: $e');
     }
   }
@@ -780,6 +813,7 @@ class KidsController extends GetxController {
   }
 
   final RxBool isStoreLanguageLoading = RxBool(false);
+  final RxBool isStoreRegionLoading = RxBool(false);
   Future<void> storeLanguages(languages) async {
     try {
       isStoreLanguageLoading.value = true;

@@ -22,6 +22,7 @@ const String kuGetAllPostCatagories = '/mobile/get-all-post-categories';
 const String kuGetAllKidList = '/mobile/user/get-all-kids';
 const String kuGetALlLanguageList = '/mobile/get-all-languages';
 const String kuGetALlRegionList = '/user/get-all-regions';
+const String kuGetUseRegion = '/user/get-user-region';
 
 //---------------------------------------
 //* authentication story

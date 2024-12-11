@@ -84,10 +84,12 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                           padding: EdgeInsets.only(left: 15),
                           child: HeaderText(ksRegionFormat.tr),
                         ),
-                        IconButton(onPressed: (){
-                          kidsController.getRegionList();
+                        IconButton(onPressed: () async{
+
                           Get.to(RegionFormatListPage());
-                        },
+                          kidsController.getUserRegionList();
+                          kidsController.getRegionList();
+                          },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
                     ),
