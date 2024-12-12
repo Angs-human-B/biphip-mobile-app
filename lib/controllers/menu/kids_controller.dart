@@ -711,10 +711,59 @@ class KidsController extends GetxController {
   List<String> allLanguageList = [];
   List<Region> regionList = [];
   Region userRegion = Region();
+  Region selectedUserRegion = Region();
   RxList<String> userLanguages = RxList<String>([]);
   RxBool isSearchLanguageSuffixIconShowing = RxBool(false);
   String selectedRegion = '';
+  RxBool isStoreUserRegionLoading = RxBool(false);
 
+
+
+  getSelectedRegion(String region){
+    for (Region _region in regionList){
+      if(_region.region == region){
+        return _region;
+      }
+    }
+  }
+  Future<void> storeUserRegion(String region) async {
+    try {
+      isStoreUserRegionLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Region _region = getSelectedRegion(region);
+      Map<String, dynamic> body = {
+        'region': _region.region,
+        'date': _region.date,
+        'time': _region.time,
+        'number_format': _region.number_format,
+      };
+      ll(body);
+      var response = await apiController.commonPostDio(
+        url: kuStoreUserRegion,
+        body: body,
+        token: token,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        getUserRegionList();
+        getRegionList();
+        isStoreUserRegionLoading.value = false;
+        // Get.back();
+        globalController.showSnackBar(title: ksSuccess.tr, message: response.message, color: cGreenColor, duration: 1000);
+      } else {
+        isStoreUserRegionLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isStoreUserRegionLoading.value = false;
+      ll('storeLanguages error: $e');
+    }
+  }
   Future<void> getRegionList() async {
     try {
 
