@@ -7,6 +7,7 @@ class PrivacySettingsController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
   int radioValue = 0;
   String? radioStringValue = '';
+  Rx<String?> selectedLanguageAndRegionSettings = Rx<String?>('');
   final Rx<PrivacySettingsModel?> settingsPrivacyData = Rx<PrivacySettingsModel?>(null);
   final RxBool isPrivacySettingsLoading = RxBool(false);
 
@@ -522,7 +523,28 @@ class PrivacySettingsController extends GetxController {
     }
   }
 
-
+  Future<void>updateLanguageAndRegionSetting(Rx<String?> languageAndRegionSettingsTittle, dynamic settingValue)async{
+    switch (languageAndRegionSettingsTittle.value) {
+      case ksLanguageYoudLikeToHavePostsTranslatedInto:
+        return updateSpecificPrivacySettings("language_you_would_like_to_have_posts_translated_into", settingValue);
+      case ksLanguagesYouDontWantToBeOfferedTranslations:
+        return updateSpecificPrivacySettings("languages_you_dont_want_to_be_offered_translations_for", settingValue);
+      case ksLanguagesYouDontWantAutomaticallyTranslated:
+        return updateSpecificPrivacySettings("languages_you_dont_want_automatically_translated", settingValue);
+    }
+  }
+  dynamic getSelectedLanguageAndRegionSettingsValueFromTitle(Rx<String?> languageAndRegionSettingsTitle){
+    switch (languageAndRegionSettingsTitle.value) {
+      case ksLanguageYoudLikeToHavePostsTranslatedInto:
+        return settingsPrivacyData.value?.languageYouWouldLikeToHavePostsTranslatedInto;
+      case ksLanguagesYouDontWantToBeOfferedTranslations:
+        return settingsPrivacyData.value?.languagesYouDontWantToBeOfferedTranslationsFor;
+      case ksLanguagesYouDontWantAutomaticallyTranslated:
+        return settingsPrivacyData.value?.languagesYouDontWantAutomaticallyTranslated;
+      default:
+        return '';
+    }
+  }
 }
 
 

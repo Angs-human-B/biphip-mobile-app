@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controllers/menu/kids_controller.dart';
+import '../../../../controllers/settings/privacy_settings_controller.dart';
 import '../../../../helpers/menu/kids/kid_helper.dart';
 
 class LanguageAndRegion extends StatefulWidget {
@@ -25,7 +26,7 @@ class LanguageAndRegion extends StatefulWidget {
 
 class _LanguageAndRegionState extends State<LanguageAndRegion> {
   final KidsController kidsController = Get.find<KidsController>();
-  final KidHelper kidHelper = KidHelper();
+  final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
 
 
   @override
@@ -69,7 +70,7 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         ),
                         IconButton(onPressed: ()  {
                            kidsController.getLanguageList();
-                          Get.toNamed(krLanguageListPage);
+                          Get.toNamed(krLanguageListRadioPage);
                         },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -106,7 +107,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         IconButton(
                             onPressed: (){
                               kidsController.getLanguageList();
-                              Get.toNamed(krLanguageListPage);
+                              privacySettingsController.selectedLanguageAndRegionSettings.value=ksLanguageYoudLikeToHavePostsTranslatedInto;
+                              Get.toNamed(krLanguageListRadioPage);
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -124,7 +126,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         IconButton(
                             onPressed: (){
                               kidsController.getLanguageList();
-                              Get.toNamed(krLanguageListPage);
+                              privacySettingsController.selectedLanguageAndRegionSettings.value=ksLanguagesYouDontWantToBeOfferedTranslations;
+                              Get.toNamed(krLanguageListCheckboxPage);
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],
@@ -142,7 +145,8 @@ class _LanguageAndRegionState extends State<LanguageAndRegion> {
                         IconButton(
                             onPressed: (){
                               kidsController.getLanguageList();
-                              Get.toNamed(krLanguageListPage);
+                              privacySettingsController.selectedLanguageAndRegionSettings.value=ksLanguagesYouDontWantAutomaticallyTranslated;
+                              Get.toNamed(krLanguageListCheckboxPage);
                             },
                             icon: Icon(Icons.arrow_forward_ios, color: cIconColor,))
                       ],

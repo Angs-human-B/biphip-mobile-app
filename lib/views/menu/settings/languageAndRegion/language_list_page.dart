@@ -1,25 +1,32 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../controllers/menu/kids_controller.dart';
+import '../../../../controllers/settings/privacy_settings_controller.dart';
 import '../../../../shimmers/profile/gender_shimmer.dart';
 import '../../../../utils/constants/imports.dart';
 
-class LanguageListPage extends StatefulWidget {
+class LanguageListRadioPage extends StatefulWidget {
 
-  const LanguageListPage({super.key});
+  const LanguageListRadioPage({super.key});
 
   @override
-  LanguageListPageState createState() => LanguageListPageState();
+  LanguageListRadioPageState createState() => LanguageListRadioPageState();
 }
 
-class LanguageListPageState extends State<LanguageListPage> {
+class LanguageListRadioPageState extends State<LanguageListRadioPage> {
   final KidsController kidsController = Get.find<KidsController>();
   String selectedLanguage = "";
   final TextEditingController searchQueryCon = TextEditingController();
+  final PrivacySettingsController privacySettingsController = Get.find<PrivacySettingsController>();
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      color: cWhiteColor,
+      child: Obx(
+            () => Stack(
+          children: [ SafeArea(
       top: false,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -30,7 +37,8 @@ class LanguageListPageState extends State<LanguageListPage> {
             onBack: () {
               Get.back();
             },
-            title: ksLanguages.tr,
+            // title: ksLanguages.tr,
+            title: privacySettingsController.selectedLanguageAndRegionSettings.value?.tr,
           ),
         ),
         body: Padding(
@@ -81,11 +89,10 @@ class LanguageListPageState extends State<LanguageListPage> {
                                     controlAffinity:
                                         ListTileControlAffinity.trailing,
                                     value: language,
-                                    groupValue: selectedLanguage,
+                                    groupValue:privacySettingsController.getSelectedLanguageAndRegionSettingsValueFromTitle(privacySettingsController.selectedLanguageAndRegionSettings),
                                     onChanged: (value) {
                                       setState(() {
-                                        print(value);
-                                        selectedLanguage = value!;
+                                        privacySettingsController.updateLanguageAndRegionSetting(privacySettingsController.selectedLanguageAndRegionSettings, value);
                                       });
                                     },
                                   ))
@@ -97,6 +104,21 @@ class LanguageListPageState extends State<LanguageListPage> {
           ),
         ),
       ),
+    ),
+    if (privacySettingsController.isPrivacySettingsLoading.value == true)
+    Positioned(
+    child: CommonLoadingAnimation(
+    onWillPop: () async {
+    if (privacySettingsController.isPrivacySettingsLoading.value) {
+    return false;
+    }
+    return true;
+    },
+    ),
+    ),
+    ],
+    ),
+    ),
     );
   }
 }

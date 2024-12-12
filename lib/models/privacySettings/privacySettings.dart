@@ -43,11 +43,17 @@ class PrivacySettingsModel {
   // Reaction Preferences
    bool? hideNumberOfReactionsOnPostFromOthers;
    bool? hideNumberOfReactionsOnPostFromOwn;
- // Notification settings
+
+  // Notification settings
   final NotificationsModel? notifications;
 
   // DarkMode settings
    bool? darkModeEnabled;
+
+  // Language and Region settings
+   String? languageYouWouldLikeToHavePostsTranslatedInto;
+   List<dynamic>? languagesYouDontWantToBeOfferedTranslationsFor;
+   List<dynamic>? languagesYouDontWantAutomaticallyTranslated;
 
   PrivacySettingsModel({
     this.defaultAudienceSetting,
@@ -80,6 +86,9 @@ class PrivacySettingsModel {
     this.hideNumberOfReactionsOnPostFromOwn,
     this.notifications,
     this.darkModeEnabled,
+    this.languageYouWouldLikeToHavePostsTranslatedInto,
+    this.languagesYouDontWantToBeOfferedTranslationsFor,
+    this.languagesYouDontWantAutomaticallyTranslated,
   });
 
   // Factory method to create a UserSettings object from JSON
@@ -119,6 +128,9 @@ class PrivacySettingsModel {
       hideNumberOfReactionsOnPostFromOthers: json['hide_number_of_reactions_on_post_from_others'],
       hideNumberOfReactionsOnPostFromOwn: json['hide_number_of_reactions_on_post_from_own'],
       darkModeEnabled: json['dark_mode_enabled'],
+      languageYouWouldLikeToHavePostsTranslatedInto: json['language_you_would_like_to_have_posts_translated_into'],
+      languagesYouDontWantToBeOfferedTranslationsFor: json['languages_you_dont_want_to_be_offered_translations_for'],
+      languagesYouDontWantAutomaticallyTranslated: json['languages_you_dont_want_automatically_translated'],
       notifications: json['notifications'] != null
           ? NotificationsModel.fromJson(json['notifications'])
           : null,
