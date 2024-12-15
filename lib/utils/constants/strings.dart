@@ -682,6 +682,7 @@ const String ksSelfiePrivacy = "Selfie Privacy";
 const String ksWhoCanSeeYourSelfie = "Who can see your selfie";
 const String ksYourSelfieWillBeVisibleFor24Hour = "Your selfie will be visible for 24 hours on BipHip";
 const String ksSelectPeople = "Select People";
+const String ksSelectCustomAudience = "Select Custom Audience";
 const String ksYourSelfie = "Your Selfie";
 const String ksPreferences = "Preferences";
 const String ksMessageRequests = "Message requests";

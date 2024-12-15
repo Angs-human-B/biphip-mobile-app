@@ -44,8 +44,9 @@ class ApiController {
     } else if (method == "POST") {
       return await client.post(
         uri,
-        body: body,
+        body: jsonEncode(body),
         headers: {
+          "Content-Type": "application/json",
           if (token != null) 'Authorization': 'Bearer $token',
         },
       ).timeout(

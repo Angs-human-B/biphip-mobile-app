@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:bip_hip/models/privacySettings/privacySettings.dart';
 import 'package:bip_hip/utils/constants/imports.dart';
+
+import '../../models/common/common_friend_family_user_model.dart';
+import '../menu/friend_controller.dart';
 
 class PrivacySettingsController extends GetxController {
   final ApiController apiController = ApiController();
@@ -545,6 +550,141 @@ class PrivacySettingsController extends GetxController {
         return '';
     }
   }
+  final RxList<FriendFamilyUserData> selectedCustomAudience = RxList<FriendFamilyUserData>([]);
+  final RxList<dynamic> selectedCustomAudienceId = RxList<dynamic>([]);
+
+  Future<void> updateCustomAudience() async {
+    try {
+      isPrivacySettingsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "selected_users" : selectedCustomAudienceId.toList()
+        // "selected_users" : selectedCustomAudience.map((f) => f.id).toList()
+      };
+      var response = await apiController.commonApiCall(
+        requestMethod: kPost,
+        token: token,
+        url: kuUpdateCustomAudience,
+        body:body,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        selectedCustomAudienceId.value = response.data["selected_users"];
+        isPrivacySettingsLoading.value = false;
+      } else {
+        isPrivacySettingsLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(
+            title: ksError.tr,
+            message: response.message,
+            color: cRedColor,
+          );
+        } else {
+          globalController.showSnackBar(
+            title: ksError.tr,
+            message: errorModel.errors[0].message,
+            color: cRedColor,
+          );
+        }
+      }
+    } catch (e) {
+      isPrivacySettingsLoading.value = false;
+      ll('updateCustomAudience error: $e');
+    }
+  }
+
+  Future<void> getCustomAudience() async {
+    try {
+      isPrivacySettingsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiController.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuGetCustomAudience,
+        body:body,
+      ) as CommonDM;
+
+      if (response.success == true) {
+        selectedCustomAudienceId.value = response.data["selected_users"];
+        isPrivacySettingsLoading.value = false;
+      } else {
+        isPrivacySettingsLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          globalController.showSnackBar(
+            title: ksError.tr,
+            message: response.message,
+            color: cRedColor,
+          );
+        } else {
+          globalController.showSnackBar(
+            title: ksError.tr,
+            message: errorModel.errors[0].message,
+            color: cRedColor,
+          );
+        }
+      }
+    } catch (e) {
+      isPrivacySettingsLoading.value = false;
+      ll('getCustomAudience error: $e');
+    }
+  }
+  // final RxList<FriendFamilyUserData> tagFriendList = RxList<FriendFamilyUserData>([]);
+  // final RxList<FriendFamilyUserData> temporaryTaggedFriends = RxList<FriendFamilyUserData>([]);
+  // final RxList<FriendFamilyUserData> taggedFriends = RxList<FriendFamilyUserData>([]);
+  // final RxList temporaryTagIndex = RxList([]);
+  // final RxBool tagFriendButtonSheetRightButtonState = RxBool(false);
+  // final RxBool isFriendListLoading = RxBool(false);
+  //
+  //
+  // Future<void> customAudienceBottomSheet(context) async {
+  //   isFriendListLoading.value = true;
+  //   temporaryTaggedFriends.addAll(taggedFriends);
+  //   if (temporaryTaggedFriends.isNotEmpty) {
+  //     tagFriendButtonSheetRightButtonState.value = true;
+  //   } else {
+  //     tagFriendButtonSheetRightButtonState.value = false;
+  //   }
+  //   globalController.commonBottomSheet(
+  //     isBottomSheetRightButtonActive: tagFriendButtonSheetRightButtonState,
+  //     isScrollControlled: true,
+  //     bottomSheetHeight: height * .9,
+  //     context: context,
+  //     isSearchShow: true,
+  //     content: CustomAudienceBottomSheetContent(),
+  //     isDismissible: false,
+  //     onPressCloseButton: () {
+  //       taggedFriends.clear();
+  //       taggedFriends.addAll(temporaryTaggedFriends);
+  //       temporaryTaggedFriends.clear();
+  //       tagFriendButtonSheetRightButtonState.value = false;
+  //       Get.back();
+  //     },
+  //     onPressRightButton: () {
+  //       taggedFriends.clear();
+  //       taggedFriends.addAll(temporaryTaggedFriends);
+  //       temporaryTaggedFriends.clear();
+  //       tagFriendButtonSheetRightButtonState.value = false;
+  //       Get.back();
+  //     },
+  //     rightText: ksDone.tr,
+  //     rightTextStyle: medium14TextStyle(cPrimaryColor),
+  //     title: ksTagPeople.tr,
+  //     isRightButtonShow: true,
+  //   );
+  //   if (Get.find<FriendController>().friendList.isEmpty) {
+  //     await Get.find<FriendController>().getFriendList();
+  //     tagFriendList.addAll(Get.find<FriendController>().friendList);
+  //   } else {
+  //     for (int i = 0; i < temporaryTaggedFriends.length; i++) {
+  //       tagFriendList.remove(temporaryTaggedFriends);
+  //     }
+  //     isFriendListLoading.value = false;
+  //   }
+  // }
+
 }
 
 

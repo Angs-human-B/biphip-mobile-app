@@ -87,6 +87,7 @@ import 'package:bip_hip/views/menu/settings/activity%20log/activity_log_page.dar
 import 'package:bip_hip/views/menu/settings/blocking/blocking_page.dart';
 import 'package:bip_hip/views/menu/settings/how%20people%20will%20find%20you/how_people_will_find_you_page.dart';
 import 'package:bip_hip/views/menu/settings/languageAndRegion/language_and_region_page.dart';
+import 'package:bip_hip/views/menu/settings/selectCustomAudience.dart';
 import 'package:bip_hip/views/menu/settings/tash%20or%20archive/trash_archive_page.dart';
 import 'package:bip_hip/views/menu/store/add_store_basic_info.dart';
 import 'package:bip_hip/views/menu/store/add_store_contact_info.dart';
@@ -382,7 +383,7 @@ const String krProfileAndTaggingSettingsPage = "/profileAndTagging-settings-page
 const String krReviewPostsSettingsPage = "/review-posts-settings-page";
 const String krLanguageListRadioPage = "/language-list-page-radio";
 const String krLanguageListCheckboxPage = "/language-list-page-checkbox";
-// const String krProfileViewCreateReview = "/profile-view-create-review";
+const String krSelectCustomAudience = "/select-custom-audience";
 
 List<GetPage<dynamic>>? routes = [
   //* info:: auth screens
@@ -410,12 +411,12 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krEditProfile, page: () => EditProfile(), transition: Transition.noTransition),
   GetPage(name: krEditBio, page: () => EditBio(), transition: Transition.noTransition),
   GetPage(name: krPhotoDetails, page: () => PhotoDetails(), transition: Transition.noTransition),
-  GetPage(name: krVideos, page: () => Videos(), transition: Transition.noTransition),
+  GetPage(name: krVideos, page: () => const Videos(), transition: Transition.noTransition),
   GetPage(name: krVideoDetails, page: () => VideoDetails(), transition: Transition.noTransition),
   GetPage(name: krPhotoPreview, page: () => PhotoPreview(), transition: Transition.noTransition),
   GetPage(name: krEditAboutInfo, page: () => EditAboutInfo(), transition: Transition.noTransition),
   GetPage(name: krSettings, page: () => Settings(), transition: Transition.noTransition),
-  GetPage(name: krProfileDetails, page: () => ProfileDetailsPage(), transition: Transition.noTransition),
+  GetPage(name: krProfileDetails, page: () => const ProfileDetailsPage(), transition: Transition.noTransition),
   GetPage(name: krEdit, page: () => EditPage(), transition: Transition.noTransition),
   GetPage(name: krAddFamily, page: () => AddFamily(), transition: Transition.noTransition),
   GetPage(name: krAddFriend, page: () => AddFriend(), transition: Transition.noTransition),
@@ -436,7 +437,7 @@ List<GetPage<dynamic>>? routes = [
   //* home
   GetPage(name: krHome, page: () => HomePage(), transition: Transition.noTransition),
   GetPage(name: krHomePostDetails, page: () => HomePostDetails(), transition: Transition.noTransition),
-  GetPage(name: krGiftView, page: () => CommonGiftViewScreen(), transition: Transition.downToUp),
+  GetPage(name: krGiftView, page: () => const CommonGiftViewScreen(), transition: Transition.downToUp),
   //*newly added for gallery image and videos
   GetPage(name: krGalleryPhotos, page: () => GalleryPhotos(), transition: Transition.noTransition),
   GetPage(name: krGalleryVideos, page: () => GalleryVideos(), transition: Transition.noTransition),
@@ -512,13 +513,13 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krMarketPlaceCategoriesPage, page: () => MarketPlaceCategoriesPage(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceViewListingPage, page: () => MarketPlaceViewListingPage(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceAccount, page: () => MarketPlaceAccount(), transition: Transition.noTransition),
-  GetPage(name: krMarketPlaceNotification, page: () => MarketPlaceNotification(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceNotification, page: () => const MarketPlaceNotification(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceRecentActivity, page: () => MarketPlaceRecentActivity(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceBiddingPage, page: () => MarketPlaceBiddingPage(), transition: Transition.noTransition),
-  GetPage(name: krMarketPlaceSellingPage, page: () => MarketPlaceSellingPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceSellingPage, page: () => const MarketPlaceSellingPage(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceYourListingPage, page: () => MarketPlaceYourListingPage(), transition: Transition.noTransition),
   GetPage(name: krMarketPlaceMarkSoldPage, page: () => MarketPlaceMarkSoldPage(), transition: Transition.noTransition),
-  GetPage(name: krMarketPlaceBuyingPage, page: () => MarketPlaceBuyingPage(), transition: Transition.noTransition),
+  GetPage(name: krMarketPlaceBuyingPage, page: () => const MarketPlaceBuyingPage(), transition: Transition.noTransition),
 
   //*Notification
   GetPage(name: krNotificationPage, page: () => NotificationPage(), transition: Transition.noTransition),
@@ -591,6 +592,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: krArchive, page: () => TrashArchive("Archive"), transition: Transition.noTransition),
   GetPage(name: krProfileAndTaggingSettingsPage, page: () => const ProfileAndTaggingSettingsPage(), transition: Transition.noTransition),
   GetPage(name: krReviewPostsSettingsPage, page: () => const ReviewPostsSettingsPage(), transition: Transition.noTransition),
-  GetPage(name: krNotifications, page: () => Notifications(), transition: Transition.noTransition),
+  GetPage(name: krNotifications, page: () => const Notifications(), transition: Transition.noTransition),
+  GetPage(name: krSelectCustomAudience, page: () => SelectCustomAudience(), transition: Transition.noTransition),
 
 ];

@@ -3,12 +3,14 @@ import 'package:bip_hip/views/menu/settings/change%20password/password_and_secur
 import 'package:bip_hip/views/menu/settings/personal%20details/add_contact_info_page.dart';
 import 'package:bip_hip/views/menu/settings/personal%20details/contact_info_page.dart';
 import 'package:bip_hip/views/menu/settings/personal%20details/delete_account_page.dart';
+import 'package:bip_hip/views/menu/settings/selectCustomAudience.dart';
 import 'package:bip_hip/widgets/common/utils/common_divider.dart';
 import 'package:bip_hip/widgets/common/utils/common_headertext.dart';
 import 'package:bip_hip/widgets/common/utils/common_simple_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../controllers/menu/friend_controller.dart';
 import '../../../../controllers/settings/privacy_settings_controller.dart';
 
 class DefaultAudience extends StatefulWidget {
@@ -208,11 +210,12 @@ class _DefaultAudienceState extends State<DefaultAudience> {
                                 value: 4,
                                 groupValue: privacySettingsController.radioValue,
                                 onChanged: (value) {
-                                  setState(() {
+                                    privacySettingsController.getCustomAudience();
+                                    Get.toNamed(krSelectCustomAudience);
+                                    Get.find<FriendController>().getFriendList();
                                     privacySettingsController.radioValue = value!;
                                     privacySettingsController.radioStringValue = 'custom';
                                     print("Button value: $value");
-                                  });
                                 },
                               ),
                             )

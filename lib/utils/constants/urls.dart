@@ -309,6 +309,8 @@ const String kuGetIdentifications = '/user/get-identification';
 const String kuDeleteIdentifications = '/user/delete-identification';
 const String kuGetPrivacySettings = '/user/settings/privacy';
 const String kuUpdateSpecificPrivacySettings = '/user/settings/privacy/update-specific';
+const String kuUpdateCustomAudience = '/user/settings/custom-audience';
+const String kuGetCustomAudience = '/user/settings/custom-audience';
 const String kuGetLoginAlertStatus = '/user/settings/get-login-alert-status';
 const String kuPostLoginAlert = '/user/settings/login-alert';
 
