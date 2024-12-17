@@ -252,7 +252,7 @@ class MessengerController extends GetxController {
   final Rx<MessageListModel?> messageListData = Rx<MessageListModel?>(null);
   final RxList<MessageData> messageList = RxList<MessageData>([]);
   Future<void> getMessageList(roomID) async {
-    try {
+    // try {
       isMessageListLoading.value = true;
       String suffixUrl = '?take=15';
       String? token = await spController.getBearerToken();
@@ -277,10 +277,10 @@ class MessengerController extends GetxController {
           globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
-    } catch (e) {
-      isMessageListLoading.value = true;
-      ll('getMessageList error: $e');
-    }
+    // } catch (e) {
+    //   isMessageListLoading.value = true;
+    //   ll('getMessageList error: $e');
+    // }
   }
 
   void populateRoomMessageList(roomID, messageList) {
