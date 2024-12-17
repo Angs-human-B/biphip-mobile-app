@@ -172,7 +172,9 @@ class MessengerController extends GetxController {
         "peerConnection": null,
         "status": false.obs,
         "userName": roomList[i].roomName,
-        "userImage": roomList[i].roomImage![0],
+        "userImage": (roomList[i].roomImage != null && roomList[i].roomImage!.isNotEmpty)
+            ? roomList[i].roomImage![0]
+            : "default_image_url",
         "isSeen": true.obs,
         "messages": RxList([]),
       });
@@ -213,7 +215,7 @@ class MessengerController extends GetxController {
   final Rx<RoomListModel?> roomListData = Rx<RoomListModel?>(null);
   final RxList<RoomData> roomList = RxList<RoomData>([]);
   Future<void> getRoomList() async {
-    try {
+    // try {
       isInboxLoading.value = true;
       String suffixUrl = '?take=15';
       String? token = await spController.getBearerToken();
@@ -239,10 +241,10 @@ class MessengerController extends GetxController {
           globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
         }
       }
-    } catch (e) {
-      isInboxLoading.value = true;
-      ll('getRoomList error: $e');
-    }
+    // } catch (e) {
+    //   isInboxLoading.value = true;
+    //   ll('getRoomList error: $e');
+    // }
   }
 
   final RxBool isMessageListLoading = RxBool(false);

@@ -41,7 +41,9 @@ class MessageScreen extends StatelessWidget {
                               color: cBlackColor,
                               shape: BoxShape.circle,
                             ),
-                            child: Image.network(
+                            child: messengerController.selectedReceiver.value?.roomImage != null &&
+                                messengerController.selectedReceiver.value!.roomImage!.isNotEmpty
+                                ? Image.network(
                               messengerController.selectedReceiver.value!.roomImage![0].toString(),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) => const Icon(
@@ -49,6 +51,11 @@ class MessageScreen extends StatelessWidget {
                                 size: kIconSize24,
                                 color: cIconColor,
                               ),
+                            )
+                                : const Icon(
+                              BipHip.user,
+                              size: kIconSize24,
+                              color: cIconColor,
                             ),
                           ),
                         ),
@@ -156,13 +163,21 @@ class MessageScreen extends StatelessWidget {
                                         MessageData messages =
                                             messengerController.allRoomMessageList[messengerController.selectedRoomIndex.value]["messages"][index];
                                         return CustomBubbleNormal(
-                                          userImage: messengerController.selectedReceiver.value!.roomImage![0],
+                                          userImage: (messengerController.selectedReceiver.value?.roomImage != null &&
+                                              messengerController.selectedReceiver.value!.roomImage!.isNotEmpty)
+                                              ? messengerController.selectedReceiver.value!.roomImage![0]
+                                              : null,
                                           text: messages.text.toString(),
                                           isSender: messages.senderId == Get.find<GlobalController>().userId.value ? true : false,
-                                          color: messages.senderId == Get.find<GlobalController>().userId.value ? cPrimaryColor : cNeutralColor,
+                                          color: messages.senderId == Get.find<GlobalController>().userId.value
+                                              ? cPrimaryColor
+                                              : cNeutralColor,
                                           tail: false,
-                                          textStyle:
-                                              regular16TextStyle(messages.senderId == Get.find<GlobalController>().userId.value ? cWhiteColor : cBlackColor),
+                                          textStyle: regular16TextStyle(
+                                            messages.senderId == Get.find<GlobalController>().userId.value
+                                                ? cWhiteColor
+                                                : cBlackColor,
+                                          ),
                                         );
                                       },
                                     ),

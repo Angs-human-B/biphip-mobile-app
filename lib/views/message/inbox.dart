@@ -124,7 +124,9 @@ class Inbox extends StatelessWidget {
                                               roomID: messengerController.roomList[index].id!,
                                               userID: messengerController.roomList[index].roomUserId!,
                                               userName: messengerController.roomList[index].roomName!,
-                                              userImage: messengerController.roomList[index].roomImage![0],
+                                              userImage: (messengerController.roomList[index].roomImage != null && messengerController.roomList[index].roomImage!.isNotEmpty)
+                                                  ? messengerController.roomList[index].roomImage![0]
+                                                  : "default_image_url",
                                               message: item["messages"].isEmpty ? RxString("Test message") : RxString(item["messages"][0].messageText),
                                               isActive: item["status"],
                                               isMute: false,

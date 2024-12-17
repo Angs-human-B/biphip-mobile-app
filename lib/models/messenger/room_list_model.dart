@@ -107,7 +107,11 @@ class RoomData {
         lastMessageSenderId: json["last_message_sender_id"],
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         roomName: json["room_name"],
-        roomImage: json["room_image"] == null ? [] : List<String>.from(json["room_image"]!.map((x) => x)),
+    roomImage: json["room_image"] == null
+        ? []
+        : List<String>.from(
+        json["room_image"].where((x) => x != null && x is String)
+    ),
         roomUserId: json["room_user_id"],
         participants: json["participants"] == null ? [] : List<Participant>.from(json["participants"]!.map((x) => Participant.fromJson(x))),
       );
